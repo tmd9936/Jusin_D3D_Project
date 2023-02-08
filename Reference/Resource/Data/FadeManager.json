@@ -1,0 +1,29 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 8735890828420161911
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 5917638140927080872
+  },
+  "m_Name": "",
+  "m_fadePrefabNames": [
+    "AlphaFade",
+    "WipeFade",
+    "WipeFade_M",
+    "WipeFade_S",
+    "WipeFade_Title",
+    "WipeFade_Achievement",
+    "WipeFade_Shop",
+    "WipeFade_Option",
+    "WipeFade_Tokkun",
+    "WipeFade_Pokemon",
+    "WipeFade_Achievement_end",
+    "WipeFade_Shop_end",
+    "WipeFade_Option_end",
+    "WipeFade_Tokkun_end",
+    "WipeFade_Pokemon_end"
+  ]
+}
