@@ -182,7 +182,7 @@ def uv_smart_project(name):
 
 
 def import_fbx():
-    for i in range(1,2):
+    for i in range(1,3):
         obj = bpy.ops.import_scene.fbx(filepath='D:/jusin/API/super/po/6/out/' 
             + 'PM' + str(i) + '.fbx')
         target_coll = bpy.data.collections.new(name='PM' + str(i))
@@ -193,9 +193,10 @@ def import_fbx():
         scene.collection.objects.unlink(bpy.context.selected_objects[1])
         scene.collection.objects.unlink(bpy.context.selected_objects[0])
         scene.collection.children.link(target_coll)
-        export_all()
-        #delete_actions_all()
-        #remove_all('PM' + str(i))
+        if (i == 1):
+            export_all()
+            delete_actions_all()
+            remove_all('PM' + str(i))
 
 #https://blender.stackexchange.com/questions/15198/delete-animation-of-object
 
@@ -216,13 +217,39 @@ def export_all():
             )
 
 
-def remove_all(colName):
-    collection = bpy.data.collections.get(colName)
+def remove_all(colName):     
+    # Remove all actions
+    for action in bpy.data.actions:
+        bpy.data.actions.remove(action)
 
-    for obj in collection.objects:
-        bpy.data.objects.remove(obj, do_unlink=True)
+    # Remove all armatures
+    for armature in bpy.data.armatures:
+        bpy.data.armatures.remove(armature)
+
+    # Remove all collections
+    for collection in bpy.data.collections:
+        bpy.data.collections.remove(collection)
+
+    # Remove all images
+    for image in bpy.data.images:
+        bpy.data.images.remove(image)
+
+    # Remove all materials
+    for material in bpy.data.materials:
+        bpy.data.materials.remove(material)
+
+    # Remove all meshes
+    for mesh in bpy.data.meshes:
+        bpy.data.meshes.remove(mesh)
+
+    # Remove all objects
+    for obj in bpy.data.objects:
+        bpy.data.objects.remove(obj)
+
+    # Remove all textures
+    for texture in bpy.data.textures:
+        bpy.data.textures.remove(texture)
         
-    bpy.data.collections.remove(collection)
 
 def excute():
     import_fbx()
