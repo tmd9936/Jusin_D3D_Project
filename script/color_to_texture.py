@@ -49,9 +49,36 @@ def change_bsdf():
     output = normal_map.outputs['Normal']
     material.node_tree.links.new(input, output)
     
-    input = bsdf.inputs[0]
-    output = material_output.outputs['Surface']
+    output = bsdf.outputs['BSDF']
+    input = material_output.inputs['Surface']
     material.node_tree.links.new(input, output)
+    
+    bpy.context.object.active_material = material
+    
+    
+def change_bsdf2():
+    material = bpy.data.materials[0]
+    
+    material_output = material.node_tree.nodes.get('Material Output')
+    material.node_tree.nodes.remove(material.node_tree.nodes.get('Diffuse BSDF'))
+    bsdf = material.node_tree.nodes.new('ShaderNodeBsdfPrincipled')
+    normal_map = material.node_tree.nodes.get('Normal Map')
+    
+    input = bsdf.inputs['Normal']
+    output = normal_map.outputs['Normal']
+    material.node_tree.links.new(input, output)
+    
+    output = bsdf.outputs['BSDF']
+    input = material_output.inputs['Surface']
+    material.node_tree.links.new(input, output)
+    
+    material.node_tree.nodes.remove(material.node_tree.nodes.get("Color Attribute"))
+    
+    input = bsdf.inputs["Base Color"]
+    output = material.node_tree.nodes["Image Texture"].outputs["Color"]
+    material.node_tree.links.new(input, output)
+    
+    bpy.context.object.active_material = material
     
 
 def create_node_color_attribute(obj):
@@ -66,23 +93,66 @@ def create_node_color_attribute(obj):
     #mat.node_tree.nodes["Principled BSDF"].is_property_readonly(False)
     #mat.node_tree.nodes["Principled BSDF"].type_recast() = 'ShaderNodeBsdfDiffuse'
     
-    input = mat.node_tree.nodes["Diffuse BSDF"].inputs["Base Color"]
+    mat.node_tree.nodes["Diffuse BSDF"].inputs["Roughness"].default_value = 0.533
+    
+    input = mat.node_tree.nodes["Diffuse BSDF"].inputs["Color"]
     output = mat.node_tree.nodes["Color Attribute"].outputs["Color"]
     mat.node_tree.links.new(input, output)
+    
+    bpy.context.object.active_material = mat
+    mat.use_nodes = True
     
     
 def create_node_image_texture(obj, name):
     mat = bpy.data.materials[0]
     
    # obj.data.materials.append(mat)
-    #mat.use_nodes = True
-    mat.node_tree.nodes.new(type="ShaderNodeTexImage")
+    mat.use_nodes = True
+    nodes = mat.node_tree.nodes
+    texture_node = mat.node_tree.nodes.new(type="ShaderNodeTexImage")
     image_src = bpy.data.images.new(name + '.png', 1024, 1024)
-    mat.node_tree.nodes["Image Texture"].image = image_src
-
+    texture_node.select = True
+    nodes.active = texture_node
+    texture_node.image = image_src
 #    input = mat.node_tree.nodes["Principled BSDF"].inputs["Base Color"]
 #    output = mat.node_tree.nodes["Color Attribute"].outputs["Color"]
 #    mat.node_tree.links.new(input, output)
+
+
+def bake():
+    bpy.context.scene.render.engine = 'CYCLES'
+    bpy.context.scene.cycles.device = 'GPU'
+    bpy.context.scene.cycles.bake_type = 'DIFFUSE'
+    bpy.context.scene.render.bake.use_pass_direct = False
+    bpy.context.scene.render.bake.use_pass_indirect = False
+    bpy.context.scene.render.bake.margin = 5
+    bpy.context.scene.render.bake.target = 'IMAGE_TEXTURES'
+    
+    # Bake selected objects
+    for obj in filter(lambda x: x.type == 'MESH', bpy.data.objects):
+        
+        print('Selected: ' + obj.name)
+        
+        # Select current object
+        bpy.ops.object.select_all(action='DESELECT')
+        bpy.context.view_layer.objects.active = obj
+        obj.select_set(True)
+        bpy.ops.object.bake(type='DIFFUSE', pass_filter={'COLOR'}, save_mode='EXTERNAL')
+
+
+def texture_properties_setting(name):
+    texture = bpy.ops.texture.new()
+    texture = bpy.data.textures["Texture"]
+    texture.type = "IMAGE" #changing type
+    texture = bpy.data.textures["Texture"] # This one has noise_scale attribute
+    texture.image = bpy.data.images[name + '.png']  #changing noise scale from this new type 
+
+
+def texture_save(name):
+    texture = bpy.data.textures["Texture"]    
+    texture.image.save_render(filepath="D:/jusin/API/super/po/6/out3/" + name + '.png')
+    texture.image.source = 'FILE'
+    texture.image.filepath = "D:/jusin/API/super/po/6/out3/" + name + '.png'
     
      
 def uv_smart_project(name):
@@ -103,6 +173,10 @@ def uv_smart_project(name):
     create_node_color_attribute(obj)
     create_node_image_texture(obj, name)
     bpy.ops.object.mode_set(mode='OBJECT')
+    texture_properties_setting(name)
+    bake()
+    change_bsdf2()
+    texture_save(name)
     # Deselect the object
     obj.select_set(False)
 
@@ -119,8 +193,8 @@ def import_fbx():
         scene.collection.objects.unlink(bpy.context.selected_objects[1])
         scene.collection.objects.unlink(bpy.context.selected_objects[0])
         scene.collection.children.link(target_coll)
-        #export_all()
-        delete_actions_all()
+        export_all()
+        #delete_actions_all()
         #remove_all('PM' + str(i))
 
 #https://blender.stackexchange.com/questions/15198/delete-animation-of-object
@@ -135,7 +209,7 @@ def export_all():
                 "selected_objects" : coll.all_objects,
             },
             filepath=str(
-                    "D:/jusin/API/super/po/6/out/" +
+                    "D:/jusin/API/super/po/6/out3/" +
                      f"{coll.name}.fbx"
                 ),
             use_selection=True,
@@ -155,6 +229,7 @@ def excute():
     #export_all()
     #delete_actions_all()
     #remove_all()
+
 
 excute()
 #import_fbx()            
