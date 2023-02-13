@@ -1,0 +1,22 @@
+import bpy
+from pathlib import Path
+
+context = bpy.context
+scene =  context.scene
+
+#for coll in scene.collection.children: # all 
+Armatures = bpy.data.armatures
+for armature in Armatures:
+    bpy.ops.export_scene.fbx(
+            {
+                "object" : armature,
+                "active_object" : None,
+                "selected_objects" : Armatures,
+                "object_types" : {'MESH'},
+                "batch_mode" : {'SCENE_COLLECTION'},
+             },
+             filepath=str(
+                    "D:/jusin/API/super/po/6/out/" +
+                     f"{armature.bones[0].name}.fbx"
+                    ),
+             )
