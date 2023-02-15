@@ -1,0 +1,278 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 1088006837878153380
+  },
+  "m_Name": "EnemyPack_forest2_001",
+  "m_normalPrimaryEnemySets": [
+    {
+      "m_registDatas": [
+        {
+          "m_enemyData": {
+            "m_FileID": 0,
+            "m_PathID": -7527626389048955852
+          },
+          "m_lotteryRate": 100
+        }
+      ]
+    },
+    {
+      "m_registDatas": [
+        {
+          "m_enemyData": {
+            "m_FileID": 0,
+            "m_PathID": -1517963093924258407
+          },
+          "m_lotteryRate": 100
+        }
+      ]
+    },
+    {
+      "m_registDatas": [
+        {
+          "m_enemyData": {
+            "m_FileID": 0,
+            "m_PathID": 5316881822713712068
+          },
+          "m_lotteryRate": 100
+        }
+      ]
+    }
+  ],
+  "m_normalSecondaryEnemySets": [
+    {
+      "m_registDatas": [
+        {
+          "m_enemyData": {
+            "m_FileID": 0,
+            "m_PathID": 4299135019960450947
+          },
+          "m_lotteryRate": 100
+        },
+        {
+          "m_enemyData": {
+            "m_FileID": 0,
+            "m_PathID": -2841267258012781661
+          },
+          "m_lotteryRate": 100
+        }
+      ]
+    },
+    {
+      "m_registDatas": [
+        {
+          "m_enemyData": {
+            "m_FileID": 0,
+            "m_PathID": -3683501150053383031
+          },
+          "m_lotteryRate": 100
+        }
+      ]
+    },
+    {
+      "m_registDatas": [
+        {
+          "m_enemyData": {
+            "m_FileID": 0,
+            "m_PathID": 5316881822713712068
+          },
+          "m_lotteryRate": 100
+        }
+      ]
+    }
+  ],
+  "m_normalTertiaryEnemySets": [
+    {
+      "m_registDatas": [
+        {
+          "m_enemyData": {
+            "m_FileID": 0,
+            "m_PathID": 5316881822713712068
+          },
+          "m_lotteryRate": 100
+        }
+      ]
+    }
+  ],
+  "m_normalQuarternaryEnemySets": [
+    {
+      "m_registDatas": [
+        {
+          "m_enemyData": {
+            "m_FileID": 0,
+            "m_PathID": 5316881822713712068
+          },
+          "m_lotteryRate": 100
+        }
+      ]
+    }
+  ],
+  "m_bossPrimaryEnemySet": {
+    "m_registDatas": [
+      {
+        "m_enemyData": {
+          "m_FileID": 0,
+          "m_PathID": -8270104883961697483
+        },
+        "m_lotteryRate": 100
+      }
+    ]
+  },
+  "m_bossSecondaryEnemySet": {
+    "m_registDatas": [
+      {
+        "m_enemyData": {
+          "m_FileID": 0,
+          "m_PathID": -8270104883961697483
+        },
+        "m_lotteryRate": 100
+      }
+    ]
+  },
+  "m_bossTertiaryEnemySet": {
+    "m_registDatas": [
+      {
+        "m_enemyData": {
+          "m_FileID": 0,
+          "m_PathID": 0
+        },
+        "m_lotteryRate": 0
+      }
+    ]
+  },
+  "m_bossQuarternaryEnemySet": {
+    "m_registDatas": [
+      {
+        "m_enemyData": {
+          "m_FileID": 0,
+          "m_PathID": 0
+        },
+        "m_lotteryRate": 0
+      }
+    ]
+  },
+  "m_registDatas": [
+    {
+      "m_enemyData": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "m_min": 3,
+      "m_max": 3,
+      "m_isFixPosition": 0,
+      "m_isBoss": 0,
+      "m_setType": 0,
+      "m_setIndex": 0,
+      "m_spawnMode": 2
+    },
+    {
+      "m_enemyData": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "m_min": 2,
+      "m_max": 2,
+      "m_isFixPosition": 0,
+      "m_isBoss": 0,
+      "m_setType": 1,
+      "m_setIndex": 0,
+      "m_spawnMode": 2
+    },
+    {
+      "m_enemyData": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "m_min": 1,
+      "m_max": 1,
+      "m_isFixPosition": 0,
+      "m_isBoss": 0,
+      "m_setType": 0,
+      "m_setIndex": 1,
+      "m_spawnMode": 0
+    },
+    {
+      "m_enemyData": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "m_min": 2,
+      "m_max": 2,
+      "m_isFixPosition": 0,
+      "m_isBoss": 0,
+      "m_setType": 1,
+      "m_setIndex": 1,
+      "m_spawnMode": 0
+    },
+    {
+      "m_enemyData": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "m_min": 5,
+      "m_max": 5,
+      "m_isFixPosition": 0,
+      "m_isBoss": 0,
+      "m_setType": 0,
+      "m_setIndex": 2,
+      "m_spawnMode": 2
+    },
+    {
+      "m_enemyData": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "m_min": 5,
+      "m_max": 5,
+      "m_isFixPosition": 0,
+      "m_isBoss": 0,
+      "m_setType": 1,
+      "m_setIndex": 2,
+      "m_spawnMode": 2
+    },
+    {
+      "m_enemyData": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "m_min": 6,
+      "m_max": 6,
+      "m_isFixPosition": 0,
+      "m_isBoss": 0,
+      "m_setType": 2,
+      "m_setIndex": 0,
+      "m_spawnMode": 2
+    },
+    {
+      "m_enemyData": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "m_min": 7,
+      "m_max": 7,
+      "m_isFixPosition": 0,
+      "m_isBoss": 0,
+      "m_setType": 3,
+      "m_setIndex": 0,
+      "m_spawnMode": 2
+    },
+    {
+      "m_enemyData": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "m_min": 2,
+      "m_max": 2,
+      "m_isFixPosition": 0,
+      "m_isBoss": 1,
+      "m_setType": 0,
+      "m_setIndex": 0,
+      "m_spawnMode": 0
+    }
+  ]
+}

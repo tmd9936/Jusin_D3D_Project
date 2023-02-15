@@ -1,0 +1,24 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 4950793036565052356
+  },
+  "m_Name": "FormationCameraData",
+  "m_leaveDistance": 50.0,
+  "m_moveOffsetDistanceZ": 7.0,
+  "m_distanceLimit": 25.0,
+  "m_limitInMoveTime": 0.1,
+  "m_limitOutMoveTime": 0.5,
+  "m_moveDistance": 60.0,
+  "m_battleNearDistance": 50.0,
+  "m_battleFarDistance": 55.0,
+  "m_battleFarDistanceLimit": 6.0,
+  "m_battleChangeTime": 1.0,
+  "m_moveChangeTime": 2.0,
+  "m_orderRotateSecond": 8.0
+}
