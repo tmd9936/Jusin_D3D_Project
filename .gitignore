@@ -431,11 +431,12 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
-Reference/Header/Engine
+Reference/Headers
 
 !Client/Bin
 Client/Bin/*
 !Client/Bin/Resource
+!Client/Bin/ShaderFiles
 
 ### VisualStudio Patch ###
 # Additional files built by Visual Studio
