@@ -113,6 +113,7 @@ CComponent* CShader::Clone(void* pArg)
 
 void CShader::Free()
 {
+	__super::Free();
 	for (_uint i = 0; i < m_iNumPasses; ++i)
 	{
 		Safe_Release(m_Passes[i].pInputLayout);
