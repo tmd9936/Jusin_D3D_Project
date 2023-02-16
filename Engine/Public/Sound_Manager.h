@@ -5,20 +5,20 @@
 
 BEGIN(Engine)
 
-class ENGINE_DLL CSoundMgr : public CBase
+class CSound_Manager : public CBase
 {
-	DECLARE_SINGLETON(CSoundMgr)
+	DECLARE_SINGLETON(CSound_Manager)
 
 public:
-	explicit CSoundMgr();
-	virtual ~CSoundMgr();
+	explicit CSound_Manager();
+	virtual ~CSound_Manager() = default;
 
 public:
 	HRESULT			Ready_Sound();
 
 public:
-	void PlaySoundW(_tchar* pSoundKey, CHANNELID eID);
-	void PlayBGM(_tchar* pSoundKey);
+	void PlaySoundW(const _tchar* pSoundKey, CHANNELID eID);
+	void PlayBGM(const _tchar* pSoundKey);
 	void StopSound(CHANNELID eID);
 	void StopAll();
 	void SetChannelVolume(CHANNELID eID, float fVolume);
@@ -30,19 +30,19 @@ private:
 
 private:
 	// 사운드 리소스 정보를 갖는 객체 
-	map<_tchar*, FMOD_SOUND*> m_mapSound;
+	unordered_map<_tchar*, FMOD_SOUND*> m_mapSound;
 
 	// FMOD_CHANNEL : 재생하고 있는 사운드를 관리할 객체 
 	FMOD_CHANNEL* m_pChannelArr[MAXCHANNEL];
 
 	// 사운드 ,채널 객체 및 장치를 관리하는 객체 
-	FMOD_SYSTEM* m_pSystem;
+	FMOD_SYSTEM* m_pSystem = { nullptr };
 
 	// 효과음 볼륨
-	_float m_fSoundVolume;
+	_float m_fSoundVolume = { 0.f };
 
 	// BGM 볼륨
-	_float m_fMusicVolume;
+	_float m_fMusicVolume = { 0.f };
 
 public:
 	virtual void		Free(void);

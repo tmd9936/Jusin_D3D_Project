@@ -63,7 +63,10 @@ HRESULT CLoader::Loading_ForLogoLevel()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
-	/*  */
+
+	pGameInstance->Ready_Sound();
+	pGameInstance->PlayBGM(TEXT("BGM_Title.ogg"));
+	/*  */		  
 #pragma region TEXTURES	
 	wsprintf(m_szLoadingText, TEXT("텍스쳐를 로딩중입니다."));
 	for (_uint i = 0; i < 999999999; ++i)

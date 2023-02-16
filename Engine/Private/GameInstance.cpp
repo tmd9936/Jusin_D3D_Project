@@ -4,6 +4,7 @@
 #include "Level_Manager.h"
 #include "Object_Manager.h"
 #include "Component_Manager.h"
+#include "Sound_Manager.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -14,12 +15,14 @@ CGameInstance::CGameInstance()
 	, m_pLevel_Manager(CLevel_Manager::GetInstance())
 	, m_pObject_Manager(CObject_Manager::GetInstance())
 	, m_pComponent_Manager(CComponent_Manager::GetInstance())
+	, m_pSound_Manager(CSound_Manager::GetInstance())
 {
 	Safe_AddRef(m_pComponent_Manager);
 	Safe_AddRef(m_pObject_Manager);
 	Safe_AddRef(m_pTimer_Manager);
 	Safe_AddRef(m_pGraphic_Device);
 	Safe_AddRef(m_pLevel_Manager);
+	Safe_AddRef(m_pSound_Manager);
 }
 
 HRESULT CGameInstance::Initialize_Engine(_uint iNumLevels, const GRAPHIC_DESC& GraphicDesc, ID3D11Device** ppDeviceOut, ID3D11DeviceContext** ppContextOut)
@@ -153,6 +156,70 @@ CComponent* CGameInstance::Clone_Component(_uint iLevelIndex, const _tchar* pPro
 	return m_pComponent_Manager->Clone_Component(iLevelIndex, pPrototypeTag, pArg);
 }
 
+HRESULT CGameInstance::Ready_Sound()
+{
+	if (nullptr == m_pSound_Manager)
+		return E_FAIL;
+
+	return m_pSound_Manager->Ready_Sound();
+}
+
+void CGameInstance::PlaySoundW(const _tchar* pSoundKey, CHANNELID eID)
+{
+	if (nullptr == m_pSound_Manager)
+		return;
+
+	return m_pSound_Manager->PlaySoundW(pSoundKey, eID);
+}
+
+void CGameInstance::PlayBGM(const _tchar* pSoundKey)
+{
+	if (nullptr == m_pSound_Manager)
+		return;
+
+	return m_pSound_Manager->PlayBGM(pSoundKey);
+}
+
+void CGameInstance::StopSound(CHANNELID eID)
+{
+	if (nullptr == m_pSound_Manager)
+		return;
+
+	return m_pSound_Manager->StopSound(eID);
+}
+
+void CGameInstance::StopAll()
+{
+	if (nullptr == m_pSound_Manager)
+		return;
+
+	return m_pSound_Manager->StopAll();
+}
+
+void CGameInstance::SetChannelVolume(CHANNELID eID, float fVolume)
+{
+	if (nullptr == m_pSound_Manager)
+		return;
+
+	return m_pSound_Manager->SetChannelVolume(eID, fVolume);
+}
+
+void CGameInstance::Set_SoundVolume(_float _fSoundVolume)
+{
+	if (nullptr == m_pSound_Manager)
+		return;
+
+	return m_pSound_Manager->Set_SoundVolume(_fSoundVolume);
+}
+
+void CGameInstance::Set_BGMVolume(_float _fMusicVolume)
+{
+	if (nullptr == m_pSound_Manager)
+		return;
+
+	return m_pSound_Manager->Set_BGMVolume(_fMusicVolume);
+}
+
 
 void CGameInstance::Release_Engine()
 {
@@ -164,6 +231,8 @@ void CGameInstance::Release_Engine()
 
 	CLevel_Manager::GetInstance()->DestroyInstance();
 
+	CSound_Manager::GetInstance()->DestroyInstance();
+
 	CTimer_Manager::GetInstance()->DestroyInstance();
 
 	CGraphic_Device::GetInstance()->DestroyInstance();
@@ -174,6 +243,7 @@ void CGameInstance::Free(void)
 	Safe_Release(m_pComponent_Manager);
 	Safe_Release(m_pObject_Manager);
 	Safe_Release(m_pLevel_Manager);
+	Safe_Release(m_pSound_Manager);
 	Safe_Release(m_pGraphic_Device);
 	Safe_Release(m_pTimer_Manager);
 }

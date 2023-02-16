@@ -1,20 +1,14 @@
-#include "SoundMgr.h"
+#include "Sound_Manager.h"
 #include <strsafe.h>
 
-IMPLEMENT_SINGLETON(CSoundMgr)
+IMPLEMENT_SINGLETON(CSound_Manager)
 
-CSoundMgr::CSoundMgr()
+CSound_Manager::CSound_Manager()
 	: m_pSystem(nullptr)
 {
 }
 
-
-CSoundMgr::~CSoundMgr()
-{
-	Free();
-}
-
-HRESULT CSoundMgr::Ready_Sound()
+HRESULT CSound_Manager::Ready_Sound()
 {
 	m_fMusicVolume = 1.f;
 	m_fSoundVolume = 1.f;
@@ -30,11 +24,9 @@ HRESULT CSoundMgr::Ready_Sound()
 	return S_OK;
 }
 
-void CSoundMgr::PlaySoundW(_tchar* pSoundKey, CHANNELID eID)
+void CSound_Manager::PlaySoundW(const _tchar* pSoundKey, CHANNELID eID)
 {
-	map<TCHAR*, FMOD_SOUND*>::iterator iter;
-
-	iter = find_if(m_mapSound.begin(), m_mapSound.end(), CTag_Finder(pSoundKey));
+	auto iter = find_if(m_mapSound.begin(), m_mapSound.end(), CTag_Finder(pSoundKey));
 
 	if (iter == m_mapSound.end())
 		return;
@@ -48,11 +40,9 @@ void CSoundMgr::PlaySoundW(_tchar* pSoundKey, CHANNELID eID)
 	FMOD_System_Update(m_pSystem);
 }
 
-void CSoundMgr::PlayBGM(_tchar* pSoundKey)
+void CSound_Manager::PlayBGM(const _tchar* pSoundKey)
 {
-	map<TCHAR*, FMOD_SOUND*>::iterator iter;
-
-	iter = find_if(m_mapSound.begin(), m_mapSound.end(), CTag_Finder(pSoundKey));
+	auto iter = find_if(m_mapSound.begin(), m_mapSound.end(), CTag_Finder(pSoundKey));
 
 	if (iter == m_mapSound.end())
 		return;
@@ -65,25 +55,25 @@ void CSoundMgr::PlayBGM(_tchar* pSoundKey)
 	FMOD_System_Update(m_pSystem);
 }
 
-void CSoundMgr::StopSound(CHANNELID eID)
+void CSound_Manager::StopSound(CHANNELID eID)
 {
 	FMOD_Channel_Stop(m_pChannelArr[eID]);
 }
 
-void CSoundMgr::StopAll()
+void CSound_Manager::StopAll()
 {
 	for (int i = 0; i < MAXCHANNEL; ++i)
 		FMOD_Channel_Stop(m_pChannelArr[i]);
 }
 
-void CSoundMgr::SetChannelVolume(CHANNELID eID, float fVolume)
+void CSound_Manager::SetChannelVolume(CHANNELID eID, float fVolume)
 {
 	FMOD_Channel_SetVolume(m_pChannelArr[eID], fVolume);
 
 	FMOD_System_Update(m_pSystem);
 }
 
-void CSoundMgr::LoadSoundFile()
+void CSound_Manager::LoadSoundFile()
 {
 	_tchar input[MAX_PATH] = L"";
 
@@ -92,7 +82,7 @@ void CSoundMgr::LoadSoundFile()
 
 	StringCchCat(input, MAX_PATH, TEXT("*"));
 
-	hFind = FindFirstFileW(L"../Bin/Resource/Sound/*.*", &FindFileData);
+	hFind = FindFirstFileW(L"../../Reference/Resource/Sound/*.*", &FindFileData);
 
 	if (INVALID_HANDLE_VALUE == hFind)
 	{
@@ -100,7 +90,7 @@ void CSoundMgr::LoadSoundFile()
 		return;
 	}
 
-	_tchar szCurPath[MAX_PATH] = L"../Bin/Resource/Sound/";
+	_tchar szCurPath[MAX_PATH] = L"../../Reference/Resource/Sound/";
 	_tchar szFullPath[MAX_PATH] = L"";
 
 	do
@@ -133,7 +123,7 @@ void CSoundMgr::LoadSoundFile()
 	} while (FindNextFile(hFind, &FindFileData));
 }
 
-void CSoundMgr::Free(void)
+void CSound_Manager::Free(void)
 {
 	for (auto& Mypair : m_mapSound)
 	{

@@ -129,7 +129,7 @@
     <ClInclude Include="..\Public\VIBuffer_Rect.h">
       <Filter>01. Utility\03. Component\VIBuffer\Rect</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\SoundMgr.h">
+    <ClInclude Include="..\Public\Sound_Manager.h">
       <Filter>00. System\02. Sound</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Engine_Enum.h">
@@ -188,7 +188,7 @@
     <ClCompile Include="..\Private\VIBuffer_Rect.cpp">
       <Filter>01. Utility\03. Component\VIBuffer\Rect</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\SoundMgr.cpp">
+    <ClCompile Include="..\Private\Sound_Manager.cpp">
       <Filter>00. System\02. Sound</Filter>
     </ClCompile>
   </ItemGroup>
