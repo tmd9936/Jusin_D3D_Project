@@ -17,9 +17,19 @@
 #include <DirectXMath.h>
 #include <Process.h>
 
+
+#include "fmod.h"
+#include "fmod.hpp"
+#include "../Fmod/fmod_common.h"
+#include "../Fmod/fmod_errors.h"
+
+//#pragma comment(lib, "fmodex_vc.lib")
+#pragma comment(lib, "fmod_vc.lib")
+
 using namespace std;
 using namespace DirectX;
 
+#include "Engine_Enum.h"
 #include "Engine_Macro.h"
 #include "Engine_Function.h"
 #include "Engine_Struct.h"
