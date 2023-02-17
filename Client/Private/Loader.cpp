@@ -74,6 +74,11 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		int a = 10;
 	}
 
+	/* For.Prototype_Component_Texture */
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Texture_Default"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Default%d.dds"), 2))))
+		return E_FAIL;
+
 #pragma endregion
 
 #pragma region MODELS
