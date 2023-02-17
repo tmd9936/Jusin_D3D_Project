@@ -95,7 +95,7 @@ HRESULT CShader::Set_Matrix(const char* pConstantName, _float4x4* pMatrix)
 	if (nullptr == pVariable)
 		return E_FAIL;
 
-	return S_OK;
+	return pVariable->SetMatrix((_float*)pMatrix);
 }
 
 CShader* CShader::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pShaderFilePath, D3D11_INPUT_ELEMENT_DESC* pElements, _uint iNumElements)

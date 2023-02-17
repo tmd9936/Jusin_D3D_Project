@@ -2,7 +2,6 @@ matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
 texture2D		g_Texture;
 
-
 sampler PointSampler = sampler_state
 {
 	filter = min_mag_mip_point;
@@ -21,23 +20,13 @@ struct VS_IN
 
 struct VS_OUT
 {
-	/* SV_POSITION: 모든 변환( 월드변환, 뷰변환, 투영변환 )을 다 거쳤다. */
 	float4		vPosition : SV_POSITION;
 	float2		vTexUV : TEXCOORD0;
-	float4		vProjPos : TEXCOORD1;
+	float4		vProjPos: TEXCOORD1;
 };
 
 VS_OUT VS_MAIN(VS_IN In)
 {
-	/* 
-
-	1 / tan(fov/2)		0				0				0
-	0			1 / tan(fov/2)			0				0
-	0					0		far / (far - near)		1
-	0					0	(far * near) / (far - near)	0
-	
-	*/
-
 	VS_OUT		Out = (VS_OUT)0;
 
 	matrix		matWV, matWVP;
@@ -61,10 +50,10 @@ struct PS_IN
 
 struct PS_OUT
 {
-	float4	vColor : SV_TARGET0;
+	float4		vColor : SV_TARGET0;
 };
 
-
+/* 픽셀의 색을 결정한다. */
 PS_OUT PS_MAIN(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
@@ -72,7 +61,7 @@ PS_OUT PS_MAIN(PS_IN In)
 	Out.vColor = g_Texture.Sample(LinearSampler, In.vTexUV);
 
 	return Out;
-};
+}
 
 technique11		DefaultTechnique
 {
@@ -83,18 +72,5 @@ technique11		DefaultTechnique
 		HullShader = NULL;
 		DomainShader = NULL;
 		PixelShader = compile ps_5_0 PS_MAIN();
-		//PixelShader = NULL;
 	}
-
-	//pass Effect
-	//{
-	//	VertexShader = compile vs_5_0 VS_MAIN();
-	//	PixelShader = compile ps_5_0 PS_MAIN_EFFECT();
-	//}
-
-	//pass UI
-	//{
-	//	VertexShader = compile vs_5_0 VS_MAIN();
-	//	PixelShader = compile ps_5_0 PS_MAIN();
-	//}
 }

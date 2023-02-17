@@ -42,6 +42,9 @@ _uint CBackGround::LateTick(_double TimeDelta)
 
 HRESULT CBackGround::Render()
 {
+	if (FAILED(SetUp_ShaderResources()))
+		return E_FAIL;
+
 	m_pShaderCom->Begin(0);
 
 	m_pVIBufferCom->Render();
@@ -67,6 +70,24 @@ HRESULT CBackGround::Add_Components()
 		return E_FAIL;
 
 
+
+	return S_OK;
+}
+
+HRESULT CBackGround::SetUp_ShaderResources()
+{
+	_float4x4	WorldMatrix, ViewMatrix, ProjMatrix;
+
+	XMStoreFloat4x4(&WorldMatrix, XMMatrixIdentity());
+	XMStoreFloat4x4(&ViewMatrix, XMMatrixIdentity());
+	XMStoreFloat4x4(&ProjMatrix, XMMatrixIdentity());
+
+	if (FAILED(m_pShaderCom->Set_Matrix("g_WorldMatrix", &WorldMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Set_Matrix("g_ViewMatrix", &ViewMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Set_Matrix("g_ProjMatrix", &ProjMatrix)))
+		return E_FAIL;
 
 	return S_OK;
 }

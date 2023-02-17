@@ -32,6 +32,7 @@ private:
 
 private:
 	HRESULT Add_Components();
+	HRESULT SetUp_ShaderResources();
 
 public:
 	/* Prototype */

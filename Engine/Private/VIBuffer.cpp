@@ -12,9 +12,14 @@ CVIBuffer::CVIBuffer(const CVIBuffer& rhs)
 	, m_pIB(rhs.m_pIB)
 	, m_iNumVertices(rhs.m_iNumVertices)
 	, m_iStride(rhs.m_iStride)
+	, m_iNumBuffers(rhs.m_iNumBuffers)
 	, m_iNumPrimitives(rhs.m_iNumPrimitives)
 	, m_iIndexSizePrimitive(rhs.m_iIndexSizePrimitive)
+	, m_iNumIndicesPrimitive(rhs.m_iNumIndicesPrimitive)
+	, m_eFormat(rhs.m_eFormat)
+	, m_eTopology(rhs.m_eTopology)
 {
+
 	Safe_AddRef(m_pVB);
 	Safe_AddRef(m_pIB);
 }
