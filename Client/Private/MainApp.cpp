@@ -80,7 +80,7 @@ HRESULT CMainApp::Ready_Prototype_Component_For_Static()
 
 		/* For.Prototype_Component_Texture */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Texture_Default"),
-		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Default0.dds"), 1))))
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Default%d.dds"), 2))))
 		return E_FAIL;
 
 

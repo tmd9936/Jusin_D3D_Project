@@ -13,7 +13,7 @@ CTexture::CTexture(const CTexture& rhs)
 
 	for (_uint i = 0; i < rhs.m_iNumTextures; ++i)
 	{
-		m_SRVs[i] = rhs.m_SRVs[i];
+		m_SRVs.push_back(rhs.m_SRVs[i]);
 		Safe_AddRef(m_SRVs[i]);
 	}
 
@@ -25,22 +25,26 @@ HRESULT CTexture::Initialize_Prototype(const _tchar* pTextureFilePath, _uint iNu
 
 	for (_uint i = 0; i < iNumTextures; ++i)
 	{
+		TCHAR		szFilePath[128] = L"";
+
+		wsprintfW(szFilePath, pTextureFilePath, i);
+
 		_tchar szDir[MAX_PATH] = TEXT("");
 		_tchar szFileName[MAX_PATH] = TEXT("");
 		_tchar szEXT[MAX_PATH] = TEXT("");
 
-		_wsplitpath_s(pTextureFilePath, nullptr, 0, szDir, MAX_PATH, szFileName, MAX_PATH, szEXT, MAX_PATH);
+		_wsplitpath_s(szFilePath, nullptr, 0, szDir, MAX_PATH, szFileName, MAX_PATH, szEXT, MAX_PATH);
 
 		ID3D11ShaderResourceView* pSRV = { nullptr };
 
 		if (!lstrcmp(szEXT, TEXT(".dds")))
 		{
-			CreateDDSTextureFromFile(m_pDevice, pTextureFilePath, nullptr, &pSRV);
+			CreateDDSTextureFromFile(m_pDevice, szFilePath, nullptr, &pSRV);
 		}
 		else if (!lstrcmp(szEXT, TEXT(".tga")))
 			return E_FAIL;
 		else
-			CreateWICTextureFromFile(m_pDevice, pTextureFilePath, nullptr, &pSRV);
+			CreateWICTextureFromFile(m_pDevice, szFilePath, nullptr, &pSRV);
 
 		m_SRVs.push_back(pSRV);
 
@@ -83,10 +87,10 @@ CComponent* CTexture::Clone(void* pArg)
 
 void CTexture::Free()
 {
+	__super::Free();
 	for (_uint i = 0; i < m_SRVs.size(); ++i)
 	{
 		Safe_Release(m_SRVs[i]);
 	}
-	__super::Free();
 
 }
