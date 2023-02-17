@@ -26,6 +26,20 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevelID)
 	if (nullptr == m_pLoader)
 		return E_FAIL;
 
+	if (eNextLevelID == LEVEL_LOGO)
+	{
+		CGameInstance* pGameInstance = CGameInstance::GetInstance();
+		Safe_AddRef(pGameInstance);
+
+		if (!pGameInstance->Get_Sound_Ready_Finish())
+		{
+			pGameInstance->Ready_Sound();
+		}
+		//pGameInstance->PlayBGM(TEXT("BGM_BASE.ogg"));
+
+		Safe_Release(pGameInstance);
+	}
+
 	return S_OK;
 }
 
@@ -40,9 +54,15 @@ void CLevel_Loading::Tick(_double TimeDelta)
 
 			CLevel* pNewLevel = { nullptr };
 
+
 			switch (m_eNextLevelID)
 			{
 			case LEVEL_LOGO:
+				if (!pGameInstance->Get_Sound_Ready_Finish())
+				{
+					Safe_Release(pGameInstance);
+					return;
+				}
 				pNewLevel = CLevel_Logo::Create(m_pDevice, m_pContext);
 				break;
 

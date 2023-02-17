@@ -8,6 +8,65 @@ CSound_Manager::CSound_Manager()
 {
 }
 
+_uint APIENTRY LoadSoundFile(void* pArg)
+{
+	CSound_Manager* pSound_Manager = (CSound_Manager*)pArg;
+
+	EnterCriticalSection(pSound_Manager->Get_CriticalSection());
+
+	HRESULT			hr = { 0 };
+
+
+	_tchar input[MAX_PATH] = L"";
+
+	WIN32_FIND_DATA FindFileData;
+	HANDLE hFind;
+
+	StringCchCat(input, MAX_PATH, TEXT("*"));
+
+	hFind = FindFirstFileW(L"../../Reference/Resource/Sound/*.*", &FindFileData);
+
+	if (INVALID_HANDLE_VALUE == hFind)
+	{
+		FindClose(hFind);
+		return 1;
+	}
+
+	_tchar szCurPath[MAX_PATH] = L"../../Reference/Resource/Sound/";
+	_tchar szFullPath[MAX_PATH] = L"";
+
+	do
+	{
+		if (FindFileData.dwFileAttributes & FILE_ATTRIBUTE_ARCHIVE)
+		{
+			wcscpy_s(szFullPath, szCurPath);
+			wcscat_s(szFullPath, FindFileData.cFileName);
+
+			FMOD_SOUND* pSound = nullptr;
+
+			char* pFilePath = new char[MAX_PATH];
+			ZeroMemory(pFilePath, sizeof(char) * MAX_PATH);
+
+			WideCharToMultiByte(CP_ACP, 0, szFullPath, -1, pFilePath, MAX_PATH, NULL, NULL);
+
+			FMOD_RESULT eRes = FMOD_System_CreateSound(pSound_Manager->Get_FMOD_System(), pFilePath, FMOD_DEFAULT, 0, &pSound);
+
+			Safe_Delete_Array(pFilePath);
+
+			if (eRes == FMOD_OK)
+			{
+				_tchar* pSoundKey = new _tchar[MAX_PATH];
+
+				wsprintf(pSoundKey, FindFileData.cFileName);
+
+				pSound_Manager->Insert_Sound(pSoundKey, pSound);
+			}
+		}
+	} while (FindNextFile(hFind, &FindFileData));
+
+	return 0;
+}
+
 HRESULT CSound_Manager::Ready_Sound()
 {
 	m_fMusicVolume = 1.f;
@@ -19,7 +78,13 @@ HRESULT CSound_Manager::Ready_Sound()
 	// 1. 시스템 포인터, 2. 사용할 가상채널 수 , 초기화 방식) 
 	FMOD_System_Init(m_pSystem, 32, FMOD_INIT_NORMAL, NULL);
 
-	LoadSoundFile();
+	InitializeCriticalSection(m_CriticalSection);
+
+	m_hThread = (HANDLE)_beginthreadex(nullptr, 0, LoadSoundFile, this, 0, nullptr);
+	if (0 == m_hThread)
+		return E_FAIL;
+
+	m_isFinished = true;
 
 	return S_OK;
 }
@@ -73,58 +138,14 @@ void CSound_Manager::SetChannelVolume(CHANNELID eID, float fVolume)
 	FMOD_System_Update(m_pSystem);
 }
 
-void CSound_Manager::LoadSoundFile()
-{
-	_tchar input[MAX_PATH] = L"";
-
-	WIN32_FIND_DATA FindFileData;
-	HANDLE hFind;
-
-	StringCchCat(input, MAX_PATH, TEXT("*"));
-
-	hFind = FindFirstFileW(L"../../Reference/Resource/Sound/*.*", &FindFileData);
-
-	if (INVALID_HANDLE_VALUE == hFind)
-	{
-		FindClose(hFind);
-		return;
-	}
-
-	_tchar szCurPath[MAX_PATH] = L"../../Reference/Resource/Sound/";
-	_tchar szFullPath[MAX_PATH] = L"";
-
-	do
-	{
-		if (FindFileData.dwFileAttributes & FILE_ATTRIBUTE_ARCHIVE)
-		{
-			wcscpy_s(szFullPath, szCurPath);
-			wcscat_s(szFullPath, FindFileData.cFileName);
-
-			FMOD_SOUND* pSound = nullptr;
-
-			char* pFilePath = new char[MAX_PATH];
-			ZeroMemory(pFilePath, sizeof(char) * MAX_PATH);
-
-			WideCharToMultiByte(CP_ACP, 0, szFullPath, -1, pFilePath, MAX_PATH, NULL, NULL);
-
-			FMOD_RESULT eRes = FMOD_System_CreateSound(m_pSystem, pFilePath, FMOD_DEFAULT, 0, &pSound);
-
-			Safe_Delete_Array(pFilePath);
-
-			if (eRes == FMOD_OK)
-			{
-				_tchar* pSoundKey = new _tchar[MAX_PATH];
-
-				wsprintf(pSoundKey, FindFileData.cFileName);
-
-				m_mapSound.emplace(pSoundKey, pSound);
-			}
-		}
-	} while (FindNextFile(hFind, &FindFileData));
-}
 
 void CSound_Manager::Free(void)
 {
+	WaitForSingleObject(m_hThread, INFINITE);
+
+	DeleteCriticalSection(m_CriticalSection);
+	DeleteObject(m_hThread);
+
 	for (auto& Mypair : m_mapSound)
 	{
 		delete[] Mypair.first;

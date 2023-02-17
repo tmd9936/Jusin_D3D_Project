@@ -220,6 +220,14 @@ void CGameInstance::Set_BGMVolume(_float _fMusicVolume)
 	return m_pSound_Manager->Set_BGMVolume(_fMusicVolume);
 }
 
+const _bool CGameInstance::Get_Sound_Ready_Finish()
+{
+	if (nullptr == m_pSound_Manager)
+		return false;
+
+	return m_pSound_Manager->Get_Finished();
+}
+
 
 void CGameInstance::Release_Engine()
 {

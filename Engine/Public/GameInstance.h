@@ -55,6 +55,7 @@ public: /* For.Sound_Manager */
 	void		SetChannelVolume(CHANNELID eID, float fVolume);
 	void		Set_SoundVolume(_float _fSoundVolume);
 	void		Set_BGMVolume(_float _fMusicVolume) ;
+	const _bool	Get_Sound_Ready_Finish();
 
 private:
 	CTimer_Manager*			m_pTimer_Manager = { nullptr };

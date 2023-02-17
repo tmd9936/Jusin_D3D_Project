@@ -11,6 +11,7 @@ CLevel_Logo::CLevel_Logo(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 
 HRESULT CLevel_Logo::Initialize()
 {
+	CGameInstance::GetInstance()->PlayBGM(TEXT("BGM_BASE.ogg"));
 	/* 검색시에 어떤 레벨에 있는 특정 태그에 있는 몇번째 녀석. */
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 		return E_FAIL;
