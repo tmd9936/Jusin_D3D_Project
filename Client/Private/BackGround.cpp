@@ -69,6 +69,10 @@ HRESULT CBackGround::Add_Components()
 		TEXT("Com_Shader"), (CComponent**)&m_pShaderCom, nullptr)))
 		return E_FAIL;
 
+	/* For.Com_Texture */
+	if (FAILED(__super::Add_Components(LEVEL_LOGO, TEXT("Prototype_Component_Texture_Default"),
+		TEXT("Com_Texture"), (CComponent**)&m_pTextureCom, nullptr)))
+		return E_FAIL;
 
 
 	return S_OK;
@@ -87,6 +91,9 @@ HRESULT CBackGround::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_Matrix("g_ViewMatrix", &ViewMatrix)))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_Matrix("g_ProjMatrix", &ProjMatrix)))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Set_SRV("g_Texture", m_pTextureCom->Get_SRV(0))))
 		return E_FAIL;
 
 	return S_OK;

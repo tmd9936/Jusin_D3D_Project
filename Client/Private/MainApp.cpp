@@ -78,6 +78,12 @@ HRESULT CMainApp::Ready_Prototype_Component_For_Static()
 	//	CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxNorTex.hlsl"), VTXNORTEX_DECLARATION::Elements, VTXNORTEX_DECLARATION::iNumElements))))
 	//	return E_FAIL;
 
+		/* For.Prototype_Component_Texture */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Texture_Default"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Default0.dds"), 1))))
+		return E_FAIL;
+
+
 	Safe_AddRef(m_pRenderer);
 
 	return S_OK;

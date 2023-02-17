@@ -24,6 +24,7 @@ public:
 public:
 	HRESULT Begin(_uint iPassIndex);
 	HRESULT	Set_Matrix(const char* pConstantName, _float4x4* pMatrix);
+	HRESULT Set_SRV(const char* pConstantName, ID3D11ShaderResourceView* pSRV);
 
 private:
 	ID3DX11Effect* m_pEffect = { nullptr };

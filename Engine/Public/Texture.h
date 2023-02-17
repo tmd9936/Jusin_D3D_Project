@@ -16,6 +16,13 @@ public:
 	virtual HRESULT Initialize_Prototype(const _tchar* pTextureFilePath, _uint iNumTextures);
 	virtual HRESULT Initialize(void* pArg);
 
+public:
+	ID3D11ShaderResourceView* Get_SRV(const _uint& index) {
+		if (m_iNumTextures <= index)
+			return nullptr;
+		return m_SRVs[index];
+	}
+
 private:
 	vector<ID3D11ShaderResourceView*>			m_SRVs;
 	_uint										m_iNumTextures = { 0 };

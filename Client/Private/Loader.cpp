@@ -69,10 +69,11 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	/*  */		  
 #pragma region TEXTURES	
 	wsprintf(m_szLoadingText, TEXT("텍스쳐를 로딩중입니다."));
-	for (_uint i = 0; i < 999999999; ++i)
+	for (_uint i = 0; i < 99999999; ++i)
 	{
 		int a = 10;
 	}
+
 #pragma endregion
 
 #pragma region MODELS
