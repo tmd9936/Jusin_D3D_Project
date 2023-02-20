@@ -57,8 +57,8 @@ HRESULT CMainApp::Render()
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
-	bool bDemo = true;
-	ImGui::ShowDemoWindow();
+	//bool bDemo = true;
+	//ImGui::ShowDemoWindow();
 
 	ImGui::Render();
 
