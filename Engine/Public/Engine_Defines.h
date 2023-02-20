@@ -23,15 +23,6 @@
 //#include "rapidjson/prettywriter.h" // for stringify JSON
 #include "json/json.h"
 
-
-#include "fmod.h"
-#include "fmod.hpp"
-#include "../Fmod/fmod_common.h"
-#include "../Fmod/fmod_errors.h"
-
-//#pragma comment(lib, "fmodex_vc.lib")
-#pragma comment(lib, "fmod_vc.lib")
-
 using namespace std;
 using namespace DirectX;
 

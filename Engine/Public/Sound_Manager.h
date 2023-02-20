@@ -3,6 +3,15 @@
 #include "Base.h"
 #include "Engine_Defines.h"
 
+#include "fmod.h"
+#include "fmod.hpp"
+#include "../Fmod/fmod_common.h"
+#include "../Fmod/fmod_errors.h"
+
+//#pragma comment(lib, "fmodex_vc.lib")
+#pragma comment(lib, "fmod_vc.lib")
+
+
 BEGIN(Engine)
 
 class CSound_Manager : public CBase
