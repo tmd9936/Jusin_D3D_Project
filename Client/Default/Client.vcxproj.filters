@@ -46,6 +46,9 @@
     <Filter Include="97. ShaderFiles">
       <UniqueIdentifier>{8e4c3264-87a2-40ec-a963-8a4ab1693703}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\Terrain">
+      <UniqueIdentifier>{d6f838c3-4bc4-426c-85b6-2e6cdb486597}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -80,6 +83,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\BackGround.h">
       <Filter>02. GameObject\BackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Terrain.h">
+      <Filter>02. GameObject\Terrain</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -120,10 +126,18 @@
     <ClCompile Include="..\Private\BackGround.cpp">
       <Filter>02. GameObject\BackGround</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Terrain.cpp">
+      <Filter>02. GameObject\Terrain</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Vtxtex.hlsl">
       <Filter>97. ShaderFiles</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Bin\ShaderFiles\Shader_VtxNorTex.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </None>
   </ItemGroup>
 </Project>

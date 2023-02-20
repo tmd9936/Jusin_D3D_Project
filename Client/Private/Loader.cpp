@@ -2,6 +2,7 @@
 #include "..\Public\Loader.h"
 #include "GameInstance.h"
 #include "BackGround.h"
+#include "Terrain.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
@@ -13,6 +14,9 @@ CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 
 _uint APIENTRY LoadingMain(void* pArg)
 {
+	if(FAILED(CoInitializeEx(nullptr, 0)))
+		return E_FAIL;
+
 	CLoader* pLoader = (CLoader*)pArg;
 
 	EnterCriticalSection(pLoader->Get_CriticalSection());
@@ -75,7 +79,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	}
 
 	/* For.Prototype_Component_Texture */
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Texture_Default"),
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Texture_Logo"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Default%d.dds"), 2))))
 		return E_FAIL;
 
@@ -83,7 +87,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 #pragma region MODELS
 	wsprintf(m_szLoadingText, TEXT("모델를 로딩중입니다."));
-	for (_uint i = 0; i < 999999999; ++i)
+	for (_uint i = 0; i < 9999999; ++i)
 	{
 		int a = 10;
 	}
@@ -91,7 +95,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 #pragma region SHADERS
 	wsprintf(m_szLoadingText, TEXT("셰이더를 로딩중입니다."));
-	for (_uint i = 0; i < 999999999; ++i)
+	for (_uint i = 0; i < 9999999; ++i)
 	{
 		int a = 10;
 	}
@@ -118,33 +122,49 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 HRESULT CLoader::Loading_ForGamePlayLevel()
 {
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
 	/*  */
 #pragma region TEXTURES
 	wsprintf(m_szLoadingText, TEXT("텍스쳐를 로딩중입니다."));
-	for (_uint i = 0; i < 999999999; ++i)
-	{
-		int a = 10;
-	}
+	/* For.Prototype_Component_Texture_Terrain */
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Terrain"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Tile0.jpg")))))
+		return E_FAIL;
 #pragma endregion
 
 #pragma region MODELS
 	wsprintf(m_szLoadingText, TEXT("모델를 로딩중입니다."));
-	for (_uint i = 0; i < 999999999; ++i)
-	{
-		int a = 10;
-	}
+	/* For.Prototype_Component_VIBuffer_Terrain */
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Terrain"),
+		CVIBuffer_Terrain::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Height.bmp")))))
+		return E_FAIL;
 #pragma endregion
 
 #pragma region SHADERS
 	wsprintf(m_szLoadingText, TEXT("셰이더를 로딩중입니다."));
-	for (_uint i = 0; i < 999999999; ++i)
-	{
-		int a = 10;
-	}
+	/* For.Prototype_Component_Shader_VtxNorTex */
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Shader_VtxNorTex"),
+		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxNorTex.hlsl"), VTXNORTEX_DECLARATION::Elements, VTXNORTEX_DECLARATION::iNumElements))))
+		return E_FAIL;
+#pragma endregion
+
+
+#pragma region GAMEOBJECTS
+	wsprintf(m_szLoadingText, TEXT("객체원형을 로딩중."));
+
+	/* For.Prototype_GameObject_Terrain */
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Terrain"),
+		CTerrain::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 #pragma endregion
 
 	wsprintf(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 	m_isFinished = true;
+
+	Safe_Release(pGameInstance);
 
 	return S_OK;
 }

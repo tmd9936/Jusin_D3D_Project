@@ -1,4 +1,5 @@
 #include "Texture.h"
+#include "Shader.h"
 
 CTexture::CTexture(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CComponent(pDevice, pContext)
@@ -8,15 +9,18 @@ CTexture::CTexture(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 CTexture::CTexture(const CTexture& rhs)
 	: CComponent(rhs)
 	, m_iNumTextures(rhs.m_iNumTextures)
+	, m_SRVs(rhs.m_SRVs)
 {
-	m_SRVs.reserve(rhs.m_iNumTextures);
+	for (auto& pSRV : m_SRVs)
+		Safe_AddRef(pSRV);
+}
 
-	for (_uint i = 0; i < rhs.m_iNumTextures; ++i)
-	{
-		m_SRVs.push_back(rhs.m_SRVs[i]);
-		Safe_AddRef(m_SRVs[i]);
-	}
+HRESULT CTexture::Set_ShaderResource(CShader* pShader, const char* pConstantName, _uint iTextureIndex)
+{
+	if (iTextureIndex >= m_iNumTextures)
+		return E_FAIL;
 
+	return pShader->Set_ShaderResourceView(pConstantName, m_SRVs[iTextureIndex]);
 }
 
 HRESULT CTexture::Initialize_Prototype(const _tchar* pTextureFilePath, _uint iNumTextures)

@@ -23,6 +23,9 @@ public:
 		return m_SRVs[index];
 	}
 
+public:
+	HRESULT Set_ShaderResource(class CShader* pShader, const char* pConstantName, _uint iTextureIndex = 0);
+
 private:
 	vector<ID3D11ShaderResourceView*>			m_SRVs;
 	_uint										m_iNumTextures = { 0 };

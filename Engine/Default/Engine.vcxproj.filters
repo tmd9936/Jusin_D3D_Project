@@ -67,6 +67,9 @@
     <Filter Include="01. Utility\03. Component\Texture">
       <UniqueIdentifier>{93dd250a-590c-4959-8db7-cd9ca7fd9f68}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\03. Component\VIBuffer\Terrain">
+      <UniqueIdentifier>{11119ad7-ede7-4e75-a695-6cc868324347}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Engine_Defines.h">
@@ -141,6 +144,9 @@
     <ClInclude Include="..\Public\Texture.h">
       <Filter>01. Utility\03. Component\Texture</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_Terrain.h">
+      <Filter>01. Utility\03. Component\VIBuffer\Terrain</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -199,6 +205,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Texture.cpp">
       <Filter>01. Utility\03. Component\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_Terrain.cpp">
+      <Filter>01. Utility\03. Component\VIBuffer\Terrain</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

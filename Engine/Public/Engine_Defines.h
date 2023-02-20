@@ -7,6 +7,7 @@
 #include <DirectXTK/DDSTextureLoader.h>
 #include <DirectXTK/WICTextureLoader.h>
 #include <d3dcompiler.h>
+#include <DirectXCollision.h>
 
 
 #include <vector>

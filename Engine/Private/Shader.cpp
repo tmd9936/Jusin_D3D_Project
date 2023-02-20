@@ -98,7 +98,7 @@ HRESULT CShader::Set_Matrix(const char* pConstantName, _float4x4* pMatrix)
 	return pVariable->SetMatrix((_float*)pMatrix);
 }
 
-HRESULT CShader::Set_SRV(const char* pConstantName, ID3D11ShaderResourceView* pSRV)
+HRESULT CShader::Set_ShaderResourceView(const char* pConstantName, ID3D11ShaderResourceView* pSRV)
 {
 	if (nullptr == m_pEffect || nullptr == pSRV)
 		return E_FAIL;

@@ -1,62 +1,45 @@
 #include "stdafx.h"
-#include "..\Public\BackGround.h"
+#include "..\Public\Terrain.h"
 
 #include "GameInstance.h"
 
-CBackGround::CBackGround(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CTerrain::CTerrain(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
 {
 }
 
-CBackGround::CBackGround(const CBackGround& rhs)
+CTerrain::CTerrain(const CTerrain& rhs)
 	: CGameObject(rhs)
 {
 }
 
-HRESULT CBackGround::Initialize_Prototype()
+HRESULT CTerrain::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CBackGround::Initialize(void* pArg)
+HRESULT CTerrain::Initialize(void* pArg)
 {
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
-	m_fSizeX = g_iWinSizeX;
-	m_fSizeY = g_iWinSizeY;
-	m_fX = g_iWinSizeX >> 1;
-	m_fY = g_iWinSizeY >> 1;
-
-	XMStoreFloat4x4(&m_WorldMatrix, XMMatrixIdentity());
-	m_WorldMatrix._11 = m_fSizeX;
-	m_WorldMatrix._22 = m_fSizeY;
-
-	m_WorldMatrix._41 = m_fX - g_iWinSizeX * 0.5f;
-	m_WorldMatrix._42 = -m_fY + g_iWinSizeY * 0.5f;
-
-	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
-
-	XMStoreFloat4x4(&m_ProjMatrix,
-		XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
-
 	return S_OK;
 }
 
-_uint CBackGround::Tick(_double TimeDelta)
+_uint CTerrain::Tick(_double TimeDelta)
 {
 	return _uint();
 }
 
-_uint CBackGround::LateTick(_double TimeDelta)
+_uint CTerrain::LateTick(_double TimeDelta)
 {
 
-	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_PRIORITY, this);
+	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
 
 	return _uint();
 }
 
-HRESULT CBackGround::Render()
+HRESULT CTerrain::Render()
 {
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
@@ -68,7 +51,7 @@ HRESULT CBackGround::Render()
 	return S_OK;
 }
 
-HRESULT CBackGround::Add_Components()
+HRESULT CTerrain::Add_Components()
 {
 	/* For.Com_Renderer */
 	if (FAILED(__super::Add_Components(LEVEL_STATIC, TEXT("Prototype_Component_Renderer"),
@@ -76,17 +59,17 @@ HRESULT CBackGround::Add_Components()
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
-	if (FAILED(__super::Add_Components(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
+	if (FAILED(__super::Add_Components(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Terrain"),
 		TEXT("Com_VIBuffer"), (CComponent**)&m_pVIBufferCom, nullptr)))
 		return E_FAIL;
 
 	/* For.Com_Shader */
-	if (FAILED(__super::Add_Components(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxTex"),
+	if (FAILED(__super::Add_Components(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Shader_VtxNorTex"),
 		TEXT("Com_Shader"), (CComponent**)&m_pShaderCom, nullptr)))
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Components(LEVEL_LOGO, TEXT("Prototype_Component_Texture_Logo"),
+	if (FAILED(__super::Add_Components(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Terrain"),
 		TEXT("Com_Texture"), (CComponent**)&m_pTextureCom, nullptr)))
 		return E_FAIL;
 
@@ -94,8 +77,18 @@ HRESULT CBackGround::Add_Components()
 	return S_OK;
 }
 
-HRESULT CBackGround::SetUp_ShaderResources()
+HRESULT CTerrain::SetUp_ShaderResources()
 {
+	
+	XMStoreFloat4x4(&m_WorldMatrix, XMMatrixIdentity());
+	XMStoreFloat4x4(&m_ViewMatrix, 
+		XMMatrixLookAtLH(XMVectorSet(0.f, 10.f, -10.f, 1.f), 
+		XMVectorSet(0.f, 0.f, 0.f, 1.f),
+		XMVectorSet(0.f, 1.f, 0.f, 1.f)));
+
+	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixPerspectiveFovLH(XMConvertToRadians(60.f), g_iWinSizeX / (_float)g_iWinSizeY, 0.2f, 300.f));
+
+
 	if (FAILED(m_pShaderCom->Set_Matrix("g_WorldMatrix", &m_WorldMatrix)))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_Matrix("g_ViewMatrix", &m_ViewMatrix)))
@@ -109,33 +102,33 @@ HRESULT CBackGround::SetUp_ShaderResources()
 	return S_OK;
 }
 
-CBackGround* CBackGround::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CTerrain* CTerrain::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CBackGround* pInstance = new CBackGround(pDevice, pContext);
+	CTerrain* pInstance = new CTerrain(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed to Created CBackGround");
+		MSG_BOX("Failed to Created CTerrain");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CBackGround::Clone(void* pArg)
+CGameObject* CTerrain::Clone(void* pArg)
 {
-	CBackGround* pInstance = new CBackGround(*this);
+	CTerrain* pInstance = new CTerrain(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Cloned CBackGround");
+		MSG_BOX("Failed to Cloned CTerrain");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CBackGround::Free()
+void CTerrain::Free()
 {
 	__super::Free();
 
