@@ -1,0 +1,53 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 2483482918166041167
+  },
+  "m_Name": "CS_mountain2_01",
+  "m_typeName": "mountain2_01",
+  "m_mapChips": [
+    {
+      "m_FileID": 1,
+      "m_PathID": -5533551522282579726
+    },
+    {
+      "m_FileID": 1,
+      "m_PathID": -9079797665628565000
+    },
+    {
+      "m_FileID": 1,
+      "m_PathID": -6592835925044563648
+    },
+    {
+      "m_FileID": 1,
+      "m_PathID": 845467458718665107
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 480529738725999985
+    }
+  ],
+  "m_mapOuts": [
+    {
+      "m_FileID": 1,
+      "m_PathID": -5842652603173441813
+    },
+    {
+      "m_FileID": 1,
+      "m_PathID": 8699094426301884005
+    },
+    {
+      "m_FileID": 1,
+      "m_PathID": 8582417579796323233
+    },
+    {
+      "m_FileID": 1,
+      "m_PathID": -6853604116755811964
+    }
+  ]
+}

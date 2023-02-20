@@ -1,0 +1,74 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 7217968426969641605
+  },
+  "m_Name": "StageLayerData",
+  "m_datas": [
+    {
+      "m_targetWorks": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_nextLayerIndex": 1
+    },
+    {
+      "m_targetWorks": [
+        2,
+        3,
+        0,
+        0,
+        0
+      ],
+      "m_nextLayerIndex": 2
+    },
+    {
+      "m_targetWorks": [
+        4,
+        5,
+        6,
+        0,
+        0
+      ],
+      "m_nextLayerIndex": 3
+    },
+    {
+      "m_targetWorks": [
+        7,
+        8,
+        9,
+        10,
+        0
+      ],
+      "m_nextLayerIndex": 4
+    },
+    {
+      "m_targetWorks": [
+        11,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_nextLayerIndex": 5
+    },
+    {
+      "m_targetWorks": [
+        12,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_nextLayerIndex": -1
+    }
+  ]
+}

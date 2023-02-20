@@ -1,0 +1,65 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 2483482918166041167
+  },
+  "m_Name": "CS_grass2_02",
+  "m_typeName": "grass2_02",
+  "m_mapChips": [
+    {
+      "m_FileID": 1,
+      "m_PathID": 8921027737802819587
+    },
+    {
+      "m_FileID": 1,
+      "m_PathID": -524125948767127163
+    },
+    {
+      "m_FileID": 1,
+      "m_PathID": -3337135924310280554
+    },
+    {
+      "m_FileID": 1,
+      "m_PathID": 5214381865870949234
+    },
+    {
+      "m_FileID": 1,
+      "m_PathID": -170845233337653993
+    },
+    {
+      "m_FileID": 1,
+      "m_PathID": -8026372635431626976
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": -8061496998039966378
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 5154585793344089086
+    }
+  ],
+  "m_mapOuts": [
+    {
+      "m_FileID": 1,
+      "m_PathID": -589434334699502611
+    },
+    {
+      "m_FileID": 1,
+      "m_PathID": -2930536150314026999
+    },
+    {
+      "m_FileID": 1,
+      "m_PathID": -7865260064390193884
+    },
+    {
+      "m_FileID": 1,
+      "m_PathID": -3745040712613645541
+    }
+  ]
+}

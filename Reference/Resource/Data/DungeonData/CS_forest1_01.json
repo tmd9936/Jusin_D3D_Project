@@ -1,0 +1,61 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 2483482918166041167
+  },
+  "m_Name": "CS_forest1_01",
+  "m_typeName": "forest1_01",
+  "m_mapChips": [
+    {
+      "m_FileID": 0,
+      "m_PathID": -5122165731984526017
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": -8468822666314359903
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 8487301904301375988
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 3684954117054908502
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": -3785116511740226722
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": -6929979441743517374
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 243458320966980554
+    }
+  ],
+  "m_mapOuts": [
+    {
+      "m_FileID": 0,
+      "m_PathID": 199609334453330807
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 5667837572612261959
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": -4494807772577144454
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": -4470092122308204183
+    }
+  ]
+}

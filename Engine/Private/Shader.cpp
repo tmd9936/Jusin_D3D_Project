@@ -100,7 +100,7 @@ HRESULT CShader::Set_Matrix(const char* pConstantName, _float4x4* pMatrix)
 
 HRESULT CShader::Set_SRV(const char* pConstantName, ID3D11ShaderResourceView* pSRV)
 {
-	if (nullptr == m_pEffect)
+	if (nullptr == m_pEffect || nullptr == pSRV)
 		return E_FAIL;
 
 	ID3DX11EffectShaderResourceVariable* pVariable = m_pEffect->GetVariableByName(pConstantName)->AsShaderResource();
