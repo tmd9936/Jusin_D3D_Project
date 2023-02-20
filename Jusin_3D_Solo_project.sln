@@ -11,6 +11,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Engine\Default\Engine.vcxproj", "{4AF4383A-9F23-4BF9-8AC1-511A0CE36B72}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tool", "Tool\Default\Tool.vcxproj", "{A683C611-A26D-46AE-B027-F2D7F8B56041}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4AF4383A-9F23-4BF9-8AC1-511A0CE36B72} = {4AF4383A-9F23-4BF9-8AC1-511A0CE36B72}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

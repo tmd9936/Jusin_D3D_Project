@@ -32,6 +32,9 @@ using namespace DirectX;
 #include "Engine_Struct.h"
 #include "Engine_Typedef.h"
 
+
+#ifndef _TOOL
+
 #ifdef _DEBUG
 
 #define _CRTDBG_MAP_ALLOC
@@ -46,5 +49,7 @@ using namespace DirectX;
 #endif
 
 #endif // _DEBUG
+
+#endif // !_TOOL
 
 using namespace Engine;

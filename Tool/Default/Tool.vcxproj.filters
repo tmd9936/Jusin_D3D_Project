@@ -37,6 +37,15 @@
     <Filter Include="97. ShaderFiles">
       <UniqueIdentifier>{1169c46f-4a0a-4057-9bdf-6284a9995c54}</UniqueIdentifier>
     </Filter>
+    <Filter Include="96 ImGui">
+      <UniqueIdentifier>{4f3caca1-d572-468c-b1a3-6856de137220}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96 ImGui\Public">
+      <UniqueIdentifier>{b6729d92-f986-415e-bd9c-04c0fa398526}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96 ImGui\Private">
+      <UniqueIdentifier>{84f9472f-d868-4b29-a077-4073424308a6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -74,6 +83,30 @@
     </ClInclude>
     <ClInclude Include="..\Public\Terrain.h">
       <Filter>02. GameObject\Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGui\imconfig.h">
+      <Filter>96 ImGui\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGui\imgui.h">
+      <Filter>96 ImGui\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGui\imgui_impl_dx11.h">
+      <Filter>96 ImGui\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGui\imgui_impl_win32.h">
+      <Filter>96 ImGui\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGui\imgui_internal.h">
+      <Filter>96 ImGui\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGui\imstb_rectpack.h">
+      <Filter>96 ImGui\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGui\imstb_textedit.h">
+      <Filter>96 ImGui\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGui\imstb_truetype.h">
+      <Filter>96 ImGui\Public</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -116,6 +149,27 @@
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>98. Default</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ImGui\imgui.cpp">
+      <Filter>96 ImGui\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ImGui\imgui_demo.cpp">
+      <Filter>96 ImGui\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ImGui\imgui_draw.cpp">
+      <Filter>96 ImGui\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ImGui\imgui_impl_dx11.cpp">
+      <Filter>96 ImGui\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ImGui\imgui_impl_win32.cpp">
+      <Filter>96 ImGui\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ImGui\imgui_tables.cpp">
+      <Filter>96 ImGui\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ImGui\imgui_widgets.cpp">
+      <Filter>96 ImGui\Private</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
