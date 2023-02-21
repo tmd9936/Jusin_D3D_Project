@@ -117,7 +117,7 @@
       <PreprocessorDefinitions>TOOL;_TOOL;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>../Public/;../Default/;../../Reference/Headers/;../Public/ImGui/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -139,7 +139,7 @@
       <PreprocessorDefinitions>TOOL;_TOOL;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>../Public/;../Default/;../../Reference/Headers/;../Public/ImGui/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -158,6 +158,7 @@
     <ClInclude Include="..\Public\BackGround.h" />
     <ClInclude Include="..\Public\ImGui\imconfig.h" />
     <ClInclude Include="..\Public\ImGui\imgui.h" />
+    <ClInclude Include="..\Public\ImGui\ImGuiFileBrowser.h" />
     <ClInclude Include="..\Public\ImGui\imgui_impl_dx11.h" />
     <ClInclude Include="..\Public\ImGui\imgui_impl_win32.h" />
     <ClInclude Include="..\Public\ImGui\imgui_internal.h" />
@@ -169,6 +170,8 @@
     <ClInclude Include="..\Public\Level_Logo.h" />
     <ClInclude Include="..\Public\Loader.h" />
     <ClInclude Include="..\Public\MainApp.h" />
+    <ClInclude Include="..\Public\MapTool.h" />
+    <ClInclude Include="..\Public\MapToolGUI.h" />
     <ClInclude Include="..\Public\Terrain.h" />
     <ClInclude Include="..\Public\Tool_Defines.h" />
     <ClInclude Include="stdafx.h" />
@@ -179,6 +182,7 @@
   <ItemGroup>
     <ClCompile Include="..\Private\BackGround.cpp" />
     <ClCompile Include="..\Private\ImGui\imgui.cpp" />
+    <ClCompile Include="..\Private\ImGui\ImGuiFileBrowser.cpp" />
     <ClCompile Include="..\Private\ImGui\imgui_demo.cpp" />
     <ClCompile Include="..\Private\ImGui\imgui_draw.cpp" />
     <ClCompile Include="..\Private\ImGui\imgui_impl_dx11.cpp" />
@@ -190,6 +194,8 @@
     <ClCompile Include="..\Private\Level_Logo.cpp" />
     <ClCompile Include="..\Private\Loader.cpp" />
     <ClCompile Include="..\Private\MainApp.cpp" />
+    <ClCompile Include="..\Private\MapTool.cpp" />
+    <ClCompile Include="..\Private\MapToolGUI.cpp" />
     <ClCompile Include="..\Private\Terrain.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="Tool.cpp" />

@@ -7,10 +7,13 @@
 #include "MainApp.h"
 #include "GameInstance.h"
 #include "Level_Loading.h"
+#include "MapToolGUI.h"
 
 CMainApp::CMainApp()
 	: m_pGameInstance(CGameInstance::GetInstance())
+	, m_pMapToolGUI(CMapToolGUI::GetInstance())
 {
+	Safe_AddRef(m_pMapToolGUI);
 	Safe_AddRef(m_pGameInstance);
 }
 
@@ -26,19 +29,26 @@ HRESULT CMainApp::Initialize()
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
+	
 
 	if (FAILED(m_pGameInstance->Initialize_Engine(LEVEL_END, GraphicDesc, &m_pDevice, &m_pContext)))
 		return E_FAIL;
+
 
 	if (FAILED(Ready_Prototype_Component_For_Static()))
 		return E_FAIL;
 	if (FAILED(Ready_Prototype_GameObject_For_Static()))
 		return E_FAIL;
 
+
+
 	ImGui::StyleColorsClassic();
 
 	ImGui_ImplWin32_Init(g_hWnd);
 	ImGui_ImplDX11_Init(m_pDevice, m_pContext);
+	
+	if (FAILED(m_pMapToolGUI->Initialize(m_pDevice, m_pContext)))
+		return E_FAIL;
 
 	if (FAILED(SetUp_StartLevel(LEVEL_LOGO)))
 		return E_FAIL;
@@ -59,6 +69,8 @@ HRESULT CMainApp::Render()
 
 	//bool bDemo = true;
 	//ImGui::ShowDemoWindow();
+
+	m_pMapToolGUI->Render();
 
 	ImGui::Render();
 
@@ -131,6 +143,9 @@ void CMainApp::Free()
 	ImGui_ImplDX11_Shutdown();
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
+
+	Safe_Release(m_pMapToolGUI);
+	CMapToolGUI::GetInstance()->DestroyInstance();
 
 	CGameInstance::Release_Engine();
 

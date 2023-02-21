@@ -46,6 +46,12 @@
     <Filter Include="96 ImGui\Private">
       <UniqueIdentifier>{84f9472f-d868-4b29-a077-4073424308a6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\MapTool">
+      <UniqueIdentifier>{e334007f-27df-400b-8d36-677a3afc7d40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96 ImGui\MapToolGUI">
+      <UniqueIdentifier>{7feebb72-cfee-416e-800d-023380095360}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -107,6 +113,15 @@
     </ClInclude>
     <ClInclude Include="..\Public\ImGui\imstb_truetype.h">
       <Filter>96 ImGui\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGui\ImGuiFileBrowser.h">
+      <Filter>96 ImGui\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MapTool.h">
+      <Filter>02. GameObject\MapTool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MapToolGUI.h">
+      <Filter>96 ImGui\MapToolGUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -170,6 +185,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\ImGui\imgui_widgets.cpp">
       <Filter>96 ImGui\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ImGui\ImGuiFileBrowser.cpp">
+      <Filter>96 ImGui\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MapTool.cpp">
+      <Filter>02. GameObject\MapTool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MapToolGUI.cpp">
+      <Filter>96 ImGui\MapToolGUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

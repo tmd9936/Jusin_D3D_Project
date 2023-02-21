@@ -9,6 +9,7 @@ class CGameInstance;
 END
 
 BEGIN(Tool)
+class CMapToolGUI;
 
 class CMainApp final : public CBase
 {
@@ -28,6 +29,7 @@ private:
 private:
 	CGameInstance* m_pGameInstance = { nullptr };
 	CRenderer* m_pRenderer = { nullptr };
+	CMapToolGUI* m_pMapToolGUI = { nullptr };
 
 
 private:

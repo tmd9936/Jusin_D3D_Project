@@ -6,6 +6,7 @@
 #pragma endregion
 
 #pragma region COMPONENT
+#include "Transform.h"
 #include "Renderer.h"
 #include "Shader.h"
 #include "Texture.h"

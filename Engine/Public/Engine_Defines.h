@@ -15,6 +15,10 @@
 #include <map>
 #include <unordered_map>
 #include <algorithm>
+#include <string>
+#include <ctime>
+#include <fstream>
+#include <iostream>
 
 #include <DirectXMath.h>
 #include <Process.h>
