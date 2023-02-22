@@ -5,9 +5,9 @@
 #include "imgui_impl_dx11.h"
 
 #include "MainApp.h"
-#include "GameInstance.h"
 #include "Level_Loading.h"
 #include "MapToolGUI.h"
+#include "GameInstance.h"
 
 CMainApp::CMainApp()
 	: m_pGameInstance(CGameInstance::GetInstance())

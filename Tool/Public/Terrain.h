@@ -8,6 +8,7 @@ class CVIBuffer_Terrain;
 class CRenderer;
 class CShader;
 class CTexture;
+class CTransform;
 END
 
 BEGIN(Tool)
@@ -31,6 +32,7 @@ private:
 	CShader* m_pShaderCom = { nullptr };
 	CVIBuffer_Terrain* m_pVIBufferCom = { nullptr };
 	CTexture* m_pTextureCom = { nullptr };
+	CTransform* m_pTransformCom = { nullptr };
 
 private:
 	_float4x4			m_WorldMatrix, m_ViewMatrix, m_ProjMatrix;
