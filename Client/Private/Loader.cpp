@@ -87,10 +87,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 #pragma region MODELS
 	wsprintf(m_szLoadingText, TEXT("모델를 로딩중입니다."));
-	for (_uint i = 0; i < 9999999; ++i)
-	{
-		int a = 10;
-	}
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+		CTransform::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 #pragma endregion
 
 #pragma region SHADERS

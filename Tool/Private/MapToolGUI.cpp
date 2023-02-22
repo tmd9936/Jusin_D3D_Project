@@ -90,19 +90,19 @@ HRESULT CMapToolGUI::Render()
 
 			//TerrainMenu();
 
-			static int clicked = 0;
-			if (ImGui::Button("Install"))
-				clicked++;
+			//static int clicked = 0;
+			//if (ImGui::Button("Install"))
+			//	clicked++;
 
-			if (clicked & 1)
-			{
-				m_bInstall = true;
-				ImGui::SameLine();
-				ImGui::Text("Thanks for clicking me!");
-				clicked++;
-			}
-			else
-				m_bInstall = false;
+			//if (clicked & 1)
+			//{
+			//	m_bInstall = true;
+			//	ImGui::SameLine();
+			//	ImGui::Text("Thanks for clicking me!");
+			//	clicked++;
+			//}
+			//else
+			//	m_bInstall = false;
 
 		}
 		ImGui::End();
@@ -344,6 +344,7 @@ void CMapToolGUI::FileMenu()
 		load = true;
 		m_iRadio = 6;
 	}
+	ImGui::SameLine();
 
 	if (ImGui::Button("Save Env"))
 	{
@@ -356,6 +357,7 @@ void CMapToolGUI::FileMenu()
 		load = true;
 		m_iRadio = 5;
 	}
+	ImGui::SameLine();
 
 	if (ImGui::Button("Save Spwan"))
 	{
