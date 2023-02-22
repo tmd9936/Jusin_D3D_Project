@@ -43,23 +43,34 @@ public:
 			XMVectorGetX(XMVector3Length(Get_State(STATE_LOOK))));
 	}
 
+	_matrix Get_WorldMatrix_Inverse() {
+		return XMMatrixInverse(nullptr, XMLoadFloat4x4(&m_WorldMatrix));
+	}
+
+public:
 	void	Set_State(STATE eState, _fvector vState) {
 		XMStoreFloat4((_float4*)m_WorldMatrix.m[eState], vState);
 	}
 
+	void Set_TransforDesc(const TRANSFORMDESC& transformDesc) {
+		m_TransformDesc = transformDesc;
+	}
+
+	void Set_Scaled(const _float3& vScale);
+
 public:
 
-	void Go_Straight(_double TimeDelta);
-	void Go_Left(_double TimeDelta);
-	void Go_Right(_double TimeDelta);
-	void Go_Backward(_double TimeDelta);
+	void Go_Straight(_float TimeDelta);
+	void Go_Left(_float TimeDelta);
+	void Go_Right(_float TimeDelta);
+	void Go_Backward(_float TimeDelta);
 
-	void Rotation(_fvector vAxis, _double Radian);
-	void Turn(_fvector vAxis, _double TimeDelta);
+	void Rotation(_fvector vAxis, _float Radian);
+	void Turn(_fvector vAxis, _float TimeDelta);
 
 	void LookAt(_fvector vTargetPos);
 
-	void Chase(_fvector vTargetPos, _double TimeDelta, _double limitDitance = 0.2);
+	void Chase(_fvector vTargetPos, _float TimeDelta, _float limitDitance = 0.2);
 
 
 private:

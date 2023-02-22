@@ -16,6 +16,7 @@ CGameInstance::CGameInstance()
 	, m_pObject_Manager(CObject_Manager::GetInstance())
 	, m_pComponent_Manager(CComponent_Manager::GetInstance())
 	, m_pSound_Manager(CSound_Manager::GetInstance())
+	, m_pPipeLine(CPipeLine::GetInstance())
 {
 	Safe_AddRef(m_pComponent_Manager);
 	Safe_AddRef(m_pObject_Manager);
@@ -23,6 +24,7 @@ CGameInstance::CGameInstance()
 	Safe_AddRef(m_pGraphic_Device);
 	Safe_AddRef(m_pLevel_Manager);
 	Safe_AddRef(m_pSound_Manager);
+	Safe_AddRef(m_pPipeLine);
 }
 
 HRESULT CGameInstance::Initialize_Engine(_uint iNumLevels, const GRAPHIC_DESC& GraphicDesc, ID3D11Device** ppDeviceOut, ID3D11DeviceContext** ppContextOut)
@@ -228,6 +230,30 @@ const _bool CGameInstance::Get_Sound_Ready_Finish()
 	return m_pSound_Manager->Get_Finished();
 }
 
+void CGameInstance::Set_Transform(CPipeLine::TRANSFORMSTATE eState, _fmatrix TransformMatrix)
+{
+	if (nullptr == m_pPipeLine)
+		return;
+
+	return m_pPipeLine->Set_Transform(eState, TransformMatrix);
+}
+
+_float4x4 CGameInstance::Get_Transform_Float4x4(CPipeLine::TRANSFORMSTATE eState)
+{
+	if (nullptr == m_pPipeLine)
+		return _float4x4();
+
+	return m_pPipeLine->Get_Transform_Float4x4(eState);
+}
+
+_matrix CGameInstance::Get_Transform_Matrix(CPipeLine::TRANSFORMSTATE eState)
+{
+	if (nullptr == m_pPipeLine)
+		return XMMatrixIdentity();
+
+	return m_pPipeLine->Get_Transform_Matrix(eState);
+}
+
 
 void CGameInstance::Release_Engine()
 {
@@ -243,6 +269,8 @@ void CGameInstance::Release_Engine()
 
 	CTimer_Manager::GetInstance()->DestroyInstance();
 
+	CPipeLine::GetInstance()->DestroyInstance();
+
 	CGraphic_Device::GetInstance()->DestroyInstance();
 }
 
@@ -254,4 +282,5 @@ void CGameInstance::Free(void)
 	Safe_Release(m_pSound_Manager);
 	Safe_Release(m_pGraphic_Device);
 	Safe_Release(m_pTimer_Manager);
+	Safe_Release(m_pPipeLine);
 }

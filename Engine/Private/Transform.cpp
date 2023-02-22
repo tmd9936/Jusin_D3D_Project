@@ -26,7 +26,14 @@ HRESULT CTransform::Initialize(void* pArg)
 }
 
 
-void CTransform::Go_Straight(_double TimeDelta)
+void CTransform::Set_Scaled(const _float3& vScale)
+{
+	Set_State(STATE_RIGHT, XMVector3Normalize(Get_State(STATE_RIGHT)) * vScale.x);
+	Set_State(STATE_UP, XMVector3Normalize(Get_State(STATE_UP)) * vScale.y);
+	Set_State(STATE_LOOK, XMVector3Normalize(Get_State(STATE_LOOK)) * vScale.z);
+}
+
+void CTransform::Go_Straight(_float TimeDelta)
 {
 	_vector vlook = Get_State(STATE_LOOK);
 	_vector vPosition = Get_State(STATE_POSITION);
@@ -36,7 +43,7 @@ void CTransform::Go_Straight(_double TimeDelta)
 	Set_State(STATE_POSITION, vPosition);
 }
 
-void CTransform::Go_Left(_double TimeDelta)
+void CTransform::Go_Left(_float TimeDelta)
 {
 	_vector vlook = Get_State(STATE_RIGHT);
 	_vector vPosition = Get_State(STATE_POSITION);
@@ -46,7 +53,7 @@ void CTransform::Go_Left(_double TimeDelta)
 	Set_State(STATE_POSITION, vPosition);
 }
 
-void CTransform::Go_Right(_double TimeDelta)
+void CTransform::Go_Right(_float TimeDelta)
 {
 	_vector vlook = Get_State(STATE_RIGHT);
 	_vector vPosition = Get_State(STATE_POSITION);
@@ -56,7 +63,7 @@ void CTransform::Go_Right(_double TimeDelta)
 	Set_State(STATE_POSITION, vPosition);
 }
 
-void CTransform::Go_Backward(_double TimeDelta)
+void CTransform::Go_Backward(_float TimeDelta)
 {
 	_vector vLook = Get_State(STATE_LOOK);
 	_vector vPosition = Get_State(STATE_POSITION);
@@ -66,7 +73,7 @@ void CTransform::Go_Backward(_double TimeDelta)
 	Set_State(STATE_POSITION, vPosition);
 }
 
-void CTransform::Rotation(_fvector vAxis, _double Radian)
+void CTransform::Rotation(_fvector vAxis, _float Radian)
 {
 	_float3 vScale = Get_Scaled();
 
@@ -91,7 +98,7 @@ void CTransform::Rotation(_fvector vAxis, _double Radian)
 	//Set_State(CTransform::STATE_LOOK, XMVector3TransformNormal(vLook, RotationMatrix));
 }
 
-void CTransform::Turn(_fvector vAxis, _double TimeDelta)
+void CTransform::Turn(_fvector vAxis, _float TimeDelta)
 {
 	_vector vRight = XMVector3Normalize(Get_State(STATE_RIGHT));
 	_vector vUp = XMVector3Normalize(Get_State(STATE_UP));
@@ -132,11 +139,22 @@ void CTransform::LookAt(_fvector vTargetPos)
 
 }
 
-void CTransform::Chase(_fvector vTargetPos, _double TimeDelta, _double limitDitance)
+void CTransform::Chase(_fvector vTargetPos, _float TimeDelta, _float limitDitance)
 {
 	LookAt(vTargetPos);
 
-	Go_Straight(TimeDelta);
+	_vector vPosition = Get_State(STATE_POSITION);
+
+	_vector vDir = vTargetPos - vPosition;
+
+	_float length = XMVectorGetX(XMVector3Length(vDir));
+
+	if (length >= limitDitance)
+	{
+		vPosition += XMVector3Normalize(vDir) * TimeDelta * m_TransformDesc.SpeedPerSec;
+		Set_State(STATE_POSITION, vPosition);
+	}
+
 }
 
 CTransform* CTransform::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

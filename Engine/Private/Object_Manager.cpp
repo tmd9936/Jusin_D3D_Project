@@ -1,6 +1,7 @@
 #include "..\Public\Object_Manager.h"
 #include "GameObject.h"
 #include "Layer.h"
+#include "Camera_Dynamic.h"
 
 IMPLEMENT_SINGLETON(CObject_Manager)
 

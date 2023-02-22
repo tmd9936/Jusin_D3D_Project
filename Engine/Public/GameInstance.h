@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Component_Manager.h"
+#include "PipeLine.h"
 
 BEGIN(Engine)
 
@@ -57,6 +58,11 @@ public: /* For.Sound_Manager */
 	void		Set_BGMVolume(_float _fMusicVolume) ;
 	const _bool	Get_Sound_Ready_Finish();
 
+public: /* For.PipeLine */
+	void Set_Transform(CPipeLine::TRANSFORMSTATE eState, _fmatrix TransformMatrix);
+	_float4x4 Get_Transform_Float4x4(CPipeLine::TRANSFORMSTATE eState);
+	_matrix Get_Transform_Matrix(CPipeLine::TRANSFORMSTATE eState);
+
 private:
 	CTimer_Manager*			m_pTimer_Manager = { nullptr };
 	CGraphic_Device*		m_pGraphic_Device = { nullptr };
@@ -64,6 +70,7 @@ private:
 	CObject_Manager*		m_pObject_Manager = { nullptr };
 	CComponent_Manager*		m_pComponent_Manager = { nullptr };
 	CSound_Manager*			m_pSound_Manager = { nullptr };
+	CPipeLine*				m_pPipeLine = { nullptr };
 
 public:
 	static void Release_Engine();

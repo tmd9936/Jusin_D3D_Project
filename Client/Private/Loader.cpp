@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "BackGround.h"
 #include "Terrain.h"
+#include "Camera_Dynamic.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
@@ -73,7 +74,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	/*  */		  
 #pragma region TEXTURES	
 	wsprintf(m_szLoadingText, TEXT("텍스쳐를 로딩중입니다."));
-	for (_uint i = 0; i < 99999999; ++i)
+	for (_uint i = 0; i < 9999999; ++i)
 	{
 		int a = 10;
 	}
@@ -87,9 +88,6 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 #pragma region MODELS
 	wsprintf(m_szLoadingText, TEXT("모델를 로딩중입니다."));
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
-		CTransform::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
 #pragma endregion
 
 #pragma region SHADERS
@@ -156,6 +154,12 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 	/* For.Prototype_GameObject_Terrain */
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Terrain"),
 		CTerrain::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+
+	/* For.Prototype_GameObject_Camera_Dynamic */
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera_Dynamic"),
+		CCamera_Dynamic::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 #pragma endregion

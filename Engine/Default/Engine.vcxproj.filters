@@ -73,6 +73,15 @@
     <Filter Include="01. Utility\03. Component\Transform">
       <UniqueIdentifier>{e63c6873-9e41-466c-928b-60210caf32e3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\04. PipeLine">
+      <UniqueIdentifier>{27bb6eb4-a54b-4ea9-9da8-1178df657db4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\02. GameObject\Camera">
+      <UniqueIdentifier>{87b8219b-0b71-49b4-974b-85bd22ef34bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\02. GameObject\Camera\Dynamic">
+      <UniqueIdentifier>{8de618fb-df48-49b9-b88f-098ef6f6c5a5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Engine_Defines.h">
@@ -153,6 +162,15 @@
     <ClInclude Include="..\Public\Transform.h">
       <Filter>01. Utility\03. Component\Transform</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\PipeLine.h">
+      <Filter>01. Utility\04. PipeLine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Camera.h">
+      <Filter>01. Utility\02. GameObject\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Camera_Dynamic.h">
+      <Filter>01. Utility\02. GameObject\Camera\Dynamic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -217,6 +235,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\Transform.cpp">
       <Filter>01. Utility\03. Component\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PipeLine.cpp">
+      <Filter>01. Utility\04. PipeLine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Camera.cpp">
+      <Filter>01. Utility\02. GameObject\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Camera_Dynamic.cpp">
+      <Filter>01. Utility\02. GameObject\Camera\Dynamic</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

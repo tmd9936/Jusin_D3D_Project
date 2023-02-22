@@ -27,6 +27,9 @@ public:
 	HRESULT	Set_Matrix(const char* pConstantName, _float4x4* pMatrix);
 	HRESULT Set_ShaderResourceView(const char* pConstantName, ID3D11ShaderResourceView* pSRV);
 
+	HRESULT	Set_Matrix(const char* pConstantName, const _float4x4& pMatrix);
+	HRESULT Set_ShaderResourceView(const char* pConstantName, ID3D11ShaderResourceView& pSRV);
+
 private:
 	ID3DX11Effect* m_pEffect = { nullptr };
 

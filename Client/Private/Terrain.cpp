@@ -85,22 +85,24 @@ HRESULT CTerrain::Add_Components()
 
 HRESULT CTerrain::SetUp_ShaderResources()
 {
-	
-	XMStoreFloat4x4(&m_WorldMatrix, XMMatrixIdentity());
-	XMStoreFloat4x4(&m_ViewMatrix, 
-		XMMatrixLookAtLH(XMVectorSet(0.f, 10.f, -10.f, 1.f), 
-		XMVectorSet(0.f, 0.f, 0.f, 1.f),
-		XMVectorSet(0.f, 1.f, 0.f, 1.f)));
+	_float4x4		WorldMatrix;
 
-	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixPerspectiveFovLH(XMConvertToRadians(60.f), g_iWinSizeX / (_float)g_iWinSizeY, 0.2f, 300.f));
+	XMStoreFloat4x4(&WorldMatrix, XMMatrixIdentity());
 
+	if (FAILED(m_pShaderCom->Set_Matrix("g_WorldMatrix", &WorldMatrix)))
+		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_Matrix("g_WorldMatrix", &m_WorldMatrix)))
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(m_pShaderCom->Set_Matrix("g_ViewMatrix",
+		pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_VIEW))))
 		return E_FAIL;
-	if (FAILED(m_pShaderCom->Set_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+	if (FAILED(m_pShaderCom->Set_Matrix("g_ProjMatrix",
+		pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_PROJ))))
 		return E_FAIL;
-	if (FAILED(m_pShaderCom->Set_Matrix("g_ProjMatrix", &m_ProjMatrix)))
-		return E_FAIL;
+
+	Safe_Release(pGameInstance);
 
 	if (FAILED(m_pTextureCom->Set_ShaderResource(m_pShaderCom, "g_Texture", 0)))
 		return E_FAIL;
