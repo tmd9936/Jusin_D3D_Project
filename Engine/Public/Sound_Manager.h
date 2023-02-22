@@ -39,6 +39,10 @@ public:
 		return m_isFinished;
 	}
 
+	void Set_Finished() {
+		m_isFinished = true;
+	}
+
 	LPCRITICAL_SECTION Get_CriticalSection() {
 		return m_CriticalSection;
 	}
@@ -69,7 +73,7 @@ private:
 
 private:
 	HANDLE				m_hThread = { 0 };
-	LPCRITICAL_SECTION	m_CriticalSection = { new CRITICAL_SECTION };	
+	LPCRITICAL_SECTION	m_CriticalSection = { new CRITICAL_SECTION };
 	_bool				m_isFinished = { false };
 
 

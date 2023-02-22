@@ -10,6 +10,9 @@ CSound_Manager::CSound_Manager()
 
 _uint APIENTRY LoadSoundFile(void* pArg)
 {
+	if (FAILED(CoInitializeEx(nullptr, 0)))
+		return E_FAIL;
+
 	CSound_Manager* pSound_Manager = (CSound_Manager*)pArg;
 
 	EnterCriticalSection(pSound_Manager->Get_CriticalSection());
@@ -24,15 +27,17 @@ _uint APIENTRY LoadSoundFile(void* pArg)
 
 	StringCchCat(input, MAX_PATH, TEXT("*"));
 
-	hFind = FindFirstFileW(L"../../Reference/Resource/Sound_Dummy/*.*", &FindFileData);
+	hFind = FindFirstFileW(L"../../Reference/Resources/Sound_Dummy/*.*", &FindFileData);
 
 	if (INVALID_HANDLE_VALUE == hFind)
 	{
+		pSound_Manager->Set_Finished();
+		LeaveCriticalSection(pSound_Manager->Get_CriticalSection());
 		FindClose(hFind);
 		return 1;
 	}
 
-	_tchar szCurPath[MAX_PATH] = L"../../Reference/Resource/Sound_Dummy/";
+	_tchar szCurPath[MAX_PATH] = L"../../Reference/Resources/Sound_Dummy/";
 	_tchar szFullPath[MAX_PATH] = L"";
 
 	do
@@ -64,6 +69,9 @@ _uint APIENTRY LoadSoundFile(void* pArg)
 		}
 	} while (FindNextFile(hFind, &FindFileData));
 
+	pSound_Manager->Set_Finished();
+	LeaveCriticalSection(pSound_Manager->Get_CriticalSection());
+
 	return 0;
 }
 
@@ -83,8 +91,6 @@ HRESULT CSound_Manager::Ready_Sound()
 	m_hThread = (HANDLE)_beginthreadex(nullptr, 0, LoadSoundFile, this, 0, nullptr);
 	if (0 == m_hThread)
 		return E_FAIL;
-
-	m_isFinished = true;
 
 	return S_OK;
 }
@@ -145,6 +151,8 @@ void CSound_Manager::Free(void)
 
 	DeleteCriticalSection(m_CriticalSection);
 	DeleteObject(m_hThread);
+
+	Safe_Delete(m_CriticalSection);
 
 	for (auto& Mypair : m_mapSound)
 	{

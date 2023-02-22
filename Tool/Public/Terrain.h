@@ -35,9 +35,6 @@ private:
 	CTransform* m_pTransformCom = { nullptr };
 
 private:
-	_float4x4			m_WorldMatrix, m_ViewMatrix, m_ProjMatrix;
-
-private:
 	HRESULT Add_Components();
 	HRESULT SetUp_ShaderResources();
 

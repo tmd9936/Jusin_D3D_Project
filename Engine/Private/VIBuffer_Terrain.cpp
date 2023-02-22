@@ -77,6 +77,8 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(const _tchar* pHeightMapFilePath
 		return E_FAIL;
 
 	Safe_Delete_Array(pVertices);
+	Safe_Delete_Array(pPixel);
+
 
 #pragma endregion
 

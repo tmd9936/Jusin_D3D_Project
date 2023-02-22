@@ -82,6 +82,9 @@
     <Filter Include="01. Utility\02. GameObject\Camera\Dynamic">
       <UniqueIdentifier>{8de618fb-df48-49b9-b88f-098ef6f6c5a5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\02. GameObject\Tile">
+      <UniqueIdentifier>{04228e54-af18-4681-acc6-83424dd1868d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Engine_Defines.h">
@@ -171,6 +174,9 @@
     <ClInclude Include="..\Public\Camera_Dynamic.h">
       <Filter>01. Utility\02. GameObject\Camera\Dynamic</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Tile.h">
+      <Filter>01. Utility\02. GameObject\Tile</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -244,6 +250,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Camera_Dynamic.cpp">
       <Filter>01. Utility\02. GameObject\Camera\Dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Tile.cpp">
+      <Filter>01. Utility\02. GameObject\Tile</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

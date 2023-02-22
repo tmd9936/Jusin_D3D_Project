@@ -192,6 +192,8 @@ void CLoader::Free()
 	DeleteCriticalSection(m_CriticalSection);
 	DeleteObject(m_hThread);
 
+	Safe_Delete(m_CriticalSection);
+
 	Safe_Release(m_pDevice);
 
 	Safe_Release(m_pContext);
