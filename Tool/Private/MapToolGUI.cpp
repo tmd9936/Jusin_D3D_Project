@@ -58,13 +58,31 @@ HRESULT CMapToolGUI::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pCon
 
 	m_iRadio = 1;
 
-	ImGuiPlatformIO& io = ImGui::GetPlatformIO();
+	//ImGuiPlatformIO& io = ImGui::GetPlatformIO();
 
-	m_pviewport = new ImGuiViewport;
-	m_pviewport->Size.x = 200.f;
-	m_pviewport->Size.y = 200.f;
+	//m_pviewport = new ImGuiViewport;
+	//m_pviewport->Size.x = g_iWinSizeX;
+	//m_pviewport->Size.y = g_iWinSizeY;
+	//m_pviewport->Pos.x = 300.f;
+	//m_pviewport->Pos.y = 300.f;
+	//m_pviewport->ID = 1;
+	//
+	//ImGui_ImplDX11_ViewportData2* vd = new ImGui_ImplDX11_ViewportData2;
+	//vd->RTView = CGraphic_Device::g_pBackBufferRTV;
+	//vd->SwapChain = CGraphic_Device::g_pSwapChain;
 
-	io.Platform_CreateWindow(m_pviewport);
+	//m_pviewport->PlatformHandle = g_hWnd;
+
+	//m_pviewport->RendererUserData = vd;
+
+	//io.Renderer_CreateWindow(m_pviewport);
+
+	//m_pviewport = new ImGuiViewport;
+	//m_pviewport->Size.x = 300.f;
+	//m_pviewport->Size.y = 300.f;
+	//m_pviewport->Pos.x = 300.f;
+	//m_pviewport->Pos.y = 300.f;
+
 
 	//io.Viewports.push_back(m_pviewport);
 
@@ -85,11 +103,13 @@ _uint CMapToolGUI::LateTick(_double TimeDelta)
 void CMapToolGUI::Reder_Begin()
 {
 	ImGuiPlatformIO& io = ImGui::GetPlatformIO();
-	io.Renderer_RenderWindow(m_pviewport, nullptr);
+
+	//ImGui_ImplDX11_RenderDrawData(m_pviewport->DrawData);
 }
 
 HRESULT CMapToolGUI::Render()
 {
+
 	if (m_bRender)
 	{
 		ImGui::Begin("Map Tool");

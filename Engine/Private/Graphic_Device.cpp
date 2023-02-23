@@ -168,13 +168,13 @@ HRESULT CGraphic_Device::Ready_BackBufferRenderTargetView()
 	if (FAILED(m_pDevice->CreateRenderTargetView(pBackBufferTexture, nullptr, &m_pBackBufferRTV)))
 		return E_FAIL;
 
-	ID3D11Texture2D* pBackBuffer = nullptr;
-	m_pSwapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer));
-	m_pDevice->CreateRenderTargetView(pBackBuffer, nullptr, &m_pBackBufferRTV);
+	//ID3D11Texture2D* pBackBuffer = nullptr;
+	//m_pSwapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer));
+	//m_pDevice->CreateRenderTargetView(pBackBuffer, nullptr, &m_pBackBufferRTV);
 
 	g_pBackBufferRTV = m_pBackBufferRTV;
 
-	Safe_Release(pBackBuffer);
+	//Safe_Release(pBackBuffer);
 	Safe_Release(pBackBufferTexture);
 
 	return S_OK;

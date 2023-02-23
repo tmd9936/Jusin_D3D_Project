@@ -16,6 +16,15 @@ BEGIN(Tool)
 
 class CMapToolGUI : public CBase
 {
+	//struct ImGui_ImplDX11_ViewportData2
+	//{
+	//	IDXGISwapChain* SwapChain;
+	//	ID3D11RenderTargetView* RTView;
+
+	//	ImGui_ImplDX11_ViewportData2() { SwapChain = nullptr; RTView = nullptr; }
+	//	~ImGui_ImplDX11_ViewportData2() { IM_ASSERT(SwapChain == nullptr && RTView == nullptr); }
+	//};
+
 
 	DECLARE_SINGLETON(CMapToolGUI)
 private:
