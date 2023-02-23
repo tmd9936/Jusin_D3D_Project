@@ -89,25 +89,30 @@ HRESULT CMainApp::Render()
 
 	//bool bDemo = true;
 	//ImGui::ShowDemoWindow();
+	m_pMapToolGUI->Render();
 
 	ImGuiIO& io = ImGui::GetIO();
 	io.DisplaySize = ImVec2((float)g_iWinSizeX, (float)g_iWinSizeY);
 
 	ImGuiPlatformIO& PlatformIO = ImGui::GetPlatformIO();
 
-	ImGui::Render();
 	m_pGameInstance->Clear_BackBuffer_View(_float4(0.f, 0.f, 1.f, 1.f));
 	m_pGameInstance->Clear_DepthStencil_View();
 
 	m_pRenderer->Draw_RenderGroup();
 
+	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+
+
 
 	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 	{
 		ImGui::UpdatePlatformWindows();
 		ImGui::RenderPlatformWindowsDefault();
 	}
+
+
 
 	m_pGameInstance->Present(1, 0);
 

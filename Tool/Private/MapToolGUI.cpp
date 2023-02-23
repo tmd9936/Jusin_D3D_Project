@@ -92,7 +92,6 @@ HRESULT CMapToolGUI::Render()
 {
 	if (m_bRender)
 	{
-		
 		ImGui::Begin("Map Tool");
 		{
 			ImGui::Text("Hello");
