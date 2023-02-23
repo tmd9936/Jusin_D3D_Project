@@ -79,6 +79,7 @@ HRESULT CGraphic_Device::Clear_BackBuffer_View(_float4 vClearColor)
 	/* 백버퍼를 초기화한다.  */
 	m_pDeviceContext->ClearRenderTargetView(m_pBackBufferRTV, (_float*)&vClearColor);
 
+
 	return S_OK;
 }
 
@@ -133,9 +134,9 @@ HRESULT CGraphic_Device::Ready_SwapChain(HWND hWnd, GRAPHIC_DESC::WINMODE eWinMo
 	SwapChain.SampleDesc.Quality = 0;
 	SwapChain.SampleDesc.Count = 1;
 	SwapChain.OutputWindow = hWnd;
-	SwapChain.Windowed = eWinMode;
+	SwapChain.Windowed = TRUE;
 	SwapChain.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
-	SwapChain.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+	SwapChain.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 
 	/* 백버퍼라는 텍스쳐를 생성했다. */
 	if (FAILED(pFactory->CreateSwapChain(m_pDevice, &SwapChain, &m_pSwapChain)))
@@ -167,8 +168,13 @@ HRESULT CGraphic_Device::Ready_BackBufferRenderTargetView()
 	if (FAILED(m_pDevice->CreateRenderTargetView(pBackBufferTexture, nullptr, &m_pBackBufferRTV)))
 		return E_FAIL;
 
+	ID3D11Texture2D* pBackBuffer = nullptr;
+	m_pSwapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer));
+	m_pDevice->CreateRenderTargetView(pBackBuffer, nullptr, &m_pBackBufferRTV);
+
 	g_pBackBufferRTV = m_pBackBufferRTV;
 
+	Safe_Release(pBackBuffer);
 	Safe_Release(pBackBufferTexture);
 
 	return S_OK;
@@ -220,6 +226,7 @@ void CGraphic_Device::Free()
 	Safe_Release(m_pSwapChain);
 	Safe_Release(m_pDepthStencilView);
 	Safe_Release(m_pBackBufferRTV);
+
 	Safe_Release(m_pDeviceContext);
 
 	//#if defined(DEBUG) || defined(_DEBUG)

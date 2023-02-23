@@ -8,6 +8,7 @@
 #include "Level_Loading.h"
 #include "MapToolGUI.h"
 #include "GameInstance.h"
+#include "Graphic_Device.h"
 
 CMainApp::CMainApp()
 	: m_pGameInstance(CGameInstance::GetInstance())
@@ -96,23 +97,31 @@ HRESULT CMainApp::Render()
 
 	ImGuiPlatformIO& PlatformIO = ImGui::GetPlatformIO();
 
-	m_pGameInstance->Clear_BackBuffer_View(_float4(0.f, 0.f, 1.f, 1.f));
+
+	//m_pGameInstance->Present(0, 0);
+
+
+	ImGui::Render();
+
+	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+	const float clear_color_with_alpha[4] = { clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w };
+	m_pContext->OMSetRenderTargets(1, &CGraphic_Device::g_pBackBufferRTV, NULL);
+	m_pGameInstance->Clear_BackBuffer_View(_float4{ 0.45f, 0.55f, 0.60f, 1.00f });
 	m_pGameInstance->Clear_DepthStencil_View();
 
 	m_pRenderer->Draw_RenderGroup();
 
-	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
-
 
 
 	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 	{
+
 		ImGui::UpdatePlatformWindows();
 		ImGui::RenderPlatformWindowsDefault();
+
+		//m_pContext->OMSetRenderTargets(1, &CGraphic_Device::g_pBackBufferRTV, CGraphic_Device::g_pDepthStencilView);
 	}
-
-
 
 	m_pGameInstance->Present(1, 0);
 

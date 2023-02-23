@@ -31,6 +31,7 @@ private:
 	CRenderer* m_pRenderer = { nullptr };
 	CMapToolGUI* m_pMapToolGUI = { nullptr };
 
+	//ID3D11RenderTargetView** m_renderTargetView = { nullptr };
 
 private:
 	HRESULT SetUp_StartLevel(LEVEL eNextLevelID);
