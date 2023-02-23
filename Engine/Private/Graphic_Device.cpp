@@ -2,6 +2,11 @@
 
 IMPLEMENT_SINGLETON(CGraphic_Device)
 
+ID3D11DepthStencilView* CGraphic_Device::g_pDepthStencilView = nullptr;
+ID3D11RenderTargetView* CGraphic_Device::g_pBackBufferRTV = nullptr;
+IDXGISwapChain* CGraphic_Device::g_pSwapChain = nullptr;
+ID3D11Device* CGraphic_Device::g_pDevice = nullptr;
+
 CGraphic_Device::CGraphic_Device()
 	: m_pDevice(nullptr)
 	, m_pDeviceContext(nullptr)
@@ -53,6 +58,8 @@ HRESULT CGraphic_Device::Ready_Graphic_Device(HWND hWnd, GRAPHIC_DESC::WINMODE e
 
 	*ppDeviceOut = m_pDevice;
 	*ppDeviceContextOut = m_pDeviceContext;
+
+	g_pDevice = m_pDevice;
 
 	Safe_AddRef(m_pDevice);
 	Safe_AddRef(m_pDeviceContext);
@@ -118,7 +125,7 @@ HRESULT CGraphic_Device::Ready_SwapChain(HWND hWnd, GRAPHIC_DESC::WINMODE eWinMo
 	SwapChain.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
 	SwapChain.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
 	SwapChain.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-	SwapChain.BufferCount = 1;
+	SwapChain.BufferCount = 2;
 
 	/*스왑하는 형태*/
 	SwapChain.BufferDesc.RefreshRate.Numerator = 60;
@@ -128,10 +135,13 @@ HRESULT CGraphic_Device::Ready_SwapChain(HWND hWnd, GRAPHIC_DESC::WINMODE eWinMo
 	SwapChain.OutputWindow = hWnd;
 	SwapChain.Windowed = eWinMode;
 	SwapChain.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+	SwapChain.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 
 	/* 백버퍼라는 텍스쳐를 생성했다. */
 	if (FAILED(pFactory->CreateSwapChain(m_pDevice, &SwapChain, &m_pSwapChain)))
 		return E_FAIL;
+
+	g_pSwapChain = m_pSwapChain;
 
 	Safe_Release(pFactory);
 	Safe_Release(pAdapter);
@@ -156,6 +166,8 @@ HRESULT CGraphic_Device::Ready_BackBufferRenderTargetView()
 
 	if (FAILED(m_pDevice->CreateRenderTargetView(pBackBufferTexture, nullptr, &m_pBackBufferRTV)))
 		return E_FAIL;
+
+	g_pBackBufferRTV = m_pBackBufferRTV;
 
 	Safe_Release(pBackBufferTexture);
 
@@ -195,6 +207,8 @@ HRESULT CGraphic_Device::Ready_DepthStencilRenderTargetView(_uint iWinCX, _uint 
 
 	if (FAILED(m_pDevice->CreateDepthStencilView(pDepthStencilTexture, nullptr, &m_pDepthStencilView)))
 		return E_FAIL;
+
+	g_pDepthStencilView = m_pDepthStencilView;
 
 	Safe_Release(pDepthStencilTexture);
 

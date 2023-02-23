@@ -4,7 +4,7 @@
 
 BEGIN(Engine)
 
-class CGraphic_Device final : public CBase
+class ENGINE_DLL CGraphic_Device final : public CBase
 {
 	DECLARE_SINGLETON(CGraphic_Device)
 
@@ -50,6 +50,12 @@ private:
 	/* ID3D11DepthStencilView : 깊이스텐실버퍼로서 사용될 수 있는 타입.  */
 	ID3D11RenderTargetView* m_pBackBufferRTV = nullptr;
 	ID3D11DepthStencilView* m_pDepthStencilView = nullptr;
+public:
+	static ID3D11Device* g_pDevice;
+	static ID3D11DepthStencilView* g_pDepthStencilView;
+	static ID3D11RenderTargetView* g_pBackBufferRTV;
+	static IDXGISwapChain* g_pSwapChain;
+
 
 private:
 	HRESULT Ready_SwapChain(HWND hWnd, GRAPHIC_DESC::WINMODE eWinMode, _uint iWinCX, _uint iWinCY);

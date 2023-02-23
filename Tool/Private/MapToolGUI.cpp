@@ -9,6 +9,8 @@
 
 #include "GameInstance.h"
 
+#include "Graphic_Device.h"
+
 IMPLEMENT_SINGLETON(CMapToolGUI)
 
 imgui_addons::ImGuiFileBrowser file_dialog;
@@ -56,6 +58,16 @@ HRESULT CMapToolGUI::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pCon
 
 	m_iRadio = 1;
 
+	ImGuiPlatformIO& io = ImGui::GetPlatformIO();
+
+	m_pviewport = new ImGuiViewport;
+	m_pviewport->Size.x = 200.f;
+	m_pviewport->Size.y = 200.f;
+
+	io.Platform_CreateWindow(m_pviewport);
+
+	//io.Viewports.push_back(m_pviewport);
+
 
 	return S_OK;
 }
@@ -70,10 +82,17 @@ _uint CMapToolGUI::LateTick(_double TimeDelta)
 	return _uint();
 }
 
+void CMapToolGUI::Reder_Begin()
+{
+	ImGuiPlatformIO& io = ImGui::GetPlatformIO();
+	io.Renderer_RenderWindow(m_pviewport, nullptr);
+}
+
 HRESULT CMapToolGUI::Render()
 {
 	if (m_bRender)
 	{
+		
 		ImGui::Begin("Map Tool");
 		{
 			ImGui::Text("Hello");
@@ -109,6 +128,12 @@ HRESULT CMapToolGUI::Render()
 	}
 
 	return S_OK;
+}
+
+void CMapToolGUI::Reder_End()
+{
+	ImGuiPlatformIO& io = ImGui::GetPlatformIO();
+	io.Renderer_SwapBuffers(m_pviewport, nullptr);
 }
 
 void CMapToolGUI::Map_Index_Add(const int& index)

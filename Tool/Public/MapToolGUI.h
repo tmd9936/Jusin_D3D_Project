@@ -16,6 +16,7 @@ BEGIN(Tool)
 
 class CMapToolGUI : public CBase
 {
+
 	DECLARE_SINGLETON(CMapToolGUI)
 private:
 	explicit CMapToolGUI();
@@ -25,7 +26,9 @@ public:
 	HRESULT Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pContext); /* 사본객체의 초기화작업 */
 	_uint Tick(_double TimeDelta);
 	_uint LateTick(_double TimeDelta);
+	void Reder_Begin();
 	HRESULT Render();
+	void Reder_End();
 
 public:
 	const int		Get_ListBox(Tool_ID _eType) const { return m_iListBox[_eType]; }
@@ -83,6 +86,8 @@ private:
 
 	vector<string*>			m_vecEnvironment;
 	vector<string*>			m_vecMap;
+
+	ImGuiViewport* m_pviewport = { nullptr };
 
 public:
 	virtual void Free(void) override;

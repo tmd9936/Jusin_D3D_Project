@@ -30,6 +30,7 @@ HRESULT CMainApp::Initialize()
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	
+	ImGui_ImplDX11_InitPlatformInterface();
 
 	if (FAILED(m_pGameInstance->Initialize_Engine(LEVEL_END, GraphicDesc, &m_pDevice, &m_pContext)))
 		return E_FAIL;
@@ -84,20 +85,21 @@ HRESULT CMainApp::Render()
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
+	
 
-	m_pMapToolGUI->Render();
-
-	m_pRenderer->Draw_RenderGroup();
 	//bool bDemo = true;
 	//ImGui::ShowDemoWindow();
 
 	ImGuiIO& io = ImGui::GetIO();
 	io.DisplaySize = ImVec2((float)g_iWinSizeX, (float)g_iWinSizeY);
 
-	ImGui::Render();
+	ImGuiPlatformIO& PlatformIO = ImGui::GetPlatformIO();
 
+	ImGui::Render();
 	m_pGameInstance->Clear_BackBuffer_View(_float4(0.f, 0.f, 1.f, 1.f));
 	m_pGameInstance->Clear_DepthStencil_View();
+
+	m_pRenderer->Draw_RenderGroup();
 
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 

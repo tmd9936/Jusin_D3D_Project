@@ -2,11 +2,17 @@
 //
 
 #include "../Default/stdafx.h"
+
+#include "imgui.h"
 #include "imgui_impl_win32.h"
+#include "imgui_impl_dx11.h"
+
 #include "Tool.h"
 #include "MainApp.h"
 
 #include "GameInstance.h"
+
+#include "Graphic_Device.h"
 
 #define MAX_LOADSTRING 100
 
@@ -191,6 +197,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
     switch (message)
     {
+    case WM_SIZE:
+    {
+        ID3D11Device* g_pd3dDevice = CGraphic_Device::g_pDevice;
+        IDXGISwapChain* g_pSwapChain= CGraphic_Device::g_pSwapChain;
+        if (g_pd3dDevice != NULL && wParam != SIZE_MINIMIZED)
+        {
+            ImGui_ImplDX11_InvalidateDeviceObjects();
+            g_pSwapChain->ResizeBuffers(0, (UINT)LOWORD(lParam), (UINT)HIWORD(lParam), DXGI_FORMAT_UNKNOWN, 0);
+            ImGui_ImplDX11_CreateDeviceObjects();
+        }
+        return 0;
+    }
+
+
     case WM_COMMAND:
     {
         int wmId = LOWORD(wParam);
