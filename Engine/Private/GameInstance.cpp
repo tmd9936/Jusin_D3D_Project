@@ -110,12 +110,12 @@ HRESULT CGameInstance::Clear_DepthStencil_View()
 	return m_pGraphic_Device->Clear_DepthStencil_View();
 }
 
-HRESULT CGameInstance::Present()
+HRESULT CGameInstance::Present(UINT interval, UINT flags)
 {
 	if (nullptr == m_pGraphic_Device)
 		return E_FAIL;
 
-	return m_pGraphic_Device->Present();
+	return m_pGraphic_Device->Present(interval, flags);
 }
 
 HRESULT CGameInstance::Open_Level(_uint iLevelIndex, CLevel* pNewLevel)

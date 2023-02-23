@@ -85,14 +85,14 @@ HRESULT CGraphic_Device::Clear_DepthStencil_View()
 	return S_OK;
 }
 
-HRESULT CGraphic_Device::Present()
+HRESULT CGraphic_Device::Present(UINT interval, UINT flags)
 {
 	if (nullptr == m_pSwapChain)
 		return E_FAIL;
 
 	/* 전면 버퍼와 후면버퍼를 교체하여 후면버퍼를 전면으로 보여주는 역할을 한다. */
 	/* 후면버퍼를 직접화면에 보여줄께. */
-	return m_pSwapChain->Present(0, 0);
+	return m_pSwapChain->Present(interval, flags);
 }
 
 

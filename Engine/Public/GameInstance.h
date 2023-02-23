@@ -34,7 +34,7 @@ public: /* For.Timer_Manager */
 public: /* For.Graphic_Device */
 	HRESULT Clear_BackBuffer_View(_float4 vClearColor);
 	HRESULT Clear_DepthStencil_View();
-	HRESULT Present();
+	HRESULT Present(UINT interval, UINT flags);
 
 public: /* For.Level_Manager */
 	HRESULT Open_Level(_uint iLevelIndex, class CLevel* pNewLevel);

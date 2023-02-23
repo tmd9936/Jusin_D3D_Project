@@ -25,7 +25,7 @@ public:
 
 
 	/* 후면 버퍼를 전면버퍼로 교체한다.(백버퍼를 화면에 직접 보여준다.) */
-	HRESULT Present();
+	HRESULT Present(UINT interval, UINT flags);
 
 private:
 

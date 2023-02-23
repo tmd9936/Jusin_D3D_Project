@@ -45,7 +45,7 @@ HRESULT CMainApp::Render()
 
 	m_pRenderer->Draw_RenderGroup();
 
-	m_pGameInstance->Present();
+	m_pGameInstance->Present(0, 0);
 
 	return S_OK;
 }

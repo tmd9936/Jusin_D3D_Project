@@ -81,27 +81,24 @@ void CMainApp::Tick(_double TimeDelta)
 
 HRESULT CMainApp::Render()
 {
-
-	//bool bDemo = true;
-	//ImGui::ShowDemoWindow();
-	m_pGameInstance->Clear_BackBuffer_View(_float4(0.f, 0.f, 1.f, 1.f));
-	m_pGameInstance->Clear_DepthStencil_View();
-
-	m_pRenderer->Draw_RenderGroup();
-
-	m_pGameInstance->Present();
-
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
-
 	m_pMapToolGUI->Render();
+
+	m_pRenderer->Draw_RenderGroup();
+	//bool bDemo = true;
+	//ImGui::ShowDemoWindow();
 
 	ImGuiIO& io = ImGui::GetIO();
 	io.DisplaySize = ImVec2((float)g_iWinSizeX, (float)g_iWinSizeY);
 
 	ImGui::Render();
+
+	m_pGameInstance->Clear_BackBuffer_View(_float4(0.f, 0.f, 1.f, 1.f));
+	m_pGameInstance->Clear_DepthStencil_View();
+
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
 	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
@@ -109,7 +106,8 @@ HRESULT CMainApp::Render()
 		ImGui::UpdatePlatformWindows();
 		ImGui::RenderPlatformWindowsDefault();
 	}
-	
+
+	m_pGameInstance->Present(1, 0);
 
 	return S_OK;
 }
