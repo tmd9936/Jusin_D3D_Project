@@ -57,13 +57,13 @@ HRESULT CMapToolGUI::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pCon
 	m_iRadio = 1;
 
 	ImGuiPlatformIO& io = ImGui::GetPlatformIO();
-	m_pviewport = new ImGuiViewport;
-	m_pviewport->Size.x = g_iWinSizeX * 1.f;
-	m_pviewport->Size.y = g_iWinSizeY * 1.f;
-	m_pviewport->Pos.x = 0.f;
-	m_pviewport->Pos.y = 0.f;
-	m_pviewport->ID = 1;
-	m_pviewport->Flags = ImGuiViewportFlags_CanHostOtherWindows;
+	m_pRootViewport = new ImGuiViewport;
+	m_pRootViewport->Size.x = g_iWinSizeX * 0.5f;
+	m_pRootViewport->Size.y = g_iWinSizeY * 0.5f;
+	m_pRootViewport->Pos.x = 0.f;
+	m_pRootViewport->Pos.y = 0.f;
+	m_pRootViewport->ID = 2;
+	m_pRootViewport->Flags = ImGuiViewportFlags_IsPlatformWindow;
 
 	//ImGui_ImplWin32_ViewportData pd;
 	m_pVd = new ImGui_ImplDX11_ViewportData2;
@@ -71,8 +71,8 @@ HRESULT CMapToolGUI::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pCon
 	m_pVd->SwapChain = CGameInstance::GetInstance()->Get_SwapChain();
 
 
-	m_pviewport->PlatformHandle = g_hWnd;
-	m_pviewport->RendererUserData = m_pVd;
+	m_pRootViewport->PlatformHandle = g_hWnd;
+	m_pRootViewport->RendererUserData = m_pVd;
 
 	Safe_AddRef(m_pVd->RTView);
 	Safe_AddRef(m_pVd->SwapChain);
@@ -82,11 +82,45 @@ HRESULT CMapToolGUI::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pCon
 	m_pPd->Hwnd = g_hWnd;
 	m_pPd->HwndOwned = true;
 
+	m_pRootViewport->PlatformUserData = m_pPd;
+
+	io.Platform_SetWindowTitle(m_pRootViewport, "Windows");
+	io.Renderer_CreateWindow(m_pRootViewport);
+	io.Platform_SetWindowSize(m_pRootViewport, ImVec2((float)g_iWinSizeX * 0.75f, (float)g_iWinSizeY * 0.75f));
+	//io.Platform_SetWindowAlpha(m_pRootViewport, 0.9f);
+
+	//===========================
+
+	m_pviewport = new ImGuiViewport;
+	m_pviewport->Size.x = g_iWinSizeX * 1.f;
+	m_pviewport->Size.y = g_iWinSizeY * 1.f;
+	m_pviewport->Pos.x = 0.f;
+	m_pviewport->Pos.y = 0.f;
+	m_pviewport->ID = 3;
+	m_pviewport->Flags = ImGuiViewportFlags_None;
+
+	/*m_pVd = new ImGui_ImplDX11_ViewportData2;
+	m_pVd->RTView = CGameInstance::GetInstance()->Get_RTV();
+	m_pVd->SwapChain = CGameInstance::GetInstance()->Get_SwapChain();*/
+
+
+	m_pviewport->PlatformHandle = g_hWnd;
+	m_pviewport->RendererUserData = m_pVd;
+
+	/*Safe_AddRef(m_pVd->RTView);
+	Safe_AddRef(m_pVd->SwapChain);*/
+
+
+	m_pPd = new ImGui_ImplWin32_ViewportData2;
+	m_pPd->Hwnd = g_hWnd;
+	m_pPd->HwndOwned = false;
+
 	m_pviewport->PlatformUserData = m_pPd;
 
-	io.Platform_SetWindowTitle(m_pviewport, "Windows");
-	io.Platform_SetWindowSize(m_pviewport, ImVec2((float)g_iWinSizeX* 0.5f, (float)g_iWinSizeY * 0.5f));
+	io.Renderer_SetWindowSize(m_pviewport, ImVec2((float)g_iWinSizeX* 0.5f, (float)g_iWinSizeY * 0.5f));
 	io.Renderer_CreateWindow(m_pviewport);
+
+	//io.Platform_CreateWindow
 
 	//m_pviewport = new ImGuiViewport;
 	//m_pviewport->Size.x = 300.f;
@@ -125,7 +159,7 @@ HRESULT CMapToolGUI::Render()
 
 	if (m_bRender)
 	{
-		ImGui::Begin("Window22");
+		ImGui::Begin("Window222");
 		{
 			ImGui::Text("Hello");
 

@@ -66,7 +66,6 @@ HRESULT CMainApp::Initialize()
 	ImGui_ImplWin32_Init(g_hWnd);
 	ImGui_ImplDX11_Init(m_pDevice, m_pContext);
 	
-
 	if (FAILED(m_pMapToolGUI->Initialize(m_pDevice, m_pContext)))
 		return E_FAIL;
 
@@ -93,22 +92,21 @@ HRESULT CMainApp::Render()
 	m_pMapToolGUI->Render();
 
 	ImGuiIO& io = ImGui::GetIO();
-	io.DisplaySize = ImVec2((float)g_iWinSizeX, (float)g_iWinSizeY);
+	io.DisplaySize = ImVec2((float)g_iWinSizeX * 0.75f, (float)g_iWinSizeY * 0.75f);
 
 	ImGuiPlatformIO& PlatformIO = ImGui::GetPlatformIO();
 
 	ImGui::Render();
 
-	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-	const float clear_color_with_alpha[4] = { clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w };
 	m_pGameInstance->SetRenderTargets();
-	m_pGameInstance->Clear_BackBuffer_View(_float4{ 0.45f, 0.55f, 0.60f, 1.00f });
+	m_pGameInstance->Clear_BackBuffer_View(_float4{ 0.f, 0.f, 1.f, 1.f });
 	m_pGameInstance->Clear_DepthStencil_View();
 
 	
-	m_pRenderer->Draw_RenderGroup();
-	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 	//m_pMapToolGUI->Reder_End();
+	m_pRenderer->Draw_RenderGroup();
+
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
 	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 	{
