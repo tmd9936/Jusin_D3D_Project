@@ -4,7 +4,7 @@
 
 BEGIN(Engine)
 
-class ENGINE_DLL CGraphic_Device final : public CBase
+class  CGraphic_Device final : public CBase
 {
 	DECLARE_SINGLETON(CGraphic_Device)
 
@@ -27,6 +27,18 @@ public:
 	/* 후면 버퍼를 전면버퍼로 교체한다.(백버퍼를 화면에 직접 보여준다.) */
 	HRESULT Present(UINT interval, UINT flags);
 
+	HRESULT SetRenderTargets();
+
+	ID3D11Device* Get_Device() const { 
+		return m_pDevice; }
+
+	IDXGISwapChain* Get_SwapChain() const {
+		return m_pSwapChain; }
+
+	ID3D11RenderTargetView* Get_RTV() const {
+		return m_pBackBufferRTV;
+	}
+
 private:
 
 	// IDirect3DDevice9* == LPDIRECT3DDEVICE9 == ID3D11Device + ID3D11DeviceContext 
@@ -48,13 +60,10 @@ private:
 	/* ID3D11ShaderResourceView : 셰이더에 전달될 수 있는 테긋쳐타입. */
 	/* ID3D11RenderTargetView : 렌더타겟용으로 사용될 수 있는 텍스쳐 타입. */
 	/* ID3D11DepthStencilView : 깊이스텐실버퍼로서 사용될 수 있는 타입.  */
+	//ID3D11RenderTargetView* m_pBackBufferRTV[2];
 	ID3D11RenderTargetView* m_pBackBufferRTV = nullptr;
+
 	ID3D11DepthStencilView* m_pDepthStencilView = nullptr;
-public:
-	static ID3D11Device* g_pDevice;
-	static ID3D11DepthStencilView* g_pDepthStencilView;
-	static ID3D11RenderTargetView* g_pBackBufferRTV;
-	static IDXGISwapChain* g_pSwapChain;
 
 
 private:

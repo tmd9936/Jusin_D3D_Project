@@ -12,7 +12,9 @@
 
 #include "GameInstance.h"
 
-#include "Graphic_Device.h"
+#ifndef WM_DPICHANGED
+#define WM_DPICHANGED 0x02E0 // From Windows SDK 8.1+ headers
+#endif
 
 #define MAX_LOADSTRING 100
 
@@ -71,25 +73,25 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_TOOL));
 
-    MSG msg;
+   // MSG msg;
 
     _double		TimeAcc = 0.0;
 
 
     // 기본 메시지 루프입니다.
-    while (true)
+    bool done = false;
+    MSG msg;
+    while (!done)
     {
-        if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+        while (::PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))
         {
-            if (WM_QUIT == msg.message)
-                break;
-
-            if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
-            {
-                TranslateMessage(&msg);
-                DispatchMessage(&msg);
-            }
+            ::TranslateMessage(&msg);
+            ::DispatchMessage(&msg);
+            if (msg.message == WM_QUIT)
+                done = true;
         }
+        if (done)
+            break;
 
         pGameInstance->Set_TimeDelta(TEXT("Timer_Default"));
 
@@ -115,6 +117,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     if (0 != Safe_Release(pMainApp))
         return FALSE;
 
+    ::UnregisterClassW(szWindowClass, g_hInst);
     return (int)msg.wParam;
 }
 
@@ -131,15 +134,15 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 
     wcex.cbSize = sizeof(WNDCLASSEX);
 
-    wcex.style = CS_HREDRAW | CS_VREDRAW;
+    wcex.style = CS_CLASSDC;
     wcex.lpfnWndProc = WndProc;
     wcex.cbClsExtra = 0;
     wcex.cbWndExtra = 0;
     wcex.hInstance = hInstance;
-    wcex.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_TOOL));
-    wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
-    wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-    wcex.lpszMenuName = MAKEINTRESOURCEW(IDI_TOOL);
+    wcex.hIcon = NULL;
+    wcex.hCursor = NULL;
+    wcex.hbrBackground = NULL;
+    wcex.lpszMenuName = NULL;
     wcex.lpszClassName = szWindowClass;
     wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
@@ -172,7 +175,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
         return FALSE;
     }
 
-    ShowWindow(hWnd, nCmdShow);
+    ShowWindow(hWnd, SW_SHOWDEFAULT);
     UpdateWindow(hWnd);
 
     g_hWnd = hWnd;
@@ -199,17 +202,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     {
     case WM_SIZE:
     {
-        ID3D11Device* g_pd3dDevice = CGraphic_Device::g_pDevice;
-        IDXGISwapChain* g_pSwapChain= CGraphic_Device::g_pSwapChain;
-        if (g_pd3dDevice != NULL && wParam != SIZE_MINIMIZED)
+        const ID3D11Device* pd3dDevice = CGameInstance::GetInstance()->Get_Device();
+        IDXGISwapChain* pSwapChain = CGameInstance::GetInstance()->Get_SwapChain();
+        if (pd3dDevice != NULL && wParam != SIZE_MINIMIZED)
         {
-            ImGui_ImplDX11_InvalidateDeviceObjects();
-            g_pSwapChain->ResizeBuffers(0, (UINT)LOWORD(lParam), (UINT)HIWORD(lParam), DXGI_FORMAT_UNKNOWN, 0);
-            ImGui_ImplDX11_CreateDeviceObjects();
+           ImGui_ImplDX11_InvalidateDeviceObjects();
+           pSwapChain->ResizeBuffers(0, (UINT)LOWORD(lParam), (UINT)HIWORD(lParam), DXGI_FORMAT_UNKNOWN, 0);
+           ImGui_ImplDX11_CreateDeviceObjects();
         }
-        break;
+        return 0;
     }
-
+    case WM_SYSCOMMAND:
+        if ((wParam & 0xfff0) == SC_KEYMENU) // Disable ALT application menu
+            return 0;
+        break;
 
     case WM_COMMAND:
     {
@@ -227,7 +233,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             return DefWindowProc(hWnd, message, wParam, lParam);
         }
     }
-    break;
+        break;
     case WM_PAINT:
     {
         PAINTSTRUCT ps;
@@ -235,11 +241,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         // TODO: 여기에 hdc를 사용하는 그리기 코드를 추가합니다...
         EndPaint(hWnd, &ps);
     }
-    break;
+        break;
     case WM_DESTROY:
         PostQuitMessage(0);
-        break;
-
+        return 0;
     case WM_DPICHANGED:
         if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_DpiEnableScaleViewports)
         {
@@ -248,10 +253,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             const RECT* suggested_rect = (RECT*)lParam;
             ::SetWindowPos(hWnd, NULL, suggested_rect->left, suggested_rect->top, suggested_rect->right - suggested_rect->left, suggested_rect->bottom - suggested_rect->top, SWP_NOZORDER | SWP_NOACTIVATE);
         }
-    default:
-        return DefWindowProc(hWnd, message, wParam, lParam);
+        break;
     }
-    return 0;
+    return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
 // 정보 대화 상자의 메시지 처리기입니다.

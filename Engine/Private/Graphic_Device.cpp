@@ -2,10 +2,12 @@
 
 IMPLEMENT_SINGLETON(CGraphic_Device)
 
-ID3D11DepthStencilView* CGraphic_Device::g_pDepthStencilView = nullptr;
-ID3D11RenderTargetView* CGraphic_Device::g_pBackBufferRTV = nullptr;
-IDXGISwapChain* CGraphic_Device::g_pSwapChain = nullptr;
-ID3D11Device* CGraphic_Device::g_pDevice = nullptr;
+//_bool		CGraphic_Device::g_bRelease = false;
+//
+//ID3D11DepthStencilView* CGraphic_Device::g_pDepthStencilView = nullptr;
+//ID3D11RenderTargetView* CGraphic_Device::g_pBackBufferRTV = nullptr;
+//IDXGISwapChain* CGraphic_Device::g_pSwapChain = nullptr;
+//ID3D11Device* CGraphic_Device::g_pDevice = nullptr;
 
 CGraphic_Device::CGraphic_Device()
 	: m_pDevice(nullptr)
@@ -14,6 +16,19 @@ CGraphic_Device::CGraphic_Device()
 
 
 }
+
+//CGraphic_Device::~CGraphic_Device()
+//{
+//	g_bRelease = true;
+//	if (!g_bRelease)
+//	{
+//		Safe_Release(g_pSwapChain);
+//		Safe_Release(g_pDepthStencilView);
+//		Safe_Release(g_pBackBufferRTV);
+//		Safe_Release(g_pDevice);
+//	}
+//
+//}
 
 HRESULT CGraphic_Device::Ready_Graphic_Device(HWND hWnd, GRAPHIC_DESC::WINMODE eWinMode, _uint iWinCX, _uint iWinCY, ID3D11Device** ppDeviceOut, ID3D11DeviceContext** ppDeviceContextOut)
 {
@@ -45,7 +60,24 @@ HRESULT CGraphic_Device::Ready_Graphic_Device(HWND hWnd, GRAPHIC_DESC::WINMODE e
 	m_pDeviceContext->OMSetRenderTargets(1, &m_pBackBufferRTV,
 		m_pDepthStencilView);
 
-	D3D11_VIEWPORT			ViewPortDesc;
+	//D3D11_VIEWPORT*			ViewPortDesc = new D3D11_VIEWPORT[2];
+	//ZeroMemory(&ViewPortDesc[0], sizeof(D3D11_VIEWPORT));
+	//ViewPortDesc[0].TopLeftX = 0;
+	//ViewPortDesc[0].TopLeftY = 0;
+	//ViewPortDesc[0].Width = (_float)iWinCX;
+	//ViewPortDesc[0].Height = (_float)iWinCY;
+	//ViewPortDesc[0].MinDepth = 0.f;
+	//ViewPortDesc[0].MaxDepth = 1.f;
+
+	//ZeroMemory(&ViewPortDesc[1], sizeof(D3D11_VIEWPORT));
+	//ViewPortDesc[1].TopLeftX = 0;
+	//ViewPortDesc[1].TopLeftY = 0;
+	//ViewPortDesc[1].Width = (_float)300.f;
+	//ViewPortDesc[1].Height = (_float)300.f;
+	//ViewPortDesc[1].MinDepth = 0.f;
+	//ViewPortDesc[1].MaxDepth = 1.f;
+
+	D3D11_VIEWPORT ViewPortDesc;
 	ZeroMemory(&ViewPortDesc, sizeof(D3D11_VIEWPORT));
 	ViewPortDesc.TopLeftX = 0;
 	ViewPortDesc.TopLeftY = 0;
@@ -54,12 +86,14 @@ HRESULT CGraphic_Device::Ready_Graphic_Device(HWND hWnd, GRAPHIC_DESC::WINMODE e
 	ViewPortDesc.MinDepth = 0.f;
 	ViewPortDesc.MaxDepth = 1.f;
 
+
 	m_pDeviceContext->RSSetViewports(1, &ViewPortDesc);
 
 	*ppDeviceOut = m_pDevice;
 	*ppDeviceContextOut = m_pDeviceContext;
 
-	g_pDevice = m_pDevice;
+	/*g_pDevice = m_pDevice;
+	Safe_AddRef(g_pDevice);*/
 
 	Safe_AddRef(m_pDevice);
 	Safe_AddRef(m_pDeviceContext);
@@ -78,6 +112,8 @@ HRESULT CGraphic_Device::Clear_BackBuffer_View(_float4 vClearColor)
 
 	/* 백버퍼를 초기화한다.  */
 	m_pDeviceContext->ClearRenderTargetView(m_pBackBufferRTV, (_float*)&vClearColor);
+	//m_pDeviceContext->ClearRenderTargetView(m_pBackBufferRTV[1], (_float*)&vClearColor);
+
 
 
 	return S_OK;
@@ -101,6 +137,12 @@ HRESULT CGraphic_Device::Present(UINT interval, UINT flags)
 	/* 전면 버퍼와 후면버퍼를 교체하여 후면버퍼를 전면으로 보여주는 역할을 한다. */
 	/* 후면버퍼를 직접화면에 보여줄께. */
 	return m_pSwapChain->Present(interval, flags);
+}
+
+HRESULT CGraphic_Device::SetRenderTargets()
+{
+	m_pDeviceContext->OMSetRenderTargets(1, &m_pBackBufferRTV, nullptr);
+	return S_OK;
 }
 
 
@@ -142,7 +184,8 @@ HRESULT CGraphic_Device::Ready_SwapChain(HWND hWnd, GRAPHIC_DESC::WINMODE eWinMo
 	if (FAILED(pFactory->CreateSwapChain(m_pDevice, &SwapChain, &m_pSwapChain)))
 		return E_FAIL;
 
-	g_pSwapChain = m_pSwapChain;
+	//Safe_AddRef(g_pSwapChain);
+	//g_pSwapChain = m_pSwapChain;
 
 	Safe_Release(pFactory);
 	Safe_Release(pAdapter);
@@ -170,11 +213,14 @@ HRESULT CGraphic_Device::Ready_BackBufferRenderTargetView()
 
 	//ID3D11Texture2D* pBackBuffer = nullptr;
 	//m_pSwapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer));
-	//m_pDevice->CreateRenderTargetView(pBackBuffer, nullptr, &m_pBackBufferRTV);
+	//m_pDevice->CreateRenderTargetView(pBackBuffer, nullptr, &m_pBackBufferRTV[1]);
 
-	g_pBackBufferRTV = m_pBackBufferRTV;
+	//g_pBackBufferRTV[0] = m_pBackBufferRTV[0];
+	//g_pBackBufferRTV = m_pBackBufferRTV;
 
+	//Safe_AddRef(g_pBackBufferRTV);
 	//Safe_Release(pBackBuffer);
+
 	Safe_Release(pBackBufferTexture);
 
 	return S_OK;
@@ -214,8 +260,9 @@ HRESULT CGraphic_Device::Ready_DepthStencilRenderTargetView(_uint iWinCX, _uint 
 	if (FAILED(m_pDevice->CreateDepthStencilView(pDepthStencilTexture, nullptr, &m_pDepthStencilView)))
 		return E_FAIL;
 
-	g_pDepthStencilView = m_pDepthStencilView;
-
+	//g_pDepthStencilView = m_pDepthStencilView;
+	//Safe_AddRef(g_pDepthStencilView);
+	
 	Safe_Release(pDepthStencilTexture);
 
 	return S_OK;
@@ -226,7 +273,6 @@ void CGraphic_Device::Free()
 	Safe_Release(m_pSwapChain);
 	Safe_Release(m_pDepthStencilView);
 	Safe_Release(m_pBackBufferRTV);
-
 	Safe_Release(m_pDeviceContext);
 
 	//#if defined(DEBUG) || defined(_DEBUG)
@@ -249,4 +295,5 @@ void CGraphic_Device::Free()
 
 
 	Safe_Release(m_pDevice);
+
 }

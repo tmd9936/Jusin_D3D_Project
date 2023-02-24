@@ -8,7 +8,6 @@
 #include "Level_Loading.h"
 #include "MapToolGUI.h"
 #include "GameInstance.h"
-#include "Graphic_Device.h"
 
 CMainApp::CMainApp()
 	: m_pGameInstance(CGameInstance::GetInstance())
@@ -62,11 +61,11 @@ HRESULT CMainApp::Initialize()
 		style.WindowRounding = 0.0f;
 		style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 	}
+	ImGui_ImplDX11_InitPlatformInterface();
 
 	ImGui_ImplWin32_Init(g_hWnd);
 	ImGui_ImplDX11_Init(m_pDevice, m_pContext);
 	
-	ImGui_ImplDX11_InitPlatformInterface();
 
 	if (FAILED(m_pMapToolGUI->Initialize(m_pDevice, m_pContext)))
 		return E_FAIL;
@@ -96,27 +95,27 @@ HRESULT CMainApp::Render()
 	ImGuiIO& io = ImGui::GetIO();
 	io.DisplaySize = ImVec2((float)g_iWinSizeX, (float)g_iWinSizeY);
 
-	//ImGuiPlatformIO& PlatformIO = ImGui::GetPlatformIO();
+	ImGuiPlatformIO& PlatformIO = ImGui::GetPlatformIO();
 
 	ImGui::Render();
 
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 	const float clear_color_with_alpha[4] = { clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w };
-	m_pContext->OMSetRenderTargets(1, &CGraphic_Device::g_pBackBufferRTV, nullptr);
+	m_pGameInstance->SetRenderTargets();
 	m_pGameInstance->Clear_BackBuffer_View(_float4{ 0.45f, 0.55f, 0.60f, 1.00f });
-	//m_pContext->ClearRenderTargetView(CGraphic_Device::g_pBackBufferRTV, clear_color_with_alpha);
 	m_pGameInstance->Clear_DepthStencil_View();
 
-	m_pRenderer->Draw_RenderGroup();
 	
+	m_pRenderer->Draw_RenderGroup();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
-
+	//m_pMapToolGUI->Reder_End();
 
 	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 	{
 		ImGui::UpdatePlatformWindows();
 		ImGui::RenderPlatformWindowsDefault();
 	}
+
 
 	m_pGameInstance->Present(1, 0);
 
@@ -183,14 +182,14 @@ void CMainApp::Free()
 	Safe_Release(m_pGameInstance);
 
 
+	CMapToolGUI::GetInstance()->DestroyInstance();
+	Safe_Release(m_pMapToolGUI);
+
 	ImGui_ImplDX11_Shutdown();
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyPlatformWindows();
 	ImGui::DestroyContext();
 
-
-	Safe_Release(m_pMapToolGUI);
-	CMapToolGUI::GetInstance()->DestroyInstance();
 
 	CGameInstance::Release_Engine();
 

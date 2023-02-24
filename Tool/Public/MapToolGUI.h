@@ -16,15 +16,20 @@ BEGIN(Tool)
 
 class CMapToolGUI : public CBase
 {
-	//struct ImGui_ImplDX11_ViewportData2
-	//{
-	//	IDXGISwapChain* SwapChain;
-	//	ID3D11RenderTargetView* RTView;
+	struct ImGui_ImplDX11_ViewportData2
+	{
+		IDXGISwapChain* SwapChain;
+		ID3D11RenderTargetView* RTView;
+	};
 
-	//	ImGui_ImplDX11_ViewportData2() { SwapChain = nullptr; RTView = nullptr; }
-	//	~ImGui_ImplDX11_ViewportData2() { IM_ASSERT(SwapChain == nullptr && RTView == nullptr); }
-	//};
-
+	struct ImGui_ImplWin32_ViewportData2
+	{
+		HWND    Hwnd;
+		bool    HwndOwned;
+		DWORD   DwStyle;
+		DWORD   DwExStyle;
+	};
+	
 
 	DECLARE_SINGLETON(CMapToolGUI)
 private:
@@ -97,6 +102,11 @@ private:
 	vector<string*>			m_vecMap;
 
 	ImGuiViewport* m_pviewport = { nullptr };
+	ImGuiViewport* m_pRootViewport = { nullptr };
+
+
+	ImGui_ImplDX11_ViewportData2* m_pVd = { nullptr };
+	ImGui_ImplWin32_ViewportData2* m_pPd = { nullptr };
 
 public:
 	virtual void Free(void) override;

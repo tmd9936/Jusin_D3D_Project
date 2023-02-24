@@ -118,6 +118,34 @@ HRESULT CGameInstance::Present(UINT interval, UINT flags)
 	return m_pGraphic_Device->Present(interval, flags);
 }
 
+HRESULT CGameInstance::SetRenderTargets()
+{
+	if (nullptr == m_pGraphic_Device)
+		return E_FAIL;
+	return m_pGraphic_Device->SetRenderTargets();
+}
+
+ID3D11Device* CGameInstance::Get_Device()
+{
+	if (nullptr == m_pGraphic_Device)
+		return nullptr;
+	return m_pGraphic_Device->Get_Device();
+}
+
+IDXGISwapChain* CGameInstance::Get_SwapChain()
+{
+	if (nullptr == m_pGraphic_Device)
+		return nullptr;
+	return m_pGraphic_Device->Get_SwapChain();
+}
+
+ID3D11RenderTargetView* CGameInstance::Get_RTV()
+{
+	if (nullptr == m_pGraphic_Device)
+		return nullptr;
+	return m_pGraphic_Device->Get_RTV();
+}
+
 HRESULT CGameInstance::Open_Level(_uint iLevelIndex, CLevel* pNewLevel)
 {
 	if (nullptr == m_pLevel_Manager)

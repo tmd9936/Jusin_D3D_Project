@@ -9,8 +9,6 @@
 
 #include "GameInstance.h"
 
-#include "Graphic_Device.h"
-
 IMPLEMENT_SINGLETON(CMapToolGUI)
 
 imgui_addons::ImGuiFileBrowser file_dialog;
@@ -58,24 +56,37 @@ HRESULT CMapToolGUI::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pCon
 
 	m_iRadio = 1;
 
-	//ImGuiPlatformIO& io = ImGui::GetPlatformIO();
+	ImGuiPlatformIO& io = ImGui::GetPlatformIO();
+	m_pviewport = new ImGuiViewport;
+	m_pviewport->Size.x = g_iWinSizeX * 1.f;
+	m_pviewport->Size.y = g_iWinSizeY * 1.f;
+	m_pviewport->Pos.x = 0.f;
+	m_pviewport->Pos.y = 0.f;
+	m_pviewport->ID = 1;
+	m_pviewport->Flags = ImGuiViewportFlags_CanHostOtherWindows;
 
-	//m_pviewport = new ImGuiViewport;
-	//m_pviewport->Size.x = g_iWinSizeX;
-	//m_pviewport->Size.y = g_iWinSizeY;
-	//m_pviewport->Pos.x = 300.f;
-	//m_pviewport->Pos.y = 300.f;
-	//m_pviewport->ID = 1;
-	//
-	//ImGui_ImplDX11_ViewportData2* vd = new ImGui_ImplDX11_ViewportData2;
-	//vd->RTView = CGraphic_Device::g_pBackBufferRTV;
-	//vd->SwapChain = CGraphic_Device::g_pSwapChain;
+	//ImGui_ImplWin32_ViewportData pd;
+	m_pVd = new ImGui_ImplDX11_ViewportData2;
+	m_pVd->RTView = CGameInstance::GetInstance()->Get_RTV();
+	m_pVd->SwapChain = CGameInstance::GetInstance()->Get_SwapChain();
 
-	//m_pviewport->PlatformHandle = g_hWnd;
 
-	//m_pviewport->RendererUserData = vd;
+	m_pviewport->PlatformHandle = g_hWnd;
+	m_pviewport->RendererUserData = m_pVd;
 
-	//io.Renderer_CreateWindow(m_pviewport);
+	Safe_AddRef(m_pVd->RTView);
+	Safe_AddRef(m_pVd->SwapChain);
+
+
+	m_pPd = new ImGui_ImplWin32_ViewportData2;
+	m_pPd->Hwnd = g_hWnd;
+	m_pPd->HwndOwned = true;
+
+	m_pviewport->PlatformUserData = m_pPd;
+
+	io.Platform_SetWindowTitle(m_pviewport, "Windows");
+	io.Platform_SetWindowSize(m_pviewport, ImVec2((float)g_iWinSizeX* 0.5f, (float)g_iWinSizeY * 0.5f));
+	io.Renderer_CreateWindow(m_pviewport);
 
 	//m_pviewport = new ImGuiViewport;
 	//m_pviewport->Size.x = 300.f;
@@ -109,10 +120,12 @@ void CMapToolGUI::Reder_Begin()
 
 HRESULT CMapToolGUI::Render()
 {
+	ImGuiPlatformIO& io = ImGui::GetPlatformIO();
+
 
 	if (m_bRender)
 	{
-		ImGui::Begin("Map Tool");
+		ImGui::Begin("Window22");
 		{
 			ImGui::Text("Hello");
 
@@ -144,6 +157,11 @@ HRESULT CMapToolGUI::Render()
 
 		}
 		ImGui::End();
+
+		ImGui::Begin("Tool2");
+		ImGui::Text("Hello");
+		ImGui::End();
+
 	}
 
 	return S_OK;
@@ -152,7 +170,9 @@ HRESULT CMapToolGUI::Render()
 void CMapToolGUI::Reder_End()
 {
 	ImGuiPlatformIO& io = ImGui::GetPlatformIO();
-	io.Renderer_SwapBuffers(m_pviewport, nullptr);
+	ImDrawData* drawData = m_pviewport->DrawData;
+	ImGui_ImplDX11_RenderDrawData(drawData);
+
 }
 
 void CMapToolGUI::Map_Index_Add(const int& index)
@@ -573,8 +593,22 @@ void CMapToolGUI::Load_EnvironmentList()
 
 void CMapToolGUI::Free(void)
 {
+
+	//Safe_Release(((ImGui_ImplDX11_ViewportData2*)m_pviewport->RendererUserData)->RTView);
+	//Safe_Release(((ImGui_ImplDX11_ViewportData2*)m_pviewport->RendererUserData)->SwapChain);
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
+
+	//Safe_Delete(m_pviewport);
+
+	Safe_Release(m_pVd->RTView);
+	Safe_Release(m_pVd->SwapChain);
+
+	Safe_Delete(m_pPd);
+	Safe_Delete(m_pVd);
+
+	
+
 
 	for_each(m_vecEnvironment.begin(), m_vecEnvironment.end(), [](string* str) {
 		if (str)
