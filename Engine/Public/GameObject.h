@@ -65,29 +65,9 @@ public:
 	void					Set_Alive() { m_bDead = false; }
 	void					Set_Dead() { m_bDead = true; }
 
-//protected:
-//	HRESULT Add_Components(_uint iLevelIndex, const _tchar* pPrototypeTag,
-//		const _tchar* pComponentTag, class CComponent** ppOut, void* pArg = nullptr);
-//
-//	class CComponent* Find_Component(const _tchar* pComponentTag);
 
 public:
-	void			Get_Components_FamilyId(vector<FamilyId>& vecFamilyIds);
-
-public:
-	/*template<typename T, typename = std::enable_if<is_base_of<CComponent, T>::value>>
-	CComponent*		Get_Component();*/
-
-	//template<typename T, typename = std::enable_if<is_base_of<CComponent, T>::value>>
-	//HRESULT			Add_Component(_uint iLevelIndex, const _tchar* pPrototypeTag, CComponent** ppOut, void* pArg);
-
-
-//private:
-//	template<typename T, typename = std::enable_if<is_base_of<CComponent, T>::value>>
-//	CComponent*		Find_Component();
-//
-//	template<typename T, typename = std::enable_if<is_base_of<CComponent, T>::value>>
-//	HRESULT			Remove_Component();
+	void					Get_Components_FamilyId(vector<FamilyId>& vecFamilyIds);
 
 	HRESULT					Add_Component(const FamilyId& familyId, CComponent* pComponent);
 	CComponent*				Get_Component(const FamilyId& familyId);
@@ -115,78 +95,6 @@ public:
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) = 0;
 	virtual void Free() override;
 };
-
-//template<typename T, typename>
-//inline CComponent* CGameObject::Find_Component()
-//{
-//	auto	iter = m_Components.find(T::familyId);
-//	if (iter == m_Components.end())
-//		return nullptr;
-//
-//	return iter->second;
-//}
-//
-//template<typename T, typename>
-//inline CComponent* CGameObject::Get_Component()
-//{
-//	CComponent* pComponent = Find_Component<T>();
-//
-//	if (nullptr == pComponent)
-//		return nullptr;
-//
-//	return pComponent;
-//}
-
-//template<typename T, typename>
-//inline HRESULT CGameObject::Add_Component(_uint iLevelIndex, const _tchar* pPrototypeTag, CComponent** ppOut, void* pArg)
-//{
-//	CComponent* pComponent = Find_Component<T>();
-//
-//	if (nullptr != pComponent)
-//		return E_FAIL;
-//
-//	CComponent_Manager* pComponent_Manager = CComponent_Manager::GetInstance();
-//	//Safe_AddRef(pComponent_Manager);
-//
-//	/* 원형객체를 복사하여 사본 컴포넌트를 만든다. */
-//	pComponent = pComponent_Manager->Clone_Component(iLevelIndex, pPrototypeTag, this, pArg);
-//	if (nullptr == pComponent)
-//		return E_FAIL;
-//
-//	//Safe_Release(pComponent_Manager);
-//
-//	/* 부모의 맵컨테이너에 복제한 컴포넌트를 추가한다. */
-//	m_Components.insert({ T::familyId, pComponent });
-//
-//	/* 자식에 변수에게도 공유시켜주었다. */
-//	*ppOut = pComponent;
-//
-//	if (FAILED(CObject_Manager::GetInstance()->Store_Component(m_strLayerTag.c_str(), this, T::familyId)))
-//		return E_FAIL;
-//
-//	Safe_AddRef(pComponent);
-//
-//	return S_OK;
-//}
-
-//template<typename T, typename>
-//inline HRESULT CGameObject::Remove_Component()
-//{
-//	CComponent* pComponent = Find_Component<T>();
-//
-//	if (nullptr == pComponent)
-//		return E_FAIL;
-//
-//	auto iter = m_Components.find(T::familyId);
-//
-//	if (iter == m_Components.end())
-//		return E_FAIL;
-//
-//	Safe_Release(iter->second);
-//	m_Components.erase(iter);
-//
-//	return S_OK;
-//}
 
 
 END

@@ -58,38 +58,4 @@ public:
 	virtual void Free() override;
 };
 
-//inline HRESULT	CObject_Manager::Add_Component(const FamilyId& familyId, class CGameObject* pGameObject, _uint iLevelIndex, const _tchar* pPrototypeTag, CComponent** ppOut, void* pArg)
-//{
-//	if (nullptr == pGameObject)
-//		return E_FAIL;
-//
-//	CComponent* pComponent = Find_Component<T>();
-//
-//	if (nullptr != pComponent)
-//		return E_FAIL;
-//
-//	CComponent_Manager* pComponent_Manager = CComponent_Manager::GetInstance();
-//	//Safe_AddRef(pComponent_Manager);
-//
-//	/* 원형객체를 복사하여 사본 컴포넌트를 만든다. */
-//	pComponent = pComponent_Manager->Clone_Component(iLevelIndex, pPrototypeTag, pGameObject, pArg);
-//	if (nullptr == pComponent)
-//		return E_FAIL;
-//
-//	//Safe_Release(pComponent_Manager);
-//
-//	/* 부모의 맵컨테이너에 복제한 컴포넌트를 추가한다. */
-//	m_Components.insert({ T::familyId, pComponent });
-//
-//	/* 자식에 변수에게도 공유시켜주었다. */
-//	*ppOut = pComponent;
-//
-//	if (FAILED(Store_Component(m_strLayerTag.c_str(), pGameObject, T::familyId)))
-//		return E_FAIL;
-//
-//	Safe_AddRef(pComponent);
-//
-//	return S_OK;
-//}
-
 END

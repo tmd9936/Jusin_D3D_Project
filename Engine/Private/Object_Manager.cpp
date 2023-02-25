@@ -147,13 +147,16 @@ HRESULT CObject_Manager::Add_Component(const FamilyId& familyId, CGameObject* pG
 	if (FAILED(pGameObject->Add_Component(familyId, pComponent)))
 		return E_FAIL;
 
-	/* 자식에 변수에게도 공유시켜주었다. */
-	*ppOut = pComponent;
 
 	if (FAILED(Store_Component(pGameObject->Get_LayerTag().c_str(), pGameObject, familyId)))
 		return E_FAIL;
 
-	Safe_AddRef(pComponent);
+	/* 자식에 변수에게도 공유시켜주었다. */
+	if (nullptr != ppOut)
+	{
+		*ppOut = pComponent;
+		Safe_AddRef(pComponent);
+	}
 
 	return S_OK;
 }
