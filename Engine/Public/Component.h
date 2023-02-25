@@ -37,7 +37,7 @@ protected:
 	_bool					m_bClone = { true };
 
 public:
-	virtual CComponent* Clone(void* pArg = nullptr) = 0;
+	virtual CComponent* Clone(CGameObject* pOwner, void* pArg = nullptr) = 0;
 	virtual void Free() override;
 };
 

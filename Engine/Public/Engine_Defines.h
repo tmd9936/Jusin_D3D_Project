@@ -90,6 +90,9 @@ using namespace DirectX;
 
 #define FAMILY_ID_SHADER					30
 #define FAMILY_ID_COLLISION					35
+#define FAMILY_ID_RENDERER					36
+
+
 
 typedef	int					FamilyId;
 typedef	unsigned int		ObjectId;

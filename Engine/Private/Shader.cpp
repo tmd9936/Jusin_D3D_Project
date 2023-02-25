@@ -151,9 +151,9 @@ CShader* CShader::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, c
 	return pInstance;
 }
 
-CComponent* CShader::Clone(void* pArg)
+CComponent* CShader::Clone(CGameObject* pOwner, void* pArg)
 {
-	CShader* pInstance = new CShader(*this);
+	CShader* pInstance = new CShader(*this, pOwner);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{

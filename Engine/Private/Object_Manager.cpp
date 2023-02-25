@@ -42,7 +42,8 @@ HRESULT CObject_Manager::Add_Prototype(const _tchar* pPrototypeTag, CGameObject*
 }
 
 /* 원형객체를 찾아 복제하여 레이어에 추가한다. */
-HRESULT CObject_Manager::Add_GameObject(const _tchar* pPrototypeTag, _uint iLevelIndex, const _tchar* pLayerTag, void* pArg)
+HRESULT CObject_Manager::Add_GameObject(const _tchar* pPrototypeTag, _uint iLevelIndex, 
+	const _tchar* pObjectNameTag = nullptr, const _tchar* pLayerTag, void* pArg)
 {
 	/* 원형을 찾는다. */
 	CGameObject* pPrototype = Find_Prototype(pPrototypeTag);
@@ -71,6 +72,13 @@ HRESULT CObject_Manager::Add_GameObject(const _tchar* pPrototypeTag, _uint iLeve
 		if (FAILED(pLayer->Add_GameObject(pGameObject)))
 			return E_FAIL;
 	}
+	
+	pGameObject->Set_Levelindex(iLevelIndex);
+	pGameObject->Set_LayerTag(pLayerTag);
+	if (pObjectNameTag)
+	{
+		pGameObject->Set_NameTag(pObjectNameTag);
+	}
 
 	return S_OK;
 }
@@ -95,6 +103,61 @@ void CObject_Manager::LateTick(_double TimeDelta)
 			Pair.second->LateTick(TimeDelta);
 		}
 	}
+}
+
+HRESULT CObject_Manager::Add_Component(const FamilyId& familyId, CGameObject* pGameObject, _uint iLevelIndex, const _tchar* pPrototypeTag, CComponent** ppOut, void* pArg)
+{
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	CComponent* pComponent = pGameObject->Get_Component(familyId);
+
+	if (nullptr != pComponent)
+		return E_FAIL;
+
+	CComponent_Manager* pComponent_Manager = CComponent_Manager::GetInstance();
+	//Safe_AddRef(pComponent_Manager);
+
+	/* 원형객체를 복사하여 사본 컴포넌트를 만든다. */
+	pComponent = pComponent_Manager->Clone_Component(iLevelIndex, pPrototypeTag, pGameObject, pArg);
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	//Safe_Release(pComponent_Manager);
+
+	/* 부모의 맵컨테이너에 복제한 컴포넌트를 추가한다. */
+	//m_Components.insert({ T::familyId, pComponent });
+	pGameObject->Add_Component(familyId, pComponent);
+
+	/* 자식에 변수에게도 공유시켜주었다. */
+	*ppOut = pComponent;
+
+	if (FAILED(Store_Component(pGameObject->Get_LayerTag().c_str(), pGameObject, familyId)))
+		return E_FAIL;
+
+	Safe_AddRef(pComponent);
+
+	return S_OK;
+}
+
+HRESULT CObject_Manager::Store_Component(const _tchar* pLayerTag, class CGameObject* pGameObject, const FamilyId& id)
+{
+	if (!pLayerTag || !pGameObject)
+		return E_FAIL;
+
+	_uint objectLevelindex = pGameObject->Get_Levelindex();
+
+	if (objectLevelindex >= m_iNumLevels)
+		return E_FAIL;
+
+	auto iter = Find_Layer(objectLevelindex, pLayerTag);
+
+	if (nullptr == iter)
+		return E_FAIL;
+
+	HRESULT hr = iter->Store_Component(pGameObject, id);
+
+	return hr;
 }
 
 CGameObject* CObject_Manager::Find_Prototype(const _tchar* pPrototypeTag)

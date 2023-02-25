@@ -9,6 +9,9 @@ BEGIN(Engine)
 
 class ENGINE_DLL CRenderer final : public CComponent
 {
+public:
+	static const FamilyId familyId = FAMILY_ID_RENDERER;
+
 private:
 	CRenderer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner);
 	virtual ~CRenderer() = default;
@@ -33,7 +36,7 @@ private: /* 그리는 그룹들에 따라 셋팅이 바뀌어야할 필요가 생길 수 있기때문에 그�
 
 public:
 	static CRenderer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	virtual CComponent* Clone(void* pArg = nullptr) override;
+	virtual CComponent* Clone(CGameObject* pOwner, void* pArg = nullptr) override;
 	virtual void Free() override;
 };
 

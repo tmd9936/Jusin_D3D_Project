@@ -76,9 +76,9 @@ CTexture* CTexture::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext,
 	return pInstance;
 }
 
-CComponent* CTexture::Clone(void* pArg)
+CComponent* CTexture::Clone(CGameObject* pOwner, void* pArg)
 {
-	CTexture* pInstance = new CTexture(*this);
+	CTexture* pInstance = new CTexture(*this, pOwner);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{

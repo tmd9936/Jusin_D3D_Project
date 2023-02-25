@@ -170,9 +170,9 @@ CTransform* CTransform::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pCont
 	return pInstance;
 }
 
-CComponent* CTransform::Clone(void* pArg)
+CComponent* CTransform::Clone(CGameObject* pOwner, void* pArg)
 {
-	CTransform* pInstance = new CTransform(*this);
+	CTransform* pInstance = new CTransform(*this, pOwner);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{

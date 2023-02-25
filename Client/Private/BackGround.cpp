@@ -51,7 +51,7 @@ _uint CBackGround::Tick(_double TimeDelta)
 _uint CBackGround::LateTick(_double TimeDelta)
 {
 
-	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_PRIORITY, this);
+	m_pRendererCom->Add_RenderGroup(RENDER_PRIORITY, this);
 
 	return _uint();
 }
@@ -71,23 +71,24 @@ HRESULT CBackGround::Render()
 HRESULT CBackGround::Add_Components()
 {
 	/* For.Com_Renderer */
-	if (FAILED(__super::Add_Components(LEVEL_STATIC, TEXT("Prototype_Component_Renderer"),
-		TEXT("Com_Renderer"), (CComponent**)&m_pRendererCom, nullptr)))
+
+	if (FAILED(__super::Add_Component<CRenderer>(LEVEL_STATIC, TEXT("Prototype_Component_Renderer"),
+		(CComponent**)&m_pRendererCom, nullptr)))
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
-	if (FAILED(__super::Add_Components(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
-		TEXT("Com_VIBuffer"), (CComponent**)&m_pVIBufferCom, nullptr)))
+	if (FAILED(__super::Add_Component<CVIBuffer_Rect>(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
+		(CComponent**)&m_pVIBufferCom, nullptr)))
 		return E_FAIL;
 
 	/* For.Com_Shader */
-	if (FAILED(__super::Add_Components(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxTex"),
-		TEXT("Com_Shader"), (CComponent**)&m_pShaderCom, nullptr)))
+	if (FAILED(__super::Add_Component<CShader>(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxTex"),
+		(CComponent**)&m_pShaderCom, nullptr)))
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Components(LEVEL_LOGO, TEXT("Prototype_Component_Texture_Logo"),
-		TEXT("Com_Texture"), (CComponent**)&m_pTextureCom, nullptr)))
+	if (FAILED(__super::Add_Component<CTexture>(LEVEL_LOGO, TEXT("Prototype_Component_Texture_Logo"),
+		(CComponent**)&m_pTextureCom, nullptr)))
 		return E_FAIL;
 
 

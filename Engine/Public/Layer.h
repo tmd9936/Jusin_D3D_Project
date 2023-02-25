@@ -11,9 +11,12 @@ private:
 	virtual ~CLayer() = default;
 
 public:
-	HRESULT Add_GameObject(class CGameObject* pGameObject);
+	HRESULT Add_GameObject(class CGameObject* pGameObject, const _tchar* pObjectNameTag = nullptr);
 	void Tick(_double TimeDelta);
 	void LateTick(_double TimeDelta);
+
+public:
+	HRESULT Store_Component(CGameObject* pGameObject, const FamilyId& id);
 
 private:
 	list<class CGameObject*>							m_GameObjects;

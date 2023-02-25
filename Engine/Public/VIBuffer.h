@@ -49,7 +49,7 @@ protected:
 	HRESULT Create_IndexBuffer();
 
 public:
-	virtual CComponent* Clone(void* pArg = nullptr) = 0;
+	virtual CComponent* Clone(CGameObject* pOwner, void* pArg = nullptr) = 0;
 	virtual void Free() override;
 };
 

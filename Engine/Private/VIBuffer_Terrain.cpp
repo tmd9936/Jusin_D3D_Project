@@ -152,9 +152,9 @@ CVIBuffer_Terrain* CVIBuffer_Terrain::Create(ID3D11Device* pDevice, ID3D11Device
 	return pInstance;
 }
 
-CComponent* CVIBuffer_Terrain::Clone(void* pArg)
+CComponent* CVIBuffer_Terrain::Clone(CGameObject* pOwner, void* pArg)
 {
-	CVIBuffer_Terrain* pInstance = new CVIBuffer_Terrain(*this);
+	CVIBuffer_Terrain* pInstance = new CVIBuffer_Terrain(*this, pOwner);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{

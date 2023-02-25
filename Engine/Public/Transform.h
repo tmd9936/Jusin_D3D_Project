@@ -85,7 +85,7 @@ private:
 public:
 	// CComponent을(를) 통해 상속됨
 	static CTransform* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	virtual CComponent* Clone(void* pArg) override;
+	virtual CComponent* Clone(CGameObject* pOwner, void* pArg) override;
 
 	virtual	void	Free() override;
 };

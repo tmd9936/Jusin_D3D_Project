@@ -23,6 +23,8 @@ HRESULT CTerrain::Initialize(void* pArg)
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
+	m_eRenderId = RENDER_NONBLEND;
+
 	return S_OK;
 }
 
@@ -33,8 +35,7 @@ _uint CTerrain::Tick(_double TimeDelta)
 
 _uint CTerrain::LateTick(_double TimeDelta)
 {
-
-	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
+	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
 
 	return _uint();
 }
@@ -55,28 +56,28 @@ HRESULT CTerrain::Add_Components()
 {
 	/* For.Com_Transform */
 	CTransform::TRANSFORMDESC		TransformDesc = { 10.f, XMConvertToRadians(90.0f) };
-	if (FAILED(__super::Add_Components(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform"), (CComponent**)&m_pTransformCom, &TransformDesc)))
+	if (FAILED(__super::Add_Component<CTransform>(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+		(CComponent**)&m_pTransformCom, &TransformDesc)))
 		return E_FAIL;
 
 	/* For.Com_Renderer */
-	if (FAILED(__super::Add_Components(LEVEL_STATIC, TEXT("Prototype_Component_Renderer"),
-		TEXT("Com_Renderer"), (CComponent**)&m_pRendererCom, nullptr)))
+	if (FAILED(__super::Add_Component<CRenderer>(LEVEL_STATIC, TEXT("Prototype_Component_Renderer"),
+		(CComponent**)&m_pRendererCom, nullptr)))
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
-	if (FAILED(__super::Add_Components(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Terrain"),
-		TEXT("Com_VIBuffer"), (CComponent**)&m_pVIBufferCom, nullptr)))
+	if (FAILED(__super::Add_Component<CVIBuffer_Terrain>(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Terrain"),
+		(CComponent**)&m_pVIBufferCom, nullptr)))
 		return E_FAIL;
 
 	/* For.Com_Shader */
-	if (FAILED(__super::Add_Components(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Shader_VtxNorTex"),
-		TEXT("Com_Shader"), (CComponent**)&m_pShaderCom, nullptr)))
+	if (FAILED(__super::Add_Component<CShader>(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Shader_VtxNorTex"),
+		(CComponent**)&m_pShaderCom, nullptr)))
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Components(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Terrain"),
-		TEXT("Com_Texture"), (CComponent**)&m_pTextureCom, nullptr)))
+	if (FAILED(__super::Add_Component<CTexture>(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Terrain"),
+		(CComponent**)&m_pTextureCom, nullptr)))
 		return E_FAIL;
 
 
