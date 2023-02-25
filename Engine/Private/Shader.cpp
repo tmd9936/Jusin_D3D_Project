@@ -1,13 +1,13 @@
 #include "..\Public\Shader.h"
 
-CShader::CShader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
-	: CComponent(pDevice, pContext)
+CShader::CShader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner)
+	: CComponent(pDevice, pContext, pOwner)
 {
 
 }
 
-CShader::CShader(const CShader& rhs)
-	: CComponent(rhs)
+CShader::CShader(const CShader& rhs, CGameObject* pOwner)
+	: CComponent(rhs, pOwner)
 	, m_pEffect(rhs.m_pEffect)
 	, m_Passes(rhs.m_Passes)
 	, m_iNumPasses(rhs.m_iNumPasses)
@@ -140,7 +140,7 @@ HRESULT CShader::Set_ShaderResourceView(const char* pConstantName, ID3D11ShaderR
 
 CShader* CShader::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pShaderFilePath, D3D11_INPUT_ELEMENT_DESC* pElements, _uint iNumElements)
 {
-	CShader* pInstance = new CShader(pDevice, pContext);
+	CShader* pInstance = new CShader(pDevice, pContext, nullptr);
 
 	if (FAILED(pInstance->Initialize_Prototype(pShaderFilePath, pElements, iNumElements)))
 	{

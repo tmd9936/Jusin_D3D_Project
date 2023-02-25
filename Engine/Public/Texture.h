@@ -7,9 +7,12 @@ BEGIN(Engine)
 
 class ENGINE_DLL CTexture : public CComponent
 {
+public:
+	static const FamilyId familyId = FAMILY_ID_TEXTURE;
+
 private:
-	CTexture(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CTexture(const CTexture& rhs);
+	explicit CTexture(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner);
+	explicit CTexture(const CTexture& rhs, CGameObject* pOwner);
 	virtual ~CTexture() = default;
 
 public:

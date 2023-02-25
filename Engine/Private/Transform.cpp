@@ -1,12 +1,12 @@
 #include "Transform.h"
 
-CTransform::CTransform(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
-	: CComponent(pDevice, pContext)
+CTransform::CTransform(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner)
+	: CComponent(pDevice, pContext, pOwner)
 {
 }
 
-CTransform::CTransform(const CTransform& rhs)
-	: CComponent(rhs)
+CTransform::CTransform(const CTransform& rhs, CGameObject* pOwner)
+	: CComponent(rhs, pOwner)
 {
 }
 
@@ -159,7 +159,7 @@ void CTransform::Chase(_fvector vTargetPos, _float TimeDelta, _float limitDitanc
 
 CTransform* CTransform::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CTransform* pInstance = new CTransform(pDevice, pContext);
+	CTransform* pInstance = new CTransform(pDevice, pContext, nullptr);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{

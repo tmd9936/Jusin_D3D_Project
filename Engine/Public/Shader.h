@@ -7,6 +7,9 @@ BEGIN(Engine)
 class ENGINE_DLL CShader final : public CComponent
 {
 public:
+	static const FamilyId familyId = FAMILY_ID_SHADER;
+
+public:
 	typedef struct tagPassDesc
 	{
 		ID3DX11EffectPass* pPass = { nullptr };
@@ -14,8 +17,8 @@ public:
 
 	}PASSDESC;
 private:
-	CShader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CShader(const CShader& rhs);
+	explicit CShader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner);
+	explicit CShader(const CShader& rhs, CGameObject* pOwner);
 	virtual ~CShader() = default;
 
 public:

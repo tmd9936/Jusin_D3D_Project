@@ -87,6 +87,7 @@ HRESULT CMapToolGUI::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pCon
 	io.Platform_SetWindowTitle(m_pRootViewport, "Windows");
 	io.Renderer_CreateWindow(m_pRootViewport);
 	io.Platform_SetWindowSize(m_pRootViewport, ImVec2((float)g_iWinSizeX * 0.75f, (float)g_iWinSizeY * 0.75f));
+	io.Platform_SetWindowPos(m_pRootViewport, { 50.f, 100.f });
 	//io.Platform_SetWindowAlpha(m_pRootViewport, 0.9f);
 
 	//===========================
@@ -159,7 +160,7 @@ HRESULT CMapToolGUI::Render()
 
 	if (m_bRender)
 	{
-		ImGui::Begin("Window222");
+		ImGui::Begin("Map Tool");
 		{
 			ImGui::Text("Hello");
 

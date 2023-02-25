@@ -16,7 +16,9 @@ public:
 	void LateTick(_double TimeDelta);
 
 private:
-	list<class CGameObject*>				m_GameObjects;
+	list<class CGameObject*>							m_GameObjects;
+	unordered_map<wstring, CGameObject*>				m_objectStore;
+	unordered_multimap<FamilyId, CGameObject*>			m_componentStore;
 
 public:
 	static CLayer* Create();

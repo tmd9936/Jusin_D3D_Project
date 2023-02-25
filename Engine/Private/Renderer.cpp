@@ -1,7 +1,7 @@
 #include "..\Public\Renderer.h"
 #include "GameObject.h"
 
-CRenderer::CRenderer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CRenderer::CRenderer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner)
 	: CComponent(pDevice, pContext)
 {
 
@@ -123,7 +123,7 @@ HRESULT CRenderer::Draw_UI()
 
 CRenderer* CRenderer::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CRenderer* pInstance = new CRenderer(pDevice, pContext);
+	CRenderer* pInstance = new CRenderer(pDevice, pContext, nullptr);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{

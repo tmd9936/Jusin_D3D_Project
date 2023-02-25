@@ -12,8 +12,10 @@ BEGIN(Engine)
 class ENGINE_DLL CTransform : public CComponent
 {
 public:
-	enum STATE { STATE_RIGHT, STATE_UP, STATE_LOOK, STATE_POSITION, STATE_END };
+	static const FamilyId familyId = FAMILY_ID_TRANSFORM;
 
+public:
+	enum STATE { STATE_RIGHT, STATE_UP, STATE_LOOK, STATE_POSITION, STATE_END };
 
 public:
 	typedef struct tagTransformDesc
@@ -23,9 +25,12 @@ public:
 	} TRANSFORMDESC;
 
 private:
-	CTransform(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CTransform(const CTransform& rhs);
+	explicit CTransform(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner);
+	explicit CTransform(const CTransform& rhs, CGameObject* pOwner);
 	virtual ~CTransform() = default;
+
+public:
+	virtual const FamilyId	Get_FamilyId() const { return familyId; }
 
 public:
 	virtual HRESULT Initialize_Prototype() override;

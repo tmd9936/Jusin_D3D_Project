@@ -1,13 +1,13 @@
 #include "..\Public\VIBuffer_Terrain.h"
 
-CVIBuffer_Terrain::CVIBuffer_Terrain(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
-	: CVIBuffer(pDevice, pContext)
+CVIBuffer_Terrain::CVIBuffer_Terrain(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner)
+	: CVIBuffer(pDevice, pContext, pOwner)
 {
 
 }
 
-CVIBuffer_Terrain::CVIBuffer_Terrain(const CVIBuffer_Terrain& rhs)
-	: CVIBuffer(rhs)
+CVIBuffer_Terrain::CVIBuffer_Terrain(const CVIBuffer_Terrain& rhs, CGameObject* pOwner)
+	: CVIBuffer(rhs, pOwner)
 {
 
 }
@@ -141,7 +141,7 @@ HRESULT CVIBuffer_Terrain::Initialize(void* pArg)
 
 CVIBuffer_Terrain* CVIBuffer_Terrain::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pHeightMapFilePath)
 {
-	CVIBuffer_Terrain* pInstance = new CVIBuffer_Terrain(pDevice, pContext);
+	CVIBuffer_Terrain* pInstance = new CVIBuffer_Terrain(pDevice, pContext, nullptr);
 
 	if (FAILED(pInstance->Initialize_Prototype(pHeightMapFilePath)))
 	{

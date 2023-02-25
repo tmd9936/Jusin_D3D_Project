@@ -1,13 +1,13 @@
 #include "Texture.h"
 #include "Shader.h"
 
-CTexture::CTexture(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
-	: CComponent(pDevice, pContext)
+CTexture::CTexture(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner)
+	: CComponent(pDevice, pContext, pOwner)
 {
 }
 
-CTexture::CTexture(const CTexture& rhs)
-	: CComponent(rhs)
+CTexture::CTexture(const CTexture& rhs, CGameObject* pOwner)
+	: CComponent(rhs, pOwner)
 	, m_iNumTextures(rhs.m_iNumTextures)
 	, m_SRVs(rhs.m_SRVs)
 {
@@ -65,7 +65,7 @@ HRESULT CTexture::Initialize(void* pArg)
 
 CTexture* CTexture::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pTextureFilePath, _uint iNumTextures)
 {
-	CTexture* pInstance = new CTexture(pDevice, pContext);
+	CTexture* pInstance = new CTexture(pDevice, pContext, nullptr);
 
 	if (FAILED(pInstance->Initialize_Prototype(pTextureFilePath, iNumTextures)))
 	{

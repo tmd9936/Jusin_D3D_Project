@@ -1,13 +1,13 @@
 #include "..\Public\VIBuffer_Rect.h"
 
-CVIBuffer_Rect::CVIBuffer_Rect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
-	: CVIBuffer(pDevice, pContext)
+CVIBuffer_Rect::CVIBuffer_Rect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner)
+	: CVIBuffer(pDevice, pContext, pOwner)
 {
 
 }
 
-CVIBuffer_Rect::CVIBuffer_Rect(const CVIBuffer_Rect& rhs)
-	: CVIBuffer(rhs)
+CVIBuffer_Rect::CVIBuffer_Rect(const CVIBuffer_Rect& rhs, CGameObject* pOwner)
+	: CVIBuffer(rhs, pOwner)
 {
 
 }
@@ -102,7 +102,7 @@ HRESULT CVIBuffer_Rect::Initialize(void* pArg)
 
 CVIBuffer_Rect* CVIBuffer_Rect::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CVIBuffer_Rect* pInstance = new CVIBuffer_Rect(pDevice, pContext);
+	CVIBuffer_Rect* pInstance = new CVIBuffer_Rect(pDevice, pContext, nullptr);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
