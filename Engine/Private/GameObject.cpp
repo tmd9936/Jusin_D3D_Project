@@ -21,8 +21,14 @@ HRESULT CGameObject::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CGameObject::Initialize(void* pArg)
+HRESULT CGameObject::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
+	if (nullptr == pLayerTag)
+		return E_FAIL;
+
+	m_iLevelindex = iLevelIndex;
+	m_strLayerTag = pLayerTag;
+
 	return S_OK;
 }
 
@@ -51,7 +57,9 @@ void CGameObject::Get_Components_FamilyId(vector<FamilyId>& vecFamilyIds)
 
 HRESULT CGameObject::Add_Component(const FamilyId& familyId, CComponent* pComponent)
 {
-	if (FAILED(Find_Component(familyId)))
+	CComponent* pGetComponent = Get_Component(familyId);
+
+	if (nullptr != pGetComponent)
 		return E_FAIL;
 
 	m_Components.insert({ familyId, pComponent });

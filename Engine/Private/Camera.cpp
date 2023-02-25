@@ -23,9 +23,9 @@ HRESULT CCamera::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CCamera::Initialize(void* pArg)
+HRESULT CCamera::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
-	if (FAILED(__super::Initialize(pArg)))
+	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 		return E_FAIL;
 
 	if (pArg != nullptr)

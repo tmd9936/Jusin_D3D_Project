@@ -24,8 +24,12 @@ public:
 	void Clear(_uint iLevelIndex);
 
 public:
+	HRESULT		Add_Layer(_uint iLevelIndex, const _tchar* pLayerTag);
+
+public:
 	HRESULT Add_Prototype(const _tchar* pPrototypeTag, class CGameObject* pPrototype);
-	HRESULT Add_GameObject(const _tchar* pPrototypeTag, _uint iLevelIndex, const _tchar* pLayerTag, const _tchar* pObjectNameTag = nullptr, void* pArg = nullptr); /* 원형을 복제하여 사본을 추가한다. */
+	HRESULT Add_GameObject(const _tchar* pPrototypeTag, _uint iLevelIndex, 
+		const _tchar* pLayerTag, const _tchar* pObjectNameTag = nullptr, void* pArg = nullptr); /* 원형을 복제하여 사본을 추가한다. */
 	void Tick(_double TimeDelta);
 	void LateTick(_double TimeDelta);
 
@@ -40,8 +44,8 @@ private: /* 원형 객체들을 보관한다. */
 	typedef unordered_map<const _tchar*, class CGameObject*>	PROTOTYPES;
 
 private: /* 복제한 객체들을 그룹지어 레벨별로 보관한다. */
-	unordered_map<const _tchar*, class CLayer*>* m_pLayers = { nullptr };
-	typedef unordered_map<const _tchar*, class CLayer*>	LAYERS;
+	unordered_map<wstring, class CLayer*>* m_pLayers = { nullptr };
+	typedef unordered_map<wstring, class CLayer*>	LAYERS;
 
 private:
 	_uint		m_iNumLevels = { 0 };

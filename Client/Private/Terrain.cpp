@@ -18,8 +18,11 @@ HRESULT CTerrain::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CTerrain::Initialize(void* pArg)
+HRESULT CTerrain::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
+	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
+		return E_FAIL;
+
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
@@ -54,29 +57,31 @@ HRESULT CTerrain::Render()
 
 HRESULT CTerrain::Add_Components()
 {
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
 	/* For.Com_Transform */
 	CTransform::TRANSFORMDESC		TransformDesc = { 10.f, XMConvertToRadians(90.0f) };
-	if (FAILED(__super::Add_Component<CTransform>(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+	if (FAILED(pGameInstance->Add_Component(CTransform::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		(CComponent**)&m_pTransformCom, &TransformDesc)))
 		return E_FAIL;
 
 	/* For.Com_Renderer */
-	if (FAILED(__super::Add_Component<CRenderer>(LEVEL_STATIC, TEXT("Prototype_Component_Renderer"),
+	if (FAILED(pGameInstance->Add_Component(CRenderer::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Renderer"),
 		(CComponent**)&m_pRendererCom, nullptr)))
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
-	if (FAILED(__super::Add_Component<CVIBuffer_Terrain>(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Terrain"),
+	if (FAILED(pGameInstance->Add_Component(CVIBuffer_Terrain::familyId, this, LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Terrain"),
 		(CComponent**)&m_pVIBufferCom, nullptr)))
 		return E_FAIL;
 
 	/* For.Com_Shader */
-	if (FAILED(__super::Add_Component<CShader>(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Shader_VtxNorTex"),
+	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_GAMEPLAY, TEXT("Prototype_Component_Shader_VtxNorTex"),
 		(CComponent**)&m_pShaderCom, nullptr)))
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component<CTexture>(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Terrain"),
+	if (FAILED(pGameInstance->Add_Component(CTexture::familyId, this, LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Terrain"),
 		(CComponent**)&m_pTextureCom, nullptr)))
 		return E_FAIL;
 
@@ -124,11 +129,11 @@ CTerrain* CTerrain::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	return pInstance;
 }
 
-CGameObject* CTerrain::Clone(void* pArg)
+CGameObject* CTerrain::Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
 	CTerrain* pInstance = new CTerrain(*this);
 
-	if (FAILED(pInstance->Initialize(pArg)))
+	if (FAILED(pInstance->Initialize(pLayerTag, iLevelIndex, pArg)))
 	{
 		MSG_BOX("Failed to Cloned CTerrain");
 		Safe_Release(pInstance);

@@ -17,25 +17,48 @@ protected:
 
 public:
 	virtual HRESULT Initialize_Prototype();
-	virtual HRESULT Initialize(void* pArg);
+	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg);
 	virtual _uint Tick(_double TimeDelta);
 	virtual _uint LateTick(_double TimeDelta);
 	virtual HRESULT Render();
 
 
 public:
-	const wstring			Get_NameTag() const { return m_strNameTag; }
-	void					Set_NameTag(wstring& strName) { m_strNameTag = strName; }
-	void					Set_NameTag(const _tchar* strName) { m_strNameTag = strName; }
+	const wstring			Get_NameTag() const {
+		return m_strNameTag; }
 
-	const RENDERGROUP		Get_RenderId() const { return m_eRenderId; }
-	void					Set_RenderId(RENDERGROUP eRenderId) { m_eRenderId = eRenderId; }
+	void					Set_NameTag(wstring& strName) {
+		m_strNameTag = strName; 
+	}
+	void					Set_NameTag(const _tchar* strName) {
+		m_strNameTag = strName; 
+	}
 
-	const wstring			Get_LayerTag() const { return m_strLayerTag; }
-	void					Set_LayerTag(const wstring& strLayerTag) { m_strLayerTag = strLayerTag; }
+	const RENDERGROUP		Get_RenderId() const {
+		return m_eRenderId; 
+	}
+	void					Set_RenderId(RENDERGROUP eRenderId) {
+		m_eRenderId = eRenderId; 
+	}
 
-	const _uint				Get_Levelindex() const { return m_iLevelindex; }
-	void					Set_Levelindex(const _uint& iLevelindex) { m_iLevelindex = iLevelindex; }
+	const wstring			Get_LayerTag() const {
+		return m_strLayerTag; 
+	}
+
+	void					Set_LayerTag(const wstring& strLayerTag) {
+		m_strLayerTag = strLayerTag; 
+	}
+
+	void					Set_LayerTag(const _tchar* pLayerTag) {
+		m_strLayerTag = pLayerTag;
+	}
+
+	const _uint				Get_Levelindex() const {
+		return m_iLevelindex; 
+	}
+	void					Set_Levelindex(const _uint& iLevelindex) {
+		m_iLevelindex = iLevelindex; 
+	}
 
 public:
 	_bool					Is_Dead() { return m_bDead; }
@@ -80,8 +103,8 @@ protected:
 protected:
 	/* 해시테이블 */
 	map<FamilyId, class CComponent*>				m_Components;
-	wstring											m_strNameTag = { };
-	wstring											m_strLayerTag = { };
+	wstring											m_strNameTag;
+	wstring											m_strLayerTag;
 	RENDERGROUP										m_eRenderId = { RENDER_END };
 
 	_bool											m_bDead = { false };
@@ -89,7 +112,7 @@ protected:
 
 
 public:
-	virtual CGameObject* Clone(void* pArg = nullptr) = 0;
+	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) = 0;
 	virtual void Free() override;
 };
 

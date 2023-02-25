@@ -27,7 +27,7 @@ protected:
 
 public:
 	virtual HRESULT Initialize_Prototype() override; /* 원형객체의 초기화작업 */
-	virtual HRESULT Initialize(void* pArg) override; /* 사본객체의 초기화작업 */
+	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override; /* 사본객체의 초기화작업 */
 	virtual _uint Tick(_double TimeDelta) override;
 	virtual _uint LateTick(_double TimeDelta) override;
 
@@ -40,7 +40,7 @@ private:
 	HRESULT Add_Components();
 
 public:
-	virtual CGameObject* Clone(void* pArg = nullptr) = 0;
+	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) = 0;
 	virtual void Free() override;
 
 };

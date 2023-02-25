@@ -18,11 +18,11 @@ HRESULT CCamera_Dynamic::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CCamera_Dynamic::Initialize(void* pArg)
+HRESULT CCamera_Dynamic::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
 	memcpy(&m_CameraDynamicDesc, pArg, sizeof m_CameraDynamicDesc);
 
-	if (FAILED(__super::Initialize(&m_CameraDynamicDesc.CameraDesc)))
+	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, &m_CameraDynamicDesc.CameraDesc)))
 		return E_FAIL;
 
 	return S_OK;
@@ -74,11 +74,11 @@ CCamera_Dynamic* CCamera_Dynamic::Create(ID3D11Device* pDevice, ID3D11DeviceCont
 	return pInstance;
 }
 
-CGameObject* CCamera_Dynamic::Clone(void* pArg)
+CGameObject* CCamera_Dynamic::Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
 	CCamera_Dynamic* pInstance = new CCamera_Dynamic(*this);
 
-	if (FAILED(pInstance->Initialize(pArg)))
+	if (FAILED(pInstance->Initialize(pLayerTag, iLevelIndex, pArg)))
 	{
 		MSG_BOX("Failed to Cloned CCamera_Dynamic");
 		Safe_Release(pInstance);

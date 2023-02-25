@@ -28,7 +28,26 @@ void CObject_Manager::Clear(_uint iLevelIndex)
 
 	for (auto& Pair : m_pLayers[iLevelIndex])
 		Safe_Release(Pair.second);
+
 	m_pLayers[iLevelIndex].clear();
+}
+
+HRESULT CObject_Manager::Add_Layer(_uint iLevelIndex, const _tchar* pLayerTag)
+{
+	CLayer* pLayer = Find_Layer(iLevelIndex, pLayerTag);
+
+	if (nullptr == pLayer)
+	{
+		pLayer = CLayer::Create();
+		if (nullptr == pLayer)
+			return E_FAIL;
+
+		m_pLayers[iLevelIndex].emplace(pLayerTag, pLayer);
+	}
+	else
+		return E_FAIL;
+
+	return S_OK;
 }
 
 HRESULT CObject_Manager::Add_Prototype(const _tchar* pPrototypeTag, CGameObject* pPrototype)
@@ -43,7 +62,7 @@ HRESULT CObject_Manager::Add_Prototype(const _tchar* pPrototypeTag, CGameObject*
 
 /* 원형객체를 찾아 복제하여 레이어에 추가한다. */
 HRESULT CObject_Manager::Add_GameObject(const _tchar* pPrototypeTag, _uint iLevelIndex, 
-	const _tchar* pObjectNameTag = nullptr, const _tchar* pLayerTag, void* pArg)
+	const _tchar* pLayerTag, const _tchar* pObjectNameTag, void* pArg)
 {
 	/* 원형을 찾는다. */
 	CGameObject* pPrototype = Find_Prototype(pPrototypeTag);
@@ -51,7 +70,7 @@ HRESULT CObject_Manager::Add_GameObject(const _tchar* pPrototypeTag, _uint iLeve
 		return E_FAIL;
 
 	/* 사본을 생성한다. */
-	CGameObject* pGameObject = pPrototype->Clone(pArg);
+	CGameObject* pGameObject = pPrototype->Clone(pLayerTag, iLevelIndex, pArg);
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
@@ -72,9 +91,7 @@ HRESULT CObject_Manager::Add_GameObject(const _tchar* pPrototypeTag, _uint iLeve
 		if (FAILED(pLayer->Add_GameObject(pGameObject)))
 			return E_FAIL;
 	}
-	
-	pGameObject->Set_Levelindex(iLevelIndex);
-	pGameObject->Set_LayerTag(pLayerTag);
+
 	if (pObjectNameTag)
 	{
 		pGameObject->Set_NameTag(pObjectNameTag);
@@ -127,7 +144,8 @@ HRESULT CObject_Manager::Add_Component(const FamilyId& familyId, CGameObject* pG
 
 	/* 부모의 맵컨테이너에 복제한 컴포넌트를 추가한다. */
 	//m_Components.insert({ T::familyId, pComponent });
-	pGameObject->Add_Component(familyId, pComponent);
+	if (FAILED(pGameObject->Add_Component(familyId, pComponent)))
+		return E_FAIL;
 
 	/* 자식에 변수에게도 공유시켜주었다. */
 	*ppOut = pComponent;
@@ -142,15 +160,15 @@ HRESULT CObject_Manager::Add_Component(const FamilyId& familyId, CGameObject* pG
 
 HRESULT CObject_Manager::Store_Component(const _tchar* pLayerTag, class CGameObject* pGameObject, const FamilyId& id)
 {
-	if (!pLayerTag || !pGameObject)
+	if (nullptr == pLayerTag || nullptr == pGameObject)
 		return E_FAIL;
 
-	_uint objectLevelindex = pGameObject->Get_Levelindex();
+	_uint objectiLevelIndex = pGameObject->Get_Levelindex();
 
-	if (objectLevelindex >= m_iNumLevels)
+	if (objectiLevelIndex >= m_iNumLevels)
 		return E_FAIL;
 
-	auto iter = Find_Layer(objectLevelindex, pLayerTag);
+	auto iter = Find_Layer(objectiLevelIndex, pLayerTag);
 
 	if (nullptr == iter)
 		return E_FAIL;
@@ -175,7 +193,8 @@ CLayer* CObject_Manager::Find_Layer(_uint iLevelIndex, const _tchar* pLayerTag)
 	if (iLevelIndex >= m_iNumLevels)
 		return nullptr;
 
-	auto	iter = find_if(m_pLayers[iLevelIndex].begin(), m_pLayers[iLevelIndex].end(), CTag_Finder(pLayerTag));
+	wstring tag = pLayerTag;
+	auto	iter = m_pLayers[iLevelIndex].find(tag);
 
 	if (iter == m_pLayers[iLevelIndex].end())
 		return nullptr;

@@ -18,6 +18,7 @@ HRESULT CLayer::Add_GameObject(CGameObject* pGameObject, const _tchar* pObjectNa
 			return E_FAIL;
 
 		m_objectStore.insert({ pObjectNameTag, pGameObject });
+		Safe_AddRef(pGameObject);
 	}
 
 	m_GameObjects.push_back(pGameObject);
@@ -48,6 +49,8 @@ HRESULT CLayer::Store_Component(CGameObject* pGameObject, const FamilyId& id)
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
+	Safe_AddRef(pGameObject);
+
 	m_componentStore.insert({ id, pGameObject });
 	return S_OK;
 }
@@ -61,13 +64,17 @@ CLayer* CLayer::Create()
 
 void CLayer::Free()
 {
+	for (auto& iter : m_objectStore)
+		Safe_Release(iter.second);
 	m_objectStore.clear();
+
+	for (auto& iter : m_componentStore)
+		Safe_Release(iter.second);
 	m_componentStore.clear();
+
 
 	for (auto& pGameObject : m_GameObjects)
 		Safe_Release(pGameObject);
-
-
 	m_GameObjects.clear();
 }
 
