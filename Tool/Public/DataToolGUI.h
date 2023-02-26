@@ -43,6 +43,9 @@ private:
 	ID3D11Device* m_pDevice = { nullptr };
 	ID3D11DeviceContext* m_pContext = { nullptr };
 
+private:
+	char*					m_iLevelListBox[LEVEL_END];
+	int						m_iLevelListBoxCurrentItem = { 0 };
 
 public:
 	virtual void Free(void) override;

@@ -30,6 +30,12 @@ HRESULT CDataToolGUI::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pCo
 	m_pDevice = pDevice;
 	m_pContext = pContext;
 
+	for (size_t i = 0; i < LEVEL_END; ++i)
+	{
+		m_iLevelListBox[i] = new char[MAX_PATH];
+		sprintf(m_iLevelListBox[i], "%zd", i);
+	}
+
 	return S_OK;
 }
 
@@ -62,8 +68,13 @@ void CDataToolGUI::View_Base()
 void CDataToolGUI::View_Level_Layer()
 {
 	ImGui::Begin("View_Level_Layer");
-
-	ImGui::Text("View_Level_Layer");
+	ImGui::Text("Level List");
+	if (ImGui::ListBox(" ", &m_iLevelListBoxCurrentItem, m_iLevelListBox, LEVEL_END))
+	{
+		int a = 0;
+		// Update_LayerList();
+		// Update_PrefabList();
+	}
 
 	ImGui::End();
 }
@@ -101,4 +112,11 @@ void CDataToolGUI::Free(void)
 {
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
+
+	for (size_t i = 0; i < LEVEL_END; ++i)
+	{
+		delete m_iLevelListBox[i];
+		m_iLevelListBox[i] = nullptr;
+	}
+
 }
