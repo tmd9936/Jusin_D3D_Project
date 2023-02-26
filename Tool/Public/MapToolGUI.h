@@ -105,7 +105,7 @@ private:
 	ImGuiViewport* m_pRootViewport = { nullptr };
 
 
-	ImGui_ImplDX11_ViewportData2* m_pVd = { nullptr };
+	ImGui_ImplDX11_ViewportData** m_pVd = { nullptr };
 	ImGui_ImplWin32_ViewportData2* m_pPd = { nullptr };
 
 public:

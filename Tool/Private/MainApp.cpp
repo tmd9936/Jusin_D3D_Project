@@ -179,13 +179,12 @@ void CMainApp::Free()
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pGameInstance);
 
-
 	Safe_Release(m_pMapToolGUI);
 	CMapToolGUI::GetInstance()->DestroyInstance();
+	ImGui::DestroyPlatformWindows();
 
 	ImGui_ImplDX11_Shutdown();
 	ImGui_ImplWin32_Shutdown();
-	ImGui::DestroyPlatformWindows();
 	ImGui::DestroyContext();
 
 

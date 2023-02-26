@@ -57,7 +57,7 @@ HRESULT CMapToolGUI::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pCon
 	m_iRadio = 1;
 
 	ImGuiPlatformIO& io = ImGui::GetPlatformIO();
-	m_pRootViewport = new ImGuiViewport;
+	m_pRootViewport = IM_NEW(ImGuiViewport);;
 	m_pRootViewport->Size.x = g_iWinSizeX * 0.5f;
 	m_pRootViewport->Size.y = g_iWinSizeY * 0.5f;
 	m_pRootViewport->Pos.x = 0.f;
@@ -65,25 +65,35 @@ HRESULT CMapToolGUI::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pCon
 	m_pRootViewport->ID = 2;
 	m_pRootViewport->Flags = ImGuiViewportFlags_IsPlatformWindow;
 
-	//ImGui_ImplWin32_ViewportData pd;
-	m_pVd = new ImGui_ImplDX11_ViewportData2;
-	m_pVd->RTView = CGameInstance::GetInstance()->Get_RTV();
-	m_pVd->SwapChain = CGameInstance::GetInstance()->Get_SwapChain();
+	//ImGui_ImplWin32_ViewportData pd
+	//m_pVd = ImGui_ImplDX11_ViewportData(CGameInstance::GetInstance()->Get_SwapChain(), CGameInstance::GetInstance()->Get_RTV()));
+	//
+	//m_pVd->RTView = CGameInstance::GetInstance()->Get_RTV();
+	//m_pVd->SwapChain = CGameInstance::GetInstance()->Get_SwapChain();
 
-	m_pRootViewport->PlatformHandle = g_hWnd;
-	m_pRootViewport->RendererUserData = m_pVd;
+	//m_pRootViewport->PlatformHandle = g_hWnd;
+	//m_pRootViewport->RendererUserData = m_pVd;
 
-	Safe_AddRef(m_pVd->RTView);
-	Safe_AddRef(m_pVd->SwapChain);
 
-	m_pPd = new ImGui_ImplWin32_ViewportData2;
-	m_pPd->Hwnd = g_hWnd;
-	m_pPd->HwndOwned = true;
+	//m_pPd = new ImGui_ImplWin32_ViewportData2;
+	//m_pPd->Hwnd = g_hWnd;
+	//m_pPd->HwndOwned = true;
 
-	m_pRootViewport->PlatformUserData = m_pPd;
+	//m_pRootViewport->PlatformUserData = m_pPd;
 
-	io.Platform_SetWindowTitle(m_pRootViewport, "Windows");
+	io.Platform_CreateWindow(m_pRootViewport);
+	((ImGui_ImplWin32_ViewportData2*)(m_pRootViewport->PlatformUserData))->Hwnd = g_hWnd;
+	((ImGui_ImplWin32_ViewportData2*)(m_pRootViewport->PlatformUserData))->HwndOwned = true;
+
 	//io.Renderer_CreateWindow(m_pRootViewport);
+	
+	//((ImGui_ImplDX11_ViewportData2*)(m_pRootViewport->RendererUserData))->SwapChain = CGameInstance::GetInstance()->Get_SwapChain();
+	//((ImGui_ImplDX11_ViewportData2*)(m_pRootViewport->RendererUserData))->RTView = CGameInstance::GetInstance()->Get_RTV();
+
+	//Safe_AddRef(((ImGui_ImplDX11_ViewportData2*)(m_pRootViewport->RendererUserData))->SwapChain);
+	//Safe_AddRef(((ImGui_ImplDX11_ViewportData2*)(m_pRootViewport->RendererUserData))->RTView);
+	
+	io.Platform_SetWindowTitle(m_pRootViewport, "Windows");
 	io.Platform_SetWindowSize(m_pRootViewport, ImVec2((float)g_iWinSizeX * 0.75f, (float)g_iWinSizeY * 0.75f));
 	io.Platform_SetWindowPos(m_pRootViewport, { 50.f, 100.f });
 	//io.Platform_SetWindowAlpha(m_pRootViewport, 0.9f);
@@ -628,21 +638,24 @@ void CMapToolGUI::Load_EnvironmentList()
 
 void CMapToolGUI::Free(void)
 {
-
-	//Safe_Release(((ImGui_ImplDX11_ViewportData2*)m_pRootViewport->RendererUserData)->RTView);
-	//Safe_Release(((ImGui_ImplDX11_ViewportData2*)m_pRootViewport->RendererUserData)->SwapChain);
+	//Safe_Release(m_pVd->RTView);
+	//Safe_Release(m_pVd->SwapChain);
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
 
 	//Safe_Delete(m_pviewport);
 
-	//Safe_Release(m_pVd->RTView);
-	//Safe_Release(m_pVd->SwapChain);
 
-	ImGuiPlatformIO& io = ImGui::GetPlatformIO();
-	io.Renderer_DestroyWindow(m_pRootViewport);
-	io.Platform_DestroyWindow(m_pRootViewport);
+	//ImGuiPlatformIO& io = ImGui::GetPlatformIO();
+	//io.Renderer_DestroyWindow(m_pRootViewport);
+	//io.Platform_DestroyWindow(m_pRootViewport);
 
+	IM_DELETE(m_pRootViewport);
+
+	//Safe_Delete(m_pVd);
+	//m_pVd = nullptr;
+	//Safe_Delete(m_pPd);
+	//m_pPd = nullptr;
 
 
 	//if ((ImGui_ImplDX11_ViewportData2*)m_pRootViewport->RendererUserData)
@@ -670,8 +683,6 @@ void CMapToolGUI::Free(void)
 
 	//Safe_Release(((ImGui_ImplDX11_ViewportData2*)m_pviewport->RendererUserData)->RTView);
 	//Safe_Release(((ImGui_ImplDX11_ViewportData2*)m_pviewport->RendererUserData)->SwapChain);
-
-	
 
 
 	for_each(m_vecEnvironment.begin(), m_vecEnvironment.end(), [](string* str) {
