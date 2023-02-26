@@ -15,14 +15,18 @@ CTerrain::CTerrain(const CTerrain& rhs)
 
 HRESULT CTerrain::Initialize_Prototype()
 {
-
 	return S_OK;
 }
 
-HRESULT CTerrain::Initialize(void* pArg)
+HRESULT CTerrain::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
+	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
+		return E_FAIL;
+
 	if (FAILED(Add_Components()))
 		return E_FAIL;
+
+	m_eRenderId = RENDER_NONBLEND;
 
 	return S_OK;
 }
@@ -34,8 +38,7 @@ _uint CTerrain::Tick(_double TimeDelta)
 
 _uint CTerrain::LateTick(_double TimeDelta)
 {
-
-	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONBLEND, this);
+	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
 
 	return _uint();
 }
@@ -45,65 +48,41 @@ HRESULT CTerrain::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	ID3D11RasterizerState* WireFrame = nullptr;
-	ID3D11RasterizerState* FillFrame = nullptr;
-
-	D3D11_RASTERIZER_DESC wfdesc{};
-
-	ZeroMemory(&wfdesc, sizeof(D3D11_RASTERIZER_DESC));
-
-	wfdesc.FillMode = D3D11_FILL_WIREFRAME;
-
-	wfdesc.CullMode = D3D11_CULL_NONE;                    // culling을 none으로 해줬다가
-
-	m_pDevice->CreateRasterizerState(&wfdesc, &WireFrame);
-
-	m_pContext->RSSetState(WireFrame);
-
 	m_pShaderCom->Begin(0);
 
 	m_pVIBufferCom->Render();
-
-	wfdesc.FillMode = D3D11_FILL_SOLID;
-
-	wfdesc.CullMode = D3D11_CULL_BACK;                    // 다시 back culling으로 바꿔줘야 한다. 
-
-	m_pDevice->CreateRasterizerState(&wfdesc, &FillFrame);
-
-	m_pContext->RSSetState(FillFrame);
-
-	Safe_Release(WireFrame);
-	Safe_Release(FillFrame);
 
 	return S_OK;
 }
 
 HRESULT CTerrain::Add_Components()
 {
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
 	/* For.Com_Transform */
 	CTransform::TRANSFORMDESC		TransformDesc = { 10.f, XMConvertToRadians(90.0f) };
-	if (FAILED(__super::Add_Components(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform"), (CComponent**)&m_pTransformCom, &TransformDesc)))
+	if (FAILED(pGameInstance->Add_Component(CTransform::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+		(CComponent**)&m_pTransformCom, &TransformDesc)))
 		return E_FAIL;
 
 	/* For.Com_Renderer */
-	if (FAILED(__super::Add_Components(LEVEL_STATIC, TEXT("Prototype_Component_Renderer"),
-		TEXT("Com_Renderer"), (CComponent**)&m_pRendererCom, nullptr)))
+	if (FAILED(pGameInstance->Add_Component(CRenderer::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Renderer"),
+		(CComponent**)&m_pRendererCom, nullptr)))
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
-	if (FAILED(__super::Add_Components(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Terrain"),
-		TEXT("Com_VIBuffer"), (CComponent**)&m_pVIBufferCom, nullptr)))
+	if (FAILED(pGameInstance->Add_Component(CVIBuffer_Terrain::familyId, this, LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Terrain"),
+		(CComponent**)&m_pVIBufferCom, nullptr)))
 		return E_FAIL;
 
 	/* For.Com_Shader */
-	if (FAILED(__super::Add_Components(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Shader_VtxNorTex"),
-		TEXT("Com_Shader"), (CComponent**)&m_pShaderCom, nullptr)))
+	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_GAMEPLAY, TEXT("Prototype_Component_Shader_VtxNorTex"),
+		(CComponent**)&m_pShaderCom, nullptr)))
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Components(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Terrain"),
-		TEXT("Com_Texture"), (CComponent**)&m_pTextureCom, nullptr)))
+	if (FAILED(pGameInstance->Add_Component(CTexture::familyId, this, LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Terrain"),
+		(CComponent**)&m_pTextureCom, nullptr)))
 		return E_FAIL;
 
 
@@ -150,11 +129,11 @@ CTerrain* CTerrain::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	return pInstance;
 }
 
-CGameObject* CTerrain::Clone(void* pArg)
+CGameObject* CTerrain::Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
 	CTerrain* pInstance = new CTerrain(*this);
 
-	if (FAILED(pInstance->Initialize(pArg)))
+	if (FAILED(pInstance->Initialize(pLayerTag, iLevelIndex, pArg)))
 	{
 		MSG_BOX("Failed to Cloned CTerrain");
 		Safe_Release(pInstance);
@@ -172,5 +151,6 @@ void CTerrain::Free()
 	Safe_Release(m_pRendererCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
+
 
 }

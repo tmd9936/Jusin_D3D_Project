@@ -70,13 +70,11 @@ HRESULT CMapToolGUI::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pCon
 	m_pVd->RTView = CGameInstance::GetInstance()->Get_RTV();
 	m_pVd->SwapChain = CGameInstance::GetInstance()->Get_SwapChain();
 
-
 	m_pRootViewport->PlatformHandle = g_hWnd;
 	m_pRootViewport->RendererUserData = m_pVd;
 
 	Safe_AddRef(m_pVd->RTView);
 	Safe_AddRef(m_pVd->SwapChain);
-
 
 	m_pPd = new ImGui_ImplWin32_ViewportData2;
 	m_pPd->Hwnd = g_hWnd;
@@ -85,41 +83,42 @@ HRESULT CMapToolGUI::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pCon
 	m_pRootViewport->PlatformUserData = m_pPd;
 
 	io.Platform_SetWindowTitle(m_pRootViewport, "Windows");
-	io.Renderer_CreateWindow(m_pRootViewport);
+	//io.Renderer_CreateWindow(m_pRootViewport);
 	io.Platform_SetWindowSize(m_pRootViewport, ImVec2((float)g_iWinSizeX * 0.75f, (float)g_iWinSizeY * 0.75f));
 	io.Platform_SetWindowPos(m_pRootViewport, { 50.f, 100.f });
 	//io.Platform_SetWindowAlpha(m_pRootViewport, 0.9f);
 
+
 	//===========================
 
-	m_pviewport = new ImGuiViewport;
+	/*m_pviewport = new ImGuiViewport;
 	m_pviewport->Size.x = g_iWinSizeX * 1.f;
 	m_pviewport->Size.y = g_iWinSizeY * 1.f;
 	m_pviewport->Pos.x = 0.f;
 	m_pviewport->Pos.y = 0.f;
 	m_pviewport->ID = 3;
-	m_pviewport->Flags = ImGuiViewportFlags_None;
+	m_pviewport->Flags = ImGuiViewportFlags_None;*/
 
 	/*m_pVd = new ImGui_ImplDX11_ViewportData2;
 	m_pVd->RTView = CGameInstance::GetInstance()->Get_RTV();
 	m_pVd->SwapChain = CGameInstance::GetInstance()->Get_SwapChain();*/
 
 
-	m_pviewport->PlatformHandle = g_hWnd;
-	m_pviewport->RendererUserData = m_pVd;
+	/*m_pviewport->PlatformHandle = g_hWnd;
+	m_pviewport->RendererUserData = m_pVd;*/
 
 	/*Safe_AddRef(m_pVd->RTView);
 	Safe_AddRef(m_pVd->SwapChain);*/
 
 
-	m_pPd = new ImGui_ImplWin32_ViewportData2;
-	m_pPd->Hwnd = g_hWnd;
-	m_pPd->HwndOwned = false;
+	//m_pPd = new ImGui_ImplWin32_ViewportData2;
+	//m_pPd->Hwnd = g_hWnd;
+	//m_pPd->HwndOwned = false;
 
-	m_pviewport->PlatformUserData = m_pPd;
+	//m_pviewport->PlatformUserData = m_pPd;
 
-	io.Renderer_SetWindowSize(m_pviewport, ImVec2((float)g_iWinSizeX* 0.5f, (float)g_iWinSizeY * 0.5f));
-	io.Renderer_CreateWindow(m_pviewport);
+	//io.Renderer_SetWindowSize(m_pviewport, ImVec2((float)g_iWinSizeX* 0.5f, (float)g_iWinSizeY * 0.5f));
+	//io.Renderer_CreateWindow(m_pviewport);
 
 	//io.Platform_CreateWindow
 
@@ -160,7 +159,8 @@ HRESULT CMapToolGUI::Render()
 
 	if (m_bRender)
 	{
-		ImGui::Begin("Map Tool");
+		
+		ImGui::Begin("Map Tool", 0, ImGuiWindowFlags_NoBackground);
 		{
 			ImGui::Text("Hello");
 
@@ -629,18 +629,47 @@ void CMapToolGUI::Load_EnvironmentList()
 void CMapToolGUI::Free(void)
 {
 
-	//Safe_Release(((ImGui_ImplDX11_ViewportData2*)m_pviewport->RendererUserData)->RTView);
-	//Safe_Release(((ImGui_ImplDX11_ViewportData2*)m_pviewport->RendererUserData)->SwapChain);
+	//Safe_Release(((ImGui_ImplDX11_ViewportData2*)m_pRootViewport->RendererUserData)->RTView);
+	//Safe_Release(((ImGui_ImplDX11_ViewportData2*)m_pRootViewport->RendererUserData)->SwapChain);
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
 
 	//Safe_Delete(m_pviewport);
 
-	Safe_Release(m_pVd->RTView);
-	Safe_Release(m_pVd->SwapChain);
+	//Safe_Release(m_pVd->RTView);
+	//Safe_Release(m_pVd->SwapChain);
 
-	Safe_Delete(m_pPd);
-	Safe_Delete(m_pVd);
+	ImGuiPlatformIO& io = ImGui::GetPlatformIO();
+	io.Renderer_DestroyWindow(m_pRootViewport);
+	io.Platform_DestroyWindow(m_pRootViewport);
+
+
+
+	//if ((ImGui_ImplDX11_ViewportData2*)m_pRootViewport->RendererUserData)
+	//{
+	//	delete (ImGui_ImplDX11_ViewportData2*)m_pRootViewport->RendererUserData;
+	//	m_pRootViewport->RendererUserData = nullptr;
+	//}
+
+	//if ((ImGui_ImplDX11_ViewportData2*)m_pRootViewport->PlatformUserData)
+	//{
+	//	delete (ImGui_ImplDX11_ViewportData2*)m_pRootViewport->PlatformUserData;
+	//	m_pRootViewport->PlatformUserData = nullptr;
+	//}
+
+
+	//if ((ImGui_ImplDX11_ViewportData2*)m_pviewport->RendererUserData)
+	//{
+	//	delete (ImGui_ImplDX11_ViewportData2*)m_pviewport->RendererUserData;
+	//}
+
+	//if ((ImGui_ImplDX11_ViewportData2*)m_pviewport->PlatformUserData)
+	//{
+	//	delete (ImGui_ImplDX11_ViewportData2*)m_pviewport->PlatformUserData;
+	//}
+
+	//Safe_Release(((ImGui_ImplDX11_ViewportData2*)m_pviewport->RendererUserData)->RTView);
+	//Safe_Release(((ImGui_ImplDX11_ViewportData2*)m_pviewport->RendererUserData)->SwapChain);
 
 	
 

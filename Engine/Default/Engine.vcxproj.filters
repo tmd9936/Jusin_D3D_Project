@@ -82,6 +82,9 @@
     <Filter Include="01. Utility\02. GameObject\Camera\Dynamic">
       <UniqueIdentifier>{8de618fb-df48-49b9-b88f-098ef6f6c5a5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00. System\01. Device\input">
+      <UniqueIdentifier>{baca60db-6620-46e5-840f-8c5acd14a2ce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Engine_Defines.h">
@@ -171,6 +174,9 @@
     <ClInclude Include="..\Public\Camera_Dynamic.h">
       <Filter>01. Utility\02. GameObject\Camera\Dynamic</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Input_Device.h">
+      <Filter>00. System\01. Device\input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -244,6 +250,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Camera_Dynamic.cpp">
       <Filter>01. Utility\02. GameObject\Camera\Dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Input_Device.cpp">
+      <Filter>00. System\01. Device\input</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -21,4 +21,5 @@ namespace Engine
 		SOUND_MONSTER_MOVE,
 		MAXCHANNEL
 	};
+
 }

@@ -3,6 +3,8 @@
 #pragma warning (disable : 4251)
 
 #include <d3d11.h>
+#define DIRECTINPUT_VERSION 0x0800
+#include <dinput.h>
 #include <Effects11/d3dx11effect.h>
 #include <DirectXTK/DDSTextureLoader.h>
 #include <DirectXTK/WICTextureLoader.h>
@@ -92,6 +94,18 @@ using namespace DirectX;
 #define FAMILY_ID_COLLISION					35
 #define FAMILY_ID_RENDERER					36
 
+
+#define		KEY_CHECK(key, state)	CGameInstance::GetInstance()->Get_KeyState(key) == state
+#define		KEY_HOLD(key)			KEY_CHECK(key, KEY_STATE::HOLD)
+#define		KEY_TAB(key)			KEY_CHECK(key, KEY_STATE::TAB)
+#define		KEY_AWAY(key)			KEY_CHECK(key, KEY_STATE::AWAY)
+#define		KEY_NONE(key)			KEY_CHECK(key, KEY_STATE::NONE)
+
+#define		MOUSE_CHECK(mouse, state)	CGameInstance::GetInstance()->Get_MouseState(mouse) == state
+#define		MOUSE_HOLD(mouse)			MOUSE_CHECK(mouse, MOUSE_STATE::HOLD)
+#define		MOUSE_TAB(mouse)			MOUSE_CHECK(mouse, MOUSE_STATE::TAB)
+#define		MOUSE_AWAY(mouse)			MOUSE_CHECK(mouse, MOUSE_STATE::AWAY)
+#define		MOUSE_NONE(mouse)			MOUSE_CHECK(mouse, MOUSE_STATE::NONE)
 
 
 typedef	int					FamilyId;

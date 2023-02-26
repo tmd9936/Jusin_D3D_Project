@@ -81,41 +81,34 @@ void CTransform::Rotation(_fvector vAxis, _float Radian)
 	_vector vUp = XMVectorSet(0.f, 1.f, 0.f, 0.f) * vScale.y;
 	_vector vLook = XMVectorSet(0.f, 0.f, 1.f, 0.f) * vScale.z;
 
-	_vector vRot = XMQuaternionRotationAxis(vAxis, Radian);
+	//_vector vRot = XMQuaternionRotationAxis(vAxis, Radian);
 
-	XMVector3Rotate(vRight, vRot);
-	XMVector3Rotate(vUp, vRot);
-	XMVector3Rotate(vLook, vRot);
+	//XMVector3Rotate(vRight, vRot);
+	//XMVector3Rotate(vUp, vRot);
+	//XMVector3Rotate(vLook, vRot);
 
-	Set_State(STATE_RIGHT, vRight);
-	Set_State(STATE_UP, vUp);
-	Set_State(STATE_LOOK, vLook);
+	//Set_State(STATE_RIGHT, vRight);
+	//Set_State(STATE_UP, vUp);
+	//Set_State(STATE_LOOK, vLook);
 
-	//_matrix		RotationMatrix = XMMatrixRotationAxis(vAxis, Radian);
+	_matrix		RotationMatrix = XMMatrixRotationAxis(vAxis, Radian);
 
-	//Set_State(CTransform::STATE_RIGHT, XMVector3TransformNormal(vRight, RotationMatrix));
-	//Set_State(CTransform::STATE_UP, XMVector3TransformNormal(vUp, RotationMatrix));
-	//Set_State(CTransform::STATE_LOOK, XMVector3TransformNormal(vLook, RotationMatrix));
+	Set_State(CTransform::STATE_RIGHT, XMVector3TransformNormal(vRight, RotationMatrix));
+	Set_State(CTransform::STATE_UP, XMVector3TransformNormal(vUp, RotationMatrix));
+	Set_State(CTransform::STATE_LOOK, XMVector3TransformNormal(vLook, RotationMatrix));
 }
 
 void CTransform::Turn(_fvector vAxis, _float TimeDelta)
 {
-	_vector vRight = XMVector3Normalize(Get_State(STATE_RIGHT));
-	_vector vUp = XMVector3Normalize(Get_State(STATE_UP));
-	_vector vLook = XMVector3Normalize(Get_State(STATE_LOOK));
+	_vector		vRight = Get_State(CTransform::STATE_RIGHT);
+	_vector		vUp = Get_State(CTransform::STATE_UP);
+	_vector		vLook = Get_State(CTransform::STATE_LOOK);
 
+	_matrix		RotationMatrix = XMMatrixRotationAxis(vAxis, m_TransformDesc.RotationPerSec * TimeDelta);
 
-	_vector vRot = XMQuaternionRotationAxis(vAxis, m_TransformDesc.RotationPerSec  * TimeDelta);
-
-	_float3		vScale = Get_Scaled();
-
-	XMVector3Rotate(vRight, vRot);
-	XMVector3Rotate(vUp, vRot);
-	XMVector3Rotate(vLook, vRot);
-
-	Set_State(STATE_RIGHT, XMVector3Normalize(vRight) * vScale.x);
-	Set_State(STATE_UP, XMVector3Normalize(vUp) * vScale.y);
-	Set_State(STATE_LOOK, XMVector3Normalize(vLook) * vScale.z);
+	Set_State(CTransform::STATE_RIGHT, XMVector3TransformNormal(vRight, RotationMatrix));
+	Set_State(CTransform::STATE_UP, XMVector3TransformNormal(vUp, RotationMatrix));
+	Set_State(CTransform::STATE_LOOK, XMVector3TransformNormal(vLook, RotationMatrix));
 
 	//_float3		vScale = Get_Scaled();
 

@@ -19,7 +19,7 @@ HRESULT CMainApp::Initialize()
 	GraphicDesc.iViewSizeX = g_iWinSizeX;
 	GraphicDesc.iViewSizeY = g_iWinSizeY;
 
-	if (FAILED(m_pGameInstance->Initialize_Engine(LEVEL_END, GraphicDesc, &m_pDevice, &m_pContext)))
+	if (FAILED(m_pGameInstance->Initialize_Engine(LEVEL_END, g_hInst, GraphicDesc, &m_pDevice, &m_pContext)))
 		return E_FAIL;
 
 	if (FAILED(Ready_Prototype_Component_For_Static()))

@@ -18,7 +18,7 @@ HRESULT CMapTool::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CMapTool::Initialize(void* pArg)
+HRESULT CMapTool::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
 	return S_OK;
 }
@@ -56,11 +56,11 @@ CMapTool* CMapTool::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	return pInstance;
 }
 
-CGameObject* CMapTool::Clone(void* pArg)
+CGameObject* CMapTool::Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
 	CMapTool* pInstance = new CMapTool(*this);
 
-	if (FAILED(pInstance->Initialize(pArg)))
+	if (FAILED(pInstance->Initialize(pLayerTag, iLevelIndex, pArg)))
 	{
 		MSG_BOX("Failed to Cloned CMapTool");
 		Safe_Release(pInstance);

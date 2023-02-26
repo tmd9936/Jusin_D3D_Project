@@ -31,7 +31,7 @@ HRESULT CMainApp::Initialize()
 	ImGui::CreateContext();
 	
 
-	if (FAILED(m_pGameInstance->Initialize_Engine(LEVEL_END, GraphicDesc, &m_pDevice, &m_pContext)))
+	if (FAILED(m_pGameInstance->Initialize_Engine(LEVEL_END, g_hInst, GraphicDesc, &m_pDevice, &m_pContext)))
 		return E_FAIL;
 
 
@@ -180,8 +180,8 @@ void CMainApp::Free()
 	Safe_Release(m_pGameInstance);
 
 
-	CMapToolGUI::GetInstance()->DestroyInstance();
 	Safe_Release(m_pMapToolGUI);
+	CMapToolGUI::GetInstance()->DestroyInstance();
 
 	ImGui_ImplDX11_Shutdown();
 	ImGui_ImplWin32_Shutdown();

@@ -18,8 +18,11 @@ HRESULT CBackGround::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CBackGround::Initialize(void* pArg)
+HRESULT CBackGround::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
+	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
+		return E_FAIL;
+
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
@@ -51,7 +54,7 @@ _uint CBackGround::Tick(_double TimeDelta)
 _uint CBackGround::LateTick(_double TimeDelta)
 {
 
-	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_PRIORITY, this);
+	m_pRendererCom->Add_RenderGroup(RENDER_PRIORITY, this);
 
 	return _uint();
 }
@@ -70,24 +73,26 @@ HRESULT CBackGround::Render()
 
 HRESULT CBackGround::Add_Components()
 {
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
 	/* For.Com_Renderer */
-	if (FAILED(__super::Add_Components(LEVEL_STATIC, TEXT("Prototype_Component_Renderer"),
-		TEXT("Com_Renderer"), (CComponent**)&m_pRendererCom, nullptr)))
+	if (FAILED(pGameInstance->Add_Component(CRenderer::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Renderer"),
+		(CComponent**)&m_pRendererCom, nullptr)))
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
-	if (FAILED(__super::Add_Components(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
-		TEXT("Com_VIBuffer"), (CComponent**)&m_pVIBufferCom, nullptr)))
+	if (FAILED(pGameInstance->Add_Component(CVIBuffer_Rect::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
+		(CComponent**)&m_pVIBufferCom, nullptr)))
 		return E_FAIL;
 
 	/* For.Com_Shader */
-	if (FAILED(__super::Add_Components(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxTex"),
-		TEXT("Com_Shader"), (CComponent**)&m_pShaderCom, nullptr)))
+	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxTex"),
+		(CComponent**)&m_pShaderCom, nullptr)))
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Components(LEVEL_LOGO, TEXT("Prototype_Component_Texture_Logo"),
-		TEXT("Com_Texture"), (CComponent**)&m_pTextureCom, nullptr)))
+	if (FAILED(pGameInstance->Add_Component(CTexture::familyId, this, LEVEL_LOGO, TEXT("Prototype_Component_Texture_Logo"),
+		(CComponent**)&m_pTextureCom, nullptr)))
 		return E_FAIL;
 
 
@@ -122,11 +127,11 @@ CBackGround* CBackGround::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pCo
 	return pInstance;
 }
 
-CGameObject* CBackGround::Clone(void* pArg)
+CGameObject* CBackGround::Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
 	CBackGround* pInstance = new CBackGround(*this);
 
-	if (FAILED(pInstance->Initialize(pArg)))
+	if (FAILED(pInstance->Initialize(pLayerTag, iLevelIndex, pArg)))
 	{
 		MSG_BOX("Failed to Cloned CBackGround");
 		Safe_Release(pInstance);
@@ -143,6 +148,5 @@ void CBackGround::Free()
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pRendererCom);
 	Safe_Release(m_pTextureCom);
-
 
 }

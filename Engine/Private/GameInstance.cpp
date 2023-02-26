@@ -17,6 +17,7 @@ CGameInstance::CGameInstance()
 	, m_pComponent_Manager(CComponent_Manager::GetInstance())
 	, m_pSound_Manager(CSound_Manager::GetInstance())
 	, m_pPipeLine(CPipeLine::GetInstance())
+	, m_pInput_Device(CInput_Device::GetInstance())
 {
 	Safe_AddRef(m_pComponent_Manager);
 	Safe_AddRef(m_pObject_Manager);
@@ -25,9 +26,10 @@ CGameInstance::CGameInstance()
 	Safe_AddRef(m_pLevel_Manager);
 	Safe_AddRef(m_pSound_Manager);
 	Safe_AddRef(m_pPipeLine);
+	Safe_AddRef(m_pInput_Device);
 }
 
-HRESULT CGameInstance::Initialize_Engine(_uint iNumLevels, const GRAPHIC_DESC& GraphicDesc, ID3D11Device** ppDeviceOut, ID3D11DeviceContext** ppContextOut)
+HRESULT CGameInstance::Initialize_Engine(_uint iNumLevels, HINSTANCE hInstance, const GRAPHIC_DESC& GraphicDesc, ID3D11Device** ppDeviceOut, ID3D11DeviceContext** ppContextOut)
 {
 	if (nullptr == m_pGraphic_Device)
 		return E_FAIL;
@@ -35,6 +37,10 @@ HRESULT CGameInstance::Initialize_Engine(_uint iNumLevels, const GRAPHIC_DESC& G
 	/* 엔진을 사용하기위해 필수적으로 초기화가 필요한 매니져들의 기타 초기화작업을 수행한다. */
 	/* 그래픽 디바이스 초기화. */
 	if (FAILED(m_pGraphic_Device->Ready_Graphic_Device(GraphicDesc.hWnd, GraphicDesc.eWinMode, GraphicDesc.iViewSizeX, GraphicDesc.iViewSizeY, ppDeviceOut, ppContextOut)))
+		return E_FAIL;
+
+	/* 다렉인풋 디바이스 초기화. */
+	if (FAILED(m_pInput_Device->Ready_DInput(hInstance, GraphicDesc.hWnd)))
 		return E_FAIL;
 
 	/* 오브젝트 매니져의 공간 예약. */
@@ -51,11 +57,16 @@ HRESULT CGameInstance::Initialize_Engine(_uint iNumLevels, const GRAPHIC_DESC& G
 
 HRESULT CGameInstance::Tick_Engine(_double TimeDelta)
 {
+	/* 입력장치의 정보 받아오기.  */
+	m_pInput_Device->Update_DInput();
+
 	/* 레벨 매니져의 업데이트 */
 	m_pLevel_Manager->Tick_Level(TimeDelta);
 
 	/* 오브젝트 매니져의 업데이트 */
 	m_pObject_Manager->Tick(TimeDelta);
+
+	m_pPipeLine->Update();
 
 	m_pObject_Manager->LateTick(TimeDelta);
 
@@ -64,10 +75,12 @@ HRESULT CGameInstance::Tick_Engine(_double TimeDelta)
 
 void CGameInstance::Clear_Engine(_uint iLevelIndex)
 {
-	if (nullptr == m_pObject_Manager)
+	if (nullptr == m_pObject_Manager ||
+		nullptr == m_pComponent_Manager)
 		return;
 
 	m_pObject_Manager->Clear(iLevelIndex);
+	m_pComponent_Manager->Clear(iLevelIndex);
 }
 
 HRESULT CGameInstance::Ready_Timer(const _tchar* pTimerTag)
@@ -299,6 +312,30 @@ _matrix CGameInstance::Get_Transform_Matrix(CPipeLine::TRANSFORMSTATE eState)
 	return m_pPipeLine->Get_Transform_Matrix(eState);
 }
 
+const KEY_STATE CGameInstance::Get_KeyState(KEY eKey)
+{
+	if (nullptr == m_pInput_Device)
+		return KEY_STATE::NONE;
+
+	return m_pInput_Device->Get_KeyState(eKey);
+}
+
+const MOUSE_STATE CGameInstance::Get_MouseState(MOUSE eMouse)
+{
+	if (nullptr == m_pInput_Device)
+		return MOUSE_STATE::NONE;
+
+	return m_pInput_Device->Get_MouseState(eMouse);
+}
+
+const _long CGameInstance::Get_MouseMove(CInput_Device::MOUSEMOVESTATE eMouseMoveID)
+{
+	if (nullptr == m_pInput_Device)
+		return 0;
+
+	return m_pInput_Device->Get_MouseMove(eMouseMoveID);
+}
+
 
 void CGameInstance::Release_Engine()
 {
@@ -316,6 +353,8 @@ void CGameInstance::Release_Engine()
 
 	CPipeLine::GetInstance()->DestroyInstance();
 
+	CInput_Device::GetInstance()->DestroyInstance();
+
 	CGraphic_Device::GetInstance()->DestroyInstance();
 }
 
@@ -327,5 +366,6 @@ void CGameInstance::Free(void)
 	Safe_Release(m_pSound_Manager);
 	Safe_Release(m_pGraphic_Device);
 	Safe_Release(m_pTimer_Manager);
+	Safe_Release(m_pInput_Device);
 	Safe_Release(m_pPipeLine);
 }

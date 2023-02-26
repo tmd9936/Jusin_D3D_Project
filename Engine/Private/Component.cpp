@@ -9,6 +9,12 @@ CComponent::CComponent(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGa
 {
 	Safe_AddRef(m_pDevice);
 	Safe_AddRef(m_pContext);
+
+	if (pOwner)
+	{
+		m_pOwner = pOwner;
+		//Safe_AddRef(m_pOwner);
+	}
 }
 
 CComponent::CComponent(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

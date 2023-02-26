@@ -2,6 +2,7 @@
 
 #include "Component_Manager.h"
 #include "PipeLine.h"
+#include "Input_Device.h"
 
 BEGIN(Engine)
 
@@ -22,7 +23,7 @@ private:
     virtual ~CGameInstance() = default;
 
 public: /* For.GameInstance */
-	HRESULT Initialize_Engine(_uint iNumLevels, const GRAPHIC_DESC& GraphicDesc, ID3D11Device** ppDeviceOut, ID3D11DeviceContext** ppContextOut);
+	HRESULT Initialize_Engine(_uint iNumLevels, HINSTANCE hInstance, const GRAPHIC_DESC& GraphicDesc, ID3D11Device** ppDeviceOut, ID3D11DeviceContext** ppContextOut);
 	HRESULT Tick_Engine(_double TimeDelta);
 	void Clear_Engine(_uint iLevelIndex);
 
@@ -69,6 +70,11 @@ public: /* For.PipeLine */
 	_float4x4 Get_Transform_Float4x4(CPipeLine::TRANSFORMSTATE eState);
 	_matrix Get_Transform_Matrix(CPipeLine::TRANSFORMSTATE eState);
 
+public: /* For.InputDevice */
+	const KEY_STATE Get_KeyState(KEY eKey);
+	const MOUSE_STATE Get_MouseState(MOUSE eMouse);
+	const _long Get_MouseMove(CInput_Device::MOUSEMOVESTATE eMouseMoveID);
+
 private:
 	CTimer_Manager*			m_pTimer_Manager = { nullptr };
 	CGraphic_Device*		m_pGraphic_Device = { nullptr };
@@ -77,6 +83,7 @@ private:
 	CComponent_Manager*		m_pComponent_Manager = { nullptr };
 	CSound_Manager*			m_pSound_Manager = { nullptr };
 	CPipeLine*				m_pPipeLine = { nullptr };
+	CInput_Device*			m_pInput_Device = { nullptr };
 
 public:
 	static void Release_Engine();

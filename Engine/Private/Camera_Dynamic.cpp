@@ -1,5 +1,7 @@
 #include "Camera_Dynamic.h"
 
+#include "GameInstance.h"
+
 CCamera_Dynamic::CCamera_Dynamic(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CCamera(pDevice, pContext)
 {
@@ -30,17 +32,35 @@ HRESULT CCamera_Dynamic::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, 
 
 _uint CCamera_Dynamic::Tick(_double TimeDelta)
 {
-	if (GetAsyncKeyState('W') & 0x8000)
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (KEY_HOLD(KEY::W))
 		m_pTransform->Go_Straight(TimeDelta);
 
-	if (GetAsyncKeyState('A') & 0x8000)
-		m_pTransform->Go_Left(TimeDelta);
-
-	if (GetAsyncKeyState('S') & 0x8000)
+	if (KEY_HOLD(KEY::S))
 		m_pTransform->Go_Backward(TimeDelta);
 
-	if (GetAsyncKeyState('D') & 0x8000)
+	if (KEY_HOLD(KEY::A))
+		m_pTransform->Go_Left(TimeDelta);
+
+	if (KEY_HOLD(KEY::D))
 		m_pTransform->Go_Right(TimeDelta);
+
+	_long MouseMove = { 0 };
+
+	if (MouseMove = pGameInstance->Get_MouseMove(CInput_Device::DIMS_X))
+	{
+		m_pTransform->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), TimeDelta * (MouseMove * 0.1f));
+	}
+
+	if (MouseMove = pGameInstance->Get_MouseMove(CInput_Device::DIMS_Y))
+	{
+		m_pTransform->Turn(m_pTransform->Get_State(CTransform::STATE_RIGHT), TimeDelta * (MouseMove * 0.1f));
+	}
+
+
+	Safe_Release(pGameInstance);
 
 	return __super::Tick(TimeDelta);
 }
