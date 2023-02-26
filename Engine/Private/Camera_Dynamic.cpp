@@ -36,27 +36,27 @@ _uint CCamera_Dynamic::Tick(_double TimeDelta)
 	Safe_AddRef(pGameInstance);
 
 	if (KEY_HOLD(KEY::W))
-		m_pTransform->Go_Straight(TimeDelta);
+		m_pTransform->Go_Straight(_float(TimeDelta));
 
 	if (KEY_HOLD(KEY::S))
-		m_pTransform->Go_Backward(TimeDelta);
+		m_pTransform->Go_Backward(_float(TimeDelta));
 
 	if (KEY_HOLD(KEY::A))
-		m_pTransform->Go_Left(TimeDelta);
+		m_pTransform->Go_Left(_float(TimeDelta));
 
 	if (KEY_HOLD(KEY::D))
-		m_pTransform->Go_Right(TimeDelta);
+		m_pTransform->Go_Right(_float(TimeDelta));
 
 	_long MouseMove = { 0 };
 
 	if (MouseMove = pGameInstance->Get_MouseMove(CInput_Device::DIMS_X))
 	{
-		m_pTransform->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), TimeDelta * (MouseMove * 0.1f));
+		m_pTransform->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), _float(TimeDelta) * (MouseMove * 0.1f));
 	}
 
 	if (MouseMove = pGameInstance->Get_MouseMove(CInput_Device::DIMS_Y))
 	{
-		m_pTransform->Turn(m_pTransform->Get_State(CTransform::STATE_RIGHT), TimeDelta * (MouseMove * 0.1f));
+		m_pTransform->Turn(m_pTransform->Get_State(CTransform::STATE_RIGHT), _float(TimeDelta) * (MouseMove * 0.1f));
 	}
 
 

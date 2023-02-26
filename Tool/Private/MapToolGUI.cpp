@@ -65,82 +65,14 @@ HRESULT CMapToolGUI::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pCon
 	m_pRootViewport->ID = 2;
 	m_pRootViewport->Flags = ImGuiViewportFlags_IsPlatformWindow;
 
-	//ImGui_ImplWin32_ViewportData pd
-	//m_pVd = ImGui_ImplDX11_ViewportData(CGameInstance::GetInstance()->Get_SwapChain(), CGameInstance::GetInstance()->Get_RTV()));
-	//
-	//m_pVd->RTView = CGameInstance::GetInstance()->Get_RTV();
-	//m_pVd->SwapChain = CGameInstance::GetInstance()->Get_SwapChain();
-
-	//m_pRootViewport->PlatformHandle = g_hWnd;
-	//m_pRootViewport->RendererUserData = m_pVd;
-
-
-	//m_pPd = new ImGui_ImplWin32_ViewportData2;
-	//m_pPd->Hwnd = g_hWnd;
-	//m_pPd->HwndOwned = true;
-
-	//m_pRootViewport->PlatformUserData = m_pPd;
-
 	io.Platform_CreateWindow(m_pRootViewport);
 	((ImGui_ImplWin32_ViewportData2*)(m_pRootViewport->PlatformUserData))->Hwnd = g_hWnd;
 	((ImGui_ImplWin32_ViewportData2*)(m_pRootViewport->PlatformUserData))->HwndOwned = true;
 
-	//io.Renderer_CreateWindow(m_pRootViewport);
-	
-	//((ImGui_ImplDX11_ViewportData2*)(m_pRootViewport->RendererUserData))->SwapChain = CGameInstance::GetInstance()->Get_SwapChain();
-	//((ImGui_ImplDX11_ViewportData2*)(m_pRootViewport->RendererUserData))->RTView = CGameInstance::GetInstance()->Get_RTV();
-
-	//Safe_AddRef(((ImGui_ImplDX11_ViewportData2*)(m_pRootViewport->RendererUserData))->SwapChain);
-	//Safe_AddRef(((ImGui_ImplDX11_ViewportData2*)(m_pRootViewport->RendererUserData))->RTView);
-	
 	io.Platform_SetWindowTitle(m_pRootViewport, "Windows");
 	io.Platform_SetWindowSize(m_pRootViewport, ImVec2((float)g_iWinSizeX * 0.75f, (float)g_iWinSizeY * 0.75f));
 	io.Platform_SetWindowPos(m_pRootViewport, { 50.f, 100.f });
 	//io.Platform_SetWindowAlpha(m_pRootViewport, 0.9f);
-
-
-	//===========================
-
-	/*m_pviewport = new ImGuiViewport;
-	m_pviewport->Size.x = g_iWinSizeX * 1.f;
-	m_pviewport->Size.y = g_iWinSizeY * 1.f;
-	m_pviewport->Pos.x = 0.f;
-	m_pviewport->Pos.y = 0.f;
-	m_pviewport->ID = 3;
-	m_pviewport->Flags = ImGuiViewportFlags_None;*/
-
-	/*m_pVd = new ImGui_ImplDX11_ViewportData2;
-	m_pVd->RTView = CGameInstance::GetInstance()->Get_RTV();
-	m_pVd->SwapChain = CGameInstance::GetInstance()->Get_SwapChain();*/
-
-
-	/*m_pviewport->PlatformHandle = g_hWnd;
-	m_pviewport->RendererUserData = m_pVd;*/
-
-	/*Safe_AddRef(m_pVd->RTView);
-	Safe_AddRef(m_pVd->SwapChain);*/
-
-
-	//m_pPd = new ImGui_ImplWin32_ViewportData2;
-	//m_pPd->Hwnd = g_hWnd;
-	//m_pPd->HwndOwned = false;
-
-	//m_pviewport->PlatformUserData = m_pPd;
-
-	//io.Renderer_SetWindowSize(m_pviewport, ImVec2((float)g_iWinSizeX* 0.5f, (float)g_iWinSizeY * 0.5f));
-	//io.Renderer_CreateWindow(m_pviewport);
-
-	//io.Platform_CreateWindow
-
-	//m_pviewport = new ImGuiViewport;
-	//m_pviewport->Size.x = 300.f;
-	//m_pviewport->Size.y = 300.f;
-	//m_pviewport->Pos.x = 300.f;
-	//m_pviewport->Pos.y = 300.f;
-
-
-	//io.Viewports.push_back(m_pviewport);
-
 
 	return S_OK;
 }
@@ -169,8 +101,9 @@ HRESULT CMapToolGUI::Render()
 
 	if (m_bRender)
 	{
-		
-		ImGui::Begin("Map Tool", 0, ImGuiWindowFlags_NoBackground);
+		//ImGui::SetNextWindowBgAlpha(0.5f);
+
+		ImGui::Begin("Map Tool", 0, ImGuiWindowFlags_MenuBar);
 		{
 			ImGui::Text("Hello");
 
@@ -180,7 +113,7 @@ HRESULT CMapToolGUI::Render()
 
 			Slider();
 
-			//FileMenuBar();
+			FileMenuBar();
 
 			FileMenu();
 
@@ -407,40 +340,40 @@ void CMapToolGUI::Radio()
 
 void CMapToolGUI::FileMenuBar()
 {
-	//bool open = false, save = false;
-	//if (ImGui::BeginMainMenuBar())
-	//{
-	//	if (ImGui::BeginMenu("Menu"))
-	//	{
-	//		if (ImGui::MenuItem("Load Cube", NULL))
-	//			open = true;
-	//		if (ImGui::MenuItem("Save Cube", NULL))
-	//			save = true;
+	bool open = false, save = false;
+	if (ImGui::BeginMenuBar())
+	{
+		if (ImGui::BeginMenu("Menu"))
+		{
+			if (ImGui::MenuItem("Load Cube", NULL))
+				open = true;
+			if (ImGui::MenuItem("Save Cube", NULL))
+				save = true;
 
-	//		ImGui::EndMenu();
-	//	}
-	//	ImGui::EndMainMenuBar();
-	//}
+			ImGui::EndMenu();
+		}
+		ImGui::EndMenuBar();
+	}
 
-	////Remember the name to ImGui::OpenPopup() and showFileDialog() must be same...
-	//if (open)
-	//	ImGui::OpenPopup("Open File");
-	//if (save)
-	//	ImGui::OpenPopup("Save File");
+	//Remember the name to ImGui::OpenPopup() and showFileDialog() must be same...
+	if (open)
+		ImGui::OpenPopup("Open File");
+	if (save)
+		ImGui::OpenPopup("Save File");
 
-	///* Optional third parameter. Support opening only compressed rar/zip files.
-	// * Opening any other file will show error, return false and won't close the dialog.
-	// */
-	//if (file_dialog.showFileDialog("Open File", imgui_addons::ImGuiFileBrowser::DialogMode::OPEN, ImVec2(700, 310), ".txt, .data"))
-	//{
-	//	Load_CubeList();
-	//}
-	//if (file_dialog.showFileDialog("Save File", imgui_addons::ImGuiFileBrowser::DialogMode::SAVE, ImVec2(700, 310), ".txt, .data"))
-	//{
-	//	Save_CubeList();
+	/* Optional third parameter. Support opening only compressed rar/zip files.
+	 * Opening any other file will show error, return false and won't close the dialog.
+	 */
+	if (file_dialog.showFileDialog("Open File", imgui_addons::ImGuiFileBrowser::DialogMode::OPEN, ImVec2(700, 310), ".txt, .data"))
+	{
+		Load_CubeList();
+	}
+	if (file_dialog.showFileDialog("Save File", imgui_addons::ImGuiFileBrowser::DialogMode::SAVE, ImVec2(700, 310), ".txt, .data"))
+	{
+		Save_CubeList();
 
-	//	//Do writing of files based on extension here
-	//}
+		//Do writing of files based on extension here
+	}
 }
 
 void CMapToolGUI::FileMenu()

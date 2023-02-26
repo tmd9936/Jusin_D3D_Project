@@ -59,9 +59,12 @@ HRESULT CMainApp::Initialize()
 	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 	{
 		style.WindowRounding = 0.0f;
-		style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+		style.Colors[ImGuiCol_WindowBg].w = 1.f;
+
 	}
 	ImGui_ImplDX11_InitPlatformInterface();
+
+	ImGui_ImplWin32_EnableAlphaCompositing(g_hWnd);
 
 	ImGui_ImplWin32_Init(g_hWnd);
 	ImGui_ImplDX11_Init(m_pDevice, m_pContext);
@@ -99,7 +102,7 @@ HRESULT CMainApp::Render()
 	ImGui::Render();
 
 	m_pGameInstance->SetRenderTargets();
-	m_pGameInstance->Clear_BackBuffer_View(_float4{ 0.f, 0.f, 1.f, 1.f });
+	m_pGameInstance->Clear_BackBuffer_View(_float4{ 1.f, 0.f, 1.f, 1.f });
 	m_pGameInstance->Clear_DepthStencil_View();
 
 	

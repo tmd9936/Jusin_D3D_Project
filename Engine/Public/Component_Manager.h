@@ -3,6 +3,7 @@
 #pragma region COMPONENT_VIBUFFER
 #include "VIBuffer_Rect.h"
 #include "VIBuffer_Terrain.h"
+#include "VIBuffer_FlatTerrain.h"
 #pragma endregion
 
 #pragma region COMPONENT

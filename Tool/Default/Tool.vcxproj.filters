@@ -49,6 +49,9 @@
     <Filter Include="96 ImGui\imgui">
       <UniqueIdentifier>{880dc489-0647-4238-86cd-128dd5a4f5dd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\Terrain\FlatTerrain">
+      <UniqueIdentifier>{0c109fd4-e705-4af0-9aac-48c2dbc7ae06}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -119,6 +122,9 @@
     </ClInclude>
     <ClInclude Include="..\imgui\backends\imgui_impl_win32.h">
       <Filter>96 ImGui\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\FlatTerrain.h">
+      <Filter>02. GameObject\Terrain\FlatTerrain</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -191,6 +197,9 @@
     </ClCompile>
     <ClCompile Include="..\imgui\backends\imgui_impl_win32.cpp">
       <Filter>96 ImGui\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\FlatTerrain.cpp">
+      <Filter>02. GameObject\Terrain\FlatTerrain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

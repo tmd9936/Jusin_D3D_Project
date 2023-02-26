@@ -1,68 +1,68 @@
-#include "..\Public\VIBuffer_Terrain.h"
+#include "VIBuffer_FlatTerrain.h"
 
-CVIBuffer_Terrain::CVIBuffer_Terrain(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner)
+CVIBuffer_FlatTerrain::CVIBuffer_FlatTerrain(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner)
 	: CVIBuffer(pDevice, pContext, pOwner)
 {
 
 }
 
-CVIBuffer_Terrain::CVIBuffer_Terrain(const CVIBuffer_Terrain& rhs, CGameObject* pOwner)
+CVIBuffer_FlatTerrain::CVIBuffer_FlatTerrain(const CVIBuffer_FlatTerrain& rhs, CGameObject* pOwner)
 	: CVIBuffer(rhs, pOwner)
 {
 
 }
 
-HRESULT CVIBuffer_Terrain::Initialize_Prototype(const _tchar* pHeightMapFilePath)
+HRESULT CVIBuffer_FlatTerrain::Initialize_Prototype()
 {
-	_ulong		dwByte = 0;
-	HANDLE		hFile = CreateFile(pHeightMapFilePath, GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
-	if (0 == hFile)
-		return E_FAIL;
 
-	BITMAPFILEHEADER		fh;
-	ReadFile(hFile, &fh, sizeof fh, &dwByte, nullptr);
+	return S_OK;
+}
 
-	BITMAPINFOHEADER		ih;
-	ReadFile(hFile, &ih, sizeof ih, &dwByte, nullptr);
+HRESULT CVIBuffer_FlatTerrain::Initialize(void* pArg)
+{
+	if (nullptr == pArg)
+	{
+		m_Vibuffer_Flat_Terrain_Desc.m_iNumVerticesX = 128;
+		m_Vibuffer_Flat_Terrain_Desc.m_iNumVerticesZ = 128;
+	}
+	else
+	{
+		memcpy(&m_Vibuffer_Flat_Terrain_Desc, pArg, sizeof VIBUFFER_FLAT_TERRAIN_DESC);
+	}
 
-	m_iNumVerticesX = ih.biWidth;
-	m_iNumVerticesZ = ih.biHeight;
-
-	_ulong* pPixel = new _ulong[m_iNumVerticesX * m_iNumVerticesZ];
-	ZeroMemory(pPixel, sizeof(_ulong) * m_iNumVerticesX * m_iNumVerticesZ);
-
-	ReadFile(hFile, pPixel, sizeof(_ulong) * m_iNumVerticesX * m_iNumVerticesZ, &dwByte, nullptr);
-
-	CloseHandle(hFile);
+	_ulong* pPixel = new _ulong[m_Vibuffer_Flat_Terrain_Desc.m_iNumVerticesX * m_Vibuffer_Flat_Terrain_Desc.m_iNumVerticesZ];
+	ZeroMemory(pPixel, sizeof(_ulong) * m_Vibuffer_Flat_Terrain_Desc.m_iNumVerticesX * m_Vibuffer_Flat_Terrain_Desc.m_iNumVerticesZ);
 
 	m_iStride = sizeof(VTXNORTEX);
-	m_iNumVertices = m_iNumVerticesX * m_iNumVerticesZ;
+	m_iNumVertices = m_Vibuffer_Flat_Terrain_Desc.m_iNumVerticesX * m_Vibuffer_Flat_Terrain_Desc.m_iNumVerticesZ;
 	m_iIndexSizePrimitive = sizeof(FACEINDICES32);
-	m_iNumPrimitives = (m_iNumVerticesX - 1) * (m_iNumVerticesZ - 1) * 2;
+	m_iNumPrimitives = (m_Vibuffer_Flat_Terrain_Desc.m_iNumVerticesX - 1) * (m_Vibuffer_Flat_Terrain_Desc.m_iNumVerticesZ - 1) * 2;
 	m_iNumIndicesPrimitive = 3;
 	m_iNumBuffers = 1;
 	m_eFormat = DXGI_FORMAT_R32_UINT;
 	m_eTopology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 
+	m_pPos = new _float3[m_iNumVertices];
+
 #pragma region VERTEX_BUFFER
 	VTXNORTEX* pVertices = new VTXNORTEX[m_iNumVertices];
 	ZeroMemory(pVertices, m_iStride * m_iNumVertices);
 
-	for (_uint i = 0; i < m_iNumVerticesZ; ++i)
+	for (_uint i = 0; i < m_Vibuffer_Flat_Terrain_Desc.m_iNumVerticesZ; ++i)
 	{
-		for (_uint j = 0; j < m_iNumVerticesX; ++j)
+		for (_uint j = 0; j < m_Vibuffer_Flat_Terrain_Desc.m_iNumVerticesX; ++j)
 		{
-			_uint		iIndex = i * m_iNumVerticesX + j;
+			_uint		iIndex = i * m_Vibuffer_Flat_Terrain_Desc.m_iNumVerticesX + j;
 
-			pVertices[iIndex].vPosition = _float3(float(j), (pPixel[iIndex] & 0x000000ff) / 10.0f, float(i));
+			pVertices[iIndex].vPosition = _float3(float(j), 0.f, float(i));
 			pVertices[iIndex].vNormal = _float3(0.f, 0.f, 0.f);
-			pVertices[iIndex].vTexUV = _float2(j / (m_iNumVerticesX - 1.0f), i / (m_iNumVerticesZ - 1.0f));
+			pVertices[iIndex].vTexUV = _float2(j / (m_Vibuffer_Flat_Terrain_Desc.m_iNumVerticesX - 1.0f), i / (m_Vibuffer_Flat_Terrain_Desc.m_iNumVerticesZ - 1.0f));
+			
+			m_pPos[iIndex] = _float3(float(j), 0.f, float(i));
 		}
 	}
 
 	m_SubResourceData.pSysMem = pVertices;
-
-
 
 	Safe_Delete_Array(pPixel);
 #pragma endregion
@@ -74,15 +74,15 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(const _tchar* pHeightMapFilePath
 
 	_vector		vSourDir, vDestDir, vNormal;
 
-	for (_uint i = 0; i < m_iNumVerticesZ - 1; ++i)
+	for (_uint i = 0; i < m_Vibuffer_Flat_Terrain_Desc.m_iNumVerticesZ - 1; ++i)
 	{
-		for (_uint j = 0; j < m_iNumVerticesX - 1; ++j)
+		for (_uint j = 0; j < m_Vibuffer_Flat_Terrain_Desc.m_iNumVerticesX - 1; ++j)
 		{
-			_uint		iIndex = i * m_iNumVerticesX + j;
+			_uint		iIndex = i * m_Vibuffer_Flat_Terrain_Desc.m_iNumVerticesX + j;
 
 			_uint		iIndices[] = {
-				iIndex + m_iNumVerticesX,
-				iIndex + m_iNumVerticesX + 1,
+				iIndex + m_Vibuffer_Flat_Terrain_Desc.m_iNumVerticesX,
+				iIndex + m_Vibuffer_Flat_Terrain_Desc.m_iNumVerticesX + 1,
 				iIndex + 1,
 				iIndex
 			};
@@ -173,39 +173,36 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(const _tchar* pHeightMapFilePath
 	return S_OK;
 }
 
-HRESULT CVIBuffer_Terrain::Initialize(void* pArg)
+CVIBuffer_FlatTerrain* CVIBuffer_FlatTerrain::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	return S_OK;
-}
+	CVIBuffer_FlatTerrain* pInstance = new CVIBuffer_FlatTerrain(pDevice, pContext, nullptr);
 
-CVIBuffer_Terrain* CVIBuffer_Terrain::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pHeightMapFilePath)
-{
-	CVIBuffer_Terrain* pInstance = new CVIBuffer_Terrain(pDevice, pContext, nullptr);
-
-	if (FAILED(pInstance->Initialize_Prototype(pHeightMapFilePath)))
+	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed to Created : CVIBuffer_Terrain");
+		MSG_BOX("Failed to Created : CVIBuffer_FlatTerrain");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CComponent* CVIBuffer_Terrain::Clone(CGameObject* pOwner, void* pArg)
+CComponent* CVIBuffer_FlatTerrain::Clone(CGameObject* pOwner, void* pArg)
 {
-	CVIBuffer_Terrain* pInstance = new CVIBuffer_Terrain(*this, pOwner);
+	CVIBuffer_FlatTerrain* pInstance = new CVIBuffer_FlatTerrain(*this, pOwner);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Cloned : CVIBuffer_Terrain");
+		MSG_BOX("Failed to Cloned : CVIBuffer_FlatTerrain");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CVIBuffer_Terrain::Free()
+void CVIBuffer_FlatTerrain::Free()
 {
+	Safe_Delete_Array(m_pPos);
+
 	__super::Free();
 
 }

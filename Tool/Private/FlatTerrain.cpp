@@ -1,24 +1,24 @@
 ﻿#include "stdafx.h"
-#include "..\Public\Terrain.h"
+#include "..\Public\FlatTerrain.h"
 
 #include "GameInstance.h"
 
-CTerrain::CTerrain(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CFlatTerrain::CFlatTerrain(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
 {
 }
 
-CTerrain::CTerrain(const CTerrain& rhs)
+CFlatTerrain::CFlatTerrain(const CFlatTerrain& rhs)
 	: CGameObject(rhs)
 {
 }
 
-HRESULT CTerrain::Initialize_Prototype()
+HRESULT CFlatTerrain::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CTerrain::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
+HRESULT CFlatTerrain::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 		return E_FAIL;
@@ -31,19 +31,19 @@ HRESULT CTerrain::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* p
 	return S_OK;
 }
 
-_uint CTerrain::Tick(_double TimeDelta)
+_uint CFlatTerrain::Tick(_double TimeDelta)
 {
 	return _uint();
 }
 
-_uint CTerrain::LateTick(_double TimeDelta)
+_uint CFlatTerrain::LateTick(_double TimeDelta)
 {
 	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
 
 	return _uint();
 }
 
-HRESULT CTerrain::Render()
+HRESULT CFlatTerrain::Render()
 {
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
@@ -53,7 +53,7 @@ HRESULT CTerrain::Render()
 	D3D11_RASTERIZER_DESC wfdesc{};
 	ZeroMemory(&wfdesc, sizeof(D3D11_RASTERIZER_DESC));
 	wfdesc.FillMode = D3D11_FILL_WIREFRAME;
-	wfdesc.CullMode = D3D11_CULL_NONE;                    
+	wfdesc.CullMode = D3D11_CULL_NONE;
 	m_pDevice->CreateRasterizerState(&wfdesc, &WireFrame);
 	m_pContext->RSSetState(WireFrame);
 
@@ -71,7 +71,7 @@ HRESULT CTerrain::Render()
 	return S_OK;
 }
 
-HRESULT CTerrain::Add_Components()
+HRESULT CFlatTerrain::Add_Components()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
@@ -87,8 +87,9 @@ HRESULT CTerrain::Add_Components()
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
-	if (FAILED(pGameInstance->Add_Component(CVIBuffer_Terrain::familyId, this, LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Terrain"),
-		(CComponent**)&m_pVIBufferCom, nullptr)))
+	CVIBuffer_FlatTerrain::VIBUFFER_FLAT_TERRAIN_DESC TerrainDesc = { 200, 200 };
+	if (FAILED(pGameInstance->Add_Component(CVIBuffer_FlatTerrain::familyId, this, LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_FlatTerrain"),
+		(CComponent**)&m_pVIBufferCom, &TerrainDesc)))
 		return E_FAIL;
 
 	/* For.Com_Shader */
@@ -105,7 +106,7 @@ HRESULT CTerrain::Add_Components()
 	return S_OK;
 }
 
-HRESULT CTerrain::SetUp_ShaderResources()
+HRESULT CFlatTerrain::SetUp_ShaderResources()
 {
 	_float4x4		WorldMatrix;
 
@@ -132,33 +133,33 @@ HRESULT CTerrain::SetUp_ShaderResources()
 	return S_OK;
 }
 
-CTerrain* CTerrain::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CFlatTerrain* CFlatTerrain::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CTerrain* pInstance = new CTerrain(pDevice, pContext);
+	CFlatTerrain* pInstance = new CFlatTerrain(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed to Created CTerrain");
+		MSG_BOX("Failed to Created CFlatTerrain");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CTerrain::Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
+CGameObject* CFlatTerrain::Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
-	CTerrain* pInstance = new CTerrain(*this);
+	CFlatTerrain* pInstance = new CFlatTerrain(*this);
 
 	if (FAILED(pInstance->Initialize(pLayerTag, iLevelIndex, pArg)))
 	{
-		MSG_BOX("Failed to Cloned CTerrain");
+		MSG_BOX("Failed to Cloned CFlatTerrain");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CTerrain::Free()
+void CFlatTerrain::Free()
 {
 	__super::Free();
 
