@@ -22,6 +22,9 @@ public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize( void* pArg) override;
 
+public:
+	virtual HRESULT ReSize(VIBUFFER_FLAT_TERRAIN_DESC Vibuffer_Flat_Terrain_Desc);
+
 private:
 	VIBUFFER_FLAT_TERRAIN_DESC	m_Vibuffer_Flat_Terrain_Desc = { };
 	_float3* m_pPos = { nullptr };

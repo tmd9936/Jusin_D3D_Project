@@ -80,14 +80,14 @@ HRESULT CObject_Manager::Add_GameObject(const _tchar* pPrototypeTag, _uint iLeve
 		if (nullptr == pLayer)
 			return E_FAIL;
 
-		if (FAILED(pLayer->Add_GameObject(pGameObject)))
+		if (FAILED(pLayer->Add_GameObject(pGameObject, pObjectNameTag)))
 			return E_FAIL;
 
 		m_pLayers[iLevelIndex].emplace(pLayerTag, pLayer);
 	}
 	else
 	{
-		if (FAILED(pLayer->Add_GameObject(pGameObject)))
+		if (FAILED(pLayer->Add_GameObject(pGameObject, pObjectNameTag)))
 			return E_FAIL;
 	}
 

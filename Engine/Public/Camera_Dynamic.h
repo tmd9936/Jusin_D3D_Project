@@ -25,12 +25,15 @@ public:
 	virtual _uint LateTick(_double TimeDelta) override;
 	virtual HRESULT Render() override;
 
+private:
+	void Key_Input(const _double TimeDelta);
 
 private:
 	HRESULT Add_Components();
 
 private:
 	CAMERA_DYNAMIC_DESC			m_CameraDynamicDesc = {};
+	_bool						m_bMouseMove = { true };
 
 public:
 	/* Prototype */

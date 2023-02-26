@@ -173,6 +173,18 @@ HRESULT CVIBuffer_FlatTerrain::Initialize(void* pArg)
 	return S_OK;
 }
 
+HRESULT CVIBuffer_FlatTerrain::ReSize(VIBUFFER_FLAT_TERRAIN_DESC Vibuffer_Flat_Terrain_Desc)
+{
+	Safe_Delete_Array(m_pPos);
+	Safe_Release(m_pVB);
+	Safe_Release(m_pIB);
+
+	if (FAILED(Initialize(&Vibuffer_Flat_Terrain_Desc)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 CVIBuffer_FlatTerrain* CVIBuffer_FlatTerrain::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 	CVIBuffer_FlatTerrain* pInstance = new CVIBuffer_FlatTerrain(pDevice, pContext, nullptr);

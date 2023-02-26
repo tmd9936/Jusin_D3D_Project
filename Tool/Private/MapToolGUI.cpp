@@ -8,6 +8,7 @@
 #include "ImGuiFileBrowser.h"
 
 #include "GameInstance.h"
+#include "FlatTerrain.h"
 
 IMPLEMENT_SINGLETON(CMapToolGUI)
 
@@ -117,7 +118,7 @@ HRESULT CMapToolGUI::Render()
 
 			FileMenu();
 
-			//TerrainMenu();
+			TerrainMenu();
 
 			//static int clicked = 0;
 			//if (ImGui::Button("Install"))
@@ -148,8 +149,8 @@ HRESULT CMapToolGUI::Render()
 void CMapToolGUI::Reder_End()
 {
 	ImGuiPlatformIO& io = ImGui::GetPlatformIO();
-	ImDrawData* drawData = m_pviewport->DrawData;
-	ImGui_ImplDX11_RenderDrawData(drawData);
+	//ImDrawData* drawData = m_pviewport->DrawData;
+	//ImGui_ImplDX11_RenderDrawData(drawData);
 
 }
 
@@ -381,6 +382,7 @@ void CMapToolGUI::FileMenu()
 	static int clicked = 0;
 	bool load = false, save = false;
 
+
 	if (ImGui::Button("Load Env"))
 	{
 		load = true;
@@ -432,22 +434,21 @@ void CMapToolGUI::FileMenu()
 
 void CMapToolGUI::TerrainMenu()
 {
-	//ImGui::Text("Terrain");
-	////ImGui::Text("CntX : "); ImGui::SameLine();
-	//ImGui::InputInt("CntX", &m_iTerrainCntX);
-	//ImGui::InputInt("CntY", &m_iTerrainCntY);
+	ImGui::Text("Terrain");
+	ImGui::InputInt("CntX", &m_iTerrainCntX, 10, 400);
+	ImGui::InputInt("CntZ", &m_iTerrainCntZ, 10, 400);
 	//ImGui::InputInt("Interval", &m_iTerrainInterval);
 
-	//if (ImGui::Button("Change Size"))
-	//{
-	//	if (m_iTerrainCntX < 10 || m_iTerrainCntY < 10 || m_iTerrainInterval < 0)
-	//		return;
-	//	CGameObject* pTerrain = CGameObject::World->Get_Object(L"Terrain", LAYER_TERRAIN);
-	//	if (pTerrain)
-	//	{
-	//		dynamic_cast<CTerrain*>(pTerrain)->Change_TerrainScale(m_iTerrainCntX, m_iTerrainCntY, m_iTerrainInterval);
-	//	}
-	//}
+	if (ImGui::Button("Change Size"))
+	{
+		if (m_iTerrainCntX < 10 || m_iTerrainCntZ < 10)
+			return;
+		CComponent* pTerrain_VIbuffer = CGameInstance::GetInstance()->Get_Component(CVIBuffer_FlatTerrain::familyId, LEVEL_GAMEPLAY, L"Layer_Terrain", L"Terrain");
+		if (pTerrain_VIbuffer)
+		{
+			dynamic_cast<CVIBuffer_FlatTerrain*>(pTerrain_VIbuffer)->ReSize({ (_uint)m_iTerrainCntX , (_uint)m_iTerrainCntZ });
+		}
+	}
 }
 
 void CMapToolGUI::Save_CubeList()

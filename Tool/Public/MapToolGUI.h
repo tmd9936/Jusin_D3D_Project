@@ -101,12 +101,15 @@ private:
 	vector<string*>			m_vecEnvironment;
 	vector<string*>			m_vecMap;
 
-	ImGuiViewport* m_pviewport = { nullptr };
 	ImGuiViewport* m_pRootViewport = { nullptr };
+	//ImGuiViewport* m_pviewport = { nullptr };
 
 
-	ImGui_ImplDX11_ViewportData** m_pVd = { nullptr };
-	ImGui_ImplWin32_ViewportData2* m_pPd = { nullptr };
+	//ImGui_ImplDX11_ViewportData** m_pVd = { nullptr };
+	//ImGui_ImplWin32_ViewportData2* m_pPd = { nullptr };
+
+	int					m_iTerrainCntX = { 0 };
+	int					m_iTerrainCntZ = { 0 };
 
 public:
 	virtual void Free(void) override;
