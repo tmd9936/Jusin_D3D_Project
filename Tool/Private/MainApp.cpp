@@ -7,14 +7,18 @@
 #include "MainApp.h"
 #include "Level_Loading.h"
 #include "MapToolGUI.h"
+#include "DataToolGUI.h"
 #include "GameInstance.h"
 
 CMainApp::CMainApp()
 	: m_pGameInstance(CGameInstance::GetInstance())
 	, m_pMapToolGUI(CMapToolGUI::GetInstance())
+	, m_pDataToolGUI(CDataToolGUI::GetInstance())
 {
 	Safe_AddRef(m_pMapToolGUI);
 	Safe_AddRef(m_pGameInstance);
+	Safe_AddRef(m_pDataToolGUI);
+
 }
 
 HRESULT CMainApp::Initialize()
@@ -72,6 +76,9 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(m_pMapToolGUI->Initialize(m_pDevice, m_pContext)))
 		return E_FAIL;
 
+	if (FAILED(m_pDataToolGUI->Initialize(m_pDevice, m_pContext)))
+		return E_FAIL;
+
 	if (FAILED(SetUp_StartLevel(LEVEL_LOGO)))
 		return E_FAIL;
 
@@ -89,10 +96,10 @@ HRESULT CMainApp::Render()
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 	
-
 	//bool bDemo = true;
 	//ImGui::ShowDemoWindow();
 	m_pMapToolGUI->Render();
+	m_pDataToolGUI->Render();
 
 	ImGuiIO& io = ImGui::GetIO();
 	io.DisplaySize = ImVec2((float)g_iWinSizeX * 0.75f, (float)g_iWinSizeY * 0.75f);
@@ -184,8 +191,11 @@ void CMainApp::Free()
 
 	Safe_Release(m_pMapToolGUI);
 	CMapToolGUI::GetInstance()->DestroyInstance();
-	ImGui::DestroyPlatformWindows();
 
+	Safe_Release(m_pDataToolGUI);
+	CDataToolGUI::GetInstance()->DestroyInstance();
+
+	ImGui::DestroyPlatformWindows();
 	ImGui_ImplDX11_Shutdown();
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();

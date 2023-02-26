@@ -10,6 +10,7 @@ END
 
 BEGIN(Tool)
 class CMapToolGUI;
+class CDataToolGUI;
 
 class CMainApp final : public CBase
 {
@@ -30,6 +31,7 @@ private:
 	CGameInstance* m_pGameInstance = { nullptr };
 	CRenderer* m_pRenderer = { nullptr };
 	CMapToolGUI* m_pMapToolGUI = { nullptr };
+	CDataToolGUI* m_pDataToolGUI = { nullptr };
 
 private:
 	HRESULT SetUp_StartLevel(LEVEL eNextLevelID);

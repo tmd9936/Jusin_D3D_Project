@@ -52,6 +52,9 @@
     <Filter Include="02. GameObject\Terrain\FlatTerrain">
       <UniqueIdentifier>{0c109fd4-e705-4af0-9aac-48c2dbc7ae06}</UniqueIdentifier>
     </Filter>
+    <Filter Include="96 ImGui\DataToolGUI">
+      <UniqueIdentifier>{4b68341e-8e0c-4946-a930-0258f43bc12d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -125,6 +128,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\FlatTerrain.h">
       <Filter>02. GameObject\Terrain\FlatTerrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\DataToolGUI.h">
+      <Filter>96 ImGui\DataToolGUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -200,6 +206,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\FlatTerrain.cpp">
       <Filter>02. GameObject\Terrain\FlatTerrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\DataToolGUI.cpp">
+      <Filter>96 ImGui\DataToolGUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

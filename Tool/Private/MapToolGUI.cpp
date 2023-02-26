@@ -72,7 +72,7 @@ HRESULT CMapToolGUI::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pCon
 
 	io.Platform_SetWindowTitle(m_pRootViewport, "Windows");
 	io.Platform_SetWindowSize(m_pRootViewport, ImVec2((float)g_iWinSizeX * 0.75f, (float)g_iWinSizeY * 0.75f));
-	io.Platform_SetWindowPos(m_pRootViewport, { 50.f, 100.f });
+	io.Platform_SetWindowPos(m_pRootViewport, { 10.f, 40.f });
 	//io.Platform_SetWindowAlpha(m_pRootViewport, 0.9f);
 
 	return S_OK;
@@ -106,7 +106,7 @@ HRESULT CMapToolGUI::Render()
 
 		ImGui::Begin("Map Tool", 0, ImGuiWindowFlags_MenuBar);
 		{
-			ImGui::Text("Hello");
+			//ImGui::Text("Hello");
 
 			ListBox();
 
@@ -395,6 +395,7 @@ void CMapToolGUI::FileMenu()
 		save = true;
 		m_iRadio = 6;
 	}
+	ImGui::SameLine();
 
 	if (ImGui::Button("Load Spwan"))
 	{
@@ -435,8 +436,8 @@ void CMapToolGUI::FileMenu()
 void CMapToolGUI::TerrainMenu()
 {
 	ImGui::Text("Terrain");
-	ImGui::InputInt("CntX", &m_iTerrainCntX, 10, 400);
-	ImGui::InputInt("CntZ", &m_iTerrainCntZ, 10, 400);
+	ImGui::InputInt("CntX", &m_iTerrainCntX, 10, 400); ImGui::SameLine();
+	ImGui::InputInt("CntZ", &m_iTerrainCntZ, 10, 400); ImGui::SameLine();
 	//ImGui::InputInt("Interval", &m_iTerrainInterval);
 
 	if (ImGui::Button("Change Size"))
