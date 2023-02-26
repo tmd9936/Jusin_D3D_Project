@@ -67,7 +67,7 @@ HRESULT CGameObject::Add_Component(const FamilyId& familyId, CComponent* pCompon
 	return S_OK;
 }
 
-CComponent* CGameObject::Get_Component(const FamilyId& familyId)
+CComponent* CGameObject::Get_Component(const FamilyId& familyId) const
 {
 	auto	iter = m_Components.find(familyId);
 	if (iter == m_Components.end())
@@ -89,7 +89,7 @@ HRESULT CGameObject::Remove_Component(const FamilyId& familyId)
 	return S_OK;
 }
 
-HRESULT CGameObject::Find_Component(const FamilyId& familyId)
+HRESULT CGameObject::Find_Component(const FamilyId& familyId) const
 {
 	auto	iter = m_Components.find(familyId);
 	if (iter == m_Components.end())

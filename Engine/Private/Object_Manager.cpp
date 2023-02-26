@@ -1,6 +1,5 @@
 #include "..\Public\Object_Manager.h"
 #include "GameObject.h"
-#include "Layer.h"
 #include "Camera_Dynamic.h"
 
 IMPLEMENT_SINGLETON(CObject_Manager)
@@ -122,6 +121,64 @@ void CObject_Manager::LateTick(_double TimeDelta)
 	}
 }
 
+CComponent* CObject_Manager::Get_Component(const FamilyId& familyId, CGameObject* pObj) const
+{
+	{
+		if (nullptr == pObj)
+			return nullptr;
+
+		return pObj->Get_Component(familyId);
+	}
+}
+
+CComponent* CObject_Manager::Get_Component(const FamilyId& familyId, _uint iLevelIndex, const _tchar* pLayerTag, const _tchar* pObjectTag) const
+{
+	if (nullptr == pObjectTag || nullptr == pLayerTag)
+		return nullptr;
+
+	CGameObject* pObj = Get_Object(iLevelIndex, pLayerTag, pObjectTag);
+	if (nullptr == pObj)
+		return nullptr;
+
+	return pObj->Get_Component(familyId);
+}
+
+HRESULT CObject_Manager::Remove_Component(const FamilyId& familyId, CGameObject* pObj)
+{
+	if (nullptr == pObj)
+		return E_FAIL;
+
+	if (FAILED(pObj->Remove_Component(familyId)))
+	{
+		return E_FAIL;
+	}
+
+	CLayer* pLayer = Find_Layer(pObj->Get_Levelindex(), pObj->Get_LayerTag().c_str());
+
+	if (nullptr == pLayer)
+		return E_FAIL;
+
+	if (FAILED(pLayer->Remove_Component(familyId, pObj)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+CGameObject* CObject_Manager::Get_Object(_uint iLevelIndex, const _tchar* pLayerTag, const _tchar* pObjectTag) const
+{
+	if (nullptr == pObjectTag || nullptr == pLayerTag)
+		return nullptr;
+
+	CLayer* pLayer = Find_Layer(iLevelIndex, pLayerTag);
+
+	if (nullptr == pLayer)
+		return nullptr;
+
+	CGameObject* pResult = pLayer->Get_Object(pObjectTag);
+
+	return pResult;
+}
+
 HRESULT CObject_Manager::Add_Component(const FamilyId& familyId, CGameObject* pGameObject, _uint iLevelIndex, const _tchar* pPrototypeTag, CComponent** ppOut, void* pArg)
 {
 	if (nullptr == pGameObject)
@@ -181,7 +238,7 @@ HRESULT CObject_Manager::Store_Component(const _tchar* pLayerTag, class CGameObj
 	return hr;
 }
 
-CGameObject* CObject_Manager::Find_Prototype(const _tchar* pPrototypeTag)
+CGameObject* CObject_Manager::Find_Prototype(const _tchar* pPrototypeTag) const
 {
 	auto	iter = find_if(m_Prototypes.begin(), m_Prototypes.end(), CTag_Finder(pPrototypeTag));
 
@@ -191,7 +248,7 @@ CGameObject* CObject_Manager::Find_Prototype(const _tchar* pPrototypeTag)
 	return iter->second;
 }
 
-CLayer* CObject_Manager::Find_Layer(_uint iLevelIndex, const _tchar* pLayerTag)
+CLayer* CObject_Manager::Find_Layer(_uint iLevelIndex, const _tchar* pLayerTag) const
 {
 	if (iLevelIndex >= m_iNumLevels)
 		return nullptr;

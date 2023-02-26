@@ -17,6 +17,12 @@ public:
 
 public:
 	HRESULT Store_Component(CGameObject* pGameObject, const FamilyId& id);
+	CGameObject* Get_Object(const _tchar* pObjectNameTag);
+	unordered_multimap<FamilyId, CGameObject*>* Get_ComponentStore() {
+		return &m_componentStore;
+	}
+
+	HRESULT Remove_Component(const FamilyId& familyId, CGameObject* pObj);
 
 private:
 	list<class CGameObject*>							m_GameObjects;

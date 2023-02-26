@@ -2,7 +2,6 @@
 #include "Timer_Manager.h"
 #include "Graphic_Device.h"
 #include "Level_Manager.h"
-#include "Object_Manager.h"
 #include "Component_Manager.h"
 #include "Sound_Manager.h"
 
@@ -197,6 +196,38 @@ HRESULT CGameInstance::Add_Layer(_uint iLevelIndex, const _tchar* pLayerTag)
 		return E_FAIL;
 
 	return m_pObject_Manager->Add_Layer(iLevelIndex, pLayerTag);
+}
+
+CComponent* CGameInstance::Get_Component(const FamilyId& familyId, CGameObject* pObj) const
+{
+	if (nullptr == m_pObject_Manager)
+		return nullptr;
+
+	return m_pObject_Manager->Get_Component(familyId, pObj);
+}
+
+CComponent* CGameInstance::Get_Component(const FamilyId& familyId, _uint iLevelIndex, const _tchar* pLayerTag, const _tchar* pObjectTag) const
+{
+	if (nullptr == m_pObject_Manager)
+		return nullptr;
+
+	return m_pObject_Manager->Get_Component(familyId, iLevelIndex, pLayerTag, pObjectTag);
+}
+
+HRESULT CGameInstance::Remove_Component(const FamilyId& familyId, CGameObject* pObj)
+{
+	if (nullptr == m_pObject_Manager)
+		return E_FAIL;
+
+	return m_pObject_Manager->Remove_Component(familyId, pObj);
+}
+
+CGameObject* CGameInstance::Get_Object(_uint iLevelIndex, const _tchar* pLayerTag, const _tchar* pObjectTag) const
+{
+	if (nullptr == m_pObject_Manager)
+		return nullptr;
+
+	return m_pObject_Manager->Get_Object(iLevelIndex, pLayerTag, pObjectTag);
 }
 
 HRESULT CGameInstance::Add_Prototype(_uint iLevelIndex, const _tchar* pPrototypeTag, CComponent* pPrototype)

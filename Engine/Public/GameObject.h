@@ -70,11 +70,11 @@ public:
 	void					Get_Components_FamilyId(vector<FamilyId>& vecFamilyIds);
 
 	HRESULT					Add_Component(const FamilyId& familyId, CComponent* pComponent);
-	CComponent*				Get_Component(const FamilyId& familyId);
+	CComponent*				Get_Component(const FamilyId& familyId) const;
 
 	HRESULT					Remove_Component(const FamilyId& familyId);
 private:
-	HRESULT					Find_Component(const FamilyId& familyId);
+	HRESULT					Find_Component(const FamilyId& familyId) const;
 
 protected:
 	ID3D11Device* m_pDevice = { nullptr };

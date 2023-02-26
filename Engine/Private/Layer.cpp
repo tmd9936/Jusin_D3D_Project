@@ -55,6 +55,34 @@ HRESULT CLayer::Store_Component(CGameObject* pGameObject, const FamilyId& id)
 	return S_OK;
 }
 
+CGameObject* CLayer::Get_Object(const _tchar* pObjectNameTag)
+{
+	auto iter = m_objectStore.find(pObjectNameTag);
+
+	if (m_objectStore.end() == iter)
+		return nullptr;
+
+	return iter->second;
+}
+
+HRESULT CLayer::Remove_Component(const FamilyId& familyId, CGameObject* pObj)
+{
+	if (nullptr == pObj)
+		return E_FAIL;
+
+	auto iterPair = m_componentStore.equal_range(familyId);
+	for (auto iter = iterPair.first; iter != iterPair.second; ++iter)
+	{
+		if (iter->second == pObj)
+		{
+			m_componentStore.erase(iter);
+			return S_OK;
+		}
+	}
+
+	return E_NOTIMPL;
+}
+
 CLayer* CLayer::Create()
 {
 	CLayer* pLayer = new CLayer();

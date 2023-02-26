@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Base.h"
+#include "Layer.h"
 
 /* 모아서 관리 : 내가 나누고 싶은 기준(CLayer)에 따라 레벨[] 별로 */
 /* 1. 원형 객체들을 모아서 관리하다. */
@@ -28,13 +29,70 @@ public:
 
 public:
 	HRESULT Add_Prototype(const _tchar* pPrototypeTag, class CGameObject* pPrototype);
-	HRESULT Add_GameObject(const _tchar* pPrototypeTag, _uint iLevelIndex, 
-		const _tchar* pLayerTag, const _tchar* pObjectNameTag = nullptr, void* pArg = nullptr); /* 원형을 복제하여 사본을 추가한다. */
 	void Tick(_double TimeDelta);
 	void LateTick(_double TimeDelta);
 
 public:
+	HRESULT Add_GameObject(const _tchar* pPrototypeTag, _uint iLevelIndex,
+		const _tchar* pLayerTag, const _tchar* pObjectNameTag = nullptr, void* pArg = nullptr); /* 원형을 복제하여 사본을 추가한다. */
+	CGameObject* Get_Object(_uint iLevelIndex, const _tchar* pLayerTag, const _tchar* pObjectTag) const;
+
+	template<typename T, typename = std::enable_if<is_base_of<CComponent, T>::value>>
+	void Get_ComponentList(vector<T>& result, _uint iLevelIndex, const _tchar* pLayerTag)
+	{
+		if (nullptr == pLayerTag)
+			return nullptr;
+
+		CLayer* pLayer = Find_Layer(iLevelIndex, pLayerTag);
+
+		if (nullptr == pLayer)
+			return nullptr;
+
+		const unordered_multimap<FamilyId, CGameObject*>* componentStore = pLayer->Get_ComponentStore();
+
+		if (nullptr == componentStore)
+			return nullptr;
+
+		auto iterPair = componentStore->equal_range(T::familyId);
+
+		for (auto iter = iterPair.first; iter != iterPair.second; ++iter)
+		{
+			T* com = (T*)(iter->second->Get_Component(T::familyId));
+			if (nullptr != com)
+				result.push_back(com);
+		}
+	}
+
+	template<typename T, typename = std::enable_if<is_base_of<CComponent, T>::value>>
+	void Get_ObjectList(vector<CGameObject*>& result, _uint iLevelIndex, const _tchar* pLayerTag)
+	{
+		if (nullptr == pLayerTag)
+			return nullptr;
+
+		CLayer* pLayer = Find_Layer(iLevelIndex, pLayerTag);
+
+		if (nullptr == pLayer)
+			return nullptr;
+
+		const unordered_multimap<FamilyId, CGameObject*>* componentStore = pLayer->Get_ComponentStore();
+
+		if (nullptr == componentStore)
+			return nullptr;
+
+		auto iterPair = componentStore->equal_range(T::familyId);
+
+		for (auto iter = iterPair.first; iter != iterPair.second; ++iter)
+		{
+			if (nullptr != iter->second)
+				result.push_back(iter->second);
+		}
+	}
+
+public:
 	HRESULT		Add_Component (const FamilyId& familyId, CGameObject* pGameObject, _uint iLevelIndex, const _tchar* pPrototypeTag, CComponent** ppOut, void* pArg);
+	CComponent* Get_Component(const FamilyId& familyId, CGameObject* pObj) const;
+	CComponent* Get_Component(const FamilyId& familyId, _uint iLevelIndex, const _tchar* pLayerTag, const _tchar* pObjectTag) const;
+	HRESULT		Remove_Component(const FamilyId& familyId, CGameObject* pObj);
 
 protected:
 	HRESULT		Store_Component(const _tchar* pLayerTag, class CGameObject* pGameObject, const FamilyId& id);
@@ -51,8 +109,8 @@ private:
 	_uint		m_iNumLevels = { 0 };
 
 private:
-	class CGameObject* Find_Prototype(const _tchar* pPrototypeTag);
-	class CLayer* Find_Layer(_uint iLevelIndex, const _tchar* pLayerTag);
+	class CGameObject* Find_Prototype(const _tchar* pPrototypeTag) const;
+	class CLayer* Find_Layer(_uint iLevelIndex, const _tchar* pLayerTag) const;
 
 public:
 	virtual void Free() override;

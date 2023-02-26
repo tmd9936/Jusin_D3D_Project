@@ -3,13 +3,13 @@
 #include "Component_Manager.h"
 #include "PipeLine.h"
 #include "Input_Device.h"
+#include "Object_Manager.h"
 
 BEGIN(Engine)
 
 class CTimer_Manager;
 class CGraphic_Device;
 class CLevel_Manager;
-class CObject_Manager;
 class CComponent_Manager;
 class CSound_Manager;
 
@@ -49,6 +49,14 @@ public: /* For.Object_Manager */
 	HRESULT Add_GameObject(const _tchar* pPrototypeTag, _uint iLevelIndex, const _tchar* pLayerTag, const _tchar* pObjectNameTag = nullptr, void* pArg = nullptr); /* 원형을 복제하여 사본을 추가한다. */
 	HRESULT Add_Component(const FamilyId& familyId, CGameObject* pGameObject, _uint iLevelIndex, const _tchar* pPrototypeTag, CComponent** ppOut, void* pArg = nullptr);
 	HRESULT Add_Layer(_uint iLevelIndex, const _tchar* pLayerTag);
+	CComponent* Get_Component(const FamilyId& familyId, CGameObject* pObj) const;
+	CComponent* Get_Component(const FamilyId& familyId, _uint iLevelIndex, const _tchar* pLayerTag, const _tchar* pObjectTag) const;
+	HRESULT		Remove_Component(const FamilyId& familyId, CGameObject* pObj);
+	CGameObject* Get_Object(_uint iLevelIndex, const _tchar* pLayerTag, const _tchar* pObjectTag) const;
+	template<typename T, typename = std::enable_if<is_base_of<CComponent, T>::value>>
+	void Get_ComponentList(vector<T>& result, _uint iLevelIndex, const _tchar* pLayerTag);
+	template<typename T, typename = std::enable_if<is_base_of<CComponent, T>::value>>
+	void Get_ObjectList(vector<CGameObject*>& result, _uint iLevelIndex, const _tchar* pLayerTag);
 
 public: /* For.Component_Manager */
 	HRESULT Add_Prototype(_uint iLevelIndex, const _tchar* pPrototypeTag, class CComponent* pPrototype);
@@ -93,5 +101,23 @@ public:
 
 };
 
+
 END
 
+template<typename T, typename>
+inline void CGameInstance::Get_ComponentList(vector<T>& result, _uint iLevelIndex, const _tchar* pLayerTag)
+{
+	if (nullptr == m_pObject_Manager)
+		return;
+
+	return m_pObject_Manager->Get_ComponentList<T>(result, iLevelIndex, pLayerTag);
+}
+
+template<typename T, typename>
+inline void CGameInstance::Get_ObjectList(vector<CGameObject*>& result, _uint iLevelIndex, const _tchar* pLayerTag)
+{
+	if (nullptr == m_pObject_Manager)
+		return;
+
+	return m_pObject_Manager->Get_ObjectList<T>(result, iLevelIndex, pLayerTag);
+}
