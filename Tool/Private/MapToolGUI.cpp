@@ -646,9 +646,9 @@ void CMapToolGUI::Free(void)
 	//Safe_Delete(m_pviewport);
 
 
-	//ImGuiPlatformIO& io = ImGui::GetPlatformIO();
+	ImGuiPlatformIO& io = ImGui::GetPlatformIO();
 	//io.Renderer_DestroyWindow(m_pRootViewport);
-	//io.Platform_DestroyWindow(m_pRootViewport);
+	io.Platform_DestroyWindow(m_pRootViewport);
 
 	IM_DELETE(m_pRootViewport);
 
