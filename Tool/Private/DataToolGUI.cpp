@@ -98,14 +98,14 @@ void CDataToolGUI::View_Prefab()
 	}
 	
 
-	if (ImGui::ListBox("  ", &m_iPrefabListCurrentItem, m_PrefabListBox, m_PrefabListBoxSize))
+	if (ImGui::ListBox("  ", &m_iPrefabListCurrentItem, m_PrefabListBox, (int)m_PrefabListBoxSize))
 	{
 		if (m_PrefabListBox)
 		{
 			std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
 			m_CurrentPrefabName = convert.from_bytes(m_PrefabListBox[m_iPrefabListCurrentItem]);
 
-			CMapToolGUI::GetInstance()->Set_PrefabName(m_CurrentPrefabName);
+			CMapToolGUI::GetInstance()->Change_ViewerObject(m_CurrentPrefabName, m_iLevelListBoxCurrentItem, m_CurrentLayerName);
 		}
 
 	}
@@ -127,9 +127,10 @@ void CDataToolGUI::ListBox_Level_List()
 void CDataToolGUI::ListBox_Layer_List()
 {
 	ImGui::Text("Layer List");
-	if (ImGui::ListBox("  ", &m_iLayerListCurrentItem, m_LayerListBox, m_LayerListBoxSize))
+	if (ImGui::ListBox("  ", &m_iLayerListCurrentItem, m_LayerListBox, (int)m_LayerListBoxSize))
 	{
-
+		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
+		m_CurrentLayerName = convert.from_bytes(m_LayerListBox[m_iLayerListCurrentItem]);
 	}
 }
 

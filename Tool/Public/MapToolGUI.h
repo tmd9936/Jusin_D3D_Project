@@ -63,7 +63,7 @@ public:
 		m_PrefabName = PrefabName;
 	}
 
-	HRESULT	Change_ViewerObject();
+	HRESULT	Change_ViewerObject(const wstring& PrefabName, _uint iLevelindex, const wstring LayerTag, void* pArg = nullptr);
 
 private:
 	void	Save_CubeList();

@@ -35,6 +35,10 @@ public:
 public:
 	HRESULT Add_GameObject(const _tchar* pPrototypeTag, _uint iLevelIndex,
 		const _tchar* pLayerTag, const _tchar* pObjectNameTag = nullptr, void* pArg = nullptr); /* 원형을 복제하여 사본을 추가한다. */
+	
+	HRESULT Add_GameObject(const _tchar* pPrototypeTag, _uint iLevelIndex,
+		const _tchar* pLayerTag, CGameObject* pOut, const _tchar* pObjectNameTag = nullptr, void* pArg = nullptr); /* 원형을 복제하여 사본을 추가한다. */
+	
 	CGameObject* Get_Object(_uint iLevelIndex, const _tchar* pLayerTag, const _tchar* pObjectTag) const;
 
 	template<typename T, typename = std::enable_if<is_base_of<CComponent, T>::value>>

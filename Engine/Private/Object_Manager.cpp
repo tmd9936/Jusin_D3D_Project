@@ -99,6 +99,50 @@ HRESULT CObject_Manager::Add_GameObject(const _tchar* pPrototypeTag, _uint iLeve
 	return S_OK;
 }
 
+HRESULT CObject_Manager::Add_GameObject(const _tchar* pPrototypeTag, _uint iLevelIndex, const _tchar* pLayerTag, CGameObject* pOut, const _tchar* pObjectNameTag, void* pArg)
+{
+	/* 원형을 찾는다. */
+	CGameObject* pPrototype = Find_Prototype(pPrototypeTag);
+	if (nullptr == pPrototype)
+		return E_FAIL;
+
+	/* 사본을 생성한다. */
+	CGameObject* pGameObject = pPrototype->Clone(pLayerTag, iLevelIndex, pArg);
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	CLayer* pLayer = Find_Layer(iLevelIndex, pLayerTag);
+	if (nullptr == pLayer)
+	{
+		pLayer = CLayer::Create();
+		if (nullptr == pLayer)
+			return E_FAIL;
+
+		if (FAILED(pLayer->Add_GameObject(pGameObject, pObjectNameTag)))
+			return E_FAIL;
+
+		m_pLayers[iLevelIndex].emplace(pLayerTag, pLayer);
+	}
+	else
+	{
+		if (FAILED(pLayer->Add_GameObject(pGameObject, pObjectNameTag)))
+			return E_FAIL;
+	}
+
+	if (pObjectNameTag)
+	{
+		pGameObject->Set_NameTag(pObjectNameTag);
+	}
+
+	if (pOut)
+	{
+		pOut = pGameObject;
+		Safe_AddRef(pOut);
+	}
+
+	return S_OK;
+}
+
 void CObject_Manager::Tick(_double TimeDelta)
 {
 	for (_uint i = 0; i < m_iNumLevels; ++i)

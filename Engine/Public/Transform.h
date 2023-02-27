@@ -67,6 +67,12 @@ public:
 
 	void Set_Scaled(const _float3& vScale);
 
+	void Set_Pos(float x, float y, float z) {
+		m_WorldMatrix.m[3][0] = x;
+		m_WorldMatrix.m[3][1] = y;
+		m_WorldMatrix.m[3][2] = z;
+	}
+
 public:
 
 	void Go_Straight(_float TimeDelta);

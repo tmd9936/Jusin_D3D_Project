@@ -9,11 +9,11 @@ BEGIN(Engine)
 class CGameInstance;
 class CGameObject;
 class CTransform;
-class CMapToolGUI;
 
 END
 
 BEGIN(Client)
+class CMapToolGUI;
 
 class CDataToolGUI final : public CBase
 {
@@ -69,6 +69,8 @@ private:
 	size_t					m_PrefabListBoxSize = { 0 };
 
 	wstring					m_CurrentPrefabName = {};
+	wstring					m_CurrentLayerName = {};
+
 
 public:
 	virtual void Free(void) override;

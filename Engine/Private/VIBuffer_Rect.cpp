@@ -128,6 +128,9 @@ CComponent* CVIBuffer_Rect::Clone(CGameObject* pOwner, void* pArg)
 
 void CVIBuffer_Rect::Free()
 {
+	Safe_Delete_Array(m_pIndex);
+	Safe_Delete_Array(m_pVtxTex);
+
 	__super::Free();
 
 }

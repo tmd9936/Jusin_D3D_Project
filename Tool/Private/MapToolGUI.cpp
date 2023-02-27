@@ -83,6 +83,8 @@ HRESULT CMapToolGUI::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pCon
 
 _uint CMapToolGUI::Tick(_double TimeDelta)
 {
+	Update_Data();
+
 	return _uint();
 }
 
@@ -527,11 +529,19 @@ HRESULT CMapToolGUI::Get_Picking_Terrain_Pos(_float3* pVOutPutPos)
 	return S_OK;
 }
 
-HRESULT CMapToolGUI::Change_ViewerObject()
+HRESULT CMapToolGUI::Change_ViewerObject(const wstring& PrefabName, _uint iLevelindex, const wstring LayerTag, void* pArg)
 {
-	Safe_Release(m_pViewerObject);
+	if (m_pViewerObject)
+	{
+		m_pViewerObject->Set_Dead();
+		Safe_Release(m_pViewerObject);
+	}
+	CGameInstance::GetInstance()->Add_GameObject(PrefabName.c_str(), iLevelindex, LayerTag.c_str(), m_pViewerObject, nullptr, pArg);
 
-	
+	if (nullptr == m_pViewerObject)
+		return E_FAIL;
+
+	return S_OK;
 }
 
 void CMapToolGUI::Save_CubeList()
