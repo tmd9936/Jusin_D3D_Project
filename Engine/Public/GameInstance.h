@@ -57,6 +57,8 @@ public: /* For.Object_Manager */
 	void Get_ComponentList(vector<T>& result, _uint iLevelIndex, const _tchar* pLayerTag);
 	template<typename T, typename = std::enable_if<is_base_of<CComponent, T>::value>>
 	void Get_ObjectList(vector<CGameObject*>& result, _uint iLevelIndex, const _tchar* pLayerTag);
+	HRESULT		Get_Layer_Names(_uint iLevelIndex, vector<wstring>& vecNames);
+	const unordered_map<const _tchar*, class CGameObject*>* Get_GameObject_Prototypes();
 
 public: /* For.Component_Manager */
 	HRESULT Add_Prototype(_uint iLevelIndex, const _tchar* pPrototypeTag, class CComponent* pPrototype);

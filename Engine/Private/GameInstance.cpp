@@ -230,6 +230,22 @@ CGameObject* CGameInstance::Get_Object(_uint iLevelIndex, const _tchar* pLayerTa
 	return m_pObject_Manager->Get_Object(iLevelIndex, pLayerTag, pObjectTag);
 }
 
+HRESULT CGameInstance::Get_Layer_Names(_uint iLevelIndex, vector<wstring>& vecNames)
+{
+	if (nullptr == m_pObject_Manager)
+		return E_FAIL;
+
+	return m_pObject_Manager->Get_Layer_Names(iLevelIndex, vecNames);
+}
+
+const unordered_map<const _tchar*, class CGameObject*>* CGameInstance::Get_GameObject_Prototypes()
+{
+	if (nullptr == m_pObject_Manager)
+		return nullptr;
+
+	return m_pObject_Manager->Get_GameObject_Prototypes();
+}
+
 HRESULT CGameInstance::Add_Prototype(_uint iLevelIndex, const _tchar* pPrototypeTag, CComponent* pPrototype)
 {
 	if (nullptr == m_pComponent_Manager)

@@ -94,6 +94,10 @@ public:
 	CComponent* Get_Component(const FamilyId& familyId, _uint iLevelIndex, const _tchar* pLayerTag, const _tchar* pObjectTag) const;
 	HRESULT		Remove_Component(const FamilyId& familyId, CGameObject* pObj);
 
+public:
+	HRESULT		Get_Layer_Names(_uint iLevelIndex, vector<wstring>& vecNames);
+	const unordered_map<const _tchar*, class CGameObject*>*		Get_GameObject_Prototypes();
+
 protected:
 	HRESULT		Store_Component(const _tchar* pLayerTag, class CGameObject* pGameObject, const FamilyId& id);
 

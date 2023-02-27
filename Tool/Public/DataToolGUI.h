@@ -34,18 +34,35 @@ private:
 
 private:
 	void	ListBox_Level_List();
+	void	ListBox_Layer_List();
+
 	void	Slider();
 	void	Radio();
 	void	FileMenuBar();
 	void	FileMenu();
 
 private:
+	void	Update_LayerList();
+	void	Update_PrefabList();
+	void	LayerListBox_Free();
+	void	PrefabListBox_Free();
+
+
+private:
 	ID3D11Device* m_pDevice = { nullptr };
 	ID3D11DeviceContext* m_pContext = { nullptr };
 
 private:
-	char*					m_iLevelListBox[LEVEL_END];
+	char*					m_LevelListBox[LEVEL_END];
 	int						m_iLevelListBoxCurrentItem = { 0 };
+
+	char**					m_LayerListBox = { nullptr };
+	int						m_iLayerListCurrentItem = { 0 };
+	size_t					m_LayerListBoxSize = { 0 };
+
+	char**					m_PrefabListBox = { nullptr };
+	int						m_iPrefabListCurrentItem = { 0 };
+	size_t					m_PrefabListBoxSize = { 0 };
 
 public:
 	virtual void Free(void) override;

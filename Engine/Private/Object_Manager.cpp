@@ -136,6 +136,9 @@ CComponent* CObject_Manager::Get_Component(const FamilyId& familyId, _uint iLeve
 	if (nullptr == pObjectTag || nullptr == pLayerTag)
 		return nullptr;
 
+	if (iLevelIndex >= m_iNumLevels)
+		return nullptr;
+
 	CGameObject* pObj = Get_Object(iLevelIndex, pLayerTag, pObjectTag);
 	if (nullptr == pObj)
 		return nullptr;
@@ -164,9 +167,35 @@ HRESULT CObject_Manager::Remove_Component(const FamilyId& familyId, CGameObject*
 	return S_OK;
 }
 
+HRESULT CObject_Manager::Get_Layer_Names(_uint iLevelIndex, vector<wstring>& vecNames)
+{
+	if (nullptr == m_pLayers)
+		return E_FAIL;
+
+	if (iLevelIndex >= m_iNumLevels)
+		return E_FAIL;
+
+	for (auto iter = m_pLayers[iLevelIndex].begin(); iter != m_pLayers[iLevelIndex].end(); ++iter)
+	{
+		vecNames.push_back(iter->first);
+	}
+
+	return S_OK;
+}
+
+const unordered_map<const _tchar*, class CGameObject*>*
+	CObject_Manager::Get_GameObject_Prototypes()
+{
+	return &m_Prototypes;
+}
+
+
 CGameObject* CObject_Manager::Get_Object(_uint iLevelIndex, const _tchar* pLayerTag, const _tchar* pObjectTag) const
 {
 	if (nullptr == pObjectTag || nullptr == pLayerTag)
+		return nullptr;
+
+	if (iLevelIndex >= m_iNumLevels)
 		return nullptr;
 
 	CLayer* pLayer = Find_Layer(iLevelIndex, pLayerTag);
@@ -182,6 +211,9 @@ CGameObject* CObject_Manager::Get_Object(_uint iLevelIndex, const _tchar* pLayer
 HRESULT CObject_Manager::Add_Component(const FamilyId& familyId, CGameObject* pGameObject, _uint iLevelIndex, const _tchar* pPrototypeTag, CComponent** ppOut, void* pArg)
 {
 	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	if (iLevelIndex >= m_iNumLevels)
 		return E_FAIL;
 
 	CComponent* pComponent = pGameObject->Get_Component(familyId);
