@@ -88,6 +88,12 @@
     <Filter Include="01. Utility\03. Component\VIBuffer\Terrain\FlatTerrain">
       <UniqueIdentifier>{b7f18677-9ff9-48c5-ad4f-326be5ac97c7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\05. Lights">
+      <UniqueIdentifier>{b45609cc-23b0-40a7-abfb-fa768ce8ff36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\05. Lights\Manager">
+      <UniqueIdentifier>{24abbc47-1ea4-4547-a3b1-6aa5b38f2a3b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Engine_Defines.h">
@@ -183,6 +189,12 @@
     <ClInclude Include="..\Public\VIBuffer_FlatTerrain.h">
       <Filter>01. Utility\03. Component\VIBuffer\Terrain\FlatTerrain</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Light.h">
+      <Filter>01. Utility\05. Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Light_Manager.h">
+      <Filter>01. Utility\05. Lights\Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -262,6 +274,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_FlatTerrain.cpp">
       <Filter>01. Utility\03. Component\VIBuffer\Terrain\FlatTerrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Light.cpp">
+      <Filter>01. Utility\05. Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Light_Manager.cpp">
+      <Filter>01. Utility\05. Lights\Manager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

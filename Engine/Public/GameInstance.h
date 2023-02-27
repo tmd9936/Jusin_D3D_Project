@@ -12,6 +12,7 @@ class CGraphic_Device;
 class CLevel_Manager;
 class CComponent_Manager;
 class CSound_Manager;
+class CLight_Manager;
 
 class ENGINE_DLL CGameInstance :
     public CBase
@@ -79,11 +80,17 @@ public: /* For.PipeLine */
 	void Set_Transform(CPipeLine::TRANSFORMSTATE eState, _fmatrix TransformMatrix);
 	_float4x4 Get_Transform_Float4x4(CPipeLine::TRANSFORMSTATE eState);
 	_matrix Get_Transform_Matrix(CPipeLine::TRANSFORMSTATE eState);
+	_float4 Get_CamPosition();
 
 public: /* For.InputDevice */
 	const KEY_STATE Get_KeyState(KEY eKey);
 	const MOUSE_STATE Get_MouseState(MOUSE eMouse);
 	const _long Get_MouseMove(CInput_Device::MOUSEMOVESTATE eMouseMoveID);
+
+public: /*For.Light_Manager*/
+	const LIGHTDESC* Get_Light(_uint iIndex);
+	HRESULT Add_Light(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const LIGHTDESC& LightDesc);
+
 
 private:
 	CTimer_Manager*			m_pTimer_Manager = { nullptr };
@@ -94,6 +101,7 @@ private:
 	CSound_Manager*			m_pSound_Manager = { nullptr };
 	CPipeLine*				m_pPipeLine = { nullptr };
 	CInput_Device*			m_pInput_Device = { nullptr };
+	CLight_Manager*			m_pLight_Manager = { nullptr };
 
 public:
 	static void Release_Engine();

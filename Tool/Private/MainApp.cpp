@@ -109,7 +109,7 @@ HRESULT CMainApp::Render()
 	ImGui::Render();
 
 	m_pGameInstance->SetRenderTargets();
-	m_pGameInstance->Clear_BackBuffer_View(_float4{ 1.f, 0.f, 1.f, 1.f });
+	m_pGameInstance->Clear_BackBuffer_View(_float4{ 0.f, 0.f, 1.f, 1.f });
 	m_pGameInstance->Clear_DepthStencil_View();
 
 	

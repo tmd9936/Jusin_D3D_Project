@@ -26,6 +26,10 @@ public:
 		return XMLoadFloat4x4(&m_TransformStateMatrix[eState]);
 	}
 
+	_float4 Get_CamPosition() const {
+		return m_vCamPosition;
+	}
+
 public:
 	void	Update();
 

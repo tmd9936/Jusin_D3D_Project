@@ -4,6 +4,7 @@
 #include "Level_Manager.h"
 #include "Component_Manager.h"
 #include "Sound_Manager.h"
+#include "Light_Manager.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -17,6 +18,7 @@ CGameInstance::CGameInstance()
 	, m_pSound_Manager(CSound_Manager::GetInstance())
 	, m_pPipeLine(CPipeLine::GetInstance())
 	, m_pInput_Device(CInput_Device::GetInstance())
+	, m_pLight_Manager(CLight_Manager::GetInstance())
 {
 	Safe_AddRef(m_pComponent_Manager);
 	Safe_AddRef(m_pObject_Manager);
@@ -26,6 +28,7 @@ CGameInstance::CGameInstance()
 	Safe_AddRef(m_pSound_Manager);
 	Safe_AddRef(m_pPipeLine);
 	Safe_AddRef(m_pInput_Device);
+	Safe_AddRef(m_pLight_Manager);
 }
 
 HRESULT CGameInstance::Initialize_Engine(_uint iNumLevels, HINSTANCE hInstance, const GRAPHIC_DESC& GraphicDesc, ID3D11Device** ppDeviceOut, ID3D11DeviceContext** ppContextOut)
@@ -359,6 +362,14 @@ _matrix CGameInstance::Get_Transform_Matrix(CPipeLine::TRANSFORMSTATE eState)
 	return m_pPipeLine->Get_Transform_Matrix(eState);
 }
 
+_float4 CGameInstance::Get_CamPosition()
+{
+	if (nullptr == m_pPipeLine)
+		return _float4{0.f, 0.f, 0.f, 1.f};
+
+	return m_pPipeLine->Get_CamPosition();
+}
+
 const KEY_STATE CGameInstance::Get_KeyState(KEY eKey)
 {
 	if (nullptr == m_pInput_Device)
@@ -383,6 +394,22 @@ const _long CGameInstance::Get_MouseMove(CInput_Device::MOUSEMOVESTATE eMouseMov
 	return m_pInput_Device->Get_MouseMove(eMouseMoveID);
 }
 
+const LIGHTDESC* CGameInstance::Get_Light(_uint iIndex)
+{
+	if (nullptr == m_pLight_Manager)
+		return nullptr;
+
+	return m_pLight_Manager->Get_Light(iIndex);
+}
+
+HRESULT CGameInstance::Add_Light(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const LIGHTDESC& LightDesc)
+{
+	if (nullptr == m_pLight_Manager)
+		return E_FAIL;
+
+	return m_pLight_Manager->Add_Light(pDevice, pContext, LightDesc);
+}
+
 
 void CGameInstance::Release_Engine()
 {
@@ -400,6 +427,8 @@ void CGameInstance::Release_Engine()
 
 	CPipeLine::GetInstance()->DestroyInstance();
 
+	CLight_Manager::GetInstance()->DestroyInstance();
+
 	CInput_Device::GetInstance()->DestroyInstance();
 
 	CGraphic_Device::GetInstance()->DestroyInstance();
@@ -413,6 +442,7 @@ void CGameInstance::Free(void)
 	Safe_Release(m_pSound_Manager);
 	Safe_Release(m_pGraphic_Device);
 	Safe_Release(m_pTimer_Manager);
+	Safe_Release(m_pLight_Manager);
 	Safe_Release(m_pInput_Device);
 	Safe_Release(m_pPipeLine);
 }

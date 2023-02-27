@@ -138,6 +138,19 @@ HRESULT CShader::Set_ShaderResourceView(const char* pConstantName, ID3D11ShaderR
 	return pVariable->SetResource(&pSRV);
 }
 
+HRESULT CShader::Set_RawValue(const char* pConstantName, const void* pData, _uint iLength)
+{
+	if (nullptr == m_pEffect)
+		return E_FAIL;
+
+	ID3DX11EffectVariable* pVariable = m_pEffect->GetVariableByName(pConstantName);
+
+	if (nullptr == pVariable)
+		return E_FAIL;
+
+	return pVariable->SetRawValue(pData, 0, iLength);
+}
+
 CShader* CShader::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pShaderFilePath, D3D11_INPUT_ELEMENT_DESC* pElements, _uint iNumElements)
 {
 	CShader* pInstance = new CShader(pDevice, pContext, nullptr);
