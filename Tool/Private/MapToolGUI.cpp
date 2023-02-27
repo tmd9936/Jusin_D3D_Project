@@ -9,6 +9,7 @@
 
 #include "GameInstance.h"
 #include "FlatTerrain.h"
+#include "Calculator.h"
 
 IMPLEMENT_SINGLETON(CMapToolGUI)
 
@@ -28,6 +29,8 @@ HRESULT CMapToolGUI::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pCon
 {
 	if (nullptr == pDevice || nullptr == pContext)
 		return E_FAIL;
+
+	m_pCalculator = CCalculator::Create(pDevice, pContext);
 
 	Safe_AddRef(pDevice);
 	Safe_AddRef(pContext);
@@ -452,6 +455,85 @@ void CMapToolGUI::TerrainMenu()
 	}
 }
 
+void CMapToolGUI::Update_Data()
+{
+	switch (m_iRadio)
+	{
+	case ENVIRONMENT:
+		//Add_Environment(iIndex);
+		break;
+
+	case SPAWN:
+		break;
+
+	case MAP:
+		break;
+
+	case PICKING_ENVIRONMENT:
+		//Picking_Environment();
+		break;
+
+	case PICKING_SPAWN:
+		break;
+	}
+
+	Update_ViewerGameObject();
+}
+
+void CMapToolGUI::Update_ViewerGameObject()
+{
+	if (m_pViewerObject)
+	{
+		_float3 vPos{};
+		if (FAILED(Get_Picking_Terrain_Pos(&vPos)))
+			return;
+	
+		CTransform* pTransform = dynamic_cast<CTransform*>(m_pViewerObject->Get_Component(CTransform::familyId));
+		pTransform->Set_Pos(vPos.x, vPos.y + 7.f, vPos.z);
+	}
+}
+
+HRESULT CMapToolGUI::Get_Picking_Terrain_Pos(_float3* pVOutPutPos)
+{
+	if (pVOutPutPos == nullptr)
+		return E_FAIL;
+
+	CVIBuffer_FlatTerrain* ptex = dynamic_cast<CVIBuffer_FlatTerrain*>(CGameInstance::GetInstance()->Get_Component(CVIBuffer_FlatTerrain::familyId, LEVEL_GAMEPLAY, L"Layer_Terrain", L"Terrain"));
+	if (nullptr == ptex)
+		return E_FAIL;
+
+	CTransform* pTransCom = dynamic_cast<CTransform*>(CGameInstance::GetInstance()->Get_Component(CTransform::familyId, LEVEL_GAMEPLAY, L"Layer_Terrain", L"Terrain"));
+	if (nullptr == pTransCom)
+		return E_FAIL;
+
+
+	//_vec3 vPos = m_pCalculator->Picking_OnTerrain(g_hWnd, ptex, ptrans);
+
+	_float3 vPos = m_pCalculator->Picking_OnTerrain(g_hWnd, ptex, pTransCom);
+
+	CVIBuffer_FlatTerrain* pTerrainBufferCom = dynamic_cast<CVIBuffer_FlatTerrain*>(CGameInstance::GetInstance()->Get_Component(CVIBuffer_FlatTerrain::familyId, LEVEL_GAMEPLAY, L"Layer_Terrain", L"Terrain"));
+	if (nullptr == pTerrainBufferCom)
+		return E_FAIL;
+
+	_float		fHeight = m_pCalculator->Compute_HeightOnTerrain(&vPos,
+		pTerrainBufferCom->Get_VtxPos(),
+		pTerrainBufferCom->Get_VtxCntX(),
+		pTerrainBufferCom->Get_VtxCntZ());
+
+	vPos.y = fHeight;
+
+	*pVOutPutPos = vPos;
+
+	return S_OK;
+}
+
+HRESULT CMapToolGUI::Change_ViewerObject()
+{
+	Safe_Release(m_pViewerObject);
+
+	
+}
+
 void CMapToolGUI::Save_CubeList()
 {
 }
@@ -639,4 +721,6 @@ void CMapToolGUI::Free(void)
 	});
 
 	m_vecMap.clear();
+
+	Safe_Release(m_pCalculator);
 }

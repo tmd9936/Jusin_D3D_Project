@@ -38,20 +38,20 @@ public:
 	CGameObject* Get_Object(_uint iLevelIndex, const _tchar* pLayerTag, const _tchar* pObjectTag) const;
 
 	template<typename T, typename = std::enable_if<is_base_of<CComponent, T>::value>>
-	void Get_ComponentList(vector<T>& result, _uint iLevelIndex, const _tchar* pLayerTag)
+	HRESULT Get_ComponentList(vector<T>& result, _uint iLevelIndex, const _tchar* pLayerTag)
 	{
 		if (nullptr == pLayerTag)
-			return nullptr;
+			return E_FAIL;
 
 		CLayer* pLayer = Find_Layer(iLevelIndex, pLayerTag);
 
 		if (nullptr == pLayer)
-			return nullptr;
+			return E_FAIL;
 
 		const unordered_multimap<FamilyId, CGameObject*>* componentStore = pLayer->Get_ComponentStore();
 
 		if (nullptr == componentStore)
-			return nullptr;
+			return E_FAIL;
 
 		auto iterPair = componentStore->equal_range(T::familyId);
 
@@ -61,23 +61,25 @@ public:
 			if (nullptr != com)
 				result.push_back(com);
 		}
+
+		return S_OK;
 	}
 
 	template<typename T, typename = std::enable_if<is_base_of<CComponent, T>::value>>
-	void Get_ObjectList(vector<CGameObject*>& result, _uint iLevelIndex, const _tchar* pLayerTag)
+	HRESULT Get_ObjectList(vector<CGameObject*>& result, _uint iLevelIndex, const _tchar* pLayerTag)
 	{
 		if (nullptr == pLayerTag)
-			return nullptr;
+			return E_FAIL;
 
 		CLayer* pLayer = Find_Layer(iLevelIndex, pLayerTag);
 
 		if (nullptr == pLayer)
-			return nullptr;
+			return E_FAIL;
 
 		const unordered_multimap<FamilyId, CGameObject*>* componentStore = pLayer->Get_ComponentStore();
 
 		if (nullptr == componentStore)
-			return nullptr;
+			return E_FAIL;
 
 		auto iterPair = componentStore->equal_range(T::familyId);
 
@@ -86,6 +88,8 @@ public:
 			if (nullptr != iter->second)
 				result.push_back(iter->second);
 		}
+
+		return S_OK;
 	}
 
 public:

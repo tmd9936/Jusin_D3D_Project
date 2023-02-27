@@ -9,6 +9,7 @@ BEGIN(Engine)
 class CGameInstance;
 class CGameObject;
 class CTransform;
+class CMapToolGUI;
 
 END
 

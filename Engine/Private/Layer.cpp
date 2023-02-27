@@ -28,10 +28,30 @@ HRESULT CLayer::Add_GameObject(CGameObject* pGameObject, const _tchar* pObjectNa
 
 void CLayer::Tick(_double TimeDelta)
 {
-	for (auto& pGameObject : m_GameObjects)
+	_uint state = 0;
+
+	//for (auto& pGameObject : m_GameObjects)
+	//{
+	//	if (nullptr != pGameObject)
+	//	{
+	//		state = pGameObject->Tick(TimeDelta);
+	//	}
+	//}
+
+	for (auto iter = m_GameObjects.begin(); iter != m_GameObjects.end();)
 	{
-		if (nullptr != pGameObject)
-			pGameObject->Tick(TimeDelta);
+		if (nullptr != (*iter))
+		{
+			state = (*iter)->Tick(TimeDelta);
+			if (state == OBJ_DEAD)
+			{
+				Remove_GameObject((*iter));
+				iter = m_GameObjects.erase(iter);
+				continue;
+			}
+			else
+				++iter;
+		}
 	}
 }
 
@@ -81,6 +101,62 @@ HRESULT CLayer::Remove_Component(const FamilyId& familyId, CGameObject* pObj)
 	}
 
 	return E_NOTIMPL;
+}
+
+HRESULT CLayer::Erase_GameObject(CGameObject* pObj)
+{
+	BOOL	bFind = false;
+	for (auto iter = m_GameObjects.begin(); iter != m_GameObjects.end(); ++iter)
+	{
+		if (*iter == pObj)
+		{
+			bFind = true;
+			break;
+		}
+	}
+
+	if (!bFind)
+		return E_FAIL;
+
+	for (auto objIter = pObj->m_Components.begin(); objIter != pObj->m_Components.end(); ++objIter)
+	{
+		auto iterPair = m_componentStore.equal_range(objIter->first);
+
+		if (iterPair.first == iterPair.second)
+			continue;
+
+		for (auto storeIter = iterPair.first; storeIter != iterPair.second; ++storeIter)
+		{
+			if (storeIter->second == pObj)
+			{
+				Safe_Release(storeIter->second);
+				m_componentStore.erase(storeIter);
+				break;
+			}
+		}
+	}
+
+	auto objectStoreIter = m_objectStore.find(pObj->Get_NameTag().c_str());
+
+	if (m_objectStore.end() != objectStoreIter)
+	{
+		Safe_Release(objectStoreIter->second);
+		m_objectStore.erase(objectStoreIter);
+	}
+
+	return S_OK;
+}
+
+HRESULT CLayer::Remove_GameObject(CGameObject* pObj)
+{
+	if (S_OK == Erase_GameObject(pObj))
+	{
+		Safe_Release(pObj);
+		pObj = nullptr;
+		return S_OK;
+	}
+
+	return E_FAIL;
 }
 
 CLayer* CLayer::Create()

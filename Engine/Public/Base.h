@@ -21,6 +21,10 @@ public:
 	/* 감소시키기 이전의 값을 리턴한다. */
 	unsigned long	Release(void);
 
+	const unsigned long	Get_RefCount() const {
+		return m_dwRefCnt;
+	}
+
 private:
 	unsigned long			m_dwRefCnt = { 0 };
 

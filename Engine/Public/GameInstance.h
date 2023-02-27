@@ -55,10 +55,10 @@ public: /* For.Object_Manager */
 	HRESULT		Remove_Component(const FamilyId& familyId, CGameObject* pObj);
 	CGameObject* Get_Object(_uint iLevelIndex, const _tchar* pLayerTag, const _tchar* pObjectTag) const;
 	template<typename T, typename = std::enable_if<is_base_of<CComponent, T>::value>>
-	void Get_ComponentList(vector<T>& result, _uint iLevelIndex, const _tchar* pLayerTag);
+	HRESULT Get_ComponentList(vector<T>& result, _uint iLevelIndex, const _tchar* pLayerTag);
 	template<typename T, typename = std::enable_if<is_base_of<CComponent, T>::value>>
-	void Get_ObjectList(vector<CGameObject*>& result, _uint iLevelIndex, const _tchar* pLayerTag);
-	HRESULT		Get_Layer_Names(_uint iLevelIndex, vector<wstring>& vecNames);
+	HRESULT Get_ObjectList(vector<CGameObject*>& result, _uint iLevelIndex, const _tchar* pLayerTag);
+	HRESULT	Get_Layer_Names(_uint iLevelIndex, vector<wstring>& vecNames);
 	const unordered_map<const _tchar*, class CGameObject*>* Get_GameObject_Prototypes();
 
 public: /* For.Component_Manager */
@@ -111,23 +111,23 @@ public:
 
 };
 
-
-END
-
 template<typename T, typename>
-inline void CGameInstance::Get_ComponentList(vector<T>& result, _uint iLevelIndex, const _tchar* pLayerTag)
+inline HRESULT CGameInstance::Get_ComponentList(vector<T>& result, _uint iLevelIndex, const _tchar* pLayerTag)
 {
 	if (nullptr == m_pObject_Manager)
-		return;
+		return E_FAIL;
 
 	return m_pObject_Manager->Get_ComponentList<T>(result, iLevelIndex, pLayerTag);
 }
 
 template<typename T, typename>
-inline void CGameInstance::Get_ObjectList(vector<CGameObject*>& result, _uint iLevelIndex, const _tchar* pLayerTag)
+inline HRESULT CGameInstance::Get_ObjectList(vector<CGameObject*>& result, _uint iLevelIndex, const _tchar* pLayerTag)
 {
 	if (nullptr == m_pObject_Manager)
-		return;
+		return E_FAIL;
 
 	return m_pObject_Manager->Get_ObjectList<T>(result, iLevelIndex, pLayerTag);
 }
+
+END
+

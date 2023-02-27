@@ -9,6 +9,7 @@ BEGIN(Engine)
 class CGameInstance;
 class CGameObject;
 class CTransform;
+class CCalculator;
 
 END
 
@@ -58,6 +59,12 @@ public:
 
 	void	Remove_PickingObject();
 
+	void	Set_PrefabName(const wstring& PrefabName) {
+		m_PrefabName = PrefabName;
+	}
+
+	HRESULT	Change_ViewerObject();
+
 private:
 	void	Save_CubeList();
 	void	Load_CubeList();
@@ -73,6 +80,10 @@ private:
 	void	FileMenu();
 	void	TerrainMenu();
 
+private:
+	void	Update_Data();
+	void	Update_ViewerGameObject();
+	HRESULT	Get_Picking_Terrain_Pos(_float3* pVOutPutPos);
 
 private:
 	ID3D11Device*			m_pDevice = { nullptr };
@@ -111,8 +122,11 @@ private:
 	int					m_iTerrainCntX = { 0 };
 	int					m_iTerrainCntZ = { 0 };
 
-	//CCalculator* m_pCalculator;
-	//CGameObject* m_pViewerObject;
+	wstring				m_PrefabName = {};
+
+private:
+	CCalculator* m_pCalculator = { nullptr };
+	CGameObject* m_pViewerObject = { nullptr };
 
 public:
 	virtual void Free(void) override;

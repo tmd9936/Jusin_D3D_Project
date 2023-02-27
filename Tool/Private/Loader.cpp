@@ -149,6 +149,11 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 		CVIBuffer_FlatTerrain::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	/* For.Prototype_Component_Calculator */
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Calculator"),
+		CCalculator::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 #pragma endregion
 
 #pragma region SHADERS

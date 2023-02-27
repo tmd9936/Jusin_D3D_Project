@@ -9,6 +9,8 @@
 
 #include "GameInstance.h"
 
+#include "MapToolGUI.h"
+
 #include <codecvt>
 
 IMPLEMENT_SINGLETON(CDataToolGUI)
@@ -101,8 +103,9 @@ void CDataToolGUI::View_Prefab()
 		if (m_PrefabListBox)
 		{
 			std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
-			
-			wstring m_CurrentPrefabName = convert.from_bytes(m_PrefabListBox[m_iPrefabListCurrentItem]);
+			m_CurrentPrefabName = convert.from_bytes(m_PrefabListBox[m_iPrefabListCurrentItem]);
+
+			CMapToolGUI::GetInstance()->Set_PrefabName(m_CurrentPrefabName);
 		}
 
 	}

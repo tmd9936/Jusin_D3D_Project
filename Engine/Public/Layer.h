@@ -25,6 +25,10 @@ public:
 	HRESULT Remove_Component(const FamilyId& familyId, CGameObject* pObj);
 
 private:
+	HRESULT Erase_GameObject(CGameObject* pObj);
+	HRESULT Remove_GameObject(CGameObject* pObj);
+
+private:
 	list<class CGameObject*>							m_GameObjects;
 	unordered_map<wstring, CGameObject*>				m_objectStore;
 	unordered_multimap<FamilyId, CGameObject*>			m_componentStore;

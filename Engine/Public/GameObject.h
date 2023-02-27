@@ -82,6 +82,7 @@ protected:
 
 protected:
 	/* 해시테이블 */
+	friend CLayer;
 	map<FamilyId, class CComponent*>				m_Components;
 	wstring											m_strNameTag;
 	wstring											m_strLayerTag;
