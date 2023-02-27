@@ -37,28 +37,28 @@ HRESULT CVIBuffer_Rect::Initialize_Prototype()
 
 	ZeroMemory(&m_SubResourceData, sizeof m_SubResourceData);
 
-	VTXTEX* pVertices = new VTXTEX[m_iNumVertices];
-	ZeroMemory(pVertices, m_iStride * m_iNumVertices);
+	m_pVtxTex = new VTXTEX[m_iNumVertices];
+	ZeroMemory(m_pVtxTex, m_iStride * m_iNumVertices);
 
 	/* 로컬스페이스 상의 위치 정보를 채운다. */
-	pVertices[0].vPosition = _float3(-0.5f, 0.5f, 0.f);
-	pVertices[0].vTexUV = _float2(0.0f, 0.f);
+	m_pVtxTex[0].vPosition = _float3(-0.5f, 0.5f, 0.f);
+	m_pVtxTex[0].vTexUV = _float2(0.0f, 0.f);
 
-	pVertices[1].vPosition = _float3(0.5f, 0.5f, 0.f);
-	pVertices[1].vTexUV = _float2(1.0f, 0.f);
+	m_pVtxTex[1].vPosition = _float3(0.5f, 0.5f, 0.f);
+	m_pVtxTex[1].vTexUV = _float2(1.0f, 0.f);
 
-	pVertices[2].vPosition = _float3(0.5f, -0.5f, 0.f);
-	pVertices[2].vTexUV = _float2(1.0f, 1.f);
+	m_pVtxTex[2].vPosition = _float3(0.5f, -0.5f, 0.f);
+	m_pVtxTex[2].vTexUV = _float2(1.0f, 1.f);
 
-	pVertices[3].vPosition = _float3(-0.5f, -0.5f, 0.f);
-	pVertices[3].vTexUV = _float2(0.0f, 1.f);
+	m_pVtxTex[3].vPosition = _float3(-0.5f, -0.5f, 0.f);
+	m_pVtxTex[3].vTexUV = _float2(0.0f, 1.f);
 
-	m_SubResourceData.pSysMem = pVertices;
+	m_SubResourceData.pSysMem = m_pVtxTex;
 
 	if (FAILED(__super::Create_VertexBuffer()))
 		return E_FAIL;
 
-	Safe_Delete_Array(pVertices);
+	//Safe_Delete_Array(pVertices);
 
 #pragma endregion
 
@@ -73,22 +73,22 @@ HRESULT CVIBuffer_Rect::Initialize_Prototype()
 
 	ZeroMemory(&m_SubResourceData, sizeof m_SubResourceData);
 
-	FACEINDICES16* pIndices = new FACEINDICES16[m_iNumPrimitives];
+	m_pIndex = new FACEINDICES16[m_iNumPrimitives];
 
-	pIndices[0]._0 = 0;
-	pIndices[0]._1 = 1;
-	pIndices[0]._2 = 2;
+	m_pIndex[0]._0 = 0;
+	m_pIndex[0]._1 = 1;
+	m_pIndex[0]._2 = 2;
 
-	pIndices[1]._0 = 0;
-	pIndices[1]._1 = 2;
-	pIndices[1]._2 = 3;
+	m_pIndex[1]._0 = 0;
+	m_pIndex[1]._1 = 2;
+	m_pIndex[1]._2 = 3;
 
-	m_SubResourceData.pSysMem = pIndices;
+	m_SubResourceData.pSysMem = m_pIndex;
 
 	if (FAILED(__super::Create_IndexBuffer()))
 		return E_FAIL;
 
-	Safe_Delete_Array(pIndices);
+	//Safe_Delete_Array(pIndices);
 
 #pragma endregion
 

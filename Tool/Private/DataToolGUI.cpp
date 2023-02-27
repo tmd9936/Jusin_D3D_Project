@@ -62,6 +62,14 @@ HRESULT CDataToolGUI::Render()
 	return S_OK;
 }
 
+const wstring* CDataToolGUI::Get_Current_GameObject_Prefab() const
+{
+	if (m_CurrentPrefabName.empty())
+		return nullptr;
+	
+	return &m_CurrentPrefabName;
+}
+
 void CDataToolGUI::View_Base()
 {
 	ImGui::Begin("View_Base");
@@ -86,9 +94,16 @@ void CDataToolGUI::View_Prefab()
 	{
 		Update_PrefabList();
 	}
+	
 
 	if (ImGui::ListBox("  ", &m_iPrefabListCurrentItem, m_PrefabListBox, m_PrefabListBoxSize))
 	{
+		if (m_PrefabListBox)
+		{
+			std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
+			
+			wstring m_CurrentPrefabName = convert.from_bytes(m_PrefabListBox[m_iPrefabListCurrentItem]);
+		}
 
 	}
 

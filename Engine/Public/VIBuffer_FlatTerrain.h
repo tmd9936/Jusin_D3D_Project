@@ -25,6 +25,17 @@ public:
 public:
 	virtual HRESULT ReSize(VIBUFFER_FLAT_TERRAIN_DESC Vibuffer_Flat_Terrain_Desc);
 
+public:
+	const _float3* Get_VtxPos() const {
+		return m_pPos; }
+	const _uint Get_VtxCntX() const {
+		return m_Vibuffer_Flat_Terrain_Desc.m_iNumVerticesX;
+	}
+	const _uint Get_VtxCntZ() const {
+		return m_Vibuffer_Flat_Terrain_Desc.m_iNumVerticesZ;
+	}
+
+
 private:
 	VIBUFFER_FLAT_TERRAIN_DESC	m_Vibuffer_Flat_Terrain_Desc = { };
 	_float3* m_pPos = { nullptr };

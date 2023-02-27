@@ -1,7 +1,6 @@
 #include "Light_Manager.h"
 #include "Light.h"
 
-
 IMPLEMENT_SINGLETON(CLight_Manager)
 
 CLight_Manager::CLight_Manager()
@@ -33,4 +32,6 @@ void CLight_Manager::Free()
 {
     for (auto& pLight : m_Lights)
         Safe_Release(pLight);
+
+    m_Lights.clear();
 }

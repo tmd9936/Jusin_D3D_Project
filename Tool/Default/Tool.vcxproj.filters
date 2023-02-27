@@ -55,6 +55,9 @@
     <Filter Include="96 ImGui\DataToolGUI">
       <UniqueIdentifier>{4b68341e-8e0c-4946-a930-0258f43bc12d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\99, TestModel">
+      <UniqueIdentifier>{d0983206-d520-4cb0-a2ce-f921a2558e65}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -131,6 +134,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\DataToolGUI.h">
       <Filter>96 ImGui\DataToolGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TestModel.h">
+      <Filter>02. GameObject\99, TestModel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -209,6 +215,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\DataToolGUI.cpp">
       <Filter>96 ImGui\DataToolGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TestModel.cpp">
+      <Filter>02. GameObject\99, TestModel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

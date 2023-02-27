@@ -100,7 +100,6 @@ void CLayer::Free()
 		Safe_Release(iter.second);
 	m_componentStore.clear();
 
-
 	for (auto& pGameObject : m_GameObjects)
 		Safe_Release(pGameObject);
 	m_GameObjects.clear();

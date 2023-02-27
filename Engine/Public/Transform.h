@@ -37,18 +37,22 @@ public:
 	virtual HRESULT Initialize(void* pArg) override;
 
 public:
-	_vector Get_State(STATE eState) {
+	_vector Get_State(STATE eState) const {
 		return XMLoadFloat4x4(&m_WorldMatrix).r[eState];
 		
 	}
 
-	_float3 Get_Scaled() {
+	_float3 Get_Scaled() const {
 		return _float3(XMVectorGetX(XMVector3Length(Get_State(STATE_RIGHT))),
 			XMVectorGetX(XMVector3Length(Get_State(STATE_UP))),
 			XMVectorGetX(XMVector3Length(Get_State(STATE_LOOK))));
 	}
 
-	_matrix Get_WorldMatrix_Inverse() {
+	_float4x4 Get_WorldMatrix() const {
+		return m_WorldMatrix;
+	}
+
+	_matrix Get_WorldMatrix_Inverse() const {
 		return XMMatrixInverse(nullptr, XMLoadFloat4x4(&m_WorldMatrix));
 	}
 

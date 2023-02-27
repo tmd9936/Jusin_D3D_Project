@@ -143,8 +143,7 @@ HRESULT CShader::Set_RawValue(const char* pConstantName, const void* pData, _uin
 	if (nullptr == m_pEffect)
 		return E_FAIL;
 
-	ID3DX11EffectVariable* pVariable = m_pEffect->GetVariableByName(pConstantName);
-
+	ID3DX11EffectVariable*		pVariable = m_pEffect->GetVariableByName(pConstantName);
 	if (nullptr == pVariable)
 		return E_FAIL;
 
@@ -179,11 +178,11 @@ CComponent* CShader::Clone(CGameObject* pOwner, void* pArg)
 
 void CShader::Free()
 {
-	__super::Free();
 	for (_uint i = 0; i < m_iNumPasses; ++i)
 	{
 		Safe_Release(m_Passes[i].pInputLayout);
 	}
 
 	Safe_Release(m_pEffect);
+	__super::Free();
 }

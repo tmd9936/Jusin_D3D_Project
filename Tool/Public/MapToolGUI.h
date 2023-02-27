@@ -87,9 +87,9 @@ private:
 	int						m_iEnvironment_current_idx = { 0 };
 	int						m_iMap_current_idx = { 0 };
 
-	_float4					m_vScale;
-	_float4					m_vPos;
-	_float4					m_vRot;
+	_float4					m_vScale = {};
+	_float4					m_vPos = {};
+	_float4					m_vRot = {};
 
 	CGameObject*			m_pPickingObject = { nullptr };
 
@@ -110,6 +110,9 @@ private:
 
 	int					m_iTerrainCntX = { 0 };
 	int					m_iTerrainCntZ = { 0 };
+
+	//CCalculator* m_pCalculator;
+	//CGameObject* m_pViewerObject;
 
 public:
 	virtual void Free(void) override;

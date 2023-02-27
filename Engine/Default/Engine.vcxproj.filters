@@ -94,6 +94,9 @@
     <Filter Include="01. Utility\05. Lights\Manager">
       <UniqueIdentifier>{24abbc47-1ea4-4547-a3b1-6aa5b38f2a3b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\03. Component\Calculator">
+      <UniqueIdentifier>{73d50eb8-7c6e-4e45-93ee-2a7814a94a86}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Engine_Defines.h">
@@ -195,6 +198,9 @@
     <ClInclude Include="..\Public\Light_Manager.h">
       <Filter>01. Utility\05. Lights\Manager</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Calculator.h">
+      <Filter>01. Utility\03. Component\Calculator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -280,6 +286,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Light_Manager.cpp">
       <Filter>01. Utility\05. Lights\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Calculator.cpp">
+      <Filter>01. Utility\03. Component\Calculator</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

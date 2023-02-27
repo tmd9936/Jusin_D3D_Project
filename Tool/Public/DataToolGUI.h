@@ -27,6 +27,9 @@ public:
 	_uint LateTick(_double TimeDelta);
 	HRESULT Render();
 
+public:
+	const wstring* Get_Current_GameObject_Prefab() const;
+
 private:
 	void	View_Base();
 	void	View_Level_Layer();
@@ -63,6 +66,8 @@ private:
 	char**					m_PrefabListBox = { nullptr };
 	int						m_iPrefabListCurrentItem = { 0 };
 	size_t					m_PrefabListBoxSize = { 0 };
+
+	wstring					m_CurrentPrefabName = {};
 
 public:
 	virtual void Free(void) override;

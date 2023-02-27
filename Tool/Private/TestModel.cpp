@@ -1,24 +1,24 @@
-﻿#include "stdafx.h"
-#include "..\Public\Terrain.h"
+#include "stdafx.h"
+#include "..\Public\TestModel.h"
 
 #include "GameInstance.h"
 
-CTerrain::CTerrain(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CTestModel::CTestModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
 {
 }
 
-CTerrain::CTerrain(const CTerrain& rhs)
+CTestModel::CTestModel(const CTestModel& rhs)
 	: CGameObject(rhs)
 {
 }
 
-HRESULT CTerrain::Initialize_Prototype()
+HRESULT CTestModel::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CTerrain::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
+HRESULT CTestModel::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 		return E_FAIL;
@@ -31,19 +31,19 @@ HRESULT CTerrain::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* p
 	return S_OK;
 }
 
-_uint CTerrain::Tick(_double TimeDelta)
+_uint CTestModel::Tick(_double TimeDelta)
 {
 	return _uint();
 }
 
-_uint CTerrain::LateTick(_double TimeDelta)
+_uint CTestModel::LateTick(_double TimeDelta)
 {
 	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
 
 	return _uint();
 }
 
-HRESULT CTerrain::Render()
+HRESULT CTestModel::Render()
 {
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
@@ -55,7 +55,7 @@ HRESULT CTerrain::Render()
 	return S_OK;
 }
 
-HRESULT CTerrain::Add_Components()
+HRESULT CTestModel::Add_Components()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
@@ -89,13 +89,13 @@ HRESULT CTerrain::Add_Components()
 	return S_OK;
 }
 
-HRESULT CTerrain::SetUp_ShaderResources()
+HRESULT CTestModel::SetUp_ShaderResources()
 {
-	_float4x4		WorldMatrix;
+	//_float4x4		WorldMatrix;
 
-	XMStoreFloat4x4(&WorldMatrix, XMMatrixIdentity());
+	//XMStoreFloat4x4(&WorldMatrix, XMMatrixIdentity());
 
-	if (FAILED(m_pShaderCom->Set_Matrix("g_WorldMatrix", &WorldMatrix)))
+	if (FAILED(m_pShaderCom->Set_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
 		return E_FAIL;
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
@@ -142,33 +142,33 @@ HRESULT CTerrain::SetUp_ShaderResources()
 	return S_OK;
 }
 
-CTerrain* CTerrain::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CTestModel* CTestModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CTerrain* pInstance = new CTerrain(pDevice, pContext);
+	CTestModel* pInstance = new CTestModel(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed to Created CTerrain");
+		MSG_BOX("Failed to Created CTestModel");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CTerrain::Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
+CGameObject* CTestModel::Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
-	CTerrain* pInstance = new CTerrain(*this);
+	CTestModel* pInstance = new CTestModel(*this);
 
 	if (FAILED(pInstance->Initialize(pLayerTag, iLevelIndex, pArg)))
 	{
-		MSG_BOX("Failed to Cloned CTerrain");
+		MSG_BOX("Failed to Cloned CTestModel");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CTerrain::Free()
+void CTestModel::Free()
 {
 	__super::Free();
 

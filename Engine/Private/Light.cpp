@@ -1,4 +1,4 @@
-#include "Light.h"
+#include "..\Public\Light.h"
 
 CLight::CLight(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
@@ -11,7 +11,8 @@ CLight::CLight(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 HRESULT CLight::Initialize(const LIGHTDESC& LightDesc)
 {
 	m_LightDesc = LightDesc;
-    return S_OK;
+
+	return S_OK;
 }
 
 CLight* CLight::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const LIGHTDESC& LightDesc)
@@ -29,8 +30,6 @@ CLight* CLight::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, con
 
 void CLight::Free()
 {
-	__super::Free();
-
-	Safe_AddRef(m_pDevice);
-	Safe_AddRef(m_pContext);
+	Safe_Release(m_pDevice);
+	Safe_Release(m_pContext);
 }
