@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Tool_Defines.h"
+#include "Client_Defines.h"
 #include "Level.h"
 
 /* 다음레벨을 준비하기위한 CLoader를 생성한다. */
 /* 로더의 역활이 끝나면 실제 할당하기위한 다음레벨로 넘긴다. */
 /* 로딩레벨에서 보여줘야할 객체를 생성하고 갱신, 렌더를 수행한다. */
-BEGIN(Tool)
+BEGIN(Client)
 
 class CLevel_Loading final : public CLevel
 {

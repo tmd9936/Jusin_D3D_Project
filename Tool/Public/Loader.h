@@ -2,7 +2,7 @@
 
 /* 스레드를 통하여 특정 레벨의 준비를 한다. */
 
-#include "Tool_Defines.h"
+#include "Client_Defines.h"
 #include "Base.h"
 
 BEGIN(Engine)
@@ -10,7 +10,7 @@ BEGIN(Engine)
 
 END
 
-BEGIN(Tool)
+BEGIN(Client)
 
 class CLoader final : public CBase
 {

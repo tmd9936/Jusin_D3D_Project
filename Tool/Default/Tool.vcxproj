@@ -175,7 +175,7 @@
     <ClInclude Include="..\Public\MapTool.h" />
     <ClInclude Include="..\Public\MapToolGUI.h" />
     <ClInclude Include="..\Public\Terrain.h" />
-    <ClInclude Include="..\Public\Tool_Defines.h" />
+    <ClInclude Include="..\Public\Client_Defines.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />

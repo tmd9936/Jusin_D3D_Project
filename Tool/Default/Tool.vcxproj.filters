@@ -69,7 +69,7 @@
     <ClInclude Include="targetver.h">
       <Filter>98. Default</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Tool_Defines.h">
+    <ClInclude Include="..\Public\Client_Defines.h">
       <Filter>99. Defines</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\MainApp.h">

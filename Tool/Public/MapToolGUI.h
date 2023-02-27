@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Tool_Defines.h"
+#include "Client_Defines.h"
 #include "Base.h"
 
 
@@ -12,7 +12,7 @@ class CTransform;
 
 END
 
-BEGIN(Tool)
+BEGIN(Client)
 
 class CMapToolGUI : public CBase
 {

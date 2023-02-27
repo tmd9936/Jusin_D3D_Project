@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Tool_Defines.h"
+#include "Client_Defines.h"
 #include "GameObject.h"
 
 BEGIN(Engine)
@@ -8,7 +8,7 @@ BEGIN(Engine)
 END
 
 
-BEGIN(Tool)
+BEGIN(Client)
 
 class CMapTool :
     public CGameObject

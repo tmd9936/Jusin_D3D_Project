@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Tool_Defines.h"
+#include "Client_Defines.h"
 #include "Base.h"
 
 BEGIN(Engine)
@@ -8,7 +8,7 @@ class CRenderer;
 class CGameInstance;
 END
 
-BEGIN(Tool)
+BEGIN(Client)
 class CMapToolGUI;
 class CDataToolGUI;
 
