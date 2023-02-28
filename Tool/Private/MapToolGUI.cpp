@@ -137,32 +137,19 @@ HRESULT CMapToolGUI::Render()
 
 			TerrainMenu();
 
-			//static int clicked = 0;
-			//if (ImGui::Button("Install"))
-			//	clicked++;
-
-			//if (clicked & 1)
-			//{
-			//	m_bInstall = true;
-			//	ImGui::SameLine();
-			//	ImGui::Text("Thanks for clicking me!");
-			//	clicked++;
-			//}
-			//else
-			//	m_bInstall = false;
-
 		}
 		ImGui::End();
 
 		ImGui::Begin("Tool2");
+		{
 
-		GetCursorPos(&m_ptMouse);
-		ScreenToClient(g_hWnd, &m_ptMouse);
+			GetCursorPos(&m_ptMouse);
+			ScreenToClient(g_hWnd, &m_ptMouse);
 
-		ImGui::Text("MouseX %d", m_ptMouse.x);
-		ImGui::Text("MouseY %d", m_ptMouse.y);
+			ImGui::Text("MouseX %d", m_ptMouse.x);
+			ImGui::Text("MouseY %d", m_ptMouse.y);
 
-
+		}
 		ImGui::End();
 
 	}
@@ -200,17 +187,27 @@ void CMapToolGUI::Environment_Index_Add(const int& index)
 	m_iListBox[ENVIRONMENT] = m_iEnvironment_current_idx;
 }
 
-void CMapToolGUI::Set_PickingObject(CGameObject* obj)
+void CMapToolGUI::Picking_Environment()
 {
-	if (obj == nullptr)
-		return;
-	m_pPickingObject = obj;
+	if (MOUSE_TAB(MOUSE::LBTN) && Mouse_Pos_In_Platform())
+	{
 
-	//CTransform* transform = CGameObject::World->Get_Component<CTransform>(m_pPickingObject);
+		const wstring* layerTag = CDataToolGUI::GetInstance()->Get_Current_LayerName();
+		const _uint iLevelindex = CDataToolGUI::GetInstance()->Get_Current_Levelindex();
 
-	//m_vScale = transform->m_vScale;
-	//m_vRot = transform->m_vAngle;
-	//transform->Get_Info(INFO_POS, &m_vPos);
+		m_pPickingObject = m_pCalculator->Picking_Environment_Object(g_hWnd, layerTag->c_str(), iLevelindex);
+		
+		if (nullptr == m_pPickingObject)
+			return;
+
+		CTransform* pTransform = dynamic_cast<CTransform*>(CGameInstance::GetInstance()->Get_Component(CTransform::familyId, m_pPickingObject));
+
+		m_vScale = pTransform->Get_Scaled();
+		XMStoreFloat4(&m_vRight, pTransform->Get_State(CTransform::STATE_RIGHT));
+		XMStoreFloat4(&m_vUp, pTransform->Get_State(CTransform::STATE_UP));
+		XMStoreFloat4(&m_vLook, pTransform->Get_State(CTransform::STATE_LOOK));
+		XMStoreFloat4(&m_vPos, pTransform->Get_State(CTransform::STATE_POSITION));
+	}
 }
 
 void CMapToolGUI::Remove_PickingObject()
@@ -311,15 +308,15 @@ void CMapToolGUI::Slider()
 
 		ImGui::Text("Set_Rot");
 		ImGui::PushItemWidth(100);
-		ImGui::DragFloat("RotX", &m_vRot.x);
-		ImGui::SameLine(); ImGui::SameLine();
+		//ImGui::DragFloat("RotX", &m_vRot.x);
+		//ImGui::SameLine(); ImGui::SameLine();
 		//ImGui::Indent(); // �鿩����
 		//ImGui::DragFloat("Pos_Y (indented)##1b", &fY);
-		ImGui::DragFloat("RotY", &m_vRot.y);
+		//ImGui::DragFloat("RotY", &m_vRot.y);
 		//ImGui::Unindent();
-		ImGui::SameLine(); ImGui::SameLine();
+		//ImGui::SameLine(); ImGui::SameLine();
 		//ImGui::Indent(); // �鿩����
-		ImGui::DragFloat("RotZ", &m_vRot.z);
+		//ImGui::DragFloat("RotZ", &m_vRot.z);
 		//ImGui::Unindent();
 
 		ImGui::Text("Set_Pos");
@@ -491,7 +488,7 @@ void CMapToolGUI::Update_Data()
 		break;
 
 	case PICKING_ENVIRONMENT:
-		//Picking_Environment();
+		Picking_Environment();
 		break;
 
 	case PICKING_SPAWN:

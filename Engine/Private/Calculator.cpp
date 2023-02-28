@@ -218,51 +218,70 @@ CGameObject* CCalculator::Picking_Environment_Object(HWND hWnd, const _tchar* pL
 	if (vecObj.empty())
 		return nullptr;
 
+	XMMATRIX projectionMatrix, viewMatrix, inverseViewMatrix, worldMatrix, translateMatrix, inverseWorldMatrix;
+	XMFLOAT4 direction, origin, rayOrigin, rayDirection;
+
+	_float4 vRayPos = CGameInstance::GetInstance()->Get_CamPosition();
+
 	POINT		ptMouse{};
 
 	GetCursorPos(&ptMouse);
 	ScreenToClient(hWnd, &ptMouse);
 
-	_float4	vMousePos{ 0.f, 0.f, 0.f, 1.f };
+	_float4	vMousePos{ 0.f, 0.f, 0.f, 0.f };
 
-	D3D11_VIEWPORT ViewPort;
-	ZeroMemory(&ViewPort, sizeof(D3D11_VIEWPORT));
+	D3D11_VIEWPORT ViewPort[1];
+	ZeroMemory(ViewPort, sizeof(D3D11_VIEWPORT));
 	UINT iNumViewPorts = { 1 };
-	m_pContext->RSGetViewports(&iNumViewPorts, &ViewPort);
+	m_pContext->RSGetViewports(&iNumViewPorts, ViewPort);
 
-	vMousePos.x = ptMouse.x / (ViewPort.Width * 0.5f) - 1.f;
-	vMousePos.y = ptMouse.y / -(ViewPort.Height * 0.5f) + 1.f;
-	vMousePos.z = 0.f;
+	//vMousePos.x = ptMouse.x / (ViewPort[0].Width * 0.5f) - 1.f;
+	//vMousePos.y = ptMouse.y / -(ViewPort[0].Height * 0.5f) + 1.f;
+	//vMousePos.z = 0.f;
 
-	_matrix matProj = CGameInstance::GetInstance()->Get_Transform_Matrix(CPipeLine::D3DTS_PROJ);
+	// 마우스 커서 좌표를 -1에서 +1 범위로 이동합니다
+	float pointX = ((2.0f * (float)ptMouse.x) / (float)ViewPort[0].Width) - 1.0f;
+	float pointY = (((2.0f * (float)ptMouse.y) / (float)ViewPort[0].Height) - 1.0f) * -1.0f;
 
-	matProj = XMMatrixInverse(nullptr, matProj);
+	projectionMatrix = CGameInstance::GetInstance()->Get_Transform_Matrix(CPipeLine::D3DTS_PROJ);
 
-	XMStoreFloat4(&vMousePos, XMVector3TransformCoord(XMLoadFloat4(&vMousePos), matProj));
+	XMFLOAT4X4 projectionMatrix4;
+	XMStoreFloat4x4(&projectionMatrix4, projectionMatrix);
 
-	_float4		vRayPos, vRayDir;
+	pointX = pointX / projectionMatrix4._11;
+	pointY = pointY / projectionMatrix4._22;
 
-	vRayPos = { 0.f, 0.f, 0.f, 1.f };
-	XMStoreFloat4(&vRayDir, XMLoadFloat4(&vMousePos) - XMLoadFloat4(&vRayPos));
+	viewMatrix = CGameInstance::GetInstance()->Get_Transform_Matrix(CPipeLine::D3DTS_VIEW);
+	inverseViewMatrix = XMMatrixInverse(nullptr, viewMatrix);
 
-	_matrix matView = CGameInstance::GetInstance()->Get_Transform_Matrix(CPipeLine::D3DTS_VIEW);
+	XMFLOAT4X4 inverseViewMatrix4;
+	XMStoreFloat4x4(&inverseViewMatrix4, inverseViewMatrix);
 
-	matView = XMMatrixInverse(nullptr, matView);
-	XMStoreFloat4(&vRayPos, XMVector3TransformCoord(XMLoadFloat4(&vRayPos), matView));
-	XMStoreFloat4(&vRayDir, XMVector3TransformCoord(XMLoadFloat4(&vRayDir), matView));
+	direction.x = (pointX * inverseViewMatrix4._11) + (pointY * inverseViewMatrix4._21) + inverseViewMatrix4._31;
+	direction.y = (pointX * inverseViewMatrix4._12) + (pointY * inverseViewMatrix4._22) + inverseViewMatrix4._32;
+	direction.z = (pointX * inverseViewMatrix4._13) + (pointY * inverseViewMatrix4._23) + inverseViewMatrix4._33;
+
+	origin.x = vRayPos.x;
+	origin.y = vRayPos.y;
+	origin.z = vRayPos.z;
 
 	for (auto& pObj : vecObj)
 	{
 		_matrix		matWorld;
-		_float4		vRayPosTemp;
-		_float4		vRayDirTemp;
+		_float4		vRayPosTemp{};
+		_float4		vRayDirTemp{};
 
 		CTransform* pTransCom = dynamic_cast<CTransform*>(CGameInstance::GetInstance()->Get_Component(CTransform::familyId, pObj));
 		
-		matWorld = XMLoadFloat4x4(&pTransCom->Get_WorldMatrix());
-		matWorld = XMMatrixInverse(nullptr, matWorld);
-		XMStoreFloat4(&vRayPos, XMVector3TransformCoord(XMLoadFloat4(&vRayPos), matWorld));
-		XMStoreFloat4(&vRayDir, XMVector3TransformNormal(XMLoadFloat4(&vRayDir), matWorld));
+		inverseWorldMatrix = pTransCom->Get_WorldMatrix_Inverse();
+		XMStoreFloat4(&rayOrigin, XMVector3TransformCoord(XMVectorSet(origin.x, origin.y, origin.z, 0.0f), inverseWorldMatrix));
+		XMStoreFloat4(&direction, XMVector3TransformNormal(XMVectorSet(direction.x, direction.y, direction.z, 0.0f), inverseWorldMatrix));
+
+		// 광선 방향을 표준화합니다.
+		XMStoreFloat4(&rayDirection, XMVector3Normalize(XMVectorSet(direction.x, direction.y, direction.z, 0.0f)));
+
+		_vector vRayOrigin = XMVectorSet(rayOrigin.x, rayOrigin.y, rayOrigin.z, 1.f);
+		_vector vRayDiretion = XMVectorSet(rayDirection.x, rayDirection.y, rayDirection.z, 0.f);
 
 		CVIBuffer_Rect* RcTex = dynamic_cast<CVIBuffer_Rect*>(CGameInstance::GetInstance()->Get_Component(CVIBuffer_Rect::familyId, pObj));
 
@@ -276,11 +295,18 @@ CGameObject* CCalculator::Picking_Environment_Object(HWND hWnd, const _tchar* pL
 
 		for (size_t i = 0; i < 2; ++i)
 		{
-			if (TriangleTests::Intersects(XMLoadFloat4(&vRayPosTemp),
-				XMLoadFloat4(&vRayDirTemp),
-				XMLoadFloat3(&pVtxTex[pIndex[i]._1].vPosition),
-				XMLoadFloat3(&pVtxTex[pIndex[i]._2].vPosition),
-				XMLoadFloat3(&pVtxTex[pIndex[i]._0].vPosition), fDist))
+			_float4 vtx1{ 0.f, 0.f, 0.f, 1.f };
+			_float4 vtx2{ 0.f, 0.f, 0.f, 1.f };
+			_float4 vtx3{ 0.f, 0.f, 0.f, 1.f };
+			memcpy(&vtx1, &pVtxTex[pIndex[i]._1].vPosition, sizeof _float3);
+			memcpy(&vtx2, &pVtxTex[pIndex[i]._2].vPosition, sizeof _float3);
+			memcpy(&vtx3, &pVtxTex[pIndex[i]._0].vPosition, sizeof _float3);
+
+			if (TriangleTests::Intersects(vRayOrigin,
+				vRayDiretion,
+				XMLoadFloat4(&vtx1),
+				XMLoadFloat4(&vtx2),
+				XMLoadFloat4(&vtx3), fDist))
 			{
 				vecResults.push_back(pObj);
 				break;
@@ -291,10 +317,7 @@ CGameObject* CCalculator::Picking_Environment_Object(HWND hWnd, const _tchar* pL
 	if (vecResults.empty())
 		return nullptr;
 
-	_float4x4 matStoreVIew{};
-	XMStoreFloat4x4(&matStoreVIew, matView);
-
-	_vector vViewPos{ matStoreVIew.m[3][0], matStoreVIew.m[3][1], matStoreVIew.m[3][2]};
+	_vector vViewPos = XMLoadFloat4(&CGameInstance::GetInstance()->Get_CamPosition());
 
 	sort(vecResults.begin(), vecResults.end(),
 		[vViewPos](CGameObject* pSour, CGameObject* pDest) -> bool

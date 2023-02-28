@@ -57,7 +57,7 @@ public:
 
 	void	Render_Switch() { m_bRender = !m_bRender; }
 
-	void	Set_PickingObject(CGameObject* obj);
+	void	Picking_Environment();
 
 	void	Remove_PickingObject();
 
@@ -104,11 +104,11 @@ private:
 	int						m_iEnvironment_current_idx = { 0 };
 	int						m_iMap_current_idx = { 0 };
 
-	_float4					m_vScale = {};
+	_float3					m_vScale = {};
+	_float4					m_vRight = {};
+	_float4					m_vUp = {};
+	_float4					m_vLook = {};
 	_float4					m_vPos = {};
-	_float4					m_vRot = {};
-
-	CGameObject*			m_pPickingObject = { nullptr };
 
 	//vector<string*>			m_vecCube;
 
@@ -136,6 +136,7 @@ private:
 private:
 	CCalculator* m_pCalculator = { nullptr };
 	CGameObject* m_pViewerObject = { nullptr };
+	CGameObject* m_pPickingObject = { nullptr };
 
 public:
 	virtual void Free(void) override;

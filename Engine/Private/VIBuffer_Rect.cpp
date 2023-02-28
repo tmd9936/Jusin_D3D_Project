@@ -8,6 +8,8 @@ CVIBuffer_Rect::CVIBuffer_Rect(ID3D11Device* pDevice, ID3D11DeviceContext* pCont
 
 CVIBuffer_Rect::CVIBuffer_Rect(const CVIBuffer_Rect& rhs, CGameObject* pOwner)
 	: CVIBuffer(rhs, pOwner)
+	, m_pVtxTex(rhs.m_pVtxTex)
+	, m_pIndex(rhs.m_pIndex)
 {
 
 }
@@ -128,8 +130,11 @@ CComponent* CVIBuffer_Rect::Clone(CGameObject* pOwner, void* pArg)
 
 void CVIBuffer_Rect::Free()
 {
-	Safe_Delete_Array(m_pIndex);
-	Safe_Delete_Array(m_pVtxTex);
+	if (!m_bClone)
+	{
+		Safe_Delete_Array(m_pIndex);
+		Safe_Delete_Array(m_pVtxTex);
+	}
 
 	__super::Free();
 
