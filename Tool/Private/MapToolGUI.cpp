@@ -62,16 +62,17 @@ HRESULT CMapToolGUI::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pCon
 
 	ImGuiPlatformIO& io = ImGui::GetPlatformIO();
 	m_pRootViewport = IM_NEW(ImGuiViewport);;
-	//m_pRootViewport->Size.x = g_iWinSizeX * 0.5f;
-	//m_pRootViewport->Size.y = g_iWinSizeY * 0.5f;
-	//m_pRootViewport->Pos.x = 0.f;
-	//m_pRootViewport->Pos.y = 0.f;
-	//m_pRootViewport->ID = 2;
-	//m_pRootViewport->Flags = ImGuiViewportFlags_IsPlatformWindow;
 
 	io.Platform_CreateWindow(m_pRootViewport);
 	((ImGui_ImplWin32_ViewportData2*)(m_pRootViewport->PlatformUserData))->Hwnd = g_hWnd;
 	((ImGui_ImplWin32_ViewportData2*)(m_pRootViewport->PlatformUserData))->HwndOwned = true;
+
+	m_pRootViewport->Size.x = g_iWinSizeX;
+	m_pRootViewport->Size.y = g_iWinSizeY;
+	m_pRootViewport->Pos.x = 0.f;
+	m_pRootViewport->Pos.y = 0.f;
+	m_pRootViewport->ID = 2;
+	m_pRootViewport->Flags = ImGuiViewportFlags_IsPlatformWindow;
 
 	io.Platform_SetWindowTitle(m_pRootViewport, "Windows");
 	//io.Platform_SetWindowSize(m_pRootViewport, ImVec2((float)g_iWinSizeX * 0.75f, (float)g_iWinSizeY * 0.75f));
@@ -153,7 +154,16 @@ HRESULT CMapToolGUI::Render()
 		ImGui::End();
 
 		ImGui::Begin("Tool2");
-		ImGui::Text("Hello");
+		
+		POINT		ptMouse{};
+
+		GetCursorPos(&ptMouse);
+		ScreenToClient(g_hWnd, &ptMouse);
+
+		ImGui::Text("MouseX %d", ptMouse.x);
+		ImGui::Text("MouseY %d", ptMouse.y);
+
+
 		ImGui::End();
 
 	}

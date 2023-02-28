@@ -77,11 +77,11 @@ void CCamera_Dynamic::Key_Input(const _double TimeDelta)
 		{
 			m_pTransform->Turn(m_pTransform->Get_State(CTransform::STATE_RIGHT), _float(TimeDelta) * (MouseMove * 0.1f));
 		}
+	}
 
-		if (KEY_TAB(KEY::LSHIFT))
-		{
-			m_bMouseMove = !m_bMouseMove;
-		}
+	if (KEY_TAB(KEY::LSHIFT))
+	{
+		m_bMouseMove = !m_bMouseMove;
 	}
 
 

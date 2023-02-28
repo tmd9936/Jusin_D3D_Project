@@ -89,30 +89,28 @@ _float3 CCalculator::Picking_OnTerrain(HWND hWnd, _float2 viewPortSize, const CV
 	vMousePos.z = 0.f;
 
 	_matrix matProj = CGameInstance::GetInstance()->Get_Transform_Matrix(CPipeLine::D3DTS_PROJ);
-	
 	matProj = XMMatrixInverse(nullptr, matProj);
-
 	XMStoreFloat4(&vMousePos, XMVector3TransformCoord(XMLoadFloat4(&vMousePos), matProj));
 
 	_float4		vRayPos = { 0.f, 0.f, 0.f, 1.f };
-	_float3		vRayDir = { 0.f, 0.f, 0.f };
-
-	XMStoreFloat3(&vRayDir, XMLoadFloat4(&vMousePos) - XMLoadFloat4(&vRayPos));
+	_float4		vRayDir = { 0.f, 0.f, 0.f, 0.f };
 
 	_matrix matView = CGameInstance::GetInstance()->Get_Transform_Matrix(CPipeLine::D3DTS_VIEW);
 
 	matView = XMMatrixInverse(nullptr, matView);
-	XMStoreFloat4(&vRayPos, XMVector3TransformCoord(XMLoadFloat4(&vRayPos), matView));
-	XMStoreFloat3(&vRayDir, XMVector3TransformNormal(XMLoadFloat3(&vRayDir), matView));
+	XMStoreFloat4(&vMousePos, XMVector3TransformCoord(XMLoadFloat4(&vMousePos), matView));
+	//XMStoreFloat4(&vRayDir, XMVector3TransformNormal(XMLoadFloat4(&vRayDir), matView));
+
+	vRayPos = CGameInstance::GetInstance()->Get_CamPosition();
+
+	XMStoreFloat4(&vRayDir,  XMLoadFloat4(&vRayPos) - XMLoadFloat4(&vMousePos));
 
 	_matrix		matWorld{};
-
 	matWorld = pTerrainTransCom->Get_WorldMatrix_Inverse();
-
 	XMStoreFloat4(&vRayPos, XMVector3TransformCoord(XMLoadFloat4(&vRayPos), matWorld));
-	XMStoreFloat3(&vRayDir, XMVector3TransformNormal(XMLoadFloat3(&vRayDir), matWorld));
+	XMStoreFloat4(&vRayDir, XMVector3TransformNormal(XMLoadFloat4(&vRayDir), matWorld));
 
-	XMStoreFloat3(&vRayDir, XMVector3Normalize(XMLoadFloat3(&vRayDir)));
+	XMStoreFloat4(&vRayDir, XMVector4Normalize(XMLoadFloat4(&vRayDir)));
 
 	const _float3* pTerrainVtx = pTerrainBufferCom->Get_VtxPos();
 	const _ulong	dwCntZ = pTerrainBufferCom->Get_VtxCntZ();
@@ -141,14 +139,15 @@ _float3 CCalculator::Picking_OnTerrain(HWND hWnd, _float2 viewPortSize, const CV
 
 
 			if(TriangleTests::Intersects(XMLoadFloat4(&vRayPos),
-				XMLoadFloat3(&vRayDir),
-				XMLoadFloat3(&pTerrainVtx[dwVtxIdx[1]]),
-				XMLoadFloat3(&pTerrainVtx[dwVtxIdx[2]]),
-				XMLoadFloat3(&pTerrainVtx[dwVtxIdx[0]]), fDist))
+				XMLoadFloat4(&vRayDir),
+				XMLoadFloat4(&vtx1),
+				XMLoadFloat4(&vtx2),
+				XMLoadFloat4(&vtx3), fDist))
 			{
-				return _float3(pTerrainVtx[dwVtxIdx[1]].x + (pTerrainVtx[dwVtxIdx[0]].x - pTerrainVtx[dwVtxIdx[1]].x) * fU,
+				if (fDist < 0.1f)
+				return _float3(pTerrainVtx[dwVtxIdx[1]].x + (pTerrainVtx[dwVtxIdx[0]].x - pTerrainVtx[dwVtxIdx[1]].x),
 					0.f,
-					pTerrainVtx[dwVtxIdx[1]].z + (pTerrainVtx[dwVtxIdx[1]].z - pTerrainVtx[dwVtxIdx[2]].z) * fV);
+					pTerrainVtx[dwVtxIdx[1]].z + (pTerrainVtx[dwVtxIdx[1]].z - pTerrainVtx[dwVtxIdx[2]].z));
 			}
 
 
@@ -161,14 +160,14 @@ _float3 CCalculator::Picking_OnTerrain(HWND hWnd, _float2 viewPortSize, const CV
 			memcpy(&vtx3, &pTerrainVtx[dwVtxIdx[1]], sizeof _float3);
 
 			if (TriangleTests::Intersects(XMLoadFloat4(&vRayPos),
-				XMLoadFloat3(&vRayDir),
-				XMLoadFloat3(&pTerrainVtx[dwVtxIdx[2]]),
-				XMLoadFloat3(&pTerrainVtx[dwVtxIdx[0]]),
-				XMLoadFloat3(&pTerrainVtx[dwVtxIdx[1]]), fDist))
+				XMLoadFloat4(&vRayDir),
+				XMLoadFloat4(&vtx1),
+				XMLoadFloat4(&vtx2),
+				XMLoadFloat4(&vtx3), fDist))
 			{
-				return _float3(pTerrainVtx[dwVtxIdx[2]].x + (pTerrainVtx[dwVtxIdx[1]].x - pTerrainVtx[dwVtxIdx[2]].x) * fU,
+				return _float3(pTerrainVtx[dwVtxIdx[2]].x + (pTerrainVtx[dwVtxIdx[1]].x - pTerrainVtx[dwVtxIdx[2]].x),
 					0.f,
-					pTerrainVtx[dwVtxIdx[2]].z + (pTerrainVtx[dwVtxIdx[0]].z - pTerrainVtx[dwVtxIdx[2]].z) * fV);
+					pTerrainVtx[dwVtxIdx[2]].z + (pTerrainVtx[dwVtxIdx[0]].z - pTerrainVtx[dwVtxIdx[2]].z));
 			}
 		}
 	}

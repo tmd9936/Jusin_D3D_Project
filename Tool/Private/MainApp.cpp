@@ -103,7 +103,7 @@ HRESULT CMainApp::Render()
 	m_pDataToolGUI->Render();
 
 	ImGuiIO& io = ImGui::GetIO();
-	io.DisplaySize = ImVec2((float)g_iWinSizeX * 0.75f, (float)g_iWinSizeY * 0.75f);
+	io.DisplaySize = ImVec2((float)g_iWinSizeX, (float)g_iWinSizeY);
 
 	ImGuiPlatformIO& PlatformIO = ImGui::GetPlatformIO();
 
