@@ -99,7 +99,8 @@ HRESULT CObject_Manager::Add_GameObject(const _tchar* pPrototypeTag, _uint iLeve
 	return S_OK;
 }
 
-HRESULT CObject_Manager::Add_GameObject(const _tchar* pPrototypeTag, _uint iLevelIndex, const _tchar* pLayerTag, CGameObject* pOut, const _tchar* pObjectNameTag, void* pArg)
+HRESULT CObject_Manager::Add_GameObject(const _tchar* pPrototypeTag, _uint iLevelIndex, 
+	const _tchar* pLayerTag, CGameObject** ppOut, const _tchar* pObjectNameTag, void* pArg)
 {
 	/* 원형을 찾는다. */
 	CGameObject* pPrototype = Find_Prototype(pPrototypeTag);
@@ -134,10 +135,10 @@ HRESULT CObject_Manager::Add_GameObject(const _tchar* pPrototypeTag, _uint iLeve
 		pGameObject->Set_NameTag(pObjectNameTag);
 	}
 
-	if (pOut)
+	if (nullptr == *ppOut)
 	{
-		pOut = pGameObject;
-		Safe_AddRef(pOut);
+		*ppOut = pGameObject;
+		Safe_AddRef(*ppOut);
 	}
 
 	return S_OK;

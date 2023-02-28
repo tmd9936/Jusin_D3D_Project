@@ -7,6 +7,7 @@ CTransform::CTransform(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGa
 
 CTransform::CTransform(const CTransform& rhs, CGameObject* pOwner)
 	: CComponent(rhs, pOwner)
+	, m_WorldMatrix(rhs.m_WorldMatrix)
 {
 }
 

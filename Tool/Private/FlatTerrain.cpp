@@ -27,7 +27,7 @@ HRESULT CFlatTerrain::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, voi
 		return E_FAIL;
 
 	m_eRenderId = RENDER_NONBLEND;
-
+	
 	return S_OK;
 }
 
@@ -108,11 +108,11 @@ HRESULT CFlatTerrain::Add_Components()
 
 HRESULT CFlatTerrain::SetUp_ShaderResources()
 {
-	_float4x4		WorldMatrix;
+	_float4x4		WorldMatrix = m_pTransformCom->Get_WorldMatrix();
 
-	XMStoreFloat4x4(&WorldMatrix, XMMatrixIdentity());
+	//XMStoreFloat4x4(&WorldMatrix, XMMatrixIdentity());
 
-	if (FAILED(m_pShaderCom->Set_Matrix("g_WorldMatrix", &WorldMatrix)))
+	if (FAILED(m_pShaderCom->Set_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
 		return E_FAIL;
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();

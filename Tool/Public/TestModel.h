@@ -4,7 +4,7 @@
 #include "GameObject.h"
 
 BEGIN(Engine)
-class CVIBuffer_Terrain;
+class CVIBuffer_Rect;
 class CRenderer;
 class CShader;
 class CTexture;
@@ -30,7 +30,7 @@ public:
 private:
 	CRenderer* m_pRendererCom = { nullptr };
 	CShader* m_pShaderCom = { nullptr };
-	CVIBuffer_Terrain* m_pVIBufferCom = { nullptr };
+	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
 	CTexture* m_pTextureCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
 

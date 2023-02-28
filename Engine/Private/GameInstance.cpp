@@ -185,12 +185,13 @@ HRESULT CGameInstance::Add_GameObject(const _tchar* pPrototypeTag, _uint iLevelI
 	return m_pObject_Manager->Add_GameObject(pPrototypeTag, iLevelIndex, pLayerTag, pObjectNameTag, pArg);
 }
 
-HRESULT CGameInstance::Add_GameObject(const _tchar* pPrototypeTag, _uint iLevelIndex, const _tchar* pLayerTag, CGameObject* pOut, const _tchar* pObjectNameTag, void* pArg)
+HRESULT CGameInstance::Add_GameObject(const _tchar* pPrototypeTag, _uint iLevelIndex, 
+	const _tchar* pLayerTag, CGameObject** ppOut, const _tchar* pObjectNameTag, void* pArg)
 {
 	if (nullptr == m_pObject_Manager)
 		return E_FAIL;
 
-	return m_pObject_Manager->Add_GameObject(pPrototypeTag, iLevelIndex, pLayerTag, pOut, pObjectNameTag, pArg);
+	return m_pObject_Manager->Add_GameObject(pPrototypeTag, iLevelIndex, pLayerTag, ppOut, pObjectNameTag, pArg);
 }
 
 HRESULT CGameInstance::Add_Component(const FamilyId& familyId, CGameObject* pGameObject, _uint iLevelIndex, const _tchar* pPrototypeTag, CComponent** ppOut, void* pArg)

@@ -62,21 +62,31 @@ HRESULT CMapToolGUI::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pCon
 
 	ImGuiPlatformIO& io = ImGui::GetPlatformIO();
 	m_pRootViewport = IM_NEW(ImGuiViewport);;
-	m_pRootViewport->Size.x = g_iWinSizeX * 0.5f;
-	m_pRootViewport->Size.y = g_iWinSizeY * 0.5f;
-	m_pRootViewport->Pos.x = 0.f;
-	m_pRootViewport->Pos.y = 0.f;
-	m_pRootViewport->ID = 2;
-	m_pRootViewport->Flags = ImGuiViewportFlags_IsPlatformWindow;
+	//m_pRootViewport->Size.x = g_iWinSizeX * 0.5f;
+	//m_pRootViewport->Size.y = g_iWinSizeY * 0.5f;
+	//m_pRootViewport->Pos.x = 0.f;
+	//m_pRootViewport->Pos.y = 0.f;
+	//m_pRootViewport->ID = 2;
+	//m_pRootViewport->Flags = ImGuiViewportFlags_IsPlatformWindow;
 
 	io.Platform_CreateWindow(m_pRootViewport);
 	((ImGui_ImplWin32_ViewportData2*)(m_pRootViewport->PlatformUserData))->Hwnd = g_hWnd;
 	((ImGui_ImplWin32_ViewportData2*)(m_pRootViewport->PlatformUserData))->HwndOwned = true;
 
 	io.Platform_SetWindowTitle(m_pRootViewport, "Windows");
-	io.Platform_SetWindowSize(m_pRootViewport, ImVec2((float)g_iWinSizeX * 0.75f, (float)g_iWinSizeY * 0.75f));
+	//io.Platform_SetWindowSize(m_pRootViewport, ImVec2((float)g_iWinSizeX * 0.75f, (float)g_iWinSizeY * 0.75f));
 	io.Platform_SetWindowPos(m_pRootViewport, { 10.f, 40.f });
 	//io.Platform_SetWindowAlpha(m_pRootViewport, 0.9f);
+
+	//D3D11_VIEWPORT ViewPort[1];
+	//ZeroMemory(ViewPort, sizeof(D3D11_VIEWPORT));
+	//UINT iNumViewPorts = { 1 };
+	//m_pContext->RSGetViewports(&iNumViewPorts, ViewPort);
+
+	//ViewPort[0].Width = m_pRootViewport->Size.x;
+	//ViewPort[0].Height = m_pRootViewport->Size.y;
+
+	//m_pContext->RSSetViewports(1, ViewPort);
 
 	return S_OK;
 }
@@ -510,8 +520,8 @@ HRESULT CMapToolGUI::Get_Picking_Terrain_Pos(_float3* pVOutPutPos)
 
 
 	//_vec3 vPos = m_pCalculator->Picking_OnTerrain(g_hWnd, ptex, ptrans);
-
-	_float3 vPos = m_pCalculator->Picking_OnTerrain(g_hWnd, ptex, pTransCom);
+	_float2 size = { m_pRootViewport->Size.x,  m_pRootViewport->Size.y };
+	_float3 vPos = m_pCalculator->Picking_OnTerrain(g_hWnd, size, ptex, pTransCom);
 
 	CVIBuffer_FlatTerrain* pTerrainBufferCom = dynamic_cast<CVIBuffer_FlatTerrain*>(CGameInstance::GetInstance()->Get_Component(CVIBuffer_FlatTerrain::familyId, LEVEL_GAMEPLAY, L"Layer_Terrain", L"Terrain"));
 	if (nullptr == pTerrainBufferCom)
@@ -536,7 +546,8 @@ HRESULT CMapToolGUI::Change_ViewerObject(const wstring& PrefabName, _uint iLevel
 		m_pViewerObject->Set_Dead();
 		Safe_Release(m_pViewerObject);
 	}
-	CGameInstance::GetInstance()->Add_GameObject(PrefabName.c_str(), iLevelindex, LayerTag.c_str(), m_pViewerObject, nullptr, pArg);
+
+	CGameInstance::GetInstance()->Add_GameObject(PrefabName.c_str(), iLevelindex, LayerTag.c_str(), &m_pViewerObject, nullptr, pArg);
 
 	if (nullptr == m_pViewerObject)
 		return E_FAIL;
@@ -733,4 +744,6 @@ void CMapToolGUI::Free(void)
 	m_vecMap.clear();
 
 	Safe_Release(m_pCalculator);
+	Safe_Release(m_pViewerObject);
+
 }

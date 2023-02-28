@@ -70,7 +70,7 @@ _float CCalculator::Compute_HeightOnTerrain(_float3* pPos, const _float3* pTerra
 	return fY;
 }
 
-_float3 CCalculator::Picking_OnTerrain(HWND hWnd, const CVIBuffer_FlatTerrain* pTerrainBufferCom, const CTransform* pTerrainTransCom)
+_float3 CCalculator::Picking_OnTerrain(HWND hWnd, _float2 viewPortSize, const CVIBuffer_FlatTerrain* pTerrainBufferCom, const CTransform* pTerrainTransCom)
 {
 	POINT		ptMouse{};
 
@@ -79,13 +79,13 @@ _float3 CCalculator::Picking_OnTerrain(HWND hWnd, const CVIBuffer_FlatTerrain* p
 
 	_float4	vMousePos{0.f, 0.f, 0.f, 1.f};
 
-	D3D11_VIEWPORT ViewPort;
-	ZeroMemory(&ViewPort, sizeof(D3D11_VIEWPORT));
+	D3D11_VIEWPORT ViewPort[1];
+	ZeroMemory(ViewPort, sizeof(D3D11_VIEWPORT));
 	UINT iNumViewPorts = { 1 };
-	m_pContext->RSGetViewports(&iNumViewPorts, &ViewPort);
+	m_pContext->RSGetViewports(&iNumViewPorts, ViewPort);
 
-	vMousePos.x = ptMouse.x / (ViewPort.Width * 0.5f) - 1.f;
-	vMousePos.y = ptMouse.y / -(ViewPort.Height * 0.5f) + 1.f;
+	vMousePos.x = ptMouse.x / (ViewPort[0].Width * 0.5f) - 1.f;
+	vMousePos.y = ptMouse.y / -(ViewPort[0].Height * 0.5f) + 1.f;
 	vMousePos.z = 0.f;
 
 	_matrix matProj = CGameInstance::GetInstance()->Get_Transform_Matrix(CPipeLine::D3DTS_PROJ);
@@ -94,23 +94,25 @@ _float3 CCalculator::Picking_OnTerrain(HWND hWnd, const CVIBuffer_FlatTerrain* p
 
 	XMStoreFloat4(&vMousePos, XMVector3TransformCoord(XMLoadFloat4(&vMousePos), matProj));
 
-	_float4		vRayPos, vRayDir;
+	_float4		vRayPos = { 0.f, 0.f, 0.f, 1.f };
+	_float3		vRayDir = { 0.f, 0.f, 0.f };
 
-	vRayPos = { 0.f, 0.f, 0.f, 1.f };
-	XMStoreFloat4(&vRayDir, XMLoadFloat4(&vMousePos) - XMLoadFloat4(&vRayPos));
+	XMStoreFloat3(&vRayDir, XMLoadFloat4(&vMousePos) - XMLoadFloat4(&vRayPos));
 
 	_matrix matView = CGameInstance::GetInstance()->Get_Transform_Matrix(CPipeLine::D3DTS_VIEW);
 
 	matView = XMMatrixInverse(nullptr, matView);
 	XMStoreFloat4(&vRayPos, XMVector3TransformCoord(XMLoadFloat4(&vRayPos), matView));
-	XMStoreFloat4(&vRayDir, XMVector3TransformCoord(XMLoadFloat4(&vRayDir), matView));
+	XMStoreFloat3(&vRayDir, XMVector3TransformNormal(XMLoadFloat3(&vRayDir), matView));
 
-	_matrix		matWorld;
+	_matrix		matWorld{};
 
-	matWorld = XMLoadFloat4x4(&pTerrainTransCom->Get_WorldMatrix());
-	matWorld = XMMatrixInverse(nullptr, matWorld);
+	matWorld = pTerrainTransCom->Get_WorldMatrix_Inverse();
+
 	XMStoreFloat4(&vRayPos, XMVector3TransformCoord(XMLoadFloat4(&vRayPos), matWorld));
-	XMStoreFloat4(&vRayDir, XMVector3TransformNormal(XMLoadFloat4(&vRayDir), matWorld));
+	XMStoreFloat3(&vRayDir, XMVector3TransformNormal(XMLoadFloat3(&vRayDir), matWorld));
+
+	XMStoreFloat3(&vRayDir, XMVector3Normalize(XMLoadFloat3(&vRayDir)));
 
 	const _float3* pTerrainVtx = pTerrainBufferCom->Get_VtxPos();
 	const _ulong	dwCntZ = pTerrainBufferCom->Get_VtxCntZ();
@@ -130,8 +132,16 @@ _float3 CCalculator::Picking_OnTerrain(HWND hWnd, const CVIBuffer_FlatTerrain* p
 			dwVtxIdx[1] = dwIndex + dwCntX + 1;
 			dwVtxIdx[2] = dwIndex + 1;
 
+			_float4 vtx1{ 0.f, 0.f, 0.f, 1.f };
+			_float4 vtx2{ 0.f, 0.f, 0.f, 1.f };
+			_float4 vtx3{ 0.f, 0.f, 0.f, 1.f };
+			memcpy(&vtx1, &pTerrainVtx[dwVtxIdx[1]], sizeof _float3);
+			memcpy(&vtx2, &pTerrainVtx[dwVtxIdx[2]], sizeof _float3);
+			memcpy(&vtx3, &pTerrainVtx[dwVtxIdx[0]], sizeof _float3);
+
+
 			if(TriangleTests::Intersects(XMLoadFloat4(&vRayPos),
-				XMLoadFloat4(&vRayDir),
+				XMLoadFloat3(&vRayDir),
 				XMLoadFloat3(&pTerrainVtx[dwVtxIdx[1]]),
 				XMLoadFloat3(&pTerrainVtx[dwVtxIdx[2]]),
 				XMLoadFloat3(&pTerrainVtx[dwVtxIdx[0]]), fDist))
@@ -146,8 +156,12 @@ _float3 CCalculator::Picking_OnTerrain(HWND hWnd, const CVIBuffer_FlatTerrain* p
 			dwVtxIdx[1] = dwIndex + 1;
 			dwVtxIdx[2] = dwIndex;
 
+			memcpy(&vtx1, &pTerrainVtx[dwVtxIdx[2]], sizeof _float3);
+			memcpy(&vtx2, &pTerrainVtx[dwVtxIdx[0]], sizeof _float3);
+			memcpy(&vtx3, &pTerrainVtx[dwVtxIdx[1]], sizeof _float3);
+
 			if (TriangleTests::Intersects(XMLoadFloat4(&vRayPos),
-				XMLoadFloat4(&vRayDir),
+				XMLoadFloat3(&vRayDir),
 				XMLoadFloat3(&pTerrainVtx[dwVtxIdx[2]]),
 				XMLoadFloat3(&pTerrainVtx[dwVtxIdx[0]]),
 				XMLoadFloat3(&pTerrainVtx[dwVtxIdx[1]]), fDist))
@@ -292,14 +306,31 @@ CGameObject* CCalculator::Picking_Environment_Object(HWND hWnd, const _tchar* pL
 
 CCalculator* CCalculator::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	return nullptr;
+	CCalculator* pInstance = new CCalculator(pDevice, pContext, nullptr);
+
+	if (FAILED(pInstance->Initialize_Prototype()))
+	{
+		MSG_BOX("Failed to Created : CCalculator");
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
 }
 
-CCalculator* CCalculator::Clone(CGameObject* pOwner, void* pArg)
+CComponent* CCalculator::Clone(CGameObject * pOwner, void* pArg)
 {
-	return nullptr;
+	CCalculator* pInstance = new CCalculator(*this, pOwner);
+
+	if (FAILED(pInstance->Initialize(pArg)))
+	{
+		MSG_BOX("Failed to Cloned : CTransform");
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
 }
 
-void CCalculator::Free(void)
+void CCalculator::Free()
 {
+	__super::Free();
 }
