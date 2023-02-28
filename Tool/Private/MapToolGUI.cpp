@@ -511,7 +511,7 @@ void CMapToolGUI::Update_ViewerGameObject()
 			return;
 	
 		CTransform* pTransform = dynamic_cast<CTransform*>(m_pViewerObject->Get_Component(CTransform::familyId));
-		pTransform->Set_Pos(vPos.x, vPos.y + 7.f, vPos.z);
+		pTransform->Set_Pos(vPos.x, 0.f, vPos.z);
 	}
 }
 

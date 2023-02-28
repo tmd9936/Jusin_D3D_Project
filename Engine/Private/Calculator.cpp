@@ -72,45 +72,63 @@ _float CCalculator::Compute_HeightOnTerrain(_float3* pPos, const _float3* pTerra
 
 _float3 CCalculator::Picking_OnTerrain(HWND hWnd, _float2 viewPortSize, const CVIBuffer_FlatTerrain* pTerrainBufferCom, const CTransform* pTerrainTransCom)
 {
+	XMMATRIX projectionMatrix, viewMatrix, inverseViewMatrix, worldMatrix, translateMatrix, inverseWorldMatrix;
+	XMFLOAT4 direction, origin, rayOrigin, rayDirection;
+
+	_float4 vRayPos = CGameInstance::GetInstance()->Get_CamPosition();
+
 	POINT		ptMouse{};
 
 	GetCursorPos(&ptMouse);
 	ScreenToClient(hWnd, &ptMouse);
 
-	_float4	vMousePos{0.f, 0.f, 0.f, 1.f};
+	_float4	vMousePos{0.f, 0.f, 0.f, 0.f};
 
 	D3D11_VIEWPORT ViewPort[1];
 	ZeroMemory(ViewPort, sizeof(D3D11_VIEWPORT));
 	UINT iNumViewPorts = { 1 };
 	m_pContext->RSGetViewports(&iNumViewPorts, ViewPort);
 
-	vMousePos.x = ptMouse.x / (ViewPort[0].Width * 0.5f) - 1.f;
-	vMousePos.y = ptMouse.y / -(ViewPort[0].Height * 0.5f) + 1.f;
-	vMousePos.z = 0.f;
+	//vMousePos.x = ptMouse.x / (ViewPort[0].Width * 0.5f) - 1.f;
+	//vMousePos.y = ptMouse.y / -(ViewPort[0].Height * 0.5f) + 1.f;
+	//vMousePos.z = 0.f;
 
-	_matrix matProj = CGameInstance::GetInstance()->Get_Transform_Matrix(CPipeLine::D3DTS_PROJ);
-	matProj = XMMatrixInverse(nullptr, matProj);
-	XMStoreFloat4(&vMousePos, XMVector3TransformCoord(XMLoadFloat4(&vMousePos), matProj));
+	// 마우스 커서 좌표를 -1에서 +1 범위로 이동합니다
+	float pointX = ((2.0f * (float)ptMouse.x) / (float)ViewPort[0].Width) - 1.0f;
+	float pointY = (((2.0f * (float)ptMouse.y) / (float)ViewPort[0].Height) - 1.0f) * -1.0f;
 
-	_float4		vRayPos = { 0.f, 0.f, 0.f, 1.f };
-	_float4		vRayDir = { 0.f, 0.f, 0.f, 0.f };
+	projectionMatrix = CGameInstance::GetInstance()->Get_Transform_Matrix(CPipeLine::D3DTS_PROJ);
 
-	_matrix matView = CGameInstance::GetInstance()->Get_Transform_Matrix(CPipeLine::D3DTS_VIEW);
+	XMFLOAT4X4 projectionMatrix4;
+	XMStoreFloat4x4(&projectionMatrix4, projectionMatrix);
 
-	matView = XMMatrixInverse(nullptr, matView);
-	XMStoreFloat4(&vMousePos, XMVector3TransformCoord(XMLoadFloat4(&vMousePos), matView));
-	//XMStoreFloat4(&vRayDir, XMVector3TransformNormal(XMLoadFloat4(&vRayDir), matView));
+	pointX = pointX / projectionMatrix4._11;
+	pointY = pointY / projectionMatrix4._22;
 
-	vRayPos = CGameInstance::GetInstance()->Get_CamPosition();
+	viewMatrix = CGameInstance::GetInstance()->Get_Transform_Matrix(CPipeLine::D3DTS_VIEW);
+	inverseViewMatrix = XMMatrixInverse(nullptr, viewMatrix);	
 
-	XMStoreFloat4(&vRayDir,  XMLoadFloat4(&vRayPos) - XMLoadFloat4(&vMousePos));
+	XMFLOAT4X4 inverseViewMatrix4;
+	XMStoreFloat4x4(&inverseViewMatrix4, inverseViewMatrix);
 
-	_matrix		matWorld{};
-	matWorld = pTerrainTransCom->Get_WorldMatrix_Inverse();
-	XMStoreFloat4(&vRayPos, XMVector3TransformCoord(XMLoadFloat4(&vRayPos), matWorld));
-	XMStoreFloat4(&vRayDir, XMVector3TransformNormal(XMLoadFloat4(&vRayDir), matWorld));
+	direction.x = (pointX * inverseViewMatrix4._11) + (pointY * inverseViewMatrix4._21) + inverseViewMatrix4._31;
+	direction.y = (pointX * inverseViewMatrix4._12) + (pointY * inverseViewMatrix4._22) + inverseViewMatrix4._32;
+	direction.z = (pointX * inverseViewMatrix4._13) + (pointY * inverseViewMatrix4._23) + inverseViewMatrix4._33;
 
-	XMStoreFloat4(&vRayDir, XMVector4Normalize(XMLoadFloat4(&vRayDir)));
+	origin.x = vRayPos.x;
+	origin.y = vRayPos.y;
+	origin.z = vRayPos.z;
+
+	inverseWorldMatrix = pTerrainTransCom->Get_WorldMatrix_Inverse();
+	XMStoreFloat4(&rayOrigin, XMVector3TransformCoord(XMVectorSet(origin.x, origin.y, origin.z, 0.0f), inverseWorldMatrix));
+	XMStoreFloat4(&direction, XMVector3TransformNormal(XMVectorSet(direction.x, direction.y, direction.z, 0.0f), inverseWorldMatrix));
+
+	// 광선 방향을 표준화합니다.
+	XMStoreFloat4(&rayDirection, XMVector3Normalize(XMVectorSet(direction.x, direction.y, direction.z, 0.0f)));
+
+	_vector vRayOrigin = XMVectorSet(rayOrigin.x, rayOrigin.y, rayOrigin.z, 1.f);
+	_vector vRayDiretion = XMVectorSet(rayDirection.x, rayDirection.y, rayDirection.z, 0.f);
+
 
 	const _float3* pTerrainVtx = pTerrainBufferCom->Get_VtxPos();
 	const _ulong	dwCntZ = pTerrainBufferCom->Get_VtxCntZ();
@@ -138,16 +156,15 @@ _float3 CCalculator::Picking_OnTerrain(HWND hWnd, _float2 viewPortSize, const CV
 			memcpy(&vtx3, &pTerrainVtx[dwVtxIdx[0]], sizeof _float3);
 
 
-			if(TriangleTests::Intersects(XMLoadFloat4(&vRayPos),
-				XMLoadFloat4(&vRayDir),
+			if(TriangleTests::Intersects(vRayOrigin,
+				vRayDiretion,
 				XMLoadFloat4(&vtx1),
 				XMLoadFloat4(&vtx2),
 				XMLoadFloat4(&vtx3), fDist))
 			{
-				if (fDist < 0.1f)
-				return _float3(pTerrainVtx[dwVtxIdx[1]].x + (pTerrainVtx[dwVtxIdx[0]].x - pTerrainVtx[dwVtxIdx[1]].x),
+				return _float3(pTerrainVtx[dwVtxIdx[1]].x + (pTerrainVtx[dwVtxIdx[0]].x - pTerrainVtx[dwVtxIdx[1]].x) * fU,
 					0.f,
-					pTerrainVtx[dwVtxIdx[1]].z + (pTerrainVtx[dwVtxIdx[1]].z - pTerrainVtx[dwVtxIdx[2]].z));
+					pTerrainVtx[dwVtxIdx[1]].z + (pTerrainVtx[dwVtxIdx[1]].z - pTerrainVtx[dwVtxIdx[2]].z) * fV);
 			}
 
 
@@ -159,15 +176,15 @@ _float3 CCalculator::Picking_OnTerrain(HWND hWnd, _float2 viewPortSize, const CV
 			memcpy(&vtx2, &pTerrainVtx[dwVtxIdx[0]], sizeof _float3);
 			memcpy(&vtx3, &pTerrainVtx[dwVtxIdx[1]], sizeof _float3);
 
-			if (TriangleTests::Intersects(XMLoadFloat4(&vRayPos),
-				XMLoadFloat4(&vRayDir),
+			if (TriangleTests::Intersects(vRayOrigin,
+				vRayDiretion,
 				XMLoadFloat4(&vtx1),
 				XMLoadFloat4(&vtx2),
 				XMLoadFloat4(&vtx3), fDist))
 			{
-				return _float3(pTerrainVtx[dwVtxIdx[2]].x + (pTerrainVtx[dwVtxIdx[1]].x - pTerrainVtx[dwVtxIdx[2]].x),
+				return _float3(pTerrainVtx[dwVtxIdx[2]].x + (pTerrainVtx[dwVtxIdx[1]].x - pTerrainVtx[dwVtxIdx[2]].x) * fU,
 					0.f,
-					pTerrainVtx[dwVtxIdx[2]].z + (pTerrainVtx[dwVtxIdx[0]].z - pTerrainVtx[dwVtxIdx[2]].z));
+					pTerrainVtx[dwVtxIdx[2]].z + (pTerrainVtx[dwVtxIdx[0]].z - pTerrainVtx[dwVtxIdx[2]].z) * fV);
 			}
 		}
 	}

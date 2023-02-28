@@ -108,7 +108,7 @@ HRESULT CFlatTerrain::Add_Components()
 
 HRESULT CFlatTerrain::SetUp_ShaderResources()
 {
-	_float4x4		WorldMatrix = m_pTransformCom->Get_WorldMatrix();
+	//_float4x4		WorldMatrix = m_pTransformCom->Get_WorldMatrix();
 
 	//XMStoreFloat4x4(&WorldMatrix, XMMatrixIdentity());
 
