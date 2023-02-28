@@ -89,6 +89,8 @@ private:
 	void	Update_ViewerGameObject();
 	HRESULT	Get_Picking_Terrain_Pos(_float3* pVOutPutPos);
 
+	_bool	Mouse_Pos_In_Platform();
+
 private:
 	ID3D11Device*			m_pDevice = { nullptr };
 	ID3D11DeviceContext*	m_pContext = { nullptr };

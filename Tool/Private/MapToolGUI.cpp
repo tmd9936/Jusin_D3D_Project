@@ -548,9 +548,18 @@ HRESULT CMapToolGUI::Get_Picking_Terrain_Pos(_float3* pVOutPutPos)
 	return S_OK;
 }
 
+_bool CMapToolGUI::Mouse_Pos_In_Platform()
+{
+	if (m_ptMouse.x >= 0 && m_ptMouse.x < g_iWinSizeX &&
+		m_ptMouse.y >= 0 && m_ptMouse.y < g_iWinSizeY)
+		return true;
+
+	return false;
+}
+
 void CMapToolGUI::Add_Environment()
 {
-	if (MOUSE_TAB(MOUSE::LBTN))
+	if (MOUSE_TAB(MOUSE::LBTN) && Mouse_Pos_In_Platform())
 	{
 		if (nullptr == m_pViewerObject)
 			return;
