@@ -15,6 +15,8 @@ END
 
 BEGIN(Client)
 
+class CDataToolGUI;
+
 class CMapToolGUI : public CBase
 {
 	struct ImGui_ImplDX11_ViewportData2
@@ -62,6 +64,8 @@ public:
 	void	Set_PrefabName(const wstring& PrefabName) {
 		m_PrefabName = PrefabName;
 	}
+
+	void	Add_Environment();
 
 	HRESULT	Change_ViewerObject(const wstring& PrefabName, _uint iLevelindex, const wstring LayerTag, void* pArg = nullptr);
 
@@ -123,6 +127,9 @@ private:
 	int					m_iTerrainCntZ = { 0 };
 
 	wstring				m_PrefabName = {};
+
+
+	POINT		m_ptMouse = {};
 
 private:
 	CCalculator* m_pCalculator = { nullptr };

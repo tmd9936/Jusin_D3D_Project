@@ -72,6 +72,19 @@ const wstring* CDataToolGUI::Get_Current_GameObject_Prefab() const
 	return &m_CurrentPrefabName;
 }
 
+const _uint CDataToolGUI::Get_Current_Levelindex() const
+{
+	return m_iLevelListBoxCurrentItem;
+}
+
+const wstring* CDataToolGUI::Get_Current_LayerName() const
+{
+	if (m_CurrentLayerName.empty())
+		return nullptr;
+
+	return &m_CurrentLayerName;
+}
+
 void CDataToolGUI::View_Base()
 {
 	ImGui::Begin("View_Base");

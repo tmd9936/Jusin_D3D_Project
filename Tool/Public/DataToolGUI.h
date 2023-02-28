@@ -30,6 +30,9 @@ public:
 
 public:
 	const wstring* Get_Current_GameObject_Prefab() const;
+	const _uint Get_Current_Levelindex() const;
+	const wstring* Get_Current_LayerName() const;
+
 
 private:
 	void	View_Base();

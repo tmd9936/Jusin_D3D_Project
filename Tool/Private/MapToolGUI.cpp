@@ -10,6 +10,7 @@
 #include "GameInstance.h"
 #include "FlatTerrain.h"
 #include "Calculator.h"
+#include "DataToolGUI.h"
 
 IMPLEMENT_SINGLETON(CMapToolGUI)
 
@@ -154,14 +155,12 @@ HRESULT CMapToolGUI::Render()
 		ImGui::End();
 
 		ImGui::Begin("Tool2");
-		
-		POINT		ptMouse{};
 
-		GetCursorPos(&ptMouse);
-		ScreenToClient(g_hWnd, &ptMouse);
+		GetCursorPos(&m_ptMouse);
+		ScreenToClient(g_hWnd, &m_ptMouse);
 
-		ImGui::Text("MouseX %d", ptMouse.x);
-		ImGui::Text("MouseY %d", ptMouse.y);
+		ImGui::Text("MouseX %d", m_ptMouse.x);
+		ImGui::Text("MouseY %d", m_ptMouse.y);
 
 
 		ImGui::End();
@@ -482,7 +481,7 @@ void CMapToolGUI::Update_Data()
 	switch (m_iRadio)
 	{
 	case ENVIRONMENT:
-		//Add_Environment(iIndex);
+		Add_Environment();
 		break;
 
 	case SPAWN:
@@ -547,6 +546,39 @@ HRESULT CMapToolGUI::Get_Picking_Terrain_Pos(_float3* pVOutPutPos)
 	*pVOutPutPos = vPos;
 
 	return S_OK;
+}
+
+void CMapToolGUI::Add_Environment()
+{
+	if (MOUSE_TAB(MOUSE::LBTN))
+	{
+		if (nullptr == m_pViewerObject)
+			return;
+
+		const wstring* prefabName = CDataToolGUI::GetInstance()->Get_Current_GameObject_Prefab();
+		const wstring* layerTag = CDataToolGUI::GetInstance()->Get_Current_LayerName();
+		const _uint iLevelindex = CDataToolGUI::GetInstance()->Get_Current_Levelindex();
+
+		CGameObject* addObject = nullptr;
+
+		CGameInstance::GetInstance()->Add_GameObject(prefabName->c_str(), iLevelindex, layerTag->c_str(), &addObject, nullptr, nullptr);
+
+		if (nullptr == addObject)
+			return;
+
+		CTransform* pTransform = dynamic_cast<CTransform*>(CGameInstance::GetInstance()->Get_Component(CTransform::familyId, addObject));
+
+		if (nullptr == pTransform)
+			return;
+
+		_float3 vPos{};
+		if (FAILED(Get_Picking_Terrain_Pos(&vPos)))
+			return;
+		pTransform->Set_Pos(vPos.x, vPos.y, vPos.z);
+
+		Safe_Release(addObject);
+	}
+
 }
 
 HRESULT CMapToolGUI::Change_ViewerObject(const wstring& PrefabName, _uint iLevelindex, const wstring LayerTag, void* pArg)
