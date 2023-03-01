@@ -60,6 +60,10 @@ public:
 		return XMMatrixInverse(nullptr, XMLoadFloat4x4(&m_WorldMatrix));
 	}
 
+	const _float3	Get_Rotate() const { 
+		return m_Rotaion; 
+	}
+
 public:
 	void	Set_State(STATE eState, _fvector vState) {
 		XMStoreFloat4((_float4*)m_WorldMatrix.m[eState], vState);
@@ -91,10 +95,14 @@ public:
 
 	void Chase(_fvector vTargetPos, _float TimeDelta, _float limitDitance = 0.2);
 
+	void Set_Rotation(const _float3& rotaion);
+
 
 private:
 	_float4x4	m_WorldMatrix = { };
 	TRANSFORMDESC m_TransformDesc = { };
+
+	_float3		m_Rotaion = {};
 
 public:
 	// CComponent을(를) 통해 상속됨

@@ -105,10 +105,8 @@ private:
 	int						m_iMap_current_idx = { 0 };
 
 	_float3					m_vScale = {};
-	_float4					m_vRight = {};
-	_float4					m_vUp = {};
-	_float4					m_vLook = {};
-	_float4					m_vPos = {};
+	_float3					m_vRot = {};
+	_float3					m_vPos = {};
 
 	//vector<string*>			m_vecCube;
 

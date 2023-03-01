@@ -203,10 +203,8 @@ void CMapToolGUI::Picking_Environment()
 		CTransform* pTransform = dynamic_cast<CTransform*>(CGameInstance::GetInstance()->Get_Component(CTransform::familyId, m_pPickingObject));
 
 		m_vScale = pTransform->Get_Scaled();
-		XMStoreFloat4(&m_vRight, pTransform->Get_State(CTransform::STATE_RIGHT));
-		XMStoreFloat4(&m_vUp, pTransform->Get_State(CTransform::STATE_UP));
-		XMStoreFloat4(&m_vLook, pTransform->Get_State(CTransform::STATE_LOOK));
-		XMStoreFloat4(&m_vPos, pTransform->Get_State(CTransform::STATE_POSITION));
+		m_vRot = pTransform->Get_Rotate();
+		XMStoreFloat3(&m_vPos, pTransform->Get_State(CTransform::STATE_POSITION));
 	}
 }
 
@@ -289,60 +287,45 @@ void CMapToolGUI::ListBox()
 void CMapToolGUI::Slider()
 {
 	// �����̵��
-	//if (m_pPickingObject != nullptr)
-	//{
-		//CTransform* transform = CGameObject::World->Get_Component<CTransform>(m_pPickingObject);
+	if (m_pPickingObject != nullptr)
+	{
+		CTransform* pTransform = dynamic_cast<CTransform*>(CGameInstance::GetInstance()->Get_Component(CTransform::familyId, m_pPickingObject));
+		
+		if (nullptr == pTransform)
+			return;
+		
 		ImGui::Text("Set_Scale");
 		ImGui::PushItemWidth(100);
-
 		ImGui::DragFloat("ScaleX", &m_vScale.x);
 		ImGui::SameLine(); ImGui::SameLine();
-		//ImGui::Indent(); // �鿩����
-		//ImGui::DragFloat("Pos_Y (indented)##1b", &fY);
 		ImGui::DragFloat("ScaleY", &m_vScale.y);
-		//ImGui::Unindent();
 		ImGui::SameLine(); ImGui::SameLine();
-		//ImGui::Indent(); // �鿩����
 		ImGui::DragFloat("ScaleZ", &m_vScale.z);
-		//ImGui::Unindent();
 
 		ImGui::Text("Set_Rot");
 		ImGui::PushItemWidth(100);
-		//ImGui::DragFloat("RotX", &m_vRot.x);
-		//ImGui::SameLine(); ImGui::SameLine();
-		//ImGui::Indent(); // �鿩����
-		//ImGui::DragFloat("Pos_Y (indented)##1b", &fY);
-		//ImGui::DragFloat("RotY", &m_vRot.y);
-		//ImGui::Unindent();
-		//ImGui::SameLine(); ImGui::SameLine();
-		//ImGui::Indent(); // �鿩����
-		//ImGui::DragFloat("RotZ", &m_vRot.z);
-		//ImGui::Unindent();
+		ImGui::DragFloat("RotX", &m_vRot.x);
+		ImGui::SameLine(); ImGui::SameLine();
+		ImGui::DragFloat("RotY", &m_vRot.y);
+		ImGui::SameLine(); ImGui::SameLine();
+		ImGui::DragFloat("RotZ", &m_vRot.z);
+
 
 		ImGui::Text("Set_Pos");
 		ImGui::PushItemWidth(100);
 		ImGui::DragFloat("PosX", &m_vPos.x);
 		ImGui::SameLine(); ImGui::SameLine();
-		//ImGui::Indent(); // �鿩����
-		//ImGui::DragFloat("Pos_Y (indented)##1b", &fY);
 		ImGui::DragFloat("PosY", &m_vPos.y);
-		//ImGui::Unindent();
 		ImGui::SameLine(); ImGui::SameLine();
-		//ImGui::Indent(); // �鿩����
 		ImGui::DragFloat("PosZ", &m_vPos.z);
-		//ImGui::Unindent();
 
 		ImGui::PopItemWidth();
 
-		//transform->Set_Scale(m_vScale.x, m_vScale.y, m_vScale.z);
-		////transform->Rotation(ROT_X, m_vRot.x);
-		////transform->Rotation(ROT_Y, m_vRot.y);
-		////transform->Rotation(ROT_Z, m_vRot.z);
-		//transform->m_vAngle.x = D3DXToRadian(m_vRot.x);
-		//transform->m_vAngle.y = D3DXToRadian(m_vRot.y);
-		//transform->m_vAngle.z = D3DXToRadian(m_vRot.z);
-		//transform->Set_Pos(m_vPos.x, m_vPos.y, m_vPos.z);
-	//}
+		pTransform->Set_Scaled({ m_vScale.x , m_vScale.y, m_vScale.z});
+		pTransform->Set_Rotation({ XMConvertToRadians(m_vRot.x), XMConvertToRadians(m_vRot.y), XMConvertToRadians(m_vRot.z) });
+
+		pTransform->Set_Pos(m_vPos.x, m_vPos.y, m_vPos.z);
+	}
 }
 
 void CMapToolGUI::Radio()
@@ -457,7 +440,9 @@ void CMapToolGUI::FileMenu()
 void CMapToolGUI::TerrainMenu()
 {
 	ImGui::Text("Terrain");
+	ImGui::PushItemWidth(100);
 	ImGui::InputInt("CntX", &m_iTerrainCntX, 10, 400); ImGui::SameLine();
+	ImGui::PushItemWidth(100);
 	ImGui::InputInt("CntZ", &m_iTerrainCntZ, 10, 400); ImGui::SameLine();
 	//ImGui::InputInt("Interval", &m_iTerrainInterval);
 
@@ -479,6 +464,7 @@ void CMapToolGUI::Update_Data()
 	{
 	case ENVIRONMENT:
 		Add_Environment();
+		Update_ViewerGameObject();
 		break;
 
 	case SPAWN:
@@ -494,8 +480,6 @@ void CMapToolGUI::Update_Data()
 	case PICKING_SPAWN:
 		break;
 	}
-
-	Update_ViewerGameObject();
 }
 
 void CMapToolGUI::Update_ViewerGameObject()

@@ -151,6 +151,26 @@ void CTransform::Chase(_fvector vTargetPos, _float TimeDelta, _float limitDitanc
 
 }
 
+
+void CTransform::Set_Rotation(const _float3& rotaion)
+{
+	m_Rotaion = rotaion;
+
+	_float3 vScale = Get_Scaled();
+
+	_vector vRight = XMVectorSet(1.f, 0.f, 0.f, 0.f) * vScale.x;
+	_vector vUp = XMVectorSet(0.f, 1.f, 0.f, 0.f) * vScale.y;
+	_vector vLook = XMVectorSet(0.f, 0.f, 1.f, 0.f) * vScale.z;
+
+	_matrix		RotationMatrix = XMMatrixRotationRollPitchYawFromVector(XMVectorSet(
+		m_Rotaion.x, m_Rotaion.y, m_Rotaion.z, 0.f
+	));
+
+	Set_State(CTransform::STATE_RIGHT, XMVector3TransformNormal(vRight, RotationMatrix));
+	Set_State(CTransform::STATE_UP, XMVector3TransformNormal(vUp, RotationMatrix));
+	Set_State(CTransform::STATE_LOOK, XMVector3TransformNormal(vLook, RotationMatrix));
+}
+
 CTransform* CTransform::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 	CTransform* pInstance = new CTransform(pDevice, pContext, nullptr);
