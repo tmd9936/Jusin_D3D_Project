@@ -49,13 +49,10 @@ public:
 
 public:
 	const int		Get_ListBox(Tool_ID _eType) const { return m_iListBox[_eType]; }
-	const bool		Get_Install() const { return m_bInstall; }
 	const int		Get_Radio() const { return m_iRadio; }
 
 	void	Map_Index_Add(const int& index);
-	void	Environment_Index_Add(const int& index);
-
-	void	Render_Switch() { m_bRender = !m_bRender; }
+	//void	Environment_Index_Add(const int& index);
 
 	void	Picking_Environment();
 
@@ -70,11 +67,8 @@ public:
 	HRESULT	Change_ViewerObject(const wstring& PrefabName, _uint iLevelindex, const wstring LayerTag, void* pArg = nullptr);
 
 private:
-	void	Save_CubeList();
-	void	Load_CubeList();
-
-	void	Save_EnvironmentList();
-	void	Load_EnvironmentList();
+	void	Save_Layer_GameObjects();
+	void	Load_Layer_GameObjects();
 
 private:
 	void	ListBox();
@@ -97,18 +91,12 @@ private:
 
 	int						m_iListBox[TYPE_END];
 	int						m_iRadio = { 0 };
-	bool					m_bInstall = { false };
 
-	bool					m_bRender = { true };
-
-	int						m_iEnvironment_current_idx = { 0 };
 	int						m_iMap_current_idx = { 0 };
 
 	_float3					m_vScale = {};
 	_float3					m_vRot = {};
 	_float3					m_vPos = {};
-
-	//vector<string*>			m_vecCube;
 
 	_uint					m_iEnvNum = { 0 };
 	_uint					m_iMapNum = { 0 };
@@ -119,7 +107,6 @@ private:
 	ImGuiViewport* m_pRootViewport = { nullptr };
 	//ImGuiViewport* m_pviewport = { nullptr };
 
-
 	//ImGui_ImplDX11_ViewportData** m_pVd = { nullptr };
 	//ImGui_ImplWin32_ViewportData2* m_pPd = { nullptr };
 
@@ -127,7 +114,6 @@ private:
 	int					m_iTerrainCntZ = { 0 };
 
 	wstring				m_PrefabName = {};
-
 
 	POINT		m_ptMouse = {};
 

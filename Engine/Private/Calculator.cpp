@@ -72,7 +72,7 @@ _float CCalculator::Compute_HeightOnTerrain(_float3* pPos, const _float3* pTerra
 
 _float3 CCalculator::Picking_OnTerrain(HWND hWnd, _float2 viewPortSize, const CVIBuffer_FlatTerrain* pTerrainBufferCom, const CTransform* pTerrainTransCom)
 {
-	XMMATRIX projectionMatrix, viewMatrix, inverseViewMatrix, worldMatrix, translateMatrix, inverseWorldMatrix;
+	XMMATRIX projectionMatrix, viewMatrix, inverseViewMatrix, inverseWorldMatrix;
 	XMFLOAT4 direction, origin, rayOrigin, rayDirection;
 
 	_float4 vRayPos = CGameInstance::GetInstance()->Get_CamPosition();
@@ -218,7 +218,7 @@ CGameObject* CCalculator::Picking_Environment_Object(HWND hWnd, const _tchar* pL
 	if (vecObj.empty())
 		return nullptr;
 
-	XMMATRIX projectionMatrix, viewMatrix, inverseViewMatrix, worldMatrix, translateMatrix, inverseWorldMatrix;
+	XMMATRIX projectionMatrix, viewMatrix, inverseViewMatrix, inverseWorldMatrix;
 	XMFLOAT4 direction, origin, rayOrigin, rayDirection;
 
 	_float4 vRayPos = CGameInstance::GetInstance()->Get_CamPosition();
@@ -267,7 +267,6 @@ CGameObject* CCalculator::Picking_Environment_Object(HWND hWnd, const _tchar* pL
 
 	for (auto& pObj : vecObj)
 	{
-		_matrix		matWorld;
 		_float4		vRayPosTemp{};
 		_float4		vRayDirTemp{};
 

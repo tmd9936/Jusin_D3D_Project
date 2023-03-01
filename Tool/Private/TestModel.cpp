@@ -33,6 +33,9 @@ HRESULT CTestModel::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void*
 
 _uint CTestModel::Tick(_double TimeDelta)
 {
+	if (m_bDead)
+		return OBJ_DEAD;
+
 	return _uint();
 }
 
