@@ -8,7 +8,6 @@
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
-
 CGameInstance::CGameInstance()
 	: m_pTimer_Manager(CTimer_Manager::GetInstance())
 	, m_pGraphic_Device(CGraphic_Device::GetInstance())

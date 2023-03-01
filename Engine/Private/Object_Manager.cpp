@@ -91,6 +91,8 @@ HRESULT CObject_Manager::Add_GameObject(const _tchar* pPrototypeTag, _uint iLeve
 			return E_FAIL;
 	}
 
+	pGameObject->Set_ProtoTypeTag(pPrototypeTag);
+
 	if (pObjectNameTag)
 	{
 		pGameObject->Set_NameTag(pObjectNameTag);
@@ -129,6 +131,8 @@ HRESULT CObject_Manager::Add_GameObject(const _tchar* pPrototypeTag, _uint iLeve
 		if (FAILED(pLayer->Add_GameObject(pGameObject, pObjectNameTag)))
 			return E_FAIL;
 	}
+
+	pGameObject->Set_ProtoTypeTag(pPrototypeTag);
 
 	if (pObjectNameTag)
 	{

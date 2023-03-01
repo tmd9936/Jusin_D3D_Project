@@ -60,6 +60,13 @@ public:
 		m_iLevelindex = iLevelindex; 
 	}
 
+	const wstring			Get_ProtoTypeTag() const {
+		return m_strProtoTypeTag;
+	}
+	void					Set_ProtoTypeTag(const wstring& prototypeTag) {
+		m_strProtoTypeTag = prototypeTag;
+	}
+
 public:
 	_bool					Is_Dead() { return m_bDead; }
 	void					Set_Alive() { m_bDead = false; }
@@ -73,6 +80,7 @@ public:
 	CComponent*				Get_Component(const FamilyId& familyId) const;
 
 	HRESULT					Remove_Component(const FamilyId& familyId);
+
 private:
 	HRESULT					Find_Component(const FamilyId& familyId) const;
 
@@ -83,9 +91,10 @@ protected:
 protected:
 	/* 해시테이블 */
 	friend CLayer;
-	map<FamilyId, class CComponent*>				m_Components;
-	wstring											m_strNameTag;
-	wstring											m_strLayerTag;
+	map<FamilyId, class CComponent*>				m_Components = {};
+	wstring											m_strNameTag = {};
+	wstring											m_strLayerTag = {};
+	wstring											m_strProtoTypeTag = {};
 	RENDERGROUP										m_eRenderId = { RENDER_END };
 
 	_bool											m_bDead = { false };

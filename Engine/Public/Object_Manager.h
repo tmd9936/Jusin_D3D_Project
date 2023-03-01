@@ -13,7 +13,7 @@ BEGIN(Engine)
 class CGameObject;
 class CComponent;
 
-class CObject_Manager final : public CBase
+class ENGINE_DLL CObject_Manager final : public CBase
 {
 	DECLARE_SINGLETON(CObject_Manager)
 private:
@@ -121,8 +121,8 @@ private:
 	_uint		m_iNumLevels = { 0 };
 
 private:
-	class CGameObject* Find_Prototype(const _tchar* pPrototypeTag) const;
-	class CLayer* Find_Layer(_uint iLevelIndex, const _tchar* pLayerTag) const;
+	CGameObject* Find_Prototype(const _tchar* pPrototypeTag) const;
+	CLayer* Find_Layer(_uint iLevelIndex, const _tchar* pLayerTag) const;
 
 public:
 	virtual void Free() override;

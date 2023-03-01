@@ -25,12 +25,12 @@ _float CCalculator::Compute_HeightOnTerrain(_float3* pPos, const _float3* pTerra
 	if (nullptr == pPos)
 		return 0.f;
 
-	int pTerrainVtxPosSize = dwCntX * dwCntZ;
+	_ulong pTerrainVtxPosSize = dwCntX * dwCntZ;
 
 	_ulong	dwIndex = _ulong(pPos->z / dwVtxItv) * dwCntX + _ulong(pPos->x / dwVtxItv);
 
 	if (dwIndex < 0 || (*pPos).z < 0.f || (*pPos).x < 0.f ||
-		size_t(dwIndex + dwCntX + 1) >= pTerrainVtxPosSize)
+		_ulong(dwIndex + dwCntX + 1) >= pTerrainVtxPosSize)
 		return 0.f;
 
 	_float	fRatioX = pPos->x - pTerrainVtxPos[dwIndex + dwCntX].x;

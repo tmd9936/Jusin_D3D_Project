@@ -1,9 +1,9 @@
 #pragma once
 
+#include "Object_Manager.h"
 #include "Component_Manager.h"
 #include "PipeLine.h"
 #include "Input_Device.h"
-#include "Object_Manager.h"
 
 BEGIN(Engine)
 
@@ -113,7 +113,7 @@ public:
 };
 
 template<typename T, typename>
-inline HRESULT CGameInstance::Get_ComponentList(vector<T>& result, _uint iLevelIndex, const _tchar* pLayerTag)
+HRESULT CGameInstance::Get_ComponentList(vector<T>& result, _uint iLevelIndex, const _tchar* pLayerTag)
 {
 	if (nullptr == m_pObject_Manager)
 		return E_FAIL;
@@ -122,7 +122,7 @@ inline HRESULT CGameInstance::Get_ComponentList(vector<T>& result, _uint iLevelI
 }
 
 template<typename T, typename>
-inline HRESULT CGameInstance::Get_ObjectList(vector<CGameObject*>& result, _uint iLevelIndex, const _tchar* pLayerTag)
+HRESULT CGameInstance::Get_ObjectList(vector<CGameObject*>& result, _uint iLevelIndex, const _tchar* pLayerTag)
 {
 	if (nullptr == m_pObject_Manager)
 		return E_FAIL;
