@@ -2,6 +2,7 @@
 #include "..\Public\Level_GamePlay.h"
 #include "GameInstance.h"
 #include "Camera_Dynamic.h"
+#include "Player.h"
 
 CLevel_GamePlay::CLevel_GamePlay(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
@@ -14,10 +15,13 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_LightDesc()))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_Terrain(TEXT("Layer_Terrain"))))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_Env(TEXT("Layer_Env"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Terrain(TEXT("Layer_Terrain"))))
+	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
@@ -87,6 +91,22 @@ HRESULT CLevel_GamePlay::Ready_Layer_Env(const _tchar* pLayerTag)
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);
+	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_Player(const _tchar* pLayerTag)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_GAMEPLAY, pLayerTag)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Player"), LEVEL_GAMEPLAY, pLayerTag)))
+		return E_FAIL;
+
+	Safe_Release(pGameInstance);
+
 	return S_OK;
 }
 

@@ -6,6 +6,7 @@
 #include "FlatTerrain.h"
 #include "Camera_Dynamic.h"
 #include "TestModel.h"
+#include "Player.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
@@ -185,7 +186,7 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 
 	/* For.Prototype_Component_Shader_VtxModel */
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Shader_VtxModel"),
-		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxModel.hlsl"), VTXMODEL_DECLARATION::Elements, VTXMODEL_DECLARATION::iNumElements))))
+		CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxModel.hlsl"), VTXMODEL_DECLARATION::Elements, VTXMODEL_DECLARATION::iNumElements))))
 		return E_FAIL;
 #pragma endregion
 
@@ -211,6 +212,11 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 	/* For.Prototype_GameObject_TestModel */
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_TestModel"),
 		CTestModel::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Player */
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player"),
+		CPlayer::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 #pragma endregion

@@ -7,6 +7,9 @@ BEGIN(Engine)
 class ENGINE_DLL CModel final : public CComponent
 {
 public:
+	static const FamilyId familyId = FAMILY_ID_VIBUFFER;
+
+public:
 	enum TYPE { TYPE_NONANIM, TYPE_ANIM, TYPE_END };
 private:
 	CModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner);
