@@ -645,7 +645,7 @@ void CMapToolGUI::Load_Layer_GameObjects()
 	{
 		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
 
-		char readBuffer[65536];
+		char* readBuffer = new char[65536];
 		FileReadStream is(fp, readBuffer, sizeof(readBuffer));
 
 		Document document;
@@ -705,161 +705,9 @@ void CMapToolGUI::Load_Layer_GameObjects()
 		}
 
 		fclose(fp);
+		Safe_Delete_Array(readBuffer);
 	}
 }
-
-//void CMapToolGUI::Save_Layer_GameObjects()
-//{
-//	vector<CGameObject*> vecObjects;
-//
-//	const wstring* prefabName = CDataToolGUI::GetInstance()->Get_Current_GameObject_Prefab();
-//	const wstring* layerTag = CDataToolGUI::GetInstance()->Get_Current_LayerName();
-//	const _uint iLevelindex = CDataToolGUI::GetInstance()->Get_Current_Levelindex();
-//
-//	CGameInstance::GetInstance()->Get_ObjectList<CTransform>(vecObjects, iLevelindex, layerTag->c_str());
-//
-//	if (vecObjects.empty())
-//	{
-//		MSG_BOX("GameObjects List is empty.");
-//		return;
-//	}
-//
-//	wofstream		fout;
-//
-//	fout.open(file_dialog.selected_path + file_dialog.ext, ios::out);
-//
-//	if (!fout.fail())
-//	{
-//		_float3 vScale{}, vRot{}, vPos{};
-//		// pPrototypeTag, iLevelIndex, pLayerTag, pObjectNameTag, pArg
-//
-//		fout << iLevelindex << endl;
-//		fout << layerTag->c_str() << endl;
-//
-//		for (auto& iter : vecObjects)
-//		{
-//			CTransform* pTransform = dynamic_cast<CTransform*>(CGameInstance::GetInstance()->Get_Component(CTransform::familyId, iter));
-//
-//			if (nullptr == pTransform)
-//				continue;
-//
-//			vScale = pTransform->Get_Scaled();
-//			vRot = pTransform->Get_Rotate();
-//			XMStoreFloat3(&vPos, pTransform->Get_State(CTransform::STATE_POSITION));
-//
-//			fout << vScale.x << L"|"
-//				<< vScale.y << L"|"
-//				<< vScale.z << L"|"
-//				<< vRot.x << L"|"
-//				<< vRot.y << L"|"
-//				<< vRot.z << L"|"
-//				<< vPos.x << L"|"
-//				<< vPos.y << L"|"
-//				<< vPos.z << L"|" 
-//				<< iter->Get_ProtoTypeTag().c_str() << L"|"
-//				<< iter->Get_NameTag().c_str() 
-//				<< endl;
-//		}
-//
-//		fout.close();
-//	}
-//}
-//
-//void CMapToolGUI::Load_Layer_GameObjects()
-//{
-//	wifstream		fin;
-//	fin.open(file_dialog.selected_path, ios::in);
-//
-//	if (!fin.fail())	
-//	{
-//		TCHAR	szLevelindex[MAX_PATH] = L"";
-//		TCHAR	szLayerTag[MAX_PATH] = L"";
-//
-//		TCHAR	szScaleX[MAX_PATH] = L"";
-//		TCHAR	szScaleY[MAX_PATH] = L"";
-//		TCHAR	szScaleZ[MAX_PATH] = L"";
-//
-//		TCHAR	szRotX[MAX_PATH] = L"";
-//		TCHAR	szRotY[MAX_PATH] = L"";
-//		TCHAR	szRotZ[MAX_PATH] = L"";
-//
-//		TCHAR	szPosX[MAX_PATH] = L"";
-//		TCHAR	szPosY[MAX_PATH] = L"";
-//		TCHAR	szPosZ[MAX_PATH] = L"";
-//
-//		TCHAR	szPrototypeTag[MAX_PATH] = L"";
-//		TCHAR	szObjectName[MAX_PATH] = L"";
-//
-//		_uint	iLevelindex = 0;
-//		_float3 vScale{}, vRot{}, vPos{};
-//		wstring objectName;
-//
-//		CTransform* pTransform = nullptr;
-//
-//		fin.getline(szLevelindex, MAX_PATH);
-//		iLevelindex = _tstoi(szLevelindex);
-//
-//		fin.getline(szLayerTag, MAX_PATH);
-//
-//		while (true)
-//		{
-//			CGameObject* pOut = nullptr;
-//
-//			fin.getline(szScaleX, MAX_PATH, '|');
-//			fin.getline(szScaleY, MAX_PATH, '|');
-//			fin.getline(szScaleZ, MAX_PATH, '|');
-//
-//			fin.getline(szRotX, MAX_PATH, '|');
-//			fin.getline(szRotY, MAX_PATH, '|');
-//			fin.getline(szRotZ, MAX_PATH, '|');
-//
-//			fin.getline(szPosX, MAX_PATH, '|');
-//			fin.getline(szPosY, MAX_PATH, '|');
-//			fin.getline(szPosZ, MAX_PATH, '|');
-//
-//			fin.getline(szPrototypeTag, MAX_PATH);
-//			//fin.getline(szObjectName, MAX_PATH);
-//
-//			if (fin.eof())
-//				break;
-//
-//			vScale.x = _float(_tstof(szScaleX));
-//			vScale.y = _float(_tstof(szScaleY));
-//			vScale.z = _float(_tstof(szScaleZ));
-//
-//			vRot.x = _float(_tstof(szRotX));
-//			vRot.y = _float(_tstof(szRotY));
-//			vRot.z = _float(_tstof(szRotZ));
-//
-//			vPos.x = _float(_tstof(szPosX));
-//			vPos.y = _float(_tstof(szPosY));
-//			vPos.z = _float(_tstof(szPosZ));
-//
-//			//objectName = szObjectName;
-//
-//			if (objectName.empty())
-//				CGameInstance::GetInstance()->Add_GameObject(szPrototypeTag, iLevelindex, szLayerTag, &pOut);
-//			else
-//				CGameInstance::GetInstance()->Add_GameObject(szPrototypeTag, iLevelindex, szLayerTag, &pOut);
-//		
-//			if (nullptr == pOut)
-//				continue;
-//
-//			pTransform = (CTransform*)CGameInstance::GetInstance()->Get_Component(CTransform::familyId, pOut);
-//
-//			if (nullptr == pTransform)
-//				continue;
-//
-//			pTransform->Set_Scaled(vScale);
-//			pTransform->Set_Rotation(vRot);
-//			pTransform->Set_Pos(vPos.x, vPos.y, vPos.z);
-//
-//			//Safe_Release(pOut);
-//		}
-//
-//		fin.close();
-//	}
-//}
 
 void CMapToolGUI::Free(void)
 {
