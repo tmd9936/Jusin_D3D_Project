@@ -72,6 +72,32 @@ HRESULT CTexture::Initialize(void* pArg)
 	return S_OK;
 }
 
+HRESULT CTexture::Get_ResourceInfo(_uint iTextureIndex, D3D11_MAPPED_SUBRESOURCE* pInfo)
+{
+	if (iTextureIndex >= m_iNumTextures)
+		return E_FAIL;
+
+	if (nullptr == pInfo)
+		return E_FAIL;
+
+
+	//https://stackoverflow.com/questions/38165270/retrieving-id3d11texture2d-data-to-be-sent-over-network
+	//ID3D11Texture2D* pSourResource = nullptr;
+
+	//m_SRVs[iTextureIndex]->GetResource((ID3D11Resource**)&pSourResource);
+
+	//pSourResource->GetDesc()
+
+	//HRESULT hr = m_pContext->Map(
+	//	pSourResource,
+	//	0,
+	//	D3D11_MAP_READ_WRITE,
+	//	0,
+	//	pInfo);
+
+	return S_OK;
+}
+
 CTexture* CTexture::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pTextureFilePath, _uint iNumTextures)
 {
 	CTexture* pInstance = new CTexture(pDevice, pContext, nullptr);

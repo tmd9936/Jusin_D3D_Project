@@ -38,6 +38,8 @@ public:
 		return m_vBrushPos;
 	}
 
+	HRESULT Get_ResourceInfo(_uint iTextureIndex, D3D11_MAPPED_SUBRESOURCE* pInfo);
+
 private:
 	vector<ID3D11ShaderResourceView*>			m_SRVs;
 	_uint										m_iNumTextures = { 0 };

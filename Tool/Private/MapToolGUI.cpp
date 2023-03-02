@@ -147,6 +147,18 @@ HRESULT CMapToolGUI::Render()
 		ImGui::Text("BrushPosX %.2f", m_vBrushPos.x);
 		ImGui::Text("BrushPosZ %.2f", m_vBrushPos.z);
 
+		if (ImGui::Button("Test"))
+		{
+			CTexture* pBrushTexture = dynamic_cast<CTexture*>(CGameInstance::GetInstance()->Get_Component(FAMILY_ID_TEXTURE_BRUSH, LEVEL_GAMEPLAY, L"Layer_Terrain", L"Terrain"));
+			if (nullptr == pBrushTexture)
+				return E_FAIL;
+
+			D3D11_MAPPED_SUBRESOURCE info{};
+			pBrushTexture->Get_ResourceInfo(0, &info);
+
+			int adsf = 0;
+		}
+
 	}
 	ImGui::End();
 
