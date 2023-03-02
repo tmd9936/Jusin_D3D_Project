@@ -42,6 +42,7 @@ private:
 	vector<ID3D11ShaderResourceView*>			m_SRVs;
 	_uint										m_iNumTextures = { 0 };
 	_float4										m_vBrushPos = { 0.f, 0.f, 0.f, 1.f };
+	wstring										m_TextureFilePath = {};
 
 public:
 	static CTexture* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pTextureFilePath, _uint iNumTextures = 1);

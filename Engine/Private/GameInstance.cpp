@@ -241,6 +241,14 @@ CGameObject* CGameInstance::Get_Object(_uint iLevelIndex, const _tchar* pLayerTa
 	return m_pObject_Manager->Get_Object(iLevelIndex, pLayerTag, pObjectTag);
 }
 
+HRESULT CGameInstance::Remove_All_GameObject_In_Layer(_uint iLevelIndex, const _tchar* pLayerTag)
+{
+	if (nullptr == m_pObject_Manager)
+		return E_FAIL;
+
+	return m_pObject_Manager->Remove_All_GameObject_In_Layer(iLevelIndex, pLayerTag);
+}
+
 HRESULT CGameInstance::Get_Layer_Names(_uint iLevelIndex, vector<wstring>& vecNames)
 {
 	if (nullptr == m_pObject_Manager)

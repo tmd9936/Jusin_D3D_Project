@@ -38,6 +38,8 @@ private:
 	void	View_Base();
 	void	View_Level_Layer();
 	void	View_Prefab();
+	void	View_Control();
+
 
 private:
 	void	ListBox_Level_List();

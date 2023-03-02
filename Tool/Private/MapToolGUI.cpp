@@ -195,6 +195,10 @@ void CMapToolGUI::Picking_Environment()
 
 		m_vScale = pTransform->Get_Scaled();
 		m_vRot = pTransform->Get_Rotate();
+		m_vRot.x = XMConvertToDegrees(m_vRot.x);
+		m_vRot.y = XMConvertToDegrees(m_vRot.y);
+		m_vRot.z = XMConvertToDegrees(m_vRot.z);
+
 		XMStoreFloat3(&m_vPos, pTransform->Get_State(CTransform::STATE_POSITION));
 	}
 }

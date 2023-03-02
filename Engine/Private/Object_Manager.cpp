@@ -216,6 +216,21 @@ HRESULT CObject_Manager::Remove_Component(const FamilyId& familyId, CGameObject*
 	return S_OK;
 }
 
+HRESULT CObject_Manager::Remove_All_GameObject_In_Layer(_uint iLevelIndex, const _tchar* pLayerTag)
+{
+	if (nullptr == pLayerTag)
+		return E_FAIL;
+
+	CLayer* pLayer = Find_Layer(iLevelIndex, pLayerTag);
+
+	if (nullptr == pLayer)
+		return E_FAIL;
+
+	pLayer->Free();
+
+	return S_OK;
+}
+
 HRESULT CObject_Manager::Get_Layer_Names(_uint iLevelIndex, vector<wstring>& vecNames)
 {
 	if (nullptr == m_pLayers)

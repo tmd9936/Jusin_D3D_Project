@@ -60,6 +60,7 @@ HRESULT CDataToolGUI::Render()
 	//View_Base();
 	View_Level_Layer();
 	View_Prefab();
+	View_Control();
 
 	return S_OK;
 }
@@ -124,6 +125,17 @@ void CDataToolGUI::View_Prefab()
 	}
 
 
+	ImGui::End();
+}
+
+void CDataToolGUI::View_Control()
+{
+	ImGui::Begin("View_Control");
+
+	if (ImGui::Button("Remove_All_GameObject_In_Layer"))
+	{
+		CGameInstance::GetInstance()->Remove_All_GameObject_In_Layer(m_iLevelListBoxCurrentItem, m_CurrentLayerName.c_str());
+	}
 	ImGui::End();
 }
 

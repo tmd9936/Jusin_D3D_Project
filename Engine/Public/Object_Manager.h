@@ -101,6 +101,7 @@ public:
 	CComponent* Get_Component(const FamilyId& familyId, CGameObject* pObj) const;
 	CComponent* Get_Component(const FamilyId& familyId, _uint iLevelIndex, const _tchar* pLayerTag, const _tchar* pObjectTag) const;
 	HRESULT		Remove_Component(const FamilyId& familyId, CGameObject* pObj);
+	HRESULT		Remove_All_GameObject_In_Layer(_uint iLevelIndex, const _tchar* pLayerTag);
 
 public:
 	HRESULT		Get_Layer_Names(_uint iLevelIndex, vector<wstring>& vecNames);
