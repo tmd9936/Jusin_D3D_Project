@@ -144,6 +144,8 @@ HRESULT CMapToolGUI::Render()
 
 		ImGui::Text("MouseX %d", m_ptMouse.x);
 		ImGui::Text("MouseY %d", m_ptMouse.y);
+		ImGui::Text("BrushPosX %.2f", m_vBrushPos.x);
+		ImGui::Text("BrushPosZ %.2f", m_vBrushPos.z);
 
 	}
 	ImGui::End();
@@ -425,6 +427,7 @@ void CMapToolGUI::Update_Data()
 		break;
 
 	case MAP:
+		Move_Brush();
 		break;
 
 	case SAVE_LOAD:
@@ -486,6 +489,18 @@ _bool CMapToolGUI::Mouse_Pos_In_Platform()
 		return true;
 
 	return false;
+}
+
+void CMapToolGUI::Move_Brush()
+{
+	Get_Picking_Terrain_Pos(&m_vBrushPos);
+
+	CTexture* pBrushTexture = dynamic_cast<CTexture*>(CGameInstance::GetInstance()->Get_Component(FAMILY_ID_TEXTURE_BRUSH, LEVEL_GAMEPLAY, L"Layer_Terrain", L"Terrain"));
+	if (nullptr == pBrushTexture)
+		return;
+
+	pBrushTexture->Set_BrushPos({ m_vBrushPos.x, m_vBrushPos.y, m_vBrushPos.z, 1.f });
+
 }
 
 void CMapToolGUI::Add_Environment()

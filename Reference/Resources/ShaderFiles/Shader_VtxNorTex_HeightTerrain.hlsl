@@ -18,7 +18,6 @@ float			g_fBrushRange = 5.f;
 vector			g_vMtrlAmbient = vector(0.4f, 0.4f, 0.4f, 1.f);
 vector			g_vMtrlSpecular = vector(1.f, 1.f, 1.f, 1.f);
 
-
 sampler PointSampler = sampler_state
 {
 	filter = min_mag_mip_point;
@@ -46,8 +45,7 @@ struct VS_OUT
 	float4		vNormal : NORMAL;
 	float2		vTexUV : TEXCOORD0;
 	float4		vProjPos: TEXCOORD1;
-	float4		vWorldPos: TEXCOORD2;
-
+	float4		vWorldPos : TEXCOORD2;
 };
 
 VS_OUT VS_MAIN(VS_IN In)
@@ -63,8 +61,7 @@ VS_OUT VS_MAIN(VS_IN In)
 	Out.vNormal = mul(vector(In.vNormal, 0.f), g_WorldMatrix);
 	Out.vTexUV = In.vTexUV;
 	Out.vProjPos = Out.vPosition;
-	Out.vWorldPos = mul(vector(In.vPosition, 1.f), g_WorldMatrix);
-
+	Out.vWorldPos = mul(float4(In.vPosition, 1.f), g_WorldMatrix);
 
 	return Out;
 }
@@ -75,7 +72,7 @@ struct PS_IN
 	float4		vNormal : NORMAL;
 	float2		vTexUV : TEXCOORD0;
 	float4		vProjPos: TEXCOORD1;
-	float4		vWorldPos: TEXCOORD2;
+	float4		vWorldPos : TEXCOORD2;
 };
 
 struct PS_OUT
@@ -83,10 +80,9 @@ struct PS_OUT
 	float4		vColor : SV_TARGET0;
 };
 
-/* 픽셀의 색을 결정한다. */
 PS_OUT PS_MAIN(PS_IN In)
 {
-	PS_OUT		Out = (PS_OUT)0;
+	PS_OUT			Out = (PS_OUT)0;
 
 	vector		vSourDiffuse = g_DiffuseTexture[0].Sample(LinearSampler, In.vTexUV * 20.f);
 	vector		vDestDiffuse = g_DiffuseTexture[1].Sample(LinearSampler, In.vTexUV * 20.f);
@@ -119,34 +115,23 @@ PS_OUT PS_MAIN(PS_IN In)
 	return Out;
 }
 
+/* 픽셀의 색을 결정한다. */
 PS_OUT PS_MAIN_POINT(PS_IN In)
 {
-	PS_OUT		Out = (PS_OUT)0;
+	PS_OUT			Out = (PS_OUT)0;
 
-	vector		vSourDiffuse = g_DiffuseTexture[0].Sample(LinearSampler, In.vTexUV * 20.f);
-	vector		vDestDiffuse = g_DiffuseTexture[1].Sample(LinearSampler, In.vTexUV * 20.f);
-	vector		vBrushColor = /*g_BrushTexture.Sample(LinearSampler, In.vTexUV)*/(vector)0.f;
-	vector		vMask = g_MaskTexture.Sample(PointSampler, In.vTexUV);
+	vector		vMtrlDiffuse = g_DiffuseTexture[0].Sample(LinearSampler, In.vTexUV * 20.f);
 
-	if (g_vBrushPos.x - g_fBrushRange < In.vWorldPos.x && In.vWorldPos.x < g_vBrushPos.x + g_fBrushRange &&
-		g_vBrushPos.z - g_fBrushRange < In.vWorldPos.z && In.vWorldPos.z < g_vBrushPos.z + g_fBrushRange)
-	{
-		float2		vNewUV;
+	vector		vLightDir = In.vWorldPos - g_vLightPos;
+	float		fLength = length(vLightDir);
 
-		vNewUV.x = (In.vWorldPos.x - (g_vBrushPos.x - g_fBrushRange)) / (2.f * g_fBrushRange);
-		vNewUV.y = ((g_vBrushPos.z + g_fBrushRange) - In.vWorldPos.z) / (2.f * g_fBrushRange);
+	float		fAtt = saturate((g_fLightRange - fLength) / g_fLightRange);
 
+	float		fShade = max(dot(normalize(vLightDir) * -1.f, normalize(In.vNormal)), 0.f) * fAtt;
 
-		vBrushColor = g_BrushTexture.Sample(LinearSampler, vNewUV);
-	}
-
-	vector		vMtrlDiffuse = vDestDiffuse * vMask.r + vSourDiffuse * (1.f - vMask.r) + vBrushColor;
-
-	float		fShade = max(dot(normalize(g_vLightDir) * -1.f, normalize(In.vNormal)), 0.f);
-
-	vector		vReflect = reflect(normalize(g_vLightDir), normalize(In.vNormal));
+	vector		vReflect = reflect(normalize(vLightDir), normalize(In.vNormal));
 	vector		vLook = In.vWorldPos - g_vCamPosition;
-	float		fSpecular = pow(max(dot(normalize(vReflect) * -1.f, normalize(vLook)), 0.f), 30);
+	float		fSpecular = pow(max(dot(normalize(vReflect) * -1.f, normalize(vLook)), 0.f), 30) * fAtt;
 
 	Out.vColor = (g_vLightDiffuse * vMtrlDiffuse) * saturate(fShade + (g_vLightAmbient * g_vMtrlAmbient))
 		+ (g_vLightSpecular * g_vMtrlSpecular) * fSpecular;

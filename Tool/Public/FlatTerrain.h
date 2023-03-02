@@ -15,6 +15,8 @@ BEGIN(Client)
 
 class CFlatTerrain final : public CGameObject
 {
+public:
+	enum TEXTURETYPE { TYPE_DIFFUSE, TYPE_MASK, TYPE_BRUSH, TYPE_END };
 private:
 	CFlatTerrain(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CFlatTerrain(const CFlatTerrain& rhs);
@@ -31,7 +33,7 @@ private:
 	CRenderer* m_pRendererCom = { nullptr };
 	CShader* m_pShaderCom = { nullptr };
 	CVIBuffer_FlatTerrain* m_pVIBufferCom = { nullptr };
-	CTexture* m_pTextureCom = { nullptr };
+	CTexture* m_pTextureCom[TYPE_END] = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
 
 private:

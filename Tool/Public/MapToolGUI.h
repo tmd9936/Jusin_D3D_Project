@@ -82,8 +82,10 @@ private:
 	void	Update_Data();
 	void	Update_ViewerGameObject();
 	HRESULT	Get_Picking_Terrain_Pos(_float3* pVOutPutPos);
-
 	_bool	Mouse_Pos_In_Platform();
+
+private:
+	void	Move_Brush();
 
 private:
 	ID3D11Device*			m_pDevice = { nullptr };
@@ -116,6 +118,8 @@ private:
 	wstring				m_PrefabName = {};
 
 	POINT		m_ptMouse = {};
+
+	_float3		m_vBrushPos = {};
 
 private:
 	CCalculator* m_pCalculator = { nullptr };

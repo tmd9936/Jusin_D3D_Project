@@ -96,7 +96,9 @@ using namespace DirectX;
 #define FAMILY_ID_TRANSFORM					19
 #define FAMILY_ID_BILLBOARD					20
 #define FAMILY_ID_TEXTURE					21
-#define FAMILY_ID_MATERIAL					22
+#define FAMILY_ID_TEXTURE_MASK				22
+#define FAMILY_ID_TEXTURE_BRUSH				23
+#define FAMILY_ID_MATERIAL					25
 
 #define FAMILY_ID_SHADER					30
 #define FAMILY_ID_VIBUFFER					31

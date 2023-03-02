@@ -30,9 +30,18 @@ public:
 	HRESULT Set_ShaderResource(class CShader* pShader, const char* pConstantName, _uint iTextureIndex = 0);
 	HRESULT	Set_ShaderResourceArray(CShader* pShader, const char* pConstantName);
 
+public:
+	void Set_BrushPos(_float4 vBrushPos) {
+		m_vBrushPos = vBrushPos;
+	}
+	const _float4 Get_BrushPos() const {
+		return m_vBrushPos;
+	}
+
 private:
 	vector<ID3D11ShaderResourceView*>			m_SRVs;
 	_uint										m_iNumTextures = { 0 };
+	_float4										m_vBrushPos = { 0.f, 0.f, 0.f, 1.f };
 
 public:
 	static CTexture* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pTextureFilePath, _uint iNumTextures = 1);
