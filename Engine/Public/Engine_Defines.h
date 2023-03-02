@@ -24,13 +24,18 @@
 #include <ctime>
 #include <fstream>
 #include <iostream>
+#include <cstdio>
 
 #include <DirectXMath.h>
 #include <Process.h>
 
-//#include "rapidjson/document.h"     // rapidjson's DOM-style API
-//#include "rapidjson/prettywriter.h" // for stringify JSON
-#include "json/json.h"
+#include "rapidjson/document.h"
+#include "rapidjson/writer.h"
+#include "rapidjson/stringbuffer.h"
+#include "rapidjson/prettywriter.h" 
+#include "rapidjson/filewritestream.h"
+#include "rapidjson/filereadstream.h"
+//#include "json/json.h"
 
 using namespace std;
 using namespace DirectX;
