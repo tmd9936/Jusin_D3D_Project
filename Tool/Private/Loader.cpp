@@ -76,7 +76,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	/*  */		  
 #pragma region TEXTURES	
 	wsprintf(m_szLoadingText, TEXT("텍스쳐를 로딩중입니다."));
-	for (_uint i = 0; i < 99999999; ++i)
+	for (_uint i = 0; i < 999999; ++i)
 	{
 		int a = 10;
 	}
@@ -90,7 +90,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 #pragma region MODELS
 	wsprintf(m_szLoadingText, TEXT("모델를 로딩중입니다."));
-	for (_uint i = 0; i < 9999999; ++i)
+	for (_uint i = 0; i < 999999; ++i)
 	{
 		int a = 10;
 	}
@@ -98,7 +98,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 #pragma region SHADERS
 	wsprintf(m_szLoadingText, TEXT("셰이더를 로딩중입니다."));
-	for (_uint i = 0; i < 9999999; ++i)
+	for (_uint i = 0; i < 999999; ++i)
 	{
 		int a = 10;
 	}
@@ -133,7 +133,17 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 	wsprintf(m_szLoadingText, TEXT("텍스쳐를 로딩중입니다."));
 	/* For.Prototype_Component_Texture_Terrain */
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Terrain"),
-		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Tile0.dds")))))
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Tile%d.dds"), 2))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_TerrainMask */
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_TerrainMask"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Filter.dds")))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Brush */
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Brush"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Brush.png")))))
 		return E_FAIL;
 #pragma endregion
 
@@ -161,6 +171,11 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 	/* For.Prototype_Component_Shader_VtxNorTex */
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Shader_VtxNorTex"),
 		CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxNorTex.hlsl"), VTXNORTEX_DECLARATION::Elements, VTXNORTEX_DECLARATION::iNumElements))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Shader_VtxNorTex_HeightTerrain */
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Shader_VtxNorTex_HeightTerrain"),
+		CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxNorTex_HeightTerrain.hlsl"), VTXNORTEX_DECLARATION::Elements, VTXNORTEX_DECLARATION::iNumElements))))
 		return E_FAIL;
 #pragma endregion
 

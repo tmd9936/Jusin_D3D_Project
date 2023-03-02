@@ -23,6 +23,15 @@ HRESULT CTexture::Set_ShaderResource(CShader* pShader, const char* pConstantName
 	return pShader->Set_ShaderResourceView(pConstantName, m_SRVs[iTextureIndex]);
 }
 
+HRESULT CTexture::Set_ShaderResourceArray(CShader* pShader, const char* pConstantName)
+{
+	ID3D11ShaderResourceView* pSRVs[2] = {
+		m_SRVs[0],
+		m_SRVs[1],
+	};
+	return pShader->Set_ShaderResourceViewArray(pConstantName, pSRVs, m_iNumTextures);
+}
+
 HRESULT CTexture::Initialize_Prototype(const _tchar* pTextureFilePath, _uint iNumTextures)
 {
 	m_iNumTextures = iNumTextures;

@@ -28,6 +28,7 @@ public:
 
 public:
 	HRESULT Set_ShaderResource(class CShader* pShader, const char* pConstantName, _uint iTextureIndex = 0);
+	HRESULT	Set_ShaderResourceArray(CShader* pShader, const char* pConstantName);
 
 private:
 	vector<ID3D11ShaderResourceView*>			m_SRVs;

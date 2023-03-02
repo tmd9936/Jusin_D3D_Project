@@ -76,13 +76,23 @@ HRESULT CTerrain::Add_Components()
 		return E_FAIL;
 
 	/* For.Com_Shader */
-	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_GAMEPLAY, TEXT("Prototype_Component_Shader_VtxNorTex"),
+	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_GAMEPLAY, TEXT("Prototype_Component_Shader_VtxNorTex_HeightTerrain"),
 		(CComponent**)&m_pShaderCom, nullptr)))
 		return E_FAIL;
 
 	/* For.Com_Texture */
 	if (FAILED(pGameInstance->Add_Component(CTexture::familyId, this, LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Terrain"),
-		(CComponent**)&m_pTextureCom, nullptr)))
+		(CComponent**)&m_pTextureCom[TYPE_DIFFUSE], nullptr)))
+		return E_FAIL;
+
+	/* For.Com_Brush */
+	if (FAILED(pGameInstance->Add_Component(CTexture::familyId + 10000, this, LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_TerrainMask"),
+		(CComponent**)&m_pTextureCom[TYPE_MASK], nullptr)))
+		return E_FAIL;
+
+	/* For.Com_Mask */
+	if (FAILED(pGameInstance->Add_Component(CTexture::familyId + 10001, this, LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Brush"),
+		(CComponent**)&m_pTextureCom[TYPE_BRUSH], nullptr)))
 		return E_FAIL;
 
 
@@ -136,7 +146,13 @@ HRESULT CTerrain::SetUp_ShaderResources()
 
 	Safe_Release(pGameInstance);
 
-	if (FAILED(m_pTextureCom->Set_ShaderResource(m_pShaderCom, "g_DiffuseTexture", 0)))
+	if (FAILED(m_pTextureCom[TYPE_DIFFUSE]->Set_ShaderResourceArray(m_pShaderCom, "g_DiffuseTexture")))
+		return E_FAIL;
+
+	if (FAILED(m_pTextureCom[TYPE_MASK]->Set_ShaderResource(m_pShaderCom, "g_MaskTexture", 0)))
+		return E_FAIL;
+
+	if (FAILED(m_pTextureCom[TYPE_BRUSH]->Set_ShaderResource(m_pShaderCom, "g_BrushTexture", 0)))
 		return E_FAIL;
 
 	return S_OK;
@@ -172,11 +188,14 @@ void CTerrain::Free()
 {
 	__super::Free();
 
+	Safe_Release(m_pTransformCom);
+
+	for (_uint i = 0; i < TYPE_END; ++i)
+		Safe_Release(m_pTextureCom[i]);
+
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pRendererCom);
-	Safe_Release(m_pTextureCom);
-	Safe_Release(m_pTransformCom);
 
 
 }

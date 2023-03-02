@@ -34,10 +34,11 @@ public:
 	HRESULT Set_ShaderResourceView(const char* pConstantName, ID3D11ShaderResourceView& pSRV);
 
 	HRESULT	Set_RawValue(const char* pConstantName, const void* pData, _uint iLength);
+	HRESULT Set_ShaderResourceViewArray(const char* pConstantName, ID3D11ShaderResourceView** ppSRV, _uint iNumTextures);
 
 
 private:
-	ID3DX11Effect* m_pEffect = { nullptr };
+	ID3DX11Effect*				m_pEffect = { nullptr };
 
 private:
 	vector<PASSDESC>			m_Passes;

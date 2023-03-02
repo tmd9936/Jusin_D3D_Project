@@ -215,6 +215,7 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_VtxNorTex.hlsl" />
+    <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_VtxNorTex_HeightTerrain.hlsl" />
     <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_Vtxtex.hlsl" />
   </ItemGroup>
   <ItemGroup>
