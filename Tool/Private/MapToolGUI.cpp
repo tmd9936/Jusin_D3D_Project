@@ -390,17 +390,18 @@ void CMapToolGUI::TerrainMenu()
 
 void CMapToolGUI::Update_Data()
 {
-	if (ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow))
+	ImGuiHoveredFlags flag = ImGuiHoveredFlags_AnyWindow | ImGuiHoveredFlags_RootWindow;
+	if (ImGui::IsWindowHovered(flag))
 	{
 		return;
 	}
 
-	if (ImGui::IsItemHovered(ImGuiHoveredFlags_AnyWindow))
+	if (ImGui::IsItemHovered(flag))
 	{
 		return;
 	}
 
-	if (ImGui::IsAnyItemHovered())
+	if (ImGui::IsAnyItemHovered() || ImGui::IsItemFocused())
 	{
 		return;
 	}
@@ -620,7 +621,6 @@ void CMapToolGUI::Load_Layer_GameObjects()
 		_float3 vScale{}, vRot{}, vPos{};
 		wstring objectName;
 
-		CGameObject* pOut = nullptr;
 		CTransform* pTransform = nullptr;
 
 		fin.getline(szLevelindex, MAX_PATH);
@@ -630,6 +630,8 @@ void CMapToolGUI::Load_Layer_GameObjects()
 
 		while (true)
 		{
+			CGameObject* pOut = nullptr;
+
 			fin.getline(szScaleX, MAX_PATH, '|');
 			fin.getline(szScaleY, MAX_PATH, '|');
 			fin.getline(szScaleZ, MAX_PATH, '|');
@@ -642,8 +644,8 @@ void CMapToolGUI::Load_Layer_GameObjects()
 			fin.getline(szPosY, MAX_PATH, '|');
 			fin.getline(szPosZ, MAX_PATH, '|');
 
-			fin.getline(szPrototypeTag, MAX_PATH, '|');
-			fin.getline(szObjectName, MAX_PATH);
+			fin.getline(szPrototypeTag, MAX_PATH);
+			//fin.getline(szObjectName, MAX_PATH);
 
 			if (fin.eof())
 				break;
@@ -660,12 +662,12 @@ void CMapToolGUI::Load_Layer_GameObjects()
 			vPos.y = _float(_tstof(szPosY));
 			vPos.z = _float(_tstof(szPosZ));
 
-			objectName = szObjectName;
+			//objectName = szObjectName;
 
 			if (objectName.empty())
 				CGameInstance::GetInstance()->Add_GameObject(szPrototypeTag, iLevelindex, szLayerTag, &pOut);
 			else
-				CGameInstance::GetInstance()->Add_GameObject(szPrototypeTag, iLevelindex, szLayerTag, &pOut, szObjectName);
+				CGameInstance::GetInstance()->Add_GameObject(szPrototypeTag, iLevelindex, szLayerTag, &pOut);
 		
 			if (nullptr == pOut)
 				continue;
@@ -679,7 +681,7 @@ void CMapToolGUI::Load_Layer_GameObjects()
 			pTransform->Set_Rotation(vRot);
 			pTransform->Set_Pos(vPos.x, vPos.y, vPos.z);
 
-			Safe_Release(pOut);
+			//Safe_Release(pOut);
 		}
 
 		fin.close();
