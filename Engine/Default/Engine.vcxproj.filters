@@ -97,6 +97,12 @@
     <Filter Include="01. Utility\03. Component\Calculator">
       <UniqueIdentifier>{73d50eb8-7c6e-4e45-93ee-2a7814a94a86}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\03. Component\Model">
+      <UniqueIdentifier>{6c64abe0-11e8-4a35-8b7d-566efd7ba73e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\03. Component\Model\Mesh">
+      <UniqueIdentifier>{d0c4ca83-b0a5-44ca-b8f6-6c570a29a573}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Engine_Defines.h">
@@ -201,6 +207,12 @@
     <ClInclude Include="..\Public\Calculator.h">
       <Filter>01. Utility\03. Component\Calculator</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Model.h">
+      <Filter>01. Utility\03. Component\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Mesh.h">
+      <Filter>01. Utility\03. Component\Model\Mesh</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -289,6 +301,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Calculator.cpp">
       <Filter>01. Utility\03. Component\Calculator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Model.cpp">
+      <Filter>01. Utility\03. Component\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Mesh.cpp">
+      <Filter>01. Utility\03. Component\Model\Mesh</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

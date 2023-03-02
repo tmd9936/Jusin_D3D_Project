@@ -40,9 +40,6 @@
     <Filter Include="96 ImGui">
       <UniqueIdentifier>{4f3caca1-d572-468c-b1a3-6856de137220}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\MapTool">
-      <UniqueIdentifier>{e334007f-27df-400b-8d36-677a3afc7d40}</UniqueIdentifier>
-    </Filter>
     <Filter Include="96 ImGui\MapToolGUI">
       <UniqueIdentifier>{7feebb72-cfee-416e-800d-023380095360}</UniqueIdentifier>
     </Filter>
@@ -55,8 +52,11 @@
     <Filter Include="96 ImGui\DataToolGUI">
       <UniqueIdentifier>{4b68341e-8e0c-4946-a930-0258f43bc12d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\99, TestModel">
+    <Filter Include="02. GameObject\99. TestModel">
       <UniqueIdentifier>{d0983206-d520-4cb0-a2ce-f921a2558e65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Player">
+      <UniqueIdentifier>{7132cc79-bd6b-439e-b4b1-ae5ec88af567}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -96,9 +96,6 @@
     <ClInclude Include="..\Public\Terrain.h">
       <Filter>02. GameObject\Terrain</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\MapTool.h">
-      <Filter>02. GameObject\MapTool</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\MapToolGUI.h">
       <Filter>96 ImGui\MapToolGUI</Filter>
     </ClInclude>
@@ -136,7 +133,10 @@
       <Filter>96 ImGui\DataToolGUI</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\TestModel.h">
-      <Filter>02. GameObject\99, TestModel</Filter>
+      <Filter>02. GameObject\99. TestModel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player.h">
+      <Filter>02. GameObject\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -180,9 +180,6 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>98. Default</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\MapTool.cpp">
-      <Filter>02. GameObject\MapTool</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\MapToolGUI.cpp">
       <Filter>96 ImGui\MapToolGUI</Filter>
     </ClCompile>
@@ -217,7 +214,10 @@
       <Filter>96 ImGui\DataToolGUI</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\TestModel.cpp">
-      <Filter>02. GameObject\99, TestModel</Filter>
+      <Filter>02. GameObject\99. TestModel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player.cpp">
+      <Filter>02. GameObject\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -228,6 +228,9 @@
       <Filter>97. ShaderFiles</Filter>
     </FxCompile>
     <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_VtxNorTex_HeightTerrain.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_VtxModel.hlsl">
       <Filter>97. ShaderFiles</Filter>
     </FxCompile>
   </ItemGroup>

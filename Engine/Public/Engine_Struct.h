@@ -51,6 +51,35 @@ namespace Engine
 		static D3D11_INPUT_ELEMENT_DESC			Elements[3];
 	} VTXNORTEX_DECLARATION;
 
+	typedef struct tagVertex_Model
+	{
+		XMFLOAT3			vPosition;
+		XMFLOAT3			vNormal;
+		XMFLOAT2			vTexUV;
+	}VTXMODEL;
+
+	typedef struct ENGINE_DLL tagVertex_Model_Declaration
+	{
+		const static unsigned int				iNumElements = 3;
+		static D3D11_INPUT_ELEMENT_DESC			Elements[3];
+	} VTXMODEL_DECLARATION;
+
+	/*typedef struct tagVertex_AnimModel
+	{
+		XMFLOAT3			vPosition;
+		XMFLOAT3			vNormal;
+		XMFLOAT2			vTexUV;
+
+		XMUINT4				vBlendIndex;
+		XMFLOAT4			vBlendWeight;
+	}VTXANIMMODEL;
+
+	typedef struct ENGINE_DLL tagVertex_Model_Declaration
+	{
+		const static unsigned int				iNumElements = 3;
+		static D3D11_INPUT_ELEMENT_DESC			Elements[3];
+	} VTXMODEL_DECLARATION;
+*/
 
 	typedef struct tagIndices16
 	{

@@ -9,8 +9,9 @@
 #include <DirectXTK/DDSTextureLoader.h>
 #include <DirectXTK/WICTextureLoader.h>
 #include <DirectXTK/ScreenGrab.h>
-//#include <assimp/Importer.hpp>
-//#include <assimp/scene.h>
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 #include <d3dcompiler.h>
 #include <DirectXCollision.h>
 

@@ -164,6 +164,11 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 		CCalculator::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	/* For.Prototype_Component_Model_Fiona */
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Model_Fiona"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/Fiona/Fiona.fbx"))))
+		return E_FAIL;
+
 #pragma endregion
 
 #pragma region SHADERS
@@ -176,6 +181,11 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 	/* For.Prototype_Component_Shader_VtxNorTex_HeightTerrain */
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Shader_VtxNorTex_HeightTerrain"),
 		CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxNorTex_HeightTerrain.hlsl"), VTXNORTEX_DECLARATION::Elements, VTXNORTEX_DECLARATION::iNumElements))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Shader_VtxModel */
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Shader_VtxModel"),
+		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxModel.hlsl"), VTXMODEL_DECLARATION::Elements, VTXMODEL_DECLARATION::iNumElements))))
 		return E_FAIL;
 #pragma endregion
 
