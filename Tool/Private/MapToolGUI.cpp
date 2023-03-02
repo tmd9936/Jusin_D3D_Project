@@ -623,7 +623,7 @@ void CMapToolGUI::Save_Layer_GameObjects()
 		MSG_BOX("Save File Open Error");
 	else
 	{
-		char* writeBuffer = new char[60000];
+		char* writeBuffer = new char[65536];
 		FileWriteStream os(fp, writeBuffer, sizeof(writeBuffer));
 
 		PrettyWriter<FileWriteStream> writer(os);
@@ -633,51 +633,79 @@ void CMapToolGUI::Save_Layer_GameObjects()
 
 		Safe_Delete_Array(writeBuffer);
 	}
-
-
-	//wofstream		fout;	
-
-	//fout.open(file_dialog.selected_path + file_dialog.ext, ios::out);
-
-	//if (!fout.fail())
-	//{
-	//	_float3 vScale{}, vRot{}, vPos{};
-	//	// pPrototypeTag, iLevelIndex, pLayerTag, pObjectNameTag, pArg
-
-	//	fout << iLevelindex << endl;
-	//	fout << layerTag->c_str() << endl;
-
-	//	for (auto& iter : vecObjects)
-	//	{
-	//		CTransform* pTransform = dynamic_cast<CTransform*>(CGameInstance::GetInstance()->Get_Component(CTransform::familyId, iter));
-
-	//		if (nullptr == pTransform)
-	//			continue;
-
-	//		vScale = pTransform->Get_Scaled();
-	//		vRot = pTransform->Get_Rotate();
-	//		XMStoreFloat3(&vPos, pTransform->Get_State(CTransform::STATE_POSITION));
-
-	//		fout << vScale.x << L"|"
-	//			<< vScale.y << L"|"
-	//			<< vScale.z << L"|"
-	//			<< vRot.x << L"|"
-	//			<< vRot.y << L"|"
-	//			<< vRot.z << L"|"
-	//			<< vPos.x << L"|"
-	//			<< vPos.y << L"|"
-	//			<< vPos.z << L"|" 
-	//			<< iter->Get_ProtoTypeTag().c_str() << L"|"
-	//			<< iter->Get_NameTag().c_str() 
-	//			<< endl;
-	//	}
-
-	//	fout.close();
-	//}
 }
 
 void CMapToolGUI::Load_Layer_GameObjects()
 {
+	FILE* fp = fopen((file_dialog.selected_path).c_str(), "rb"); // non-Windows use "r"
+
+	if (NULL == fp)
+		MSG_BOX("Load File Open Error");
+	else
+	{
+		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
+
+		char readBuffer[65536];
+		FileReadStream is(fp, readBuffer, sizeof(readBuffer));
+
+		Document document;
+		document.ParseStream(is);
+
+		_uint	iLevelindex = 0;
+		_float3 vScale{}, vRot{}, vPos{};
+		wstring objectNameTag, layerTag, prototypeTag;
+
+		CTransform* pTransform = nullptr;
+
+		assert(document.HasMember("Level"));
+		assert(document["Level"].IsUint());
+		iLevelindex = (_uint)document["Level"].GetUint();
+
+		assert(document.HasMember("Layer"));
+		assert(document["Layer"].IsString());
+		layerTag = convert.from_bytes(document["Layer"].GetString());
+
+		const Value& objects = document["Objects"];
+		assert(objects.IsArray());
+		for (SizeType i = 0; i < objects.Size(); ++i)
+		{
+			CGameObject* pOut = nullptr;
+
+			vScale.x = objects[i]["ScaleX"].GetFloat();
+			vScale.y = objects[i]["ScaleY"].GetFloat();
+			vScale.z = objects[i]["ScaleZ"].GetFloat();
+
+			vRot.x = objects[i]["RotX"].GetFloat();
+			vRot.y = objects[i]["RotY"].GetFloat();
+			vRot.z = objects[i]["RotZ"].GetFloat();
+
+			vPos.x = objects[i]["PosX"].GetFloat();
+			vPos.y = objects[i]["PosY"].GetFloat();
+			vPos.z = objects[i]["PosZ"].GetFloat();
+
+			prototypeTag = convert.from_bytes(objects[i]["PrototypeTag"].GetString());
+			objectNameTag = convert.from_bytes(objects[i]["ObjectNameTag"].GetString());
+
+
+			if (objectNameTag.empty())
+				CGameInstance::GetInstance()->Add_GameObject(prototypeTag.c_str(), iLevelindex, layerTag.c_str(), &pOut);
+			else
+				CGameInstance::GetInstance()->Add_GameObject(prototypeTag.c_str(), iLevelindex, layerTag.c_str(), &pOut, objectNameTag.c_str());
+
+			pTransform = (CTransform*)CGameInstance::GetInstance()->Get_Component(CTransform::familyId, pOut);
+
+			if (nullptr == pTransform)
+				continue;
+
+			pTransform->Set_Scaled(vScale);
+			pTransform->Set_Rotation(vRot);
+			pTransform->Set_Pos(vPos.x, vPos.y, vPos.z);
+
+			Safe_Release(pOut);
+		}
+
+		fclose(fp);
+	}
 }
 
 //void CMapToolGUI::Save_Layer_GameObjects()
