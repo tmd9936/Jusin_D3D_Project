@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "..\Public\Loader.h"
 #include "GameInstance.h"
+
 #include "BackGround.h"
 #include "Terrain.h"
 #include "FlatTerrain.h"
@@ -165,9 +166,12 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 		CCalculator::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	_matrix		PivotMatrix = XMMatrixIdentity();
+
 	/* For.Prototype_Component_Model_Fiona */
+	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Model_Fiona"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/Fiona/Fiona.fbx"))))
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/Fiona/Fiona.fbx", PivotMatrix))))
 		return E_FAIL;
 
 #pragma endregion

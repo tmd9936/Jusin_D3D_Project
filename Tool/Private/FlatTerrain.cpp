@@ -87,7 +87,7 @@ HRESULT CFlatTerrain::Add_Components()
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
-	CVIBuffer_FlatTerrain::VIBUFFER_FLAT_TERRAIN_DESC TerrainDesc = { 200, 200 };
+	CVIBuffer_FlatTerrain::VIBUFFER_FLAT_TERRAIN_DESC TerrainDesc = { DEFAULT_TERRAIN_WIDTH, DEFAULT_TERRAIN_HEIGHT };
 	if (FAILED(pGameInstance->Add_Component(CVIBuffer_FlatTerrain::familyId, this, LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_FlatTerrain"),
 		(CComponent**)&m_pVIBufferCom, &TerrainDesc)))
 		return E_FAIL;

@@ -50,9 +50,19 @@ HRESULT CPlayer::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	m_pShaderCom->Begin(0);
+	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
 
-	m_pModelCom->Render();
+	for (_uint i = 0; i < iNumMeshes; ++i)
+	{
+		if (FAILED(m_pModelCom->SetUp_ShaderResource(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
+			return E_FAIL;
+		/*if (FAILED(m_pModelCom->SetUp_ShaderResource(m_pShaderCom, "g_NormalTexture", i, aiTextureType_NORMALS)))
+			return E_FAIL;*/
+
+		m_pShaderCom->Begin(0);
+
+		m_pModelCom->Render(i);
+	}
 
 	return S_OK;
 }
@@ -73,7 +83,7 @@ HRESULT CPlayer::Add_Components()
 		return E_FAIL;
 
 	/* For.Com_Model */
-	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, LEVEL_GAMEPLAY, TEXT("Prototype_Component_Model_Fiona"),
+	if (FAILED(pGameInstance->Add_Component(1200, this, LEVEL_GAMEPLAY, TEXT("Prototype_Component_Model_Fiona"),
 		(CComponent**)&m_pModelCom, nullptr)))
 		return E_FAIL;
 

@@ -8,12 +8,14 @@ CMesh::CMesh(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* 
 
 CMesh::CMesh(const CMesh& rhs, CGameObject* pOwner)
 	: CVIBuffer(rhs, pOwner)
+	, m_iMaterialIndex(rhs.m_iMaterialIndex)
 {
 
 }
 
-HRESULT CMesh::Initialize_Prototype(CModel::TYPE eType, aiMesh* pAIMesh)
+HRESULT CMesh::Initialize_Prototype(CModel::TYPE eType, aiMesh* pAIMesh, _fmatrix PivotMatrix)
 {
+	m_iMaterialIndex = pAIMesh->mMaterialIndex;
 	m_iStride = sizeof(VTXMODEL);
 	m_iNumVertices = pAIMesh->mNumVertices;
 	m_iIndexSizePrimitive = sizeof(FACEINDICES32);
@@ -41,7 +43,11 @@ HRESULT CMesh::Initialize_Prototype(CModel::TYPE eType, aiMesh* pAIMesh)
 	for (_uint i = 0; i < m_iNumVertices; ++i)
 	{
 		memcpy(&pVertices[i].vPosition, &pAIMesh->mVertices[i], sizeof(_float3));
+		XMStoreFloat3(&pVertices[i].vPosition, XMVector3TransformCoord(XMLoadFloat3(&pVertices[i].vPosition), PivotMatrix));
+
 		memcpy(&pVertices[i].vNormal, &pAIMesh->mNormals[i], sizeof(_float3));
+		XMStoreFloat3(&pVertices[i].vNormal, XMVector3Normalize(XMVector3TransformNormal(XMLoadFloat3(&pVertices[i].vNormal), PivotMatrix)));
+
 		memcpy(&pVertices[i].vTexUV, &pAIMesh->mTextureCoords[0][i], sizeof(_float2));
 	}
 
@@ -51,7 +57,6 @@ HRESULT CMesh::Initialize_Prototype(CModel::TYPE eType, aiMesh* pAIMesh)
 		return E_FAIL;
 
 	Safe_Delete_Array(pVertices);
-
 #pragma endregion
 
 #pragma region INDEX_BUFFER
@@ -69,8 +74,6 @@ HRESULT CMesh::Initialize_Prototype(CModel::TYPE eType, aiMesh* pAIMesh)
 
 	for (_uint i = 0; i < m_iNumPrimitives; ++i)
 	{
-		/* i번째 삼각형을 구성하는 인덱스들. */
-		// pAIMesh->mFaces[i].mIndices
 		pIndices[i]._0 = pAIMesh->mFaces[i].mIndices[0];
 		pIndices[i]._1 = pAIMesh->mFaces[i].mIndices[1];
 		pIndices[i]._2 = pAIMesh->mFaces[i].mIndices[2];
@@ -94,12 +97,11 @@ HRESULT CMesh::Initialize(void* pArg)
 }
 
 
-
-CMesh* CMesh::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CModel::TYPE eType, aiMesh* pAIMesh)
+CMesh* CMesh::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CModel::TYPE eType, aiMesh* pAIMesh, _fmatrix PivotMatrix)
 {
 	CMesh* pInstance = new CMesh(pDevice, pContext, nullptr);
 
-	if (FAILED(pInstance->Initialize_Prototype(eType, pAIMesh)))
+	if (FAILED(pInstance->Initialize_Prototype(eType, pAIMesh, PivotMatrix)))
 	{
 		MSG_BOX("Failed to Created : CMesh");
 		Safe_Release(pInstance);

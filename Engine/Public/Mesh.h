@@ -15,13 +15,19 @@ private:
 	virtual ~CMesh() = default;
 
 public:
-	virtual HRESULT Initialize_Prototype(CModel::TYPE eType, aiMesh* pAIMesh);
-	virtual HRESULT Initialize(void* pArg) override;
-
-
+	_uint Get_MaterialIndex() const {
+		return m_iMaterialIndex;
+	}
 
 public:
-	static CMesh* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CModel::TYPE eType, aiMesh* pAIMesh);
+	virtual HRESULT Initialize_Prototype(CModel::TYPE eType, aiMesh* pAIMesh, _fmatrix PivotMatrix);
+	virtual HRESULT Initialize(void* pArg) override;
+
+private:
+	_uint		m_iMaterialIndex = { 0 };
+
+public:
+	static CMesh* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CModel::TYPE eType, aiMesh* pAIMesh, _fmatrix PivotMatrix);
 	virtual CComponent* Clone(CGameObject* pOwner, void* pArg = nullptr) override;
 	virtual void Free() override;
 };

@@ -1,5 +1,6 @@
 #include "..\Public\Model.h"
 #include "Mesh.h"
+#include "Texture.h"
 
 CModel::CModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner)
 	: CComponent(pDevice, pContext, pOwner)
@@ -8,18 +9,29 @@ CModel::CModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject
 
 CModel::CModel(const CModel& rhs, CGameObject* pOwner)
 	: CComponent(rhs, pOwner)
+	, m_iNumMeshes(rhs.m_iNumMeshes)
 	, m_Meshes(rhs.m_Meshes)
 	, m_eType(rhs.m_eType)
+	, m_iNumMaterials(rhs.m_iNumMaterials)
+	, m_Materials(rhs.m_Materials)
 {
 	for (auto& pMesh : m_Meshes)
 		Safe_AddRef(pMesh);
+
+	for (auto& Material : m_Materials)
+	{
+		for (auto& pTexture : Material.pMtrlTexture)
+			Safe_AddRef(pTexture);
+	}
 }
 
-HRESULT CModel::Initialize_Prototype(TYPE eType, const char* pModelFilePath)
+HRESULT CModel::Initialize_Prototype(TYPE eType, const char* pModelFilePath, _fmatrix PivotMatrix)
 {
 	_uint		iFlag = 0;
 
 	m_eType = eType;
+
+	XMStoreFloat4x4(&m_PivotMatrix, PivotMatrix);
 
 	/* aiProcess_PreTransformVertices : 정점정보를 읽어서 저장할 당시에 필요한 변환을 미리 처리해놓는다. */
 	/* 처리? 이 모델의 뼈들 중, 메시의 이름과 같은 이름을 가진 뼈를 찾아서 그 뼈의 행렬을 정점들에게 미리 적용한다. */
@@ -36,6 +48,9 @@ HRESULT CModel::Initialize_Prototype(TYPE eType, const char* pModelFilePath)
 	if (FAILED(Ready_Meshes()))
 		return E_FAIL;
 
+	if (FAILED(Ready_Materials(pModelFilePath)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -44,13 +59,26 @@ HRESULT CModel::Initialize(void* pArg)
 	return S_OK;
 }
 
-HRESULT CModel::Render()
+HRESULT CModel::SetUp_ShaderResource(CShader* pShader, const char* pConstantName, _uint iMeshIndex, aiTextureType eType)
 {
-	for (auto& pMesh : m_Meshes)
+	if (iMeshIndex >= m_iNumMeshes)
+		return E_FAIL;
+
+	_uint		iMaterialIndex = m_Meshes[iMeshIndex]->Get_MaterialIndex();
+
+	if (nullptr != m_Materials[iMaterialIndex].pMtrlTexture[eType])
 	{
-		if (nullptr != pMesh)
-			pMesh->Render();
+		if (FAILED(m_Materials[iMaterialIndex].pMtrlTexture[eType]->Set_ShaderResource(pShader, pConstantName)))
+			return E_FAIL;
 	}
+
+	return S_OK;
+}
+
+HRESULT CModel::Render(_uint iMeshIndex)
+{
+	if (nullptr != m_Meshes[iMeshIndex])
+		m_Meshes[iMeshIndex]->Render();
 
 	return S_OK;
 }
@@ -61,7 +89,7 @@ HRESULT CModel::Ready_Meshes()
 
 	for (_uint i = 0; i < m_iNumMeshes; ++i)
 	{
-		CMesh* pMesh = CMesh::Create(m_pDevice, m_pContext, m_eType, m_pAIScene->mMeshes[i]);
+		CMesh* pMesh = CMesh::Create(m_pDevice, m_pContext, m_eType, m_pAIScene->mMeshes[i], XMLoadFloat4x4(&m_PivotMatrix));
 		if (nullptr == pMesh)
 			return E_FAIL;
 
@@ -72,11 +100,63 @@ HRESULT CModel::Ready_Meshes()
 	return S_OK;
 }
 
-CModel* CModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TYPE eType, const char* pModelFilePath)
+HRESULT CModel::Ready_Materials(const char* pModelFilePath)
+{
+	/* 머테리얼을 표현하기위한 텍스쳐를 로드하자. */
+	m_iNumMaterials = m_pAIScene->mNumMaterials;
+
+	for (_uint i = 0; i < m_iNumMaterials; ++i)
+	{
+		aiMaterial* pAIMaterial = m_pAIScene->mMaterials[i];
+		MESH_MATERIAL	ModelMaterial;
+		ZeroMemory(&ModelMaterial, sizeof ModelMaterial);
+
+		for (_uint j = 0; j < AI_TEXTURE_TYPE_MAX; ++j)
+		{
+			_uint	iNumTextures = pAIMaterial->GetTextureCount(aiTextureType(j));
+
+			aiString		TexturePath;
+
+			if (FAILED(pAIMaterial->GetTexture(aiTextureType(j), 0, &TexturePath)))
+				continue;
+
+			char		szFileName[MAX_PATH] = "";
+			char		szEXT[MAX_PATH] = "";
+
+			_splitpath_s(TexturePath.data, nullptr, 0, nullptr, 0, szFileName, MAX_PATH, szEXT, MAX_PATH);
+
+			char		szDrive[MAX_PATH] = "";
+			char		szDir[MAX_PATH] = "";
+
+			_splitpath_s(pModelFilePath, szDrive, MAX_PATH, szDir, MAX_PATH, nullptr, 0, nullptr, 0);
+
+			char		szFullPath[MAX_PATH] = "";
+
+			strcpy_s(szFullPath, szDrive);
+			strcat_s(szFullPath, szDir);
+			strcat_s(szFullPath, szFileName);
+			strcat_s(szFullPath, szEXT);
+
+			_tchar		szFinalPath[MAX_PATH] = TEXT("");
+
+			MultiByteToWideChar(CP_ACP, 0, szFullPath, strlen(szFullPath), szFinalPath, MAX_PATH);
+
+			ModelMaterial.pMtrlTexture[j] = CTexture::Create(m_pDevice, m_pContext, szFinalPath);
+			if (nullptr == ModelMaterial.pMtrlTexture[j])
+				return E_FAIL;
+		}
+
+		m_Materials.push_back(ModelMaterial);
+	}
+
+	return S_OK;
+}
+
+CModel* CModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TYPE eType, const char* pModelFilePath, _fmatrix PivotMatrix)
 {
 	CModel* pInstance = new CModel(pDevice, pContext, nullptr);
 
-	if (FAILED(pInstance->Initialize_Prototype(eType, pModelFilePath)))
+	if (FAILED(pInstance->Initialize_Prototype(eType, pModelFilePath, PivotMatrix)))
 	{
 		MSG_BOX("Failed to Created : CModel");
 		Safe_Release(pInstance);
@@ -106,4 +186,14 @@ void CModel::Free()
 		Safe_Release(pMesh);
 
 	m_Meshes.clear();
+
+	for (auto& Material : m_Materials)
+	{
+		for (auto& pTexture : Material.pMtrlTexture)
+			Safe_Release(pTexture);
+	}
+
+	m_Materials.clear();
+
+	m_Importer.FreeScene();
 }

@@ -80,8 +80,7 @@ PS_OUT PS_MAIN(PS_IN In)
 {
 	PS_OUT			Out = (PS_OUT)0;
 
-	vector		vMtrlDiffuse = /*g_DiffuseTexture.Sample(LinearSampler, In.vTexUV)*/
-		vector(0.5f, 0.5f, 0.5f, 1.f);
+	vector		vMtrlDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 
 	float		fShade = max(dot(normalize(g_vLightDir) * -1.f, normalize(In.vNormal)), 0.f);
 

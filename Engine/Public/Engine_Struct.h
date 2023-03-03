@@ -2,6 +2,13 @@
 
 namespace Engine
 {
+	/* 메시에게 적용하기위한 머테리얼텍스쳐들(Diffuse, AMbient, Specular, Normal) */
+	typedef struct tagMeshMaterial
+	{
+		class CTexture* pMtrlTexture[AI_TEXTURE_TYPE_MAX] = { nullptr };
+
+	}MESH_MATERIAL;
+
 	typedef struct tagLightDesc
 	{
 		XMFLOAT4		vDirection;

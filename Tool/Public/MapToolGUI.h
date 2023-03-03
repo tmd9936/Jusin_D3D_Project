@@ -113,8 +113,8 @@ private:
 	//ImGui_ImplDX11_ViewportData** m_pVd = { nullptr };
 	//ImGui_ImplWin32_ViewportData2* m_pPd = { nullptr };
 
-	int					m_iTerrainCntX = { 200 };
-	int					m_iTerrainCntZ = { 200 };
+	int					m_iTerrainCntX = { DEFAULT_TERRAIN_WIDTH };
+	int					m_iTerrainCntZ = { DEFAULT_TERRAIN_HEIGHT };
 
 	wstring				m_PrefabName = {};
 
