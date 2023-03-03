@@ -153,7 +153,7 @@ HRESULT CMapToolGUI::Render()
 			if (nullptr == pMaskTexture)
 				return E_FAIL;
 
-			pMaskTexture->Create_New_Texture(0, (_uint)m_iTerrainCntZ, (_uint)m_iTerrainCntX);
+			pMaskTexture->Create_New_Texture(0, (_uint)m_iTerrainCntX, (_uint)m_iTerrainCntZ);
 
 			Terrain_Mask_Pixels_Copy();
 		}
@@ -529,10 +529,10 @@ void CMapToolGUI::Move_Brush()
 		if (nullptr == pMaskTexture)
 			return;
 
-		pTerrainMaskPixel[_uint(m_vBrushPos.x + m_vBrushPos.z)] = D3DCOLOR_ARGB(255, 0, 0, 0);
+		pTerrainMaskPixel[_uint(m_vBrushPos.x * m_vBrushPos.z)] = D3DCOLOR_ARGB(255, 0, 0, 0);
 		pMaskTexture->Update_Texture_Pixels_Info(0, pTerrainMaskPixel);
 
-		//Terrain_Mask_Pixels_Copy();
+		Terrain_Mask_Pixels_Copy();
 	}
 
 	else if (MOUSE_TAB(MOUSE::RBTN) && Mouse_Pos_In_Platform())
@@ -547,7 +547,7 @@ void CMapToolGUI::Move_Brush()
 		pTerrainMaskPixel[_uint(m_vBrushPos.z * m_vBrushPos.x)] = D3DCOLOR_ARGB(255, 255, 255, 255);
 		pMaskTexture->Update_Texture_Pixels_Info(0, pTerrainMaskPixel);
 
-		//Terrain_Mask_Pixels_Copy();
+		Terrain_Mask_Pixels_Copy();
 	}
 
 }

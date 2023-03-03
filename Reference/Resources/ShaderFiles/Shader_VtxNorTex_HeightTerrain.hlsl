@@ -13,7 +13,7 @@ texture2D		g_DiffuseTexture[2];
 texture2D		g_MaskTexture;
 texture2D		g_BrushTexture;
 vector			g_vBrushPos = vector(10.f, 0.f, 10.f, 1.f);
-float			g_fBrushRange = 5.f;
+float			g_fBrushRange = 1.f;
 
 vector			g_vMtrlAmbient = vector(0.4f, 0.4f, 0.4f, 1.f);
 vector			g_vMtrlSpecular = vector(1.f, 1.f, 1.f, 1.f);
