@@ -83,19 +83,37 @@ HRESULT CTexture::Create_New_Texture(_uint iTextureIndex, _uint width, _uint hei
 	if (FAILED(m_pDevice->CreateTexture2D(&TextureDesc, &SubResourceData, &pTexture2D)))
 		return E_FAIL;
 
+	for (_uint i = 0; i < TextureDesc.Height; ++i)
+	{
+		for (_uint j = 0; j < TextureDesc.Width; ++j)
+		{
+			_uint		iIndex = i * TextureDesc.Width + j;
+
+			pPixel[iIndex] = D3DCOLOR_ARGB(255, 255, 255, 255);
+
+		}
+	}
+
+	D3D11_MAPPED_SUBRESOURCE	MappedSubResource;
+	ZeroMemory(&MappedSubResource, sizeof MappedSubResource);
+
+	m_pContext->Map(pTexture2D, 0, D3D11_MAP_WRITE_DISCARD, 0, &MappedSubResource);
+
+	memcpy(MappedSubResource.pData, pPixel, sizeof(_uint) * TextureDesc.Width * TextureDesc.Height);
+
+	m_pContext->Unmap(pTexture2D, 0);
+
 	if (FAILED(SaveDDSTextureToFile(m_pContext, pTexture2D, m_TexturePath[iTextureIndex].c_str())))
 		return E_FAIL;
 	
-	Safe_Release(pTexture2D);
-	Safe_Delete_Array(pPixel);
-	
 	Safe_Release(m_Textures[iTextureIndex]);
 	Safe_Release(m_SRVs[iTextureIndex]);
+	m_Textures[iTextureIndex] = std::move(pTexture2D);
 
-	ID3D11ShaderResourceView* pSRV = { nullptr };
-	ID3D11Texture2D* pTexture = { nullptr };
+	CreateDDSTextureFromFile(m_pDevice, m_TexturePath[iTextureIndex].c_str(), nullptr, &m_SRVs[iTextureIndex]);
 
-	CreateDDSTextureFromFile(m_pDevice, m_TexturePath[iTextureIndex].c_str(), (ID3D11Resource**)&m_Textures[iTextureIndex], &m_SRVs[iTextureIndex]);
+	Safe_Release(pTexture2D);
+	Safe_Delete_Array(pPixel);
 
 	return S_OK;
 }
@@ -174,16 +192,13 @@ HRESULT CTexture::Update_Texture_Pixels_Info(_uint iTextureIndex, _uint* pPixel)
 	if (FAILED(SaveDDSTextureToFile(m_pContext, pTexture2D, m_TexturePath[iTextureIndex].c_str())))
 		return E_FAIL;
 
-	Safe_Release(pTexture2D);
-	Safe_Delete_Array(pInPixel);
-
 	Safe_Release(m_Textures[iTextureIndex]);
 	Safe_Release(m_SRVs[iTextureIndex]);
+	m_Textures[iTextureIndex] = std::move(pTexture2D);
 
-	ID3D11ShaderResourceView* pSRV = { nullptr };
-	ID3D11Texture2D* pTexture = { nullptr };
+	CreateDDSTextureFromFile(m_pDevice, m_TexturePath[iTextureIndex].c_str(), nullptr, &m_SRVs[iTextureIndex]);
 
-	CreateDDSTextureFromFile(m_pDevice, m_TexturePath[iTextureIndex].c_str(), (ID3D11Resource**)&m_Textures[iTextureIndex], &m_SRVs[iTextureIndex]);
+	Safe_Delete_Array(pInPixel);
 
 	return S_OK;
 }

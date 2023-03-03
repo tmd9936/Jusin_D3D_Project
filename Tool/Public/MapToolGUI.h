@@ -86,6 +86,7 @@ private:
 
 private:
 	void	Move_Brush();
+	HRESULT	Terrain_Mask_Pixels_Copy();
 
 private:
 	ID3D11Device*			m_pDevice = { nullptr };
