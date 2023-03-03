@@ -106,5 +106,4 @@ void CModel::Free()
 		Safe_Release(pMesh);
 
 	m_Meshes.clear();
-
 }

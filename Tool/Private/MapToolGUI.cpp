@@ -147,16 +147,22 @@ HRESULT CMapToolGUI::Render()
 		ImGui::Text("BrushPosX %.2f", m_vBrushPos.x);
 		ImGui::Text("BrushPosZ %.2f", m_vBrushPos.z);
 
-		if (ImGui::Button("Test"))
+		if (ImGui::Button("Terrain Mask Size Update"))
 		{
-			CTexture* pBrushTexture = dynamic_cast<CTexture*>(CGameInstance::GetInstance()->Get_Component(FAMILY_ID_TEXTURE_BRUSH, LEVEL_GAMEPLAY, L"Layer_Terrain", L"Terrain"));
+			CTexture* pBrushTexture = dynamic_cast<CTexture*>(CGameInstance::GetInstance()->Get_Component(FAMILY_ID_TEXTURE_MASK, LEVEL_GAMEPLAY, L"Layer_Terrain", L"Terrain"));
+			if (nullptr == pBrushTexture)	
+				return E_FAIL;
+
+			pBrushTexture->Create_New_Texture(0, (_uint)m_iTerrainCntX, (_uint)m_iTerrainCntZ);
+
+		}
+		if (ImGui::Button("Terrain Mask Data Copy"))
+		{
+			CTexture* pBrushTexture = dynamic_cast<CTexture*>(CGameInstance::GetInstance()->Get_Component(FAMILY_ID_TEXTURE_MASK, LEVEL_GAMEPLAY, L"Layer_Terrain", L"Terrain"));
 			if (nullptr == pBrushTexture)
 				return E_FAIL;
 
-			D3D11_MAPPED_SUBRESOURCE info{};
-			pBrushTexture->Get_ResourceInfo(0, &info);
-
-			int adsf = 0;
+			pBrushTexture->Copy_Texture_Pixels(0, &pTerrainMaskPixel);
 		}
 
 	}
@@ -517,6 +523,32 @@ void CMapToolGUI::Move_Brush()
 
 	pBrushTexture->Set_BrushPos({ m_vBrushPos.x, m_vBrushPos.y, m_vBrushPos.z, 1.f });
 
+	if (MOUSE_TAB(MOUSE::LBTN) && Mouse_Pos_In_Platform())
+	{
+		if (nullptr == pTerrainMaskPixel)
+			return;
+
+		CTexture* pMaskTexture = dynamic_cast<CTexture*>(CGameInstance::GetInstance()->Get_Component(FAMILY_ID_TEXTURE_MASK, LEVEL_GAMEPLAY, L"Layer_Terrain", L"Terrain"));
+		if (nullptr == pMaskTexture)
+			return;
+
+		pTerrainMaskPixel[_uint(m_vBrushPos.x * m_iTerrainCntZ + m_iTerrainCntX)] = D3DCOLOR_ARGB(255, 0, 0, 0);
+		pMaskTexture->Update_Texture_Pixels_Info(0, pTerrainMaskPixel);
+	}
+
+	else if (MOUSE_TAB(MOUSE::RBTN) && Mouse_Pos_In_Platform())
+	{
+		if (nullptr == pTerrainMaskPixel)
+			return;
+
+		CTexture* pMaskTexture = dynamic_cast<CTexture*>(CGameInstance::GetInstance()->Get_Component(FAMILY_ID_TEXTURE_MASK, LEVEL_GAMEPLAY, L"Layer_Terrain", L"Terrain"));
+		if (nullptr == pMaskTexture)
+			return;
+
+		pTerrainMaskPixel[_uint(m_vBrushPos.x * m_iTerrainCntZ + m_iTerrainCntX)] = D3DCOLOR_ARGB(255, 255, 255, 255);
+		pMaskTexture->Update_Texture_Pixels_Info(0, pTerrainMaskPixel);
+	}
+
 }
 
 void CMapToolGUI::Add_Environment()
@@ -773,5 +805,6 @@ void CMapToolGUI::Free(void)
 
 	Safe_Release(m_pCalculator);
 	Safe_Release(m_pViewerObject);
+	Safe_Delete_Array(pTerrainMaskPixel);
 
 }

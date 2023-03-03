@@ -112,14 +112,16 @@ private:
 	//ImGui_ImplDX11_ViewportData** m_pVd = { nullptr };
 	//ImGui_ImplWin32_ViewportData2* m_pPd = { nullptr };
 
-	int					m_iTerrainCntX = { 0 };
-	int					m_iTerrainCntZ = { 0 };
+	int					m_iTerrainCntX = { 200 };
+	int					m_iTerrainCntZ = { 200 };
 
 	wstring				m_PrefabName = {};
 
 	POINT		m_ptMouse = {};
 
 	_float3		m_vBrushPos = {};
+
+	_uint* pTerrainMaskPixel = { nullptr };
 
 private:
 	CCalculator* m_pCalculator = { nullptr };

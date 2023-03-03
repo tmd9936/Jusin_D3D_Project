@@ -29,6 +29,9 @@ public:
 public:
 	HRESULT Set_ShaderResource(class CShader* pShader, const char* pConstantName, _uint iTextureIndex = 0);
 	HRESULT	Set_ShaderResourceArray(CShader* pShader, const char* pConstantName);
+	HRESULT Create_New_Texture(_uint iTextureIndex, _uint width, _uint height);
+	HRESULT Update_Texture_Pixels_Info(_uint iTextureIndex, _uint* pPixel);
+	HRESULT	Copy_Texture_Pixels(_uint iTextureIndex, _uint** pPixel);
 
 public:
 	void Set_BrushPos(_float4 vBrushPos) {
@@ -38,13 +41,17 @@ public:
 		return m_vBrushPos;
 	}
 
-	HRESULT Get_ResourceInfo(_uint iTextureIndex, D3D11_MAPPED_SUBRESOURCE* pInfo);
 
 private:
 	vector<ID3D11ShaderResourceView*>			m_SRVs;
+	vector<ID3D11Texture2D*>					m_Textures;
+	vector<wstring>								m_TexturePath;
+	
 	_uint										m_iNumTextures = { 0 };
 	_float4										m_vBrushPos = { 0.f, 0.f, 0.f, 1.f };
 	wstring										m_TextureFilePath = {};
+
+
 
 public:
 	static CTexture* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pTextureFilePath, _uint iNumTextures = 1);
