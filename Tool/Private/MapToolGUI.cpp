@@ -529,7 +529,7 @@ void CMapToolGUI::Move_Brush()
 		if (nullptr == pMaskTexture)
 			return;
 
-		pTerrainMaskPixel[_uint(m_vBrushPos.x * m_vBrushPos.z)] = D3DCOLOR_ARGB(255, 0, 0, 0);
+		pTerrainMaskPixel[_uint(m_vBrushPos.z * m_iTerrainCntX + m_vBrushPos.x)] = D3DCOLOR_ARGB(255, 0, 0, 0);
 		pMaskTexture->Update_Texture_Pixels_Info(0, pTerrainMaskPixel);
 
 		Terrain_Mask_Pixels_Copy();
@@ -544,7 +544,7 @@ void CMapToolGUI::Move_Brush()
 		if (nullptr == pMaskTexture)
 			return;
 
-		pTerrainMaskPixel[_uint(m_vBrushPos.z * m_vBrushPos.x)] = D3DCOLOR_ARGB(255, 255, 255, 255);
+		pTerrainMaskPixel[_uint(m_vBrushPos.z * m_iTerrainCntX + m_vBrushPos.x)] = D3DCOLOR_ARGB(255, 255, 255, 255);
 		pMaskTexture->Update_Texture_Pixels_Info(0, pTerrainMaskPixel);
 
 		Terrain_Mask_Pixels_Copy();

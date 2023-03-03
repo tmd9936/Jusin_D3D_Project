@@ -222,6 +222,8 @@ HRESULT CTexture::Copy_Texture_Pixels(_uint iTextureIndex, _uint** pPixel)
 	if (iTextureIndex >= m_iNumTextures)
 		return E_FAIL;
 
+	Safe_Delete_Array(*pPixel);
+
 	ID3D11Texture2D* pStagingTexture = nullptr;
 
 	D3D11_TEXTURE2D_DESC	SourTextureDesc{};
