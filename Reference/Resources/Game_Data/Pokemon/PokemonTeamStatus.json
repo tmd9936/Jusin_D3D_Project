@@ -1,0 +1,50 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": -462298519059615270
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": -4166547818912737683
+  },
+  "m_Name": "",
+  "m_uiAnimator": {
+    "m_FileID": 0,
+    "m_PathID": 2077036325403138737
+  },
+  "m_teamPowerObj": {
+    "m_FileID": 0,
+    "m_PathID": 4585639339482527048
+  },
+  "m_teamPowerTitleText": {
+    "m_FileID": 0,
+    "m_PathID": -2255411526948714155
+  },
+  "m_teamPowerValueText": {
+    "m_FileID": 0,
+    "m_PathID": -7581081683147771021
+  },
+  "m_controllers": [
+    {
+      "m_FileID": 0,
+      "m_PathID": -4241493708001952918
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": -5573369987340086966
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": -4221262267216567253
+    }
+  ],
+  "m_touchMarkerRoot": {
+    "m_FileID": 0,
+    "m_PathID": -5905848638799812186
+  },
+  "m_backBlack": {
+    "m_FileID": 0,
+    "m_PathID": 3766165966742644057
+  }
+}

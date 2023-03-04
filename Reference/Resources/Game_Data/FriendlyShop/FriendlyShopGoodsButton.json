@@ -1,0 +1,36 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 17
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 1,
+    "m_PathID": 73
+  },
+  "m_Name": "",
+  "m_animator": {
+    "m_FileID": 0,
+    "m_PathID": 585
+  },
+  "m_priceText": {
+    "m_FileID": 0,
+    "m_PathID": 520
+  },
+  "m_buttonText": {
+    "m_FileID": 0,
+    "m_PathID": 505
+  },
+  "m_buttonImage": {
+    "m_FileID": 0,
+    "m_PathID": 573
+  },
+  "m_offButton": {
+    "m_FileID": 0,
+    "m_PathID": 3
+  },
+  "m_offButtonText": {
+    "m_FileID": 0,
+    "m_PathID": 523
+  }
+}

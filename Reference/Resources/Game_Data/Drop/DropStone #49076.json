@@ -1,0 +1,202 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": -8455536296179558883
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 5737606488370827650
+  },
+  "m_Name": "",
+  "m_uiAnimator": {
+    "m_FileID": 0,
+    "m_PathID": -5754368265711064391
+  },
+  "m_graphic": {
+    "image": {
+      "m_FileID": 0,
+      "m_PathID": 3957742980457944310
+    },
+    "valueText": {
+      "m_FileID": 0,
+      "m_PathID": 780412541507555760
+    },
+    "passiveWindow": {
+      "frame": {
+        "m_FileID": 0,
+        "m_PathID": -1352459731216817168
+      },
+      "main": {
+        "m_FileID": 0,
+        "m_PathID": 1970432881737258008
+      }
+    },
+    "skillWindow": {
+      "frame": {
+        "m_FileID": 0,
+        "m_PathID": -8253216927099621254
+      },
+      "main": {
+        "m_FileID": 0,
+        "m_PathID": -3123972752868739219
+      }
+    }
+  },
+  "m_passiveRoot": {
+    "m_FileID": 0,
+    "m_PathID": 3188187797671992751
+  },
+  "m_skillRoot": {
+    "m_FileID": 0,
+    "m_PathID": 4120144214050067544
+  },
+  "m_passivePropertys": [
+    {
+      "root": {
+        "m_FileID": 0,
+        "m_PathID": 3066610760959630610
+      },
+      "titleText": {
+        "m_FileID": 0,
+        "m_PathID": -7006189284567694035
+      },
+      "valueText": {
+        "m_FileID": 0,
+        "m_PathID": -5809927992528396437
+      },
+      "typeText": {
+        "m_FileID": 0,
+        "m_PathID": 3051191058342258435
+      }
+    },
+    {
+      "root": {
+        "m_FileID": 0,
+        "m_PathID": 1164019378318197474
+      },
+      "titleText": {
+        "m_FileID": 0,
+        "m_PathID": -2901854004005502636
+      },
+      "valueText": {
+        "m_FileID": 0,
+        "m_PathID": 2013893116507794606
+      },
+      "typeText": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      }
+    },
+    {
+      "root": {
+        "m_FileID": 0,
+        "m_PathID": -3643619259434645230
+      },
+      "titleText": {
+        "m_FileID": 0,
+        "m_PathID": -2909315185023094240
+      },
+      "valueText": {
+        "m_FileID": 0,
+        "m_PathID": -7000895978849123870
+      },
+      "typeText": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      }
+    },
+    {
+      "root": {
+        "m_FileID": 0,
+        "m_PathID": 602687851044111019
+      },
+      "titleText": {
+        "m_FileID": 0,
+        "m_PathID": 2637513107683973160
+      },
+      "valueText": {
+        "m_FileID": 0,
+        "m_PathID": -2252243133744434867
+      },
+      "typeText": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      }
+    }
+  ],
+  "m_skillPropertys": [
+    {
+      "root": {
+        "m_FileID": 0,
+        "m_PathID": 1154102686483999604
+      },
+      "titleText": {
+        "m_FileID": 0,
+        "m_PathID": 6297031912890525858
+      },
+      "valueText": {
+        "m_FileID": 0,
+        "m_PathID": -3544978071579236624
+      },
+      "typeText": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      }
+    },
+    {
+      "root": {
+        "m_FileID": 0,
+        "m_PathID": 2160339096158769619
+      },
+      "titleText": {
+        "m_FileID": 0,
+        "m_PathID": 5500450641510397157
+      },
+      "valueText": {
+        "m_FileID": 0,
+        "m_PathID": -3544978071579236624
+      },
+      "typeText": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      }
+    },
+    {
+      "root": {
+        "m_FileID": 0,
+        "m_PathID": -8624438579808083226
+      },
+      "titleText": {
+        "m_FileID": 0,
+        "m_PathID": 9089871985631784360
+      },
+      "valueText": {
+        "m_FileID": 0,
+        "m_PathID": 4835941699839099677
+      },
+      "typeText": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      }
+    },
+    {
+      "root": {
+        "m_FileID": 0,
+        "m_PathID": -1815043318831763482
+      },
+      "titleText": {
+        "m_FileID": 0,
+        "m_PathID": 8343936333632393628
+      },
+      "valueText": {
+        "m_FileID": 0,
+        "m_PathID": 873471038431621598
+      },
+      "typeText": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      }
+    }
+  ]
+}

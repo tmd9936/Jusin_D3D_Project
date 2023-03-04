@@ -1,0 +1,66 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 2107160053366782129
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 1804315265694172154
+  },
+  "m_Name": "",
+  "getbyebyeWindow": {
+    "m_FileID": 0,
+    "m_PathID": -1648696670419025154
+  },
+  "exitButton": {
+    "m_FileID": 0,
+    "m_PathID": 8463698432166381817
+  },
+  "haveCountText": {
+    "m_FileID": 0,
+    "m_PathID": 1102587701851320576
+  },
+  "storageMaxCountText": {
+    "m_FileID": 0,
+    "m_PathID": 4587132276088279233
+  },
+  "overStorageColor": {
+    "r": 1.0,
+    "g": 0.427451,
+    "b": 0.427451,
+    "a": 1.0
+  },
+  "defaultStorageColor": {
+    "r": 1.0,
+    "g": 0.607843161,
+    "b": 0.0196078438,
+    "a": 1.0
+  },
+  "pokemoStatusParent": {
+    "m_FileID": 0,
+    "m_PathID": 6736551091174993715
+  },
+  "charmBoardParent": {
+    "m_FileID": 0,
+    "m_PathID": -726966193761857457
+  },
+  "newGetObj": {
+    "m_FileID": 0,
+    "m_PathID": -802565446206276731
+  },
+  "newGetText": {
+    "m_FileID": 0,
+    "m_PathID": 9056495168941518629
+  },
+  "descriptionText": {
+    "m_FileID": 0,
+    "m_PathID": 5620668528871258818
+  },
+  "defaultStorageGetColor": {
+    "r": 0.196078435,
+    "g": 0.196078435,
+    "b": 0.196078435,
+    "a": 1.0
+  }
+}

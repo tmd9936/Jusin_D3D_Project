@@ -1,0 +1,24 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": -1298425702168888165
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": -3535028152377254621
+  },
+  "m_Name": "",
+  "m_monsterImage": {
+    "m_FileID": 0,
+    "m_PathID": -3848806938954475434
+  },
+  "m_monsterName": {
+    "m_FileID": 0,
+    "m_PathID": 1591843950898307153
+  },
+  "m_monsterNoText": {
+    "m_FileID": 0,
+    "m_PathID": 7492995550362486955
+  }
+}

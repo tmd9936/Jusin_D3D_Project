@@ -1,0 +1,47 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 590879699050508352
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 3177818217738918128
+  },
+  "m_Name": "",
+  "m_InitItemState": {
+    "keyName": "INIT_ITEM",
+    "stateValue": {
+      "m_FileID": 0,
+      "m_PathID": -8163769760336428726
+    }
+  },
+  "m_RetryWaitState": {
+    "keyName": "RETRY_WAIT",
+    "stateValue": {
+      "m_FileID": 0,
+      "m_PathID": -1281765543099431090
+    }
+  },
+  "m_SelectItemState": {
+    "keyName": "SELECT_ITEM",
+    "stateValue": {
+      "m_FileID": 0,
+      "m_PathID": 1009650664250249171
+    }
+  },
+  "m_PurchaseProcessState": {
+    "keyName": "PURCHASE_PROCESS",
+    "stateValue": {
+      "m_FileID": 0,
+      "m_PathID": -5085620986140881909
+    }
+  },
+  "m_DetectPendingState": {
+    "keyName": "DETECT_PENDING",
+    "stateValue": {
+      "m_FileID": 0,
+      "m_PathID": -5581678253869782299
+    }
+  }
+}

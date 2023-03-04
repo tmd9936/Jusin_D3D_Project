@@ -1,0 +1,229 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 184
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 1,
+    "m_PathID": 260
+  },
+  "m_Name": "",
+  "squareUIController": {
+    "m_FileID": 0,
+    "m_PathID": 7039
+  },
+  "backGround": {
+    "m_FileID": 0,
+    "m_PathID": 7070
+  },
+  "stageUIAnimator": {
+    "m_FileID": 0,
+    "m_PathID": 7081
+  },
+  "exitButton": {
+    "m_FileID": 0,
+    "m_PathID": 7096
+  },
+  "dungeonInfoUI": {
+    "dungeonImage": {
+      "m_FileID": 0,
+      "m_PathID": 7101
+    },
+    "dungeonNameBG": {
+      "m_FileID": 0,
+      "m_PathID": 7028
+    },
+    "dungeonName": {
+      "m_FileID": 0,
+      "m_PathID": 6937
+    },
+    "dropItemTitle": {
+      "m_FileID": 0,
+      "m_PathID": 6962
+    },
+    "dropItemParams": [
+      {
+        "dropMainItemImage": {
+          "m_FileID": 0,
+          "m_PathID": 7107
+        },
+        "dropSubItemImage": {
+          "m_FileID": 0,
+          "m_PathID": 7148
+        },
+        "dropItemGauge": {
+          "m_FileID": 0,
+          "m_PathID": 7112
+        }
+      },
+      {
+        "dropMainItemImage": {
+          "m_FileID": 0,
+          "m_PathID": 7021
+        },
+        "dropSubItemImage": {
+          "m_FileID": 0,
+          "m_PathID": 7117
+        },
+        "dropItemGauge": {
+          "m_FileID": 0,
+          "m_PathID": 7011
+        }
+      },
+      {
+        "dropMainItemImage": {
+          "m_FileID": 0,
+          "m_PathID": 7121
+        },
+        "dropSubItemImage": {
+          "m_FileID": 0,
+          "m_PathID": 7023
+        },
+        "dropItemGauge": {
+          "m_FileID": 0,
+          "m_PathID": 7108
+        }
+      },
+      {
+        "dropMainItemImage": {
+          "m_FileID": 0,
+          "m_PathID": 7044
+        },
+        "dropSubItemImage": {
+          "m_FileID": 0,
+          "m_PathID": 7126
+        },
+        "dropItemGauge": {
+          "m_FileID": 0,
+          "m_PathID": 7138
+        }
+      }
+    ],
+    "dungeonCornerMain": {
+      "m_FileID": 0,
+      "m_PathID": 7132
+    },
+    "dungeonCornerUp": {
+      "m_FileID": 0,
+      "m_PathID": 7027
+    },
+    "dungeonCornerDown": {
+      "m_FileID": 0,
+      "m_PathID": 7144
+    },
+    "dropItemIcon": {
+      "m_FileID": 0,
+      "m_PathID": 7116
+    },
+    "bonusTitle": {
+      "m_FileID": 0,
+      "m_PathID": 6961
+    },
+    "bonusType": {
+      "m_FileID": 0,
+      "m_PathID": 6953
+    },
+    "bonusColor": {
+      "m_FileID": 0,
+      "m_PathID": 7015
+    },
+    "dropItemRatioImage": {
+      "m_FileID": 0,
+      "m_PathID": 7014
+    },
+    "dropItemRoulette": {
+      "m_FileID": 0,
+      "m_PathID": 6775
+    },
+    "ratioCount": 4
+  },
+  "highScoreUI": {
+    "highScoreWindow": {
+      "m_FileID": 0,
+      "m_PathID": 7004
+    },
+    "highScoreTitleText": {
+      "m_FileID": 0,
+      "m_PathID": 6942
+    },
+    "timeTitleText": {
+      "m_FileID": 0,
+      "m_PathID": 6948
+    },
+    "timeValueText": {
+      "m_FileID": 0,
+      "m_PathID": 6960
+    },
+    "teamPowerTitleText": {
+      "m_FileID": 0,
+      "m_PathID": 6955
+    },
+    "timePowerValueText": {
+      "m_FileID": 0,
+      "m_PathID": 6938
+    },
+    "teamCells": [
+      {
+        "teamCellObj": {
+          "m_FileID": 0,
+          "m_PathID": 309
+        },
+        "levelTitleText": {
+          "m_FileID": 0,
+          "m_PathID": 6951
+        },
+        "levelValueText": {
+          "m_FileID": 0,
+          "m_PathID": 6957
+        },
+        "iconImage": {
+          "m_FileID": 0,
+          "m_PathID": 7034
+        }
+      },
+      {
+        "teamCellObj": {
+          "m_FileID": 0,
+          "m_PathID": 161
+        },
+        "levelTitleText": {
+          "m_FileID": 0,
+          "m_PathID": 6944
+        },
+        "levelValueText": {
+          "m_FileID": 0,
+          "m_PathID": 6954
+        },
+        "iconImage": {
+          "m_FileID": 0,
+          "m_PathID": 7020
+        }
+      },
+      {
+        "teamCellObj": {
+          "m_FileID": 0,
+          "m_PathID": 128
+        },
+        "levelTitleText": {
+          "m_FileID": 0,
+          "m_PathID": 6943
+        },
+        "levelValueText": {
+          "m_FileID": 0,
+          "m_PathID": 6945
+        },
+        "iconImage": {
+          "m_FileID": 0,
+          "m_PathID": 7068
+        }
+      }
+    ]
+  },
+  "noneTypeColor": {
+    "r": 0.0,
+    "g": 0.0,
+    "b": 0.0,
+    "a": 1.0
+  }
+}

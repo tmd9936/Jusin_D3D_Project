@@ -1,0 +1,124 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 195
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 138
+  },
+  "m_Name": "",
+  "blankImage": {
+    "m_FileID": 0,
+    "m_PathID": 361
+  },
+  "skillBlankImage": {
+    "m_FileID": 0,
+    "m_PathID": 345
+  },
+  "icon": {
+    "m_FileID": 0,
+    "m_PathID": 341
+  },
+  "iconController": {
+    "m_FileID": 0,
+    "m_PathID": 362
+  },
+  "buttonAnimator": {
+    "m_FileID": 0,
+    "m_PathID": 366
+  },
+  "newIcon": {
+    "m_FileID": 0,
+    "m_PathID": 218
+  },
+  "focusDiamondAnimator": {
+    "m_FileID": 0,
+    "m_PathID": 327
+  },
+  "focusSquareAnimator": {
+    "m_FileID": 0,
+    "m_PathID": 352
+  },
+  "attachColorCharge": {
+    "m_FileID": 0,
+    "m_PathID": 333
+  },
+  "attachColorContinue": {
+    "m_FileID": 0,
+    "m_PathID": 335
+  },
+  "attachColorExtend": {
+    "m_FileID": 0,
+    "m_PathID": 340
+  },
+  "attachColorNway": {
+    "m_FileID": 0,
+    "m_PathID": 348
+  },
+  "attachColorAddTeamBuff": {
+    "m_FileID": 0,
+    "m_PathID": 358
+  },
+  "attachColorBuffTimeUp": {
+    "m_FileID": 0,
+    "m_PathID": 353
+  },
+  "crackObj": {
+    "m_FileID": 0,
+    "m_PathID": 211
+  },
+  "crackGauge": {
+    "m_FileID": 0,
+    "m_PathID": 238
+  },
+  "passiveShadow": {
+    "m_FileID": 0,
+    "m_PathID": 216
+  },
+  "skillShadow": {
+    "m_FileID": 0,
+    "m_PathID": 222
+  },
+  "passiveSelectMarker": {
+    "m_FileID": 0,
+    "m_PathID": 217
+  },
+  "skillSelectMarker": {
+    "m_FileID": 0,
+    "m_PathID": 229
+  },
+  "mainPropValue": {
+    "m_FileID": 0,
+    "m_PathID": 320
+  },
+  "atkBlank": {
+    "m_FileID": 0,
+    "m_PathID": 367
+  },
+  "hpBlank": {
+    "m_FileID": 0,
+    "m_PathID": 339
+  },
+  "hpatkBlank": {
+    "m_FileID": 0,
+    "m_PathID": 330
+  },
+  "atkCrack": {
+    "m_FileID": 0,
+    "m_PathID": 337
+  },
+  "hpCrack": {
+    "m_FileID": 0,
+    "m_PathID": 331
+  },
+  "hpatkCrack": {
+    "m_FileID": 0,
+    "m_PathID": 355
+  },
+  "bingoMark": {
+    "m_FileID": 0,
+    "m_PathID": 356
+  }
+}

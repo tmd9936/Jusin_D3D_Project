@@ -1,0 +1,52 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 227
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 1,
+    "m_PathID": 107
+  },
+  "m_Name": "",
+  "m_cursor": {
+    "m_FileID": 0,
+    "m_PathID": 464
+  },
+  "m_autoButton": {
+    "uiAnimator": {
+      "m_FileID": 0,
+      "m_PathID": 1695
+    },
+    "autoRoot": {
+      "m_FileID": 0,
+      "m_PathID": 271
+    },
+    "manualRoot": {
+      "m_FileID": 0,
+      "m_PathID": 211
+    },
+    "coverUiAnimator": {
+      "m_FileID": 0,
+      "m_PathID": 1689
+    },
+    "text": {
+      "m_FileID": 0,
+      "m_PathID": 1551
+    }
+  },
+  "m_backStepButton": {
+    "uiAnimator": {
+      "m_FileID": 0,
+      "m_PathID": 2186
+    },
+    "uiAnimatorInOut": {
+      "m_FileID": 0,
+      "m_PathID": 1719
+    },
+    "offImage": {
+      "m_FileID": 0,
+      "m_PathID": 1724
+    }
+  }
+}

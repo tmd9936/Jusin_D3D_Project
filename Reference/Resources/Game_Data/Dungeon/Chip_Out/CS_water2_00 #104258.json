@@ -1,0 +1,53 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 2483482918166041167
+  },
+  "m_Name": "CS_water2_00",
+  "m_typeName": "water2_00",
+  "m_mapChips": [
+    {
+      "m_FileID": 0,
+      "m_PathID": 3044550316292830643
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 6083078493229480837
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 6179050218036404310
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": -616565291818150546
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": -6429613562548805659
+    }
+  ],
+  "m_mapOuts": [
+    {
+      "m_FileID": 0,
+      "m_PathID": -7124312019865281441
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": -4583092087512092203
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 6414938610715242918
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 7541127884257623702
+    }
+  ]
+}

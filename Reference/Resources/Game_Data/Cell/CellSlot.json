@@ -1,0 +1,124 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 2753642100406865865
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": -2299925421744944566
+  },
+  "m_Name": "",
+  "blankImage": {
+    "m_FileID": 0,
+    "m_PathID": -3378316077280062610
+  },
+  "skillBlankImage": {
+    "m_FileID": 0,
+    "m_PathID": 2669381597077598480
+  },
+  "icon": {
+    "m_FileID": 0,
+    "m_PathID": 1567329985881686182
+  },
+  "iconController": {
+    "m_FileID": 0,
+    "m_PathID": 8801579346272889955
+  },
+  "buttonAnimator": {
+    "m_FileID": 0,
+    "m_PathID": 8858415280952927737
+  },
+  "newIcon": {
+    "m_FileID": 0,
+    "m_PathID": -2855891596818705196
+  },
+  "focusDiamondAnimator": {
+    "m_FileID": 0,
+    "m_PathID": 3725210882749443758
+  },
+  "focusSquareAnimator": {
+    "m_FileID": 0,
+    "m_PathID": -9099588753371123969
+  },
+  "attachColorCharge": {
+    "m_FileID": 0,
+    "m_PathID": -6895519240111547791
+  },
+  "attachColorContinue": {
+    "m_FileID": 0,
+    "m_PathID": 9008478373703371952
+  },
+  "attachColorExtend": {
+    "m_FileID": 0,
+    "m_PathID": -7871893107757181750
+  },
+  "attachColorNway": {
+    "m_FileID": 0,
+    "m_PathID": -8726953994980154521
+  },
+  "attachColorAddTeamBuff": {
+    "m_FileID": 0,
+    "m_PathID": 2754439577599384807
+  },
+  "attachColorBuffTimeUp": {
+    "m_FileID": 0,
+    "m_PathID": -1595505626174513420
+  },
+  "crackObj": {
+    "m_FileID": 0,
+    "m_PathID": -5884173326061018736
+  },
+  "crackGauge": {
+    "m_FileID": 0,
+    "m_PathID": -8263192359390534882
+  },
+  "passiveShadow": {
+    "m_FileID": 0,
+    "m_PathID": -4684180025465077740
+  },
+  "skillShadow": {
+    "m_FileID": 0,
+    "m_PathID": -8416729738884169833
+  },
+  "passiveSelectMarker": {
+    "m_FileID": 0,
+    "m_PathID": -5658088167934308311
+  },
+  "skillSelectMarker": {
+    "m_FileID": 0,
+    "m_PathID": 1937080301436919716
+  },
+  "mainPropValue": {
+    "m_FileID": 0,
+    "m_PathID": 8541149272644876541
+  },
+  "atkBlank": {
+    "m_FileID": 0,
+    "m_PathID": -3237105241957232878
+  },
+  "hpBlank": {
+    "m_FileID": 0,
+    "m_PathID": 3943179922241681577
+  },
+  "hpatkBlank": {
+    "m_FileID": 0,
+    "m_PathID": 4163086272462547581
+  },
+  "atkCrack": {
+    "m_FileID": 0,
+    "m_PathID": -1913973132820225395
+  },
+  "hpCrack": {
+    "m_FileID": 0,
+    "m_PathID": 297088265464357911
+  },
+  "hpatkCrack": {
+    "m_FileID": 0,
+    "m_PathID": 3381213868970923008
+  },
+  "bingoMark": {
+    "m_FileID": 0,
+    "m_PathID": 9110448699804521970
+  }
+}

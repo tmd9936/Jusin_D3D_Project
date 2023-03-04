@@ -1,0 +1,44 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": -6446817245105109153
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": -5543935459950680901
+  },
+  "m_Name": "",
+  "goodsWindowAnimator": {
+    "m_FileID": 0,
+    "m_PathID": -1999649718301249648
+  },
+  "rotateLAnimator": {
+    "m_FileID": 0,
+    "m_PathID": -5451540819206372955
+  },
+  "rotateLButton": {
+    "m_FileID": 0,
+    "m_PathID": -6639412011506607161
+  },
+  "removeAnimator": {
+    "m_FileID": 0,
+    "m_PathID": 7493122950284726126
+  },
+  "removeButton": {
+    "m_FileID": 0,
+    "m_PathID": 2616929120723711407
+  },
+  "exitButton": {
+    "m_FileID": 0,
+    "m_PathID": -4386910122560420410
+  },
+  "baseCampGoodsCell": {
+    "m_FileID": 0,
+    "m_PathID": 3553274783646218225
+  },
+  "uiInfinityScroll": {
+    "m_FileID": 0,
+    "m_PathID": 1042249148409343898
+  }
+}

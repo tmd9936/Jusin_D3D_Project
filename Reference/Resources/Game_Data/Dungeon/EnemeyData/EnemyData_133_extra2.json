@@ -1,0 +1,68 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 982830141640938645
+  },
+  "m_Name": "EnemyData_133_extra2",
+  "m_monsterNo": 133,
+  "m_formNo": 0,
+  "m_tokusei": 0,
+  "m_hpBasis": 850,
+  "m_attackBasis": 250,
+  "m_seikaku": 15,
+  "m_scale": 1.5,
+  "m_normalSkillRangeType": 0,
+  "m_uniqSkills": [
+    {
+      "m_skillID": 182,
+      "m_enemyStoneID": [
+        3,
+        -1,
+        -1
+      ]
+    },
+    {
+      "m_skillID": 96,
+      "m_enemyStoneID": [
+        3,
+        17,
+        -1
+      ]
+    },
+    {
+      "m_skillID": 221,
+      "m_enemyStoneID": [
+        3,
+        20,
+        45
+      ]
+    }
+  ],
+  "m_passiveStoneIDs": [
+    2,
+    49,
+    -1,
+    -1
+  ],
+  "m_characterSettingParameterPercent": {
+    "m_regeneration": {
+      "m_intervalSecond": 0.0,
+      "m_hpPercent": 0.0
+    },
+    "m_eye": {
+      "m_radius": 1.0
+    },
+    "m_navMeshAgent": {
+      "m_speed": 1.0,
+      "m_acceleration": 1.0,
+      "m_angularSpeed": 1.0
+    }
+  },
+  "m_AIType": 3,
+  "m_dropType": 2
+}

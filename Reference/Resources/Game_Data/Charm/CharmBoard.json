@@ -1,0 +1,130 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 4672314661997901031
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": -873674309312080013
+  },
+  "m_Name": "",
+  "charmParam": {
+    "skillLink": [
+      {
+        "m_FileID": 0,
+        "m_PathID": 7370652559605527864
+      },
+      {
+        "m_FileID": 0,
+        "m_PathID": -5830809535596224708
+      },
+      {
+        "m_FileID": 0,
+        "m_PathID": 7700043397673311283
+      }
+    ],
+    "skillSlotList": {
+      "m_FileID": 0,
+      "m_PathID": -1261814953554537667
+    },
+    "passiveLink": [
+      {
+        "m_FileID": 0,
+        "m_PathID": 2043012104484141992
+      },
+      {
+        "m_FileID": 0,
+        "m_PathID": 2149721404875951688
+      },
+      {
+        "m_FileID": 0,
+        "m_PathID": -676417480574397651
+      },
+      {
+        "m_FileID": 0,
+        "m_PathID": 5984338756261039525
+      },
+      {
+        "m_FileID": 0,
+        "m_PathID": -5015016504269725793
+      },
+      {
+        "m_FileID": 0,
+        "m_PathID": 1423095326768082823
+      },
+      {
+        "m_FileID": 0,
+        "m_PathID": -810170617565941652
+      },
+      {
+        "m_FileID": 0,
+        "m_PathID": -7969392629216919459
+      },
+      {
+        "m_FileID": 0,
+        "m_PathID": 4689503582305494119
+      },
+      {
+        "m_FileID": 0,
+        "m_PathID": -780853865914852450
+      },
+      {
+        "m_FileID": 0,
+        "m_PathID": 7144745791272633737
+      },
+      {
+        "m_FileID": 0,
+        "m_PathID": 5847205598575974887
+      }
+    ],
+    "passiveSlotList": {
+      "m_FileID": 0,
+      "m_PathID": -4558040528066065601
+    },
+    "baseCellSlot": {
+      "m_FileID": 0,
+      "m_PathID": -3132013541000731659
+    }
+  },
+  "bingoParam": {
+    "bingoPoints": [
+      {
+        "m_FileID": 0,
+        "m_PathID": 2458482657055827939
+      },
+      {
+        "m_FileID": 0,
+        "m_PathID": -2863502429964674994
+      },
+      {
+        "m_FileID": 0,
+        "m_PathID": 4483174715658236865
+      }
+    ],
+    "bingoHorizontal_1": {
+      "m_FileID": 0,
+      "m_PathID": 2394696321890061421
+    },
+    "bingoHorizontal_2": {
+      "m_FileID": 0,
+      "m_PathID": -1798320800461123427
+    },
+    "bingoHorizontal_3": {
+      "m_FileID": 0,
+      "m_PathID": 3946274028942845882
+    },
+    "bingoVertical_1": {
+      "m_FileID": 0,
+      "m_PathID": -2942155115598991592
+    },
+    "bingoVertical_2": {
+      "m_FileID": 0,
+      "m_PathID": -9205579977238969493
+    },
+    "bingoVertical_3": {
+      "m_FileID": 0,
+      "m_PathID": -8964126090925477090
+    }
+  }
+}

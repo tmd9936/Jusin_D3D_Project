@@ -1,0 +1,19 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 1729
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 1,
+    "m_PathID": 257
+  },
+  "m_Name": "",
+  "m_datas": [
+    {
+      "m_workType": 4,
+      "m_workName": "Dungeon00_03",
+      "m_workValue": 0
+    }
+  ]
+}

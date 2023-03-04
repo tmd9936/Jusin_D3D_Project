@@ -1,0 +1,114 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": -3831783949476102493
+  },
+  "m_Name": "PersonalityDataSet",
+  "m_datas": [
+    {
+      "m_seikaku": 0,
+      "m_groupType": 2
+    },
+    {
+      "m_seikaku": 1,
+      "m_groupType": 2
+    },
+    {
+      "m_seikaku": 2,
+      "m_groupType": 3
+    },
+    {
+      "m_seikaku": 3,
+      "m_groupType": 3
+    },
+    {
+      "m_seikaku": 4,
+      "m_groupType": 1
+    },
+    {
+      "m_seikaku": 5,
+      "m_groupType": 3
+    },
+    {
+      "m_seikaku": 6,
+      "m_groupType": 3
+    },
+    {
+      "m_seikaku": 7,
+      "m_groupType": 2
+    },
+    {
+      "m_seikaku": 8,
+      "m_groupType": 1
+    },
+    {
+      "m_seikaku": 9,
+      "m_groupType": 2
+    },
+    {
+      "m_seikaku": 10,
+      "m_groupType": 2
+    },
+    {
+      "m_seikaku": 11,
+      "m_groupType": 1
+    },
+    {
+      "m_seikaku": 12,
+      "m_groupType": 3
+    },
+    {
+      "m_seikaku": 13,
+      "m_groupType": 1
+    },
+    {
+      "m_seikaku": 14,
+      "m_groupType": 1
+    },
+    {
+      "m_seikaku": 15,
+      "m_groupType": 2
+    },
+    {
+      "m_seikaku": 16,
+      "m_groupType": 2
+    },
+    {
+      "m_seikaku": 17,
+      "m_groupType": 3
+    },
+    {
+      "m_seikaku": 18,
+      "m_groupType": 2
+    },
+    {
+      "m_seikaku": 19,
+      "m_groupType": 1
+    },
+    {
+      "m_seikaku": 20,
+      "m_groupType": 2
+    },
+    {
+      "m_seikaku": 21,
+      "m_groupType": 2
+    },
+    {
+      "m_seikaku": 22,
+      "m_groupType": 1
+    },
+    {
+      "m_seikaku": 23,
+      "m_groupType": 3
+    },
+    {
+      "m_seikaku": 24,
+      "m_groupType": 1
+    }
+  ]
+}
