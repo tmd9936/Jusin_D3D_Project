@@ -33,7 +33,8 @@ public:
 	const _uint Get_Current_Levelindex() const;
 	const wstring* Get_Current_LayerName() const;
 
-
+public:
+	void	Update_LevelGameObjects();
 private:
 	void	View_Base();
 	void	View_Level_Layer();
@@ -49,7 +50,6 @@ private:
 	void	Tree_Level_Objects();
 private:
 	void	Update_LayerList();
-	void	Update_LevelGameObjects();
 	void	LevelGameObjects_Free();
 
 	void	Update_PrefabList();

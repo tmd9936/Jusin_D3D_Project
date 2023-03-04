@@ -187,6 +187,7 @@ void CMapToolGUI::Remove_PickingObject()
 		m_pPickingObject->Set_Dead();
 		//Safe_Release(m_pPickingObject);
 		m_pPickingObject = nullptr;
+		CDataToolGUI::GetInstance()->Update_LevelGameObjects();
 	}
 }
 
@@ -552,6 +553,9 @@ void CMapToolGUI::Add_Environment()
 		pTransform->Set_Pos(vPos.x, vPos.y, vPos.z);
 
 		Safe_Release(addObject);
+
+		CDataToolGUI::GetInstance()->Update_LevelGameObjects();
+
 	}
 
 }
@@ -741,6 +745,8 @@ void CMapToolGUI::Load_Layer_GameObjects()
 
 		fclose(fp);
 		Safe_Delete_Array(readBuffer);
+
+		CDataToolGUI::GetInstance()->Update_LevelGameObjects();
 	}
 }
 
