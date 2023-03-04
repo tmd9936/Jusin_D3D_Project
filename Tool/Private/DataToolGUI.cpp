@@ -150,7 +150,6 @@ void CDataToolGUI::View_Level_Objects()
 			Update_LevelGameObjects();
 		}
 
-
 		Tree_Level_Objects();
 	}
 	ImGui::End();
@@ -197,13 +196,17 @@ void CDataToolGUI::Tree_Level_Objects()
 					if (!objectNameTag.empty())
 					{
 						string nodName = convert.to_bytes(objectNameTag.c_str());
+						nodName += ": < ";
+						nodName += typeid(*object).name();
+						nodName += " >";
 						objectOpen = ImGui::TreeNodeEx(nodName.c_str(), flags);
-
 					}
 					else
 					{
-						//string nodName = typeid(*object).name();
-						objectOpen = ImGui::TreeNodeEx(typeid(*object).name(), flags);
+						string nodName = "< ";
+						nodName += string(typeid(*object).name());
+						nodName += " >";
+						objectOpen = ImGui::TreeNodeEx(nodName.c_str(), flags);
 					}
 					if (objectOpen)
 						ImGui::TreePop();

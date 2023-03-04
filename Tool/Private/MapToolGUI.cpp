@@ -42,26 +42,6 @@ HRESULT CMapToolGUI::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pCon
 	m_pDevice = pDevice;
 	m_pContext = pContext;
 
-	//m_iEnvNum = 100;
-
-	//m_vecEnvironment.reserve(m_iEnvNum);
-	//for (size_t i = 0; i <= m_iEnvNum; ++i)
-	//{
-	//	string* str = new string;
-	//	(*str).append(to_string(i));
-	//	m_vecEnvironment.push_back(str);
-	//}
-
-	//m_iMapNum = 10;
-
-	//m_vecMap.reserve(m_iMapNum);
-	//for (size_t i = 0; i <= m_iMapNum; ++i)
-	//{
-	//	string* str = new string;
-	//	(*str).append(to_string(i));
-	//	m_vecMap.push_back(str);
-	//}
-
 	m_iRadio = 1;
 
 	ImGuiPlatformIO& io = ImGui::GetPlatformIO();
@@ -141,10 +121,8 @@ HRESULT CMapToolGUI::Render()
 		GetCursorPos(&m_ptMouse);
 		ScreenToClient(g_hWnd, &m_ptMouse);
 
-		ImGui::Text("MouseX %d", m_ptMouse.x);
-		ImGui::Text("MouseY %d", m_ptMouse.y);
-		ImGui::Text("BrushPosX %.2f", m_vBrushPos.x);
-		ImGui::Text("BrushPosZ %.2f", m_vBrushPos.z);
+		ImGui::Text("MousePos: X %d, Y %d", m_ptMouse.x, m_ptMouse.y);
+		ImGui::Text("BrushPos: X %.2f, Z %.2f", m_vBrushPos.x, m_vBrushPos.z);
 
 	}
 	ImGui::End();
@@ -235,25 +213,6 @@ void CMapToolGUI::ListBox()
 	//	ImGui::EndCombo();
 	//}
 
-	//static int Map_current_idx = 0; // Here we store our selection data as an index.
-	//const char* MapList_value = m_vecMap[m_iMap_current_idx]->c_str();  // Pass in the preview value visible before opening the combo (it could be anything)
-	//if (ImGui::BeginCombo("Map List", MapList_value, 0))
-	//{
-	//	for (int n = 0; n < m_vecMap.size() - 1; ++n)
-	//	{
-	//		const bool is_selected = (m_iMap_current_idx == n);
-	//		if (ImGui::Selectable(m_vecMap[n]->c_str(), is_selected))
-	//		{
-	//			m_iMap_current_idx = n;
-	//			m_iListBox[MAP] = m_iMap_current_idx;
-	//		}
-
-	//		// Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
-	//		if (is_selected)
-	//			ImGui::SetItemDefaultFocus();
-	//	}
-	//	ImGui::EndCombo();
-	//}
 }
 
 void CMapToolGUI::Slider()
@@ -795,26 +754,6 @@ void CMapToolGUI::Free(void)
 	io.Platform_DestroyWindow(m_pRootViewport);
 
 	IM_DELETE(m_pRootViewport);
-
-	//for_each(m_vecEnvironment.begin(), m_vecEnvironment.end(), [](string* str) {
-	//	if (str)
-	//	{
-	//		delete str;
-	//		str = nullptr;
-	//	}
-	//});
-
-	//m_vecEnvironment.clear();
-
-	//for_each(m_vecMap.begin(), m_vecMap.end(), [](string* str) {
-	//	if (str)
-	//	{
-	//		delete str;
-	//		str = nullptr;
-	//	}
-	//});
-
-	//m_vecMap.clear();
 
 	Safe_Release(m_pCalculator);
 	Safe_Release(m_pViewerObject);
