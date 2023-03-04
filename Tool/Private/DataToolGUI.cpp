@@ -192,14 +192,21 @@ void CDataToolGUI::Tree_Level_Objects()
 				if (nullptr != object)
 				{
 					wstring objectNameTag = object->Get_NameTag();
+					flags = ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_OpenOnArrow;
+					bool objectOpen = false;
 					if (!objectNameTag.empty())
 					{
-						flags = ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_OpenOnArrow;
 						string nodName = convert.to_bytes(objectNameTag.c_str());
-						bool objectOpen = ImGui::TreeNodeEx(nodName.c_str(), flags);
-						if (objectOpen)
-							ImGui::TreePop();
+						objectOpen = ImGui::TreeNodeEx(nodName.c_str(), flags);
+
 					}
+					else
+					{
+						//string nodName = typeid(*object).name();
+						objectOpen = ImGui::TreeNodeEx(typeid(*object).name(), flags);
+					}
+					if (objectOpen)
+						ImGui::TreePop();
 				}
 			}
 			ImGui::TreePop();
@@ -258,14 +265,14 @@ void CDataToolGUI::Update_LevelGameObjects()
 
 void CDataToolGUI::LevelGameObjects_Free()
 {
-	m_LevelGameObjects.clear();
-	//for (auto& iter : m_LevelGameObjects)
+	//for (auto iter = m_LevelGameObjects.begin(); iter != m_LevelGameObjects.end();)
 	//{
-	//	for (auto& object : iter.second)
-	//	{
-	//		Safe_Release(object);
-	//	}
+	//	iter->second->clear();
+	//	Safe_Delete(iter->second);
+	//	iter = m_LevelGameObjects.erase(iter);
 	//}
+	m_LevelGameObjects.clear();
+
 }
 
 void CDataToolGUI::Update_PrefabList()
