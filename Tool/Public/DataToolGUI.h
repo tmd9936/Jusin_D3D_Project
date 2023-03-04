@@ -39,19 +39,19 @@ private:
 	void	View_Level_Layer();
 	void	View_Prefab();
 	void	View_Control();
+	void	View_Level_Objects();
 
 
 private:
 	void	ListBox_Level_List();
 	void	ListBox_Layer_List();
 
-	void	Slider();
-	void	Radio();
-	void	FileMenuBar();
-	void	FileMenu();
-
+	void	Tree_Level_Objects();
 private:
 	void	Update_LayerList();
+	void	Update_LevelGameObjects();
+	void	LevelGameObjects_Free();
+
 	void	Update_PrefabList();
 	void	LayerListBox_Free();
 	void	PrefabListBox_Free();
@@ -76,6 +76,7 @@ private:
 	wstring					m_CurrentPrefabName = {};
 	wstring					m_CurrentLayerName = {};
 
+	unordered_map<const char*, vector<const CGameObject*>>		m_LevelGameObjects;
 
 public:
 	virtual void Free(void) override;

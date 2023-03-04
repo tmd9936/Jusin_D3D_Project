@@ -103,6 +103,14 @@ HRESULT CLayer::Remove_Component(const FamilyId& familyId, CGameObject* pObj)
 	return E_NOTIMPL;
 }
 
+void CLayer::Get_All_GameObject_In_Layer(vector<const CGameObject*>& result)
+{
+	for (auto iter = m_GameObjects.begin(); iter != m_GameObjects.end(); ++iter)
+	{
+		result.push_back((*iter));
+	}
+}
+
 HRESULT CLayer::Erase_GameObject(CGameObject* pObj)
 {
 	BOOL	bFind = false;

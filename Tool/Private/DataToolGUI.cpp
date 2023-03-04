@@ -8,7 +8,7 @@
 #include "ImGuiFileBrowser.h"
 
 #include "GameInstance.h"
-
+#include "GameObject.h"
 #include "MapToolGUI.h"
 
 #include <codecvt>
@@ -59,6 +59,7 @@ HRESULT CDataToolGUI::Render()
 {
 	//View_Base();
 	View_Level_Layer();
+	View_Level_Objects();
 	View_Prefab();
 	View_Control();
 
@@ -96,8 +97,10 @@ void CDataToolGUI::View_Base()
 void CDataToolGUI::View_Level_Layer()
 {
 	ImGui::Begin("View_Level_Layer");
-	ListBox_Level_List();
-	ListBox_Layer_List();
+	{
+		ListBox_Level_List();
+		ListBox_Layer_List();
+	}
 	ImGui::End();
 }
 
@@ -124,7 +127,6 @@ void CDataToolGUI::View_Prefab()
 
 	}
 
-
 	ImGui::End();
 }
 
@@ -139,13 +141,28 @@ void CDataToolGUI::View_Control()
 	ImGui::End();
 }
 
+void CDataToolGUI::View_Level_Objects()
+{
+	ImGui::Begin("View_Level_Objects");
+	{
+		if (ImGui::Button("Update Objects"))
+		{
+			Update_LevelGameObjects();
+		}
+
+
+		Tree_Level_Objects();
+	}
+	ImGui::End();
+}
+
 void CDataToolGUI::ListBox_Level_List()
 {
 	ImGui::Text("Level List");
 	if (ImGui::ListBox(" ", &m_iLevelListBoxCurrentItem, m_LevelListBox, LEVEL_END))
 	{
 		Update_LayerList();
-
+		Update_LevelGameObjects();
 	}
 }
 
@@ -159,21 +176,38 @@ void CDataToolGUI::ListBox_Layer_List()
 	}
 }
 
-void CDataToolGUI::Slider()
+void CDataToolGUI::Tree_Level_Objects()
 {
+	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
+
+	for (auto& iter : m_LevelGameObjects)
+	{
+		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_OpenOnArrow;
+		bool opened = ImGui::TreeNodeEx(iter.first, flags);
+
+		if (opened)
+		{
+			for (const CGameObject* object : iter.second)
+			{
+				if (nullptr != object)
+				{
+					wstring objectNameTag = object->Get_NameTag();
+					if (!objectNameTag.empty())
+					{
+						flags = ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_OpenOnArrow;
+						string nodName = convert.to_bytes(objectNameTag.c_str());
+						bool objectOpen = ImGui::TreeNodeEx(nodName.c_str(), flags);
+						if (objectOpen)
+							ImGui::TreePop();
+					}
+				}
+			}
+			ImGui::TreePop();
+		}
+
+	}
 }
 
-void CDataToolGUI::Radio()
-{
-}
-
-void CDataToolGUI::FileMenuBar()
-{
-}
-
-void CDataToolGUI::FileMenu()
-{
-}
 
 void CDataToolGUI::Update_LayerList()
 {
@@ -203,6 +237,35 @@ void CDataToolGUI::Update_LayerList()
 		m_LayerListBox[i] = new char[MAX_PATH];
 		strcpy(m_LayerListBox[i], layerName.c_str());
 	}
+}
+
+void CDataToolGUI::Update_LevelGameObjects()
+{
+	LevelGameObjects_Free();
+
+	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
+	for (size_t i = 0; i < m_LayerListBoxSize; ++i)
+	{
+		wstring layerName = convert.from_bytes(m_LayerListBox[i]);
+
+		vector<const CGameObject*> objects;
+
+		CGameInstance::GetInstance()->Get_All_GameObject_In_Layer(objects, m_iLevelListBoxCurrentItem, layerName.c_str());
+
+		m_LevelGameObjects.insert({ m_LayerListBox[i] , objects });
+	}
+}
+
+void CDataToolGUI::LevelGameObjects_Free()
+{
+	m_LevelGameObjects.clear();
+	//for (auto& iter : m_LevelGameObjects)
+	//{
+	//	for (auto& object : iter.second)
+	//	{
+	//		Safe_Release(object);
+	//	}
+	//}
 }
 
 void CDataToolGUI::Update_PrefabList()
