@@ -146,21 +146,6 @@ HRESULT CMapToolGUI::Render()
 		ImGui::Text("BrushPosX %.2f", m_vBrushPos.x);
 		ImGui::Text("BrushPosZ %.2f", m_vBrushPos.z);
 
-		if (ImGui::Button("Terrain Mask Size Update"))
-		{
-			CTexture* pMaskTexture = dynamic_cast<CTexture*>(CGameInstance::GetInstance()->Get_Component(FAMILY_ID_TEXTURE_MASK, LEVEL_GAMEPLAY, L"Layer_Terrain", L"Terrain"));
-			if (nullptr == pMaskTexture)
-				return E_FAIL;
-
-			pMaskTexture->Create_New_Texture(0, (_uint)m_iTerrainCntX, (_uint)m_iTerrainCntZ);
-
-			Terrain_Mask_Pixels_Copy();
-		}
-		if (ImGui::Button("Terrain Mask Data Copy"))
-		{
-			Terrain_Mask_Pixels_Copy();
-		}
-
 	}
 	ImGui::End();
 
@@ -407,6 +392,21 @@ void CMapToolGUI::TerrainMenu()
 		{
 			dynamic_cast<CVIBuffer_FlatTerrain*>(pTerrain_VIbuffer)->ReSize({ (_uint)m_iTerrainCntX , (_uint)m_iTerrainCntZ });
 		}
+	}
+
+	if (ImGui::Button("Terrain Mask Size Update"))
+	{
+		CTexture* pMaskTexture = dynamic_cast<CTexture*>(CGameInstance::GetInstance()->Get_Component(FAMILY_ID_TEXTURE_MASK, LEVEL_GAMEPLAY, L"Layer_Terrain", L"Terrain"));
+		if (nullptr == pMaskTexture)
+			return;
+
+		pMaskTexture->Create_New_Texture(0, (_uint)m_iTerrainCntX, (_uint)m_iTerrainCntZ);
+
+		Terrain_Mask_Pixels_Copy();
+	} ImGui::SameLine();
+	if (ImGui::Button("Terrain Mask Data Copy"))
+	{
+		Terrain_Mask_Pixels_Copy();
 	}
 }
 
