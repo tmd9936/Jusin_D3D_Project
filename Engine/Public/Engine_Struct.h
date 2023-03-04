@@ -1,8 +1,8 @@
-#pragma once
+ï»¿#pragma once
 
 namespace Engine
 {
-	/* ¸Ş½Ã¿¡°Ô Àû¿ëÇÏ±âÀ§ÇÑ ¸ÓÅ×¸®¾óÅØ½ºÃÄµé(Diffuse, AMbient, Specular, Normal) */
+	/* ë©”ì‹œì—ê²Œ ì ìš©í•˜ê¸°ìœ„í•œ ë¨¸í…Œë¦¬ì–¼í…ìŠ¤ì³ë“¤(Diffuse, AMbient, Specular, Normal) */
 	typedef struct tagMeshMaterial
 	{
 		class CTexture* pMtrlTexture[AI_TEXTURE_TYPE_MAX] = { nullptr };
@@ -17,7 +17,7 @@ namespace Engine
 
 		XMFLOAT4		vDiffuse;
 		XMFLOAT4		vAmbient;
-		XMFLOAT4		vSpecular; /* Á¤¹İ»ç */
+		XMFLOAT4		vSpecular; /* ì •ë°˜ì‚¬ */
 	}LIGHTDESC;
 
 
@@ -87,6 +87,19 @@ namespace Engine
 		static D3D11_INPUT_ELEMENT_DESC			Elements[3];
 	} VTXMODEL_DECLARATION;
 */
+
+	typedef struct tagVertex_Wire
+	{
+		XMFLOAT3 vPos;
+		_ulong dwColor;
+
+	}VTXWIRE;
+
+	typedef struct ENGINE_DLL tagVertex_Wire
+	{
+		const static unsigned int				iNumElements = 2;
+		static D3D11_INPUT_ELEMENT_DESC			Elements[2];
+	} VTXWIRE_DECLARATION;
 
 	typedef struct tagIndices16
 	{

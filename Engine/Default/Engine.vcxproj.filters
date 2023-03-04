@@ -103,6 +103,9 @@
     <Filter Include="01. Utility\03. Component\Model\Mesh">
       <UniqueIdentifier>{d0c4ca83-b0a5-44ca-b8f6-6c570a29a573}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\03. Component\Collider">
+      <UniqueIdentifier>{5c208f18-4b51-4ac1-a066-69bd86c08996}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Engine_Defines.h">
@@ -213,6 +216,9 @@
     <ClInclude Include="..\Public\Mesh.h">
       <Filter>01. Utility\03. Component\Model\Mesh</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Collider.h">
+      <Filter>01. Utility\03. Component\Collider</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -307,6 +313,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Mesh.cpp">
       <Filter>01. Utility\03. Component\Model\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Collider.cpp">
+      <Filter>01. Utility\03. Component\Collider</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

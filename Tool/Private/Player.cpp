@@ -83,7 +83,7 @@ HRESULT CPlayer::Add_Components()
 		return E_FAIL;
 
 	/* For.Com_Model */
-	if (FAILED(pGameInstance->Add_Component(1200, this, LEVEL_GAMEPLAY, TEXT("Prototype_Component_Model_Fiona"),
+	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, LEVEL_GAMEPLAY, TEXT("Prototype_Component_Model_Env_Forest2_Tree00"),
 		(CComponent**)&m_pModelCom, nullptr)))
 		return E_FAIL;
 

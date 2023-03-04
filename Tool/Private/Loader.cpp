@@ -168,10 +168,30 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 
 	_matrix		PivotMatrix = XMMatrixIdentity();
 
-	/* For.Prototype_Component_Model_Fiona */
-	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Model_Fiona"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/Fiona/Fiona.fbx", PivotMatrix))))
+	///* For.Prototype_Component_Model_Fiona */
+	//PivotMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Model_Fiona"),
+	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/Fiona/Fiona.fbx", PivotMatrix))))
+	//	return E_FAIL;
+
+
+	/* For.Prototype_Component_Model_BaseCamp_Field */
+	//PivotMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f);
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Model_BaseCamp_Field"),
+	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../../Reference/Resources/Mesh/Animation/Basecamp/BC_field.fbx", PivotMatrix))))
+	//	return E_FAIL;
+
+	//PivotMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f);
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Model_WolrdMap_Island"),
+	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../../Reference/Resources/Mesh/Animation/WorldMap/W_island.fbx", PivotMatrix))))
+	//	return E_FAIL;
+
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Model_Pokemon_PM1"),
+	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../../Reference/Resources/Mesh/Animation/Pokemon/PM1.fbx", PivotMatrix))))
+	//	return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Model_Env_Forest2_Tree00"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../../Reference/Resources/Mesh/Animation/Env/B_forest2_tree00.fbx", PivotMatrix))))
 		return E_FAIL;
 
 #pragma endregion

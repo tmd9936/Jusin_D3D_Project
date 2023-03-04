@@ -292,6 +292,7 @@ CGameObject* CCalculator::Picking_Environment_Object(HWND hWnd, const _tchar* pL
 
 		_float		fU = 0.f, fV = 0.f, fDist = 0.f;
 
+
 		for (size_t i = 0; i < 2; ++i)
 		{
 			_float4 vtx1{ 0.f, 0.f, 0.f, 1.f };

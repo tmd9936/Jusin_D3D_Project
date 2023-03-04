@@ -22,8 +22,7 @@ imgui_addons::ImGuiFileBrowser file_dialog;
 
 CMapToolGUI::CMapToolGUI()
 {
-	for (int i : m_iListBox)
-		ZeroMemory(m_iListBox, sizeof(int));
+
 }
 
 CMapToolGUI::~CMapToolGUI()
@@ -43,25 +42,25 @@ HRESULT CMapToolGUI::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pCon
 	m_pDevice = pDevice;
 	m_pContext = pContext;
 
-	m_iEnvNum = 100;
+	//m_iEnvNum = 100;
 
-	m_vecEnvironment.reserve(m_iEnvNum);
-	for (size_t i = 0; i <= m_iEnvNum; ++i)
-	{
-		string* str = new string;
-		(*str).append(to_string(i));
-		m_vecEnvironment.push_back(str);
-	}
+	//m_vecEnvironment.reserve(m_iEnvNum);
+	//for (size_t i = 0; i <= m_iEnvNum; ++i)
+	//{
+	//	string* str = new string;
+	//	(*str).append(to_string(i));
+	//	m_vecEnvironment.push_back(str);
+	//}
 
-	m_iMapNum = 10;
+	//m_iMapNum = 10;
 
-	m_vecMap.reserve(m_iMapNum);
-	for (size_t i = 0; i <= m_iMapNum; ++i)
-	{
-		string* str = new string;
-		(*str).append(to_string(i));
-		m_vecMap.push_back(str);
-	}
+	//m_vecMap.reserve(m_iMapNum);
+	//for (size_t i = 0; i <= m_iMapNum; ++i)
+	//{
+	//	string* str = new string;
+	//	(*str).append(to_string(i));
+	//	m_vecMap.push_back(str);
+	//}
 
 	m_iRadio = 1;
 
@@ -82,7 +81,7 @@ HRESULT CMapToolGUI::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pCon
 	io.Platform_SetWindowTitle(m_pRootViewport, "Windows");
 	//io.Platform_SetWindowSize(m_pRootViewport, ImVec2((float)g_iWinSizeX * 0.75f, (float)g_iWinSizeY * 0.75f));
 	io.Platform_SetWindowPos(m_pRootViewport, { 10.f, 40.f });
-	//io.Platform_SetWindowAlpha(m_pRootViewport, 0.9f);
+	io.Platform_SetWindowAlpha(m_pRootViewport, 1.0f);
 
 	//D3D11_VIEWPORT ViewPort[1];
 	//ZeroMemory(ViewPort, sizeof(D3D11_VIEWPORT));
@@ -178,13 +177,13 @@ void CMapToolGUI::Reder_End()
 
 void CMapToolGUI::Map_Index_Add(const int& index)
 {
-	m_iMap_current_idx += index;
-	if (m_iMap_current_idx < 0)
-		m_iMap_current_idx = 0;
-	if (m_iMap_current_idx >= int(m_vecMap.size() - size_t(2)))
-		m_iMap_current_idx = int(m_vecMap.size() - size_t(2));
+	//m_iMap_current_idx += index;
+	//if (m_iMap_current_idx < 0)
+	//	m_iMap_current_idx = 0;
+	//if (m_iMap_current_idx >= int(m_vecMap.size() - size_t(2)))
+	//	m_iMap_current_idx = int(m_vecMap.size() - size_t(2));
 
-	m_iListBox[MAP] = m_iMap_current_idx;
+	//m_iListBox[MAP] = m_iMap_current_idx;
 }
 
 void CMapToolGUI::Picking_Environment()
@@ -797,25 +796,25 @@ void CMapToolGUI::Free(void)
 
 	IM_DELETE(m_pRootViewport);
 
-	for_each(m_vecEnvironment.begin(), m_vecEnvironment.end(), [](string* str) {
-		if (str)
-		{
-			delete str;
-			str = nullptr;
-		}
-	});
+	//for_each(m_vecEnvironment.begin(), m_vecEnvironment.end(), [](string* str) {
+	//	if (str)
+	//	{
+	//		delete str;
+	//		str = nullptr;
+	//	}
+	//});
 
-	m_vecEnvironment.clear();
+	//m_vecEnvironment.clear();
 
-	for_each(m_vecMap.begin(), m_vecMap.end(), [](string* str) {
-		if (str)
-		{
-			delete str;
-			str = nullptr;
-		}
-	});
+	//for_each(m_vecMap.begin(), m_vecMap.end(), [](string* str) {
+	//	if (str)
+	//	{
+	//		delete str;
+	//		str = nullptr;
+	//	}
+	//});
 
-	m_vecMap.clear();
+	//m_vecMap.clear();
 
 	Safe_Release(m_pCalculator);
 	Safe_Release(m_pViewerObject);

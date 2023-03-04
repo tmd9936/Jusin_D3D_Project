@@ -68,7 +68,7 @@ HRESULT CMainApp::Initialize()
 	}
 	ImGui_ImplDX11_InitPlatformInterface();
 
-	ImGui_ImplWin32_EnableAlphaCompositing(g_hWnd);
+	//ImGui_ImplWin32_EnableAlphaCompositing(g_hWnd);
 
 	ImGui_ImplWin32_Init(g_hWnd);
 	ImGui_ImplDX11_Init(m_pDevice, m_pContext);

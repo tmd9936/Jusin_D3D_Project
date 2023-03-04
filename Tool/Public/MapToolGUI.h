@@ -92,10 +92,7 @@ private:
 	ID3D11Device*			m_pDevice = { nullptr };
 	ID3D11DeviceContext*	m_pContext = { nullptr };
 
-	int						m_iListBox[TYPE_END];
 	int						m_iRadio = { 0 };
-
-	int						m_iMap_current_idx = { 0 };
 
 	_float3					m_vScale = {};
 	_float3					m_vRot = {};
