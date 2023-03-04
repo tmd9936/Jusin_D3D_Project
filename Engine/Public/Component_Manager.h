@@ -13,6 +13,7 @@
 #include "Texture.h"
 #include "Calculator.h"
 #include "Model.h"
+#include "Collider.h"
 #pragma endregion
 
 

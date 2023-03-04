@@ -90,12 +90,12 @@ namespace Engine
 
 	typedef struct tagVertex_Wire
 	{
-		XMFLOAT3 vPos;
-		_ulong dwColor;
+		XMFLOAT3	vPosition;
+		XMFLOAT2	vTexUV;
 
 	}VTXWIRE;
 
-	typedef struct ENGINE_DLL tagVertex_Wire
+	typedef struct ENGINE_DLL tagVertex_Wire_Declaration
 	{
 		const static unsigned int				iNumElements = 2;
 		static D3D11_INPUT_ELEMENT_DESC			Elements[2];

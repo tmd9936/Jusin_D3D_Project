@@ -1,13 +1,14 @@
 #pragma once
 
-#include "Component.h"
+#include "VIBuffer.h"
 #include "Transform.h"
+
 
 BEGIN(Engine)
 
 class CGameObject;
 
-class ENGINE_DLL CCollider : public CComponent
+class ENGINE_DLL CCollider : public CVIBuffer
 {
 public:
 	static const FamilyId familyId = FAMILY_ID_COLLISION;
@@ -26,15 +27,14 @@ public:
 	void On_CollisionExit(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
 
 public:
-	HRESULT Ready_Collider();
-	virtual	_int Update_Component(const _float& fTimeDelta);
-	virtual	void LateUpdate_Component();
-	virtual void Render_Collider();
+	virtual _uint LateTick(_double TimeDelta);
+	virtual HRESULT Render();
 
 public:
-	void Set_Owner(CGameObject* pOwner) { m_pOwner = pOwner; }
+	_bool Picking_By_Ray(_fvector vRayOrigin, _fvector vRayDiretion);
+
+public:
 	_uint Get_ID() { return m_iID; }
-	HRESULT Ready_Buffer(void);
 
 public:
 	_float3* Get_MinVec() { return &m_vMin; }
@@ -46,35 +46,21 @@ public:
 	void   Set_CustomScale(const _float3* pCustomScale) { m_vCustomScale = *pCustomScale; }
 	void   Set_Custom(_bool bCustom) { m_bCustomScale = bCustom; }
 private:
-	static _uint g_iColliderID;
-	_uint m_iID = { 0 };
+	static _uint		g_iColliderID;
+	_uint				m_iID = { 0 };
 
-	CGameObject* m_pOwner = { nullptr };
+	_float3				m_vMin = { };
+	_float3				m_vMax = { };
 
-	_float3 m_vMin = { };
-	_float3 m_vMax = { };
+	VTXWIRE*			m_pVtxWire = { nullptr };
+	FACEINDICES16*		m_pIndex = { nullptr };
 
-	ID3D11Buffer*	m_pVB = { nullptr };			// 수많은 정점들을 한데 묶어서 보관 또는 관리하기 위해 사용되는 객체
-	ID3D11Buffer*	m_pIB = { nullptr };			// 정점들의 그리기 순서를 인덱스화 하여 보관 또는 관리하기 위해 사용되는 객체
+	_float3				m_vVtx[8];
+	_float3				m_vOriginVtx[8];
+	_float3				m_vCenter = {};
 
-	_ulong			m_dwVtxSize = { 0 };
-	_ulong			m_dwVtxCnt = { 0 };
-	_ulong			m_dwTriCnt = { 0 };
-	_ulong			m_dwFVF = { 0 };
-
-	_ulong			m_dwIdxSize;
-	DXGI_FORMAT		m_IdxFmt;
-
-	VTXWIRE*		m_pVtxWire;
-	FACEINDICES16*	m_pIndex;
-
-	_float3		m_vVtx[8] = {};
-	_float3		m_vOriginVtx[8] = {};
-	_float3		m_vCenter = {};
-
-	_bool		m_bCustomScale = { false };
-
-	_float3		m_vCustomScale = {};
+	_bool				m_bCustomScale = { false };
+	_float3				m_vCustomScale = {};
 
 
 public:

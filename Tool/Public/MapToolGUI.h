@@ -48,7 +48,7 @@ public:
 	void Reder_End();
 
 public:
-	const int		Get_ListBox(Tool_ID _eType) const { return m_iListBox[_eType]; }
+	//const int		Get_ListBox(Tool_ID _eType) const { return m_iListBox[_eType]; }
 	const int		Get_Radio() const { return m_iRadio; }
 
 	void	Map_Index_Add(const int& index);
@@ -122,9 +122,9 @@ private:
 	_uint* pTerrainMaskPixel = { nullptr };
 
 private:
-	CCalculator* m_pCalculator = { nullptr };
-	CGameObject* m_pViewerObject = { nullptr };
-	CGameObject* m_pPickingObject = { nullptr };
+	CCalculator* m_pCalculator		= { nullptr };
+	CGameObject* m_pViewerObject	= { nullptr };
+	CGameObject* m_pPickingObject	= { nullptr };
 
 public:
 	virtual void Free(void) override;

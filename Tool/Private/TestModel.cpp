@@ -62,6 +62,11 @@ HRESULT CTestModel::Add_Components()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
+	/* For.Com_Collider */
+	if (FAILED(pGameInstance->Add_Component(CCollider::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider"),
+		(CComponent**)&m_pCollider, nullptr)))
+		return E_FAIL;
+
 	/* For.Com_Transform */
 	CTransform::TRANSFORMDESC		TransformDesc = { 10.f, XMConvertToRadians(90.0f) };
 	if (FAILED(pGameInstance->Add_Component(CTransform::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
@@ -180,6 +185,7 @@ void CTestModel::Free()
 	Safe_Release(m_pRendererCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pCollider);
 
 
 }

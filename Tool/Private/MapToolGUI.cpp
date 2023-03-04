@@ -818,6 +818,8 @@ void CMapToolGUI::Free(void)
 
 	Safe_Release(m_pCalculator);
 	Safe_Release(m_pViewerObject);
+	Safe_Release(m_pPickingObject);
+
 	Safe_Delete_Array(pTerrainMaskPixel);
 
 }

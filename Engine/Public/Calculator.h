@@ -7,6 +7,7 @@ BEGIN(Engine)
 class CVIBuffer_Rect;
 class CVIBuffer_FlatTerrain;
 class CTransform;
+class CCollider;
 
 class ENGINE_DLL CCalculator : public CComponent
 {

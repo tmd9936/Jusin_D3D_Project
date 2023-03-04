@@ -281,17 +281,24 @@ CGameObject* CCalculator::Picking_Environment_Object(HWND hWnd, const _tchar* pL
 
 		_vector vRayOrigin = XMVectorSet(rayOrigin.x, rayOrigin.y, rayOrigin.z, 1.f);
 		_vector vRayDiretion = XMVectorSet(rayDirection.x, rayDirection.y, rayDirection.z, 0.f);
+		
+		CCollider* pCollider = (CCollider*)(CGameInstance::GetInstance()->Get_Component(CCollider::familyId, pObj));
 
-		CVIBuffer_Rect* RcTex = dynamic_cast<CVIBuffer_Rect*>(CGameInstance::GetInstance()->Get_Component(CVIBuffer_Rect::familyId, pObj));
+		if (nullptr == pCollider)
+			return nullptr;
 
-		const VTXTEX* pVtxTex = RcTex->Get_VertexBuffer();
+		if(pCollider->Picking_By_Ray(vRayOrigin, vRayDiretion))
+			vecResults.push_back(pObj);
+
+		//CVIBuffer_Rect* RcTex = dynamic_cast<CVIBuffer_Rect*>(CGameInstance::GetInstance()->Get_Component(CVIBuffer_Rect::familyId, pObj));
+
+		/*const VTXTEX* pVtxTex = RcTex->Get_VertexBuffer();
 		const FACEINDICES16* pIndex = RcTex->Get_IndexBuffer();
 
 		if (pVtxTex == nullptr || pIndex == nullptr)
 			return nullptr;
 
 		_float		fU = 0.f, fV = 0.f, fDist = 0.f;
-
 
 		for (size_t i = 0; i < 2; ++i)
 		{
@@ -311,7 +318,7 @@ CGameObject* CCalculator::Picking_Environment_Object(HWND hWnd, const _tchar* pL
 				vecResults.push_back(pObj);
 				break;
 			}
-		}
+		}*/
 	}
 
 	if (vecResults.empty())
