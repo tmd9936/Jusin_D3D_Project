@@ -193,23 +193,41 @@ void CDataToolGUI::Tree_Level_Objects()
 					wstring objectNameTag = object->Get_NameTag();
 					flags = ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_OpenOnArrow;
 					bool objectOpen = false;
+					string nodeName;
 					if (!objectNameTag.empty())
 					{
-						string nodName = convert.to_bytes(objectNameTag.c_str());
-						nodName += ": < ";
-						nodName += typeid(*object).name();
-						nodName += " >";
-						objectOpen = ImGui::TreeNodeEx(nodName.c_str(), flags);
+						nodeName = convert.to_bytes(objectNameTag.c_str());
+						nodeName += ": < ";
+						nodeName += typeid(*object).name();
+						nodeName += " >";
 					}
 					else
 					{
-						string nodName = "< ";
-						nodName += string(typeid(*object).name());
-						nodName += " >";
-						objectOpen = ImGui::TreeNodeEx(nodName.c_str(), flags);
+						nodeName = "< ";
+						nodeName += string(typeid(*object).name());
+						nodeName += " >";
 					}
+					objectOpen = ImGui::TreeNodeEx(nodeName.c_str(), flags);
+
 					if (objectOpen)
+					{
+
+						map<FamilyId, const CComponent*> components;
+						object->Get_Components(components);
+						flags = ImGuiTreeNodeFlags_Leaf;
+						for (auto iter = components.begin(); iter != components.end(); ++iter)
+						{
+							string compoenetName;
+							compoenetName += to_string(iter->first);
+							compoenetName += " ";
+							compoenetName += typeid(*(iter->second)).name();
+
+							bool componentOpen = ImGui::TreeNodeEx(compoenetName.c_str(), flags);
+							if (componentOpen)
+								ImGui::TreePop();
+						}
 						ImGui::TreePop();
+					}
 				}
 			}
 			ImGui::TreePop();

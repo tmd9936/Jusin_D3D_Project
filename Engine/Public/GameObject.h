@@ -67,6 +67,13 @@ public:
 		m_strProtoTypeTag = prototypeTag;
 	}
 
+	void					Get_Components(map<FamilyId, const CComponent*>& components) const {
+		for (auto iter = m_Components.begin(); iter != m_Components.end(); ++iter)
+		{
+			components.insert({ iter->first, iter->second });
+		}
+	}
+
 public:
 	_bool					Is_Dead() { return m_bDead; }
 	void					Set_Alive() { m_bDead = false; }
