@@ -168,6 +168,14 @@ HRESULT CGameInstance::Open_Level(_uint iLevelIndex, CLevel* pNewLevel)
 	return m_pLevel_Manager->Open_Level(iLevelIndex, pNewLevel);
 }
 
+const _uint CGameInstance::Get_LevelIndex() const
+{
+	if (nullptr == m_pLevel_Manager)
+		return E_FAIL;
+
+	return m_pLevel_Manager->Get_LevelIndex();
+}
+
 HRESULT CGameInstance::Add_Prototype(const _tchar* pPrototypeTag, CGameObject* pPrototype)
 {
 	if (nullptr == m_pObject_Manager)

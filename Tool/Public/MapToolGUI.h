@@ -121,6 +121,8 @@ private:
 
 	_uint* pTerrainMaskPixel = { nullptr };
 
+	_bool		m_bMapToolOpen = { true };
+
 private:
 	CCalculator* m_pCalculator		= { nullptr };
 	CGameObject* m_pViewerObject	= { nullptr };

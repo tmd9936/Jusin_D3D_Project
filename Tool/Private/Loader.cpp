@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 
 #include "BackGround.h"
+#include "UI.h"
 #include "Terrain.h"
 #include "FlatTerrain.h"
 #include "Camera_Dynamic.h"
@@ -109,9 +110,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 #pragma region GAMEOBJECTS
 	wsprintf(m_szLoadingText, TEXT("객체원형을 로딩중."));
 
-	/* For.Prototype_GameObject_BackGround */
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround"),
-		CBackGround::Create(m_pDevice, m_pContext))))
+	/* For.Prototype_GameObject_UI */
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI"),
+		CUI::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 

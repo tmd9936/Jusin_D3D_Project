@@ -111,10 +111,9 @@ HRESULT CMainApp::Render()
 	ImGui::Render();
 
 	m_pGameInstance->SetRenderTargets();
-	m_pGameInstance->Clear_BackBuffer_View(_float4{ 0.f, 0.f, 1.f, 1.f });
+	m_pGameInstance->Clear_BackBuffer_View(_float4{ 0.156f, 0.109f, 0.f, 1.f });
 	m_pGameInstance->Clear_DepthStencil_View();
 
-	
 	//m_pMapToolGUI->Reder_End();
 	m_pRenderer->Draw_RenderGroup();
 

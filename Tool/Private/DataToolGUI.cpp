@@ -57,6 +57,7 @@ _uint CDataToolGUI::LateTick(_double TimeDelta)
 
 HRESULT CDataToolGUI::Render()
 {
+	Check_Level_Change();
 	//View_Base();
 	View_Level_Layer();
 	View_Level_Objects();
@@ -347,6 +348,18 @@ void CDataToolGUI::PrefabListBox_Free()
 		Safe_Delete_Array(m_PrefabListBox[i]);
 	}
 	Safe_Delete_Array(m_PrefabListBox);
+}
+
+void CDataToolGUI::Check_Level_Change()
+{
+	m_iLevelListBoxCurrentItem = CGameInstance::GetInstance()->Get_LevelIndex();
+	if (m_iPreLevelIndex != m_iLevelListBoxCurrentItem)
+	{
+		Update_LayerList();
+		Update_PrefabList();
+		Update_LevelGameObjects();
+		m_iPreLevelIndex = m_iLevelListBoxCurrentItem;
+	}
 }
 
 void CDataToolGUI::Free(void)

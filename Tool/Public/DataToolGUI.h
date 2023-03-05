@@ -56,6 +56,7 @@ private:
 	void	LayerListBox_Free();
 	void	PrefabListBox_Free();
 
+	void	Check_Level_Change();
 
 private:
 	ID3D11Device* m_pDevice = { nullptr };
@@ -64,6 +65,7 @@ private:
 private:
 	char*					m_LevelListBox[LEVEL_END];
 	int						m_iLevelListBoxCurrentItem = { 0 };
+	int						m_iPreLevelIndex = { -1 };
 
 	char**					m_LayerListBox = { nullptr };
 	int						m_iLayerListCurrentItem = { 0 };

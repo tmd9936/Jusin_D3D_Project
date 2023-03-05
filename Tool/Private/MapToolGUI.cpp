@@ -78,7 +78,10 @@ HRESULT CMapToolGUI::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pCon
 
 _uint CMapToolGUI::Tick(_double TimeDelta)
 {
-	Update_Data();
+	if (m_bMapToolOpen)
+	{
+		Update_Data();
+	}
 
 	return _uint();
 }
@@ -97,8 +100,7 @@ void CMapToolGUI::Reder_Begin()
 
 HRESULT CMapToolGUI::Render()
 {
-
-	ImGui::Begin("Map Tool", 0, ImGuiWindowFlags_MenuBar);
+	m_bMapToolOpen = ImGui::Begin("Map Tool", 0, ImGuiWindowFlags_MenuBar);
 	{
 		//ListBox();
 		FileMenu();
@@ -110,7 +112,6 @@ HRESULT CMapToolGUI::Render()
 		Slider();
 
 		//FileMenuBar();
-
 
 	}
 	ImGui::End();

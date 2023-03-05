@@ -98,11 +98,7 @@ HRESULT CPlayer::Add_Components()
 
 HRESULT CPlayer::SetUp_ShaderResources()
 {
-	_float4x4		WorldMatrix;
-
-	XMStoreFloat4x4(&WorldMatrix, XMMatrixIdentity());
-
-	if (FAILED(m_pShaderCom->Set_Matrix("g_WorldMatrix", &WorldMatrix)))
+	if (FAILED(m_pShaderCom->Set_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
 		return E_FAIL;
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();

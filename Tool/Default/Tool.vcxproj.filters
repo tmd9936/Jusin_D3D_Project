@@ -61,6 +61,12 @@
     <Filter Include="96 ImGui\Utill">
       <UniqueIdentifier>{2124fcc0-bcc6-4afe-87b3-1b720a27b396}</UniqueIdentifier>
     </Filter>
+    <Filter Include="96 ImGui\UiToolGUI">
+      <UniqueIdentifier>{42977d6c-63c4-4b92-847f-ad3e2c051569}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\UI">
+      <UniqueIdentifier>{57346e36-1bc9-4e61-a482-51ada3529dbb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -143,6 +149,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\FileDialogUtill.h">
       <Filter>96 ImGui\Utill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UIToolGUI.h">
+      <Filter>96 ImGui\UiToolGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI.h">
+      <Filter>02. GameObject\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -227,6 +239,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\FileDialogUtill.cpp">
       <Filter>96 ImGui\Utill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UIToolGUI.cpp">
+      <Filter>96 ImGui\UiToolGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI.cpp">
+      <Filter>02. GameObject\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
