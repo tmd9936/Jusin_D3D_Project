@@ -87,6 +87,10 @@ HRESULT CModel::Ready_Meshes()
 {
 	m_iNumMeshes = m_pAIScene->mNumMeshes;
 
+	aiTexture** textures = nullptr;
+	textures = m_pAIScene->mTextures;
+	_uint tNum = m_pAIScene->mNumTextures;
+
 	for (_uint i = 0; i < m_iNumMeshes; ++i)
 	{
 		CMesh* pMesh = CMesh::Create(m_pDevice, m_pContext, m_eType, m_pAIScene->mMeshes[i], XMLoadFloat4x4(&m_PivotMatrix));

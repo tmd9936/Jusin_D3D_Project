@@ -15,12 +15,14 @@ BEGIN(Client)
 
 class CUI final : public CGameObject
 {
+public:
 	typedef struct UI_Desc
 	{
 		_float				m_fX;
 		_float				m_fY;
 		_float				m_fSizeX;
 		_float				m_fSizeY;
+		_tchar				m_TextureProtoTypeName[MAX_PATH];
 	} UI_DESC;
 
 private:

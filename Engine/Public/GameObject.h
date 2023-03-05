@@ -79,14 +79,17 @@ public:
 	void					Set_Alive() { m_bDead = false; }
 	void					Set_Dead() { m_bDead = true; }
 
-
 public:
 	void					Get_Components_FamilyId(vector<FamilyId>& vecFamilyIds);
-
+	
 	HRESULT					Add_Component(const FamilyId& familyId, CComponent* pComponent);
 	CComponent*				Get_Component(const FamilyId& familyId) const;
-
 	HRESULT					Remove_Component(const FamilyId& familyId);
+
+public:
+	virtual	_bool			Save_Args(const _tchar* filePath) { return false; }
+	virtual	_bool			Load_Args(const _tchar* filePath) { return false; }
+
 
 private:
 	HRESULT					Find_Component(const FamilyId& familyId) const;

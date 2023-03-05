@@ -26,19 +26,15 @@ HRESULT CUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
+	if (pArg != nullptr)
+		memcpy(&m_UIDesc, pArg, (sizeof m_UIDesc) + 2);
 
-	m_UIDesc.m_fSizeX = g_iWinSizeX;
-	m_UIDesc.m_fSizeY = g_iWinSizeY;
-	m_UIDesc.m_fX = g_iWinSizeX >> 1;
-	m_UIDesc.m_fY = g_iWinSizeY >> 1;
 
-	//_float4x4 WorldMatrix = {};
-	//XMStoreFloat4x4(&WorldMatrix, XMMatrixIdentity());
-	//WorldMatrix._11 = m_UIDesc.m_fSizeX;
-	//WorldMatrix._22 = m_UIDesc.m_fSizeY;
+	//m_UIDesc.m_fSizeX = g_iWinSizeX;
+	//m_UIDesc.m_fSizeY = g_iWinSizeY;
+	//m_UIDesc.m_fX = g_iWinSizeX >> 1;
+	//m_UIDesc.m_fY = g_iWinSizeY >> 1;
 
-	//WorldMatrix._41 = m_UIDesc.m_fX - g_iWinSizeX * 0.5f;
-	//WorldMatrix._42 = -m_UIDesc.m_fY + g_iWinSizeY * 0.5f;
 	m_pTransformCom->Set_Scaled({ m_UIDesc.m_fSizeX, m_UIDesc.m_fSizeY, 1.f });
 	m_pTransformCom->Set_Pos(m_UIDesc.m_fX - g_iWinSizeX * 0.5f, -m_UIDesc.m_fY + g_iWinSizeY * 0.5f, 1.f);
 
