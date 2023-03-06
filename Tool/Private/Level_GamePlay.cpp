@@ -4,6 +4,7 @@
 #include "GameInstance.h"
 #include "Camera_Dynamic.h"
 #include "Player.h"
+#include "Utility.h"
 
 CLevel_GamePlay::CLevel_GamePlay(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
@@ -64,17 +65,19 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _tchar* pLayerTag)
 	CCamera_Dynamic::CAMERA_DYNAMIC_DESC		CameraDynamicDesc;
 	ZeroMemory(&CameraDynamicDesc, sizeof CameraDynamicDesc);
 
-	CameraDynamicDesc.CameraDesc.vEye = _float4(0.f, 10.f, -7.f, 1.f);
-	CameraDynamicDesc.CameraDesc.vAt = _float4(0.f, 0.f, 0.f, 1.f);
-	CameraDynamicDesc.CameraDesc.vAxisY = _float4(0.f, 1.f, 0.f, 0.f);
+	CUtility::Load_Args_Data(L"../../Reference/Resources/Data/Scene/GamePlay/camera_data.dat", &CameraDynamicDesc, sizeof CCamera_Dynamic::CAMERA_DYNAMIC_DESC);
 
-	CameraDynamicDesc.CameraDesc.fFovy = XMConvertToRadians(60.0f);
-	CameraDynamicDesc.CameraDesc.fAspect = _float(g_iWinSizeX) / g_iWinSizeY;
-	CameraDynamicDesc.CameraDesc.fNear = 0.2f;
-	CameraDynamicDesc.CameraDesc.fFar = 300;
+	//CameraDynamicDesc.CameraDesc.vEye = _float4(0.f, 10.f, -7.f, 1.f);
+	//CameraDynamicDesc.CameraDesc.vAt = _float4(0.f, 0.f, 0.f, 1.f);
+	//CameraDynamicDesc.CameraDesc.vAxisY = _float4(0.f, 1.f, 0.f, 0.f);
 
-	CameraDynamicDesc.CameraDesc.TransformDesc.SpeedPerSec = 20.f;
-	CameraDynamicDesc.CameraDesc.TransformDesc.RotationPerSec = XMConvertToRadians(180.0f);
+	//CameraDynamicDesc.CameraDesc.fFovy = XMConvertToRadians(60.0f);
+	//CameraDynamicDesc.CameraDesc.fAspect = _float(g_iWinSizeX) / g_iWinSizeY;
+	//CameraDynamicDesc.CameraDesc.fNear = 0.2f;
+	//CameraDynamicDesc.CameraDesc.fFar = 300;
+
+	//CameraDynamicDesc.CameraDesc.TransformDesc.SpeedPerSec = 20.f;
+	//CameraDynamicDesc.CameraDesc.TransformDesc.RotationPerSec = XMConvertToRadians(180.0f);
 
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Camera_Dynamic"), LEVEL_GAMEPLAY, pLayerTag, L"Main_Camera", &CameraDynamicDesc)))
 		return E_FAIL;

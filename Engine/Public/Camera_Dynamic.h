@@ -25,6 +25,9 @@ public:
 	virtual _uint LateTick(_double TimeDelta) override;
 	virtual HRESULT Render() override;
 
+protected:
+	virtual _bool			Save_Args_Impl(HANDLE hFile) override;
+
 private:
 	void Key_Input(const _double TimeDelta);
 

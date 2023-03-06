@@ -87,7 +87,7 @@ PS_OUT PS_MAIN(PS_IN In)
 	vector		vSourDiffuse = g_DiffuseTexture[0].Sample(LinearSampler, In.vTexUV * 20.f);
 	vector		vDestDiffuse = g_DiffuseTexture[1].Sample(LinearSampler, In.vTexUV * 20.f);
 	vector		vBrushColor = /*g_BrushTexture.Sample(LinearSampler, In.vTexUV)*/(vector)0.f;
-	vector		vMask = g_MaskTexture.Sample(LinearSampler, In.vTexUV);
+	vector		vMask = g_MaskTexture.Sample(PointSampler, In.vTexUV);
 
 	if (g_vBrushPos.x - g_fBrushRange < In.vWorldPos.x && In.vWorldPos.x < g_vBrushPos.x + g_fBrushRange &&
 		g_vBrushPos.z - g_fBrushRange < In.vWorldPos.z && In.vWorldPos.z < g_vBrushPos.z + g_fBrushRange)

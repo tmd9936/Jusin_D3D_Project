@@ -47,6 +47,19 @@ HRESULT CCamera_Dynamic::Render()
 	return S_OK;
 }
 
+_bool CCamera_Dynamic::Save_Args_Impl(HANDLE hFile)
+{
+	DWORD   dwByte = 0;
+	if (m_pTransform)
+	{
+		XMStoreFloat4(&m_CameraDynamicDesc.CameraDesc.vEye, m_pTransform->Get_State(CTransform::STATE_POSITION));
+		XMStoreFloat4(&m_CameraDynamicDesc.CameraDesc.vAt, m_pTransform->Get_State(CTransform::STATE_POSITION) + m_pTransform->Get_State(CTransform::STATE_LOOK));
+
+	}
+
+	return WriteFile(hFile, &m_CameraDynamicDesc, sizeof(CAMERA_DYNAMIC_DESC), &dwByte, NULL);
+}
+
 void CCamera_Dynamic::Key_Input(const _double TimeDelta)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
@@ -63,6 +76,9 @@ void CCamera_Dynamic::Key_Input(const _double TimeDelta)
 
 	if (KEY_HOLD(KEY::D))
 		m_pTransform->Go_Right(_float(TimeDelta));
+
+	if (KEY_TAB(KEY::B))
+		Save_Args(L"../camera_data.dat");
 
 	if (m_bMouseMove)
 	{

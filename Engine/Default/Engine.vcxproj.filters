@@ -106,6 +106,9 @@
     <Filter Include="01. Utility\03. Component\Collider">
       <UniqueIdentifier>{5c208f18-4b51-4ac1-a066-69bd86c08996}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\98. Utillity">
+      <UniqueIdentifier>{b3ce1036-09f2-45f7-8608-b911206ff166}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Engine_Defines.h">
@@ -219,6 +222,9 @@
     <ClInclude Include="..\Public\Collider.h">
       <Filter>01. Utility\03. Component\Collider</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Utility.h">
+      <Filter>01. Utility\98. Utillity</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -316,6 +322,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Collider.cpp">
       <Filter>01. Utility\03. Component\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Utility.cpp">
+      <Filter>01. Utility\98. Utillity</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

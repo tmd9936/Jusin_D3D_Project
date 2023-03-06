@@ -81,15 +81,17 @@ public:
 
 public:
 	void					Get_Components_FamilyId(vector<FamilyId>& vecFamilyIds);
-	
 	HRESULT					Add_Component(const FamilyId& familyId, CComponent* pComponent);
 	CComponent*				Get_Component(const FamilyId& familyId) const;
 	HRESULT					Remove_Component(const FamilyId& familyId);
 
 public:
-	virtual	_bool			Save_Args(const _tchar* filePath) { return false; }
-	virtual	_bool			Load_Args(const _tchar* filePath) { return false; }
-
+	_bool					Save_Args(const _tchar* filePath);
+protected:
+	virtual _bool			Save_Args_Impl(HANDLE hFile);
+private:
+	HANDLE					Save_Args_Begin(const _tchar* filePath);
+	_bool					Save_Args_End(HANDLE hFile);
 
 private:
 	HRESULT					Find_Component(const FamilyId& familyId) const;
