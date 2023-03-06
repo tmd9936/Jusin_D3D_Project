@@ -109,6 +109,9 @@
     <Filter Include="01. Utility\98. Utillity">
       <UniqueIdentifier>{b3ce1036-09f2-45f7-8608-b911206ff166}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\03. Component\Model\Bone">
+      <UniqueIdentifier>{027ea661-3bcf-46bb-bd5f-351438e7ccf6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Engine_Defines.h">
@@ -225,6 +228,9 @@
     <ClInclude Include="..\Public\Utility.h">
       <Filter>01. Utility\98. Utillity</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Bone.h">
+      <Filter>01. Utility\03. Component\Model\Bone</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -325,6 +331,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Utility.cpp">
       <Filter>01. Utility\98. Utillity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Bone.cpp">
+      <Filter>01. Utility\03. Component\Model\Bone</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

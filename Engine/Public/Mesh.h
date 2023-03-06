@@ -7,6 +7,8 @@
 /* 메시별로 정점, 인덱스버퍼를 가진다. */
 BEGIN(Engine)
 
+class CBone;
+
 class CMesh final : public CVIBuffer
 {
 private:
@@ -20,14 +22,22 @@ public:
 	}
 
 public:
-	virtual HRESULT Initialize_Prototype(CModel::TYPE eType, aiMesh* pAIMesh, _fmatrix PivotMatrix);
+	virtual HRESULT Initialize_Prototype(CModel::TYPE eType, aiMesh* pAIMesh, CModel* pModel, _fmatrix PivotMatrix);
 	virtual HRESULT Initialize(void* pArg) override;
 
 private:
-	_uint		m_iMaterialIndex = { 0 };
+	_uint					m_iMaterialIndex = { 0 };
+
+private:
+	_uint					m_iNumBones = { 0 };
+	vector<CBone*>			m_Bones;
+
+private:
+	HRESULT Ready_VertexBuffer_ForNonAnim(aiMesh* pAIMesh, _fmatrix PivotMatrix);
+	HRESULT Ready_VertexBuffer_ForAnim(aiMesh* pAIMesh, CModel* pModel);
 
 public:
-	static CMesh* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CModel::TYPE eType, aiMesh* pAIMesh, _fmatrix PivotMatrix);
+	static CMesh* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CModel::TYPE eType, aiMesh* pAIMesh, CModel* pModel, _fmatrix PivotMatrix);
 	virtual CComponent* Clone(CGameObject* pOwner, void* pArg = nullptr) override;
 	virtual void Free() override;
 };

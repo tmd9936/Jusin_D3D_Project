@@ -1,6 +1,7 @@
 #include "..\Public\Model.h"
 #include "Mesh.h"
 #include "Texture.h"
+#include "Bone.h"
 
 CModel::CModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner)
 	: CComponent(pDevice, pContext, pOwner)
@@ -14,6 +15,7 @@ CModel::CModel(const CModel& rhs, CGameObject* pOwner)
 	, m_eType(rhs.m_eType)
 	, m_iNumMaterials(rhs.m_iNumMaterials)
 	, m_Materials(rhs.m_Materials)
+	, m_Bones(rhs.m_Bones)
 {
 	for (auto& pMesh : m_Meshes)
 		Safe_AddRef(pMesh);
@@ -23,6 +25,25 @@ CModel::CModel(const CModel& rhs, CGameObject* pOwner)
 		for (auto& pTexture : Material.pMtrlTexture)
 			Safe_AddRef(pTexture);
 	}
+
+	for (auto& pBone : m_Bones)
+		Safe_AddRef(pBone);
+}
+
+CBone* CModel::Get_BonePtr(const char* pBoneName)
+{
+	auto	iter = find_if(m_Bones.begin(), m_Bones.end(), [&](CBone* pBone)-> _bool
+	{
+		if (false == strcmp(pBoneName, pBone->Get_Name()))
+			return true;
+
+		return false;
+	});
+
+	if (iter == m_Bones.end())
+		return nullptr;
+
+	return *iter;
 }
 
 HRESULT CModel::Initialize_Prototype(TYPE eType, const char* pModelFilePath, _fmatrix PivotMatrix)
@@ -42,6 +63,9 @@ HRESULT CModel::Initialize_Prototype(TYPE eType, const char* pModelFilePath, _fm
 
 	m_pAIScene = m_Importer.ReadFile(pModelFilePath, iFlag);
 	if (nullptr == m_pAIScene)
+		return E_FAIL;
+
+	if (FAILED(Ready_Bones(m_pAIScene->mRootNode)))
 		return E_FAIL;
 
 	/* 모델을 구성하는 메시들을 생성한다.(버텍스, 인덱스버퍼를 생성하는 것이다.) */
@@ -83,6 +107,22 @@ HRESULT CModel::Render(_uint iMeshIndex)
 	return S_OK;
 }
 
+HRESULT CModel::Ready_Bones(aiNode* pAINode)
+{
+	CBone* pBone = CBone::Create(pAINode);
+	if (nullptr == pBone)
+		return E_FAIL;
+
+	m_Bones.push_back(pBone);
+
+	for (_uint i = 0; i < pAINode->mNumChildren; ++i)
+	{
+		Ready_Bones(pAINode->mChildren[i]);
+	}
+
+	return S_OK;
+}
+
 HRESULT CModel::Ready_Meshes()
 {
 	m_iNumMeshes = m_pAIScene->mNumMeshes;
@@ -93,7 +133,7 @@ HRESULT CModel::Ready_Meshes()
 
 	for (_uint i = 0; i < m_iNumMeshes; ++i)
 	{
-		CMesh* pMesh = CMesh::Create(m_pDevice, m_pContext, m_eType, m_pAIScene->mMeshes[i], XMLoadFloat4x4(&m_PivotMatrix));
+		CMesh* pMesh = CMesh::Create(m_pDevice, m_pContext, m_eType, m_pAIScene->mMeshes[i], this, XMLoadFloat4x4(&m_PivotMatrix));
 		if (nullptr == pMesh)
 			return E_FAIL;
 
@@ -196,6 +236,11 @@ void CModel::Free()
 		for (auto& pTexture : Material.pMtrlTexture)
 			Safe_Release(pTexture);
 	}
+
+	for (auto& pBone : m_Bones)
+		Safe_Release(pBone);
+
+	m_Bones.clear();
 
 	m_Materials.clear();
 
