@@ -65,7 +65,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _tchar* pLayerTag)
 	CCamera_Dynamic::CAMERA_DYNAMIC_DESC		CameraDynamicDesc;
 	ZeroMemory(&CameraDynamicDesc, sizeof CameraDynamicDesc);
 
-	CUtility::Load_Args_Data(L"../../Reference/Resources/Data/Scene/GamePlay/camera_data.dat", &CameraDynamicDesc, sizeof CCamera_Dynamic::CAMERA_DYNAMIC_DESC);
+	if (FAILED(CUtility::Load_Args_Data(L"../../Reference/Resources/Data/Scene/GamePlay/Main_Camera.dat", &CameraDynamicDesc, sizeof CCamera_Dynamic::CAMERA_DYNAMIC_DESC)))
+		return E_FAIL;
 
 	//CameraDynamicDesc.CameraDesc.vEye = _float4(0.f, 10.f, -7.f, 1.f);
 	//CameraDynamicDesc.CameraDesc.vAt = _float4(0.f, 0.f, 0.f, 1.f);
