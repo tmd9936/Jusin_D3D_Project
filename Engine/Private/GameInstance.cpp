@@ -52,6 +52,10 @@ HRESULT CGameInstance::Initialize_Engine(_uint iNumLevels, HINSTANCE hInstance, 
 	if (FAILED(m_pComponent_Manager->Reserve_Manager(iNumLevels)))
 		return E_FAIL;
 
+	/* 레벨 매니져의 공간 예약. */
+	if (FAILED(m_pLevel_Manager->Reserve_Manager(iNumLevels)))
+		return E_FAIL;
+
 
 	return S_OK;
 }
@@ -174,6 +178,14 @@ const _uint CGameInstance::Get_LevelIndex() const
 		return E_FAIL;
 
 	return m_pLevel_Manager->Get_LevelIndex();
+}
+
+const _bool CGameInstance::Get_LevelFirstInit(_uint m_iLevelIndex) const
+{
+	if (nullptr == m_pLevel_Manager)
+		return true;
+
+	return m_pLevel_Manager->Get_LevelFirstInit(m_iLevelIndex);
 }
 
 HRESULT CGameInstance::Add_Prototype(const _tchar* pPrototypeTag, CGameObject* pPrototype)

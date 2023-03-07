@@ -110,11 +110,13 @@ HRESULT CLoader::Loading_ForLogoLevel()
 #pragma region GAMEOBJECTS
 	wsprintf(m_szLoadingText, TEXT("객체원형을 로딩중."));
 
-	/* For.Prototype_GameObject_UI */
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI"),
-		CUI::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
+	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_LOGO))
+	{
+		/* For.Prototype_GameObject_UI */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI"),
+			CUI::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+	}
 
 #pragma endregion
 
@@ -218,32 +220,34 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 
 #pragma region GAMEOBJECTS
 	wsprintf(m_szLoadingText, TEXT("객체원형을 로딩중."));
+	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_GAMEPLAY))
+	{
 
-	/* For.Prototype_GameObject_Terrain */
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Terrain"),
-		CTerrain::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
+		/* For.Prototype_GameObject_Terrain */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Terrain"),
+			CTerrain::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
 
-	/* For.Prototype_GameObject_FlatTerrain */
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_FlatTerrain"),
-		CFlatTerrain::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
+		/* For.Prototype_GameObject_FlatTerrain */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_FlatTerrain"),
+			CFlatTerrain::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
 
-	/* For.Prototype_GameObject_Camera_Dynamic */
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera_Dynamic"),
-		CCamera_Dynamic::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
+		/* For.Prototype_GameObject_Camera_Dynamic */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera_Dynamic"),
+			CCamera_Dynamic::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
 
-	/* For.Prototype_GameObject_TestModel */
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_TestModel"),
-		CTestModel::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
+		/* For.Prototype_GameObject_TestModel */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_TestModel"),
+			CTestModel::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
 
-	/* For.Prototype_GameObject_Player */
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player"),
-		CPlayer::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
+		/* For.Prototype_GameObject_Player */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player"),
+			CPlayer::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+	}
 #pragma endregion
 
 	wsprintf(m_szLoadingText, TEXT("로딩이 완료되었습니다."));

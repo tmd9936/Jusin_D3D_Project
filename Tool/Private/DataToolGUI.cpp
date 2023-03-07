@@ -10,6 +10,7 @@
 #include "GameInstance.h"
 #include "GameObject.h"
 #include "MapToolGUI.h"
+#include "Level_Loading.h"
 
 #include <codecvt>
 
@@ -161,8 +162,13 @@ void CDataToolGUI::ListBox_Level_List()
 	ImGui::Text("Level List");
 	if (ImGui::ListBox(" ", &m_iLevelListBoxCurrentItem, m_LevelListBox, LEVEL_END))
 	{
-		Update_LayerList();
-		Update_LevelGameObjects();
+		//if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+	//	{
+			Update_LayerList();
+			Update_LevelGameObjects();
+			if (FAILED(CGameInstance::GetInstance()->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, (LEVEL)m_iLevelListBoxCurrentItem))))
+				return;
+		//}
 	}
 }
 

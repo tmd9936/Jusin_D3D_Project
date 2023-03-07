@@ -45,6 +45,7 @@ public: /* For.Graphic_Device */
 public: /* For.Level_Manager */
 	HRESULT Open_Level(_uint iLevelIndex, class CLevel* pNewLevel);
 	const _uint	Get_LevelIndex() const;
+	const _bool	Get_LevelFirstInit(_uint m_iLevelIndex) const;
 
 public: /* For.Object_Manager */
 	HRESULT Add_Prototype(const _tchar* pPrototypeTag, class CGameObject* pPrototype);

@@ -11,6 +11,13 @@ CLevel_Manager::CLevel_Manager()
 
 }
 
+HRESULT CLevel_Manager::Reserve_Manager(_uint iNumLevels)
+{
+	m_LevelFirstInit.resize(iNumLevels, false);
+
+	return S_OK;
+}
+
 HRESULT CLevel_Manager::Open_Level(_uint iLevelIndex, CLevel* pNewLevel)
 {
 	if (nullptr == pNewLevel)
@@ -25,6 +32,7 @@ HRESULT CLevel_Manager::Open_Level(_uint iLevelIndex, CLevel* pNewLevel)
 		pGameInstance->Clear_Engine(m_iLevelIndex);
 	}
 
+	m_LevelFirstInit[iLevelIndex] = true;
 
 	Safe_Release(pGameInstance);
 

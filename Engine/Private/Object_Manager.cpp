@@ -44,7 +44,7 @@ HRESULT CObject_Manager::Add_Layer(_uint iLevelIndex, const _tchar* pLayerTag)
 		m_pLayers[iLevelIndex].emplace(pLayerTag, pLayer);
 	}
 	else
-		return E_FAIL;
+		return S_OK;
 
 	return S_OK;
 }
