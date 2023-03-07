@@ -3,6 +3,7 @@
 #include "Base.h"
 #include "Component_Manager.h"
 #include "Object_Manager.h"
+#include "Engine_Defines.h"
 
 BEGIN(Engine)
 
@@ -18,6 +19,7 @@ protected:
 public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg);
+	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath);
 	virtual _uint Tick(_double TimeDelta);
 	virtual _uint LateTick(_double TimeDelta);
 	virtual HRESULT Render();
@@ -93,6 +95,15 @@ private:
 	HANDLE					Save_Args_Begin(const _tchar* filePath);
 	_bool					Save_Args_End(HANDLE hFile);
 
+public:
+	_bool					Save_By_JsonFile(const char* filePath);
+protected:
+	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
+public:
+	_bool					Load_By_JsonFile(const char* filePath);
+protected:
+	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
+
 private:
 	HRESULT					Find_Component(const FamilyId& familyId) const;
 
@@ -114,6 +125,7 @@ protected:
 
 
 public:
+	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath = nullptr);
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) = 0;
 	virtual void Free() override;
 };

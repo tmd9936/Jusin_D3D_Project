@@ -33,6 +33,11 @@ HRESULT CGameObject::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void
 	return S_OK;
 }
 
+HRESULT CGameObject::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath)
+{
+	return S_OK;
+}
+
 _uint CGameObject::Tick(_double TimeDelta)
 {
 	return _uint();
@@ -130,6 +135,88 @@ _bool CGameObject::Save_Args_End(HANDLE hFile)
 	return CloseHandle(hFile);
 }
 
+_bool CGameObject::Save_By_JsonFile(const char* filePath)
+{
+	Document doc(kObjectType);
+	Document::AllocatorType& allocator = doc.GetAllocator();
+
+	if (false == Save_By_JsonFile_Impl(doc, allocator))
+		return false;
+
+	FILE* fp = fopen(filePath, "wb"); // non-Windows use "w"
+
+	if (doc.MemberCount() <= 0)
+		return false;
+
+	if (NULL == fp)
+	{
+		MSG_BOX("Save File Open Error");
+		return false;
+	}
+	else
+	{
+		char* writeBuffer = new char[65536];
+		FileWriteStream os(fp, writeBuffer, sizeof(writeBuffer));
+
+		PrettyWriter<FileWriteStream> writer(os);
+		doc.Accept(writer);
+
+		fclose(fp);
+
+		Safe_Delete_Array(writeBuffer);
+	}
+
+	return true;
+}
+
+_bool CGameObject::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator)
+{
+	return false;
+}
+
+_bool CGameObject::Load_By_JsonFile(const char* filePath)
+{
+	FILE* fp = fopen(filePath, "rb"); // non-Windows use "r"
+
+	if (NULL == fp)
+	{
+		MSG_BOX("Load File Open Error");
+		return false;
+	}
+	else
+	{
+		char* readBuffer = new char[65536];
+		FileReadStream is(fp, readBuffer, sizeof(readBuffer));
+
+		Document doc;
+		doc.ParseStream(is);
+
+		if (doc.MemberCount() <= 0)
+		{
+			fclose(fp);
+			Safe_Delete_Array(readBuffer);
+			return false;
+		}
+
+		if (false == Load_By_JsonFile_Impl(doc))
+		{
+			fclose(fp);
+			Safe_Delete_Array(readBuffer);
+			return false;
+		}
+
+		fclose(fp);
+		Safe_Delete_Array(readBuffer);
+
+		return true;
+	}
+}
+
+_bool CGameObject::Load_By_JsonFile_Impl(Document& doc)
+{
+	return false;
+}
+
 HRESULT CGameObject::Find_Component(const FamilyId& familyId) const
 {
 	auto	iter = m_Components.find(familyId);
@@ -139,6 +226,11 @@ HRESULT CGameObject::Find_Component(const FamilyId& familyId) const
 	return S_OK;
 }
 
+
+CGameObject* CGameObject::Clone(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath)
+{
+	return nullptr;
+}
 
 void CGameObject::Free()
 {

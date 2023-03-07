@@ -38,6 +38,8 @@
 #include "rapidjson/filereadstream.h"
 //#include "json/json.h"
 
+using namespace rapidjson;
+
 using namespace std;
 using namespace DirectX;
 

@@ -62,11 +62,11 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_Layer(LEVEL_GAMEPLAY, pLayerTag)))
 		return E_FAIL;
 
-	CCamera_Dynamic::CAMERA_DYNAMIC_DESC		CameraDynamicDesc;
-	ZeroMemory(&CameraDynamicDesc, sizeof CameraDynamicDesc);
+	//CCamera_Dynamic::CAMERA_DYNAMIC_DESC		CameraDynamicDesc;
+	//ZeroMemory(&CameraDynamicDesc, sizeof CameraDynamicDesc);
 
-	if (FAILED(CUtility::Load_Args_Data(L"../../Reference/Resources/Data/Scene/GamePlay/Main_Camera.dat", &CameraDynamicDesc, sizeof CCamera_Dynamic::CAMERA_DYNAMIC_DESC)))
-		return E_FAIL;
+	//if (FAILED(CUtility::Load_Args_Data(L"../../Reference/Resources/Data/Scene/GamePlay/Main_Camera.dat", &CameraDynamicDesc, sizeof CCamera_Dynamic::CAMERA_DYNAMIC_DESC)))
+	//	return E_FAIL;
 
 	//CameraDynamicDesc.CameraDesc.vEye = _float4(0.f, 10.f, -7.f, 1.f);
 	//CameraDynamicDesc.CameraDesc.vAt = _float4(0.f, 0.f, 0.f, 1.f);
@@ -80,7 +80,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _tchar* pLayerTag)
 	//CameraDynamicDesc.CameraDesc.TransformDesc.SpeedPerSec = 20.f;
 	//CameraDynamicDesc.CameraDesc.TransformDesc.RotationPerSec = XMConvertToRadians(180.0f);
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Camera_Dynamic"), LEVEL_GAMEPLAY, pLayerTag, L"Main_Camera", &CameraDynamicDesc)))
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Camera_Dynamic"), LEVEL_GAMEPLAY, pLayerTag, L"Main_Camera", "../camera_data.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);

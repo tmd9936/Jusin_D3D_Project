@@ -61,7 +61,7 @@ HRESULT CObject_Manager::Add_Prototype(const _tchar* pPrototypeTag, CGameObject*
 
 /* 원형객체를 찾아 복제하여 레이어에 추가한다. */
 HRESULT CObject_Manager::Add_GameObject(const _tchar* pPrototypeTag, _uint iLevelIndex, 
-	const _tchar* pLayerTag, const _tchar* pObjectNameTag, void* pArg)
+	const _tchar* pLayerTag, const _tchar* pObjectNameTag, void* pArg, CLONE_TYPE eCloneType)
 {
 	/* 원형을 찾는다. */
 	CGameObject* pPrototype = Find_Prototype(pPrototypeTag);
@@ -69,7 +69,18 @@ HRESULT CObject_Manager::Add_GameObject(const _tchar* pPrototypeTag, _uint iLeve
 		return E_FAIL;
 
 	/* 사본을 생성한다. */
-	CGameObject* pGameObject = pPrototype->Clone(pLayerTag, iLevelIndex, pArg);
+	CGameObject* pGameObject = nullptr;
+	switch (eCloneType)
+	{
+	case Engine::CLONE_ARGS:
+		pGameObject = pPrototype->Clone(pLayerTag, iLevelIndex, pArg);
+		break;
+	case Engine::CLONE_FILEPATH:
+		pGameObject = pPrototype->Clone(pLayerTag, iLevelIndex, (const char*)pArg);
+		break;
+
+	}
+
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
@@ -102,7 +113,7 @@ HRESULT CObject_Manager::Add_GameObject(const _tchar* pPrototypeTag, _uint iLeve
 }
 
 HRESULT CObject_Manager::Add_GameObject(const _tchar* pPrototypeTag, _uint iLevelIndex, 
-	const _tchar* pLayerTag, CGameObject** ppOut, const _tchar* pObjectNameTag, void* pArg)
+	const _tchar* pLayerTag, CGameObject** ppOut, const _tchar* pObjectNameTag, void* pArg, CLONE_TYPE eCloneType)
 {
 	/* 원형을 찾는다. */
 	CGameObject* pPrototype = Find_Prototype(pPrototypeTag);
@@ -110,7 +121,18 @@ HRESULT CObject_Manager::Add_GameObject(const _tchar* pPrototypeTag, _uint iLeve
 		return E_FAIL;
 
 	/* 사본을 생성한다. */
-	CGameObject* pGameObject = pPrototype->Clone(pLayerTag, iLevelIndex, pArg);
+	CGameObject* pGameObject = nullptr;
+	switch (eCloneType)
+	{
+	case Engine::CLONE_ARGS:
+		pGameObject = pPrototype->Clone(pLayerTag, iLevelIndex, pArg);
+		break;
+	case Engine::CLONE_FILEPATH:
+		pGameObject = pPrototype->Clone(pLayerTag, iLevelIndex, (const char*)pArg);
+		break;
+
+	}
+
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
