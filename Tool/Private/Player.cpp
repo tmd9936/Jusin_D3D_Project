@@ -83,7 +83,7 @@ HRESULT CPlayer::Add_Components()
 		return E_FAIL;
 
 	/* For.Com_Model */
-	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, LEVEL_GAMEPLAY, TEXT("Prototype_Component_Model_Touch_Marker"),
+	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, LEVEL_GAMEPLAY, TEXT("Prototype_Component_Model_Fiona"),
 		(CComponent**)&m_pModelCom, nullptr)))
 		return E_FAIL;
 
@@ -98,7 +98,11 @@ HRESULT CPlayer::Add_Components()
 
 HRESULT CPlayer::SetUp_ShaderResources()
 {
-	if (FAILED(m_pShaderCom->Set_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
+	_float4x4		WorldMatrix;
+
+	XMStoreFloat4x4(&WorldMatrix, XMMatrixIdentity());
+
+	if (FAILED(m_pShaderCom->Set_Matrix("g_WorldMatrix", &WorldMatrix)))
 		return E_FAIL;
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();

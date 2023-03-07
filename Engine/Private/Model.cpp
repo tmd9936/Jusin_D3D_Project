@@ -16,6 +16,7 @@ CModel::CModel(const CModel& rhs, CGameObject* pOwner)
 	, m_iNumMaterials(rhs.m_iNumMaterials)
 	, m_Materials(rhs.m_Materials)
 	, m_Bones(rhs.m_Bones)
+	, m_PivotMatrix(rhs.m_PivotMatrix)
 {
 	for (auto& pMesh : m_Meshes)
 		Safe_AddRef(pMesh);
@@ -127,9 +128,6 @@ HRESULT CModel::Ready_Meshes()
 {
 	m_iNumMeshes = m_pAIScene->mNumMeshes;
 
-	aiTexture** textures = nullptr;
-	textures = m_pAIScene->mTextures;
-	_uint tNum = m_pAIScene->mNumTextures;
 
 	for (_uint i = 0; i < m_iNumMeshes; ++i)
 	{

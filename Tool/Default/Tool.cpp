@@ -83,13 +83,18 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     MSG msg;
     while (!done)
     {
-        while (::PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))
+        if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
         {
-            ::TranslateMessage(&msg);
-            ::DispatchMessage(&msg);
-            if (msg.message == WM_QUIT)
+            if (WM_QUIT == msg.message)
                 done = true;
+
+            if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
+            {
+                TranslateMessage(&msg);
+                DispatchMessage(&msg);
+            }
         }
+
         if (done)
             break;
 

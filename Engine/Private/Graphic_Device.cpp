@@ -136,12 +136,12 @@ HRESULT CGraphic_Device::Present(UINT interval, UINT flags)
 
 	/* 전면 버퍼와 후면버퍼를 교체하여 후면버퍼를 전면으로 보여주는 역할을 한다. */
 	/* 후면버퍼를 직접화면에 보여줄께. */
-	return m_pSwapChain->Present(interval, flags);
+	return m_pSwapChain->Present(0, 0);
 }
 
 HRESULT CGraphic_Device::SetRenderTargets()
 {
-	m_pDeviceContext->OMSetRenderTargets(1, &m_pBackBufferRTV, nullptr);
+	m_pDeviceContext->OMSetRenderTargets(1, &m_pBackBufferRTV, m_pDepthStencilView);
 	return S_OK;
 }
 
@@ -176,7 +176,7 @@ HRESULT CGraphic_Device::Ready_SwapChain(HWND hWnd, GRAPHIC_DESC::WINMODE eWinMo
 	SwapChain.SampleDesc.Quality = 0;
 	SwapChain.SampleDesc.Count = 1;
 	SwapChain.OutputWindow = hWnd;
-	SwapChain.Windowed = TRUE;
+	SwapChain.Windowed = eWinMode;
 	SwapChain.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 	SwapChain.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 
