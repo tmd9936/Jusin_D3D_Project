@@ -193,8 +193,10 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../../Reference/Resources/Mesh/Animation/Pokemon/PM1.fbx", PivotMatrix))))
 	//	return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Model_Env_Forest2_Tree00"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../../Reference/Resources/Mesh/test.fbx", PivotMatrix))))
+	PivotMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f);
+	//PivotMatrix = PivotMatrix * XMMatrixRotationY(XMConvertToRadians(180.0f));
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Model_Touch_Marker"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../../Reference/Resources/Mesh/Animation/Loading/title_loading.fbx", PivotMatrix))))
 		return E_FAIL;
 
 #pragma endregion
