@@ -64,6 +64,7 @@ HRESULT CModelUI::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
+
 	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
 
 	for (_uint i = 0; i < iNumMeshes; ++i)
@@ -120,10 +121,10 @@ HRESULT CModelUI::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_Matrix("g_ViewMatrix",
 		&m_ViewMatrix)))
 		return E_FAIL;
+
 	if (FAILED(m_pShaderCom->Set_Matrix("g_ProjMatrix",
 		&m_ProjMatrix)))
 		return E_FAIL;
-
 
 	Safe_Release(pGameInstance);
 
