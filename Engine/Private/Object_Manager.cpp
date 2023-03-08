@@ -52,9 +52,9 @@ HRESULT CObject_Manager::Add_Layer(_uint iLevelIndex, const _tchar* pLayerTag)
 HRESULT CObject_Manager::Add_Prototype(const _tchar* pPrototypeTag, CGameObject* pPrototype)
 {
 	if (nullptr != Find_Prototype(pPrototypeTag))
-		return E_FAIL;
-
-	m_Prototypes.emplace(pPrototypeTag, pPrototype);
+		return S_OK;
+	else
+		m_Prototypes.emplace(pPrototypeTag, pPrototype);
 
 	return S_OK;
 }

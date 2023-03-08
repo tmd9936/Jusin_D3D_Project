@@ -67,6 +67,12 @@
     <Filter Include="02. GameObject\UI">
       <UniqueIdentifier>{57346e36-1bc9-4e61-a482-51ada3529dbb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\UI\ModelUI">
+      <UniqueIdentifier>{ae585fe3-8c7f-4404-bc37-4ef318b9503c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\UI\TextureUI">
+      <UniqueIdentifier>{fd3276a0-7b60-40c6-b554-423274bf23f9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -156,6 +162,12 @@
     <ClInclude Include="..\Public\UI.h">
       <Filter>02. GameObject\UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\ModelUI.h">
+      <Filter>02. GameObject\UI\ModelUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TextureUI.h">
+      <Filter>02. GameObject\UI\TextureUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">
@@ -176,9 +188,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\MainApp.cpp">
       <Filter>00. MainApp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Level_GamePlay.cpp">
-      <Filter>01. Levels\GamePlay</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_Loading.cpp">
       <Filter>01. Levels\Loading</Filter>
@@ -245,6 +254,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI.cpp">
       <Filter>02. GameObject\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ModelUI.cpp">
+      <Filter>02. GameObject\UI\ModelUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TextureUI.cpp">
+      <Filter>02. GameObject\UI\TextureUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_GamePlay.cpp">
+      <Filter>01. Levels\GamePlay</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -9,6 +9,7 @@
 #include "Camera_Dynamic.h"
 #include "TestModel.h"
 #include "Player.h"
+#include "ModelUI.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
@@ -79,11 +80,6 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	/*  */		  
 #pragma region TEXTURES	
 	wsprintf(m_szLoadingText, TEXT("텍스쳐를 로딩중입니다."));
-	for (_uint i = 0; i < 999999; ++i)
-	{
-		int a = 10;
-	}
-
 	/* For.Prototype_Component_Texture */
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Texture_Logo"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Default%d.dds"), 2))))
@@ -93,10 +89,11 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 #pragma region MODELS
 	wsprintf(m_szLoadingText, TEXT("모델를 로딩중입니다."));
-	for (_uint i = 0; i < 999999; ++i)
-	{
-		int a = 10;
-	}
+	//_matrix		PivotMatrix = XMMatrixIdentity();
+	////PivotMatrix = XMMatrixScaling(0.1f, 0.1f, 0.1f);
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Model_Loading_Scene"),
+	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../../Reference/Resources/Mesh/Animation/Loading/title_loading.fbx", PivotMatrix))))
+	//	return E_FAIL;
 #pragma endregion
 
 #pragma region SHADERS
@@ -116,11 +113,6 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI"),
 			CUI::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
-
-		/* For.Prototype_GameObject_BackGround */
-		//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround"),
-		//	CBackGround::Create(m_pDevice, m_pContext))))
-		//	return E_FAIL;
 	}
 
 #pragma endregion
@@ -177,7 +169,7 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 	_matrix		PivotMatrix = XMMatrixIdentity();
 
 	/* For.Prototype_Component_Model_Fiona */
-	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
+	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(180.f));
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Model_Fiona"),
 		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/Fiona/Fiona.fbx", PivotMatrix))))
 		return E_FAIL;
@@ -198,9 +190,8 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../../Reference/Resources/Mesh/Animation/Pokemon/PM1.fbx", PivotMatrix))))
 	//	return E_FAIL;
 
-	PivotMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.0f));
-	//PivotMatrix = PivotMatrix * XMMatrixRotationY(XMConvertToRadians(180.0f));
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Model_Touch_Marker"),
+	PivotMatrix = XMMatrixScaling(0.004f, 0.004f, 0.004f);
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Model_Loading_Scene"),
 		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../../Reference/Resources/Mesh/Animation/Loading/title_loading.fbx", PivotMatrix))))
 		return E_FAIL;
 
@@ -218,10 +209,6 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 		CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxNorTex_HeightTerrain.hlsl"), VTXNORTEX_DECLARATION::Elements, VTXNORTEX_DECLARATION::iNumElements))))
 		return E_FAIL;
 
-	/* For.Prototype_Component_Shader_VtxModel */
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Shader_VtxModel"),
-		CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxModel.hlsl"), VTXMODEL_DECLARATION::Elements, VTXMODEL_DECLARATION::iNumElements))))
-		return E_FAIL;
 #pragma endregion
 
 
@@ -229,6 +216,10 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 	wsprintf(m_szLoadingText, TEXT("객체원형을 로딩중."));
 	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_GAMEPLAY))
 	{
+		/* For.Prototype_GameObject_ModelUI */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ModelUI"),
+			CModelUI::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
 
 		/* For.Prototype_GameObject_Terrain */
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Terrain"),

@@ -99,6 +99,8 @@ HRESULT CMesh::Ready_VertexBuffer_ForNonAnim(aiMesh* pAIMesh, _fmatrix PivotMatr
 		memcpy(&pVertices[i].vPosition, &pAIMesh->mVertices[i], sizeof(_float3));
 		XMStoreFloat3(&pVertices[i].vPosition, XMVector3TransformCoord(XMLoadFloat3(&pVertices[i].vPosition), PivotMatrix));
 
+		//pVertices[i].vPosition.z = 0.f;
+
 		memcpy(&pVertices[i].vNormal, &pAIMesh->mNormals[i], sizeof(_float3));
 		XMStoreFloat3(&pVertices[i].vNormal, XMVector3Normalize(XMVector3TransformNormal(XMLoadFloat3(&pVertices[i].vNormal), PivotMatrix)));
 

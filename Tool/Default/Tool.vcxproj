@@ -174,10 +174,12 @@
     <ClInclude Include="..\Public\Loader.h" />
     <ClInclude Include="..\Public\MainApp.h" />
     <ClInclude Include="..\Public\MapToolGUI.h" />
+    <ClInclude Include="..\Public\ModelUI.h" />
     <ClInclude Include="..\Public\Player.h" />
     <ClInclude Include="..\Public\Terrain.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
     <ClInclude Include="..\Public\TestModel.h" />
+    <ClInclude Include="..\Public\TextureUI.h" />
     <ClInclude Include="..\Public\UI.h" />
     <ClInclude Include="..\Public\UIToolGUI.h" />
     <ClInclude Include="stdafx.h" />
@@ -204,9 +206,11 @@
     <ClCompile Include="..\Private\Loader.cpp" />
     <ClCompile Include="..\Private\MainApp.cpp" />
     <ClCompile Include="..\Private\MapToolGUI.cpp" />
+    <ClCompile Include="..\Private\ModelUI.cpp" />
     <ClCompile Include="..\Private\Player.cpp" />
     <ClCompile Include="..\Private\Terrain.cpp" />
     <ClCompile Include="..\Private\TestModel.cpp" />
+    <ClCompile Include="..\Private\TextureUI.cpp" />
     <ClCompile Include="..\Private\UI.cpp" />
     <ClCompile Include="..\Private\UIToolGUI.cpp" />
     <ClCompile Include="stdafx.cpp" />

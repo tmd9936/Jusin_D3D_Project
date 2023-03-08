@@ -88,7 +88,7 @@ HRESULT CPlayer::Add_Components()
 		return E_FAIL;
 
 	/* For.Com_Shader */
-	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_GAMEPLAY, TEXT("Prototype_Component_Shader_VtxModel"),
+	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxModel"),
 		(CComponent**)&m_pShaderCom, nullptr)))
 		return E_FAIL;
 
