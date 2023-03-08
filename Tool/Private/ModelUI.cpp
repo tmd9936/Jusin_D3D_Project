@@ -29,14 +29,20 @@ HRESULT CModelUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* p
 	if (pArg != nullptr)
 		memcpy(&m_UIDesc, pArg, (sizeof m_UIDesc) + 2);
 
+	m_eRenderId = RENDER_PRIORITY;
 
 	//m_UIDesc.m_fSizeX = g_iWinSizeX;
 	//m_UIDesc.m_fSizeY = g_iWinSizeY;
 	//m_UIDesc.m_fX = g_iWinSizeX >> 1;
 	//m_UIDesc.m_fY = g_iWinSizeY >> 1;
 
-	m_pTransformCom->Set_Scaled({ m_UIDesc.m_fSizeX, m_UIDesc.m_fSizeY, 1.f });
-	m_pTransformCom->Set_Pos(m_UIDesc.m_fX - g_iWinSizeX * 0.5f, -m_UIDesc.m_fY + g_iWinSizeY * 0.5f, 0.f);
+	//m_pTransformCom->Set_Scaled({ m_UIDesc.m_fSizeX, m_UIDesc.m_fSizeY, 1.f });
+	//m_pTransformCom->Set_Pos(m_UIDesc.m_fX - g_iWinSizeX * 0.5f, -m_UIDesc.m_fY + g_iWinSizeY * 0.5f, 0.f);
+
+	//m_pTransformCom->Set_PosX(m_UIDesc.m_fX - g_iWinSizeX * 0.5f);
+	//m_pTransformCom->Set_PosY(-m_UIDesc.m_fY + g_iWinSizeY * 0.5f);
+
+	//m_pTransformCom->Set_PosZ(0.f);
 
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
 
@@ -54,7 +60,7 @@ _uint CModelUI::Tick(_double TimeDelta)
 _uint CModelUI::LateTick(_double TimeDelta)
 {
 
-	m_pRendererCom->Add_RenderGroup(RENDER_PRIORITY, this);
+	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
 
 	return _uint();
 }
@@ -69,14 +75,17 @@ HRESULT CModelUI::Render()
 
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
+
 		if (FAILED(m_pModelCom->SetUp_ShaderResource(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
 			return E_FAIL;
 		/*if (FAILED(m_pModelCom->SetUp_ShaderResource(m_pShaderCom, "g_NormalTexture", i, aiTextureType_NORMALS)))
 			return E_FAIL;*/
 
+
 		m_pShaderCom->Begin(0);
 
 		m_pModelCom->Render(i);
+
 	}
 
 	return S_OK;

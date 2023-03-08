@@ -11,6 +11,7 @@ CMesh::CMesh(const CMesh& rhs, CGameObject* pOwner)
 	, m_iMaterialIndex(rhs.m_iMaterialIndex)
 	, m_iNumBones(rhs.m_iNumBones)
 	, m_Bones(rhs.m_Bones)
+	, m_pVerticesZ(rhs.m_pVerticesZ)
 {
 	for (auto& pBone : m_Bones)
 		Safe_AddRef(pBone);
@@ -79,7 +80,7 @@ HRESULT CMesh::Initialize(void* pArg)
 
 HRESULT CMesh::Ready_VertexBuffer_ForNonAnim(aiMesh* pAIMesh, _fmatrix PivotMatrix)
 {
-	m_iStride = sizeof(VTXMODEL);
+	m_iStride = sizeof(VTXTEX);
 
 	ZeroMemory(&m_BufferDesc, sizeof m_BufferDesc);
 	m_BufferDesc.ByteWidth = m_iStride * m_iNumVertices;
@@ -91,7 +92,7 @@ HRESULT CMesh::Ready_VertexBuffer_ForNonAnim(aiMesh* pAIMesh, _fmatrix PivotMatr
 
 	ZeroMemory(&m_SubResourceData, sizeof m_SubResourceData);
 
-	VTXMODEL* pVertices = new VTXMODEL[m_iNumVertices];
+	VTXTEX* pVertices = new VTXTEX[m_iNumVertices];
 	ZeroMemory(pVertices, m_iStride * m_iNumVertices);
 
 	for (_uint i = 0; i < m_iNumVertices; ++i)
@@ -99,10 +100,10 @@ HRESULT CMesh::Ready_VertexBuffer_ForNonAnim(aiMesh* pAIMesh, _fmatrix PivotMatr
 		memcpy(&pVertices[i].vPosition, &pAIMesh->mVertices[i], sizeof(_float3));
 		XMStoreFloat3(&pVertices[i].vPosition, XMVector3TransformCoord(XMLoadFloat3(&pVertices[i].vPosition), PivotMatrix));
 		
-		pVertices[i].vPosition.z = 0.f;
 
-		memcpy(&pVertices[i].vNormal, &pAIMesh->mNormals[i], sizeof(_float3));
-		XMStoreFloat3(&pVertices[i].vNormal, XMVector3Normalize(XMVector3TransformNormal(XMLoadFloat3(&pVertices[i].vNormal), PivotMatrix)));
+		pVertices[i].vPosition.z = 0.f;
+		//memcpy(&pVertices[i].vNormal, &pAIMesh->mNormals[i], sizeof(_float3));
+		//XMStoreFloat3(&pVertices[i].vNormal, XMVector3Normalize(XMVector3TransformNormal(XMLoadFloat3(&pVertices[i].vNormal), PivotMatrix)));
 
 		memcpy(&pVertices[i].vTexUV, &pAIMesh->mTextureCoords[0][i], sizeof(_float2));
 	}

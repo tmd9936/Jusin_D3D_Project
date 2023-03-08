@@ -81,6 +81,18 @@ public:
 		m_WorldMatrix.m[3][2] = z;
 	}
 
+	void Set_PosX(float x) {
+		m_WorldMatrix.m[3][0] = x;
+	}
+
+	void Set_PosY(float y) {
+		m_WorldMatrix.m[3][1] = y;
+	}
+
+	void Set_PosZ(float z) {
+		m_WorldMatrix.m[3][2] = z;
+	}
+
 public:
 
 	void Go_Straight(_float TimeDelta);

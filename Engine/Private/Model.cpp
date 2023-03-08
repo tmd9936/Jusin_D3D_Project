@@ -108,6 +108,18 @@ HRESULT CModel::Render(_uint iMeshIndex)
 	return S_OK;
 }
 
+HRESULT CModel::RenderUI(_uint iMeshIndex, _float* outZ)
+{
+	if (nullptr != m_Meshes[iMeshIndex])
+	{
+		m_Meshes[iMeshIndex]->Render();
+		if (outZ)
+			*outZ = m_Meshes[iMeshIndex]->Get_ViewZ();
+	}
+
+	return S_OK;
+}
+
 HRESULT CModel::Ready_Bones(aiNode* pAINode)
 {
 	CBone* pBone = CBone::Create(pAINode);
@@ -128,15 +140,36 @@ HRESULT CModel::Ready_Meshes()
 {
 	m_iNumMeshes = m_pAIScene->mNumMeshes;
 
-
-	for (_uint i = 0; i < m_iNumMeshes; ++i)
+	if (m_pAIScene->mNumCameras > 0)
 	{
-		CMesh* pMesh = CMesh::Create(m_pDevice, m_pContext, m_eType, m_pAIScene->mMeshes[i], this, XMLoadFloat4x4(&m_PivotMatrix));
-		if (nullptr == pMesh)
-			return E_FAIL;
+		//aiCamera camera = m_pAIScene->mCameras[0][0];
+		//aiVector3D normalPos = camera.mLookAt.Normalize();
 
-		m_Meshes.push_back(pMesh);
+		//XMStoreFloat4x4(&m_PivotMatrix, XMLoadFloat4x4(&m_PivotMatrix) * XMMatrixTranslation(-normalPos.x, -normalPos.y, -normalPos.z));
+
+		for (_uint i = 0; i < m_iNumMeshes; ++i)
+		{
+			CMesh* pMesh = CMesh::Create(m_pDevice, m_pContext, m_eType, m_pAIScene->mMeshes[i], this, XMLoadFloat4x4(&m_PivotMatrix));
+			if (nullptr == pMesh)
+				return E_FAIL;
+
+			m_Meshes.push_back(pMesh);
+		}
+
+
 	}
+	else 
+	{
+		for (_uint i = 0; i < m_iNumMeshes; ++i)
+		{
+			CMesh* pMesh = CMesh::Create(m_pDevice, m_pContext, m_eType, m_pAIScene->mMeshes[i], this, XMLoadFloat4x4(&m_PivotMatrix));
+			if (nullptr == pMesh)
+				return E_FAIL;
+
+			m_Meshes.push_back(pMesh);
+		}
+	}
+	
 
 
 	return S_OK;

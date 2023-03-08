@@ -21,6 +21,10 @@ public:
 		return m_iMaterialIndex;
 	}
 
+	const _float Get_ViewZ() const {
+		return m_pVerticesZ;
+	}
+
 public:
 	virtual HRESULT Initialize_Prototype(CModel::TYPE eType, aiMesh* pAIMesh, CModel* pModel, _fmatrix PivotMatrix);
 	virtual HRESULT Initialize(void* pArg) override;
@@ -31,6 +35,8 @@ private:
 private:
 	_uint					m_iNumBones = { 0 };
 	vector<CBone*>			m_Bones;
+
+	_float					m_pVerticesZ = { 0.f };
 
 private:
 	HRESULT Ready_VertexBuffer_ForNonAnim(aiMesh* pAIMesh, _fmatrix PivotMatrix);

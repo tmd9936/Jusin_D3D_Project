@@ -190,7 +190,7 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../../Reference/Resources/Mesh/Animation/Pokemon/PM1.fbx", PivotMatrix))))
 	//	return E_FAIL;
 
-	PivotMatrix = XMMatrixScaling(0.004f, 0.004f, 0.004f);
+	PivotMatrix = XMMatrixIdentity();
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Model_Loading_Scene"),
 		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../../Reference/Resources/Mesh/Animation/Loading/title_loading.fbx", PivotMatrix))))
 		return E_FAIL;

@@ -12,7 +12,7 @@ public:
 	static const FamilyId familyId = FAMILY_ID_VIBUFFER;
 
 public:
-	enum TYPE { TYPE_NONANIM, TYPE_ANIM, TYPE_END };
+	enum TYPE { TYPE_NONANIM, TYPE_ANIM, TYPE_NONANIM_UI, TYPE_ANIM_UI, TYPE_END };
 private:
 	CModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner);
 	CModel(const CModel& rhs, CGameObject* pOwner);
@@ -32,6 +32,7 @@ public:
 public:
 	HRESULT SetUp_ShaderResource(class CShader* pShader, const char* pConstantName, _uint iMeshIndex, aiTextureType eType);
 	HRESULT Render(_uint iMeshIndex);
+	HRESULT RenderUI(_uint iMeshIndex, _float* outZ);
 	HRESULT Ready_Bones(aiNode* pAINode);
 
 private:
@@ -46,7 +47,7 @@ private:
 	vector<class CMesh*>	m_Meshes;
 
 private:
-	_float4x4				m_PivotMatrix = { };
+	_float4x4				m_PivotMatrix = { };		
 
 private:
 	/* 모델에게 정의되어있는 머테리얼의 갯수. */
