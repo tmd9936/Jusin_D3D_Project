@@ -30,7 +30,7 @@ HRESULT CMesh::Initialize_Prototype(CModel::TYPE eType, aiMesh* pAIMesh, CModel*
 
 #pragma region VERTEX_BUFFER
 	
-	HRESULT hr = CModel::TYPE_NONANIM ?
+	HRESULT hr = eType == CModel::TYPE_NONANIM ?
 		Ready_VertexBuffer_ForNonAnim(pAIMesh, PivotMatrix) :
 		Ready_VertexBuffer_ForAnim(pAIMesh, pModel);
 

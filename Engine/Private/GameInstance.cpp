@@ -136,11 +136,11 @@ HRESULT CGameInstance::Present(UINT interval, UINT flags)
 	return m_pGraphic_Device->Present(interval, flags);
 }
 
-HRESULT CGameInstance::SetRenderTargets()
+HRESULT CGameInstance::SetRenderTargets(_bool bDepthSet)
 {
 	if (nullptr == m_pGraphic_Device)
 		return E_FAIL;
-	return m_pGraphic_Device->SetRenderTargets();
+	return m_pGraphic_Device->SetRenderTargets(bDepthSet);
 }
 
 ID3D11Device* CGameInstance::Get_Device()

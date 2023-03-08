@@ -37,7 +37,7 @@ public: /* For.Graphic_Device */
 	HRESULT Clear_BackBuffer_View(_float4 vClearColor);
 	HRESULT Clear_DepthStencil_View();
 	HRESULT Present(UINT interval, UINT flags);
-	HRESULT SetRenderTargets();
+	HRESULT SetRenderTargets(_bool bDepthSet = true);
 	ID3D11Device* Get_Device();
 	IDXGISwapChain* Get_SwapChain();
 	ID3D11RenderTargetView* Get_RTV();

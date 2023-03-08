@@ -32,19 +32,21 @@ HRESULT CMainApp::Initialize()
 	GraphicDesc.iViewSizeX = g_iWinSizeX;
 	GraphicDesc.iViewSizeY = g_iWinSizeY;
 
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
 	
-
 	if (FAILED(m_pGameInstance->Initialize_Engine(LEVEL_END, g_hInst, GraphicDesc, &m_pDevice, &m_pContext)))
 		return E_FAIL;
-
 
 	if (FAILED(Ready_Prototype_Component_For_Static()))
 		return E_FAIL;
 	if (FAILED(Ready_Prototype_GameObject_For_Static()))
 		return E_FAIL;
 
+	if (FAILED(SetUp_StartLevel(LEVEL_LOGO)))
+		return E_FAIL;
+
+
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
 
 
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
@@ -80,9 +82,6 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(m_pDataToolGUI->Initialize(m_pDevice, m_pContext)))
 		return E_FAIL;
 
-	if (FAILED(SetUp_StartLevel(LEVEL_LOGO)))
-		return E_FAIL;
-
 	return S_OK;
 }
 
@@ -103,20 +102,21 @@ HRESULT CMainApp::Render()
 	m_pMapToolGUI->Render();
 	m_pDataToolGUI->Render();
 
+
 	ImGuiIO& io = ImGui::GetIO();
 	io.DisplaySize = ImVec2((float)g_iWinSizeX, (float)g_iWinSizeY);
 
 	ImGuiPlatformIO& PlatformIO = ImGui::GetPlatformIO();
 
-	ImGui::Render();
-
-	m_pGameInstance->SetRenderTargets();
+	m_pGameInstance->SetRenderTargets(true);
 	m_pGameInstance->Clear_BackBuffer_View(_float4{ 0.156f, 0.109f, 0.f, 1.f });
 	m_pGameInstance->Clear_DepthStencil_View();
 
 	//m_pMapToolGUI->Reder_End();
 	m_pRenderer->Draw_RenderGroup();
 
+	m_pGameInstance->SetRenderTargets(false);
+	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
 	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
@@ -124,7 +124,6 @@ HRESULT CMainApp::Render()
 		ImGui::UpdatePlatformWindows();
 		ImGui::RenderPlatformWindowsDefault();
 	}
-
 
 	m_pGameInstance->Present(1, 0);
 
@@ -136,6 +135,7 @@ HRESULT CMainApp::SetUp_StartLevel(LEVEL eNextLevelID)
 	return m_pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, eNextLevelID));	
 }
 
+ 
 HRESULT CMainApp::Ready_Prototype_Component_For_Static()
 {
 	/* For.Prototype_Component_Renderer */

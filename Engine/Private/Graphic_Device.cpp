@@ -136,12 +136,15 @@ HRESULT CGraphic_Device::Present(UINT interval, UINT flags)
 
 	/* 전면 버퍼와 후면버퍼를 교체하여 후면버퍼를 전면으로 보여주는 역할을 한다. */
 	/* 후면버퍼를 직접화면에 보여줄께. */
-	return m_pSwapChain->Present(0, 0);
+	return m_pSwapChain->Present(interval, flags);
 }
 
-HRESULT CGraphic_Device::SetRenderTargets()
+HRESULT CGraphic_Device::SetRenderTargets(_bool bDepthSet)
 {
-	m_pDeviceContext->OMSetRenderTargets(1, &m_pBackBufferRTV, m_pDepthStencilView);
+	if (bDepthSet)
+		m_pDeviceContext->OMSetRenderTargets(1, &m_pBackBufferRTV, m_pDepthStencilView);
+	else
+		m_pDeviceContext->OMSetRenderTargets(1, &m_pBackBufferRTV, nullptr);
 	return S_OK;
 }
 
