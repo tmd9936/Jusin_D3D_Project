@@ -132,7 +132,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI(const _tchar* pLayerTag)
 	desc.m_fSizeY = g_iWinSizeY >> 1;
 	desc.m_fX = g_iWinSizeX >> 1;
 	desc.m_fY = g_iWinSizeY >> 1;
-	lstrcpy(desc.m_TextureProtoTypeName, L"Test");
+	lstrcpy(desc.m_TextureProtoTypeName, TEXT("Prototype_Component_Model_Loading_Scene"));
 
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ModelUI"), LEVEL_GAMEPLAY, pLayerTag, nullptr, &desc)))
 		return E_FAIL;

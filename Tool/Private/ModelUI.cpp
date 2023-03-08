@@ -20,29 +20,16 @@ HRESULT CModelUI::Initialize_Prototype()
 
 HRESULT CModelUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
+	if (pArg != nullptr)
+		memcpy(&m_UIDesc, pArg, (sizeof m_UIDesc) + 2);
+
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 		return E_FAIL;
 
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
-	if (pArg != nullptr)
-		memcpy(&m_UIDesc, pArg, (sizeof m_UIDesc) + 2);
-
 	m_eRenderId = RENDER_PRIORITY;
-
-	//m_UIDesc.m_fSizeX = g_iWinSizeX;
-	//m_UIDesc.m_fSizeY = g_iWinSizeY;
-	//m_UIDesc.m_fX = g_iWinSizeX >> 1;
-	//m_UIDesc.m_fY = g_iWinSizeY >> 1;
-
-	//m_pTransformCom->Set_Scaled({ m_UIDesc.m_fSizeX, m_UIDesc.m_fSizeY, 1.f });
-	//m_pTransformCom->Set_Pos(m_UIDesc.m_fX - g_iWinSizeX * 0.5f, -m_UIDesc.m_fY + g_iWinSizeY * 0.5f, 0.f);
-
-	//m_pTransformCom->Set_PosX(m_UIDesc.m_fX - g_iWinSizeX * 0.5f);
-	//m_pTransformCom->Set_PosY(-m_UIDesc.m_fY + g_iWinSizeY * 0.5f);
-
-	//m_pTransformCom->Set_PosZ(0.f);
 
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
 
@@ -113,7 +100,7 @@ HRESULT CModelUI::Add_Components()
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
-	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, LEVEL_GAMEPLAY, TEXT("Prototype_Component_Model_Loading_Scene"),
+	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, LEVEL_GAMEPLAY, m_UIDesc.m_TextureProtoTypeName,
 		(CComponent**)&m_pModelCom, nullptr)))
 		return E_FAIL;
 
