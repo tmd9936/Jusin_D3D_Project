@@ -47,6 +47,13 @@ CBone* CModel::Get_BonePtr(const char* pBoneName)
 	return *iter;
 }
 
+const _float CModel::Get_ViewZ(_uint iMeshIndex)
+{
+	if (nullptr != m_Meshes[iMeshIndex])
+		return m_Meshes[iMeshIndex]->Get_ViewZ();
+	return 0.f;
+}
+
 HRESULT CModel::Initialize_Prototype(TYPE eType, const char* pModelFilePath, _fmatrix PivotMatrix)
 {
 	_uint		iFlag = 0;
@@ -104,18 +111,6 @@ HRESULT CModel::Render(_uint iMeshIndex)
 {
 	if (nullptr != m_Meshes[iMeshIndex])
 		m_Meshes[iMeshIndex]->Render();
-
-	return S_OK;
-}
-
-HRESULT CModel::RenderUI(_uint iMeshIndex, _float* outZ)
-{
-	if (nullptr != m_Meshes[iMeshIndex])
-	{
-		m_Meshes[iMeshIndex]->Render();
-		if (outZ)
-			*outZ = m_Meshes[iMeshIndex]->Get_ViewZ();
-	}
 
 	return S_OK;
 }

@@ -25,6 +25,8 @@ public:
 
 	CBone* Get_BonePtr(const char* pBoneName);
 
+	const _float Get_ViewZ(_uint iMeshIndex);
+
 public:
 	virtual HRESULT Initialize_Prototype(TYPE eType, const char* pModelFilePath, _fmatrix PivotMatrix);
 	virtual HRESULT Initialize(void* pArg);
@@ -32,7 +34,6 @@ public:
 public:
 	HRESULT SetUp_ShaderResource(class CShader* pShader, const char* pConstantName, _uint iMeshIndex, aiTextureType eType);
 	HRESULT Render(_uint iMeshIndex);
-	HRESULT RenderUI(_uint iMeshIndex, _float* outZ);
 	HRESULT Ready_Bones(aiNode* pAINode);
 
 private:

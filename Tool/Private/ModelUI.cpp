@@ -75,6 +75,12 @@ HRESULT CModelUI::Render()
 
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
+		_float viewZ = m_pModelCom->Get_ViewZ(i);
+
+		m_pTransformCom->Set_PosZ(viewZ);
+
+		if (FAILED(m_pShaderCom->Set_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
+			return E_FAIL;
 
 		if (FAILED(m_pModelCom->SetUp_ShaderResource(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
 			return E_FAIL;
@@ -121,8 +127,6 @@ HRESULT CModelUI::Add_Components()
 
 HRESULT CModelUI::SetUp_ShaderResources()
 {
-	if (FAILED(m_pShaderCom->Set_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
-		return E_FAIL;
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);

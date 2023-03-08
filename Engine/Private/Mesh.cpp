@@ -11,7 +11,7 @@ CMesh::CMesh(const CMesh& rhs, CGameObject* pOwner)
 	, m_iMaterialIndex(rhs.m_iMaterialIndex)
 	, m_iNumBones(rhs.m_iNumBones)
 	, m_Bones(rhs.m_Bones)
-	, m_pVerticesZ(rhs.m_pVerticesZ)
+	, m_ViewZ(rhs.m_ViewZ)
 {
 	for (auto& pBone : m_Bones)
 		Safe_AddRef(pBone);
@@ -95,11 +95,18 @@ HRESULT CMesh::Ready_VertexBuffer_ForNonAnim(aiMesh* pAIMesh, _fmatrix PivotMatr
 	VTXTEX* pVertices = new VTXTEX[m_iNumVertices];
 	ZeroMemory(pVertices, m_iStride * m_iNumVertices);
 
+	_bool zSet = false;
+
 	for (_uint i = 0; i < m_iNumVertices; ++i)
 	{
 		memcpy(&pVertices[i].vPosition, &pAIMesh->mVertices[i], sizeof(_float3));
 		XMStoreFloat3(&pVertices[i].vPosition, XMVector3TransformCoord(XMLoadFloat3(&pVertices[i].vPosition), PivotMatrix));
 		
+		if (!zSet)
+		{
+			m_ViewZ = min(max(pVertices[i].vPosition.z, 0.f), 1.f);
+			zSet = true;
+		}
 
 		pVertices[i].vPosition.z = 0.f;
 		//memcpy(&pVertices[i].vNormal, &pAIMesh->mNormals[i], sizeof(_float3));

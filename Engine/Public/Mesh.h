@@ -22,7 +22,7 @@ public:
 	}
 
 	const _float Get_ViewZ() const {
-		return m_pVerticesZ;
+		return m_ViewZ;
 	}
 
 public:
@@ -36,7 +36,7 @@ private:
 	_uint					m_iNumBones = { 0 };
 	vector<CBone*>			m_Bones;
 
-	_float					m_pVerticesZ = { 0.f };
+	_float					m_ViewZ = { 0.f };
 
 private:
 	HRESULT Ready_VertexBuffer_ForNonAnim(aiMesh* pAIMesh, _fmatrix PivotMatrix);
