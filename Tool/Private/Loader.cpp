@@ -118,9 +118,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			return E_FAIL;
 
 		/* For.Prototype_GameObject_BackGround */
-		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround"),
-			CBackGround::Create(m_pDevice, m_pContext))))
-			return E_FAIL;
+		//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround"),
+		//	CBackGround::Create(m_pDevice, m_pContext))))
+		//	return E_FAIL;
 	}
 
 #pragma endregion
