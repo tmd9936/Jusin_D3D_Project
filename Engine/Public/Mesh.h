@@ -42,6 +42,10 @@ private:
 	HRESULT Ready_VertexBuffer_ForNonAnim(aiMesh* pAIMesh, _fmatrix PivotMatrix);
 	HRESULT Ready_VertexBuffer_ForAnim(aiMesh* pAIMesh, CModel* pModel);
 
+	HRESULT Ready_VertexBuffer_ForNonAnimUI(aiMesh* pAIMesh, _fmatrix PivotMatrix);
+	// HRESULT Ready_VertexBuffer_ForAnim(aiMesh* pAIMesh, CModel* pModel);
+
+
 public:
 	static CMesh* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CModel::TYPE eType, aiMesh* pAIMesh, CModel* pModel, _fmatrix PivotMatrix);
 	virtual CComponent* Clone(CGameObject* pOwner, void* pArg = nullptr) override;

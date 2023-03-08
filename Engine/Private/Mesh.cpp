@@ -20,7 +20,6 @@ CMesh::CMesh(const CMesh& rhs, CGameObject* pOwner)
 HRESULT CMesh::Initialize_Prototype(CModel::TYPE eType, aiMesh* pAIMesh, CModel* pModel, _fmatrix PivotMatrix)
 {
 	m_iMaterialIndex = pAIMesh->mMaterialIndex;
-	m_iStride = sizeof(VTXMODEL);
 	m_iNumVertices = pAIMesh->mNumVertices;
 	m_iIndexSizePrimitive = sizeof(FACEINDICES32);
 	m_iNumPrimitives = pAIMesh->mNumFaces;
@@ -30,10 +29,25 @@ HRESULT CMesh::Initialize_Prototype(CModel::TYPE eType, aiMesh* pAIMesh, CModel*
 	m_eTopology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 
 #pragma region VERTEX_BUFFER
-	
-	HRESULT hr = eType == CModel::TYPE_NONANIM ?
-		Ready_VertexBuffer_ForNonAnim(pAIMesh, PivotMatrix) :
-		Ready_VertexBuffer_ForAnim(pAIMesh, pModel);
+	HRESULT hr = E_FAIL;
+		
+	switch (eType)
+	{
+	case Engine::CModel::TYPE_NONANIM:
+		hr = Ready_VertexBuffer_ForNonAnim(pAIMesh, PivotMatrix);
+		break;
+	case Engine::CModel::TYPE_ANIM:
+		hr = Ready_VertexBuffer_ForAnim(pAIMesh, pModel);
+		break;
+	case Engine::CModel::TYPE_NONANIM_UI:
+		hr = Ready_VertexBuffer_ForNonAnimUI(pAIMesh, PivotMatrix);
+		break;
+	case Engine::CModel::TYPE_ANIM_UI:
+		break;
+	default:
+		return E_FAIL;
+		break;
+	}
 
 	if (FAILED(hr))
 		return E_FAIL;
@@ -80,7 +94,7 @@ HRESULT CMesh::Initialize(void* pArg)
 
 HRESULT CMesh::Ready_VertexBuffer_ForNonAnim(aiMesh* pAIMesh, _fmatrix PivotMatrix)
 {
-	m_iStride = sizeof(VTXTEX);
+	m_iStride = sizeof(VTXMODEL);
 
 	ZeroMemory(&m_BufferDesc, sizeof m_BufferDesc);
 	m_BufferDesc.ByteWidth = m_iStride * m_iNumVertices;
@@ -92,25 +106,16 @@ HRESULT CMesh::Ready_VertexBuffer_ForNonAnim(aiMesh* pAIMesh, _fmatrix PivotMatr
 
 	ZeroMemory(&m_SubResourceData, sizeof m_SubResourceData);
 
-	VTXTEX* pVertices = new VTXTEX[m_iNumVertices];
+	VTXMODEL* pVertices = new VTXMODEL[m_iNumVertices];
 	ZeroMemory(pVertices, m_iStride * m_iNumVertices);
-
-	_bool zSet = false;
 
 	for (_uint i = 0; i < m_iNumVertices; ++i)
 	{
 		memcpy(&pVertices[i].vPosition, &pAIMesh->mVertices[i], sizeof(_float3));
 		XMStoreFloat3(&pVertices[i].vPosition, XMVector3TransformCoord(XMLoadFloat3(&pVertices[i].vPosition), PivotMatrix));
-		
-		if (!zSet)
-		{
-			m_ViewZ = min(max(pVertices[i].vPosition.z, 0.f), 1.f);
-			zSet = true;
-		}
 
-		pVertices[i].vPosition.z = 0.f;
-		//memcpy(&pVertices[i].vNormal, &pAIMesh->mNormals[i], sizeof(_float3));
-		//XMStoreFloat3(&pVertices[i].vNormal, XMVector3Normalize(XMVector3TransformNormal(XMLoadFloat3(&pVertices[i].vNormal), PivotMatrix)));
+		memcpy(&pVertices[i].vNormal, &pAIMesh->mNormals[i], sizeof(_float3));
+		XMStoreFloat3(&pVertices[i].vNormal, XMVector3Normalize(XMVector3TransformNormal(XMLoadFloat3(&pVertices[i].vNormal), PivotMatrix)));
 
 		memcpy(&pVertices[i].vTexUV, &pAIMesh->mTextureCoords[0][i], sizeof(_float2));
 	}
@@ -198,6 +203,50 @@ HRESULT CMesh::Ready_VertexBuffer_ForAnim(aiMesh* pAIMesh, CModel* pModel)
 		m_iNumBones = 1;
 
 		// TODO : ª¿√ﬂ∞°«ÿ∂Û. 
+	}
+
+	m_SubResourceData.pSysMem = pVertices;
+
+	if (FAILED(__super::Create_VertexBuffer()))
+		return E_FAIL;
+
+	Safe_Delete_Array(pVertices);
+
+	return S_OK;
+}
+
+HRESULT CMesh::Ready_VertexBuffer_ForNonAnimUI(aiMesh* pAIMesh, _fmatrix PivotMatrix)
+{
+	m_iStride = sizeof(VTXTEX);
+
+	ZeroMemory(&m_BufferDesc, sizeof m_BufferDesc);
+	m_BufferDesc.ByteWidth = m_iStride * m_iNumVertices;
+	m_BufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	m_BufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	m_BufferDesc.StructureByteStride = m_iStride;
+	m_BufferDesc.CPUAccessFlags = 0;
+	m_BufferDesc.MiscFlags = 0;
+
+	ZeroMemory(&m_SubResourceData, sizeof m_SubResourceData);
+
+	VTXTEX* pVertices = new VTXTEX[m_iNumVertices];
+	ZeroMemory(pVertices, m_iStride * m_iNumVertices);
+
+	_bool zSet = false;
+
+	for (_uint i = 0; i < m_iNumVertices; ++i)
+	{
+		memcpy(&pVertices[i].vPosition, &pAIMesh->mVertices[i], sizeof(_float3));
+		XMStoreFloat3(&pVertices[i].vPosition, XMVector3TransformCoord(XMLoadFloat3(&pVertices[i].vPosition), PivotMatrix));
+
+		if (!zSet)
+		{
+			m_ViewZ = min(max(pVertices[i].vPosition.z, 0.f), 1.f);
+			zSet = true;
+		}
+
+		pVertices[i].vPosition.z = 0.f;
+		memcpy(&pVertices[i].vTexUV, &pAIMesh->mTextureCoords[0][i], sizeof(_float2));
 	}
 
 	m_SubResourceData.pSysMem = pVertices;

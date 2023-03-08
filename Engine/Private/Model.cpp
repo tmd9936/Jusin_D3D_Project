@@ -64,7 +64,7 @@ HRESULT CModel::Initialize_Prototype(TYPE eType, const char* pModelFilePath, _fm
 
 	/* aiProcess_PreTransformVertices : 정점정보를 읽어서 저장할 당시에 필요한 변환을 미리 처리해놓는다. */
 	/* 처리? 이 모델의 뼈들 중, 메시의 이름과 같은 이름을 가진 뼈를 찾아서 그 뼈의 행렬을 정점들에게 미리 적용한다. */
-	if (TYPE_NONANIM == m_eType)
+	if (TYPE_NONANIM == m_eType || TYPE_NONANIM_UI == eType)
 		iFlag = aiProcess_PreTransformVertices | aiProcessPreset_TargetRealtime_MaxQuality | aiProcess_ConvertToLeftHanded; 
 	else
 		iFlag = aiProcessPreset_TargetRealtime_MaxQuality | aiProcess_ConvertToLeftHanded;
