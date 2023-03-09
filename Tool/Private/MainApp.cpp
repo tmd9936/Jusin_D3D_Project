@@ -10,6 +10,7 @@
 #include "DataToolGUI.h"
 #include "GameInstance.h"
 #include "Collider.h"
+#include "ModelUI.h"
 
 CMainApp::CMainApp()
 	: m_pGameInstance(CGameInstance::GetInstance())
@@ -167,6 +168,12 @@ HRESULT CMainApp::Ready_Prototype_Component_For_Static()
 		CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxModel.hlsl"), VTXMODEL_DECLARATION::Elements, VTXMODEL_DECLARATION::iNumElements))))
 		return E_FAIL;
 
+	_matrix PivotMatrix = XMMatrixIdentity();
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Loading_Scene"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_UI, "../../Reference/Resources/Mesh/Animation/Loading/title_loading.fbx", PivotMatrix))))
+		return E_FAIL;
+
+
 	//if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOADING, TEXT("Prototype_Component_Shader_VtxTex"),
 	//	CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxTex.hlsl"), VTXTEX_DECLARATION::Elements, VTXTEX_DECLARATION::iNumElements))))
 	//	return E_FAIL;
@@ -179,6 +186,11 @@ HRESULT CMainApp::Ready_Prototype_Component_For_Static()
 
 HRESULT CMainApp::Ready_Prototype_GameObject_For_Static()
 {
+	/* For.Prototype_GameObject_ModelUI */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ModelUI"),
+		CModelUI::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 	return S_OK;
 }
 

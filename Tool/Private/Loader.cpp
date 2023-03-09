@@ -190,11 +190,6 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../../Reference/Resources/Mesh/Animation/Pokemon/PM1.fbx", PivotMatrix))))
 	//	return E_FAIL;
 
-	PivotMatrix = XMMatrixIdentity();
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Model_Loading_Scene"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_UI, "../../Reference/Resources/Mesh/Animation/Loading/title_loading.fbx", PivotMatrix))))
-		return E_FAIL;
-
 #pragma endregion
 
 #pragma region SHADERS
@@ -216,11 +211,6 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 	wsprintf(m_szLoadingText, TEXT("객체원형을 로딩중."));
 	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_GAMEPLAY))
 	{
-		/* For.Prototype_GameObject_ModelUI */
-		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ModelUI"),
-			CModelUI::Create(m_pDevice, m_pContext))))
-			return E_FAIL;
-
 		/* For.Prototype_GameObject_Terrain */
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Terrain"),
 			CTerrain::Create(m_pDevice, m_pContext))))

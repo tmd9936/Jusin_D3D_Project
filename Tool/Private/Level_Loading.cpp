@@ -9,7 +9,10 @@
 #include "Loader.h"
 #include "Level_Logo.h"
 #include "Level_GamePlay.h"
+
+#include "ModelUI.h"
 #pragma endregion
+
 
 CLevel_Loading::CLevel_Loading(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
@@ -18,6 +21,7 @@ CLevel_Loading::CLevel_Loading(ID3D11Device* pDevice, ID3D11DeviceContext* pCont
 
 HRESULT CLevel_Loading::Initialize(LEVEL eNextLevelID)
 {
+
 	m_eNextLevelID = eNextLevelID;
 
 	/* 로더안에서 스레드를 생성한다. */
@@ -39,6 +43,10 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevelID)
 
 		Safe_Release(pGameInstance);
 	}
+
+	if (FAILED(Ready_Layer_UI(L"Layer_UI")))
+		return E_FAIL;
+
 
 	return S_OK;
 }
@@ -97,8 +105,28 @@ HRESULT CLevel_Loading::Ready_Layer_BackGround()
 	return S_OK;
 }
 
-HRESULT CLevel_Loading::Ready_Layer_UI()
+HRESULT CLevel_Loading::Ready_Layer_UI(const _tchar* pLayerTag)
 {
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_LOADING, pLayerTag)))
+		return E_FAIL;
+
+	CModelUI::UI_DESC desc = {};
+	desc.m_fSizeX = g_iWinSizeX >> 1;
+	desc.m_fSizeY = g_iWinSizeY >> 1;
+	desc.m_fX = g_iWinSizeX >> 1;
+	desc.m_fY = g_iWinSizeY >> 1;
+	desc.m_eModelPrototypLevel = LEVEL_STATIC;
+
+	lstrcpy(desc.m_TextureProtoTypeName, TEXT("Prototype_Component_Model_Loading_Scene"));
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ModelUI"), LEVEL_LOADING, pLayerTag, nullptr, &desc)))
+		return E_FAIL;
+
+
+	Safe_Release(pGameInstance);
 	return S_OK;
 }
 

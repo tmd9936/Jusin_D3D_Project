@@ -100,7 +100,7 @@ HRESULT CModelUI::Add_Components()
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
-	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, LEVEL_GAMEPLAY, m_UIDesc.m_TextureProtoTypeName,
+	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, m_UIDesc.m_eModelPrototypLevel, m_UIDesc.m_TextureProtoTypeName,
 		(CComponent**)&m_pModelCom, nullptr)))
 		return E_FAIL;
 

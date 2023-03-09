@@ -79,6 +79,10 @@ HRESULT CObject_Manager::Add_GameObject(const _tchar* pPrototypeTag, _uint iLeve
 		pGameObject = pPrototype->Clone(pLayerTag, iLevelIndex, (const char*)pArg);
 		break;
 
+	default:
+		pGameObject = pPrototype->Clone(pLayerTag, iLevelIndex, pArg);
+		break;
+
 	}
 
 	if (nullptr == pGameObject)

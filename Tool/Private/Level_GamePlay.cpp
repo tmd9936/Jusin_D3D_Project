@@ -5,7 +5,6 @@
 #include "Camera_Dynamic.h"
 #include "Player.h"
 #include "Utility.h"
-#include "ModelUI.h"
 
 CLevel_GamePlay::CLevel_GamePlay(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
@@ -124,18 +123,20 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI(const _tchar* pLayerTag)
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	if (FAILED(pGameInstance->Add_Layer(LEVEL_GAMEPLAY, pLayerTag)))
-		return E_FAIL;
+	//if (FAILED(pGameInstance->Add_Layer(LEVEL_GAMEPLAY, pLayerTag)))
+	//	return E_FAIL;
 
-	CModelUI::UI_DESC desc = {};
-	desc.m_fSizeX = g_iWinSizeX >> 1;
-	desc.m_fSizeY = g_iWinSizeY >> 1;
-	desc.m_fX = g_iWinSizeX >> 1;
-	desc.m_fY = g_iWinSizeY >> 1;
-	lstrcpy(desc.m_TextureProtoTypeName, TEXT("Prototype_Component_Model_Loading_Scene"));
+	//CModelUI::UI_DESC desc = {};
+	//desc.m_fSizeX = g_iWinSizeX >> 1;
+	//desc.m_fSizeY = g_iWinSizeY >> 1;
+	//desc.m_fX = g_iWinSizeX >> 1;
+	//desc.m_fY = g_iWinSizeY >> 1;
+	//desc.m_eLevel = LEVEL_LOADING;
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ModelUI"), LEVEL_GAMEPLAY, pLayerTag, nullptr, &desc)))
-		return E_FAIL;
+	//lstrcpy(desc.m_TextureProtoTypeName, TEXT("Prototype_Component_Model_Loading_Scene"));
+
+	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ModelUI"), LEVEL_GAMEPLAY, pLayerTag, nullptr, &desc)))
+	//	return E_FAIL;
 
 
 	Safe_Release(pGameInstance);
