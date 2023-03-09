@@ -21,7 +21,7 @@ CLevel_Loading::CLevel_Loading(ID3D11Device* pDevice, ID3D11DeviceContext* pCont
 
 HRESULT CLevel_Loading::Initialize(LEVEL eNextLevelID)
 {
-
+	g_BackBufferColor = m_LoadindBackBufferColor;
 	m_eNextLevelID = eNextLevelID;
 
 	/* 로더안에서 스레드를 생성한다. */

@@ -19,12 +19,15 @@ public:
 	virtual void Tick(_double TimeDelta) override;
 
 private:
+	HRESULT Ready_Layer_BackGround();
+	HRESULT Ready_Layer_UI(const _tchar* pLayerTag);
+
+private:
 	LEVEL			m_eNextLevelID = { LEVEL_END };
 	class CLoader* m_pLoader = { nullptr };
 
 private:
-	HRESULT Ready_Layer_BackGround();
-	HRESULT Ready_Layer_UI(const _tchar* pLayerTag);
+	MYFLOAT4			m_LoadindBackBufferColor = { 0.156f, 0.109f, 0.f, 1.f };
 
 public:
 	static CLevel_Loading* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, LEVEL eNextLevelID);

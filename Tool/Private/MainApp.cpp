@@ -110,7 +110,8 @@ HRESULT CMainApp::Render()
 	ImGuiPlatformIO& PlatformIO = ImGui::GetPlatformIO();
 
 	m_pGameInstance->SetRenderTargets(true);
-	m_pGameInstance->Clear_BackBuffer_View(_float4{ 0.156f, 0.109f, 0.f, 1.f });
+	//m_pGameInstance->Clear_BackBuffer_View(_float4{ 0.156f, 0.109f, 0.f, 1.f });
+	m_pGameInstance->Clear_BackBuffer_View({ g_BackBufferColor.x, g_BackBufferColor.y, g_BackBufferColor.z, g_BackBufferColor.w });
 	m_pGameInstance->Clear_DepthStencil_View();
 
 	//m_pMapToolGUI->Reder_End();
