@@ -38,14 +38,6 @@ def delete_actions3(name):
     for actionname in actions.keys():
         if (name not in actionname):
             actions.remove(actions[actionname])    
-            
-            
-def delete_actions4(name):
-    actions = bpy.data.actions
-
-    for actionname in actions.keys():
-        if ('pot_group|' + name not in actionname):
-            actions.remove(actions[actionname])   
 
 def delete_actions_all():
     actions = bpy.data.actions
@@ -60,24 +52,6 @@ def change_bsdf():
     material.node_tree.nodes.remove(material.node_tree.nodes.get('Principled BSDF'))
     bsdf = material.node_tree.nodes.new('ShaderNodeBsdfDiffuse')
     normal_map = material.node_tree.nodes.get('Normal Map')
-    
-    input = bsdf.inputs['Normal']
-    output = normal_map.outputs['Normal']
-    material.node_tree.links.new(input, output)
-    
-    output = bsdf.outputs['BSDF']
-    input = material_output.inputs['Surface']
-    material.node_tree.links.new(input, output)
-    
-    bpy.context.object.active_material = material
-    
-def change_bsdf_new_normalmap():
-    material = bpy.data.materials[0]
-    
-    material_output = material.node_tree.nodes.get('Material Output')
-    material.node_tree.nodes.remove(material.node_tree.nodes.get('Principled BSDF'))
-    bsdf = material.node_tree.nodes.new('ShaderNodeBsdfDiffuse')
-    normal_map = material.node_tree.nodes.new('ShaderNodeNormalMap')
     
     input = bsdf.inputs['Normal']
     output = normal_map.outputs['Normal']
@@ -118,7 +92,7 @@ def change_bsdf2():
 def create_node_color_attribute():
     mat = bpy.data.materials[0]
     
-    change_bsdf_new_normalmap()
+    change_bsdf()
    # obj.data.materials.append(mat)
     #mat.use_nodes = True
     mat.node_tree.nodes.new(type="ShaderNodeVertexColor")
@@ -159,20 +133,13 @@ def bake():
     bpy.context.scene.cycles.bake_type = 'DIFFUSE'
     bpy.context.scene.render.bake.use_pass_direct = False
     bpy.context.scene.render.bake.use_pass_indirect = False
-    bpy.context.scene.render.bake.margin = 10 # small object
-    #bpy.context.scene.render.bake.margin = 2 # big object ex)map
+    bpy.context.scene.render.bake.margin = 0
     bpy.context.scene.render.bake.target = 'IMAGE_TEXTURES'
-    
-    bpy.ops.object.select_all(action='SELECT')
     
     # Bake selected objects
     count = 0
     for obj in filter(lambda x: x.type == 'MESH', bpy.data.objects):
         print('Selected: ' + obj.name)
-        
-        obj.select_set(True)
-        #bpy.context.view_layer.objects.active = obj
-        
         
         # Select current object
         bpy.ops.object.select_all(action='DESELECT')
@@ -191,9 +158,9 @@ def texture_properties_setting(name):
 
 def texture_save(name):
     texture = bpy.data.textures["Texture"]    
-    texture.image.save_render(filepath="D:/jusin/API/super/po/6/out6/" + name + '.png')
+    texture.image.save_render(filepath="D:/jusin/API/super/po/6/out4/" + name + '.png')
     texture.image.source = 'FILE'
-    texture.image.filepath = "D:/jusin/API/super/po/6/out6/" + name + '.png'
+    texture.image.filepath = "D:/jusin/API/super/po/6/out4/" + name + '.png'
     
      
 def uv_smart_project(obj, name):
@@ -208,12 +175,11 @@ def uv_smart_project(obj, name):
     # Select the geometry
     bpy.ops.mesh.select_all(action='SELECT')
     # Call the smart project operator
-    bpy.ops.uv.smart_project(island_margin=0.05) # small object
-    #bpy.ops.uv.smart_project(island_margin=0.0004)
+    bpy.ops.uv.smart_project()
     # Toggle out of Edit Mode
     #create_node_color_attribute()
     #create_node_image_texture(name)
-    bpy.ops.object.mode_set(mode='OBJECT')
+    #bpy.ops.object.mode_set(mode='OBJECT')
     #texture_properties_setting(name)
     #bake()
     #change_bsdf2()
@@ -383,12 +349,11 @@ def set_particle(objects, particle_systems):
         set_particle(obj, particle_systems)
 
 
-def make_particle(filepath, name):
-    bpy.ops.import_scene.fbx(filepath=filepath)
+def make_particle(name):
+    bpy.ops.import_scene.fbx(filepath='D:/jusin/API/super/po/9/Effect/' + name + '.fbx')
 
-    #delete_actions4(name)    
-
-
+    delete_actions3(name)    
+    
     
     mat = None
     if (len(bpy.data.materials) <= 0):
@@ -396,35 +361,36 @@ def make_particle(filepath, name):
     else:
         mat = bpy.data.materials[0]
     
-#    action_length = 1
-#    
-#    
-#    for obj in bpy.data.objects:
-#        if (obj.name == 'pot_group'):
-#            obj.animation_data_create()
-#            obj.animation_data.action = bpy.data.actions[0]
-#            obj.animation_data.use_nla = False 
-#            
-#            action = obj.animation_data.action
-#            
-#            action_length_temp = action.frame_range[1] - action.frame_range[0]
-#            
-#            if (action_length < action_length_temp):
-#                action_length = action_length_temp
-#                # Set the scene's frame range to match the action's length
-#                bpy.context.scene.frame_start = 0
-#                bpy.context.scene.frame_end = int(action_length) + 5
-#            break
-            
+    action_length = 1
     # Connect the objects to animations
     for obj in bpy.data.objects:
         if (obj.type == 'MESH'):
-            obj.data.materials.append(mat)
-            uv_smart_project(obj, obj.name)
-
+            for anim in bpy.data.actions:
+                if (obj.name + '|' in anim.name) and (anim.name.startswith(obj.name)):
+                    obj.data.materials.append(mat)
+                    print(obj.name, anim.name)
+                    obj.animation_data_create()
+                    obj.animation_data.action = anim
+                    
+                    obj.animation_data.use_nla = False                  
+                    
+                    action = obj.animation_data.action
+                    
+                    # Get the length of the action
+                    action_length_temp = action.frame_range[1] - action.frame_range[0]
+                    
+                    uv_smart_project(obj, obj.name)
+                    
+                    if (action_length < action_length_temp):
+                        action_length = action_length_temp
+                        # Set the scene's frame range to match the action's length
+                        bpy.context.scene.frame_start = 0
+                        bpy.context.scene.frame_end = int(action_length) + 5
+                    
+                    break
      
      
-    #bpy.ops.object.select_all(action='SELECT')
+    bpy.ops.object.select_all(action='SELECT')
     
     
     objects = bpy.data.objects[name]
@@ -443,8 +409,6 @@ def make_particle(filepath, name):
     bake()
     change_bsdf2()
     texture_save(name)
-    
-    export_fbx_file(name)
 
 #    objects = bpy.data.objects['E_BBB_Denki']
 
@@ -464,8 +428,8 @@ def make_particle(filepath, name):
    
 
     # Export the scene as an FBX file
-def export_fbx_file(name): 
-    bpy.ops.export_scene.fbx(filepath="D:/jusin/API/super/po/6/out6/" + name + '.fbx',
+    
+    bpy.ops.export_scene.fbx(filepath="D:/jusin/API/super/po/6/out4/" + name + '.fbx',
     use_selection=False, global_scale=1.0, apply_unit_scale=True, 
     bake_space_transform=False, object_types={'EMPTY', 'MESH'}, use_mesh_modifiers=True, 
     use_mesh_modifiers_render=True, mesh_smooth_type='FACE', use_mesh_edges=False,
@@ -474,19 +438,16 @@ def export_fbx_file(name):
      bake_anim_use_all_actions=False, bake_anim_use_nla_strips=False, 
      bake_anim_use_all_bones=True, bake_anim_force_startend_keying=True, bake_anim_step=1.0, bake_anim_simplify_factor=1.0)
 
-dir_path = 'D:/jusin/API/super/po/10/Test3/'
+dir_path = 'D:/jusin/API/super/po/9/Effect/'
 
 def export_effect():
     for (root, directories, files) in os.walk(dir_path):
         for file in files:
             if '.fbx' in file:
-                file_path = os.path.join(root, file)
                 name, ext = os.path.splitext(file)
-                make_particle(file_path, name)
-                #export_fbx_file(name)
+                make_particle(name)
                 remove_all()
-                
-#export_effect()
+export_effect()
 #excute()
 #import_fbx()            
 #export_all()     

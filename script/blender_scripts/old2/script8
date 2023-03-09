@@ -486,7 +486,7 @@ def export_effect():
                 #export_fbx_file(name)
                 remove_all()
                 
-#export_effect()
+export_effect()
 #excute()
 #import_fbx()            
 #export_all()     

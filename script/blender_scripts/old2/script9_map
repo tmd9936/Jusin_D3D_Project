@@ -142,6 +142,9 @@ def create_node_image_texture(name):
     
    # obj.data.materials.append(mat)
     mat.use_nodes = True
+    
+    mat.node_tree.nodes.remove(mat.node_tree.nodes.get('Image Texture'))
+    
     nodes = mat.node_tree.nodes
     texture_node = mat.node_tree.nodes.new(type="ShaderNodeTexImage")
     image_src = bpy.data.images.new(name + '.png', 1024, 1024)
@@ -159,8 +162,8 @@ def bake():
     bpy.context.scene.cycles.bake_type = 'DIFFUSE'
     bpy.context.scene.render.bake.use_pass_direct = False
     bpy.context.scene.render.bake.use_pass_indirect = False
-    bpy.context.scene.render.bake.margin = 10 # small object
-    #bpy.context.scene.render.bake.margin = 2 # big object ex)map
+    # bpy.context.scene.render.bake.margin = 10 # small object
+    bpy.context.scene.render.bake.margin = 2 # big object ex)map
     bpy.context.scene.render.bake.target = 'IMAGE_TEXTURES'
     
     bpy.ops.object.select_all(action='SELECT')
@@ -208,8 +211,8 @@ def uv_smart_project(obj, name):
     # Select the geometry
     bpy.ops.mesh.select_all(action='SELECT')
     # Call the smart project operator
-    bpy.ops.uv.smart_project(island_margin=0.05) # small object
-    #bpy.ops.uv.smart_project(island_margin=0.0004)
+    # bpy.ops.uv.smart_project(island_margin=0.05) # small object
+    bpy.ops.uv.smart_project(island_margin=0.0004)
     # Toggle out of Edit Mode
     #create_node_color_attribute()
     #create_node_image_texture(name)
@@ -387,7 +390,20 @@ def make_particle(filepath, name):
     bpy.ops.import_scene.fbx(filepath=filepath)
 
     #delete_actions4(name)    
+    
+     # Remove all textures
+    for texture in bpy.data.textures:
+        bpy.data.textures.remove(texture)   
+        # Remove all images
 
+    # Remove all materials
+    #for material in bpy.data.materials:
+    #    bpy.data.materials.remove(material)
+        
+        
+        # Remove all images
+    for image in bpy.data.images:
+        bpy.data.images.remove(image)
 
     
     mat = None
@@ -419,7 +435,7 @@ def make_particle(filepath, name):
     # Connect the objects to animations
     for obj in bpy.data.objects:
         if (obj.type == 'MESH'):
-            obj.data.materials.append(mat)
+            #obj.data.materials.append(mat)
             uv_smart_project(obj, obj.name)
 
      
@@ -437,9 +453,12 @@ def make_particle(filepath, name):
     mat.use_nodes = True        
                 
     create_node_color_attribute()
+    
     create_node_image_texture(name)
     bpy.ops.object.mode_set(mode='OBJECT')
-    texture_properties_setting(name)
+    
+    texture_properties_setting(name) 
+    
     bake()
     change_bsdf2()
     texture_save(name)
@@ -484,9 +503,12 @@ def export_effect():
                 name, ext = os.path.splitext(file)
                 make_particle(file_path, name)
                 #export_fbx_file(name)
-                remove_all()
+                return
+                #remove_all()
+
+        
                 
-#export_effect()
+export_effect()
 #excute()
 #import_fbx()            
 #export_all()     

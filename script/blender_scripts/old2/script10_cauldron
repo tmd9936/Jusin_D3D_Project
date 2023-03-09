@@ -386,9 +386,7 @@ def set_particle(objects, particle_systems):
 def make_particle(filepath, name):
     bpy.ops.import_scene.fbx(filepath=filepath)
 
-    #delete_actions4(name)    
-
-
+    delete_actions3(name)
     
     mat = None
     if (len(bpy.data.materials) <= 0):
@@ -396,30 +394,42 @@ def make_particle(filepath, name):
     else:
         mat = bpy.data.materials[0]
     
-#    action_length = 1
-#    
-#    
-#    for obj in bpy.data.objects:
-#        if (obj.name == 'pot_group'):
-#            obj.animation_data_create()
-#            obj.animation_data.action = bpy.data.actions[0]
-#            obj.animation_data.use_nla = False 
-#            
-#            action = obj.animation_data.action
-#            
-#            action_length_temp = action.frame_range[1] - action.frame_range[0]
-#            
-#            if (action_length < action_length_temp):
-#                action_length = action_length_temp
-#                # Set the scene's frame range to match the action's length
-#                bpy.context.scene.frame_start = 0
-#                bpy.context.scene.frame_end = int(action_length) + 5
-#            break
+    action_length = 1
+    
+    
+    for obj in bpy.data.objects:        
+        actions = bpy.data.actions
+        
+        for actionname in actions.keys():
+            if (obj.name + '|' + name in actionname):
+                obj.animation_data_create()    
+                obj.animation_data.action = bpy.data.actions[actionname]
+                obj.animation_data.use_nla = False 
+                break
+            
+        action_data = obj.animation_data
+        
+        if (action_data == None):
+            continue
+        
+        action = action_data.action
+        
+        if (action == None):
+            continue
+        
+        action_length_temp = action.frame_range[1] - action.frame_range[0]
+        
+        if (action_length < action_length_temp):
+            action_length = action_length_temp
+            # Set the scene's frame range to match the action's length
+            bpy.context.scene.frame_start = 0
+            bpy.context.scene.frame_end = int(action_length) + 5
+
             
     # Connect the objects to animations
     for obj in bpy.data.objects:
         if (obj.type == 'MESH'):
-            obj.data.materials.append(mat)
+            #obj.data.materials.append(mat)
             uv_smart_project(obj, obj.name)
 
      
@@ -486,7 +496,8 @@ def export_effect():
                 #export_fbx_file(name)
                 remove_all()
                 
-#export_effect()
+export_effect()
+#remove_all()
 #excute()
 #import_fbx()            
 #export_all()     
