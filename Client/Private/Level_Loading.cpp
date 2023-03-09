@@ -67,7 +67,7 @@ void CLevel_Loading::Tick(_double TimeDelta)
 				break;
 
 			case LEVEL_GAMEPLAY:
-				pNewLevel = CLevel_GamePlay::Create(m_pDevice, m_pContext);
+				pNewLevel = CLevel_BaseCamp::Create(m_pDevice, m_pContext);
 				break;
 
 			}

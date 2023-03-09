@@ -8,7 +8,7 @@
 #pragma region CLIENT_HEADERS
 #include "Loader.h"
 #include "Level_Logo.h"
-#include "Level_GamePlay.h"
+#include "Level_BaseCamp.h"
 
 #include "ModelUI.h"
 #pragma endregion
@@ -74,8 +74,8 @@ void CLevel_Loading::Tick(_double TimeDelta)
 				pNewLevel = CLevel_Logo::Create(m_pDevice, m_pContext);
 				break;
 
-			case LEVEL_GAMEPLAY:
-				pNewLevel = CLevel_GamePlay::Create(m_pDevice, m_pContext);
+			case LEVEL_BASECAMP:
+				pNewLevel = CLevel_BaseCamp::Create(m_pDevice, m_pContext);
 				break;
 
 			}

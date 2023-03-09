@@ -33,7 +33,7 @@ void CLevel_Logo::Tick(_double TimeDelta)
 		CGameInstance* pGameInstance = CGameInstance::GetInstance();
 		Safe_AddRef(pGameInstance);
 
-		if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_GAMEPLAY))))
+		if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_BASECAMP))))
 			return;
 
 		Safe_Release(pGameInstance);

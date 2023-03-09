@@ -3,13 +3,13 @@
 #include "GameInstance.h"
 #include "Camera_Dynamic.h"
 
-CLevel_GamePlay::CLevel_GamePlay(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CLevel_BaseCamp::CLevel_BaseCamp(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
 {
 
 }
 
-HRESULT CLevel_GamePlay::Initialize()
+HRESULT CLevel_BaseCamp::Initialize()
 {
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 		return E_FAIL;
@@ -20,14 +20,14 @@ HRESULT CLevel_GamePlay::Initialize()
 	return S_OK;
 }
 
-void CLevel_GamePlay::Tick(_double TimeDelta)
+void CLevel_BaseCamp::Tick(_double TimeDelta)
 {
 #ifdef _DEBUG
 	SetWindowText(g_hWnd, TEXT("게임플레이레벨임"));
 #endif
 }
 
-HRESULT CLevel_GamePlay::Ready_Layer_BackGround(const _tchar* pLayerTag)
+HRESULT CLevel_BaseCamp::Ready_Layer_BackGround(const _tchar* pLayerTag)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
@@ -42,7 +42,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_BackGround(const _tchar* pLayerTag)
 	return S_OK;
 }
 
-HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _tchar* pLayerTag)
+HRESULT CLevel_BaseCamp::Ready_Layer_Camera(const _tchar* pLayerTag)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
@@ -72,20 +72,20 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _tchar* pLayerTag)
 	return S_OK;
 }
 
-CLevel_GamePlay* CLevel_GamePlay::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CLevel_BaseCamp* CLevel_BaseCamp::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CLevel_GamePlay* pInstance = new CLevel_GamePlay(pDevice, pContext);
+	CLevel_BaseCamp* pInstance = new CLevel_BaseCamp(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize()))
 	{
-		MSG_BOX("Failed to Created CLevel_GamePlay");
+		MSG_BOX("Failed to Created CLevel_BaseCamp");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CLevel_GamePlay::Free()
+void CLevel_BaseCamp::Free()
 {
 	__super::Free();
 

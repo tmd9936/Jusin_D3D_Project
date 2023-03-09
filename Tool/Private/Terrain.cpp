@@ -71,27 +71,27 @@ HRESULT CTerrain::Add_Components()
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
-	if (FAILED(pGameInstance->Add_Component(CVIBuffer_Terrain::familyId, this, LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Terrain"),
+	if (FAILED(pGameInstance->Add_Component(CVIBuffer_Terrain::familyId, this, LEVEL_BASECAMP, TEXT("Prototype_Component_VIBuffer_Terrain"),
 		(CComponent**)&m_pVIBufferCom, nullptr)))
 		return E_FAIL;
 
 	/* For.Com_Shader */
-	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_GAMEPLAY, TEXT("Prototype_Component_Shader_VtxNorTex_HeightTerrain"),
+	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_BASECAMP, TEXT("Prototype_Component_Shader_VtxNorTex_HeightTerrain"),
 		(CComponent**)&m_pShaderCom, nullptr)))
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(pGameInstance->Add_Component(CTexture::familyId, this, LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Terrain"),
+	if (FAILED(pGameInstance->Add_Component(CTexture::familyId, this, LEVEL_BASECAMP, TEXT("Prototype_Component_Texture_Terrain"),
 		(CComponent**)&m_pTextureCom[TYPE_DIFFUSE], nullptr)))
 		return E_FAIL;
 
 	/* For.Com_Mask */
-	if (FAILED(pGameInstance->Add_Component(CTexture::familyId + 10000, this, LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_TerrainMask"),
+	if (FAILED(pGameInstance->Add_Component(CTexture::familyId + 10000, this, LEVEL_BASECAMP, TEXT("Prototype_Component_Texture_TerrainMask"),
 		(CComponent**)&m_pTextureCom[TYPE_MASK], nullptr)))
 		return E_FAIL;
 
 	/* For.Com_Brush */
-	if (FAILED(pGameInstance->Add_Component(CTexture::familyId + 10001, this, LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Brush"),
+	if (FAILED(pGameInstance->Add_Component(CTexture::familyId + 10001, this, LEVEL_BASECAMP, TEXT("Prototype_Component_Texture_Brush"),
 		(CComponent**)&m_pTextureCom[TYPE_BRUSH], nullptr)))
 		return E_FAIL;
 

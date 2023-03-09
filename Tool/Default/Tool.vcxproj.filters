@@ -93,7 +93,7 @@
     <ClInclude Include="..\Public\MainApp.h">
       <Filter>00. MainApp</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Level_GamePlay.h">
+    <ClInclude Include="..\Public\Level_BaseCamp.h">
       <Filter>01. Levels\GamePlay</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Loader.h">
@@ -261,7 +261,7 @@
     <ClCompile Include="..\Private\TextureUI.cpp">
       <Filter>02. GameObject\UI\TextureUI</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Level_GamePlay.cpp">
+    <ClCompile Include="..\Private\Level_BaseCamp.cpp">
       <Filter>01. Levels\GamePlay</Filter>
     </ClCompile>
   </ItemGroup>

@@ -168,7 +168,7 @@
     <ClInclude Include="..\Public\DataToolGUI.h" />
     <ClInclude Include="..\Public\FileDialogUtill.h" />
     <ClInclude Include="..\Public\FlatTerrain.h" />
-    <ClInclude Include="..\Public\Level_GamePlay.h" />
+    <ClInclude Include="..\Public\Level_BaseCamp.h" />
     <ClInclude Include="..\Public\Level_Loading.h" />
     <ClInclude Include="..\Public\Level_Logo.h" />
     <ClInclude Include="..\Public\Loader.h" />
@@ -200,7 +200,7 @@
     <ClCompile Include="..\Private\DataToolGUI.cpp" />
     <ClCompile Include="..\Private\FileDialogUtill.cpp" />
     <ClCompile Include="..\Private\FlatTerrain.cpp" />
-    <ClCompile Include="..\Private\Level_GamePlay.cpp" />
+    <ClCompile Include="..\Private\Level_BaseCamp.cpp" />
     <ClCompile Include="..\Private\Level_Loading.cpp" />
     <ClCompile Include="..\Private\Level_Logo.cpp" />
     <ClCompile Include="..\Private\Loader.cpp" />

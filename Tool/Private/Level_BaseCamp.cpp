@@ -1,18 +1,18 @@
 #include "stdafx.h"
-#include "..\Public\Level_GamePlay.h"
+#include "..\Public\Level_BaseCamp.h"
 
 #include "GameInstance.h"
 #include "Camera_Dynamic.h"
 #include "Player.h"
 #include "Utility.h"
 
-CLevel_GamePlay::CLevel_GamePlay(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CLevel_BaseCamp::CLevel_BaseCamp(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
 {
 
 }
 
-HRESULT CLevel_GamePlay::Initialize()
+HRESULT CLevel_BaseCamp::Initialize()
 {
 	if (FAILED(Ready_LightDesc()))
 		return E_FAIL;
@@ -35,34 +35,34 @@ HRESULT CLevel_GamePlay::Initialize()
 	return S_OK;
 }
 
-void CLevel_GamePlay::Tick(_double TimeDelta)
+void CLevel_BaseCamp::Tick(_double TimeDelta)
 {
 #ifdef _DEBUG
 	SetWindowText(g_hWnd, TEXT("게임플레이레벨임"));
 #endif
 }
 
-HRESULT CLevel_GamePlay::Ready_Layer_Terrain(const _tchar* pLayerTag)
+HRESULT CLevel_BaseCamp::Ready_Layer_Terrain(const _tchar* pLayerTag)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	if (FAILED(pGameInstance->Add_Layer(LEVEL_GAMEPLAY, pLayerTag)))
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_BASECAMP, pLayerTag)))
 		return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_FlatTerrain"), LEVEL_GAMEPLAY, pLayerTag, L"Terrain")))
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_FlatTerrain"), LEVEL_BASECAMP, pLayerTag, L"Terrain")))
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);
 	return S_OK;
 }
 
-HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _tchar* pLayerTag)
+HRESULT CLevel_BaseCamp::Ready_Layer_Camera(const _tchar* pLayerTag)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	if (FAILED(pGameInstance->Add_Layer(LEVEL_GAMEPLAY, pLayerTag)))
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_BASECAMP, pLayerTag)))
 		return E_FAIL;
 
 	//CCamera_Dynamic::CAMERA_DYNAMIC_DESC		CameraDynamicDesc;
@@ -83,34 +83,34 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _tchar* pLayerTag)
 	//CameraDynamicDesc.CameraDesc.TransformDesc.SpeedPerSec = 20.f;
 	//CameraDynamicDesc.CameraDesc.TransformDesc.RotationPerSec = XMConvertToRadians(180.0f);
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Camera_Dynamic"), LEVEL_GAMEPLAY, pLayerTag, L"Main_Camera", "../camera_data.json", CLONE_FILEPATH)))
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Camera_Dynamic"), LEVEL_BASECAMP, pLayerTag, L"Main_Camera", "../camera_data.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);
 	return S_OK;
 }
 
-HRESULT CLevel_GamePlay::Ready_Layer_Env(const _tchar* pLayerTag)
+HRESULT CLevel_BaseCamp::Ready_Layer_Env(const _tchar* pLayerTag)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	if (FAILED(pGameInstance->Add_Layer(LEVEL_GAMEPLAY, pLayerTag)))
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_BASECAMP, pLayerTag)))
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);
 	return S_OK;
 }
 
-HRESULT CLevel_GamePlay::Ready_Layer_Player(const _tchar* pLayerTag)
+HRESULT CLevel_BaseCamp::Ready_Layer_Player(const _tchar* pLayerTag)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	if (FAILED(pGameInstance->Add_Layer(LEVEL_GAMEPLAY, pLayerTag)))
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_BASECAMP, pLayerTag)))
 		return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Player"), LEVEL_GAMEPLAY, pLayerTag)))
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Player"), LEVEL_BASECAMP, pLayerTag)))
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);
@@ -118,12 +118,12 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _tchar* pLayerTag)
 	return S_OK;
 }
 
-HRESULT CLevel_GamePlay::Ready_Layer_UI(const _tchar* pLayerTag)
+HRESULT CLevel_BaseCamp::Ready_Layer_UI(const _tchar* pLayerTag)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	//if (FAILED(pGameInstance->Add_Layer(LEVEL_GAMEPLAY, pLayerTag)))
+	//if (FAILED(pGameInstance->Add_Layer(LEVEL_BASECAMP, pLayerTag)))
 	//	return E_FAIL;
 
 	//CModelUI::UI_DESC desc = {};
@@ -135,7 +135,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI(const _tchar* pLayerTag)
 
 	//lstrcpy(desc.m_TextureProtoTypeName, TEXT("Prototype_Component_Model_Loading_Scene"));
 
-	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ModelUI"), LEVEL_GAMEPLAY, pLayerTag, nullptr, &desc)))
+	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ModelUI"), LEVEL_BASECAMP, pLayerTag, nullptr, &desc)))
 	//	return E_FAIL;
 
 
@@ -144,7 +144,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI(const _tchar* pLayerTag)
 	return S_OK;
 }
 
-HRESULT CLevel_GamePlay::Ready_LightDesc()
+HRESULT CLevel_BaseCamp::Ready_LightDesc()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
@@ -165,20 +165,20 @@ HRESULT CLevel_GamePlay::Ready_LightDesc()
 	return S_OK;
 }
 
-CLevel_GamePlay* CLevel_GamePlay::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CLevel_BaseCamp* CLevel_BaseCamp::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CLevel_GamePlay* pInstance = new CLevel_GamePlay(pDevice, pContext);
+	CLevel_BaseCamp* pInstance = new CLevel_BaseCamp(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize()))
 	{
-		MSG_BOX("Failed to Created CLevel_GamePlay");
+		MSG_BOX("Failed to Created CLevel_BaseCamp");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CLevel_GamePlay::Free()
+void CLevel_BaseCamp::Free()
 {
 	__super::Free();
 

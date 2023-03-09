@@ -348,7 +348,7 @@ void CMapToolGUI::TerrainMenu()
 	{
 		if (m_iTerrainCntX < 10 || m_iTerrainCntZ < 10)
 			return;
-		CComponent* pTerrain_VIbuffer = CGameInstance::GetInstance()->Get_Component(CVIBuffer_FlatTerrain::familyId, LEVEL_GAMEPLAY, L"Layer_Terrain", L"Terrain");
+		CComponent* pTerrain_VIbuffer = CGameInstance::GetInstance()->Get_Component(CVIBuffer_FlatTerrain::familyId, LEVEL_BASECAMP, L"Layer_Terrain", L"Terrain");
 		if (pTerrain_VIbuffer)
 		{
 			dynamic_cast<CVIBuffer_FlatTerrain*>(pTerrain_VIbuffer)->ReSize({ (_uint)m_iTerrainCntX , (_uint)m_iTerrainCntZ });
@@ -357,7 +357,7 @@ void CMapToolGUI::TerrainMenu()
 
 	if (ImGui::Button("Terrain Mask Size Update"))
 	{
-		CTexture* pMaskTexture = dynamic_cast<CTexture*>(CGameInstance::GetInstance()->Get_Component(FAMILY_ID_TEXTURE_MASK, LEVEL_GAMEPLAY, L"Layer_Terrain", L"Terrain"));
+		CTexture* pMaskTexture = dynamic_cast<CTexture*>(CGameInstance::GetInstance()->Get_Component(FAMILY_ID_TEXTURE_MASK, LEVEL_BASECAMP, L"Layer_Terrain", L"Terrain"));
 		if (nullptr == pMaskTexture)
 			return;
 
@@ -432,11 +432,11 @@ HRESULT CMapToolGUI::Get_Picking_Terrain_Pos(_float3* pVOutPutPos)
 	if (pVOutPutPos == nullptr)
 		return E_FAIL;
 
-	CVIBuffer_FlatTerrain* ptex = dynamic_cast<CVIBuffer_FlatTerrain*>(CGameInstance::GetInstance()->Get_Component(CVIBuffer_FlatTerrain::familyId, LEVEL_GAMEPLAY, L"Layer_Terrain", L"Terrain"));
+	CVIBuffer_FlatTerrain* ptex = dynamic_cast<CVIBuffer_FlatTerrain*>(CGameInstance::GetInstance()->Get_Component(CVIBuffer_FlatTerrain::familyId, LEVEL_BASECAMP, L"Layer_Terrain", L"Terrain"));
 	if (nullptr == ptex)
 		return E_FAIL;
 
-	CTransform* pTransCom = dynamic_cast<CTransform*>(CGameInstance::GetInstance()->Get_Component(CTransform::familyId, LEVEL_GAMEPLAY, L"Layer_Terrain", L"Terrain"));
+	CTransform* pTransCom = dynamic_cast<CTransform*>(CGameInstance::GetInstance()->Get_Component(CTransform::familyId, LEVEL_BASECAMP, L"Layer_Terrain", L"Terrain"));
 	if (nullptr == pTransCom)
 		return E_FAIL;
 
@@ -445,7 +445,7 @@ HRESULT CMapToolGUI::Get_Picking_Terrain_Pos(_float3* pVOutPutPos)
 	_float2 size = { m_pRootViewport->Size.x,  m_pRootViewport->Size.y };
 	_float3 vPos = m_pCalculator->Picking_OnTerrain(g_hWnd, size, ptex, pTransCom);
 
-	CVIBuffer_FlatTerrain* pTerrainBufferCom = dynamic_cast<CVIBuffer_FlatTerrain*>(CGameInstance::GetInstance()->Get_Component(CVIBuffer_FlatTerrain::familyId, LEVEL_GAMEPLAY, L"Layer_Terrain", L"Terrain"));
+	CVIBuffer_FlatTerrain* pTerrainBufferCom = dynamic_cast<CVIBuffer_FlatTerrain*>(CGameInstance::GetInstance()->Get_Component(CVIBuffer_FlatTerrain::familyId, LEVEL_BASECAMP, L"Layer_Terrain", L"Terrain"));
 	if (nullptr == pTerrainBufferCom)
 		return E_FAIL;
 
@@ -474,7 +474,7 @@ void CMapToolGUI::Move_Brush()
 {
 	Get_Picking_Terrain_Pos(&m_vBrushPos);
 
-	CTexture* pBrushTexture = dynamic_cast<CTexture*>(CGameInstance::GetInstance()->Get_Component(FAMILY_ID_TEXTURE_BRUSH, LEVEL_GAMEPLAY, L"Layer_Terrain", L"Terrain"));
+	CTexture* pBrushTexture = dynamic_cast<CTexture*>(CGameInstance::GetInstance()->Get_Component(FAMILY_ID_TEXTURE_BRUSH, LEVEL_BASECAMP, L"Layer_Terrain", L"Terrain"));
 	if (nullptr == pBrushTexture)
 		return;
 
@@ -485,7 +485,7 @@ void CMapToolGUI::Move_Brush()
 		if (nullptr == pTerrainMaskPixel)
 			Terrain_Mask_Pixels_Copy();
 
-		CTexture* pMaskTexture = dynamic_cast<CTexture*>(CGameInstance::GetInstance()->Get_Component(FAMILY_ID_TEXTURE_MASK, LEVEL_GAMEPLAY, L"Layer_Terrain", L"Terrain"));
+		CTexture* pMaskTexture = dynamic_cast<CTexture*>(CGameInstance::GetInstance()->Get_Component(FAMILY_ID_TEXTURE_MASK, LEVEL_BASECAMP, L"Layer_Terrain", L"Terrain"));
 		if (nullptr == pMaskTexture)
 			return;
 
@@ -500,7 +500,7 @@ void CMapToolGUI::Move_Brush()
 		if (nullptr == pTerrainMaskPixel)
 			Terrain_Mask_Pixels_Copy();
 
-		CTexture* pMaskTexture = dynamic_cast<CTexture*>(CGameInstance::GetInstance()->Get_Component(FAMILY_ID_TEXTURE_MASK, LEVEL_GAMEPLAY, L"Layer_Terrain", L"Terrain"));
+		CTexture* pMaskTexture = dynamic_cast<CTexture*>(CGameInstance::GetInstance()->Get_Component(FAMILY_ID_TEXTURE_MASK, LEVEL_BASECAMP, L"Layer_Terrain", L"Terrain"));
 		if (nullptr == pMaskTexture)
 			return;
 
@@ -516,7 +516,7 @@ HRESULT CMapToolGUI::Terrain_Mask_Pixels_Copy()
 {
 	Safe_Delete_Array(pTerrainMaskPixel);
 
-	CTexture* pMaskTexture = dynamic_cast<CTexture*>(CGameInstance::GetInstance()->Get_Component(FAMILY_ID_TEXTURE_MASK, LEVEL_GAMEPLAY, L"Layer_Terrain", L"Terrain"));
+	CTexture* pMaskTexture = dynamic_cast<CTexture*>(CGameInstance::GetInstance()->Get_Component(FAMILY_ID_TEXTURE_MASK, LEVEL_BASECAMP, L"Layer_Terrain", L"Terrain"));
 	if (nullptr == pMaskTexture)
 		return E_FAIL;
 

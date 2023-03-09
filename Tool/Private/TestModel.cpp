@@ -84,12 +84,12 @@ HRESULT CTestModel::Add_Components()
 		return E_FAIL;
 
 	/* For.Com_Shader */
-	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_GAMEPLAY, TEXT("Prototype_Component_Shader_VtxNorTex"),
+	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_BASECAMP, TEXT("Prototype_Component_Shader_VtxNorTex"),
 		(CComponent**)&m_pShaderCom, nullptr)))
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(pGameInstance->Add_Component(CTexture::familyId, this, LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Terrain"),
+	if (FAILED(pGameInstance->Add_Component(CTexture::familyId, this, LEVEL_BASECAMP, TEXT("Prototype_Component_Texture_Terrain"),
 		(CComponent**)&m_pTextureCom, nullptr)))
 		return E_FAIL;
 
