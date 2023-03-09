@@ -44,6 +44,13 @@ HRESULT CCamera_Dynamic::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, 
 _uint CCamera_Dynamic::Tick(_double TimeDelta)
 {
 	Key_Input(TimeDelta);
+
+	if (m_pTransform)
+	{
+		XMStoreFloat4(&m_CameraDesc.vEye, m_pTransform->Get_State(CTransform::STATE_POSITION));
+		XMStoreFloat4(&m_CameraDesc.vAt, m_pTransform->Get_State(CTransform::STATE_POSITION) + m_pTransform->Get_State(CTransform::STATE_LOOK));
+	}
+
 	m_CameraDynamicDesc.CameraDesc = m_CameraDesc;
 
 	return __super::Tick(TimeDelta);

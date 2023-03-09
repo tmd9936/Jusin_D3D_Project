@@ -3,8 +3,6 @@
 
 #include "GameInstance.h"
 
-#include <codecvt>
-
 
 CStove::CStove(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)

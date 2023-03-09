@@ -31,6 +31,11 @@ public:
 	virtual _uint Tick(_double TimeDelta) override;
 	virtual _uint LateTick(_double TimeDelta) override;
 
+public:
+	CAMERADESC	Get_CameraDesc() {
+		return m_CameraDesc;
+	}
+
 protected:
 	CTransform* m_pTransform = { nullptr };
 	CPipeLine* m_pPipeLine = { nullptr };

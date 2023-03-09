@@ -64,7 +64,7 @@ public:
 		m_PrefabName = PrefabName;
 	}
 
-	void	Add_Environment();
+	void	Add_GameObject();
 
 	HRESULT	Change_ViewerObject(const wstring& PrefabName, _uint iLevelindex, const wstring LayerTag, void* pArg = nullptr);
 
@@ -106,7 +106,7 @@ private:
 	vector<string*>			m_vecEnvironment;
 	vector<string*>			m_vecMap;
 
-	ImGuiViewport* m_pRootViewport = { nullptr };
+	ImGuiViewport*			m_pRootViewport = { nullptr };
 	//ImGuiViewport* m_pviewport = { nullptr };
 
 	//ImGui_ImplDX11_ViewportData** m_pVd = { nullptr };
@@ -117,13 +117,13 @@ private:
 
 	wstring				m_PrefabName = {};
 
-	POINT		m_ptMouse = {};
+	POINT				m_ptMouse = {};
 
-	_float3		m_vBrushPos = {};
+	_float3				m_vBrushPos = {};
 
-	_uint* pTerrainMaskPixel = { nullptr };
+	_uint*				pTerrainMaskPixel = { nullptr };
 
-	_bool		m_bMapToolOpen = { true };
+	_bool				m_bMapToolOpen = { true };
 
 private:
 	CCalculator* m_pCalculator		= { nullptr };

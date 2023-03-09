@@ -12,6 +12,8 @@
 #include "Calculator.h"
 #include "DataToolGUI.h"
 
+#include "Camera.h"
+
 #include <codecvt>
 
 using namespace rapidjson;
@@ -124,6 +126,21 @@ HRESULT CMapToolGUI::Render()
 
 		ImGui::Text("MousePos: X %d, Y %d", m_ptMouse.x, m_ptMouse.y);
 		ImGui::Text("BrushPos: X %.2f, Z %.2f", m_vBrushPos.x, m_vBrushPos.z);
+
+		const _uint iLevelindex = CDataToolGUI::GetInstance()->Get_Current_Levelindex();
+		CCamera* pCamera = (CCamera*)CGameInstance::GetInstance()->Get_Object(iLevelindex, L"Layer_Camera", L"Main_Camera");
+		if(pCamera)
+		{ 
+			CCamera::CAMERADESC camera_desc = pCamera->Get_CameraDesc();
+			ImGui::Text("Main Camera");
+
+			ImGui::Text("vEye: X %.2f, Y %.2f, Z %.2f", camera_desc.vEye.x, camera_desc.vEye.y, camera_desc.vEye.z);
+			ImGui::Text("vAt: X %.2f, Y %.2f, Z %.2f", camera_desc.vAt.x, camera_desc.vAt.y, camera_desc.vAt.z);
+			ImGui::Text("vAxisY: %.2f", camera_desc.vAxisY);
+			ImGui::Text("fFovy: %.2f, fAspect: %.2f, fNear: %.2f, fFar: %.2f", camera_desc.fFovy, camera_desc.fAspect, camera_desc.fNear, camera_desc.fFar);
+
+
+		}
 
 	}
 	ImGui::End();
@@ -249,27 +266,27 @@ void CMapToolGUI::Slider()
 		
 		ImGui::Text("Set_Scale");
 		ImGui::PushItemWidth(100);
-		ImGui::DragFloat("ScaleX", &m_vScale.x);
+		ImGui::DragFloat("ScaleX", &m_vScale.x, 0.2f);
 		ImGui::SameLine(); ImGui::SameLine();
-		ImGui::DragFloat("ScaleY", &m_vScale.y);
+		ImGui::DragFloat("ScaleY", &m_vScale.y, 0.2f);
 		ImGui::SameLine(); ImGui::SameLine();
-		ImGui::DragFloat("ScaleZ", &m_vScale.z);
+		ImGui::DragFloat("ScaleZ", &m_vScale.z, 0.2f);
 
 		ImGui::Text("Set_Rot");
 		ImGui::PushItemWidth(100);
-		ImGui::DragFloat("RotX", &m_vRot.x);
+		ImGui::DragFloat("RotX", &m_vRot.x, 0.2f);
 		ImGui::SameLine(); ImGui::SameLine();
-		ImGui::DragFloat("RotY", &m_vRot.y);
+		ImGui::DragFloat("RotY", &m_vRot.y, 0.2f);
 		ImGui::SameLine(); ImGui::SameLine();
-		ImGui::DragFloat("RotZ", &m_vRot.z);
+		ImGui::DragFloat("RotZ", &m_vRot.z, 0.2f);
 
 		ImGui::Text("Set_Pos");
 		ImGui::PushItemWidth(100);
-		ImGui::DragFloat("PosX", &m_vPos.x);
+		ImGui::DragFloat("PosX", &m_vPos.x, 0.2f);
 		ImGui::SameLine(); ImGui::SameLine();
-		ImGui::DragFloat("PosY", &m_vPos.y);
+		ImGui::DragFloat("PosY", &m_vPos.y, 0.2f);
 		ImGui::SameLine(); ImGui::SameLine();
-		ImGui::DragFloat("PosZ", &m_vPos.z);
+		ImGui::DragFloat("PosZ", &m_vPos.z, 0.2f);
 
 		ImGui::PopItemWidth();
 
@@ -394,15 +411,11 @@ void CMapToolGUI::TerrainMenu()
 
 	if (ImGui::Button("Terrain_Wire_On_Off"))
 	{
-		const wstring* layerTag = CDataToolGUI::GetInstance()->Get_Current_LayerName();
 		const _uint iLevelindex = CDataToolGUI::GetInstance()->Get_Current_Levelindex();
 
-		if (layerTag)
-		{ 
-			CGameObject* pTerrain = CGameInstance::GetInstance()->Get_Object(iLevelindex, layerTag->c_str(), L"Terrain");
-			if (pTerrain)
-				dynamic_cast<CFlatTerrain*>(pTerrain)->Switch_Wire();
-		}
+		CGameObject* pTerrain = CGameInstance::GetInstance()->Get_Object(iLevelindex, L"Layer_Terrain", L"Terrain");
+		if (pTerrain)
+			dynamic_cast<CFlatTerrain*>(pTerrain)->Switch_Wire();
 
 	}
 }
@@ -437,7 +450,7 @@ void CMapToolGUI::Update_Data()
 		break;
 
 	case ADD:
-		Add_Environment();
+		Add_GameObject();
 		Update_ViewerGameObject();
 		break;
 
@@ -561,7 +574,7 @@ HRESULT CMapToolGUI::Terrain_Mask_Pixels_Copy()
 	return S_OK;
 }
 
-void CMapToolGUI::Add_Environment()
+void CMapToolGUI::Add_GameObject()
 {
 	if (MOUSE_TAB(MOUSE::LBTN) && Mouse_Pos_In_Platform())
 	{
