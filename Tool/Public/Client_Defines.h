@@ -20,8 +20,8 @@ typedef struct tag_My_float4
 
 }MYFLOAT4;
 
-#define		DEFAULT_TERRAIN_WIDTH	128
-#define		DEFAULT_TERRAIN_HEIGHT	128
+#define		DEFAULT_TERRAIN_WIDTH	64
+#define		DEFAULT_TERRAIN_HEIGHT	64
 
 extern HINSTANCE g_hInst;
 extern HWND g_hWnd;

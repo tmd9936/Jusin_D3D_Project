@@ -174,7 +174,7 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 	//	return E_FAIL;
 
 	/* For.Prototype_Component_Model_BaseCamp_Field */
-	PivotMatrix = XMMatrixScaling(0.1f, 0.1f, 0.1f);
+	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Model_BaseCamp_Field"),
 		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../../Reference/Resources/Mesh/Animation/Basecamp/BC_field.fbx", PivotMatrix))))
 		return E_FAIL;

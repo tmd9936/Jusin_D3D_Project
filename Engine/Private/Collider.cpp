@@ -7,8 +7,8 @@ CCollider::CCollider(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGame
 	: CVIBuffer(pDevice, pContext, pOwner)
 	, m_iID(g_iColliderID++)
 {
-	m_vMin = { -0.5f, -0.5f, -0.5f };
-	m_vMax = { 0.5f, 0.5f, 0.5f };
+	m_vMin = { -1.f, -1.f, -1.f };
+	m_vMax = { 1.f, 1.f, 1.f };
 }
 
 CCollider::CCollider(const CCollider& rhs, CGameObject* pOwner)
@@ -62,15 +62,15 @@ HRESULT CCollider::Initialize_Prototype()
 	m_pVtxWire = new VTXWIRE[m_iNumVertices];
 	ZeroMemory(m_pVtxWire, m_iStride * m_iNumVertices);
 
-	m_pVtxWire[0].vPosition = _float3(-0.5f, 0.5f, -0.5f);
-	m_pVtxWire[1].vPosition = _float3(0.5f, 0.5f, -0.5f);
-	m_pVtxWire[2].vPosition = _float3(0.5f, -0.5f, -0.5f);
-	m_pVtxWire[3].vPosition = _float3(-0.5f, -0.5f, -0.5f);
+	m_pVtxWire[0].vPosition = _float3(-1.f, 1.f, -1.f);
+	m_pVtxWire[1].vPosition = _float3(1.f, 1.f, -1.f);
+	m_pVtxWire[2].vPosition = _float3(1.f, -1.f, -1.f);
+	m_pVtxWire[3].vPosition = _float3(-1.f, -1.f, -1.f);
 					
-	m_pVtxWire[4].vPosition = _float3(-0.5f, 0.5f, 0.5f);
-	m_pVtxWire[5].vPosition = _float3(0.5f, 0.5f, 0.5f);
-	m_pVtxWire[6].vPosition = _float3(0.5f, -0.5f, 0.5f);
-	m_pVtxWire[7].vPosition = _float3(-0.5f, -0.5f, 0.5f);
+	m_pVtxWire[4].vPosition = _float3(-1.f, 1.f, 1.f);
+	m_pVtxWire[5].vPosition = _float3(1.f, 1.f, 1.f);
+	m_pVtxWire[6].vPosition = _float3(1.f, -1.f, 1.f);
+	m_pVtxWire[7].vPosition = _float3(-1.f, -1.f, 1.f);
 
 	m_SubResourceData.pSysMem = m_pVtxWire;
 

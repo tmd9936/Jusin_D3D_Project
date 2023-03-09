@@ -365,9 +365,24 @@ void CMapToolGUI::TerrainMenu()
 
 		Terrain_Mask_Pixels_Copy();
 	} ImGui::SameLine();
+
 	if (ImGui::Button("Terrain Mask Data Copy"))
 	{
 		Terrain_Mask_Pixels_Copy();
+	}
+
+	if (ImGui::Button("Terrain_Wire_On_Off"))
+	{
+		const wstring* layerTag = CDataToolGUI::GetInstance()->Get_Current_LayerName();
+		const _uint iLevelindex = CDataToolGUI::GetInstance()->Get_Current_Levelindex();
+
+		if (layerTag)
+		{ 
+			CGameObject* pTerrain = CGameInstance::GetInstance()->Get_Object(iLevelindex, layerTag->c_str(), L"Terrain");
+			if (pTerrain)
+				dynamic_cast<CFlatTerrain*>(pTerrain)->Switch_Wire();
+		}
+
 	}
 }
 

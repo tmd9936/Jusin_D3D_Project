@@ -29,12 +29,21 @@ public:
 	virtual _uint LateTick(_double TimeDelta) override;
 	virtual HRESULT Render() override;
 
+public:
+	void		Switch_Wire() { 
+		m_bWire = !m_bWire;
+	}
+
+
 private:
 	CRenderer* m_pRendererCom = { nullptr };
 	CShader* m_pShaderCom = { nullptr };
 	CVIBuffer_FlatTerrain* m_pVIBufferCom = { nullptr };
 	CTexture* m_pTextureCom[TYPE_END] = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
+
+private:
+	_bool			m_bWire = { true };
 
 private:
 	HRESULT Add_Components();
