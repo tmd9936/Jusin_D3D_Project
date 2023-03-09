@@ -2,6 +2,14 @@
 
 namespace Engine
 {
+	typedef struct tagKeyFrame
+	{
+		XMFLOAT3		vScale;
+		XMFLOAT4		vRotation;
+		XMFLOAT3		vPosition;
+		double			Time;
+	}KEYFRAME;
+
 	/* 메시에게 적용하기위한 머테리얼텍스쳐들(Diffuse, AMbient, Specular, Normal) */
 	typedef struct tagMeshMaterial
 	{

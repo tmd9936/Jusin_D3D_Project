@@ -2,6 +2,7 @@
 #include "Mesh.h"
 #include "Texture.h"
 #include "Bone.h"
+#include "Animation.h"
 
 CModel::CModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner)
 	: CComponent(pDevice, pContext, pOwner)
@@ -17,6 +18,7 @@ CModel::CModel(const CModel& rhs, CGameObject* pOwner)
 	, m_Materials(rhs.m_Materials)
 	, m_Bones(rhs.m_Bones)
 	, m_PivotMatrix(rhs.m_PivotMatrix)
+	, m_Animations(rhs.m_Animations)
 {
 	for (auto& pMesh : m_Meshes)
 		Safe_AddRef(pMesh);
@@ -29,6 +31,9 @@ CModel::CModel(const CModel& rhs, CGameObject* pOwner)
 
 	for (auto& pBone : m_Bones)
 		Safe_AddRef(pBone);
+
+	for (auto& pAnimation : m_Animations)
+		Safe_AddRef(pAnimation);
 }
 
 CBone* CModel::Get_BonePtr(const char* pBoneName)
@@ -73,7 +78,7 @@ HRESULT CModel::Initialize_Prototype(TYPE eType, const char* pModelFilePath, _fm
 	if (nullptr == m_pAIScene)
 		return E_FAIL;
 
-	if (FAILED(Ready_Bones(m_pAIScene->mRootNode)))
+	if (FAILED(Ready_Bones(m_pAIScene->mRootNode, nullptr)))
 		return E_FAIL;
 
 	/* 모델을 구성하는 메시들을 생성한다.(버텍스, 인덱스버퍼를 생성하는 것이다.) */
@@ -81,6 +86,9 @@ HRESULT CModel::Initialize_Prototype(TYPE eType, const char* pModelFilePath, _fm
 		return E_FAIL;
 
 	if (FAILED(Ready_Materials(pModelFilePath)))
+		return E_FAIL;
+
+	if (FAILED(Ready_Animations()))
 		return E_FAIL;
 
 	return S_OK;
@@ -107,6 +115,23 @@ HRESULT CModel::SetUp_ShaderResource(CShader* pShader, const char* pConstantName
 	return S_OK;
 }
 
+void CModel::Play_Animation(_double TimeDelta)
+{
+	/* 실제 파일에 저장되어있었던 뼈의 각각의 시간에 맞는 상태로 뼈들의 상태를 변경하고.
+	이렇게 변경된 뼈들의 상태를 부모에서부터 자식으로 순차적으로 누적하여 셋팅해나간다. */
+	/*모든 뼈의 상태를 갱신한다.*/
+
+	/* CAnimation : 특정 동작을 표현하는 객체. */
+	/* : 이 동작을 구현하기위해 필요한 뼈들의 상태정보(시간에따라 다수, m_TransformationMatrix)를 가진다. */
+	m_Animations[m_iCurrentAnimationIndex]->Update(TimeDelta);
+
+	/* 최상위 부모뼈부터 시작하여 최하위 자식뼈까지 전체를 순회하며 Combine행렬을 다시 만들어낸다. */
+	for (auto& pBone : m_Bones)
+	{
+		pBone->SetUp_CombinedTransformationMatrix();
+	}
+}
+
 HRESULT CModel::Render(_uint iMeshIndex)
 {
 	if (nullptr != m_Meshes[iMeshIndex])
@@ -115,9 +140,9 @@ HRESULT CModel::Render(_uint iMeshIndex)
 	return S_OK;
 }
 
-HRESULT CModel::Ready_Bones(aiNode* pAINode)
+HRESULT CModel::Ready_Bones(aiNode* pAINode, CBone* pParent)
 {
-	CBone* pBone = CBone::Create(pAINode);
+	CBone* pBone = CBone::Create(pAINode, pParent);
 	if (nullptr == pBone)
 		return E_FAIL;
 
@@ -125,7 +150,23 @@ HRESULT CModel::Ready_Bones(aiNode* pAINode)
 
 	for (_uint i = 0; i < pAINode->mNumChildren; ++i)
 	{
-		Ready_Bones(pAINode->mChildren[i]);
+		Ready_Bones(pAINode->mChildren[i], pBone);
+	}
+
+	return S_OK;
+}
+
+HRESULT CModel::Ready_Animations()
+{
+	m_iNumAnimations = m_pAIScene->mNumAnimations;
+
+	for (_uint i = 0; i < m_iNumAnimations; ++i)
+	{
+		CAnimation* pAnimation = CAnimation::Create(m_pAIScene->mAnimations[i]);
+		if (nullptr == pAnimation)
+			return E_FAIL;
+
+		m_Animations.push_back(pAnimation);
 	}
 
 	return S_OK;
@@ -254,7 +295,6 @@ void CModel::Free()
 
 	for (auto& pMesh : m_Meshes)
 		Safe_Release(pMesh);
-
 	m_Meshes.clear();
 
 	for (auto& Material : m_Materials)
@@ -262,13 +302,15 @@ void CModel::Free()
 		for (auto& pTexture : Material.pMtrlTexture)
 			Safe_Release(pTexture);
 	}
+	m_Materials.clear();
 
 	for (auto& pBone : m_Bones)
 		Safe_Release(pBone);
-
 	m_Bones.clear();
 
-	m_Materials.clear();
+	for (auto& pAnimation : m_Animations)
+		Safe_Release(pAnimation);
+	m_Animations.clear();
 
 	m_Importer.FreeScene();
 }
