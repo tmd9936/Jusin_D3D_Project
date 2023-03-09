@@ -56,6 +56,8 @@ public:
 
 	void	Picking_GameObject();
 
+	void	Set_Picking_GameObject(CGameObject* pGameObject);
+
 	void	Remove_PickingObject();
 
 	void	Set_PrefabName(const wstring& PrefabName) {

@@ -257,7 +257,7 @@ HRESULT CObject_Manager::Remove_All_GameObject_In_Layer(_uint iLevelIndex, const
 	return S_OK;
 }
 
-HRESULT CObject_Manager::Get_All_GameObject_In_Layer(vector<const CGameObject*>& result, _uint iLevelIndex, const _tchar* pLayerTag)
+HRESULT CObject_Manager::Get_All_GameObject_In_Layer(vector<CGameObject*>& result, _uint iLevelIndex, const _tchar* pLayerTag)
 {
 	if (nullptr == pLayerTag)
 		return E_FAIL;

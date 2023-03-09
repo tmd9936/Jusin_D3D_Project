@@ -78,7 +78,7 @@ private:
 	wstring					m_CurrentPrefabName = {};
 	wstring					m_CurrentLayerName = {};
 
-	unordered_map<const char*, vector<const CGameObject*>>		m_LevelGameObjects;
+	unordered_map<const char*, vector<CGameObject*>>		m_LevelGameObjects;
 
 public:
 	virtual void Free(void) override;

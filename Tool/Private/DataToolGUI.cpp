@@ -193,7 +193,7 @@ void CDataToolGUI::Tree_Level_Objects()
 
 		if (opened)
 		{
-			for (const CGameObject* object : iter.second)
+			for (CGameObject* object : iter.second)
 			{
 				if (nullptr != object)
 				{
@@ -218,7 +218,7 @@ void CDataToolGUI::Tree_Level_Objects()
 
 					if (objectOpen)
 					{
-
+						CMapToolGUI::GetInstance()->Set_Picking_GameObject(object);
 						map<FamilyId, const CComponent*> components;
 						object->Get_Components(components);
 						flags = ImGuiTreeNodeFlags_Leaf;
@@ -283,7 +283,7 @@ void CDataToolGUI::Update_LevelGameObjects()
 	{
 		wstring layerName = convert.from_bytes(m_LayerListBox[i]);
 
-		vector<const CGameObject*> objects;
+		vector<CGameObject*> objects;
 
 		CGameInstance::GetInstance()->Get_All_GameObject_In_Layer(objects, m_iLevelListBoxCurrentItem, layerName.c_str());
 

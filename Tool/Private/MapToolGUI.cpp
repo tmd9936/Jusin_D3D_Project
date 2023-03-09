@@ -181,6 +181,27 @@ void CMapToolGUI::Picking_GameObject()
 	}
 }
 
+void CMapToolGUI::Set_Picking_GameObject(CGameObject* pGameObject)
+{
+	if (nullptr == pGameObject)
+		return;
+
+	//const wstring* layerTag = CDataToolGUI::GetInstance()->Get_Current_LayerName();
+	//const _uint iLevelindex = CDataToolGUI::GetInstance()->Get_Current_Levelindex();
+
+	m_pPickingObject = pGameObject;
+
+	CTransform* pTransform = dynamic_cast<CTransform*>(CGameInstance::GetInstance()->Get_Component(CTransform::familyId, m_pPickingObject));
+
+	m_vScale = pTransform->Get_Scaled();
+	m_vRot = pTransform->Get_Rotate();
+	m_vRot.x = XMConvertToDegrees(m_vRot.x);
+	m_vRot.y = XMConvertToDegrees(m_vRot.y);
+	m_vRot.z = XMConvertToDegrees(m_vRot.z);
+
+	XMStoreFloat3(&m_vPos, pTransform->Get_State(CTransform::STATE_POSITION));
+}
+
 void CMapToolGUI::Remove_PickingObject()
 {
 	if (m_pPickingObject)

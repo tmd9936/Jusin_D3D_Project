@@ -24,7 +24,7 @@ public:
 
 	HRESULT Remove_Component(const FamilyId& familyId, CGameObject* pObj);
 
-	void Get_All_GameObject_In_Layer(vector<const CGameObject*>& result);
+	void Get_All_GameObject_In_Layer(vector<CGameObject*>& result);
 
 private:
 	HRESULT Erase_GameObject(CGameObject* pObj);

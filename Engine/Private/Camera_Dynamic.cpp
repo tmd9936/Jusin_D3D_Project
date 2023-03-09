@@ -184,7 +184,7 @@ void CCamera_Dynamic::Key_Input(const _double TimeDelta)
 		m_pTransform->Go_Right(_float(TimeDelta));
 
 	if (KEY_TAB(KEY::V))
-		Save_By_JsonFile("../camera_data.json");
+		Save_By_JsonFile("../../Reference/Resources/Data/Scene/BaseCamp/Camera_data.json");
 	
 	if (m_bMouseMove)
 	{
