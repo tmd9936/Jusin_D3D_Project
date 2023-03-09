@@ -9,6 +9,7 @@
 #include "TestModel.h"
 #include "ModelUI.h"
 #include "Map.h"
+#include "Stove.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
@@ -179,6 +180,11 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../../Reference/Resources/Mesh/Animation/Basecamp/BC_field.fbx", PivotMatrix))))
 		return E_FAIL;
 
+	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Model_BaseCamp_Stove"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../../Reference/Resources/Mesh/NonAnimation/Basecamp/BC_stove.fbx", PivotMatrix))))
+		return E_FAIL;
+
 	//PivotMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f);
 	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Model_WolrdMap_Island"),
 	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../../Reference/Resources/Mesh/Animation/WorldMap/W_island.fbx", PivotMatrix))))
@@ -209,11 +215,6 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 	wsprintf(m_szLoadingText, TEXT("객체원형을 로딩중."));
 	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_BASECAMP))
 	{
-		/* For.Prototype_GameObject_Terrain */
-		//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Terrain"),
-		//	CTerrain::Create(m_pDevice, m_pContext))))
-		//	return E_FAIL;
-
 		/* For.Prototype_GameObject_FlatTerrain */
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_FlatTerrain"),
 			CFlatTerrain::Create(m_pDevice, m_pContext))))
@@ -236,6 +237,10 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Map"),
 			CMap::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Stove"),
+			CStove::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 	}
 #pragma endregion
