@@ -73,6 +73,9 @@
     <Filter Include="02. GameObject\UI\TextureUI">
       <UniqueIdentifier>{fd3276a0-7b60-40c6-b554-423274bf23f9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\UI\Map">
+      <UniqueIdentifier>{8e605126-9621-4e87-9a52-105cad4ffca5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -167,6 +170,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\TextureUI.h">
       <Filter>02. GameObject\UI\TextureUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Map.h">
+      <Filter>02. GameObject\UI\Map</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -263,6 +269,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Level_BaseCamp.cpp">
       <Filter>01. Levels\GamePlay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Map.cpp">
+      <Filter>02. GameObject\UI\Map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

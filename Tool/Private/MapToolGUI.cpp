@@ -150,7 +150,7 @@ void CMapToolGUI::Map_Index_Add(const int& index)
 	//m_iListBox[MAP] = m_iMap_current_idx;
 }
 
-void CMapToolGUI::Picking_Environment()
+void CMapToolGUI::Picking_GameObject()
 {
 	if (KEY_TAB(KEY::DEL))
 	{
@@ -397,7 +397,7 @@ void CMapToolGUI::Update_Data()
 	switch (m_iRadio)
 	{
 	case PICKING:
-		Picking_Environment();
+		Picking_GameObject();
 		break;
 
 	case ADD:

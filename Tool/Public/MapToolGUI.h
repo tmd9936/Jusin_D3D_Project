@@ -54,7 +54,7 @@ public:
 	void	Map_Index_Add(const int& index);
 	//void	Environment_Index_Add(const int& index);
 
-	void	Picking_Environment();
+	void	Picking_GameObject();
 
 	void	Remove_PickingObject();
 

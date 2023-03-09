@@ -1,0 +1,13 @@
+{
+    "MapDesc": {
+        "vPos": {
+            "x": 10.4012064933776855,
+            "y": 0.1,
+            "z": 10.0101988315582275,
+            "w": 1.0
+        },
+    
+        "ModelPrototypeTag": "Prototype_Component_Model_BaseCamp_Field",
+        "ShaderPrototypeTag": "Prototype_Component_Shader_VtxModel"
+    }
+}

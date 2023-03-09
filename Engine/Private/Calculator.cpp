@@ -213,7 +213,7 @@ CGameObject* CCalculator::Picking_Environment_Object(HWND hWnd, const _tchar* pL
 	vector<CGameObject*> vecObj;
 
 	//CGameObject::World->Get_ObjectList<CRcTex>(vecObj, eLayerId);
-	CGameInstance::GetInstance()->Get_ObjectList<CVIBuffer_Rect>(vecObj, iLevelindex, pLayerTag);
+	CGameInstance::GetInstance()->Get_ObjectList<CCollider>(vecObj, iLevelindex, pLayerTag);
 	
 	if (vecObj.empty())
 		return nullptr;

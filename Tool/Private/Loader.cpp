@@ -4,12 +4,11 @@
 
 #include "BackGround.h"
 #include "UI.h"
-#include "Terrain.h"
 #include "FlatTerrain.h"
 #include "Camera_Dynamic.h"
 #include "TestModel.h"
-#include "Player.h"
 #include "ModelUI.h"
+#include "Map.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
@@ -169,17 +168,16 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 	_matrix		PivotMatrix = XMMatrixIdentity();
 
 	/* For.Prototype_Component_Model_Fiona */
-	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(180.f));
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Model_Fiona"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/Fiona/Fiona.fbx", PivotMatrix))))
-		return E_FAIL;
-
+	//PivotMatrix = XMMatrixRotationY(XMConvertToRadians(180.f));
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Model_Fiona"),
+	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/Fiona/Fiona.fbx", PivotMatrix))))
+	//	return E_FAIL;
 
 	/* For.Prototype_Component_Model_BaseCamp_Field */
-	//PivotMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f);
-	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Model_BaseCamp_Field"),
-	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../../Reference/Resources/Mesh/Animation/Basecamp/BC_field.fbx", PivotMatrix))))
-	//	return E_FAIL;
+	PivotMatrix = XMMatrixScaling(0.1f, 0.1f, 0.1f);
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Model_BaseCamp_Field"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../../Reference/Resources/Mesh/Animation/Basecamp/BC_field.fbx", PivotMatrix))))
+		return E_FAIL;
 
 	//PivotMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f);
 	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Model_WolrdMap_Island"),
@@ -212,9 +210,9 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_BASECAMP))
 	{
 		/* For.Prototype_GameObject_Terrain */
-		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Terrain"),
-			CTerrain::Create(m_pDevice, m_pContext))))
-			return E_FAIL;
+		//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Terrain"),
+		//	CTerrain::Create(m_pDevice, m_pContext))))
+		//	return E_FAIL;
 
 		/* For.Prototype_GameObject_FlatTerrain */
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_FlatTerrain"),
@@ -232,8 +230,12 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 			return E_FAIL;
 
 		/* For.Prototype_GameObject_Player */
-		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player"),
-			CPlayer::Create(m_pDevice, m_pContext))))
+		//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player"),
+		//	CPlayer::Create(m_pDevice, m_pContext))))
+		//	return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Map"),
+			CMap::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 	}
 #pragma endregion

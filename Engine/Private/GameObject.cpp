@@ -35,6 +35,9 @@ HRESULT CGameObject::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void
 
 HRESULT CGameObject::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath)
 {
+	m_iLevelindex = iLevelIndex;
+	m_strLayerTag = pLayerTag;
+
 	return S_OK;
 }
 
