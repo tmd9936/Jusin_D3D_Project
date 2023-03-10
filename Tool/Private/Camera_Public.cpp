@@ -87,6 +87,16 @@ _bool CCamera_Public::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorTy
 
 	Value CameraDesc(kObjectType);
 	{
+		CameraDesc.AddMember("leftMaxMove", m_CameraPublicDesc.leftMaxMove, allocator);
+		CameraDesc.AddMember("rightMaxMove", m_CameraPublicDesc.rightMaxMove, allocator);
+		CameraDesc.AddMember("upMaxMove", m_CameraPublicDesc.upMaxMove, allocator);
+		CameraDesc.AddMember("downMaxMove", m_CameraPublicDesc.downMaxMove, allocator);
+
+		CameraDesc.AddMember("leftMoveStart_MousePos", m_CameraPublicDesc.leftMoveStart_MousePos, allocator);
+		CameraDesc.AddMember("rightMoveStart_MousePos", m_CameraPublicDesc.rightMoveStart_MousePos, allocator);
+		CameraDesc.AddMember("upMoveStart_MousePos", m_CameraPublicDesc.upMoveStart_MousePos, allocator);
+		CameraDesc.AddMember("downMoveStart_MousePos", m_CameraPublicDesc.downMoveStart_MousePos, allocator);
+
 		Value vEye(kObjectType);
 		{
 			vEye.AddMember("x", m_CameraPublicDesc.CameraDesc.vEye.x, allocator);
@@ -139,6 +149,16 @@ _bool CCamera_Public::Load_By_JsonFile_Impl(Document& doc)
 {
 	const Value& CameraDesc = doc["CameraDesc"];
 
+	m_CameraPublicDesc.leftMaxMove = CameraDesc["leftMaxMove"].GetFloat();
+	m_CameraPublicDesc.rightMaxMove = CameraDesc["rightMaxMove"].GetFloat();
+	m_CameraPublicDesc.upMaxMove = CameraDesc["upMaxMove"].GetFloat();
+	m_CameraPublicDesc.downMaxMove = CameraDesc["downMaxMove"].GetFloat();
+	
+	m_CameraPublicDesc.leftMoveStart_MousePos = CameraDesc["leftMoveStart_MousePos"].GetInt();
+	m_CameraPublicDesc.rightMoveStart_MousePos = CameraDesc["rightMoveStart_MousePos"].GetInt();
+	m_CameraPublicDesc.upMoveStart_MousePos = CameraDesc["upMoveStart_MousePos"].GetInt();
+	m_CameraPublicDesc.downMoveStart_MousePos = CameraDesc["downMoveStart_MousePos"].GetInt();
+
 	const Value& vEye = CameraDesc["vEye"];
 	m_CameraPublicDesc.CameraDesc.vEye.x = vEye["x"].GetFloat();
 	m_CameraPublicDesc.CameraDesc.vEye.y = vEye["y"].GetFloat();
@@ -176,33 +196,72 @@ void CCamera_Public::Key_Input(const _double TimeDelta)
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	if (KEY_HOLD(KEY::W))
-		m_pTransform->Go_Straight(_float(TimeDelta));
-
-	if (KEY_HOLD(KEY::S))
-		m_pTransform->Go_Backward(_float(TimeDelta));
-
-	if (KEY_HOLD(KEY::A))
-		m_pTransform->Go_Left(_float(TimeDelta));
-
-	if (KEY_HOLD(KEY::D))
-		m_pTransform->Go_Right(_float(TimeDelta));
-
 	if (KEY_TAB(KEY::V))
-		Save_By_JsonFile("../../Reference/Resources/Data/Scene/BaseCamp/Camera_data.json");
+		Save_By_JsonFile(m_strSaveJsonPath.c_str());
 
 	if (m_bMouseMove)
 	{
 		_long MouseMove = { 0 };
 
+		POINT		ptMouse{};
+		GetCursorPos(&ptMouse);
+		ScreenToClient(g_hWnd, &ptMouse);
+
 		if (MouseMove = pGameInstance->Get_MouseMove(CInput_Device::DIMS_X))
 		{
-			m_pTransform->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), _float(TimeDelta) * (MouseMove * 0.1f));
+			if (0 > MouseMove)
+			{
+				if (ptMouse.x < m_CameraPublicDesc.leftMoveStart_MousePos)
+				{
+					if (m_CameraPublicDesc.currentLeftMove < m_CameraPublicDesc.leftMaxMove)
+					{
+						m_pTransform->Go_Left(_float(TimeDelta));
+						m_CameraPublicDesc.currentLeftMove += TimeDelta;
+						m_CameraPublicDesc.currentRightMove -= TimeDelta;
+					}
+				}
+			}
+			else
+			{
+				if (ptMouse.x > m_CameraPublicDesc.rightMoveStart_MousePos)
+				{
+					if (m_CameraPublicDesc.currentRightMove < m_CameraPublicDesc.rightMaxMove)
+					{
+						m_pTransform->Go_Right(_float(TimeDelta));
+						m_CameraPublicDesc.currentLeftMove -= TimeDelta;
+						m_CameraPublicDesc.currentRightMove += TimeDelta;
+					}
+				}
+			}
+
 		}
 
 		if (MouseMove = pGameInstance->Get_MouseMove(CInput_Device::DIMS_Y))
 		{
-			m_pTransform->Turn(m_pTransform->Get_State(CTransform::STATE_RIGHT), _float(TimeDelta) * (MouseMove * 0.1f));
+			if (0 > MouseMove)
+			{
+				if (ptMouse.y < m_CameraPublicDesc.upMoveStart_MousePos)
+				{
+					if (m_CameraPublicDesc.currentUpMove < m_CameraPublicDesc.upMaxMove)
+					{
+						m_pTransform->Go_Up(_float(TimeDelta));
+						m_CameraPublicDesc.currentUpMove += TimeDelta;
+						m_CameraPublicDesc.currentDownMove -= TimeDelta;
+					}
+				}
+			}
+			else
+			{
+				if (ptMouse.y > m_CameraPublicDesc.downMoveStart_MousePos)
+				{
+					if (m_CameraPublicDesc.currentDownMove < m_CameraPublicDesc.downMaxMove)
+					{
+						m_pTransform->Go_Down(_float(TimeDelta));
+						m_CameraPublicDesc.currentUpMove -= TimeDelta;
+						m_CameraPublicDesc.currentDownMove += TimeDelta;
+					}
+				}
+			}
 		}
 	}
 

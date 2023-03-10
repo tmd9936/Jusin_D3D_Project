@@ -21,10 +21,15 @@ public:
 		_float					upMaxMove;
 		_float					downMaxMove;
 
-		_uint					leftMoveStart_Mouse_Pos;
-		_uint					rightMoveStart_Mouse_Pos;
-		_uint					upMoveStart_Mouse_Pos;
-		_uint					downMoveStart_Mouse_Pos;
+		_int					leftMoveStart_MousePos;
+		_int					rightMoveStart_MousePos;
+		_int					upMoveStart_MousePos;
+		_int					downMoveStart_MousePos;
+
+		_float					currentLeftMove;
+		_float					currentRightMove;
+		_float					currentUpMove;
+		_float					currentDownMove;
 
 		CCamera::CAMERADESC		CameraDesc;
 	}CAMERA_PUBLIC_DESC;

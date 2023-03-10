@@ -120,13 +120,13 @@ _bool CMap::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& alloca
 
 			Value ModelPrototypeTag;
 			string tag = convert.to_bytes(m_MapDesc.ModelPrototypeTag.c_str());
-			ModelPrototypeTag.SetString(tag.c_str(), tag.size(), allocator);
+			ModelPrototypeTag.SetString(tag.c_str(), (SizeType)tag.size(), allocator);
 			MapDesc.AddMember("ModelPrototypeTag", ModelPrototypeTag, allocator);
 			
 
 			Value ShaderPrototypeTag;
 			tag = convert.to_bytes(m_MapDesc.ShaderPrototypeTag.c_str());
-			ShaderPrototypeTag.SetString(tag.c_str(), tag.size(), allocator);
+			ShaderPrototypeTag.SetString(tag.c_str(), (SizeType)tag.size(), allocator);
 			MapDesc.AddMember("ShaderPrototypeTag", ShaderPrototypeTag, allocator);
 
 		}
