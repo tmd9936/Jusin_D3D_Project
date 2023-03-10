@@ -16,20 +16,22 @@ class  CCamera_Public final : public CCamera
 public:
 	typedef struct tagCameraPublicDesc
 	{
-		_float					leftMaxMove;
-		_float					rightMaxMove;
-		_float					upMaxMove;
-		_float					downMaxMove;
+		_double					leftMaxMove;
+		_double					rightMaxMove;
+		_double					upMaxMove;
+		_double					downMaxMove;
 
 		_int					leftMoveStart_MousePos;
 		_int					rightMoveStart_MousePos;
 		_int					upMoveStart_MousePos;
 		_int					downMoveStart_MousePos;
 
-		_float					currentLeftMove;
-		_float					currentRightMove;
-		_float					currentUpMove;
-		_float					currentDownMove;
+		_double					currentLeftMove;
+		_double					currentRightMove;
+		_double					currentUpMove;
+		_double					currentDownMove;
+
+		_double					moveSpeed;
 
 		CCamera::CAMERADESC		CameraDesc;
 	}CAMERA_PUBLIC_DESC;

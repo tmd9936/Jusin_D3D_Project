@@ -6,6 +6,8 @@
 #include "UI.h"
 #include "FlatTerrain.h"
 #include "Camera_Dynamic.h"
+#include "Camera_Public.h"
+
 #include "TestModel.h"
 #include "ModelUI.h"
 #include "Map.h"
@@ -223,6 +225,10 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 		/* For.Prototype_GameObject_Camera_Dynamic */
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera_Dynamic"),
 			CCamera_Dynamic::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera_Public"),
+			CCamera_Public::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
 		/* For.Prototype_GameObject_TestModel */
