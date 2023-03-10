@@ -123,6 +123,8 @@ protected:
 	_bool											m_bDead = { false };
 	_uint											m_iLevelindex = { 0 };
 
+	string											m_strSaveJsonPath = {};
+
 
 public:
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath = nullptr);

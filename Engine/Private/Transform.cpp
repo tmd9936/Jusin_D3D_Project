@@ -74,6 +74,26 @@ void CTransform::Go_Backward(_float TimeDelta)
 	Set_State(STATE_POSITION, vPosition);
 }
 
+void CTransform::Go_Up(_float TimeDelta)
+{
+	_vector vUp = Get_State(STATE_UP);
+	_vector vPosition = Get_State(STATE_POSITION);
+
+	vPosition += XMVector3Normalize(vUp) * m_TransformDesc.SpeedPerSec * TimeDelta;
+
+	Set_State(STATE_POSITION, vPosition);
+}
+
+void CTransform::Go_Down(_float TimeDelta)
+{
+	_vector vUp = Get_State(STATE_UP);
+	_vector vPosition = Get_State(STATE_POSITION);
+
+	vPosition -= XMVector3Normalize(vUp) * m_TransformDesc.SpeedPerSec * TimeDelta;
+
+	Set_State(STATE_POSITION, vPosition);
+}
+
 void CTransform::Rotation(_fvector vAxis, _float Radian)
 {
 	_float3 vScale = Get_Scaled();

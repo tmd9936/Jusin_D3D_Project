@@ -79,6 +79,12 @@
     <Filter Include="02. GameObject\TestModel">
       <UniqueIdentifier>{d0983206-d520-4cb0-a2ce-f921a2558e65}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\Camera">
+      <UniqueIdentifier>{d0cd6129-d1d0-4c79-a307-aac1f29c9e76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Camera\Public">
+      <UniqueIdentifier>{ade22b3d-5e2c-4d64-a46c-594cdf5ebf08}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -179,6 +185,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Stove.h">
       <Filter>02. GameObject\BaseCamp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Camera_Public.h">
+      <Filter>02. GameObject\Camera\Public</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -281,6 +290,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Stove.cpp">
       <Filter>02. GameObject\BaseCamp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Camera_Public.cpp">
+      <Filter>02. GameObject\Camera\Public</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

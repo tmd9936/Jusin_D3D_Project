@@ -99,6 +99,9 @@ public:
 	void Go_Left(_float TimeDelta);
 	void Go_Right(_float TimeDelta);
 	void Go_Backward(_float TimeDelta);
+	void Go_Up(_float TimeDelta);
+	void Go_Down(_float TimeDelta);
+
 
 	void Rotation(_fvector vAxis, _float Radian);
 	void Turn(_fvector vAxis, _float TimeDelta);

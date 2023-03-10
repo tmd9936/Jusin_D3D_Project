@@ -33,7 +33,10 @@ HRESULT CCamera_Dynamic::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, 
 HRESULT CCamera_Dynamic::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath)
 {
 	if (filePath)
+	{
 		Load_By_JsonFile(filePath);
+		m_strSaveJsonPath = filePath;
+	}
 
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, &m_CameraDynamicDesc.CameraDesc)))
 		return E_FAIL;

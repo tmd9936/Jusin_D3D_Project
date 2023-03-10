@@ -50,7 +50,10 @@ HRESULT CMap::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char*
 		return E_FAIL;
 
 	if (filePath)
+	{
 		Load_By_JsonFile(filePath);
+		m_strSaveJsonPath = filePath;
+	}
 
 	if (FAILED(Add_Components_By_File()))
 		return E_FAIL;
