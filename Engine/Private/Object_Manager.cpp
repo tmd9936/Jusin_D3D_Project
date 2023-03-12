@@ -282,7 +282,8 @@ HRESULT CObject_Manager::Get_Layer_Names(_uint iLevelIndex, vector<wstring>& vec
 
 	for (auto iter = m_pLayers[iLevelIndex].begin(); iter != m_pLayers[iLevelIndex].end(); ++iter)
 	{
-		vecNames.push_back(iter->first);
+		wstring name = iter->first;
+		vecNames.push_back(name);
 	}
 
 	return S_OK;

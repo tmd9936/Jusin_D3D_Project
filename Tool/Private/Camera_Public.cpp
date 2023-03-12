@@ -105,7 +105,6 @@ _bool CCamera_Public::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorTy
 			vEye.AddMember("y", m_CameraPublicDesc.CameraDesc.vEye.y, allocator);
 			vEye.AddMember("z", m_CameraPublicDesc.CameraDesc.vEye.z, allocator);
 			vEye.AddMember("w", m_CameraPublicDesc.CameraDesc.vEye.w, allocator);
-
 		}
 		CameraDesc.AddMember("vEye", vEye, allocator);
 
@@ -115,7 +114,6 @@ _bool CCamera_Public::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorTy
 			vAt.AddMember("y", m_CameraPublicDesc.CameraDesc.vAt.y, allocator);
 			vAt.AddMember("z", m_CameraPublicDesc.CameraDesc.vAt.z, allocator);
 			vAt.AddMember("w", m_CameraPublicDesc.CameraDesc.vAt.w, allocator);
-
 		}
 		CameraDesc.AddMember("vAt", vAt, allocator);
 
@@ -125,7 +123,6 @@ _bool CCamera_Public::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorTy
 			vAxisY.AddMember("y", m_CameraPublicDesc.CameraDesc.vAxisY.y, allocator);
 			vAxisY.AddMember("z", m_CameraPublicDesc.CameraDesc.vAxisY.z, allocator);
 			vAxisY.AddMember("w", m_CameraPublicDesc.CameraDesc.vAxisY.w, allocator);
-
 		}
 		CameraDesc.AddMember("vAxisY", vAxisY, allocator);
 
@@ -231,7 +228,6 @@ void CCamera_Public::Key_Input(const _double TimeDelta)
 				m_CameraPublicDesc.currentRightMove += TimeDelta * m_CameraPublicDesc.moveSpeed;
 			}
 		}
-
 
 		if (ptMouse.y < m_CameraPublicDesc.upMoveStart_MousePos)
 		{

@@ -91,11 +91,11 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 #pragma region MODELS
 	wsprintf(m_szLoadingText, TEXT("모델를 로딩중입니다."));
-	//_matrix		PivotMatrix = XMMatrixIdentity();
-	////PivotMatrix = XMMatrixScaling(0.1f, 0.1f, 0.1f);
-	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Model_Loading_Scene"),
-	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../../Reference/Resources/Mesh/Animation/Loading/title_loading.fbx", PivotMatrix))))
-	//	return E_FAIL;
+
+	_matrix PivotMatrix = XMMatrixIdentity();
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Model_Logo_Scene"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_UI, "../../Reference/Resources/Mesh/Animation/Logo/Logo_Scene.fbx", PivotMatrix))))
+		return E_FAIL;
 #pragma endregion
 
 #pragma region SHADERS

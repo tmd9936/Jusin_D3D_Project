@@ -3,8 +3,8 @@
 
 namespace Client
 {
-	const unsigned int g_iWinSizeX = 912;
-	const unsigned int g_iWinSizeY = 472;
+	const unsigned int g_iWinSizeX = 930;
+	const unsigned int g_iWinSizeY = 432;
 
 	enum LEVEL { LEVEL_STATIC, LEVEL_LOADING, LEVEL_LOGO, LEVEL_BASECAMP, LEVEL_END };
 

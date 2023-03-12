@@ -213,9 +213,6 @@
     <ClCompile Include="..\Private\Level_Loading.cpp">
       <Filter>01. Levels\Loading</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Level_Logo.cpp">
-      <Filter>01. Levels\Logo</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Loader.cpp">
       <Filter>01. Levels\Loading\Loader</Filter>
     </ClCompile>
@@ -293,6 +290,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Camera_Public.cpp">
       <Filter>02. GameObject\Camera\Public</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Logo.cpp">
+      <Filter>01. Levels\Logo</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

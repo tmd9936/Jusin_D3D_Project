@@ -33,21 +33,11 @@ HRESULT CMainApp::Initialize()
 	GraphicDesc.iViewSizeX = g_iWinSizeX;
 	GraphicDesc.iViewSizeY = g_iWinSizeY;
 
-	
-	if (FAILED(m_pGameInstance->Initialize_Engine(LEVEL_END, g_hInst, GraphicDesc, &m_pDevice, &m_pContext)))
-		return E_FAIL;
-
-	if (FAILED(Ready_Prototype_Component_For_Static()))
-		return E_FAIL;
-	if (FAILED(Ready_Prototype_GameObject_For_Static()))
-		return E_FAIL;
-
-	if (FAILED(SetUp_StartLevel(LEVEL_LOGO)))
-		return E_FAIL;
-
-
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
+
+	if (FAILED(m_pGameInstance->Initialize_Engine(LEVEL_END, g_hInst, GraphicDesc, &m_pDevice, &m_pContext)))
+		return E_FAIL;
 
 
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
@@ -77,11 +67,20 @@ HRESULT CMainApp::Initialize()
 	ImGui_ImplWin32_Init(g_hWnd);
 	ImGui_ImplDX11_Init(m_pDevice, m_pContext);
 	
+	if (FAILED(Ready_Prototype_Component_For_Static()))
+		return E_FAIL;
+	if (FAILED(Ready_Prototype_GameObject_For_Static()))
+		return E_FAIL;
+
+	if (FAILED(SetUp_StartLevel(LEVEL_LOGO)))
+		return E_FAIL;
+
 	if (FAILED(m_pMapToolGUI->Initialize(m_pDevice, m_pContext)))
 		return E_FAIL;
 
 	if (FAILED(m_pDataToolGUI->Initialize(m_pDevice, m_pContext)))
 		return E_FAIL;
+
 
 	return S_OK;
 }
