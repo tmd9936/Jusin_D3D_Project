@@ -43,6 +43,10 @@ HRESULT CMesh::Initialize_Prototype(CModel::TYPE eType, aiMesh* pAIMesh, CModel*
 		hr = Ready_VertexBuffer_ForNonAnimUI(pAIMesh, PivotMatrix);
 		break;
 	case Engine::CModel::TYPE_ANIM_UI:
+		hr = Ready_VertexBuffer_ForAnim(pAIMesh, pModel);
+		break;
+	case Engine::CModel::TYPE_MESH_COLOR_NONANIM:
+		hr = Ready_VertexBuffer_ForColorNonAnim(pAIMesh, PivotMatrix);
 		break;
 	default:
 		return E_FAIL;
@@ -247,6 +251,44 @@ HRESULT CMesh::Ready_VertexBuffer_ForNonAnimUI(aiMesh* pAIMesh, _fmatrix PivotMa
 
 		pVertices[i].vPosition.z = 0.f;
 		memcpy(&pVertices[i].vTexUV, &pAIMesh->mTextureCoords[0][i], sizeof(_float2));
+	}
+
+	m_SubResourceData.pSysMem = pVertices;
+
+	if (FAILED(__super::Create_VertexBuffer()))
+		return E_FAIL;
+
+	Safe_Delete_Array(pVertices);
+
+	return S_OK;
+}
+
+HRESULT CMesh::Ready_VertexBuffer_ForColorNonAnim(aiMesh* pAIMesh, _fmatrix PivotMatrix)
+{
+	m_iStride = sizeof(VTXCOLORMODEL);
+
+	ZeroMemory(&m_BufferDesc, sizeof m_BufferDesc);
+	m_BufferDesc.ByteWidth = m_iStride * m_iNumVertices;
+	m_BufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	m_BufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	m_BufferDesc.StructureByteStride = m_iStride;
+	m_BufferDesc.CPUAccessFlags = 0;
+	m_BufferDesc.MiscFlags = 0;
+
+	ZeroMemory(&m_SubResourceData, sizeof m_SubResourceData);
+
+	VTXCOLORMODEL* pVertices = new VTXCOLORMODEL[m_iNumVertices];
+	ZeroMemory(pVertices, m_iStride * m_iNumVertices);
+
+	for (_uint i = 0; i < m_iNumVertices; ++i)
+	{
+		memcpy(&pVertices[i].vPosition, &pAIMesh->mVertices[i], sizeof(_float3));
+		XMStoreFloat3(&pVertices[i].vPosition, XMVector3TransformCoord(XMLoadFloat3(&pVertices[i].vPosition), PivotMatrix));
+
+		memcpy(&pVertices[i].vNormal, &pAIMesh->mNormals[i], sizeof(_float3));
+		XMStoreFloat3(&pVertices[i].vNormal, XMVector3Normalize(XMVector3TransformNormal(XMLoadFloat3(&pVertices[i].vNormal), PivotMatrix)));
+
+		memcpy(&pVertices[i].vColor, &pAIMesh->mColors[0][i], sizeof(_float4));
 	}
 
 	m_SubResourceData.pSysMem = pVertices;

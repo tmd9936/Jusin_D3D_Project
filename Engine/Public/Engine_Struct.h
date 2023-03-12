@@ -107,6 +107,19 @@ namespace Engine
 		static D3D11_INPUT_ELEMENT_DESC			Elements[2];
 	} VTXWIRE_DECLARATION;
 
+	typedef struct ENGINE_DLL tagVertex_Position_Normal_Color_Declaration
+	{
+		const static unsigned int				iNumElements = 3;
+		static D3D11_INPUT_ELEMENT_DESC			Elements[3];
+	} VTXNORCOLOR_DECLARATION;
+
+	typedef struct tagVertex_Color_Model
+	{
+		XMFLOAT3			vPosition;
+		XMFLOAT3			vNormal;
+		XMFLOAT4			vColor;
+	}VTXCOLORMODEL;
+
 	typedef struct tagIndices16
 	{
 		unsigned short			_0, _1, _2;

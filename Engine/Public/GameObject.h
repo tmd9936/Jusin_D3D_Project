@@ -104,6 +104,17 @@ public:
 protected:
 	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
 
+protected:
+	template<typename T, typename = std::enable_if<is_base_of<CComponent, T>::value>>
+	T* Get_As() {
+		auto iter = m_Components.find(T:familyId);
+		if (m_Components.end() == iter)
+			return nullptr;
+
+		return iter->second;
+	}
+	
+
 private:
 	HRESULT					Find_Component(const FamilyId& familyId) const;
 

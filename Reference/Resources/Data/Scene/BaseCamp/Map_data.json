@@ -8,6 +8,6 @@
         },
     
         "ModelPrototypeTag": "Prototype_Component_Model_BaseCamp_Field",
-        "ShaderPrototypeTag": "Prototype_Component_Shader_VtxModel"
+        "ShaderPrototypeTag": "Prototype_Component_Shader_VtxModelColor"
     }
 }

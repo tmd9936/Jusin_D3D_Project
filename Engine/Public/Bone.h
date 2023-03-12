@@ -17,7 +17,9 @@ public:
 
 public:
 	HRESULT Initialize(aiNode* pAINode, CBone* pParent);
+	void SetUp_TransformationMatrix(_fmatrix Matrix);
 	void SetUp_CombinedTransformationMatrix();
+
 
 private:
 	char			m_szName[MAX_PATH] = "";

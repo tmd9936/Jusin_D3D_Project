@@ -165,6 +165,7 @@
     <ClInclude Include="..\imgui\imstb_textedit.h" />
     <ClInclude Include="..\imgui\imstb_truetype.h" />
     <ClInclude Include="..\Public\BackGround.h" />
+    <ClInclude Include="..\Public\Button.h" />
     <ClInclude Include="..\Public\Camera_Public.h" />
     <ClInclude Include="..\Public\DataToolGUI.h" />
     <ClInclude Include="..\Public\FileDialogUtill.h" />
@@ -200,6 +201,7 @@
     <ClCompile Include="..\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\imgui\imgui_widgets.cpp" />
     <ClCompile Include="..\Private\BackGround.cpp" />
+    <ClCompile Include="..\Private\Button.cpp" />
     <ClCompile Include="..\Private\Camera_Public.cpp" />
     <ClCompile Include="..\Private\DataToolGUI.cpp" />
     <ClCompile Include="..\Private\FileDialogUtill.cpp" />
@@ -231,6 +233,7 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_VtxModel.hlsl" />
+    <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_VtxModelColor.hlsl" />
     <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_VtxNorTex.hlsl" />
     <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_VtxNorTex_HeightTerrain.hlsl" />
     <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_Vtxtex.hlsl" />

@@ -15,7 +15,7 @@ public:
 	static const FamilyId familyId = FAMILY_ID_VIBUFFER;
 
 public:
-	enum TYPE { TYPE_NONANIM, TYPE_ANIM, TYPE_NONANIM_UI, TYPE_ANIM_UI, TYPE_END };
+	enum TYPE { TYPE_NONANIM, TYPE_ANIM, TYPE_NONANIM_UI, TYPE_ANIM_UI, TYPE_MESH_COLOR_NONANIM, TYPE_END };
 private:
 	CModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner);
 	CModel(const CModel& rhs, CGameObject* pOwner);

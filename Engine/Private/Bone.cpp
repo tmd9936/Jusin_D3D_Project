@@ -24,6 +24,11 @@ HRESULT CBone::Initialize(aiNode* pAINode, CBone* pParent)
 	return S_OK;
 }
 
+void CBone::SetUp_TransformationMatrix(_fmatrix Matrix)
+{
+	XMStoreFloat4x4(&m_TransformationMatrix, Matrix);
+}
+
 void CBone::SetUp_CombinedTransformationMatrix()
 {
 	if (nullptr == m_pParent)

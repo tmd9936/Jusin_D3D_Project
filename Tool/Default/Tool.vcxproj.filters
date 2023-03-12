@@ -85,6 +85,9 @@
     <Filter Include="02. GameObject\Camera\Public">
       <UniqueIdentifier>{ade22b3d-5e2c-4d64-a46c-594cdf5ebf08}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\UI\Button">
+      <UniqueIdentifier>{486196df-508d-4ae8-ae3b-9071d41cdf7a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -188,6 +191,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Camera_Public.h">
       <Filter>02. GameObject\Camera\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Button.h">
+      <Filter>02. GameObject\UI\Button</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -294,6 +300,9 @@
     <ClCompile Include="..\Private\Level_Logo.cpp">
       <Filter>01. Levels\Logo</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Button.cpp">
+      <Filter>02. GameObject\UI\Button</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_VtxNorTex.hlsl">
@@ -306,6 +315,9 @@
       <Filter>97. ShaderFiles</Filter>
     </FxCompile>
     <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_VtxModel.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_VtxModelColor.hlsl">
       <Filter>97. ShaderFiles</Filter>
     </FxCompile>
   </ItemGroup>
