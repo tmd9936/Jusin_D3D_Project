@@ -72,7 +72,7 @@ HRESULT CLevel_Logo::Ready_Layer_UI(const _tchar* pLayerTag)
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	if (FAILED(pGameInstance->Add_Layer(LEVEL_LOADING, pLayerTag)))
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_LOGO, pLayerTag)))
 		return E_FAIL;
 
 	CModelUI::UI_DESC desc = {};
@@ -84,7 +84,7 @@ HRESULT CLevel_Logo::Ready_Layer_UI(const _tchar* pLayerTag)
 
 	lstrcpy(desc.m_TextureProtoTypeName, TEXT("Prototype_Component_Model_Logo_Scene"));
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ModelUI"), LEVEL_LOADING, pLayerTag, nullptr, &desc)))
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ModelUI"), LEVEL_LOGO, pLayerTag, nullptr, &desc)))
 		return E_FAIL;
 
 
