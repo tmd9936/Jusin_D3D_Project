@@ -69,8 +69,6 @@ VS_OUT VS_MAIN(VS_IN In)
 	vector		vPosition = mul(float4(In.vPosition, 1.f), BoneMatrix);
 	vector		vNormal = normalize(mul(float4(In.vNormal, 0.f), BoneMatrix));
 
-
-
 	Out.vPosition = mul(vPosition, matWVP);
 	Out.vNormal = mul(vNormal, g_WorldMatrix);
 	Out.vTexUV = In.vTexUV;
@@ -113,6 +111,17 @@ PS_OUT PS_MAIN(PS_IN In)
 		+ (g_vLightSpecular * g_vMtrlSpecular) * fSpecular;
 
 
+	return Out;
+}
+
+PS_OUT PS_MAIN_UI(PS_IN In)
+{
+	PS_OUT			Out = (PS_OUT)0;
+
+	Out.vColor = g_DiffuseTexture.Sample(PointSampler, In.vTexUV);
+
+	if (Out.vColor.a < 0.1)
+		discard;
 
 	return Out;
 }
@@ -127,6 +136,15 @@ technique11		DefaultTechnique
 		HullShader = NULL;
 		DomainShader = NULL;
 		PixelShader = compile ps_5_0 PS_MAIN();
+	}
+
+	pass UI_Model
+	{
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		HullShader = NULL;
+		DomainShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_UI();
 	}
 
 

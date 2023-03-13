@@ -41,6 +41,8 @@ HRESULT CModelUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* p
 
 _uint CModelUI::Tick(_double TimeDelta)
 {
+	m_pModelCom->Play_Animation(TimeDelta);
+
 	return _uint();
 }
 
@@ -71,11 +73,12 @@ HRESULT CModelUI::Render()
 
 		if (FAILED(m_pModelCom->SetUp_ShaderResource(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
 			return E_FAIL;
+
 		if (FAILED(m_pModelCom->SetUp_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
 			return E_FAIL;
 
 
-		m_pShaderCom->Begin(0);
+		m_pShaderCom->Begin(1);
 
 		m_pModelCom->Render(i);
 
