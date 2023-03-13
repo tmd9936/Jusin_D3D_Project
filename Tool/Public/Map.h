@@ -20,6 +20,7 @@ public:
 	{
 		wstring ModelPrototypeTag;
 		wstring ShaderPrototypeTag;
+		_int	Shader_Level_Index;
 	} MAP_DESC;
 
 private:

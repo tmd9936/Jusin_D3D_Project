@@ -65,6 +65,8 @@ HRESULT CMap::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char*
 
 _uint CMap::Tick(_double TimeDelta)
 {
+	m_pModelCom->Play_Animation(TimeDelta);
+
 	return _uint();
 }
 
@@ -86,8 +88,8 @@ HRESULT CMap::Render()
 	{
 		if (FAILED(m_pModelCom->SetUp_ShaderResource(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
 			return E_FAIL;
-		/*if (FAILED(m_pModelCom->SetUp_ShaderResource(m_pShaderCom, "g_NormalTexture", i, aiTextureType_NORMALS)))
-			return E_FAIL;*/
+		if (FAILED(m_pModelCom->SetUp_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
+			return E_FAIL;
 
 		m_pShaderCom->Begin(0);
 
@@ -117,6 +119,7 @@ _bool CMap::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& alloca
 
 			MapDesc.AddMember("vPos", vPos, allocator);
 
+			MapDesc.AddMember("Shader_Level_Index", m_MapDesc.Shader_Level_Index, allocator);
 
 			Value ModelPrototypeTag;
 			string tag = convert.to_bytes(m_MapDesc.ModelPrototypeTag.c_str());
@@ -153,6 +156,7 @@ _bool CMap::Load_By_JsonFile_Impl(Document& doc)
 		string ShaderPrototypeTag = CameraDesc["ShaderPrototypeTag"].GetString();
 		m_MapDesc.ShaderPrototypeTag = convert.from_bytes(ShaderPrototypeTag);
 
+		m_MapDesc.Shader_Level_Index = CameraDesc["Shader_Level_Index"].GetInt();
 	}
 
 	return true;
@@ -179,7 +183,7 @@ HRESULT CMap::Add_Components()
 		return E_FAIL;
 
 	/* For.Com_Shader */
-	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_STATIC, m_MapDesc.ShaderPrototypeTag.c_str(),
+	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, (_uint)m_MapDesc.Shader_Level_Index, m_MapDesc.ShaderPrototypeTag.c_str(),
 		(CComponent**)&m_pShaderCom, nullptr)))
 		return E_FAIL;
 
@@ -202,7 +206,7 @@ HRESULT CMap::Add_Components_By_File()
 		return E_FAIL;
 
 	/* For.Com_Shader */
-	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_STATIC, m_MapDesc.ShaderPrototypeTag.c_str(),
+	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, (_uint)m_MapDesc.Shader_Level_Index, m_MapDesc.ShaderPrototypeTag.c_str(),
 		(CComponent**)&m_pShaderCom, nullptr)))
 		return E_FAIL;
 

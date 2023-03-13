@@ -63,6 +63,10 @@ HRESULT CMesh::Initialize_Prototype(CModel::TYPE eType, aiMesh* pAIMesh, CModel*
 	case Engine::CModel::TYPE_MESH_COLOR_NONANIM:
 		hr = Ready_VertexBuffer_ForColorNonAnim(pAIMesh, PivotMatrix);
 		break;
+	case Engine::CModel::TYPE_MESH_COLOR_ANIM:
+		hr = Ready_VertexBuffer_ForColorAnim(pAIMesh, pModel);
+		break;
+
 	default:
 		return E_FAIL;
 		break;
@@ -408,6 +412,97 @@ HRESULT CMesh::Ready_VertexBuffer_ForColorNonAnim(aiMesh* pAIMesh, _fmatrix Pivo
 		XMStoreFloat3(&pVertices[i].vNormal, XMVector3Normalize(XMVector3TransformNormal(XMLoadFloat3(&pVertices[i].vNormal), PivotMatrix)));
 
 		memcpy(&pVertices[i].vColor, &pAIMesh->mColors[0][i], sizeof(_float4));
+	}
+
+	m_SubResourceData.pSysMem = pVertices;
+
+	if (FAILED(__super::Create_VertexBuffer()))
+		return E_FAIL;
+
+	Safe_Delete_Array(pVertices);
+
+	return S_OK;
+}
+
+HRESULT CMesh::Ready_VertexBuffer_ForColorAnim(aiMesh* pAIMesh, CModel* pModel)
+{
+	m_iStride = sizeof(VTXCOLORANIMMODEL);
+
+	ZeroMemory(&m_BufferDesc, sizeof m_BufferDesc);
+	m_BufferDesc.ByteWidth = m_iStride * m_iNumVertices;
+	m_BufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	m_BufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	m_BufferDesc.StructureByteStride = m_iStride;
+	m_BufferDesc.CPUAccessFlags = 0;
+	m_BufferDesc.MiscFlags = 0;
+
+	ZeroMemory(&m_SubResourceData, sizeof m_SubResourceData);
+
+	VTXCOLORANIMMODEL* pVertices = new VTXCOLORANIMMODEL[m_iNumVertices];
+	ZeroMemory(pVertices, m_iStride * m_iNumVertices);
+
+	for (_uint i = 0; i < m_iNumVertices; ++i)
+	{
+		memcpy(&pVertices[i].vPosition, &pAIMesh->mVertices[i], sizeof(_float3));
+		memcpy(&pVertices[i].vNormal, &pAIMesh->mNormals[i], sizeof(_float3));
+		memcpy(&pVertices[i].vColor, &pAIMesh->mColors[0][i], sizeof(_float4));
+	}
+
+	/* 이 메시에 영향을 주는 뼈의 개수. */
+	m_iNumBones = pAIMesh->mNumBones;
+
+	for (_uint i = 0; i < m_iNumBones; ++i)
+	{
+		aiBone* pAIBone = pAIMesh->mBones[i];
+
+		CBone* pBone = pModel->Get_BonePtr(pAIBone->mName.data);
+
+		/* 뼈의 상태를 정점의 로컬스페이스로 변환하기위한 행렬. */
+		_float4x4	OffsetMatrix;
+		memcpy(&OffsetMatrix, &pAIBone->mOffsetMatrix, sizeof(_float4x4));
+
+		pBone->SetUp_OffsetMatrix(XMMatrixTranspose(XMLoadFloat4x4(&OffsetMatrix)));
+
+		m_Bones.push_back(pBone);
+
+		Safe_AddRef(pBone);
+
+		/* pAIBone->mNumWeights : 이 뼈는 몇개의 정점에 영향을 주는가? */
+		for (_uint j = 0; j < pAIBone->mNumWeights; ++j)
+		{
+			/* pAIBone->mWeights[j].mVertexId : i번째 뼈는 어떤 정점에게 영향을 줘야하는가? */
+
+			if (0.0f == pVertices[pAIBone->mWeights[j].mVertexId].vBlendWeight.x)
+			{
+				pVertices[pAIBone->mWeights[j].mVertexId].vBlendIndex.x = i;
+				pVertices[pAIBone->mWeights[j].mVertexId].vBlendWeight.x = pAIBone->mWeights[j].mWeight;
+			}
+
+			else if (0.0f == pVertices[pAIBone->mWeights[j].mVertexId].vBlendWeight.y)
+			{
+				pVertices[pAIBone->mWeights[j].mVertexId].vBlendIndex.y = i;
+				pVertices[pAIBone->mWeights[j].mVertexId].vBlendWeight.y = pAIBone->mWeights[j].mWeight;
+			}
+
+			else if (0.0f == pVertices[pAIBone->mWeights[j].mVertexId].vBlendWeight.z)
+			{
+				pVertices[pAIBone->mWeights[j].mVertexId].vBlendIndex.z = i;
+				pVertices[pAIBone->mWeights[j].mVertexId].vBlendWeight.z = pAIBone->mWeights[j].mWeight;
+			}
+
+			else if (0.0f == pVertices[pAIBone->mWeights[j].mVertexId].vBlendWeight.w)
+			{
+				pVertices[pAIBone->mWeights[j].mVertexId].vBlendIndex.w = i;
+				pVertices[pAIBone->mWeights[j].mVertexId].vBlendWeight.w = pAIBone->mWeights[j].mWeight;
+			}
+		}
+	}
+
+	if (0 == m_iNumBones)
+	{
+		m_iNumBones = 1;
+
+		m_Bones.push_back(pModel->Get_BonePtr(m_szName));
 	}
 
 	m_SubResourceData.pSysMem = pVertices;

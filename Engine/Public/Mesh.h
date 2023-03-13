@@ -49,6 +49,7 @@ private:
 	HRESULT Ready_VertexBuffer_ForAnimUI(aiMesh* pAIMesh, CModel* pModel);
 
 	HRESULT Ready_VertexBuffer_ForColorNonAnim(aiMesh* pAIMesh, _fmatrix PivotMatrix);
+	HRESULT Ready_VertexBuffer_ForColorAnim(aiMesh* pAIMesh, CModel* pModel);
 
 
 public:
