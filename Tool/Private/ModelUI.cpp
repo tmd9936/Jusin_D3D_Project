@@ -69,10 +69,10 @@ HRESULT CModelUI::Render()
 		if (FAILED(m_pShaderCom->Set_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
 			return E_FAIL;
 
-		if (FAILED(m_pModelCom->SetUp_ShaderResource(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
+		if (FAILED(m_pModelCom->SetUp_ShaderResource(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
 			return E_FAIL;
-		/*if (FAILED(m_pModelCom->SetUp_ShaderResource(m_pShaderCom, "g_NormalTexture", i, aiTextureType_NORMALS)))
-			return E_FAIL;*/
+		if (FAILED(m_pModelCom->SetUp_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
+			return E_FAIL;
 
 
 		m_pShaderCom->Begin(0);
@@ -105,7 +105,7 @@ HRESULT CModelUI::Add_Components()
 		return E_FAIL;
 
 	/* For.Com_Shader */
-	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxTex"),
+	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxAnimModel"),
 		(CComponent**)&m_pShaderCom, nullptr)))
 		return E_FAIL;
 

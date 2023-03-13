@@ -13,6 +13,8 @@
 #include "Map.h"
 #include "Stove.h"
 
+#include "Player.h"
+
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
 	, m_pContext(pContext)
@@ -171,10 +173,10 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 	_matrix		PivotMatrix = XMMatrixIdentity();
 
 	/* For.Prototype_Component_Model_Fiona */
-	//PivotMatrix = XMMatrixRotationY(XMConvertToRadians(180.f));
-	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Model_Fiona"),
-	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/Fiona/Fiona.fbx", PivotMatrix))))
-	//	return E_FAIL;
+	PivotMatrix = XMMatrixRotationY(XMConvertToRadians(180.f));
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Model_Fiona"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Models/Fiona/Fiona.fbx", PivotMatrix))))
+		return E_FAIL;
 
 	/* For.Prototype_Component_Model_BaseCamp_Field */
 	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
@@ -237,9 +239,9 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 			return E_FAIL;
 
 		/* For.Prototype_GameObject_Player */
-		//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player"),
-		//	CPlayer::Create(m_pDevice, m_pContext))))
-		//	return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player"),
+			CPlayer::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
 
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Map"),
 			CMap::Create(m_pDevice, m_pContext))))

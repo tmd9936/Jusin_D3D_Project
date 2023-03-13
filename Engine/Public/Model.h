@@ -30,6 +30,10 @@ public:
 
 	const _float Get_ViewZ(_uint iMeshIndex);
 
+	_matrix Get_PivotMatrix() const {
+		return XMLoadFloat4x4(&m_PivotMatrix);
+	}
+
 public:
 	void Set_Animation(_uint iIndex) {
 		m_iCurrentAnimationIndex = iIndex;
@@ -41,6 +45,7 @@ public:
 
 public:
 	HRESULT SetUp_ShaderResource(CShader* pShader, const char* pConstantName, _uint iMeshIndex, aiTextureType eType);
+	HRESULT SetUp_BoneMatrices(CShader* pShader, const char* pConstantName, _uint iMeshIndex);
 	void Play_Animation(_double TimeDelta);
 	HRESULT Render(_uint iMeshIndex);
 

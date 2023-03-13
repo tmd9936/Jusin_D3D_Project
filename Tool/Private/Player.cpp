@@ -30,11 +30,44 @@ HRESULT CPlayer::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pA
 
 	m_eRenderId = RENDER_NONBLEND;
 
+	m_pModelCom->Set_Animation(3);
+
 	return S_OK;
 }
 
 _uint CPlayer::Tick(_double TimeDelta)
 {
+
+
+	if (GetKeyState(VK_DOWN) & 0x8000)
+	{
+		m_pTransformCom->Go_Backward(TimeDelta);
+	}
+
+	if (GetKeyState(VK_LEFT) & 0x8000)
+	{
+		m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), TimeDelta * -1.f);
+
+	}
+
+	if (GetKeyState(VK_RIGHT) & 0x8000)
+	{
+		m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), TimeDelta);
+
+	}
+
+
+
+	if (GetKeyState(VK_UP) & 0x8000)
+	{
+		m_pTransformCom->Go_Straight(TimeDelta);
+		m_pModelCom->Set_Animation(4);
+	}
+	else
+		m_pModelCom->Set_Animation(3);
+
+	m_pModelCom->Play_Animation(TimeDelta);
+
 	return _uint();
 }
 
@@ -56,8 +89,8 @@ HRESULT CPlayer::Render()
 	{
 		if (FAILED(m_pModelCom->SetUp_ShaderResource(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
 			return E_FAIL;
-		/*if (FAILED(m_pModelCom->SetUp_ShaderResource(m_pShaderCom, "g_NormalTexture", i, aiTextureType_NORMALS)))
-			return E_FAIL;*/
+		if (FAILED(m_pModelCom->SetUp_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
+			return E_FAIL;
 
 		m_pShaderCom->Begin(0);
 
@@ -88,7 +121,7 @@ HRESULT CPlayer::Add_Components()
 		return E_FAIL;
 
 	/* For.Com_Shader */
-	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxModel"),
+	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxAnimModel"),
 		(CComponent**)&m_pShaderCom, nullptr)))
 		return E_FAIL;
 
@@ -98,11 +131,7 @@ HRESULT CPlayer::Add_Components()
 
 HRESULT CPlayer::SetUp_ShaderResources()
 {
-	_float4x4		WorldMatrix;
-
-	XMStoreFloat4x4(&WorldMatrix, XMMatrixIdentity());
-
-	if (FAILED(m_pShaderCom->Set_Matrix("g_WorldMatrix", &WorldMatrix)))
+	if (FAILED(m_pTransformCom->Set_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
 		return E_FAIL;
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();

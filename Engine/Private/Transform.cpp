@@ -1,4 +1,5 @@
 #include "Transform.h"
+#include "Shader.h"
 
 CTransform::CTransform(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner)
 	: CComponent(pDevice, pContext, pOwner)
@@ -26,6 +27,11 @@ HRESULT CTransform::Initialize(void* pArg)
 	return S_OK;
 }
 
+
+HRESULT CTransform::Set_ShaderResource(CShader* pShader, const char* pContantName)
+{
+	return pShader->Set_Matrix(pContantName, &m_WorldMatrix);
+}
 
 void CTransform::Set_Scaled(const _float3& vScale)
 {

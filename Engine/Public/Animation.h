@@ -25,8 +25,8 @@ private:
 	_double			m_TimeAcc = { 0.0 };
 
 private:  /* 뼈들 */ /* CChannel : 이 뼈가 이 애니메이션을 구동하기위한 전체 시간 안에서 세분화된 시간마다 이 뼈가 표현해야할 행렬정보를 가진다. */
-	_uint				m_iNumChannels = { 0 };
-	vector<CChannel*>	m_Channels;
+	_uint								m_iNumChannels = { 0 };
+	vector<CChannel*>					m_Channels;
 
 	_bool								m_isLoop = { true };
 	_bool								m_isFinished = { false };

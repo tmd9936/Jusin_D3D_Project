@@ -21,6 +21,8 @@ public:
 		return m_iMaterialIndex;
 	}
 
+	void Get_BoneMatrices(_Out_ _float4x4* pBoneMatrices, _In_ _matrix PivotMatrix);
+
 	const _float Get_ViewZ() const {
 		return m_ViewZ;
 	}
@@ -30,6 +32,7 @@ public:
 	virtual HRESULT Initialize(void* pArg) override;
 
 private:
+	char					m_szName[MAX_PATH] = "";
 	_uint					m_iMaterialIndex = { 0 };
 
 private:
@@ -43,7 +46,7 @@ private:
 	HRESULT Ready_VertexBuffer_ForAnim(aiMesh* pAIMesh, CModel* pModel);
 
 	HRESULT Ready_VertexBuffer_ForNonAnimUI(aiMesh* pAIMesh, _fmatrix PivotMatrix);
-	// HRESULT Ready_VertexBuffer_ForAnim(aiMesh* pAIMesh, CModel* pModel);
+	HRESULT Ready_VertexBuffer_ForAnimUI(aiMesh* pAIMesh, CModel* pModel);
 
 	HRESULT Ready_VertexBuffer_ForColorNonAnim(aiMesh* pAIMesh, _fmatrix PivotMatrix);
 

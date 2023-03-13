@@ -98,6 +98,18 @@ HRESULT CShader::Set_Matrix(const char* pConstantName, _float4x4* pMatrix)
 	return pVariable->SetMatrix((_float*)pMatrix);
 }
 
+HRESULT CShader::Set_MatrixArray(const char* pConstantName, _float4x4* pMatrix, _uint iNumMatrices)
+{
+	if (nullptr == m_pEffect)
+		return E_FAIL;
+
+	ID3DX11EffectMatrixVariable* pVariable = m_pEffect->GetVariableByName(pConstantName)->AsMatrix();
+	if (nullptr == pVariable)
+		return E_FAIL;
+
+	return pVariable->SetMatrixArray((_float*)pMatrix, 0, iNumMatrices);
+}
+
 HRESULT CShader::Set_ShaderResourceView(const char* pConstantName, ID3D11ShaderResourceView* pSRV)
 {
 	if (nullptr == m_pEffect || nullptr == pSRV)

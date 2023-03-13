@@ -173,6 +173,11 @@ HRESULT CMainApp::Ready_Prototype_Component_For_Static()
 		CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxModelColor.hlsl"), VTXNORCOLOR_DECLARATION::Elements, VTXNORCOLOR_DECLARATION::iNumElements))))
 		return E_FAIL;
 
+	/* For.Prototype_Component_Shader_VtxAnimModel */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxAnimModel"),
+		CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxAnimModel.hlsl"), VTXANIMMODEL_DECLARATION::Elements, VTXANIMMODEL_DECLARATION::iNumElements))))
+		return E_FAIL;
+
 	_matrix PivotMatrix = XMMatrixIdentity();
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Loading_Scene"),
 		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_UI, "../../Reference/Resources/Mesh/Animation/Loading/title_loading.fbx", PivotMatrix))))

@@ -27,13 +27,15 @@ public:
 
 public:
 	HRESULT Begin(_uint iPassIndex);
-	HRESULT	Set_Matrix(const char* pConstantName, _float4x4* pMatrix);
-	HRESULT Set_ShaderResourceView(const char* pConstantName, ID3D11ShaderResourceView* pSRV);
-
 	HRESULT	Set_RawValue(const char* pConstantName, const void* pData, _uint iLength);
+	HRESULT	Set_Matrix(const char* pConstantName, _float4x4* pMatrix);
+	HRESULT Set_MatrixArray(const char* pConstantName, _float4x4* pMatrix, _uint iNumMatrices);
+	HRESULT Set_ShaderResourceView(const char* pConstantName, ID3D11ShaderResourceView* pSRV);
+	HRESULT Set_ShaderResourceViewArray(const char* pConstantName, ID3D11ShaderResourceView** ppSRV, _uint iNumTextures);
+
+
 	HRESULT	Set_Matrix(const char* pConstantName, const _float4x4& pMatrix);
 	HRESULT Set_ShaderResourceView(const char* pConstantName, ID3D11ShaderResourceView& pSRV);
-	HRESULT Set_ShaderResourceViewArray(const char* pConstantName, ID3D11ShaderResourceView** ppSRV, _uint iNumTextures);
 
 
 private:

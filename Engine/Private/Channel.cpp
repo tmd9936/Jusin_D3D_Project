@@ -7,14 +7,6 @@ CChannel::CChannel()
 {
 }
 
-CChannel::CChannel(const CChannel& rhs)
-	: m_iNumKeyFrames(rhs.m_iNumKeyFrames)
-	, m_KeyFrames(rhs.m_KeyFrames)
-	, m_pBone(rhs.m_pBone)
-{
-	strcpy_s(m_szName, rhs.m_szName);
-}	
-
 HRESULT CChannel::Initialize(aiNodeAnim* pAIChannel, CModel* pModel)
 {
 	strcpy_s(m_szName, pAIChannel->mNodeName.data);
@@ -28,9 +20,9 @@ HRESULT CChannel::Initialize(aiNodeAnim* pAIChannel, CModel* pModel)
 	m_iNumKeyFrames = max(pAIChannel->mNumScalingKeys, pAIChannel->mNumRotationKeys);
 	m_iNumKeyFrames = max(m_iNumKeyFrames, pAIChannel->mNumPositionKeys);
 
-	_float3		vScale;
-	_float4		vRotation;
-	_float3		vPosition;
+	_float3		vScale{};
+	_float4		vRotation{};
+	_float3		vPosition{};
 
 	for (_uint i = 0; i < m_iNumKeyFrames; ++i)
 	{
@@ -70,6 +62,9 @@ HRESULT CChannel::Initialize(aiNodeAnim* pAIChannel, CModel* pModel)
 
 void CChannel::Update(_double CurrentTime)
 {
+	if (0.0 == CurrentTime)
+		m_iCurrentKeyFrame = 0;
+
 	KEYFRAME		LastKeyFrame = m_KeyFrames.back();
 
 	_vector			vScale, vRotation, vPosition;
@@ -84,8 +79,11 @@ void CChannel::Update(_double CurrentTime)
 
 	else
 	{
-		if (CurrentTime >= m_KeyFrames[m_iCurrentKeyFrame + 1].Time)
-			++m_iCurrentKeyFrame;
+		if (m_iCurrentKeyFrame + 1 < m_KeyFrames.size())
+		{
+			if (CurrentTime >= m_KeyFrames[m_iCurrentKeyFrame + 1].Time)
+				++m_iCurrentKeyFrame;
+		}
 
 		_double		Ratio = (CurrentTime - m_KeyFrames[m_iCurrentKeyFrame].Time) /
 			(m_KeyFrames[m_iCurrentKeyFrame + 1].Time - m_KeyFrames[m_iCurrentKeyFrame].Time);
@@ -104,7 +102,7 @@ void CChannel::Update(_double CurrentTime)
 		vDestPosition = XMLoadFloat3(&m_KeyFrames[m_iCurrentKeyFrame + 1].vPosition);
 
 		vScale = XMVectorLerp(vSourScale, vDestScale, Ratio);
-		vRotation = XMVectorLerp(vSourRotation, vDestRotation, Ratio);
+		vRotation = XMQuaternionSlerp(vSourRotation, vDestRotation, Ratio);
 		vPosition = XMVectorLerp(vSourPosition, vDestPosition, Ratio);
 		vPosition = XMVectorSetW(vPosition, 1.f);
 	}
@@ -130,8 +128,7 @@ CChannel* CChannel::Create(aiNodeAnim* pAIChannel, CModel* pModel)
 
 void CChannel::Free()
 {
-	__super::Free();
-
 	Safe_Release(m_pBone);
+	m_KeyFrames.clear();
 }
 

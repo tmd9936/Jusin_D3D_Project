@@ -64,6 +64,8 @@ public:
 		return m_Rotaion; 
 	}
 
+	HRESULT Set_ShaderResource(class CShader* pShader, const char* pContantName);
+
 public:
 	void	Set_State(STATE eState, _fvector vState) {
 		XMStoreFloat4((_float4*)m_WorldMatrix.m[eState], vState);

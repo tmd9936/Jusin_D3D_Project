@@ -320,6 +320,9 @@
     <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_VtxModelColor.hlsl">
       <Filter>97. ShaderFiles</Filter>
     </FxCompile>
+    <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_VtxAnimModel.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\imgui\CMakeLists.txt">
