@@ -10,24 +10,18 @@ CMesh::CMesh(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* 
 
 CMesh::CMesh(const CMesh& rhs, CGameObject* pOwner)
 	: CVIBuffer(rhs, pOwner)
-	, m_iMaterialIndex(rhs.m_iMaterialIndex)
-	, m_iNumBones(rhs.m_iNumBones)
-	, m_Bones(rhs.m_Bones)
-	, m_ViewZ(rhs.m_ViewZ)
 {
-	for (auto& pBone : m_Bones)
-		Safe_AddRef(pBone);
 }
 
-void CMesh::Get_BoneMatrices(_float4x4* pBoneMatrices, _matrix PivotMatrix)
+void CMesh::Get_BoneMatrices(_float4x4* pBoneMatrices, const vector<class CBone*>& Bones, _matrix PivotMatrix)
 {
 	_uint		iNumBones = 0;
 
 	/* 이 메시에 영향을 주는 뼈들의 최종 렌더링 행렬을 배열에 담아 넘겨준다. */
 
-	for (auto& pBone : m_Bones)
+	for (auto& iBoneIndex : m_Bones)
 	{
-		XMStoreFloat4x4(&pBoneMatrices[iNumBones++], pBone->Get_OffsetMatrix() * pBone->Get_CombinedTransformationMatrix() * PivotMatrix);
+		XMStoreFloat4x4(&pBoneMatrices[iNumBones++], Bones[iBoneIndex]->Get_OffsetMatrix() * Bones[iBoneIndex]->Get_CombinedTransformationMatrix() * PivotMatrix);
 	}
 }
 
@@ -192,9 +186,7 @@ HRESULT CMesh::Ready_VertexBuffer_ForAnim(aiMesh* pAIMesh, CModel* pModel)
 
 		pBone->SetUp_OffsetMatrix(XMMatrixTranspose(XMLoadFloat4x4(&OffsetMatrix)));
 
-		m_Bones.push_back(pBone);
-
-		Safe_AddRef(pBone);
+		m_Bones.push_back(pModel->Get_BoneIndex(pAIBone->mName.data));
 
 		/* pAIBone->mNumWeights : 이 뼈는 몇개의 정점에 영향을 주는가? */
 		for (_uint j = 0; j < pAIBone->mNumWeights; ++j)
@@ -231,7 +223,7 @@ HRESULT CMesh::Ready_VertexBuffer_ForAnim(aiMesh* pAIMesh, CModel* pModel)
 	{
 		m_iNumBones = 1;
 
-		m_Bones.push_back(pModel->Get_BonePtr(m_szName));
+		m_Bones.push_back(pModel->Get_BoneIndex(m_szName));
 	}
 
 	m_SubResourceData.pSysMem = pVertices;
@@ -334,9 +326,7 @@ HRESULT CMesh::Ready_VertexBuffer_ForAnimUI(aiMesh* pAIMesh, CModel* pModel)
 
 		pBone->SetUp_OffsetMatrix(XMMatrixTranspose(XMLoadFloat4x4(&OffsetMatrix)));
 
-		m_Bones.push_back(pBone);
-
-		Safe_AddRef(pBone);
+		m_Bones.push_back(pModel->Get_BoneIndex(pAIBone->mName.data));
 
 		/* pAIBone->mNumWeights : 이 뼈는 몇개의 정점에 영향을 주는가? */
 		for (_uint j = 0; j < pAIBone->mNumWeights; ++j)
@@ -373,7 +363,7 @@ HRESULT CMesh::Ready_VertexBuffer_ForAnimUI(aiMesh* pAIMesh, CModel* pModel)
 	{
 		m_iNumBones = 1;
 
-		m_Bones.push_back(pModel->Get_BonePtr(m_szName));
+		m_Bones.push_back(pModel->Get_BoneIndex(m_szName));
 	}
 
 	m_SubResourceData.pSysMem = pVertices;
@@ -463,9 +453,7 @@ HRESULT CMesh::Ready_VertexBuffer_ForColorAnim(aiMesh* pAIMesh, CModel* pModel)
 
 		pBone->SetUp_OffsetMatrix(XMMatrixTranspose(XMLoadFloat4x4(&OffsetMatrix)));
 
-		m_Bones.push_back(pBone);
-
-		Safe_AddRef(pBone);
+		m_Bones.push_back(pModel->Get_BoneIndex(pAIBone->mName.data));
 
 		/* pAIBone->mNumWeights : 이 뼈는 몇개의 정점에 영향을 주는가? */
 		for (_uint j = 0; j < pAIBone->mNumWeights; ++j)
@@ -502,7 +490,7 @@ HRESULT CMesh::Ready_VertexBuffer_ForColorAnim(aiMesh* pAIMesh, CModel* pModel)
 	{
 		m_iNumBones = 1;
 
-		m_Bones.push_back(pModel->Get_BonePtr(m_szName));
+		m_Bones.push_back(pModel->Get_BoneIndex(m_szName));
 	}
 
 	m_SubResourceData.pSysMem = pVertices;
@@ -545,6 +533,5 @@ void CMesh::Free()
 {
 	__super::Free();
 
-	for (auto& pBone : m_Bones)
-		Safe_Release(pBone);
+	m_Bones.clear();
 }

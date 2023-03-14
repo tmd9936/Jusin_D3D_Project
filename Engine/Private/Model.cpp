@@ -18,18 +18,28 @@ CModel::CModel(const CModel& rhs, CGameObject* pOwner)
 	, m_eType(rhs.m_eType)
 	, m_iNumMaterials(rhs.m_iNumMaterials)
 	, m_Materials(rhs.m_Materials)
-	, m_Bones(rhs.m_Bones)
 	, m_iNumAnimations(rhs.m_iNumAnimations)
-	, m_Animations(rhs.m_Animations)
 {
+	m_Bones.reserve(rhs.m_Bones.size());
+	for (auto& pPrototype : rhs.m_Bones)
+	{
+		CBone* pBone = pPrototype->Clone();
+		if (nullptr == pBone)
+			return;
+		m_Bones.push_back(pBone);
+	}
+
+	m_Animations.reserve(rhs.m_Animations.size());
+	for (auto& pPrototype : rhs.m_Animations)
+	{
+		CAnimation* pAnimatione = pPrototype->Clone();
+		if (nullptr == pAnimatione)
+			return;
+		m_Animations.push_back(pAnimatione);
+	}
+
 	for (auto& pMesh : m_Meshes)
 		Safe_AddRef(pMesh);
-
-	for (auto& pBone : m_Bones)
-		Safe_AddRef(pBone);
-
-	for (auto& pAnimation : m_Animations)
-		Safe_AddRef(pAnimation);
 
 	for (auto& Material : m_Materials)
 	{
@@ -52,6 +62,21 @@ CBone* CModel::Get_BonePtr(const char* pBoneName)
 		return nullptr;
 
 	return *iter;
+}
+
+const _int CModel::Get_BoneIndex(const char* pBoneName)
+{
+	_uint		iIndex = 0;
+
+	for (auto& pBone : m_Bones)
+	{
+		if (false == strcmp(pBone->Get_Name(), pBoneName))
+			break;
+
+		++iIndex;
+	}
+
+	return iIndex;
 }
 
 const _float CModel::Get_ViewZ(_uint iMeshIndex)
@@ -98,6 +123,14 @@ HRESULT CModel::Initialize_Prototype(TYPE eType, const char* pModelFilePath, _fm
 
 HRESULT CModel::Initialize(void* pArg)
 {
+	for (auto& pBone : m_Bones)
+	{
+		_int		iIndex = pBone->Get_ParentIndex();
+
+		if (0 <= iIndex)
+			pBone->Set_Parent(m_Bones[iIndex]);
+	}
+
 	return S_OK;
 }
 
@@ -122,7 +155,7 @@ HRESULT CModel::SetUp_BoneMatrices(CShader* pShader, const char* pConstantName, 
 	_float4x4		BoneMatrices[256];
 	ZeroMemory(BoneMatrices, sizeof(_float4x4) * 256);
 
-	m_Meshes[iMeshIndex]->Get_BoneMatrices(BoneMatrices, XMLoadFloat4x4(&m_PivotMatrix));
+	m_Meshes[iMeshIndex]->Get_BoneMatrices(BoneMatrices, m_Bones, XMLoadFloat4x4(&m_PivotMatrix));
 
 	return pShader->Set_MatrixArray(pConstantName, BoneMatrices, 256);
 }
@@ -135,7 +168,7 @@ void CModel::Play_Animation(_double TimeDelta)
 
 	/* CAnimation : 특정 동작을 표현하는 객체. */
 	/* : 이 동작을 구현하기위해 필요한 뼈들의 상태정보(시간에따라 다수, m_TransformationMatrix)를 가진다. */
-	m_Animations[m_iCurrentAnimationIndex]->Update(TimeDelta);
+	m_Animations[m_iCurrentAnimationIndex]->Update(m_Bones, TimeDelta);
 
 	/* 최상위 부모뼈부터 시작하여 최하위 자식뼈까지 전체를 순회하며 Combine행렬을 다시 만들어낸다. */
 	for (auto& pBone : m_Bones)
@@ -154,7 +187,7 @@ HRESULT CModel::Render(_uint iMeshIndex)
 
 HRESULT CModel::Ready_Bones(aiNode* pAINode, CBone* pParent)
 {
-	CBone* pBone = CBone::Create(pAINode, pParent);
+	CBone* pBone = CBone::Create(pAINode, this, pParent);
 	if (nullptr == pBone)
 		return E_FAIL;
 

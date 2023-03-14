@@ -21,7 +21,7 @@ public:
 		return m_iMaterialIndex;
 	}
 
-	void Get_BoneMatrices(_Out_ _float4x4* pBoneMatrices, _In_ _matrix PivotMatrix);
+	void Get_BoneMatrices(_Out_ _float4x4* pBoneMatrices, _In_ const vector<class CBone*>& Bones, _In_ _matrix PivotMatrix);
 
 	const _float Get_ViewZ() const {
 		return m_ViewZ;
@@ -37,7 +37,7 @@ private:
 
 private:
 	_uint					m_iNumBones = { 0 };
-	vector<CBone*>			m_Bones;
+	vector<_int>			m_Bones;
 
 	_float					m_ViewZ = { 0.f };
 

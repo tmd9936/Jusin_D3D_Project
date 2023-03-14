@@ -6,6 +6,7 @@ BEGIN(Engine)
 
 class CChannel;
 class CModel;
+class CBone;
 
 class CAnimation final : public CBase
 {
@@ -16,7 +17,7 @@ public:
 
 public:
 	HRESULT Initialize(aiAnimation* pAIAnimation, CModel* pModel);
-	void Update(_double TimeDelta);
+	void Update(vector<CBone*>& Bones, _double TimeDelta);
 
 private:
 	char			m_szName[MAX_PATH] = "";
@@ -28,11 +29,14 @@ private:  /* 뼈들 */ /* CChannel : 이 뼈가 이 애니메이션을 구동하기위한 전체 시�
 	_uint								m_iNumChannels = { 0 };
 	vector<CChannel*>					m_Channels;
 
+	vector<_uint>						m_iCurrentKeyFrames;
+
 	_bool								m_isLoop = { true };
 	_bool								m_isFinished = { false };
 
 public:
 	static	CAnimation* Create(aiAnimation* pAIAnimation, CModel* pModel);
+	CAnimation* Clone();
 	virtual void Free() override;
 
 };

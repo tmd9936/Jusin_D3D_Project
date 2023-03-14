@@ -4,6 +4,8 @@
 
 BEGIN(Engine)
 
+class CModel;
+
 class CBone final : public CBase
 {
 private:
@@ -23,8 +25,18 @@ public:
 		return XMLoadFloat4x4(&m_CombinedTransformationMatrix);
 	}
 
+	const _int		Get_ParentIndex() const {
+		return m_iParentIndex;
+	}
+
 public:
-	HRESULT Initialize(aiNode* pAINode, CBone* pParent);
+	void	Set_Parent(CBone* pParent) {
+		m_pParent = pParent;
+		Safe_AddRef(m_pParent);
+	}
+
+public:
+	HRESULT Initialize(aiNode* pAINode, CModel* pModel, CBone* pParent);
 	void SetUp_TransformationMatrix(_fmatrix Matrix);
 	void SetUp_CombinedTransformationMatrix();
 	void SetUp_OffsetMatrix(_fmatrix Matrix);
@@ -33,12 +45,14 @@ public:
 private:
 	char			m_szName[MAX_PATH] = "";
 	CBone*			m_pParent = { nullptr };
+	_int			m_iParentIndex = { -1 };
 	_float4x4		m_OffSetMatrix = {};
 	_float4x4		m_TransformationMatrix = {}; /* 뼈의 상태행렬 : 부모기준으로 표현된 이 뼈만의 상태변환행렬. */
 	_float4x4		m_CombinedTransformationMatrix = {}; /* 뼈의 상태행렬 : m_TransformationMatrix * 부모`s  m_CombinedTransformationMatrix*/
 
 public:
-	static CBone* Create(aiNode* pAINode, CBone* pParent);
+	static CBone* Create(aiNode* pAINode, CModel* pModel, CBone* pParent);
+	CBone* Clone();
 	virtual void Free() override;
 };
 

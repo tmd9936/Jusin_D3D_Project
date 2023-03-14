@@ -1,6 +1,7 @@
 #include "Animation.h"
 
 #include "Channel.h"
+#include "Bone.h"
 
 CAnimation::CAnimation()
 {
@@ -12,6 +13,7 @@ CAnimation::CAnimation(const CAnimation& rhs)
 	, m_TimeAcc(rhs.m_TimeAcc)
 	, m_iNumChannels(rhs.m_iNumChannels)
 	, m_Channels(rhs.m_Channels)
+	, m_iCurrentKeyFrames(rhs.m_iCurrentKeyFrames)
 	, m_isLoop(rhs.m_isLoop)
 	, m_isFinished(rhs.m_isFinished)
 {
@@ -39,10 +41,12 @@ HRESULT CAnimation::Initialize(aiAnimation* pAIAnimation, CModel* pModel)
 		m_Channels.push_back(pChannel);
 	}
 
+	m_iCurrentKeyFrames.resize(m_iNumChannels);
+
 	return S_OK;
 }
 
-void CAnimation::Update(_double TimeDelta)
+void CAnimation::Update(vector<CBone*>& Bones, _double TimeDelta)
 {
 	if (m_TimeAcc < m_Duration)
 		m_isFinished = false;
@@ -63,7 +67,7 @@ void CAnimation::Update(_double TimeDelta)
 	/* 이 애님을 표현하는데 필요한 모든 뼈대들의 행렬을 키프레임정보로 만들어낸다. */
 	for (_uint i = 0; i < m_iNumChannels; ++i)
 	{
-		m_Channels[i]->Update(m_TimeAcc);
+		m_Channels[i]->Update(Bones, m_iCurrentKeyFrames[i], m_TimeAcc);
 	}
 }
 
@@ -80,10 +84,13 @@ CAnimation* CAnimation::Create(aiAnimation* pAIAnimation, CModel* pModel)
 	return pInstance;
 }
 
+CAnimation* CAnimation::Clone()
+{
+	return new CAnimation(*this);
+}
+
 void CAnimation::Free()
 {
-	__super::Free();
-
 	for (auto& channel : m_Channels)
 		Safe_Release(channel);
 

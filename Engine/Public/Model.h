@@ -28,6 +28,8 @@ public:
 
 	CBone* Get_BonePtr(const char* pBoneName);
 
+	const _int	Get_BoneIndex(const char* pBoneName);
+
 	const _float Get_ViewZ(_uint iMeshIndex);
 
 	_matrix Get_PivotMatrix() const {
