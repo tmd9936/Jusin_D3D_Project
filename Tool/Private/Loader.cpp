@@ -96,7 +96,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 	_matrix PivotMatrix = XMMatrixIdentity();
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Model_Logo_Scene"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_UI, "../../Reference/Resources/Mesh/Animation/Logo/Logo_Scene.fbx", PivotMatrix))))
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../../Reference/Resources/Mesh/Animation/Logo/Logo_Scene.fbx", PivotMatrix))))
 		return E_FAIL;
 #pragma endregion
 
