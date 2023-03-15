@@ -83,7 +83,7 @@ HRESULT CLevel_Logo::Ready_Layer_UI(const _tchar* pLayerTag)
 	desc.m_eModelPrototypLevel = LEVEL_LOGO;
 	desc.m_iAnimationIndex = 45;
 
-	lstrcpy(desc.m_TextureProtoTypeName, TEXT("Prototype_Component_Model_Logo_Scene"));
+	lstrcpy(desc.m_ModelProtoTypeName, TEXT("Prototype_Component_Model_Logo_Scene"));
 
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ModelUI"), LEVEL_LOGO, pLayerTag, nullptr, &desc)))
 		return E_FAIL;

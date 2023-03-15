@@ -25,7 +25,7 @@ public:
 		_float				m_fSizeY;
 		_uint				m_iAnimationIndex;
 		_uint				m_eModelPrototypLevel;
-		_tchar				m_TextureProtoTypeName[MAX_PATH];
+		_tchar				m_ModelProtoTypeName[MAX_PATH];
 	} UI_DESC;
 
 private:

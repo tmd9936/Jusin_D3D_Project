@@ -4,9 +4,9 @@
 #include "GameObject.h"
 
 BEGIN(Engine)
-class CVIBuffer_Rect;
 class CRenderer;
 class CShader;
+class CModel;
 class CTexture;
 class CTransform;
 END
@@ -15,6 +15,17 @@ BEGIN(Client)
 
 class CButton final : public CGameObject
 {
+public:
+	enum BUTTON_STATE
+	{
+		BUTTON_IDLE,
+		BUTTON_SELETEC,
+		BUTTON_PRESS,
+		BUTTON_RELEASE,
+		BUTTON_END
+	};
+
+
 public:
 	typedef struct Button_Arguments_Desc
 	{
@@ -31,7 +42,7 @@ public:
 public:
 	typedef struct Button_Call_Desc
 	{
-		_tchar					m_MethdName[MAX_PATH];
+		_tchar					m_MethodName[MAX_PATH];
 		_uint					m_Mode;
 		BUTTON_ARGUMENTS_DESC	m_Arguments;
 		_uint					m_CallState;
@@ -78,21 +89,29 @@ public:
 public:
 	typedef struct Button_Desc
 	{
-		_float								m_fX;
-		_float								m_fY;
-		_float								m_fSizeX;
-		_float								m_fSizeY;
+		_float				m_fX;
+		_float				m_fY;
+		_float				m_fSizeX;
+		_float				m_fSizeY;
 
-		BUTTON_COLOR_DESC					m_Colors;
-		_float								m_ColorMultiplier;
-		_float								m_FadeDuration;
+		_uint				m_eModelPrototypLevel;
+		_uint				m_ShaderLevelIndex;
+		char  				m_DiffuseTextureName[MAX_PATH];
+		_tchar				m_MaskPrototype[MAX_PATH];
+		_tchar				m_BrushPrototype[MAX_PATH];
+		_tchar				m_ButtonName[MAX_PATH];
 
-		BUTTON_SPRITE_STATE_DESC			m_SpriteState;
-		BUTTON_ANIMATION_TRIGGERS_DESC		m_AnimationTriggers;
-		
-		_bool								m_Interactable;
 
-		BUTTON_ONCLICK_DESC					m_OnClick;
+		//BUTTON_COLOR_DESC					m_Colors;
+		//_float								m_ColorMultiplier;
+		//_float								m_FadeDuration;
+
+		//BUTTON_SPRITE_STATE_DESC			m_SpriteState;
+		//BUTTON_ANIMATION_TRIGGERS_DESC		m_AnimationTriggers;
+		//
+		//_bool								m_Interactable;
+
+		//BUTTON_ONCLICK_DESC					m_OnClick;
 
 	} BUTTON_DESC;
 
@@ -109,17 +128,17 @@ public:
 	virtual HRESULT Render() override;
 
 private:
-	CTransform* m_pTransformCom = { nullptr };
-	CRenderer* m_pRendererCom = { nullptr };
-	CShader* m_pShaderCom = { nullptr };
-	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
-	CTexture* m_pTextureCom = { nullptr };
+	CTransform*		m_pTransformCom = { nullptr };
+	CRenderer*		m_pRendererCom = { nullptr };
+	CShader*		m_pShaderCom = { nullptr };
+	CModel*			m_pModelCom = { nullptr };;
+	CTexture*		m_pTextureCom = { nullptr };
 
 private:
 	BUTTON_DESC		m_UIDesc = {};
 	_float4x4		m_ViewMatrix = {};
 	_float4x4		m_ProjMatrix = {};
-
+	BUTTON_STATE	m_eState = { BUTTON_IDLE };
 
 private:
 	HRESULT Add_Components();

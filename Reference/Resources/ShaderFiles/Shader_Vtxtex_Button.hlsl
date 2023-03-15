@@ -9,15 +9,11 @@ float			g_fBrushRange = 1.f;
 sampler PointSampler = sampler_state
 {
 	filter = min_mag_mip_point;
-	AddressU = wrap;
-	AddressV = wrap;
 };
 
 sampler LinearSampler = sampler_state
 {
 	filter = min_mag_mip_linear;
-	AddressU = wrap;
-	AddressV = wrap;
 };
 
 struct VS_IN

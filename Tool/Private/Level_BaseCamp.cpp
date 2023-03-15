@@ -6,6 +6,8 @@
 #include "Player.h"
 #include "Utility.h"
 
+#include "Button.h"
+
 CLevel_BaseCamp::CLevel_BaseCamp(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
 {
@@ -161,6 +163,22 @@ HRESULT CLevel_BaseCamp::Ready_Layer_UI(const _tchar* pLayerTag)
 
 	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ModelUI"), LEVEL_BASECAMP, pLayerTag, nullptr, &desc)))
 	//	return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_BASECAMP, pLayerTag)))
+		return E_FAIL;
+
+	CButton::BUTTON_DESC desc = {};
+	desc.m_fSizeX = g_iWinSizeX >> 2;
+	desc.m_fSizeY = g_iWinSizeY >> 2;
+	desc.m_fX = g_iWinSizeX >> 1;
+	desc.m_fY = g_iWinSizeY >> 1;
+	desc.m_ShaderLevelIndex = LEVEL_BASECAMP;
+
+	strcpy(desc.m_DiffuseTextureName, "window_button_pokemon_blue.png");
+	lstrcpy(desc.m_MaskPrototype, TEXT(""));
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ModelUI"), LEVEL_BASECAMP, pLayerTag, nullptr, &desc)))
+		return E_FAIL;
 
 
 	Safe_Release(pGameInstance);

@@ -121,7 +121,7 @@ HRESULT CLevel_Loading::Ready_Layer_UI(const _tchar* pLayerTag)
 	desc.m_eModelPrototypLevel = LEVEL_STATIC;
 	desc.m_iAnimationIndex = 0;
 
-	lstrcpy(desc.m_TextureProtoTypeName, TEXT("Prototype_Component_Model_Loading_Scene"));
+	lstrcpy(desc.m_ModelProtoTypeName, TEXT("Prototype_Component_Model_Loading_Scene"));
 
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ModelUI"), LEVEL_LOADING, pLayerTag, nullptr, &desc)))
 		return E_FAIL;

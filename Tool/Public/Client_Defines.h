@@ -9,7 +9,10 @@ namespace Client
 	enum LEVEL { LEVEL_STATIC, LEVEL_LOADING, LEVEL_LOGO, LEVEL_BASECAMP, LEVEL_END };
 
 	enum Tool_ID { PICKING, ADD, MAP, SAVE_LOAD, TYPE_END };
+	
+	enum TEXTURETYPE { TYPE_DIFFUSE, TYPE_MASK, TYPE_BRUSH, TYPE_END };
 }
+
 
 typedef struct tag_My_float4
 {

@@ -15,8 +15,6 @@ BEGIN(Client)
 
 class CFlatTerrain final : public CGameObject
 {
-public:
-	enum TEXTURETYPE { TYPE_DIFFUSE, TYPE_MASK, TYPE_BRUSH, TYPE_END };
 private:
 	CFlatTerrain(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CFlatTerrain(const CFlatTerrain& rhs);
