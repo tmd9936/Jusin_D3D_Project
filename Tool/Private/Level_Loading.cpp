@@ -119,6 +119,7 @@ HRESULT CLevel_Loading::Ready_Layer_UI(const _tchar* pLayerTag)
 	desc.m_fX = g_iWinSizeX >> 1;
 	desc.m_fY = g_iWinSizeY >> 1;
 	desc.m_eModelPrototypLevel = LEVEL_STATIC;
+	desc.m_iAnimationIndex = 0;
 
 	lstrcpy(desc.m_TextureProtoTypeName, TEXT("Prototype_Component_Model_Loading_Scene"));
 

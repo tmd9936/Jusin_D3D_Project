@@ -34,6 +34,9 @@ private:
 	CDataToolGUI* m_pDataToolGUI = { nullptr };
 
 private:
+	_bool		m_bToolMode = { true };
+
+private:
 	HRESULT SetUp_StartLevel(LEVEL eNextLevelID);
 	HRESULT Ready_Prototype_Component_For_Static();
 	HRESULT Ready_Prototype_GameObject_For_Static();

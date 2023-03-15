@@ -36,12 +36,14 @@ HRESULT CModelUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* p
 	XMStoreFloat4x4(&m_ProjMatrix,
 		XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
 
+	m_pModelCom->Set_Animation(m_UIDesc.m_iAnimationIndex);
+
 	return S_OK;
 }
 
 _uint CModelUI::Tick(_double TimeDelta)
 {
-	m_pModelCom->Play_Animation(TimeDelta);
+ 	m_pModelCom->Play_Animation(TimeDelta);
 
 	return _uint();
 }
@@ -58,7 +60,6 @@ HRESULT CModelUI::Render()
 {
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
-
 
 	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
 

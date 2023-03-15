@@ -87,7 +87,10 @@ HRESULT CMainApp::Initialize()
 
 void CMainApp::Tick(_double TimeDelta)
 {
-	m_pMapToolGUI->Tick(TimeDelta);
+	if (m_bToolMode)
+	{
+		m_pMapToolGUI->Tick(TimeDelta);
+	}
 	m_pGameInstance->Tick_Engine(TimeDelta);
 }
 
@@ -96,7 +99,18 @@ HRESULT CMainApp::Render()
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
-	
+
+	ImGui::Begin("Tool Mode On/OFF");
+	{
+		if (m_bToolMode)
+			ImGui::Text("Tool Mode ON");
+		else
+			ImGui::Text("Tool Mode OFF");
+
+		ImGui::ToggleButton("ON/OFF", &m_bToolMode);
+	}
+	ImGui::End();
+
 	//bool bDemo = true;
 	//ImGui::ShowDemoWindow();
 	m_pMapToolGUI->Render();
