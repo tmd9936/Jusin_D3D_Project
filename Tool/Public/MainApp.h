@@ -24,6 +24,9 @@ public:
 	HRESULT Render();
 
 private:
+	void	Tool_Mode_ON_OFF_UI();
+
+private:
 	ID3D11Device* m_pDevice = { nullptr };
 	ID3D11DeviceContext* m_pContext = { nullptr };
 

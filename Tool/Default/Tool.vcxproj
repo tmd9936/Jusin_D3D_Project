@@ -239,6 +239,7 @@
     <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_VtxNorTex.hlsl" />
     <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_VtxNorTex_HeightTerrain.hlsl" />
     <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_Vtxtex.hlsl" />
+    <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_Vtxtex_Button.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\imgui\CMakeLists.txt" />

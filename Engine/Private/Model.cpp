@@ -86,6 +86,49 @@ const _float CModel::Get_ViewZ(_uint iMeshIndex)
 	return 0.f;
 }
 
+HRESULT CModel::Set_Texture_In_Material(const _uint& materialIndex, const _uint& aiTextureType, const char* pTexturePath)
+{
+	if (materialIndex >= m_iNumMaterials)
+		return E_FAIL;
+
+	if (aiTextureType >= AI_TEXTURE_TYPE_MAX)
+		return E_FAIL;
+
+	if (nullptr == pTexturePath)
+		return E_FAIL;;
+
+	char		szFileName[MAX_PATH] = "";
+	char		szEXT[MAX_PATH] = "";
+
+	_splitpath_s(pTexturePath, nullptr, 0, nullptr, 0, szFileName, MAX_PATH, szEXT, MAX_PATH);
+
+	char		szDrive[MAX_PATH] = "";
+	char		szDir[MAX_PATH] = "";
+
+	_splitpath_s(m_Materials[materialIndex].szModelPath.c_str(), szDrive, MAX_PATH, szDir, MAX_PATH, nullptr, 0, nullptr, 0);
+
+	char		szFullPath[MAX_PATH] = "";
+
+	strcpy_s(szFullPath, szDrive);
+	strcat_s(szFullPath, szDir);
+	strcat_s(szFullPath, szFileName);
+	strcat_s(szFullPath, szEXT);
+
+	_tchar		szFinalPath[MAX_PATH] = TEXT("");
+
+	MultiByteToWideChar(CP_ACP, 0, szFullPath, strlen(szFullPath), szFinalPath, MAX_PATH);
+
+	CTexture* pTexture = CTexture::Create(m_pDevice, m_pContext, szFinalPath);
+	if (nullptr == pTexture)
+		return E_FAIL;
+
+	Safe_Release(m_Materials[materialIndex].pMtrlTexture[aiTextureType]);
+
+	m_Materials[materialIndex].pMtrlTexture[aiTextureType] = pTexture;
+
+	return S_OK;
+}
+
 HRESULT CModel::Initialize_Prototype(TYPE eType, const char* pModelFilePath, _fmatrix PivotMatrix)
 {
 	_uint		iFlag = 0;
@@ -293,6 +336,8 @@ HRESULT CModel::Ready_Materials(const char* pModelFilePath)
 			_tchar		szFinalPath[MAX_PATH] = TEXT("");
 
 			MultiByteToWideChar(CP_ACP, 0, szFullPath, strlen(szFullPath), szFinalPath, MAX_PATH);
+
+			ModelMaterial.szModelPath = pModelFilePath;
 
 			ModelMaterial.pMtrlTexture[j] = CTexture::Create(m_pDevice, m_pContext, szFinalPath);
 			if (nullptr == ModelMaterial.pMtrlTexture[j])

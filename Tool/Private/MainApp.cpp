@@ -100,16 +100,7 @@ HRESULT CMainApp::Render()
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
-	ImGui::Begin("Tool Mode On/OFF");
-	{
-		if (m_bToolMode)
-			ImGui::Text("Tool Mode ON");
-		else
-			ImGui::Text("Tool Mode OFF");
-
-		ImGui::ToggleButton("ON/OFF", &m_bToolMode);
-	}
-	ImGui::End();
+	Tool_Mode_ON_OFF_UI();
 
 	//bool bDemo = true;
 	//ImGui::ShowDemoWindow();
@@ -143,6 +134,20 @@ HRESULT CMainApp::Render()
 	m_pGameInstance->Present(1, 0);
 
 	return S_OK;
+}
+
+void CMainApp::Tool_Mode_ON_OFF_UI()
+{
+	ImGui::Begin("Tool Mode On/OFF");
+	{
+		if (m_bToolMode)
+			ImGui::Text("Tool Mode ON");
+		else
+			ImGui::Text("Tool Mode OFF");
+
+		ImGui::ToggleButton("ON/OFF", &m_bToolMode);
+	}
+	ImGui::End();
 }
 
 HRESULT CMainApp::SetUp_StartLevel(LEVEL eNextLevelID)

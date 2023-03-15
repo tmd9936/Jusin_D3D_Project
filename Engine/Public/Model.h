@@ -42,6 +42,9 @@ public:
 	}
 
 public:
+	HRESULT Set_Texture_In_Material(const _uint& materialIndex, const _uint& aiTextureType, const char* pTexturePath);
+
+public:
 	virtual HRESULT Initialize_Prototype(TYPE eType, const char* pModelFilePath, _fmatrix PivotMatrix);
 	virtual HRESULT Initialize(void* pArg);
 
