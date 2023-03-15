@@ -106,17 +106,17 @@ HRESULT CFlatTerrain::Add_Components()
 
 	/* For.Com_Texture */
 	if (FAILED(pGameInstance->Add_Component(CTexture::familyId, this, LEVEL_BASECAMP, TEXT("Prototype_Component_Texture_Terrain"),
-		(CComponent**)&m_pTextureCom[TYPE_DIFFUSE], nullptr)))
+		(CComponent**)&m_pTextureCom[TEXTURETYPE_DIFFUSE], nullptr)))
 		return E_FAIL;
 
 	/* For.Com_Mask */
 	if (FAILED(pGameInstance->Add_Component(FAMILY_ID_TEXTURE_MASK, this, LEVEL_BASECAMP, TEXT("Prototype_Component_Texture_TerrainMask"),
-		(CComponent**)&m_pTextureCom[TYPE_MASK], nullptr)))
+		(CComponent**)&m_pTextureCom[TEXTURETYPE_MASK], nullptr)))
 		return E_FAIL;
 
 	/* For.Com_Brush */
 	if (FAILED(pGameInstance->Add_Component(FAMILY_ID_TEXTURE_BRUSH, this, LEVEL_BASECAMP, TEXT("Prototype_Component_Texture_Brush"),
-		(CComponent**)&m_pTextureCom[TYPE_BRUSH], nullptr)))
+		(CComponent**)&m_pTextureCom[TEXTURETYPE_BRUSH], nullptr)))
 		return E_FAIL;
 
 
@@ -165,18 +165,18 @@ HRESULT CFlatTerrain::SetUp_ShaderResources()
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Set_RawValue("g_vBrushPos",
-		&m_pTextureCom[TYPE_BRUSH]->Get_BrushPos(), sizeof(_float4))))
+		&m_pTextureCom[TEXTURETYPE_BRUSH]->Get_BrushPos(), sizeof(_float4))))
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);
 
-	if (FAILED(m_pTextureCom[TYPE_DIFFUSE]->Set_ShaderResourceArray(m_pShaderCom, "g_DiffuseTexture")))
+	if (FAILED(m_pTextureCom[TEXTURETYPE_DIFFUSE]->Set_ShaderResourceArray(m_pShaderCom, "g_DiffuseTexture")))
 		return E_FAIL;
 
-	if (FAILED(m_pTextureCom[TYPE_MASK]->Set_ShaderResource(m_pShaderCom, "g_MaskTexture", 0)))
+	if (FAILED(m_pTextureCom[TEXTURETYPE_MASK]->Set_ShaderResource(m_pShaderCom, "g_MaskTexture", 0)))
 		return E_FAIL;
 
-	if (FAILED(m_pTextureCom[TYPE_BRUSH]->Set_ShaderResource(m_pShaderCom, "g_BrushTexture", 0)))
+	if (FAILED(m_pTextureCom[TEXTURETYPE_BRUSH]->Set_ShaderResource(m_pShaderCom, "g_BrushTexture", 0)))
 		return E_FAIL;
 
 	return S_OK;

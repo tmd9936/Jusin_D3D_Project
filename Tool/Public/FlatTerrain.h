@@ -37,7 +37,7 @@ private:
 	CRenderer* m_pRendererCom = { nullptr };
 	CShader* m_pShaderCom = { nullptr };
 	CVIBuffer_FlatTerrain* m_pVIBufferCom = { nullptr };
-	CTexture* m_pTextureCom[TYPE_END] = { nullptr };
+	CTexture* m_pTextureCom[TEXTURETYPE_END] = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
 
 private:

@@ -1,5 +1,7 @@
 matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
+texture2D		g_Texture;
+
 texture2D		g_DiffuseTexture[2];
 texture2D		g_MaskTexture;
 texture2D		g_BrushTexture;
