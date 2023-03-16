@@ -17,7 +17,7 @@ public:
 
 public:
 	HRESULT Initialize(aiAnimation* pAIAnimation, CModel* pModel);
-	void Update(vector<CBone*>& Bones, _double TimeDelta);
+	_bool Update(vector<CBone*>& Bones, _double TimeDelta);
 
 private:
 	char			m_szName[MAX_PATH] = "";

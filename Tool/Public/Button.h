@@ -19,9 +19,9 @@ public:
 	enum BUTTON_STATE
 	{
 		BUTTON_IDLE,
-		BUTTON_SELETEC,
 		BUTTON_PRESS,
 		BUTTON_RELEASE,
+		BUTTON_SELECT,
 		BUTTON_END
 	};
 
@@ -128,6 +128,16 @@ public:
 	virtual HRESULT Render() override;
 
 private:
+	HRESULT Add_Components();
+	HRESULT SetUp_ShaderResources();
+
+private:
+	void	Button_Motion(_double TimeDelta);
+	void	Picking_Button();
+	void	Change_State();
+
+
+private:
 	CTransform*		m_pTransformCom = { nullptr };
 	CRenderer*		m_pRendererCom = { nullptr };
 	CShader*		m_pShaderCom = { nullptr };
@@ -138,11 +148,14 @@ private:
 	BUTTON_DESC		m_UIDesc = {};
 	_float4x4		m_ViewMatrix = {};
 	_float4x4		m_ProjMatrix = {};
-	BUTTON_STATE	m_eState = { BUTTON_IDLE };
+	BUTTON_STATE	m_ePreState = { BUTTON_END };
+	BUTTON_STATE	m_eCurState = { BUTTON_IDLE };
 
 private:
-	HRESULT Add_Components();
-	HRESULT SetUp_ShaderResources();
+	_float4x4		m_eTransformMatrix = {};
+
+private:
+	const			int		m_mouseInterSize = { 2 };
 
 public:
 	/* Prototype */

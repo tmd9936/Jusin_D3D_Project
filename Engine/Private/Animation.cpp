@@ -46,7 +46,7 @@ HRESULT CAnimation::Initialize(aiAnimation* pAIAnimation, CModel* pModel)
 	return S_OK;
 }
 
-void CAnimation::Update(vector<CBone*>& Bones, _double TimeDelta)
+_bool CAnimation::Update(vector<CBone*>& Bones, _double TimeDelta)
 {
 	if (m_TimeAcc < m_Duration)
 		m_isFinished = false;
@@ -69,6 +69,8 @@ void CAnimation::Update(vector<CBone*>& Bones, _double TimeDelta)
 	{
 		m_Channels[i]->Update(Bones, m_iCurrentKeyFrames[i], m_TimeAcc);
 	}
+
+	return m_isFinished;
 }
 
 CAnimation* CAnimation::Create(aiAnimation* pAIAnimation, CModel* pModel)

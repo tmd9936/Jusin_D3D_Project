@@ -46,13 +46,15 @@ HRESULT CButton::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pA
 
 _uint CButton::Tick(_double TimeDelta)
 {
-	m_pModelCom->Play_Animation(TimeDelta);
+	Button_Motion(TimeDelta);
+	Picking_Button();
+
 	return _uint();
 }
 
 _uint CButton::LateTick(_double TimeDelta)
 {
-
+	m_eTransformMatrix = m_pModelCom->Get_CombinedTransformationMatrix_float4_4(1);
 	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
 
 	return _uint();
@@ -64,8 +66,6 @@ HRESULT CButton::Render()
 		return E_FAIL;
 
 	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
-	_float4x4 matrix = m_pModelCom->Get_CombinedTransformationMatrix_float4_4(1);
-	m_pTransformCom->Set_Scaled({ m_UIDesc.m_fSizeX * matrix.m[0][0],  m_UIDesc.m_fSizeY * matrix.m[1][1], 1.f });
 
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
@@ -87,6 +87,8 @@ HRESULT CButton::Render()
 		m_pModelCom->Render(i);
 
 	}
+
+	Change_State();
 
 	return S_OK;
 }
@@ -144,11 +146,95 @@ HRESULT CButton::SetUp_ShaderResources()
 		return E_FAIL;
 
 	//if (FAILED(m_pTextureCom->Set_ShaderResource(m_pShaderCom, "g_Texture", 0)))
-	//	return E_FAIL;
+	//	return E_FAIL;	
 
 	Safe_Release(pGameInstance);
 
 	return S_OK;
+}
+
+void CButton::Button_Motion(_double TimeDelta)
+{
+
+	switch (m_eCurState)
+	{
+	case CButton::BUTTON_IDLE:
+		//m_pTransformCom->Set_Scaled({ m_UIDesc.m_fSizeX,  m_UIDesc.m_fSizeY, 1.f });
+		m_pModelCom->Play_Animation(TimeDelta);
+		break;
+	case CButton::BUTTON_PRESS:
+		m_pTransformCom->Set_Scaled({ m_UIDesc.m_fSizeX * m_eTransformMatrix.m[0][0],  m_UIDesc.m_fSizeY * m_eTransformMatrix.m[1][1], 1.f });
+		if (m_pModelCom->Play_Animation(TimeDelta))
+		{
+			m_eCurState = BUTTON_SELECT;
+		}
+		break;
+	case CButton::BUTTON_RELEASE:
+		m_pTransformCom->Set_Scaled({ m_UIDesc.m_fSizeX * m_eTransformMatrix.m[0][0],  m_UIDesc.m_fSizeY * m_eTransformMatrix.m[1][1], 1.f });
+		if (m_pModelCom->Play_Animation(TimeDelta))
+		{
+			m_eCurState = BUTTON_IDLE;
+		}
+		break;
+	case CButton::BUTTON_SELECT:
+		m_pModelCom->Play_Animation(TimeDelta);
+		//m_pTransformCom->Set_Scaled({ m_UIDesc.m_fSizeX * m_eTransformMatrix.m[0][0],  m_UIDesc.m_fSizeY * m_eTransformMatrix.m[1][1], 1.f });
+		break;
+	}
+}
+
+void CButton::Picking_Button()
+{
+	if (MOUSE_TAB(MOUSE::LBTN) && m_eCurState == BUTTON_IDLE)
+	{
+		RECT uiRect{ LONG(m_UIDesc.m_fX - m_UIDesc.m_fSizeX * 0.5f), LONG(m_UIDesc.m_fY - m_UIDesc.m_fSizeY * 0.5f)
+		, LONG(m_UIDesc.m_fX + m_UIDesc.m_fSizeX * 0.5f),  LONG(m_UIDesc.m_fY + m_UIDesc.m_fSizeY * 0.5f) };
+
+		POINT pt{};
+		GetCursorPos(&pt);
+		ScreenToClient(g_hWnd, &pt);
+
+		RECT mouseRect{ pt.x - 5, pt.y - 5, pt.x + 5, pt.y + 5 };
+
+		RECT result{};
+		if (IntersectRect(&result, &uiRect, &mouseRect))
+		{
+			m_eCurState = BUTTON_PRESS;
+		}
+	}
+	else if (MOUSE_HOLD(MOUSE::LBTN) && m_eCurState == BUTTON_SELECT)
+	{
+		m_eCurState = BUTTON_SELECT;
+	}
+
+	else if (MOUSE_AWAY(MOUSE::LBTN) && m_eCurState == BUTTON_SELECT)
+	{
+		m_eCurState = BUTTON_RELEASE;
+	}
+}
+
+void CButton::Change_State()
+{
+	if (m_ePreState != m_eCurState)
+	{
+		switch (m_eCurState)
+		{
+		case CButton::BUTTON_IDLE:
+			m_pModelCom->Set_Animation(BUTTON_IDLE);
+			break;
+		case CButton::BUTTON_PRESS:
+			m_pModelCom->Set_Animation(BUTTON_PRESS);
+			break;
+		case CButton::BUTTON_RELEASE:
+			m_pModelCom->Set_Animation(BUTTON_RELEASE);
+			break;
+		case CButton::BUTTON_SELECT:
+			m_pModelCom->Set_Animation(BUTTON_SELECT);
+			break;
+		}
+
+		m_ePreState = m_eCurState;
+	}
 }
 
 CButton* CButton::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

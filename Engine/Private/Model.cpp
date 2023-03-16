@@ -203,7 +203,7 @@ HRESULT CModel::SetUp_BoneMatrices(CShader* pShader, const char* pConstantName, 
 	return pShader->Set_MatrixArray(pConstantName, BoneMatrices, 256);
 }
 
-void CModel::Play_Animation(_double TimeDelta)
+_bool CModel::Play_Animation(_double TimeDelta)
 {
 	/* 실제 파일에 저장되어있었던 뼈의 각각의 시간에 맞는 상태로 뼈들의 상태를 변경하고.
 	이렇게 변경된 뼈들의 상태를 부모에서부터 자식으로 순차적으로 누적하여 셋팅해나간다. */
@@ -211,13 +211,15 @@ void CModel::Play_Animation(_double TimeDelta)
 
 	/* CAnimation : 특정 동작을 표현하는 객체. */
 	/* : 이 동작을 구현하기위해 필요한 뼈들의 상태정보(시간에따라 다수, m_TransformationMatrix)를 가진다. */
-	m_Animations[m_iCurrentAnimationIndex]->Update(m_Bones, TimeDelta);
+	_bool result = m_Animations[m_iCurrentAnimationIndex]->Update(m_Bones, TimeDelta);
 
 	/* 최상위 부모뼈부터 시작하여 최하위 자식뼈까지 전체를 순회하며 Combine행렬을 다시 만들어낸다. */
 	for (auto& pBone : m_Bones)
 	{
 		pBone->SetUp_CombinedTransformationMatrix();
 	}
+
+	return result;
 }
 
 HRESULT CModel::Render(_uint iMeshIndex)
