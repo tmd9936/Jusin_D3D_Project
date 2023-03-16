@@ -54,6 +54,9 @@ public:
 	void Play_Animation(_double TimeDelta);
 	HRESULT Render(_uint iMeshIndex);
 
+public:
+	_matrix Get_BoneCombinedMatrix(const _uint& boneIndex );
+
 private:
 	Assimp::Importer				m_Importer; /* 경로의 파일을 읽어서 저장하는 기능을 한다. */
 	const aiScene*					m_pAIScene = { nullptr }; /* 실제 데이터들을 저장하고 있으며 변수를 통해 접근 가능하도록 처리해주는 객체. */

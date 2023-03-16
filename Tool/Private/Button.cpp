@@ -39,7 +39,7 @@ HRESULT CButton::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pA
 	XMStoreFloat4x4(&m_ProjMatrix,
 		XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
 
-	m_pModelCom->Set_Animation(1);
+	m_pModelCom->Set_Animation(0);
 
 	return S_OK;
 }
@@ -67,6 +67,13 @@ HRESULT CButton::Render()
 
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
+		_float viewZ = m_pModelCom->Get_ViewZ(i);
+
+		m_pTransformCom->Set_PosZ(viewZ);
+
+		if (FAILED(m_pShaderCom->Set_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
+			return E_FAIL;
+
 		if (FAILED(m_pModelCom->SetUp_ShaderResource(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
 			return E_FAIL;
 
@@ -119,8 +126,8 @@ HRESULT CButton::Add_Components()
 
 HRESULT CButton::SetUp_ShaderResources()
 {
-	if (FAILED(m_pShaderCom->Set_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
-		return E_FAIL;
+	//if (FAILED(m_pTransformCom->Set_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
+	//	return E_FAIL;
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);

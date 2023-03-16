@@ -22,6 +22,7 @@ public:
 		_float				m_fY;
 		_float				m_fSizeX;
 		_float				m_fSizeY;
+		_uint				m_TextureProtoTypeLevel;
 		_tchar				m_TextureProtoTypeName[MAX_PATH];
 	} UI_DESC;
 

@@ -87,7 +87,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	wsprintf(m_szLoadingText, TEXT("텍스쳐를 로딩중입니다."));
 	/* For.Prototype_Component_Texture */
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Texture_Logo"),
-		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Default%d.dds"), 2))))
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/splash/TitleLogo_Korea.png")))))
 		return E_FAIL;
 
 #pragma endregion
@@ -118,6 +118,11 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI"),
 			CUI::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
+
+		///* For.Prototype_GameObject_BackGround */
+		//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround"),
+		//	CBackGround::Create(m_pDevice, m_pContext))))
+		//	return E_FAIL;
 	}
 
 #pragma endregion

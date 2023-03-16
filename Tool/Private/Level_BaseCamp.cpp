@@ -153,8 +153,8 @@ HRESULT CLevel_BaseCamp::Ready_Layer_UI(const _tchar* pLayerTag)
 		return E_FAIL;
 
 	CButton::BUTTON_DESC desc = {};
-	desc.m_fSizeX = g_iWinSizeX >> 2;
-	desc.m_fSizeY = g_iWinSizeY >> 2;
+	desc.m_fSizeX = g_iWinSizeX >> 3;
+	desc.m_fSizeY = g_iWinSizeY >> 3;
 	desc.m_fX = g_iWinSizeX >> 1;
 	desc.m_fY = g_iWinSizeY >> 1;
 	desc.m_ShaderLevelIndex = LEVEL_BASECAMP;

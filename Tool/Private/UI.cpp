@@ -20,20 +20,15 @@ HRESULT CUI::Initialize_Prototype()
 
 HRESULT CUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
+	if (pArg != nullptr)
+		memcpy(&m_UIDesc, pArg, (sizeof m_UIDesc) + 2);
+
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 		return E_FAIL;
 
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
-	if (pArg != nullptr)
-		memcpy(&m_UIDesc, pArg, (sizeof m_UIDesc) + 2);
-
-
-	//m_UIDesc.m_fSizeX = g_iWinSizeX;
-	//m_UIDesc.m_fSizeY = g_iWinSizeY;
-	//m_UIDesc.m_fX = g_iWinSizeX >> 1;
-	//m_UIDesc.m_fY = g_iWinSizeY >> 1;
 
 	m_pTransformCom->Set_Scaled({ m_UIDesc.m_fSizeX, m_UIDesc.m_fSizeY, 1.f });
 	m_pTransformCom->Set_Pos(m_UIDesc.m_fX - g_iWinSizeX * 0.5f, -m_UIDesc.m_fY + g_iWinSizeY * 0.5f, 0.f);
@@ -97,7 +92,7 @@ HRESULT CUI::Add_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(pGameInstance->Add_Component(CTexture::familyId, this, LEVEL_LOGO, TEXT("Prototype_Component_Texture_Logo"),
+	if (FAILED(pGameInstance->Add_Component(CTexture::familyId, this, m_UIDesc.m_TextureProtoTypeLevel, m_UIDesc.m_TextureProtoTypeName,
 		(CComponent**)&m_pTextureCom, nullptr)))
 		return E_FAIL;
 
