@@ -64,19 +64,14 @@ HRESULT CButton::Render()
 		return E_FAIL;
 
 	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
+	_float4x4 matrix = m_pModelCom->Get_CombinedTransformationMatrix_float4_4(1);
+	m_pTransformCom->Set_Scaled({ m_UIDesc.m_fSizeX * matrix.m[0][0],  m_UIDesc.m_fSizeY * matrix.m[1][1], 1.f });
 
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
-		//_float4x4 matrix = m_pModelCom->Get_CombinedTransformationMatrix_float4_4(0);
-
-		//_float xScale{};
-		//_float yScale{};
-		//_matrix matirix = m_pModelCom->Get_BoneCombinedMatrix(0);
-
-		//m_pTransformCom->Set_Scaled_XY(m_pModelCom->Get_CombinedTransformationMatrix_float4_4(0));
-
 		_float viewZ = m_pModelCom->Get_ViewZ(i);
 		m_pTransformCom->Set_PosZ(viewZ);
+
 		if (FAILED(m_pShaderCom->Set_Matrix("g_WorldMatrix", m_pTransformCom->Get_WorldMatrix())))
 			return E_FAIL;
 
@@ -115,6 +110,9 @@ HRESULT CButton::Add_Components()
 	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, m_UIDesc.m_eModelPrototypLevel, TEXT("Prototype_Component_Model_Button_Base"),
 		(CComponent**)&m_pModelCom, nullptr)))
 		return E_FAIL;
+
+	if (strlen(m_UIDesc.m_DiffuseTextureName) > 0)
+		m_pModelCom->Set_Texture_In_Material(0, 1, m_UIDesc.m_DiffuseTextureName);
 
 	/* For.Com_Shader */
 	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, m_UIDesc.m_ShaderLevelIndex, TEXT("Prototype_Component_Shader_VtxtexButton"),

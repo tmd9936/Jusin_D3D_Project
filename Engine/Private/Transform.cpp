@@ -48,10 +48,34 @@ void CTransform::Set_Scaled(const _float4x4& matrix)
 
 }
 
+void CTransform::Set_Scaled(const _float3& vOrigin, const _float4x4& matrix)
+{
+	Set_State(STATE_RIGHT, XMVector3Normalize((XMLoadFloat4x4(&matrix).r[0])) * vOrigin.x);
+	Set_State(STATE_UP, XMVector3Normalize((XMLoadFloat4x4(&matrix).r[1])) * vOrigin.y);
+	Set_State(STATE_LOOK, XMVector3Normalize((XMLoadFloat4x4(&matrix).r[2])) * vOrigin.z);
+}
+
 void CTransform::Set_Scaled_XY(const _float4x4& matrix)
 {
 	Set_State(STATE_RIGHT, XMVector3Normalize(Get_State(STATE_RIGHT)) * XMVector3Normalize((XMLoadFloat4x4(&matrix).r[0])));
 	Set_State(STATE_UP, XMVector3Normalize(Get_State(STATE_UP)) * XMVector3Normalize((XMLoadFloat4x4(&matrix).r[1])));
+}
+
+void CTransform::Set_ScaledX(const _float& scale)
+{
+	Set_State(STATE_RIGHT, XMVector3Normalize(Get_State(STATE_RIGHT)) * scale);
+}
+
+void CTransform::Set_ScaledY(const _float& scale)
+{
+	Set_State(STATE_UP, XMVector3Normalize(Get_State(STATE_UP)) * scale);
+
+}
+
+void CTransform::Set_ScaledZ(const _float& scale)
+{
+	Set_State(STATE_LOOK, XMVector3Normalize(Get_State(STATE_LOOK)) * scale);
+
 }
 
 void CTransform::Go_Straight(_float TimeDelta)

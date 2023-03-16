@@ -76,11 +76,12 @@ public:
 	}
 
 	void Set_Scaled(const _float3& vScale);
-
 	void Set_Scaled(const _float4x4& matrix);
+	void Set_Scaled(const _float3& vOrigin, const _float4x4& matrix);
+
 	void Set_Scaled_XY(const _float4x4& matrix);
 
-	void Set_ScaledX(const _float& scaleX);
+	void Set_ScaledX(const _float& scale);
 	void Set_ScaledY(const _float& scale);
 	void Set_ScaledZ(const _float& scale);
 

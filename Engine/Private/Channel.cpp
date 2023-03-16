@@ -77,7 +77,7 @@ void CChannel::Update(vector<CBone*>& Bones, _uint& pCurrentKeyFrame, _double Cu
 	{
 		if (pCurrentKeyFrame + 1 < m_KeyFrames.size())
 		{
-			if (CurrentTime >= m_KeyFrames[pCurrentKeyFrame + 1].Time)
+			while (CurrentTime >= m_KeyFrames[pCurrentKeyFrame + 1].Time)
 				++pCurrentKeyFrame;
 		}
 

@@ -153,14 +153,14 @@ HRESULT CLevel_BaseCamp::Ready_Layer_UI(const _tchar* pLayerTag)
 		return E_FAIL;
 
 	CButton::BUTTON_DESC desc = {};
-	desc.m_fSizeX = g_iWinSizeX >> 3;
-	desc.m_fSizeY = g_iWinSizeY >> 3;
-	desc.m_fX = g_iWinSizeX >> 1;
-	desc.m_fY = g_iWinSizeY >> 1;
+	desc.m_fSizeX = 50.f;
+	desc.m_fSizeY = 100.f;
+	desc.m_fX = g_iWinSizeX - 50.f;
+	desc.m_fY = g_iWinSizeY - 100.f;
 	desc.m_ShaderLevelIndex = LEVEL_BASECAMP;
 	desc.m_eModelPrototypLevel = LEVEL_BASECAMP;
 
-	strcpy(desc.m_DiffuseTextureName, "window_button_pokemon_blue.png");
+	strcpy(desc.m_DiffuseTextureName, "./BaseCamp_worldmapL_button.png");
 	lstrcpy(desc.m_MaskPrototype, TEXT("Prototype_Component_Button_Color_Mask"));
 	lstrcpy(desc.m_ButtonName, TEXT("GO_TO_WORLDMAP"));
 
