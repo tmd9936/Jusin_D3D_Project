@@ -73,6 +73,8 @@ using namespace DirectX;
 #define		OBJ_NORMAL						0
 #define		OBJ_DEAD						1
 #define		OBJ_REUSE						2
+#define		OBJ_SCENE_CHNAGE				3
+
 
 
 

@@ -26,7 +26,7 @@ HRESULT CLayer::Add_GameObject(CGameObject* pGameObject, const _tchar* pObjectNa
 	return S_OK;
 }
 
-void CLayer::Tick(_double TimeDelta)
+_uint CLayer::Tick(_double TimeDelta)
 {
 	_uint state = 0;
 
@@ -49,10 +49,16 @@ void CLayer::Tick(_double TimeDelta)
 				iter = m_GameObjects.erase(iter);
 				continue;
 			}
+			else if (state == OBJ_SCENE_CHNAGE)
+			{
+				return OBJ_SCENE_CHNAGE;
+			}
 			else
 				++iter;
 		}
 	}
+
+	return 0;
 }
 
 void CLayer::LateTick(_double TimeDelta)

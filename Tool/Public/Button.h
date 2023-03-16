@@ -134,7 +134,7 @@ private:
 private:
 	void	Button_Motion(_double TimeDelta);
 	void	Picking_Button();
-	void	Change_State();
+	_uint	Change_State();
 
 
 private:

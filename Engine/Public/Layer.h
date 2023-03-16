@@ -12,7 +12,7 @@ private:
 
 public:
 	HRESULT Add_GameObject(class CGameObject* pGameObject, const _tchar* pObjectNameTag = nullptr);
-	void Tick(_double TimeDelta);
+	_uint Tick(_double TimeDelta);
 	void LateTick(_double TimeDelta);
 
 public:

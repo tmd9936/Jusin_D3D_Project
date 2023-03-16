@@ -3,6 +3,8 @@
 
 #include "GameInstance.h"
 
+#include "Level_Loading.h"
+
 CButton::CButton(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
 {
@@ -48,9 +50,9 @@ _uint CButton::Tick(_double TimeDelta)
 {
 	Button_Motion(TimeDelta);
 	Picking_Button();
-	Change_State();
 
-	return _uint();
+	return Change_State();
+	//return _uint();
 }
 
 _uint CButton::LateTick(_double TimeDelta)
@@ -213,7 +215,7 @@ void CButton::Picking_Button()
 	}
 }
 
-void CButton::Change_State()
+_uint CButton::Change_State()
 {
 	if (m_ePreState != m_eCurState)
 	{
@@ -228,6 +230,10 @@ void CButton::Change_State()
 		case CButton::BUTTON_RELEASE:
 			//m_pTransformCom->Set_Scaled({ m_UIDesc.m_fSizeX * m_selectTransformMatrix.m[0][0],  m_UIDesc.m_fSizeY * m_selectTransformMatrix.m[1][1], 1.f });
 			m_pModelCom->Set_Animation(BUTTON_RELEASE);
+			if (FAILED(CGameInstance::GetInstance()->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_WORLDMAP))))
+				return 0;
+			else
+				return 3;
 			break;
 		case CButton::BUTTON_SELECT:
 			m_selectTransformMatrix = m_TransformMatrix;
@@ -237,6 +243,8 @@ void CButton::Change_State()
 		m_ePreState = m_eCurState;
 
 	}
+
+	return 0;
 }
 
 CButton* CButton::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

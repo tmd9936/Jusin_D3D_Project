@@ -186,7 +186,8 @@ void CObject_Manager::Tick(_double TimeDelta)
 	{
 		for (auto& Pair : m_pLayers[i])
 		{
-			Pair.second->Tick(TimeDelta);
+			if (OBJ_SCENE_CHNAGE == Pair.second->Tick(TimeDelta))
+				return;
 		}
 	}
 }
