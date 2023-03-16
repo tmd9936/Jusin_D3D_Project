@@ -1,3 +1,5 @@
+#include "Shader_Defines.hlsli"
+
 matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
 matrix			g_BoneMatrices[256]; /* 메시에 영향을 주는 뼈들이다.  VTF */
@@ -10,19 +12,6 @@ texture2D		g_BrushTexture;
 vector			g_vBrushPos = vector(10.f, 0.f, 10.f, 1.f);
 float			g_fBrushRange = 1.f;
 
-sampler PointSampler = sampler_state
-{
-	filter = min_mag_mip_point;
-	AddressU = wrap;
-	AddressV = wrap;
-};
-
-sampler LinearSampler = sampler_state
-{
-	filter = min_mag_mip_linear;
-	AddressU = wrap;
-	AddressV = wrap;
-};
 
 struct VS_IN
 {
@@ -97,6 +86,10 @@ technique11		DefaultTechnique
 {
 	pass Button_Idle
 	{
+		SetRasterizerState(RS_Default);
+		SetDepthStencilState(DSS_Enable_ZTest_Disable_ZWrite, 0);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
 		HullShader = NULL;

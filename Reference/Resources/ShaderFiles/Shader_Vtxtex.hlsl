@@ -1,16 +1,8 @@
+#include "Shader_Defines.hlsli"
+
 matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
 texture2D		g_Texture;
-
-sampler PointSampler = sampler_state
-{
-	filter = min_mag_mip_point;
-};
-
-sampler LinearSampler = sampler_state
-{
-	filter = min_mag_mip_linear;
-};
 
 struct VS_IN
 {
@@ -70,6 +62,10 @@ technique11		DefaultTechnique
 {
 	pass BackGround
 	{
+		SetRasterizerState(RS_Default);
+		SetDepthStencilState(DSS_Enable_ZTest_Disable_ZWrite, 0);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
 		HullShader = NULL;

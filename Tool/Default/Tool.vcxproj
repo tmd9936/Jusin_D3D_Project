@@ -245,6 +245,9 @@
     <Text Include="..\imgui\CMakeLists.txt" />
     <Text Include="..\imgui\LICENSE.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Reference\Resources\ShaderFiles\Shader_Defines.hlsli" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -1,3 +1,5 @@
+#include "Shader_Defines.hlsli"
+
 matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 vector			g_vCamPosition;
 vector			g_vLightDir = vector(1.f, -1.f, 1.f, 0.f);
@@ -18,19 +20,6 @@ float			g_fBrushRange = 1.f;
 vector			g_vMtrlAmbient = vector(0.4f, 0.4f, 0.4f, 1.f);
 vector			g_vMtrlSpecular = vector(1.f, 1.f, 1.f, 1.f);
 
-sampler PointSampler = sampler_state
-{
-	filter = min_mag_mip_point;
-	AddressU = wrap;
-	AddressV = wrap;
-};
-
-sampler LinearSampler = sampler_state
-{
-	filter = min_mag_mip_linear;
-	AddressU = wrap;
-	AddressV = wrap;
-};
 
 struct VS_IN
 {
@@ -141,8 +130,25 @@ PS_OUT PS_MAIN_POINT(PS_IN In)
 
 technique11		DefaultTechnique
 {
-	pass Terrain_Directional
+	pass Terrain_Directional_Solid
 	{
+		SetRasterizerState(RS_Default);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		HullShader = NULL;
+		DomainShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN();
+	}
+
+	pass Terrain_Directional_Wire
+	{
+		SetRasterizerState(RS_Wireframe);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
 		HullShader = NULL;
@@ -152,6 +158,10 @@ technique11		DefaultTechnique
 
 	pass Terrain_Point
 	{
+		SetRasterizerState(RS_Default);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
 		HullShader = NULL;

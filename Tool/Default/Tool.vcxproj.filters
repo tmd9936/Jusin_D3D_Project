@@ -338,4 +338,9 @@
       <Filter>96 ImGui\imgui</Filter>
     </Text>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Reference\Resources\ShaderFiles\Shader_Defines.hlsli">
+      <Filter>97. ShaderFiles</Filter>
+    </None>
+  </ItemGroup>
 </Project>

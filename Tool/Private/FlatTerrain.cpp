@@ -50,30 +50,13 @@ HRESULT CFlatTerrain::Render()
 
 	if (m_bWire)
 	{
-		ID3D11RasterizerState* WireFrame = nullptr;
-		ID3D11RasterizerState* FillFrame = nullptr;
-		D3D11_RASTERIZER_DESC wfdesc{};
-		ZeroMemory(&wfdesc, sizeof(D3D11_RASTERIZER_DESC));
-		wfdesc.FillMode = D3D11_FILL_WIREFRAME;
-		wfdesc.CullMode = D3D11_CULL_NONE;
-		m_pDevice->CreateRasterizerState(&wfdesc, &WireFrame);
-		m_pContext->RSSetState(WireFrame);
-
-		m_pShaderCom->Begin(0);
-		m_pVIBufferCom->Render();
-
-		wfdesc.FillMode = D3D11_FILL_SOLID;
-		wfdesc.CullMode = D3D11_CULL_BACK;                    // �ٽ� back culling���� �ٲ���� �Ѵ�. 
-		m_pDevice->CreateRasterizerState(&wfdesc, &FillFrame);
-		m_pContext->RSSetState(FillFrame);
-		Safe_Release(WireFrame);
-		Safe_Release(FillFrame);
+		m_pShaderCom->Begin(1);
 	}
 	else
 	{
 		m_pShaderCom->Begin(0);
-		m_pVIBufferCom->Render();
 	}
+	m_pVIBufferCom->Render();
 
 	return S_OK;
 }
