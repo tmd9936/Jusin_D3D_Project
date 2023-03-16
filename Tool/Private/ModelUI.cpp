@@ -29,7 +29,7 @@ HRESULT CModelUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* p
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
-	m_eRenderId = RENDER_PRIORITY;
+	m_eRenderId = RENDER_UI;
 
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
 

@@ -1,5 +1,7 @@
 matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
+matrix			g_BoneMatrices[256]; /* 메시에 영향을 주는 뼈들이다.  VTF */
+
 texture2D		g_Texture;
 
 texture2D		g_DiffuseTexture[2];
@@ -11,17 +13,23 @@ float			g_fBrushRange = 1.f;
 sampler PointSampler = sampler_state
 {
 	filter = min_mag_mip_point;
+	AddressU = wrap;
+	AddressV = wrap;
 };
 
 sampler LinearSampler = sampler_state
 {
 	filter = min_mag_mip_linear;
+	AddressU = wrap;
+	AddressV = wrap;
 };
 
 struct VS_IN
 {
 	float3		vPosition : POSITION;
 	float2		vTexUV : TEXCOORD0;
+	uint4		vBlendIndex : BLENDINDEX;
+	float4		vBlendWeight : BLENDWEIGHT;
 };
 
 struct VS_OUT
@@ -40,6 +48,16 @@ VS_OUT VS_MAIN(VS_IN In)
 
 	matWV = mul(g_WorldMatrix, g_ViewMatrix);
 	matWVP = mul(matWV, g_ProjMatrix);
+
+	/* 하드웨어 스키닝. w를 0으로 세팅하지 않으려는 보정 */
+	float		fWeightW = 1.f - (In.vBlendWeight.x + In.vBlendWeight.y + In.vBlendWeight.z);
+
+	matrix		BoneMatrix = g_BoneMatrices[In.vBlendIndex.x] * In.vBlendWeight.x +
+		g_BoneMatrices[In.vBlendIndex.y] * In.vBlendWeight.y +
+		g_BoneMatrices[In.vBlendIndex.z] * In.vBlendWeight.z +
+		g_BoneMatrices[In.vBlendIndex.w] * fWeightW;
+
+	vector		vPosition = mul(float4(In.vPosition, 1.f), BoneMatrix);
 
 	Out.vPosition = mul(float4(In.vPosition, 1.f), matWVP);
 	Out.vTexUV = In.vTexUV;
@@ -67,7 +85,7 @@ PS_OUT PS_MAIN(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
-	Out.vColor = g_Texture.Sample(LinearSampler, In.vTexUV);
+	Out.vColor = g_Texture.Sample(PointSampler, In.vTexUV);
 
 	if (Out.vColor.a < 0.1)
 		discard;
@@ -77,7 +95,7 @@ PS_OUT PS_MAIN(PS_IN In)
 
 technique11		DefaultTechnique
 {
-	pass BackGround
+	pass Button_Idle
 	{
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;

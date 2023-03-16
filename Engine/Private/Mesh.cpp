@@ -282,7 +282,7 @@ HRESULT CMesh::Ready_VertexBuffer_ForNonAnimUI(aiMesh* pAIMesh, _fmatrix PivotMa
 
 HRESULT CMesh::Ready_VertexBuffer_ForAnimUI(aiMesh* pAIMesh, CModel* pModel)
 {
-	m_iStride = sizeof(VTXANIMMODEL);
+	m_iStride = sizeof(VTXUIANIMMODEL);
 
 	ZeroMemory(&m_BufferDesc, sizeof m_BufferDesc);
 	m_BufferDesc.ByteWidth = m_iStride * m_iNumVertices;
@@ -294,7 +294,7 @@ HRESULT CMesh::Ready_VertexBuffer_ForAnimUI(aiMesh* pAIMesh, CModel* pModel)
 
 	ZeroMemory(&m_SubResourceData, sizeof m_SubResourceData);
 
-	VTXANIMMODEL* pVertices = new VTXANIMMODEL[m_iNumVertices];
+	VTXUIANIMMODEL* pVertices = new VTXUIANIMMODEL[m_iNumVertices];
 	ZeroMemory(pVertices, m_iStride * m_iNumVertices);
 
 	_bool zSet = false;
@@ -307,7 +307,7 @@ HRESULT CMesh::Ready_VertexBuffer_ForAnimUI(aiMesh* pAIMesh, CModel* pModel)
 			zSet = true;
 		}
 		pVertices[i].vPosition.z = 0.f;
-		memcpy(&pVertices[i].vNormal, &pAIMesh->mNormals[i], sizeof(_float3));
+		//memcpy(&pVertices[i].vNormal, &pAIMesh->mNormals[i], sizeof(_float3));
 		memcpy(&pVertices[i].vTexUV, &pAIMesh->mTextureCoords[0][i], sizeof(_float2));
 	}
 

@@ -149,37 +149,23 @@ HRESULT CLevel_BaseCamp::Ready_Layer_UI(const _tchar* pLayerTag)
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	//if (FAILED(pGameInstance->Add_Layer(LEVEL_BASECAMP, pLayerTag)))
-	//	return E_FAIL;
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_BASECAMP, pLayerTag)))
+		return E_FAIL;
 
-	//CModelUI::UI_DESC desc = {};
-	//desc.m_fSizeX = g_iWinSizeX >> 1;
-	//desc.m_fSizeY = g_iWinSizeY >> 1;
-	//desc.m_fX = g_iWinSizeX >> 1;
-	//desc.m_fY = g_iWinSizeY >> 1;
-	//desc.m_eLevel = LEVEL_LOADING;
+	CButton::BUTTON_DESC desc = {};
+	desc.m_fSizeX = g_iWinSizeX >> 2;
+	desc.m_fSizeY = g_iWinSizeY >> 2;
+	desc.m_fX = g_iWinSizeX >> 1;
+	desc.m_fY = g_iWinSizeY >> 1;
+	desc.m_ShaderLevelIndex = LEVEL_BASECAMP;
+	desc.m_eModelPrototypLevel = LEVEL_BASECAMP;
 
-	//lstrcpy(desc.m_TextureProtoTypeName, TEXT("Prototype_Component_Model_Loading_Scene"));
+	strcpy(desc.m_DiffuseTextureName, "window_button_pokemon_blue.png");
+	lstrcpy(desc.m_MaskPrototype, TEXT("Prototype_Component_Button_Color_Mask"));
+	lstrcpy(desc.m_ButtonName, TEXT("GO_TO_WORLDMAP"));
 
-	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ModelUI"), LEVEL_BASECAMP, pLayerTag, nullptr, &desc)))
-	//	return E_FAIL;
-
-	//if (FAILED(pGameInstance->Add_Layer(LEVEL_BASECAMP, pLayerTag)))
-	//	return E_FAIL;
-
-	//CButton::BUTTON_DESC desc = {};
-	//desc.m_fSizeX = g_iWinSizeX >> 2;
-	//desc.m_fSizeY = g_iWinSizeY >> 2;
-	//desc.m_fX = g_iWinSizeX >> 1;
-	//desc.m_fY = g_iWinSizeY >> 1;
-	//desc.m_ShaderLevelIndex = LEVEL_BASECAMP;
-
-	//strcpy(desc.m_DiffuseTextureName, "window_button_pokemon_blue.png");
-	//lstrcpy(desc.m_MaskPrototype, TEXT("Prototype_Component_Button_Color_Mask"));
-	//lstrcpy(desc.m_ButtonName, TEXT("GO_TO_WORLDMAP"));
-
-	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Button_Base"), LEVEL_BASECAMP, pLayerTag, nullptr, &desc)))
-	//	return E_FAIL;
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Button"), LEVEL_BASECAMP, pLayerTag, nullptr, &desc)))
+		return E_FAIL;
 
 
 	Safe_Release(pGameInstance);
