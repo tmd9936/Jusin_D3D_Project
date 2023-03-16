@@ -18,7 +18,11 @@ class CMap final : public CGameObject
 public:
 	typedef struct Map_Desc
 	{
+		_bool	isAnim;
+
 		wstring ModelPrototypeTag;
+		_int	Model_Level_Index;
+
 		wstring ShaderPrototypeTag;
 		_int	Shader_Level_Index;
 	} MAP_DESC;

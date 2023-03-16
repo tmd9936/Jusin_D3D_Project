@@ -65,7 +65,8 @@ HRESULT CMap::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char*
 
 _uint CMap::Tick(_double TimeDelta)
 {
-	m_pModelCom->Play_Animation(TimeDelta);
+	if (m_MapDesc.isAnim)
+		m_pModelCom->Play_Animation(TimeDelta);
 
 	return _uint();
 }
@@ -88,13 +89,18 @@ HRESULT CMap::Render()
 	{
 		if (FAILED(m_pModelCom->SetUp_ShaderResource(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
 			return E_FAIL;
-		if (FAILED(m_pModelCom->SetUp_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
-			return E_FAIL;
+
+		if (m_MapDesc.isAnim)
+		{
+			if (FAILED(m_pModelCom->SetUp_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
+				return E_FAIL;
+		}
 
 		m_pShaderCom->Begin(0);
 
 		m_pModelCom->Render(i);
 	}
+
 
 	return S_OK;
 }
@@ -119,7 +125,9 @@ _bool CMap::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& alloca
 
 			MapDesc.AddMember("vPos", vPos, allocator);
 
+			MapDesc.AddMember("isAnim", m_MapDesc.isAnim, allocator);
 			MapDesc.AddMember("Shader_Level_Index", m_MapDesc.Shader_Level_Index, allocator);
+			MapDesc.AddMember("Model_Level_Index", m_MapDesc.Model_Level_Index, allocator);
 
 			Value ModelPrototypeTag;
 			string tag = convert.to_bytes(m_MapDesc.ModelPrototypeTag.c_str());
@@ -150,8 +158,12 @@ _bool CMap::Load_By_JsonFile_Impl(Document& doc)
 		const Value& vPos = CameraDesc["vPos"];
 		m_pTransformCom->Set_Pos(vPos["x"].GetFloat(), vPos["y"].GetFloat(), vPos["z"].GetFloat());
 
+		m_MapDesc.isAnim = CameraDesc["isAnim"].GetBool();
+
 		string ModelPrototypeTag = CameraDesc["ModelPrototypeTag"].GetString();
 		m_MapDesc.ModelPrototypeTag = convert.from_bytes(ModelPrototypeTag);
+
+		m_MapDesc.Model_Level_Index = CameraDesc["Model_Level_Index"].GetInt();
 
 		string ShaderPrototypeTag = CameraDesc["ShaderPrototypeTag"].GetString();
 		m_MapDesc.ShaderPrototypeTag = convert.from_bytes(ShaderPrototypeTag);
@@ -178,7 +190,7 @@ HRESULT CMap::Add_Components()
 		return E_FAIL;
 
 	/* For.Com_Model */
-	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, LEVEL_BASECAMP, m_MapDesc.ModelPrototypeTag.c_str(),
+	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, (_uint)m_MapDesc.Model_Level_Index, m_MapDesc.ModelPrototypeTag.c_str(),
 		(CComponent**)&m_pModelCom, nullptr)))
 		return E_FAIL;
 
@@ -201,7 +213,7 @@ HRESULT CMap::Add_Components_By_File()
 		return E_FAIL;
 
 	/* For.Com_Model */
-	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, LEVEL_BASECAMP, m_MapDesc.ModelPrototypeTag.c_str(),
+	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, (_uint)m_MapDesc.Model_Level_Index, m_MapDesc.ModelPrototypeTag.c_str(),
 		(CComponent**)&m_pModelCom, nullptr)))
 		return E_FAIL;
 

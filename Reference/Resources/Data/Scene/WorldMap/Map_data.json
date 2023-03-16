@@ -6,7 +6,9 @@
             "z": 21.0101988315582275,
             "w": 1.0
         },
+        "isAnim" : false,
         "ModelPrototypeTag": "Prototype_Component_Model_WorldMap_island",
+        "Model_Level_Index": 4,
         "ShaderPrototypeTag": "Prototype_Component_Shader_VtxModelColor",
         "Shader_Level_Index": 0
     }
