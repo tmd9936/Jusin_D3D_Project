@@ -30,41 +30,44 @@ HRESULT CPlayer::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pA
 
 	m_eRenderId = RENDER_NONBLEND;
 
-	m_pModelCom->Set_Animation(3);
+	m_pTransformCom->Set_Pos(20.f, 0.5f, 20.f);
+
+	m_pModelCom->Set_Animation(0);
 
 	return S_OK;
 }
 
 _uint CPlayer::Tick(_double TimeDelta)
 {
-
+	m_pModelCom->Set_Animation(0);
 
 	if (GetKeyState(VK_DOWN) & 0x8000)
 	{
 		m_pTransformCom->Go_Backward(TimeDelta);
+		m_pModelCom->Set_Animation(15);
+
 	}
 
 	if (GetKeyState(VK_LEFT) & 0x8000)
 	{
 		m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), TimeDelta * -1.f);
+		//m_pModelCom->Set_Animation(41);
+
 
 	}
 
 	if (GetKeyState(VK_RIGHT) & 0x8000)
 	{
 		m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), TimeDelta);
+		//m_pModelCom->Set_Animation(41);
 
 	}
-
-
 
 	if (GetKeyState(VK_UP) & 0x8000)
 	{
 		m_pTransformCom->Go_Straight(TimeDelta);
-		m_pModelCom->Set_Animation(4);
+		m_pModelCom->Set_Animation(15);
 	}
-	else
-		m_pModelCom->Set_Animation(3);
 
 	m_pModelCom->Play_Animation(TimeDelta);
 
@@ -116,7 +119,7 @@ HRESULT CPlayer::Add_Components()
 		return E_FAIL;
 
 	/* For.Com_Model */
-	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, LEVEL_BASECAMP, TEXT("Prototype_Component_Model_Fiona"),
+	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, LEVEL_BASECAMP, TEXT("Prototype_Component_Model_Pokemon_PM6"),
 		(CComponent**)&m_pModelCom, nullptr)))
 		return E_FAIL;
 

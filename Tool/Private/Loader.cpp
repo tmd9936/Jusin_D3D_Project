@@ -213,9 +213,10 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../../Reference/Resources/Mesh/Animation/WorldMap/W_island.fbx", PivotMatrix))))
 	//	return E_FAIL;
 
-	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Model_Pokemon_PM1"),
-	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../../Reference/Resources/Mesh/Animation/Pokemon/PM1.fbx", PivotMatrix))))
-	//	return E_FAIL;
+	PivotMatrix = XMMatrixScaling(0.4f, 0.4f, 0.4f) * XMMatrixRotationY(XMConvertToRadians(180.f));;
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Model_Pokemon_PM6"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../../Reference/Resources/Mesh/Animation/Pokemon/PM6.fbx", PivotMatrix))))
+		return E_FAIL;
 
 #pragma endregion
 
@@ -272,10 +273,10 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 		//	CTestModel::Create(m_pDevice, m_pContext))))
 		//	return E_FAIL;
 
-		///* For.Prototype_GameObject_Player */
-		//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player"),
-		//	CPlayer::Create(m_pDevice, m_pContext))))
-		//	return E_FAIL;
+		/* For.Prototype_GameObject_Player */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player"),
+			CPlayer::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
 
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Map"),
 			CMap::Create(m_pDevice, m_pContext))))
