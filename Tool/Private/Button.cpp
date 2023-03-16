@@ -67,11 +67,17 @@ HRESULT CButton::Render()
 
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
+		//_float4x4 matrix = m_pModelCom->Get_CombinedTransformationMatrix_float4_4(0);
+
+		//_float xScale{};
+		//_float yScale{};
+		//_matrix matirix = m_pModelCom->Get_BoneCombinedMatrix(0);
+
+		//m_pTransformCom->Set_Scaled_XY(m_pModelCom->Get_CombinedTransformationMatrix_float4_4(0));
+
 		_float viewZ = m_pModelCom->Get_ViewZ(i);
-
 		m_pTransformCom->Set_PosZ(viewZ);
-
-		if (FAILED(m_pShaderCom->Set_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
+		if (FAILED(m_pShaderCom->Set_Matrix("g_WorldMatrix", m_pTransformCom->Get_WorldMatrix())))
 			return E_FAIL;
 
 		if (FAILED(m_pModelCom->SetUp_ShaderResource(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))

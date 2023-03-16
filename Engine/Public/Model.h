@@ -55,7 +55,9 @@ public:
 	HRESULT Render(_uint iMeshIndex);
 
 public:
-	_matrix Get_BoneCombinedMatrix(const _uint& boneIndex );
+	_matrix Get_BoneCombinedMatrix(const _uint& boneIndex);
+
+	_float4x4 Get_CombinedTransformationMatrix_float4_4(const _uint& boneIndex);
 
 private:
 	Assimp::Importer				m_Importer; /* 경로의 파일을 읽어서 저장하는 기능을 한다. */

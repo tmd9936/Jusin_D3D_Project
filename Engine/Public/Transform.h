@@ -77,6 +77,14 @@ public:
 
 	void Set_Scaled(const _float3& vScale);
 
+	void Set_Scaled(const _float4x4& matrix);
+	void Set_Scaled_XY(const _float4x4& matrix);
+
+	void Set_ScaledX(const _float& scaleX);
+	void Set_ScaledY(const _float& scale);
+	void Set_ScaledZ(const _float& scale);
+
+
 	void Set_Pos(float x, float y, float z) {
 		m_WorldMatrix.m[3][0] = x;
 		m_WorldMatrix.m[3][1] = y;

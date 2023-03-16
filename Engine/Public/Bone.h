@@ -29,6 +29,10 @@ public:
 		return m_iParentIndex;
 	}
 
+	_float4x4 Get_CombinedTransformationMatrix_float4_4() {
+		return m_CombinedTransformationMatrix;
+	}
+
 public:
 	void	Set_Parent(CBone* pParent) {
 		m_pParent = pParent;

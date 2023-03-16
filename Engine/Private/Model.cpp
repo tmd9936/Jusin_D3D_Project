@@ -230,9 +230,12 @@ HRESULT CModel::Render(_uint iMeshIndex)
 
 _matrix CModel::Get_BoneCombinedMatrix(const _uint& boneIndex)
 {
-	m_Bones[boneIndex]->Get_CombinedTransformationMatrix();
+	return m_Bones[boneIndex]->Get_CombinedTransformationMatrix();
+}
 
-	return _matrix();
+_float4x4 CModel::Get_CombinedTransformationMatrix_float4_4(const _uint& boneIndex)
+{
+	return m_Bones[boneIndex]->Get_CombinedTransformationMatrix_float4_4();
 }
 
 HRESULT CModel::Ready_Bones(aiNode* pAINode, CBone* pParent)
