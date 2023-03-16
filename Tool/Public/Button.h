@@ -153,11 +153,11 @@ private:
 
 private:
 	_float4x4		m_TransformMatrix = {};
-	_float4x4		m_oldTransformMatrix = {};
+	_float4x4		m_selectTransformMatrix = {};
 
 
 private:
-	const			int		m_mouseInterSize = { 2 };
+	const			LONG		m_mouseInterSize = { 5 };
 
 public:
 	/* Prototype */

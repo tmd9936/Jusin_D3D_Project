@@ -245,13 +245,12 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 #pragma region GAMEOBJECTS
 	wsprintf(m_szLoadingText, TEXT("객체원형을 로딩중."));
 
-	/* For.Prototype_GameObject_FlatTerrain */
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Button"),
-		CButton::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
 	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_BASECAMP))
 	{
+		/* For.Prototype_GameObject_Button */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Button"),
+			CButton::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
 		/* For.Prototype_GameObject_FlatTerrain */
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_FlatTerrain"),
 			CFlatTerrain::Create(m_pDevice, m_pContext))))

@@ -178,6 +178,7 @@ void CButton::Button_Motion(_double TimeDelta)
 	case CButton::BUTTON_SELECT:
 		m_pModelCom->Play_Animation(TimeDelta);
 		//m_pTransformCom->Set_Scaled({ m_UIDesc.m_fSizeX * m_TransformMatrix.m[0][0],  m_UIDesc.m_fSizeY * m_TransformMatrix.m[1][1], 1.f });
+
 		break;
 	}
 }
@@ -193,7 +194,7 @@ void CButton::Picking_Button()
 		GetCursorPos(&pt);
 		ScreenToClient(g_hWnd, &pt);
 
-		RECT mouseRect{ pt.x - 5, pt.y - 5, pt.x + 5, pt.y + 5 };
+		RECT mouseRect{ pt.x - m_mouseInterSize, pt.y - m_mouseInterSize, pt.x + m_mouseInterSize, pt.y + m_mouseInterSize };
 
 		RECT result{};
 		if (IntersectRect(&result, &uiRect, &mouseRect))
@@ -225,9 +226,11 @@ void CButton::Change_State()
 			m_pModelCom->Set_Animation(BUTTON_PRESS);
 			break;
 		case CButton::BUTTON_RELEASE:
+			//m_pTransformCom->Set_Scaled({ m_UIDesc.m_fSizeX * m_selectTransformMatrix.m[0][0],  m_UIDesc.m_fSizeY * m_selectTransformMatrix.m[1][1], 1.f });
 			m_pModelCom->Set_Animation(BUTTON_RELEASE);
 			break;
 		case CButton::BUTTON_SELECT:
+			m_selectTransformMatrix = m_TransformMatrix;
 			m_pModelCom->Set_Animation(BUTTON_SELECT);
 			break;
 		}
