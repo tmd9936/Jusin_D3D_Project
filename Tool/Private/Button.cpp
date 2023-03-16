@@ -48,13 +48,14 @@ _uint CButton::Tick(_double TimeDelta)
 {
 	Button_Motion(TimeDelta);
 	Picking_Button();
+	Change_State();
 
 	return _uint();
 }
 
 _uint CButton::LateTick(_double TimeDelta)
 {
-	m_eTransformMatrix = m_pModelCom->Get_CombinedTransformationMatrix_float4_4(1);
+	m_TransformMatrix = m_pModelCom->Get_CombinedTransformationMatrix_float4_4(1);
 	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
 
 	return _uint();
@@ -87,8 +88,6 @@ HRESULT CButton::Render()
 		m_pModelCom->Render(i);
 
 	}
-
-	Change_State();
 
 	return S_OK;
 }
@@ -159,18 +158,18 @@ void CButton::Button_Motion(_double TimeDelta)
 	switch (m_eCurState)
 	{
 	case CButton::BUTTON_IDLE:
-		//m_pTransformCom->Set_Scaled({ m_UIDesc.m_fSizeX,  m_UIDesc.m_fSizeY, 1.f });
 		m_pModelCom->Play_Animation(TimeDelta);
+		m_pTransformCom->Set_Scaled({ m_UIDesc.m_fSizeX,  m_UIDesc.m_fSizeY, 1.f });
 		break;
 	case CButton::BUTTON_PRESS:
-		m_pTransformCom->Set_Scaled({ m_UIDesc.m_fSizeX * m_eTransformMatrix.m[0][0],  m_UIDesc.m_fSizeY * m_eTransformMatrix.m[1][1], 1.f });
+		m_pTransformCom->Set_Scaled({ m_UIDesc.m_fSizeX * m_TransformMatrix.m[0][0],  m_UIDesc.m_fSizeY * m_TransformMatrix.m[1][1], 1.f });
 		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
 			m_eCurState = BUTTON_SELECT;
 		}
 		break;
 	case CButton::BUTTON_RELEASE:
-		m_pTransformCom->Set_Scaled({ m_UIDesc.m_fSizeX * m_eTransformMatrix.m[0][0],  m_UIDesc.m_fSizeY * m_eTransformMatrix.m[1][1], 1.f });
+		m_pTransformCom->Set_Scaled({ m_UIDesc.m_fSizeX * m_TransformMatrix.m[0][0],  m_UIDesc.m_fSizeY * m_TransformMatrix.m[1][1], 1.f });
 		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
 			m_eCurState = BUTTON_IDLE;
@@ -178,7 +177,7 @@ void CButton::Button_Motion(_double TimeDelta)
 		break;
 	case CButton::BUTTON_SELECT:
 		m_pModelCom->Play_Animation(TimeDelta);
-		//m_pTransformCom->Set_Scaled({ m_UIDesc.m_fSizeX * m_eTransformMatrix.m[0][0],  m_UIDesc.m_fSizeY * m_eTransformMatrix.m[1][1], 1.f });
+		//m_pTransformCom->Set_Scaled({ m_UIDesc.m_fSizeX * m_TransformMatrix.m[0][0],  m_UIDesc.m_fSizeY * m_TransformMatrix.m[1][1], 1.f });
 		break;
 	}
 }
@@ -207,7 +206,7 @@ void CButton::Picking_Button()
 		m_eCurState = BUTTON_SELECT;
 	}
 
-	else if (MOUSE_AWAY(MOUSE::LBTN) && m_eCurState == BUTTON_SELECT)
+	else if (MOUSE_NONE(MOUSE::LBTN) && m_eCurState == BUTTON_SELECT)
 	{
 		m_eCurState = BUTTON_RELEASE;
 	}
@@ -232,8 +231,8 @@ void CButton::Change_State()
 			m_pModelCom->Set_Animation(BUTTON_SELECT);
 			break;
 		}
-
 		m_ePreState = m_eCurState;
+
 	}
 }
 

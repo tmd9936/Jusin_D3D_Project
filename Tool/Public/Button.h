@@ -152,7 +152,9 @@ private:
 	BUTTON_STATE	m_eCurState = { BUTTON_IDLE };
 
 private:
-	_float4x4		m_eTransformMatrix = {};
+	_float4x4		m_TransformMatrix = {};
+	_float4x4		m_oldTransformMatrix = {};
+
 
 private:
 	const			int		m_mouseInterSize = { 2 };
