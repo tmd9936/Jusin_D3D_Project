@@ -20,6 +20,11 @@ HRESULT CFlatTerrain::Initialize_Prototype()
 
 HRESULT CFlatTerrain::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
+	if (pArg)
+		memcpy(&m_desc, pArg, sizeof FLATTERRAIN_DESC);
+
+	m_desc.m_Level = iLevelIndex;
+
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 		return E_FAIL;
 
@@ -78,27 +83,27 @@ HRESULT CFlatTerrain::Add_Components()
 
 	/* For.Com_VIBuffer */
 	CVIBuffer_FlatTerrain::VIBUFFER_FLAT_TERRAIN_DESC TerrainDesc = { DEFAULT_TERRAIN_WIDTH, DEFAULT_TERRAIN_HEIGHT };
-	if (FAILED(pGameInstance->Add_Component(CVIBuffer_FlatTerrain::familyId, this, LEVEL_BASECAMP, TEXT("Prototype_Component_VIBuffer_FlatTerrain"),
+	if (FAILED(pGameInstance->Add_Component(CVIBuffer_FlatTerrain::familyId, this, m_desc.m_Level, TEXT("Prototype_Component_VIBuffer_FlatTerrain"),
 		(CComponent**)&m_pVIBufferCom, &TerrainDesc)))
 		return E_FAIL;
 
 	/* For.Com_Shader */
-	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_BASECAMP, TEXT("Prototype_Component_Shader_VtxNorTex_HeightTerrain"),
+	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, m_desc.m_Level, TEXT("Prototype_Component_Shader_VtxNorTex_HeightTerrain"),
 		(CComponent**)&m_pShaderCom, nullptr)))
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(pGameInstance->Add_Component(CTexture::familyId, this, LEVEL_BASECAMP, TEXT("Prototype_Component_Texture_Terrain"),
+	if (FAILED(pGameInstance->Add_Component(CTexture::familyId, this, m_desc.m_Level, TEXT("Prototype_Component_Texture_Terrain"),
 		(CComponent**)&m_pTextureCom[TEXTURETYPE_DIFFUSE], nullptr)))
 		return E_FAIL;
 
 	/* For.Com_Mask */
-	if (FAILED(pGameInstance->Add_Component(FAMILY_ID_TEXTURE_MASK, this, LEVEL_BASECAMP, TEXT("Prototype_Component_Texture_TerrainMask"),
+	if (FAILED(pGameInstance->Add_Component(FAMILY_ID_TEXTURE_MASK, this, m_desc.m_Level, TEXT("Prototype_Component_Texture_TerrainMask"),
 		(CComponent**)&m_pTextureCom[TEXTURETYPE_MASK], nullptr)))
 		return E_FAIL;
 
 	/* For.Com_Brush */
-	if (FAILED(pGameInstance->Add_Component(FAMILY_ID_TEXTURE_BRUSH, this, LEVEL_BASECAMP, TEXT("Prototype_Component_Texture_Brush"),
+	if (FAILED(pGameInstance->Add_Component(FAMILY_ID_TEXTURE_BRUSH, this, m_desc.m_Level, TEXT("Prototype_Component_Texture_Brush"),
 		(CComponent**)&m_pTextureCom[TEXTURETYPE_BRUSH], nullptr)))
 		return E_FAIL;
 

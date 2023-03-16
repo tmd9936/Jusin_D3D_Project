@@ -40,9 +40,11 @@ _uint APIENTRY LoadingMain(void* pArg)
 	case LEVEL_LOGO: /* 로딩씬 다음레벨이 로고다. 로고레벨에 필요한 사전 생성(리소스, 원형객체) 작업을 하자. */
 		hr = pLoader->Loading_ForLogoLevel();
 		break;
-
 	case LEVEL_BASECAMP:
-		hr = pLoader->Loading_ForGamePlayLevel();
+		hr = pLoader->Loading_ForBaseCampLevel();
+		break;
+	case LEVEL_WORLDMAP:
+		hr = pLoader->Loading_ForWorldMapLevel();
 		break;
 	}
 
@@ -135,7 +137,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	return S_OK;
 }
 
-HRESULT CLoader::Loading_ForGamePlayLevel()
+HRESULT CLoader::Loading_ForBaseCampLevel()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
@@ -282,6 +284,155 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Stove"),
 			CStove::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
+	}
+#pragma endregion
+
+	wsprintf(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
+	m_isFinished = true;
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_ForWorldMapLevel()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	/*  */
+#pragma region TEXTURES
+	wsprintf(m_szLoadingText, TEXT("텍스쳐를 로딩중입니다."));
+	/* For.Prototype_Component_Texture_Terrain */
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Texture_Terrain"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Tile%d.dds"), 2))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_TerrainMask */
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Texture_TerrainMask"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Filter.dds")))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Brush */
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Texture_Brush"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Brush.png")))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Brush */
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Button_Color_Mask"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Window/window_button.png")))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region MODELS
+	wsprintf(m_szLoadingText, TEXT("모델를 로딩중입니다."));
+	/* For.Prototype_Component_VIBuffer_Terrain */
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_VIBuffer_Terrain"),
+		CVIBuffer_Terrain::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Height.bmp")))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_VIBuffer_FlatTerrain */
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_VIBuffer_FlatTerrain"),
+		CVIBuffer_FlatTerrain::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Calculator */
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Calculator"),
+		CCalculator::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	_matrix		PivotMatrix = XMMatrixIdentity();
+
+	/* For.Prototype_Component_Model_Fiona */
+	//PivotMatrix = XMMatrixRotationY(XMConvertToRadians(180.f));
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Model_Fiona"),
+	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Models/Fiona/Fiona.fbx", PivotMatrix))))
+	//	return E_FAIL;
+
+
+	/* For.Prototype_Component_Model_BaseCamp_Field */
+	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Model_WorldMap_island"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/WorldMap/W_island.fbx", PivotMatrix))))
+		return E_FAIL;
+
+
+	//PivotMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f);
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Model_WolrdMap_Island"),
+	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../../Reference/Resources/Mesh/Animation/WorldMap/W_island.fbx", PivotMatrix))))
+	//	return E_FAIL;
+
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Model_Pokemon_PM1"),
+	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../../Reference/Resources/Mesh/Animation/Pokemon/PM1.fbx", PivotMatrix))))
+	//	return E_FAIL;
+
+#pragma endregion
+
+#pragma region SHADERS
+	wsprintf(m_szLoadingText, TEXT("셰이더를 로딩중입니다."));
+	///* For.Prototype_Component_Shader_VtxNorTex */
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Shader_VtxNorTex"),
+	//	CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxNorTex.hlsl"), VTXNORTEX_DECLARATION::Elements, VTXNORTEX_DECLARATION::iNumElements))))
+	//	return E_FAIL;
+
+	/* For.Prototype_Component_Shader_VtxNorTex_HeightTerrain */
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Shader_VtxNorTex_HeightTerrain"),
+		CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxNorTex_HeightTerrain.hlsl"), VTXNORTEX_DECLARATION::Elements, VTXNORTEX_DECLARATION::iNumElements))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Shader_VtxAnimModelColor */
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Shader_VtxAnimModelColor"),
+		CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxAnimModelColor.hlsl"), VTXCOLORANIMMODEL_DECLARATION::Elements, VTXCOLORANIMMODEL_DECLARATION::iNumElements))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Shader_VtxAnimModelColor */
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Shader_VtxtexButton"),
+		CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_Vtxtex_Button.hlsl"), VTXUIANIMMODEL_DECLARATION::Elements, VTXUIANIMMODEL_DECLARATION::iNumElements))))
+		return E_FAIL;
+
+#pragma endregion
+
+
+#pragma region GAMEOBJECTS
+	wsprintf(m_szLoadingText, TEXT("객체원형을 로딩중."));
+
+	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_WORLDMAP))
+	{
+		///* For.Prototype_GameObject_Button */
+		//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Button"),
+		//	CButton::Create(m_pDevice, m_pContext))))
+		//	return E_FAIL;
+		///* For.Prototype_GameObject_FlatTerrain */
+		//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_FlatTerrain"),
+		//	CFlatTerrain::Create(m_pDevice, m_pContext))))
+		//	return E_FAIL;
+
+		///* For.Prototype_GameObject_Camera_Dynamic */
+		//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera_Dynamic"),
+		//	CCamera_Dynamic::Create(m_pDevice, m_pContext))))
+		//	return E_FAIL;
+
+		//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera_Public"),
+		//	CCamera_Public::Create(m_pDevice, m_pContext))))
+		//	return E_FAIL;
+
+		///* For.Prototype_GameObject_TestModel */
+		//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_TestModel"),
+		//	CTestModel::Create(m_pDevice, m_pContext))))
+		//	return E_FAIL;
+
+		///* For.Prototype_GameObject_Player */
+		//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player"),
+		//	CPlayer::Create(m_pDevice, m_pContext))))
+		//	return E_FAIL;
+
+		//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Map"),
+		//	CMap::Create(m_pDevice, m_pContext))))
+		//	return E_FAIL;
+
+		//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Stove"),
+		//	CStove::Create(m_pDevice, m_pContext))))
+		//	return E_FAIL;
 	}
 #pragma endregion
 

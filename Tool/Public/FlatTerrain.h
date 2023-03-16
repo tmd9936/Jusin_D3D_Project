@@ -15,6 +15,12 @@ BEGIN(Client)
 
 class CFlatTerrain final : public CGameObject
 {
+public:
+	typedef	struct FlatTerrain_desc
+	{
+		_uint m_Level;
+	}FLATTERRAIN_DESC;
+
 private:
 	CFlatTerrain(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CFlatTerrain(const CFlatTerrain& rhs);
@@ -41,7 +47,8 @@ private:
 	CTransform* m_pTransformCom = { nullptr };
 
 private:
-	_bool			m_bWire = { true };
+	_bool				m_bWire = { true };
+	FLATTERRAIN_DESC	m_desc = {};
 
 private:
 	HRESULT Add_Components();

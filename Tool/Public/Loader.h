@@ -38,7 +38,9 @@ public:
 public:
 	HRESULT Initialize(LEVEL eNextLevelID);
 	HRESULT Loading_ForLogoLevel();
-	HRESULT Loading_ForGamePlayLevel();
+	HRESULT Loading_ForBaseCampLevel();
+	HRESULT Loading_ForWorldMapLevel();
+
 
 private:
 	ID3D11Device* m_pDevice = { nullptr };

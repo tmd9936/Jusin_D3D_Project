@@ -9,6 +9,7 @@
 #include "Loader.h"
 #include "Level_Logo.h"
 #include "Level_BaseCamp.h"
+#include "Level_WorldMap.h"
 
 #include "ModelUI.h"
 #pragma endregion
@@ -53,8 +54,8 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevelID)
 
 void CLevel_Loading::Tick(_double TimeDelta)
 {
-	if (GetKeyState(VK_RETURN) & 0x8000)
-	{
+	//if (GetKeyState(VK_RETURN) & 0x8000)
+	//{
 		if (true == m_pLoader->Get_Finished())
 		{
 			CGameInstance* pGameInstance = CGameInstance::GetInstance();
@@ -78,6 +79,10 @@ void CLevel_Loading::Tick(_double TimeDelta)
 				pNewLevel = CLevel_BaseCamp::Create(m_pDevice, m_pContext);
 				break;
 
+			case LEVEL_WORLDMAP:
+				pNewLevel = CLevel_WorldMap::Create(m_pDevice, m_pContext);
+				break;
+
 			}
 
 			if (nullptr == pNewLevel)
@@ -91,7 +96,7 @@ void CLevel_Loading::Tick(_double TimeDelta)
 
 			Safe_Release(pGameInstance);
 		}
-	}
+	//}
 
 #ifdef _DEBUG
 	SetWindowText(g_hWnd, m_pLoader->Get_LoadingText());

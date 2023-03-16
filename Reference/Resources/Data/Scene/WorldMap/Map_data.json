@@ -1,0 +1,13 @@
+{
+    "MapDesc": {
+        "vPos": {
+            "x": 19.0012064933776855,
+            "y": 0.1,
+            "z": 21.0101988315582275,
+            "w": 1.0
+        },
+        "ModelPrototypeTag": "Prototype_Component_Model_WorldMap_island",
+        "ShaderPrototypeTag": "Prototype_Component_Shader_VtxModelColor",
+        "Shader_Level_Index": 0
+    }
+}

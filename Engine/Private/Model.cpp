@@ -392,6 +392,15 @@ void CModel::Free()
 {
 	__super::Free();
 
+
+	for (auto& pAnimation : m_Animations)
+		Safe_Release(pAnimation);
+	m_Animations.clear();
+
+	for (auto& pBone : m_Bones)
+		Safe_Release(pBone);
+	m_Bones.clear();
+
 	for (auto& pMesh : m_Meshes)
 		Safe_Release(pMesh);
 	m_Meshes.clear();
@@ -402,14 +411,6 @@ void CModel::Free()
 			Safe_Release(pTexture);
 	}
 	m_Materials.clear();
-
-	for (auto& pBone : m_Bones)
-		Safe_Release(pBone);
-	m_Bones.clear();
-
-	for (auto& pAnimation : m_Animations)
-		Safe_Release(pAnimation);
-	m_Animations.clear();
 
 	m_Importer.FreeScene();
 }
