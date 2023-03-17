@@ -110,6 +110,8 @@ using namespace DirectX;
 #define FAMILY_ID_COLLISION					35
 #define FAMILY_ID_RENDERER					36
 
+#define FAMILY_ID_PICKING_CUBE				40
+
 
 #define		KEY_CHECK(key, state)	CGameInstance::GetInstance()->Get_KeyState(key) == state
 #define		KEY_HOLD(key)			KEY_CHECK(key, KEY_STATE::HOLD)

@@ -103,9 +103,6 @@
     <Filter Include="01. Utility\03. Component\Model\Mesh">
       <UniqueIdentifier>{d0c4ca83-b0a5-44ca-b8f6-6c570a29a573}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Utility\03. Component\Collider">
-      <UniqueIdentifier>{5c208f18-4b51-4ac1-a066-69bd86c08996}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01. Utility\98. Utillity">
       <UniqueIdentifier>{b3ce1036-09f2-45f7-8608-b911206ff166}</UniqueIdentifier>
     </Filter>
@@ -117,6 +114,12 @@
     </Filter>
     <Filter Include="01. Utility\03. Component\Model\Animation\Channel">
       <UniqueIdentifier>{3cdbce88-bb29-43b7-9471-836cf267bb87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\03. Component\PickingCube">
+      <UniqueIdentifier>{5c208f18-4b51-4ac1-a066-69bd86c08996}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\03. Component\FSM">
+      <UniqueIdentifier>{bee458bb-478c-4e94-b7ce-ab05c500ec4d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -229,7 +232,7 @@
       <Filter>01. Utility\03. Component\Model\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\PickingCube.h">
-      <Filter>01. Utility\03. Component\Collider</Filter>
+      <Filter>01. Utility\03. Component\PickingCube</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Utility.h">
       <Filter>01. Utility\98. Utillity</Filter>
@@ -242,6 +245,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Channel.h">
       <Filter>01. Utility\03. Component\Model\Animation\Channel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MonFSM.h">
+      <Filter>01. Utility\03. Component\FSM</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -339,7 +345,7 @@
       <Filter>01. Utility\03. Component\Model\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\PickingCube.cpp">
-      <Filter>01. Utility\03. Component\Collider</Filter>
+      <Filter>01. Utility\03. Component\PickingCube</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Utility.cpp">
       <Filter>01. Utility\98. Utillity</Filter>
@@ -352,6 +358,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Channel.cpp">
       <Filter>01. Utility\03. Component\Model\Animation\Channel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MonFSM.cpp">
+      <Filter>01. Utility\03. Component\FSM</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

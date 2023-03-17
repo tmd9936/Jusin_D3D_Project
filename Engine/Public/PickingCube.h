@@ -11,7 +11,7 @@ class CGameObject;
 class ENGINE_DLL CPickingCube : public CVIBuffer
 {
 public:
-	static const FamilyId familyId = FAMILY_ID_COLLISION;
+	static const FamilyId familyId = FAMILY_ID_PICKING_CUBE;
 private:
 	explicit CPickingCube(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner);
 	explicit CPickingCube(const CPickingCube& rhs, CGameObject* pOwner);

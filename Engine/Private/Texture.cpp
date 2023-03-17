@@ -355,15 +355,18 @@ void CTexture::Free()
 	{
 		Safe_Release(m_SRVs[i]);
 	}
+	m_SRVs.clear();
 
 	for (_uint i = 0; i < m_Textures.size(); ++i)
 	{
 		Safe_Release(m_Textures[i]);
 	}
+	m_Textures.clear();
 
-	for (auto iter = m_TexturePath.begin(); iter != m_TexturePath.end();)
-	{
-		iter = m_TexturePath.erase(iter);
-	}
+	//for (auto iter = m_TexturePath.begin(); iter != m_TexturePath.end();)
+	//{
+	//	iter = m_TexturePath.erase(iter);
+	//}
+	m_TexturePath.clear();
 
 }
