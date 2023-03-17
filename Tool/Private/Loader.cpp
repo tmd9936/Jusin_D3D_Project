@@ -217,23 +217,25 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 	//	return E_FAIL;
 
 
-	//for (int i = 1; i <= 6; ++i)
-	//{
-	// 	_tchar pokemonPrototype[MAX_PATH];
-	//  char pokemonFilePath[MAX_PATH];
-	//	wsprintf(pokemonPrototype, TEXT("Prototype_Component_Model_Pokemon_PM%d"), i);
-	//	sprintf(pokemonFilePath, "../../Reference/Resources/Mesh/Animation/Pokemon/PM%d.fbx", i);
-
-	//	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f) * XMMatrixRotationY(XMConvertToRadians(180.f));;
-	//	if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, pokemonPrototype,
-	//		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, pokemonFilePath, PivotMatrix))))
-	//		return E_FAIL;
-	//}
-
 	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f) * XMMatrixRotationY(XMConvertToRadians(180.f));;
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Model_Pokemon_PM6"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../../Reference/Resources/Mesh/Animation/Pokemon/PM2.fbx", PivotMatrix))))
-		return E_FAIL;
+	for (int i = 1; i <= 6; ++i)
+	{
+	 	_tchar* pokemonPrototype = new _tchar[MAX_PATH];
+		char* pokemonFilePath = new char[MAX_PATH];
+
+		wsprintf(pokemonPrototype, TEXT("Prototype_Component_Model_Pokemon_PM%d"), i);
+		sprintf(pokemonFilePath, "../../Reference/Resources/Mesh/Animation/Pokemon/PM%d.fbx", i);
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, pokemonPrototype,
+			CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, pokemonFilePath, PivotMatrix))))
+			return E_FAIL;
+	}
+
+	//PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f) * XMMatrixRotationY(XMConvertToRadians(180.f));;
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Model_Pokemon_PM6"),
+	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../../Reference/Resources/Mesh/Animation/Pokemon/PM6.fbx", PivotMatrix))))
+	//	return E_FAIL;
+
 
 #pragma endregion
 

@@ -167,6 +167,7 @@
     <ClInclude Include="..\Public\BackGround.h" />
     <ClInclude Include="..\Public\Button.h" />
     <ClInclude Include="..\Public\Camera_Public.h" />
+    <ClInclude Include="..\Public\Client_Utility.h" />
     <ClInclude Include="..\Public\DataToolGUI.h" />
     <ClInclude Include="..\Public\FileDialogUtill.h" />
     <ClInclude Include="..\Public\FlatTerrain.h" />
@@ -206,6 +207,7 @@
     <ClCompile Include="..\Private\BackGround.cpp" />
     <ClCompile Include="..\Private\Button.cpp" />
     <ClCompile Include="..\Private\Camera_Public.cpp" />
+    <ClCompile Include="..\Private\Client_Utility.cpp" />
     <ClCompile Include="..\Private\DataToolGUI.cpp" />
     <ClCompile Include="..\Private\FileDialogUtill.cpp" />
     <ClCompile Include="..\Private\FlatTerrain.cpp" />

@@ -97,6 +97,9 @@
     <Filter Include="02. GameObject\Monster">
       <UniqueIdentifier>{54be1a60-304a-4f70-ad89-77a4ecc855d9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Client_Utility">
+      <UniqueIdentifier>{90363512-9d02-46ba-a50c-d5e5a1df79ce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -212,6 +215,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Monster.h">
       <Filter>02. GameObject\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Client_Utility.h">
+      <Filter>Client_Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -329,6 +335,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Monster.cpp">
       <Filter>02. GameObject\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Client_Utility.cpp">
+      <Filter>Client_Utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

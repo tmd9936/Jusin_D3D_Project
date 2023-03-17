@@ -8,6 +8,8 @@
 
 #include "Button.h"
 
+#include "Client_Utility.h"
+
 CLevel_BaseCamp::CLevel_BaseCamp(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
 {
@@ -39,6 +41,8 @@ HRESULT CLevel_BaseCamp::Initialize()
 
 	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
 		return E_FAIL;
+
+
 
 	return S_OK;
 }
