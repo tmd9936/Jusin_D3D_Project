@@ -213,7 +213,7 @@ CGameObject* CCalculator::Picking_Environment_Object(HWND hWnd, const _tchar* pL
 	vector<CGameObject*> vecObj;
 
 	//CGameObject::World->Get_ObjectList<CRcTex>(vecObj, eLayerId);
-	CGameInstance::GetInstance()->Get_ObjectList<CCollider>(vecObj, iLevelindex, pLayerTag);
+	CGameInstance::GetInstance()->Get_ObjectList<CPickingCube>(vecObj, iLevelindex, pLayerTag);
 	
 	if (vecObj.empty())
 		return nullptr;
@@ -282,7 +282,7 @@ CGameObject* CCalculator::Picking_Environment_Object(HWND hWnd, const _tchar* pL
 		_vector vRayOrigin = XMVectorSet(rayOrigin.x, rayOrigin.y, rayOrigin.z, 1.f);
 		_vector vRayDiretion = XMVectorSet(rayDirection.x, rayDirection.y, rayDirection.z, 0.f);
 		
-		CCollider* pCollider = (CCollider*)(CGameInstance::GetInstance()->Get_Component(CCollider::familyId, pObj));
+		CPickingCube* pCollider = (CPickingCube*)(CGameInstance::GetInstance()->Get_Component(CPickingCube::familyId, pObj));
 
 		if (nullptr == pCollider)
 			return nullptr;

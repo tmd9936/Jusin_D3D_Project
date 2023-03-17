@@ -228,7 +228,7 @@
     <ClInclude Include="..\Public\Mesh.h">
       <Filter>01. Utility\03. Component\Model\Mesh</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Collider.h">
+    <ClInclude Include="..\Public\PickingCube.h">
       <Filter>01. Utility\03. Component\Collider</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Utility.h">
@@ -338,7 +338,7 @@
     <ClCompile Include="..\Private\Mesh.cpp">
       <Filter>01. Utility\03. Component\Model\Mesh</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Collider.cpp">
+    <ClCompile Include="..\Private\PickingCube.cpp">
       <Filter>01. Utility\03. Component\Collider</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Utility.cpp">

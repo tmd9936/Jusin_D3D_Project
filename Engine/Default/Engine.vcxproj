@@ -26,7 +26,7 @@
     <ClInclude Include="..\Public\Camera.h" />
     <ClInclude Include="..\Public\Camera_Dynamic.h" />
     <ClInclude Include="..\Public\Channel.h" />
-    <ClInclude Include="..\Public\Collider.h" />
+    <ClInclude Include="..\Public\PickingCube.h" />
     <ClInclude Include="..\Public\Component.h" />
     <ClInclude Include="..\Public\Component_Manager.h" />
     <ClInclude Include="..\Public\Engine_Enum.h" />
@@ -69,7 +69,7 @@
     <ClCompile Include="..\Private\Camera.cpp" />
     <ClCompile Include="..\Private\Camera_Dynamic.cpp" />
     <ClCompile Include="..\Private\Channel.cpp" />
-    <ClCompile Include="..\Private\Collider.cpp" />
+    <ClCompile Include="..\Private\PickingCube.cpp" />
     <ClCompile Include="..\Private\Component.cpp" />
     <ClCompile Include="..\Private\Component_Manager.cpp" />
     <ClCompile Include="..\Private\Engine_Struct.cpp" />

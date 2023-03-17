@@ -8,23 +8,23 @@ BEGIN(Engine)
 
 class CGameObject;
 
-class ENGINE_DLL CCollider : public CVIBuffer
+class ENGINE_DLL CPickingCube : public CVIBuffer
 {
 public:
 	static const FamilyId familyId = FAMILY_ID_COLLISION;
 private:
-	explicit CCollider(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner);
-	explicit CCollider(const CCollider& rhs, CGameObject* pOwner);
-	virtual ~CCollider();
+	explicit CPickingCube(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner);
+	explicit CPickingCube(const CPickingCube& rhs, CGameObject* pOwner);
+	virtual ~CPickingCube();
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
 
 public:
-	void On_Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ); // call on collising
-	void On_CollisionEnter(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
-	void On_CollisionExit(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
+	void On_Collision(CPickingCube* pOther, const _float& fX, const _float& fY, const _float& fZ); // call on collising
+	void On_CollisionEnter(CPickingCube* pOther, const _float& fX, const _float& fY, const _float& fZ);
+	void On_CollisionExit(CPickingCube* pOther, const _float& fX, const _float& fY, const _float& fZ);
 
 public:
 	virtual _uint LateTick(_double TimeDelta);
@@ -64,7 +64,7 @@ private:
 
 
 public:
-	static CCollider* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CPickingCube* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CComponent* Clone(CGameObject* pOwner, void* pArg = nullptr) override;
 
 private:

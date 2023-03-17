@@ -1,9 +1,9 @@
-#include "Collider.h"
+#include "PickingCube.h"
 #include "GameInstance.h"
 
-_uint CCollider::g_iColliderID = 0;
+_uint CPickingCube::g_iColliderID = 0;
 
-CCollider::CCollider(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner)
+CPickingCube::CPickingCube(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner)
 	: CVIBuffer(pDevice, pContext, pOwner)
 	, m_iID(g_iColliderID++)
 {
@@ -11,7 +11,7 @@ CCollider::CCollider(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGame
 	m_vMax = { 1.f, 1.f, 1.f };
 }
 
-CCollider::CCollider(const CCollider& rhs, CGameObject* pOwner)
+CPickingCube::CPickingCube(const CPickingCube& rhs, CGameObject* pOwner)
 	: CVIBuffer(rhs, pOwner)
 	, m_iID(g_iColliderID++)
 	, m_bCustomScale(rhs.m_bCustomScale)
@@ -30,11 +30,11 @@ CCollider::CCollider(const CCollider& rhs, CGameObject* pOwner)
 	m_vCenter = rhs.m_vCenter;
 }
 
-CCollider::~CCollider()
+CPickingCube::~CPickingCube()
 {
 }
 
-HRESULT CCollider::Initialize_Prototype()
+HRESULT CPickingCube::Initialize_Prototype()
 {
 	m_iStride = sizeof(VTXWIRE);
 	m_iNumVertices = 8;
@@ -150,24 +150,24 @@ HRESULT CCollider::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CCollider::Initialize(void* pArg)
+HRESULT CPickingCube::Initialize(void* pArg)
 {
 	return S_OK;
 }
 
-void CCollider::On_Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
+void CPickingCube::On_Collision(CPickingCube* pOther, const _float& fX, const _float& fY, const _float& fZ)
 {
 }
 
-void CCollider::On_CollisionEnter(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
+void CPickingCube::On_CollisionEnter(CPickingCube* pOther, const _float& fX, const _float& fY, const _float& fZ)
 {
 }
 
-void CCollider::On_CollisionExit(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
+void CPickingCube::On_CollisionExit(CPickingCube* pOther, const _float& fX, const _float& fY, const _float& fZ)
 {
 }
 
-_uint CCollider::LateTick(_double TimeDelta)
+_uint CPickingCube::LateTick(_double TimeDelta)
 {
 	if (m_bCustomScale)
 	{
@@ -199,12 +199,12 @@ _uint CCollider::LateTick(_double TimeDelta)
 	return _uint();
 }
 
-HRESULT CCollider::Render()
+HRESULT CPickingCube::Render()
 {
 	return S_OK;
 }
 
-_bool CCollider::Picking_By_Ray(_fvector vRayOrigin, _fvector vRayDiretion)
+_bool CPickingCube::Picking_By_Ray(_fvector vRayOrigin, _fvector vRayDiretion)
 {
 	if (m_pVtxWire == nullptr || m_pIndex == nullptr)
 		return false;
@@ -234,33 +234,33 @@ _bool CCollider::Picking_By_Ray(_fvector vRayOrigin, _fvector vRayDiretion)
 }
 
 
-CCollider* CCollider::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CPickingCube* CPickingCube::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CCollider* pInstance = new CCollider(pDevice, pContext, nullptr);
+	CPickingCube* pInstance = new CPickingCube(pDevice, pContext, nullptr);
 	
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed to Created : CCollider");
+		MSG_BOX("Failed to Created : CPickingCube");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CComponent* CCollider::Clone(CGameObject * pOwner, void* pArg)
+CComponent* CPickingCube::Clone(CGameObject * pOwner, void* pArg)
 {
-	CCollider* pInstance = new CCollider(*this, pOwner);
+	CPickingCube* pInstance = new CPickingCube(*this, pOwner);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Cloned : CCollider");
+		MSG_BOX("Failed to Cloned : CPickingCube");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CCollider::Free()
+void CPickingCube::Free()
 {
 	if (!m_bClone)
 	{
