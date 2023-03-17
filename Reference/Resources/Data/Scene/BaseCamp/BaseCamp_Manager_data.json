@@ -6,6 +6,8 @@
             "z": 0.0,
             "w": 1.0
           },
+        "pokemonFocusLimitDistance": 0.5,
+        "pokemonFocusStayTime": 1.0,
         "hideCommonUiTime": 2.0,
         "visitInterval": 0.3,
         "lookTime": 1.0

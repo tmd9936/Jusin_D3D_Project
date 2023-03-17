@@ -119,7 +119,10 @@ public:
 
 	void LookAt(_fvector vTargetPos);
 
-	void Chase(_fvector vTargetPos, _float TimeDelta, _float limitDitance = 0.2);
+	/**
+	@return False 움직이는 중, True 도착
+	*/
+	_bool Chase(_fvector vTargetPos, _float TimeDelta, _float limitDitance = 0.2);
 
 	void Set_Rotation(const _float3& rotaion);
 

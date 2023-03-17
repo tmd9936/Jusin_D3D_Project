@@ -28,6 +28,8 @@ HRESULT CCamera_Public::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, v
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, &m_CameraPublicDesc.CameraDesc)))
 		return E_FAIL;
 
+	m_BackPosition = m_CameraPublicDesc.CameraDesc.vEye;
+
 	return S_OK;
 }
 
@@ -41,6 +43,8 @@ HRESULT CCamera_Public::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, c
 
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, &m_CameraPublicDesc.CameraDesc)))
 		return E_FAIL;
+
+	m_BackPosition = m_CameraPublicDesc.CameraDesc.vEye;
 
 	return S_OK;
 }
@@ -62,6 +66,13 @@ _uint CCamera_Public::LateTick(_double TimeDelta)
 HRESULT CCamera_Public::Render()
 {
 	return S_OK;
+}
+
+_bool CCamera_Public::Focus_To_Object(const _float4& vPosition, const _float& TImeDelta, const _float& limitDistance)
+{
+	m_pTransform->Chase(XMLoadFloat4(&vPosition), TImeDelta, limitDistance);
+
+	return _bool();
 }
 
 _bool CCamera_Public::Save_Args_Impl(HANDLE hFile)

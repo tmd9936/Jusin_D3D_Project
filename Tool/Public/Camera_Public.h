@@ -56,7 +56,16 @@ public:
 	virtual HRESULT Render() override;
 
 public:
-	void	Go_To_Object(const _float4& vPosition, const _float4& vOffset);
+	void Control_Off() {
+		m_bControl = false;
+	}
+	void Control_On() {
+		m_bControl = true;
+	}
+	/**
+	@return False 움직이는 중, True 도착
+	*/
+	_bool	Focus_To_Object(const _float4& vPosition, const _float& TImeDelta, const _float& limitDistance);
 
 protected:
 	virtual _bool			Save_Args_Impl(HANDLE hFile) override;
@@ -74,6 +83,8 @@ private:
 	CAMERA_PUBLIC_DESC			m_CameraPublicDesc = {};
 	_bool						m_bMouseMove = { true };
 	_bool						m_bControl = { true };
+
+	_float4						m_BackPosition = {};
 
 
 public:

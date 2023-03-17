@@ -86,6 +86,19 @@ HRESULT CClient_Utility::Load_Layer_GameObjects(const char* filePath)
 	return S_OK;
 }
 
+_bool CClient_Utility::Mouse_Pos_In_Platform()
+{
+	POINT ptMouse{};
+	GetCursorPos(&ptMouse);
+	ScreenToClient(g_hWnd, &ptMouse);
+
+	if (ptMouse.x >= 0 && ptMouse.x < g_iWinSizeX &&
+		ptMouse.y >= 0 && ptMouse.y < g_iWinSizeY)
+		return true;
+
+	return false;
+}
+
 void CClient_Utility::Free()
 {
 }

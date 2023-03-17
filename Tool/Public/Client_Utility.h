@@ -20,6 +20,7 @@ private:
 
 public:
     static HRESULT Load_Layer_GameObjects(const char* filePath);
+    static _bool Mouse_Pos_In_Platform();
 
 public:
     // CBase을(를) 통해 상속됨

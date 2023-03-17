@@ -197,7 +197,7 @@ void CTransform::LookAt(_fvector vTargetPos)
 
 }
 
-void CTransform::Chase(_fvector vTargetPos, _float TimeDelta, _float limitDitance)
+_bool CTransform::Chase(_fvector vTargetPos, _float TimeDelta, _float limitDitance)
 {
 	LookAt(vTargetPos);
 
@@ -211,8 +211,11 @@ void CTransform::Chase(_fvector vTargetPos, _float TimeDelta, _float limitDitanc
 	{
 		vPosition += XMVector3Normalize(vDir) * TimeDelta * m_TransformDesc.SpeedPerSec;
 		Set_State(STATE_POSITION, vPosition);
+
+		return false;
 	}
 
+	return true;
 }
 
 
