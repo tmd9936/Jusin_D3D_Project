@@ -16,8 +16,9 @@
 #include "WorldMapCloud.h"
 
 #include "Player.h"
-#include "Button.h"
+#include "GoToWorldMapButton.h"
 #include "Monster.h"
+#include "BaseCamp_Manager.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
@@ -269,9 +270,9 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 
 	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_BASECAMP))
 	{
-		/* For.Prototype_GameObject_Button */
-		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Button"),
-			CButton::Create(m_pDevice, m_pContext))))
+		/* For.Prototype_GameObject_GoToWorldMapButton */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_GoToWorldMapButton"),
+			CGoToWorldMapButton::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 		/* For.Prototype_GameObject_FlatTerrain */
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_FlatTerrain"),
@@ -311,6 +312,11 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 		/* For.Prototype_GameObject_Monster */
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster"),
 			CMonster::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		/* For.Prototype_GameObject_BaseCamp_Manager*/
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BaseCamp_Manager"),
+			CBaseCamp_Manager::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 	}
 #pragma endregion

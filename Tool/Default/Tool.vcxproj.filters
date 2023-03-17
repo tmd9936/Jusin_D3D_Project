@@ -100,6 +100,9 @@
     <Filter Include="Client_Utility">
       <UniqueIdentifier>{90363512-9d02-46ba-a50c-d5e5a1df79ce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\UI\Button\GoToWorldMapButton">
+      <UniqueIdentifier>{05d2d0bd-73c3-4600-9abe-ce3a11ec84cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -218,6 +221,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Client_Utility.h">
       <Filter>Client_Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\GoToWorldMapButton.h">
+      <Filter>02. GameObject\UI\Button\GoToWorldMapButton</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -338,6 +344,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Client_Utility.cpp">
       <Filter>Client_Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\GoToWorldMapButton.cpp">
+      <Filter>02. GameObject\UI\Button\GoToWorldMapButton</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -32,6 +32,11 @@ public:
 		_double					currentDownMove;
 
 		_double					moveSpeed;
+		_double					zoomSpeed;
+
+		_float4					pokemonFocusOffset;
+		_float					lookTime;
+		_float					freeZoomDistance;
 
 		CCamera::CAMERADESC		CameraDesc;
 	}CAMERA_PUBLIC_DESC;
@@ -50,6 +55,9 @@ public:
 	virtual _uint LateTick(_double TimeDelta) override;
 	virtual HRESULT Render() override;
 
+public:
+	void	Go_To_Object(const _float4& vPosition, const _float4& vOffset);
+
 protected:
 	virtual _bool			Save_Args_Impl(HANDLE hFile) override;
 protected:
@@ -65,6 +73,8 @@ private:
 private:
 	CAMERA_PUBLIC_DESC			m_CameraPublicDesc = {};
 	_bool						m_bMouseMove = { true };
+	_bool						m_bControl = { true };
+
 
 public:
 	/* Prototype */

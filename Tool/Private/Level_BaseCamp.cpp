@@ -125,9 +125,6 @@ HRESULT CLevel_BaseCamp::Ready_Layer_Map(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_Layer(LEVEL_BASECAMP, pLayerTag)))
 		return E_FAIL;
 
-	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Map"), LEVEL_BASECAMP, pLayerTag)))
-	//	return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Map"), LEVEL_BASECAMP, pLayerTag, L"Map", "../../Reference/Resources/Data/Scene/BaseCamp/Map_data.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
@@ -171,7 +168,7 @@ HRESULT CLevel_BaseCamp::Ready_Layer_UI(const _tchar* pLayerTag)
 	lstrcpy(desc.m_MaskPrototype, TEXT("Prototype_Component_Button_Color_Mask"));
 	lstrcpy(desc.m_ButtonName, TEXT("GO_TO_WORLDMAP"));
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Button"), LEVEL_BASECAMP, pLayerTag, nullptr, &desc)))
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GoToWorldMapButton"), LEVEL_BASECAMP, pLayerTag, nullptr, &desc)))
 		return E_FAIL;
 
 

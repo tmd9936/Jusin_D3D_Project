@@ -63,7 +63,7 @@ HRESULT CMesh::Initialize_Prototype(CModel::TYPE eType, aiMesh* pAIMesh, CModel*
 
 	default:
 		return E_FAIL;
-		break;
+	break;
 	}
 
 	if (FAILED(hr))

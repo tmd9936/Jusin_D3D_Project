@@ -9,6 +9,7 @@ class CRenderer;
 class CTexture;
 class CShader;
 class CModel;
+class CPickingCube;
 END
 
 BEGIN(Client)
@@ -32,7 +33,7 @@ private:
 	CRenderer* m_pRendererCom = { nullptr };
 	CShader* m_pShaderCom = { nullptr };
 	CModel* m_pModelCom = { nullptr };
-
+	CPickingCube* m_pPickingCube = { nullptr };
 
 
 private:

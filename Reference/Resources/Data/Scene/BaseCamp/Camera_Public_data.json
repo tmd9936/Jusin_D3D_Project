@@ -9,6 +9,15 @@
         "upMoveStart_MousePos": 100,
         "downMoveStart_MousePos": 300,
         "moveSpeed": 0.5,
+        "zoomSpeed": 0.3,
+        "pokemonFocusOffset": {
+            "x": -4.0,
+            "y": -1.0,
+            "z": 0.0,
+            "w": 1.0
+          },
+        "lookTime": 1.0,
+        "freeZoomDistance": 40.0,
         "vEye": {
             "x": 18.253108978271484,
             "y": 6.790933609008789,

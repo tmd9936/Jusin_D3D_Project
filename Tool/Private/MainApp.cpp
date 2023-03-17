@@ -173,8 +173,8 @@ HRESULT CMainApp::Ready_Prototype_Component_For_Static()
 		CVIBuffer_Rect::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	/* For.Prototype_Component_Collider */
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Collider"),
+	/* For.Prototype_Component_PickingCube */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_PickingCube"),
 		CPickingCube::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 

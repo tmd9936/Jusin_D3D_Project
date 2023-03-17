@@ -77,6 +77,11 @@ HRESULT CMonster::Add_Components()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
+	/* For.Com_PickingCube */
+	if (FAILED(pGameInstance->Add_Component(CPickingCube::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_PickingCube"),
+		(CComponent**)&m_pPickingCube, nullptr)))
+		return E_FAIL;
+
 	/* For.Com_Transform */
 	CTransform::TRANSFORMDESC		TransformDesc = { 10.f, XMConvertToRadians(90.0f) };
 	if (FAILED(pGameInstance->Add_Component(CTransform::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
@@ -180,5 +185,6 @@ void CMonster::Free()
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pRendererCom);
+	Safe_Release(m_pPickingCube);
 
 }

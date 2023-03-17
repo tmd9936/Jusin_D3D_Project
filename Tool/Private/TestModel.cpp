@@ -63,7 +63,7 @@ HRESULT CTestModel::Add_Components()
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
 	/* For.Com_Collider */
-	if (FAILED(pGameInstance->Add_Component(CPickingCube::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider"),
+	if (FAILED(pGameInstance->Add_Component(CPickingCube::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_PickingCube"),
 		(CComponent**)&m_pCollider, nullptr)))
 		return E_FAIL;
 

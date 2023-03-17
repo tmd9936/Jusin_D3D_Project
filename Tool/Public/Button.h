@@ -13,7 +13,7 @@ END
 
 BEGIN(Client)
 
-class CButton final : public CGameObject
+class CButton abstract : public CGameObject
 {
 public:
 	enum BUTTON_STATE
@@ -115,7 +115,7 @@ public:
 
 	} BUTTON_DESC;
 
-private:
+protected:
 	CButton(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CButton(const CButton& rhs);
 	virtual ~CButton() = default;
@@ -127,24 +127,29 @@ public:
 	virtual _uint LateTick(_double TimeDelta) override;
 	virtual HRESULT Render() override;
 
-private:
+protected:
 	HRESULT Add_Components();
 	HRESULT SetUp_ShaderResources();
 
-private:
+protected:
 	void	Button_Motion(_double TimeDelta);
 	void	Picking_Button();
 	_uint	Change_State();
 
+public:
+	virtual _uint	On_Idle() PURE;
+	virtual _uint	On_Press() PURE;
+	virtual _uint	On_Select() PURE;
+	virtual _uint	On_Release() PURE;
 
-private:
+protected:
 	CTransform*		m_pTransformCom = { nullptr };
 	CRenderer*		m_pRendererCom = { nullptr };
 	CShader*		m_pShaderCom = { nullptr };
 	CModel*			m_pModelCom = { nullptr };;
 	CTexture*		m_pTextureCom = { nullptr };
 
-private:
+protected:
 	BUTTON_DESC		m_UIDesc = {};
 	_float4x4		m_ViewMatrix = {};
 	_float4x4		m_ProjMatrix = {};
@@ -156,15 +161,10 @@ private:
 	_float4x4		m_selectTransformMatrix = {};
 
 
-private:
+protected:
 	const			LONG		m_mouseInterSize = { 5 };
 
 public:
-	/* Prototype */
-	/* 원형 객체를 생성한다. */
-	static CButton* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	/* 사본 객체를 생성한다. */
-	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) override;
 	virtual void Free() override;
 };
 

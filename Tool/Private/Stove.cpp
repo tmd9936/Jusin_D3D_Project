@@ -77,9 +77,9 @@ HRESULT CStove::Add_Components()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
-	/* For.Com_Collider */
-	if (FAILED(pGameInstance->Add_Component(CPickingCube::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider"),
-		(CComponent**)&m_pColliderCom, nullptr)))
+	/* For.Com_PickingCube */
+	if (FAILED(pGameInstance->Add_Component(CPickingCube::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_PickingCube"),
+		(CComponent**)&m_pPickingCube, nullptr)))
 		return E_FAIL;
 
 	/* For.Com_Transform */
@@ -183,7 +183,7 @@ void CStove::Free()
 {
 	__super::Free();
 
-	Safe_Release(m_pColliderCom);
+	Safe_Release(m_pPickingCube);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pModelCom);

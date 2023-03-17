@@ -217,61 +217,36 @@ void CButton::Picking_Button()
 
 _uint CButton::Change_State()
 {
+	_uint result = 0;
 	if (m_ePreState != m_eCurState)
 	{
 		switch (m_eCurState)
 		{
 		case CButton::BUTTON_IDLE:
 			m_pModelCom->Set_Animation(BUTTON_IDLE);
+			result = On_Idle();
 			break;
 		case CButton::BUTTON_PRESS:
 			m_pModelCom->Set_Animation(BUTTON_PRESS);
+			result = On_Press();
 			break;
 		case CButton::BUTTON_RELEASE:
-			//m_pTransformCom->Set_Scaled({ m_UIDesc.m_fSizeX * m_selectTransformMatrix.m[0][0],  m_UIDesc.m_fSizeY * m_selectTransformMatrix.m[1][1], 1.f });
 			m_pModelCom->Set_Animation(BUTTON_RELEASE);
-			if (FAILED(CGameInstance::GetInstance()->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_WORLDMAP))))
-				return 0;
-			else
-				return 3;
+			result = On_Release();
 			break;
 		case CButton::BUTTON_SELECT:
 			m_selectTransformMatrix = m_TransformMatrix;
 			m_pModelCom->Set_Animation(BUTTON_SELECT);
+			result = On_Select();
 			break;
 		}
 		m_ePreState = m_eCurState;
 
 	}
 
-	return 0;
+	return result;
 }
 
-CButton* CButton::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
-{
-	CButton* pInstance = new CButton(pDevice, pContext);
-
-	if (FAILED(pInstance->Initialize_Prototype()))
-	{
-		MSG_BOX("Failed to Created CButton");
-		Safe_Release(pInstance);
-	}
-
-	return pInstance;
-}
-
-CGameObject* CButton::Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
-{
-	CButton* pInstance = new CButton(*this);
-
-	if (FAILED(pInstance->Initialize(pLayerTag, iLevelIndex, pArg)))
-	{
-		MSG_BOX("Failed to Cloned CButton");
-		Safe_Release(pInstance);
-	}
-
-	return pInstance;
-}
 
 void CButton::Free()
 {
