@@ -42,7 +42,7 @@ HRESULT CLevel_BaseCamp::Initialize()
 	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
 		return E_FAIL;
 
-
+	CClient_Utility::Load_Layer_GameObjects("../../Reference/Resources/Data/Scene/BaseCamp/Stove.json");
 
 	return S_OK;
 }
