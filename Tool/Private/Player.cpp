@@ -43,14 +43,14 @@ _uint CPlayer::Tick(_double TimeDelta)
 
 	if (GetKeyState(VK_DOWN) & 0x8000)
 	{
-		m_pTransformCom->Go_Backward(TimeDelta);
+		m_pTransformCom->Go_Backward((_float)TimeDelta);
 		m_pModelCom->Set_Animation(15);
 
 	}
 
 	if (GetKeyState(VK_LEFT) & 0x8000)
 	{
-		m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), TimeDelta * -1.f);
+		m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), (_float)TimeDelta * -1.f);
 		//m_pModelCom->Set_Animation(41);
 
 
@@ -58,14 +58,14 @@ _uint CPlayer::Tick(_double TimeDelta)
 
 	if (GetKeyState(VK_RIGHT) & 0x8000)
 	{
-		m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), TimeDelta);
+		m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), (_float)TimeDelta);
 		//m_pModelCom->Set_Animation(41);
 
 	}
 
 	if (GetKeyState(VK_UP) & 0x8000)
 	{
-		m_pTransformCom->Go_Straight(TimeDelta);
+		m_pTransformCom->Go_Straight((_float)TimeDelta);
 		m_pModelCom->Set_Animation(15);
 	}
 

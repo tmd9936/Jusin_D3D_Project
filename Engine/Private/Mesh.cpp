@@ -13,7 +13,7 @@ CMesh::CMesh(const CMesh& rhs, CGameObject* pOwner)
 {
 }
 
-void CMesh::Get_BoneMatrices(_float4x4* pBoneMatrices, const vector<class CBone*>& Bones, _matrix PivotMatrix)
+void CMesh::Get_BoneMatrices(_float4x4* pBoneMatrices, const vector<CBone*>& Bones, _matrix PivotMatrix)
 {
 	_uint		iNumBones = 0;
 

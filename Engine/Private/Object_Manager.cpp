@@ -54,8 +54,8 @@ HRESULT CObject_Manager::Add_Prototype(const _tchar* pPrototypeTag, CGameObject*
 	CGameObject* pCurrentProtoType = Find_Prototype(pPrototypeTag);
 	if (nullptr != pCurrentProtoType)
 	{
-		m_Prototypes.emplace(pPrototypeTag, pPrototype);
-		Safe_Release(pCurrentProtoType);
+		//m_Prototypes.emplace(pPrototypeTag, pPrototype);
+		Safe_Release(pPrototype);
 
 		return S_OK;
 	}

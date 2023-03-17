@@ -94,6 +94,9 @@
     <Filter Include="02. GameObject\WorldMap">
       <UniqueIdentifier>{c22b070c-2ee9-4911-a960-18b46263c1e6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\Monster">
+      <UniqueIdentifier>{54be1a60-304a-4f70-ad89-77a4ecc855d9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -206,6 +209,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\WorldMapCloud.h">
       <Filter>02. GameObject\WorldMap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Monster.h">
+      <Filter>02. GameObject\Monster</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -320,6 +326,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\WorldMapCloud.cpp">
       <Filter>02. GameObject\WorldMap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Monster.cpp">
+      <Filter>02. GameObject\Monster</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -37,6 +37,9 @@ HRESULT CLevel_BaseCamp::Initialize()
 	if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -167,6 +170,24 @@ HRESULT CLevel_BaseCamp::Ready_Layer_UI(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Button"), LEVEL_BASECAMP, pLayerTag, nullptr, &desc)))
 		return E_FAIL;
 
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CLevel_BaseCamp::Ready_Layer_Monster(const _tchar* pLayerTag)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_BASECAMP, pLayerTag)))
+		return E_FAIL;
+	for (size_t i = 0; i < 10; i++)
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Monster"), LEVEL_BASECAMP, pLayerTag)))
+			return E_FAIL;
+	}
 
 	Safe_Release(pGameInstance);
 

@@ -17,6 +17,7 @@
 
 #include "Player.h"
 #include "Button.h"
+#include "Monster.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
@@ -215,9 +216,23 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../../Reference/Resources/Mesh/Animation/WorldMap/W_island.fbx", PivotMatrix))))
 	//	return E_FAIL;
 
+
+	//for (int i = 1; i <= 6; ++i)
+	//{
+	// 	_tchar pokemonPrototype[MAX_PATH];
+	//  char pokemonFilePath[MAX_PATH];
+	//	wsprintf(pokemonPrototype, TEXT("Prototype_Component_Model_Pokemon_PM%d"), i);
+	//	sprintf(pokemonFilePath, "../../Reference/Resources/Mesh/Animation/Pokemon/PM%d.fbx", i);
+
+	//	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f) * XMMatrixRotationY(XMConvertToRadians(180.f));;
+	//	if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, pokemonPrototype,
+	//		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, pokemonFilePath, PivotMatrix))))
+	//		return E_FAIL;
+	//}
+
 	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f) * XMMatrixRotationY(XMConvertToRadians(180.f));;
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Model_Pokemon_PM6"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Pokemon/PM6.fbx", PivotMatrix))))
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../../Reference/Resources/Mesh/Animation/Pokemon/PM2.fbx", PivotMatrix))))
 		return E_FAIL;
 
 #pragma endregion
@@ -280,12 +295,20 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 			CPlayer::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
+
+		/* For.Prototype_GameObject_Map */
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Map"),
 			CMap::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
+		/* For.Prototype_GameObject_Stove */
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Stove"),
 			CStove::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		/* For.Prototype_GameObject_Monster */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster"),
+			CMonster::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 	}
 #pragma endregion

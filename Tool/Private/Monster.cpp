@@ -30,7 +30,7 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* p
 
 	m_eRenderId = RENDER_NONBLEND;
 
-	m_pTransformCom->Set_Pos(20.f, 0.5f, 20.f);
+	m_pTransformCom->Set_Pos(rand() % 10 + 12.f, 0.f, rand() % 10 + 19.f);
 
 	m_pModelCom->Set_Animation(rand() % 44);
 

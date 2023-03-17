@@ -489,4 +489,5 @@ void CGameInstance::Free(void)
 	Safe_Release(m_pTimer_Manager);
 	Safe_Release(m_pInput_Device);
 	Safe_Release(m_pPipeLine);
+
 }

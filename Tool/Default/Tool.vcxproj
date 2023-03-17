@@ -179,6 +179,7 @@
     <ClInclude Include="..\Public\Map.h" />
     <ClInclude Include="..\Public\MapToolGUI.h" />
     <ClInclude Include="..\Public\ModelUI.h" />
+    <ClInclude Include="..\Public\Monster.h" />
     <ClInclude Include="..\Public\Player.h" />
     <ClInclude Include="..\Public\Stove.h" />
     <ClInclude Include="..\Public\Terrain.h" />
@@ -217,6 +218,7 @@
     <ClCompile Include="..\Private\Map.cpp" />
     <ClCompile Include="..\Private\MapToolGUI.cpp" />
     <ClCompile Include="..\Private\ModelUI.cpp" />
+    <ClCompile Include="..\Private\Monster.cpp" />
     <ClCompile Include="..\Private\Player.cpp" />
     <ClCompile Include="..\Private\Stove.cpp" />
     <ClCompile Include="..\Private\Terrain.cpp" />
