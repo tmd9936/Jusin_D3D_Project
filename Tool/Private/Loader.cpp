@@ -13,6 +13,8 @@
 #include "Map.h"
 #include "Stove.h"
 
+#include "WorldMapCloud.h"
+
 #include "Player.h"
 #include "Button.h"
 
@@ -357,6 +359,11 @@ HRESULT CLoader::Loading_ForWorldMapLevel()
 		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/WorldMap/W_island.fbx", PivotMatrix))))
 		return E_FAIL;
 
+	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Model_WorldMap_Cloud"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/WorldMap/W_cloud.fbx", PivotMatrix))))
+		return E_FAIL;
+
 
 	//PivotMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f);
 	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Model_WolrdMap_Island"),
@@ -431,9 +438,9 @@ HRESULT CLoader::Loading_ForWorldMapLevel()
 		//	CMap::Create(m_pDevice, m_pContext))))
 		//	return E_FAIL;
 
-		//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Stove"),
-		//	CStove::Create(m_pDevice, m_pContext))))
-		//	return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_WorldMap_Cloud"),
+			CWorldMapCloud::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
 	}
 #pragma endregion
 

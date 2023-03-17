@@ -91,6 +91,9 @@
     <Filter Include="01. Levels\WorldMap">
       <UniqueIdentifier>{3f7f32b7-b611-4636-a314-0af8e969ceec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\WorldMap">
+      <UniqueIdentifier>{c22b070c-2ee9-4911-a960-18b46263c1e6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -200,6 +203,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Level_WorldMap.h">
       <Filter>01. Levels\WorldMap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\WorldMapCloud.h">
+      <Filter>02. GameObject\WorldMap</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -311,6 +317,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Level_WorldMap.cpp">
       <Filter>01. Levels\WorldMap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\WorldMapCloud.cpp">
+      <Filter>02. GameObject\WorldMap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

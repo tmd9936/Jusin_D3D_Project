@@ -7,6 +7,7 @@
 #include "Utility.h"
 
 #include "Button.h"
+#include "WorldMapCloud.h"
 
 CLevel_WorldMap::CLevel_WorldMap(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
@@ -104,6 +105,9 @@ HRESULT CLevel_WorldMap::Ready_Layer_Env(const _tchar* pLayerTag)
 	Safe_AddRef(pGameInstance);
 
 	if (FAILED(pGameInstance->Add_Layer(LEVEL_WORLDMAP, pLayerTag)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_WorldMap_Cloud"), LEVEL_WORLDMAP, pLayerTag, L"Cloud")))
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);
