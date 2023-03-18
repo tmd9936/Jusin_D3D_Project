@@ -26,6 +26,7 @@
 #include <fstream>
 #include <iostream>
 #include <cstdio>
+#include <codecvt>
 
 #include <DirectXMath.h>
 #include <Process.h>

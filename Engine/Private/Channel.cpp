@@ -97,9 +97,9 @@ void CChannel::Update(vector<CBone*>& Bones, _uint& pCurrentKeyFrame, _double Cu
 		vSourPosition = XMLoadFloat3(&m_KeyFrames[pCurrentKeyFrame].vPosition);
 		vDestPosition = XMLoadFloat3(&m_KeyFrames[pCurrentKeyFrame + 1].vPosition);
 
-		vScale = XMVectorLerp(vSourScale, vDestScale, Ratio);
-		vRotation = XMQuaternionSlerp(vSourRotation, vDestRotation, Ratio);
-		vPosition = XMVectorLerp(vSourPosition, vDestPosition, Ratio);
+		vScale = XMVectorLerp(vSourScale, vDestScale, (_float)Ratio);
+		vRotation = XMQuaternionSlerp(vSourRotation, vDestRotation, (_float)Ratio);
+		vPosition = XMVectorLerp(vSourPosition, vDestPosition, (_float)Ratio);
 		vPosition = XMVectorSetW(vPosition, 1.f);
 	}
 

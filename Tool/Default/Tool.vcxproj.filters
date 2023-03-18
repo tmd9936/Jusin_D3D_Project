@@ -106,6 +106,9 @@
     <Filter Include="02. GameObject\BaseCamp\BaseCamp_Manager">
       <UniqueIdentifier>{c0ffc40b-ce40-4f7b-b011-36bbb94db644}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\Monster\FieldMonster">
+      <UniqueIdentifier>{22071bd7-dd02-4e8d-9104-33797aa1607d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -230,6 +233,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\BaseCamp_Manager.h">
       <Filter>02. GameObject\BaseCamp\BaseCamp_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BaseCampMonster.h">
+      <Filter>02. GameObject\Monster\FieldMonster</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -356,6 +362,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\BaseCamp_Manager.cpp">
       <Filter>02. GameObject\BaseCamp\BaseCamp_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BaseCampMonster.cpp">
+      <Filter>02. GameObject\Monster\FieldMonster</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

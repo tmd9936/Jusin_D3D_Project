@@ -116,7 +116,7 @@ HRESULT CModel::Set_Texture_In_Material(const _uint& materialIndex, const _uint&
 
 	_tchar		szFinalPath[MAX_PATH] = TEXT("");
 
-	MultiByteToWideChar(CP_ACP, 0, szFullPath, strlen(szFullPath), szFinalPath, MAX_PATH);
+	MultiByteToWideChar(CP_ACP, 0, szFullPath, (int)strlen(szFullPath), szFinalPath, MAX_PATH);
 
 	CTexture* pTexture = CTexture::Create(m_pDevice, m_pContext, szFinalPath);
 	if (nullptr == pTexture)
@@ -347,7 +347,7 @@ HRESULT CModel::Ready_Materials(const char* pModelFilePath)
 
 			_tchar		szFinalPath[MAX_PATH] = TEXT("");
 
-			MultiByteToWideChar(CP_ACP, 0, szFullPath, strlen(szFullPath), szFinalPath, MAX_PATH);
+			MultiByteToWideChar(CP_ACP, 0, szFullPath, (int)strlen(szFullPath), szFinalPath, MAX_PATH);
 
 			ModelMaterial.szModelPath = pModelFilePath;
 

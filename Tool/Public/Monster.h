@@ -15,7 +15,7 @@ END
 
 BEGIN(Client)
 
-class CMonster final : public CGameObject
+class CMonster : public CGameObject
 {
 public:
 	typedef	struct PokeMon_Desc
@@ -49,7 +49,7 @@ public:
 
 	} POKEMON_DESC;
 
-private:
+protected:
 	CMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CMonster(const CMonster& rhs);
 	virtual ~CMonster() = default;
@@ -87,6 +87,7 @@ private:
 public:
 	static CMonster* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) override;
+	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex,	const char* filePath) override;
 	virtual void Free() override;
 };
 

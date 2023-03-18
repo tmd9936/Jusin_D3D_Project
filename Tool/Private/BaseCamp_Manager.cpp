@@ -90,7 +90,7 @@ HRESULT CBaseCamp_Manager::Render()
 
 void CBaseCamp_Manager::Focus_In(const _double& TimeDelta)
 {
-	if (p_MainCamera->Focus_To_Object(m_FocusPosition, TimeDelta, m_Desc.pokemonFocusLimitDistance))
+	if (p_MainCamera->Focus_To_Object(m_FocusPosition, (_float)TimeDelta, m_Desc.pokemonFocusLimitDistance))
 	{
 		m_eCurState = MANAGER_CAMERA_FOCUS_STAY;
 	}
@@ -103,13 +103,13 @@ void CBaseCamp_Manager::Focus_Stay(const _double& TimeDelta)
 		m_eCurState = MANAGER_CAMERA_FOCUS_OUT;
 		return;
 	}
-	m_CurrentLookTime += TimeDelta;
+	m_CurrentLookTime += (_float)TimeDelta;
 
 }
 
 void CBaseCamp_Manager::Focus_Out(const _double& TimeDelta)
 {
-	if (p_MainCamera->Go_To_DefaultPosition(XMLoadFloat4(&m_FocusPosition), TimeDelta, 0.2))
+	if (p_MainCamera->Go_To_DefaultPosition(XMLoadFloat4(&m_FocusPosition), (_float)TimeDelta, 0.2))
 	{
 		m_eCurState = MANAGER_IDLE;
 	}

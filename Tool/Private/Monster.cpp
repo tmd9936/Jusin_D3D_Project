@@ -3,8 +3,6 @@
 
 #include "GameInstance.h"
 
-#include <codecvt>
-
 CMonster::CMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
 {
@@ -34,7 +32,7 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* p
 
 	m_pTransformCom->Set_Pos(rand() % 10 + 12.f, 0.f, rand() % 10 + 19.f);
 
-	m_pModelCom->Set_Animation(1);
+	m_pModelCom->Set_Animation(0);
 
 	return S_OK;
 }
@@ -60,6 +58,8 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const c
 
 	if (FAILED(Add_Components_By_File()))
 		return E_FAIL;
+
+	m_pModelCom->Set_Animation(0);
 
 	m_eRenderId = RENDER_NONBLEND;
 
@@ -98,6 +98,128 @@ HRESULT CMonster::Render()
 
 		m_pModelCom->Render(i);
 	}
+
+	return S_OK;
+}
+
+HRESULT CMonster::Add_Components()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	/* For.Com_PickingCube */
+	if (FAILED(pGameInstance->Add_Component(CPickingCube::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_PickingCube"),
+		(CComponent**)&m_pPickingCube, nullptr)))
+		return E_FAIL;
+
+	/* For.Com_Transform */
+	CTransform::TRANSFORMDESC		TransformDesc = { 10.f, XMConvertToRadians(90.0f) };
+	if (FAILED(pGameInstance->Add_Component(CTransform::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+		(CComponent**)&m_pTransformCom, &TransformDesc)))
+		return E_FAIL;
+
+	/* For.Com_Renderer */
+	if (FAILED(pGameInstance->Add_Component(CRenderer::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Renderer"),
+		(CComponent**)&m_pRendererCom, nullptr)))
+		return E_FAIL;
+
+	/* For.Com_Shader */
+	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxAnimModel"),
+		(CComponent**)&m_pShaderCom, nullptr)))
+		return E_FAIL;
+
+	/* For.Com_Model */
+	//if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, m_PokemonDesc.ModelPrototypeLevelIndex, m_PokemonDesc.ModelPrototypeTag.c_str(),
+	//	(CComponent**)&m_pModelCom, nullptr)))
+	//	return E_FAIL;
+
+	/* For.Com_Model */
+	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, LEVEL_BASECAMP, L"Prototype_Component_Model_Pokemon_PM6",
+		(CComponent**)&m_pModelCom, nullptr)))
+		return E_FAIL;
+
+	/* For.Com_MonFSM */
+	if (FAILED(pGameInstance->Add_Component(CMonFSM::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_MonFSM"),
+		(CComponent**)&m_pShaderCom, nullptr)))
+		return E_FAIL;
+
+
+
+	return S_OK;
+}
+
+HRESULT CMonster::Add_Components_By_File()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	/* For.Com_PickingCube */
+	if (FAILED(pGameInstance->Add_Component(CPickingCube::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_PickingCube"),
+		(CComponent**)&m_pPickingCube, nullptr)))
+		return E_FAIL;
+
+	/* For.Com_Renderer */
+	if (FAILED(pGameInstance->Add_Component(CRenderer::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Renderer"),
+		(CComponent**)&m_pRendererCom, nullptr)))
+		return E_FAIL;
+
+	/* For.Com_Shader */
+	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxAnimModel"),
+		(CComponent**)&m_pShaderCom, nullptr)))
+		return E_FAIL;
+
+	/* For.Com_Model */
+	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, m_PokemonDesc.ModelPrototypeLevelIndex, m_PokemonDesc.ModelPrototypeTag.c_str(),
+		(CComponent**)&m_pModelCom, nullptr)))
+		return E_FAIL;
+
+	/* For.Com_MonFSM */
+	if (FAILED(pGameInstance->Add_Component(CMonFSM::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_MonFSM"),
+		(CComponent**)&m_pShaderCom, nullptr)))
+		return E_FAIL;
+
+
+	return S_OK;
+}
+
+HRESULT CMonster::SetUp_ShaderResources()
+{
+	if (FAILED(m_pTransformCom->Set_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
+		return E_FAIL;
+
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(m_pShaderCom->Set_Matrix("g_ViewMatrix",
+		&pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_VIEW))))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Set_Matrix("g_ProjMatrix",
+		&pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_PROJ))))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_vCamPosition",
+		&pGameInstance->Get_CamPosition(), sizeof(_float4))))
+		return E_FAIL;
+
+	const LIGHTDESC* pLightDesc = pGameInstance->Get_Light(0);
+	if (nullptr == pLightDesc)
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightDir",
+		&pLightDesc->vDirection, sizeof(_float4))))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightDiffuse",
+		&pLightDesc->vDiffuse, sizeof(_float4))))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightAmbient",
+		&pLightDesc->vAmbient, sizeof(_float4))))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightSpecular",
+		&pLightDesc->vSpecular, sizeof(_float4))))
+		return E_FAIL;
+
+	Safe_Release(pGameInstance);
 
 	return S_OK;
 }
@@ -207,127 +329,6 @@ _bool CMonster::Load_By_JsonFile_Impl(Document& doc)
 	return true;
 }
 
-HRESULT CMonster::Add_Components()
-{
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-
-	/* For.Com_PickingCube */
-	if (FAILED(pGameInstance->Add_Component(CPickingCube::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_PickingCube"),
-		(CComponent**)&m_pPickingCube, nullptr)))
-		return E_FAIL;
-
-	/* For.Com_Transform */
-	CTransform::TRANSFORMDESC		TransformDesc = { 10.f, XMConvertToRadians(90.0f) };
-	if (FAILED(pGameInstance->Add_Component(CTransform::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
-		(CComponent**)&m_pTransformCom, &TransformDesc)))
-		return E_FAIL;
-
-	/* For.Com_Renderer */
-	if (FAILED(pGameInstance->Add_Component(CRenderer::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Renderer"),
-		(CComponent**)&m_pRendererCom, nullptr)))
-		return E_FAIL;
-
-	/* For.Com_Shader */
-	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxAnimModel"),
-		(CComponent**)&m_pShaderCom, nullptr)))
-		return E_FAIL;
-
-	/* For.Com_Model */
-	//if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, m_PokemonDesc.ModelPrototypeLevelIndex, m_PokemonDesc.ModelPrototypeTag.c_str(),
-	//	(CComponent**)&m_pModelCom, nullptr)))
-	//	return E_FAIL;
-
-	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, LEVEL_BASECAMP, L"Prototype_Component_Model_Pokemon_PM6",
-		(CComponent**)&m_pModelCom, nullptr)))
-		return E_FAIL;
-
-	/* For.Com_MonFSM */
-	//if (FAILED(pGameInstance->Add_Component(CMonFSM::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_MonFSM"),
-	//	(CComponent**)&m_pShaderCom, nullptr)))
-	//	return E_FAIL;
-
-
-
-	return S_OK;
-}
-
-HRESULT CMonster::Add_Components_By_File()
-{
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-
-	/* For.Com_PickingCube */
-	if (FAILED(pGameInstance->Add_Component(CPickingCube::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_PickingCube"),
-		(CComponent**)&m_pPickingCube, nullptr)))
-		return E_FAIL;
-
-	/* For.Com_Renderer */
-	if (FAILED(pGameInstance->Add_Component(CRenderer::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Renderer"),
-		(CComponent**)&m_pRendererCom, nullptr)))
-		return E_FAIL;
-
-	/* For.Com_Shader */
-	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxAnimModel"),
-		(CComponent**)&m_pShaderCom, nullptr)))
-		return E_FAIL;
-
-	/* For.Com_Model */
-	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, m_PokemonDesc.ModelPrototypeLevelIndex, m_PokemonDesc.ModelPrototypeTag.c_str(),
-		(CComponent**)&m_pModelCom, nullptr)))
-		return E_FAIL;
-
-	/* For.Com_MonFSM */
-	//if (FAILED(pGameInstance->Add_Component(CMonFSM::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_MonFSM"),
-	//	(CComponent**)&m_pShaderCom, nullptr)))
-	//	return E_FAIL;
-
-
-	return S_OK;
-}
-
-HRESULT CMonster::SetUp_ShaderResources()
-{
-	if (FAILED(m_pTransformCom->Set_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
-		return E_FAIL;
-
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
-
-	if (FAILED(m_pShaderCom->Set_Matrix("g_ViewMatrix",
-		&pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_VIEW))))
-		return E_FAIL;
-	if (FAILED(m_pShaderCom->Set_Matrix("g_ProjMatrix",
-		&pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_PROJ))))
-		return E_FAIL;
-
-	if (FAILED(m_pShaderCom->Set_RawValue("g_vCamPosition",
-		&pGameInstance->Get_CamPosition(), sizeof(_float4))))
-		return E_FAIL;
-
-	const LIGHTDESC* pLightDesc = pGameInstance->Get_Light(0);
-	if (nullptr == pLightDesc)
-		return E_FAIL;
-
-	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightDir",
-		&pLightDesc->vDirection, sizeof(_float4))))
-		return E_FAIL;
-
-	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightDiffuse",
-		&pLightDesc->vDiffuse, sizeof(_float4))))
-		return E_FAIL;
-
-	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightAmbient",
-		&pLightDesc->vAmbient, sizeof(_float4))))
-		return E_FAIL;
-
-	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightSpecular",
-		&pLightDesc->vSpecular, sizeof(_float4))))
-		return E_FAIL;
-
-	Safe_Release(pGameInstance);
-
-	return S_OK;
-}
-
 CMonster* CMonster::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 	CMonster* pInstance = new CMonster(pDevice, pContext);
@@ -346,6 +347,19 @@ CGameObject* CMonster::Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* p
 	CMonster* pInstance = new CMonster(*this);
 
 	if (FAILED(pInstance->Initialize(pLayerTag, iLevelIndex, pArg)))
+	{
+		MSG_BOX("Failed to Cloned CMonster");
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
+}
+
+CGameObject* CMonster::Clone(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath)
+{
+	CMonster* pInstance = new CMonster(*this);
+
+	if (FAILED(pInstance->Initialize(pLayerTag, iLevelIndex, filePath)))
 	{
 		MSG_BOX("Failed to Cloned CMonster");
 		Safe_Release(pInstance);
