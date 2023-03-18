@@ -3,9 +3,6 @@
 
 #include "GameInstance.h"
 
-#include <codecvt>
-
-
 CMap::CMap(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
 {

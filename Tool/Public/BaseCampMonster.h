@@ -20,6 +20,11 @@ public:
 	virtual _uint LateTick(_double TimeDelta) override;
 	virtual HRESULT Render() override;
 
+protected:
+	virtual HRESULT Add_TransitionState() override;
+	virtual _uint Change_State() override;
+	virtual _uint State_Tick(const _double& TimeDelta) override;
+
 public:
 	static CBaseCampMonster* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) override;

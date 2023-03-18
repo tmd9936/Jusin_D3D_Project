@@ -16,32 +16,56 @@ CBaseCampMonster::CBaseCampMonster(const CMonster& rhs)
 
 HRESULT CBaseCampMonster::Initialize_Prototype()
 {
+	if (FAILED(__super::Initialize_Prototype()))
+		return E_FAIL;
+
 	return S_OK;
 }
 
 HRESULT CBaseCampMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
+	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
 HRESULT CBaseCampMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath)
 {
+	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, filePath)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
 _uint CBaseCampMonster::Tick(_double TimeDelta)
 {
-	return _uint();
+	return __super::Tick(TimeDelta);
 }
 
 _uint CBaseCampMonster::LateTick(_double TimeDelta)
 {
-	return _uint();
+	return __super::LateTick(TimeDelta);
 }
 
 HRESULT CBaseCampMonster::Render()
 {
-	return S_OK;
+	return __super::Render();
+}
+
+HRESULT CBaseCampMonster::Add_TransitionState()
+{
+	return E_NOTIMPL;
+}
+
+_uint CBaseCampMonster::Change_State()
+{
+	return _uint();
+}
+
+_uint CBaseCampMonster::State_Tick(const _double& TimeDelta)
+{
+	return _uint();
 }
 
 CBaseCampMonster* CBaseCampMonster::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

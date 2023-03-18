@@ -15,7 +15,7 @@ END
 
 BEGIN(Client)
 
-class CMonster : public CGameObject
+class CMonster abstract : public CGameObject
 {
 public:
 	typedef	struct PokeMon_Desc
@@ -67,6 +67,12 @@ protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
 	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
 
+protected:
+	virtual HRESULT Add_MotionState();
+	virtual	HRESULT Add_TransitionState() PURE;
+	virtual	_uint	Change_State() PURE;
+	virtual	_uint	State_Tick(const _double& TimeDelta) PURE;
+
 private:
 	HRESULT Add_Components();
 	HRESULT Add_Components_By_File();
@@ -85,9 +91,9 @@ private:
 	POKEMON_DESC		m_PokemonDesc = {};
 
 public:
-	static CMonster* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) override;
-	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex,	const char* filePath) override;
+	//static CMonster* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) ;
+	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) PURE;
+	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex,	const char* filePath) PURE;
 	virtual void Free() override;
 };
 

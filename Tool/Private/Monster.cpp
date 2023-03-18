@@ -28,11 +28,16 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* p
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
+	if (FAILED(Add_MotionState()))
+		return E_FAIL;
+
 	m_eRenderId = RENDER_NONBLEND;
 
 	m_pTransformCom->Set_Pos(rand() % 10 + 12.f, 0.f, rand() % 10 + 19.f);
 
 	m_pModelCom->Set_Animation(0);
+
+	Add_TransitionState();
 
 	return S_OK;
 }
@@ -59,7 +64,12 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const c
 	if (FAILED(Add_Components_By_File()))
 		return E_FAIL;
 
+	if (FAILED(Add_MotionState()))
+		return E_FAIL;
+
 	m_pModelCom->Set_Animation(0);
+
+	Add_TransitionState();
 
 	m_eRenderId = RENDER_NONBLEND;
 
@@ -69,6 +79,9 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const c
 _uint CMonster::Tick(_double TimeDelta)
 {
 	m_pModelCom->Play_Animation(TimeDelta);
+
+	State_Tick(TimeDelta);
+	Change_State();
 
 	return _uint();
 }
@@ -141,8 +154,6 @@ HRESULT CMonster::Add_Components()
 	if (FAILED(pGameInstance->Add_Component(CMonFSM::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_MonFSM"),
 		(CComponent**)&m_pShaderCom, nullptr)))
 		return E_FAIL;
-
-
 
 	return S_OK;
 }
@@ -329,44 +340,57 @@ _bool CMonster::Load_By_JsonFile_Impl(Document& doc)
 	return true;
 }
 
-CMonster* CMonster::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+HRESULT CMonster::Add_MotionState()
 {
-	CMonster* pInstance = new CMonster(pDevice, pContext);
+	if (nullptr == m_pMonFSM)
+		return E_FAIL;
 
-	if (FAILED(pInstance->Initialize_Prototype()))
+	for (_uint i = 0; i < CMonFSM::END_MOTION; ++i)
 	{
-		MSG_BOX("Failed to Created CMonster");
-		Safe_Release(pInstance);
+		m_pMonFSM->Add_MotionState(CMonFSM::MOTION_STATE(i), i);
 	}
 
-	return pInstance;
+	return S_OK;
 }
 
-CGameObject* CMonster::Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
-{
-	CMonster* pInstance = new CMonster(*this);
-
-	if (FAILED(pInstance->Initialize(pLayerTag, iLevelIndex, pArg)))
-	{
-		MSG_BOX("Failed to Cloned CMonster");
-		Safe_Release(pInstance);
-	}
-
-	return pInstance;
-}
-
-CGameObject* CMonster::Clone(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath)
-{
-	CMonster* pInstance = new CMonster(*this);
-
-	if (FAILED(pInstance->Initialize(pLayerTag, iLevelIndex, filePath)))
-	{
-		MSG_BOX("Failed to Cloned CMonster");
-		Safe_Release(pInstance);
-	}
-
-	return pInstance;
-}
+//CMonster* CMonster::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+//{
+//	CMonster* pInstance = new CMonster(pDevice, pContext);
+//
+//	if (FAILED(pInstance->Initialize_Prototype()))
+//	{
+//		MSG_BOX("Failed to Created CMonster");
+//		Safe_Release(pInstance);
+//	}
+//
+//	return pInstance;
+//}
+//
+//CGameObject* CMonster::Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
+//{
+//	CMonster* pInstance = new CMonster(*this);
+//
+//	if (FAILED(pInstance->Initialize(pLayerTag, iLevelIndex, pArg)))
+//	{
+//		MSG_BOX("Failed to Cloned CMonster");
+//		Safe_Release(pInstance);
+//	}
+//
+//	return pInstance;
+//}
+//
+//CGameObject* CMonster::Clone(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath)
+//{
+//	CMonster* pInstance = new CMonster(*this);
+//
+//	if (FAILED(pInstance->Initialize(pLayerTag, iLevelIndex, filePath)))
+//	{
+//		MSG_BOX("Failed to Cloned CMonster");
+//		Safe_Release(pInstance);
+//	}
+//
+//	return pInstance;
+//}
 
 void CMonster::Free()
 {
@@ -377,5 +401,6 @@ void CMonster::Free()
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pRendererCom);
 	Safe_Release(m_pPickingCube);
+	Safe_Release(m_pMonFSM);
 
 }
