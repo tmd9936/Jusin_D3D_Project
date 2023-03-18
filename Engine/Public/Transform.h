@@ -124,6 +124,8 @@ public:
 	*/
 	_bool Chase(_fvector vTargetPos, _float TimeDelta, _float limitDitance = 0.2);
 
+	_bool ChaseNoLook(_fvector vTargetPos, _float TimeDelta, _float limitDitance = 0.2);
+
 	_bool Go_BackWard_Look_Target(_fvector vLookPos, _fvector vArrivePos, _float TimeDelta, _float limitDitance = 0.2);
 
 	void Set_Rotation(const _float3& rotaion);

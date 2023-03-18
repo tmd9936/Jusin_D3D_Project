@@ -70,7 +70,7 @@ HRESULT CCamera_Public::Render()
 
 _bool CCamera_Public::Focus_To_Object(const _float4& vPosition, const _float& TImeDelta, const _float& limitDistance)
 {
-	return m_pTransform->Chase(XMLoadFloat4(&vPosition), TImeDelta, limitDistance);
+	return m_pTransform->ChaseNoLook(XMLoadFloat4(&vPosition), TImeDelta, limitDistance);
 }
 
 _bool CCamera_Public::Go_To_DefaultPosition(_fvector vLookPos, _float TimeDelta, _float limitDitance)
@@ -227,6 +227,14 @@ _bool CCamera_Public::Load_By_JsonFile_Impl(Document& doc)
 
 
 	return true;
+}
+
+void CCamera_Public::CurrentMoveValut_Init()
+{
+	m_CameraPublicDesc.currentLeftMove = 0.0;
+	m_CameraPublicDesc.currentRightMove = 0.0;
+	m_CameraPublicDesc.currentUpMove = 0.0;
+	m_CameraPublicDesc.currentDownMove = 0.0;
 }
 
 void CCamera_Public::Key_Input(const _double TimeDelta)

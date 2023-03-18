@@ -218,14 +218,40 @@ _bool CTransform::Chase(_fvector vTargetPos, _float TimeDelta, _float limitDitan
 	return true;
 }
 
+_bool CTransform::ChaseNoLook(_fvector vTargetPos, _float TimeDelta, _float limitDitance)
+{
+	//LookAt(vTargetPos);
+
+	_vector vPosition = Get_State(STATE_POSITION);
+
+	_vector vDir = vTargetPos - vPosition;
+
+	XMVectorSetX(vDir, 0.f);
+
+	_float length = XMVectorGetX(XMVector3Length(vDir));
+
+	if (length >= limitDitance)
+	{
+		vPosition += XMVector3Normalize(vDir) * TimeDelta * m_TransformDesc.SpeedPerSec;
+		Set_State(STATE_POSITION, vPosition);
+
+		return false;
+	}
+
+	return true;
+}
+
+
+
 _bool CTransform::Go_BackWard_Look_Target(_fvector vLookPos, _fvector vArrivePos, _float TimeDelta, _float limitDitance)
 {
-	LookAt(vLookPos);
+	//LookAt(vLookPos);
 
 	_vector vPosition = Get_State(STATE_POSITION);
 
 	_vector vDir = vArrivePos - vPosition;
 
+	XMVectorSetX(vDir, 0.f);
 	_float length = XMVectorGetX(XMVector3Length(vDir));
 
 	if (length >= limitDitance)

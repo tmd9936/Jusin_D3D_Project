@@ -196,6 +196,7 @@ void CBaseCamp_Manager::Change_State()
 			m_CurrentLookTime = 0.f;
 			break;
 		case MANAGER_CAMERA_FOCUS_OUT:
+			p_MainCamera->CurrentMoveValut_Init();
 			break;
 		}
 		m_ePreState = m_eCurState;

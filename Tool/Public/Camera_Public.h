@@ -75,11 +75,14 @@ protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
 	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
 
-private:
-	void Key_Input(const _double TimeDelta);
+public:
+	void					CurrentMoveValut_Init();
 
 private:
-	HRESULT Add_Components();
+	void					Key_Input(const _double TimeDelta);
+
+private:
+	HRESULT					Add_Components();
 
 private:
 	CAMERA_PUBLIC_DESC			m_CameraPublicDesc = {};
