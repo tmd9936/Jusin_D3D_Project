@@ -66,6 +66,8 @@ public:
 	@return False 움직이는 중, True 도착
 	*/
 	_bool	Focus_To_Object(const _float4& vPosition, const _float& TImeDelta, const _float& limitDistance);
+	_bool	Go_To_DefaultPosition(_fvector vLookPos, _float TimeDelta, _float limitDitance = 0.2);
+
 
 protected:
 	virtual _bool			Save_Args_Impl(HANDLE hFile) override;
@@ -84,7 +86,7 @@ private:
 	_bool						m_bMouseMove = { true };
 	_bool						m_bControl = { true };
 
-	_float4						m_BackPosition = {};
+	_float4						m_DefualtPosition = {};
 
 
 public:

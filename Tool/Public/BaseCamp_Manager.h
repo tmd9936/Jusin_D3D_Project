@@ -2,6 +2,7 @@
 
 #include "Client_Defines.h"
 #include "GameObject.h"
+#include "Camera_Public.h"
 
 BEGIN(Engine)
 class CTransform;
@@ -65,6 +66,7 @@ private:
 
 private:
 	_float						m_CurrentLookTime = { 0.f };
+
 	_float4						m_FocusPosition = {};
 
 protected:

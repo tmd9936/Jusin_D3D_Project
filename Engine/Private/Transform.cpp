@@ -218,6 +218,27 @@ _bool CTransform::Chase(_fvector vTargetPos, _float TimeDelta, _float limitDitan
 	return true;
 }
 
+_bool CTransform::Go_BackWard_Look_Target(_fvector vLookPos, _fvector vArrivePos, _float TimeDelta, _float limitDitance)
+{
+	LookAt(vLookPos);
+
+	_vector vPosition = Get_State(STATE_POSITION);
+
+	_vector vDir = vArrivePos - vPosition;
+
+	_float length = XMVectorGetX(XMVector3Length(vDir));
+
+	if (length >= limitDitance)
+	{
+		vPosition += XMVector3Normalize(vDir) * TimeDelta * m_TransformDesc.SpeedPerSec;
+		Set_State(STATE_POSITION, vPosition);
+
+		return false;
+	}
+
+	return true;
+}
+
 
 void CTransform::Set_Rotation(const _float3& rotaion)
 {

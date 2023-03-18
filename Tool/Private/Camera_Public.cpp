@@ -28,7 +28,7 @@ HRESULT CCamera_Public::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, v
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, &m_CameraPublicDesc.CameraDesc)))
 		return E_FAIL;
 
-	m_BackPosition = m_CameraPublicDesc.CameraDesc.vEye;
+	m_DefualtPosition = m_CameraPublicDesc.CameraDesc.vEye;
 
 	return S_OK;
 }
@@ -44,7 +44,7 @@ HRESULT CCamera_Public::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, c
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, &m_CameraPublicDesc.CameraDesc)))
 		return E_FAIL;
 
-	m_BackPosition = m_CameraPublicDesc.CameraDesc.vEye;
+	m_DefualtPosition = m_CameraPublicDesc.CameraDesc.vEye;
 
 	return S_OK;
 }
@@ -70,9 +70,12 @@ HRESULT CCamera_Public::Render()
 
 _bool CCamera_Public::Focus_To_Object(const _float4& vPosition, const _float& TImeDelta, const _float& limitDistance)
 {
-	m_pTransform->Chase(XMLoadFloat4(&vPosition), TImeDelta, limitDistance);
+	return m_pTransform->Chase(XMLoadFloat4(&vPosition), TImeDelta, limitDistance);
+}
 
-	return _bool();
+_bool CCamera_Public::Go_To_DefaultPosition(_fvector vLookPos, _float TimeDelta, _float limitDitance)
+{
+	return m_pTransform->Go_BackWard_Look_Target(vLookPos, XMLoadFloat4(&m_DefualtPosition), TimeDelta, limitDitance);
 }
 
 _bool CCamera_Public::Save_Args_Impl(HANDLE hFile)
@@ -182,8 +185,8 @@ _bool CCamera_Public::Load_By_JsonFile_Impl(Document& doc)
 	m_CameraPublicDesc.upMoveStart_MousePos = CameraDesc["upMoveStart_MousePos"].GetInt();
 	m_CameraPublicDesc.downMoveStart_MousePos = CameraDesc["downMoveStart_MousePos"].GetInt();
 
-	m_CameraPublicDesc.moveSpeed = CameraDesc["moveSpeed"].GetDouble();
-	m_CameraPublicDesc.zoomSpeed = CameraDesc["zoomSpeed"].GetDouble();
+	m_CameraPublicDesc.moveSpeed = CameraDesc["moveSpeed"].GetFloat();
+	m_CameraPublicDesc.zoomSpeed = CameraDesc["zoomSpeed"].GetFloat();
 
 	const Value& pokemonFocusOffset = CameraDesc["pokemonFocusOffset"];
 	m_CameraPublicDesc.pokemonFocusOffset.x = pokemonFocusOffset["x"].GetFloat();
@@ -191,8 +194,8 @@ _bool CCamera_Public::Load_By_JsonFile_Impl(Document& doc)
 	m_CameraPublicDesc.pokemonFocusOffset.z = pokemonFocusOffset["z"].GetFloat();
 	m_CameraPublicDesc.pokemonFocusOffset.w = pokemonFocusOffset["w"].GetFloat();
 
-	m_CameraPublicDesc.lookTime = CameraDesc["lookTime"].GetDouble();
-	m_CameraPublicDesc.zoomSpeed = CameraDesc["zoomSpeed"].GetDouble();
+	m_CameraPublicDesc.lookTime = CameraDesc["lookTime"].GetFloat();
+	m_CameraPublicDesc.zoomSpeed = CameraDesc["zoomSpeed"].GetFloat();
 
 	const Value& vEye = CameraDesc["vEye"];
 	m_CameraPublicDesc.CameraDesc.vEye.x = vEye["x"].GetFloat();

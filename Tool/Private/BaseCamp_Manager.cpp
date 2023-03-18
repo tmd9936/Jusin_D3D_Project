@@ -94,16 +94,25 @@ void CBaseCamp_Manager::Focus_In(const _double& TimeDelta)
 	{
 		m_eCurState = MANAGER_CAMERA_FOCUS_STAY;
 	}
-
-
 }
 
 void CBaseCamp_Manager::Focus_Stay(const _double& TimeDelta)
 {
+	if (m_CurrentLookTime >= m_Desc.lookTime)
+	{
+		m_eCurState = MANAGER_CAMERA_FOCUS_OUT;
+		return;
+	}
+	m_CurrentLookTime += TimeDelta;
+
 }
 
 void CBaseCamp_Manager::Focus_Out(const _double& TimeDelta)
 {
+	if (p_MainCamera->Go_To_DefaultPosition(XMLoadFloat4(&m_FocusPosition), TimeDelta, 0.2))
+	{
+		m_eCurState = MANAGER_IDLE;
+	}
 }
 
 _bool CBaseCamp_Manager::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator)
@@ -163,7 +172,8 @@ void CBaseCamp_Manager::State_Tick(const _double& TimeDelta)
 		Focus_In(TimeDelta);
 		break;
 	case MANAGER_CAMERA_FOCUS_STAY:
-
+		Focus_Stay(TimeDelta);
+		break;
 	case MANAGER_CAMERA_FOCUS_OUT:
 		Focus_Out(TimeDelta);
 		break;
@@ -177,6 +187,7 @@ void CBaseCamp_Manager::Change_State()
 		switch (m_eCurState)
 		{
 		case MANAGER_IDLE:
+			p_MainCamera->Control_On();
 			break;
 		case MANAGER_CAMERA_FOCUS_IN:
 			p_MainCamera->Control_Off();

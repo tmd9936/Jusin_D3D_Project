@@ -103,6 +103,9 @@
     <Filter Include="02. GameObject\UI\Button\GoToWorldMapButton">
       <UniqueIdentifier>{05d2d0bd-73c3-4600-9abe-ce3a11ec84cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\BaseCamp\BaseCamp_Manager">
+      <UniqueIdentifier>{c0ffc40b-ce40-4f7b-b011-36bbb94db644}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -224,6 +227,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\GoToWorldMapButton.h">
       <Filter>02. GameObject\UI\Button\GoToWorldMapButton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BaseCamp_Manager.h">
+      <Filter>02. GameObject\BaseCamp\BaseCamp_Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -347,6 +353,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\GoToWorldMapButton.cpp">
       <Filter>02. GameObject\UI\Button\GoToWorldMapButton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BaseCamp_Manager.cpp">
+      <Filter>02. GameObject\BaseCamp\BaseCamp_Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
