@@ -31,9 +31,6 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* p
 	if (FAILED(Add_MotionState()))
 		return E_FAIL;
 
-	if (FAILED(Set_ChangeStates()))
-		return E_FAIL;
-
 	m_eRenderId = RENDER_NONBLEND;
 
 	m_pTransformCom->Set_Pos(rand() % 10 + 12.f, 0.f, rand() % 10 + 19.f);
@@ -70,9 +67,6 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const c
 		return E_FAIL;
 
 	if (FAILED(Add_MotionState()))
-		return E_FAIL;
-
-	if (FAILED(Set_ChangeStates()))
 		return E_FAIL;
 
 	m_eRenderId = RENDER_NONBLEND;
@@ -182,6 +176,8 @@ HRESULT CMonster::Add_Components_By_File()
 		(CComponent**)&m_pShaderCom, nullptr)))
 		return E_FAIL;
 
+	m_PokemonDesc.ModelPrototypeTag = L"Prototype_Component_Model_Pokemon_PM";
+	m_PokemonDesc.ModelPrototypeTag += to_wstring((int)m_PokemonDesc.m_monsterNo);
 	/* For.Com_Model */
 	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, m_PokemonDesc.ModelPrototypeLevelIndex, m_PokemonDesc.ModelPrototypeTag.c_str(),
 		(CComponent**)&m_pModelCom, nullptr)))

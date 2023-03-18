@@ -189,11 +189,19 @@ HRESULT CLevel_BaseCamp::Ready_Layer_Monster(const _tchar* pLayerTag)
 
 	if (FAILED(pGameInstance->Add_Layer(LEVEL_BASECAMP, pLayerTag)))
 		return E_FAIL;
-	//for (size_t i = 0; i < 10; i++)
+
+	//for (size_t i = 0; i < 5; i++)
 	//{
-	//	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Monster"), LEVEL_BASECAMP, pLayerTag)))
+	//	char protoTag[MAX_PATH];
+	//	sprintf(protoTag, "../../Reference/Resources/Data/Scene/BaseCamp/FieldPokemon/FieldPokemon_data%d.json", i);
+
+	//	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BaseCampMonster"), LEVEL_BASECAMP, pLayerTag, nullptr, protoTag, CLONE_FILEPATH)))
 	//		return E_FAIL;
 	//}
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BaseCampMonster"), LEVEL_BASECAMP, pLayerTag, nullptr, "../../Reference/Resources/Data/Scene/BaseCamp/FieldPokemon/FieldPokemon_data0.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
 
 	Safe_Release(pGameInstance);
 

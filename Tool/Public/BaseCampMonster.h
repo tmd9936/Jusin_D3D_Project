@@ -20,22 +20,22 @@ public:
 	virtual _uint LateTick(_double TimeDelta) override;
 	virtual HRESULT Render() override;
 
+public:
+	virtual void Change_State_FSM(_uint eState) override;
+
 protected:
 	virtual HRESULT Add_TransitionRandomState() override;
-	virtual HRESULT Set_ChangeStates() override;
 	virtual _uint State_Tick(const _double& TimeDelta) override;
 
 protected:
+	void		Init_RandomMotionChangeDelay();
+	void		Check_Do_Change_RandomMotion(const _double& TimeDelta);
 	void		MotionChange_Random();
+	void		Go_To_RandomPosition(const _double& TimeDelta);
 
 private:
 	_float		m_MotionChangeDelay = { 3.f };
 	_float		m_CurMotionChangeDelayTime = { 0.f };
-
-	_float		m_MoveSpeed = { 0.f };
-	_float		m_RotateSpeed = { 0.f };
-
-
 
 public:
 	static CBaseCampMonster* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

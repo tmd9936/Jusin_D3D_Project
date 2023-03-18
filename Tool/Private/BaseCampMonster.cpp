@@ -27,7 +27,7 @@ HRESULT CBaseCampMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex,
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 		return E_FAIL;
 
-	m_MotionChangeDelay = _float(rand() % 3 + 2);
+	Init_RandomMotionChangeDelay();
 
 	return S_OK;
 }
@@ -37,7 +37,7 @@ HRESULT CBaseCampMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex,
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, filePath)))
 		return E_FAIL;
 
-	m_MotionChangeDelay = _float(rand() % 3 + 2);
+	Init_RandomMotionChangeDelay();
 
 	return S_OK;
 }
@@ -57,20 +57,56 @@ HRESULT CBaseCampMonster::Render()
 	return __super::Render();
 }
 
+void CBaseCampMonster::Change_State_FSM(_uint eState)
+{
+	switch (eState)
+	{
+	case CMonFSM::IDLE1:
+		break;
+
+	case CMonFSM::RUN_GOUND2:
+		Set_MovePosition();
+		break;
+
+	case CMonFSM::RUN_GOUND4:
+		Set_MovePosition();
+		break;
+
+	case CMonFSM::IDLE_GROUND:
+		Set_MovePosition();
+		break;
+
+	case CMonFSM::ROTATE_LOOP:
+		Set_MovePosition();
+		break;
+
+	default:
+		break;
+	}
+}
+
+void CBaseCampMonster::Go_To_RandomPosition(const _double& TimeDelta)
+{
+	if (m_pTransformCom->Chase(XMLoadFloat4(&m_MovePosition), (_float)TimeDelta))
+	{
+		MotionChange_Random();
+		Init_RandomMotionChangeDelay();
+	}
+}
+
+void CBaseCampMonster::Init_RandomMotionChangeDelay()
+{
+	m_MotionChangeDelay = _float(rand() % 3 + 2);
+	m_CurMotionChangeDelayTime = 0.f;
+}
+
 HRESULT CBaseCampMonster::Add_TransitionRandomState()
 {
 	m_pMonFSM->Add_RandomTransitionState(CMonFSM::IDLE1);
 	m_pMonFSM->Add_RandomTransitionState(CMonFSM::RUN_GOUND2);
 	m_pMonFSM->Add_RandomTransitionState(CMonFSM::RUN_GOUND4);
-	m_pMonFSM->Add_RandomTransitionState(CMonFSM::RUN_NO);
 	m_pMonFSM->Add_RandomTransitionState(CMonFSM::IDLE_GROUND);
 	m_pMonFSM->Add_RandomTransitionState(CMonFSM::ROTATE_LOOP);
-
-	return S_OK;
-}
-
-HRESULT CBaseCampMonster::Set_ChangeStates()
-{
 
 	return S_OK;
 }
@@ -80,21 +116,26 @@ _uint CBaseCampMonster::State_Tick(const _double& TimeDelta)
 	switch (m_pMonFSM->Get_MotionState())
 	{
 	case CMonFSM::IDLE1:
+		Check_Do_Change_RandomMotion(TimeDelta);
 		break;
 
 	case CMonFSM::RUN_GOUND2:
+		Go_To_RandomPosition(TimeDelta);
+		Check_Do_Change_RandomMotion(TimeDelta);
 		break;
 
 	case CMonFSM::RUN_GOUND4:
-		break;
-
-	case CMonFSM::RUN_NO:
+		Go_To_RandomPosition(TimeDelta);
+		Check_Do_Change_RandomMotion(TimeDelta);
 		break;
 
 	case CMonFSM::IDLE_GROUND:
+		Check_Do_Change_RandomMotion(TimeDelta);
 		break;
 
 	case CMonFSM::ROTATE_LOOP:
+		Go_To_RandomPosition(TimeDelta);
+		Check_Do_Change_RandomMotion(TimeDelta);
 		break;
 
 	default:
@@ -104,9 +145,20 @@ _uint CBaseCampMonster::State_Tick(const _double& TimeDelta)
 	return 0;
 }
 
+void CBaseCampMonster::Check_Do_Change_RandomMotion(const _double& TimeDelta)
+{
+	if (m_MotionChangeDelay < m_CurMotionChangeDelayTime)
+	{
+		MotionChange_Random();
+		Init_RandomMotionChangeDelay();
+	}
+
+	m_CurMotionChangeDelayTime += _float(TimeDelta);
+}
+
 void CBaseCampMonster::MotionChange_Random()
 {
-	m_pMonFSM->Get_RandomState();
+	m_pMonFSM->Get_RandomState(m_pModelCom);
 }
 
 CBaseCampMonster* CBaseCampMonster::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

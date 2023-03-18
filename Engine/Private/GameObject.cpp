@@ -98,6 +98,10 @@ HRESULT CGameObject::Remove_Component(const FamilyId& familyId)
 	return S_OK;
 }
 
+void CGameObject::Change_State_FSM(_uint eState)
+{
+}
+
 _bool CGameObject::Save_Args(const _tchar* filePath)
 {
 	HANDLE		hFile = Save_Args_Begin(filePath);

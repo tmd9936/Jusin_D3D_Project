@@ -88,6 +88,9 @@ public:
 	HRESULT					Remove_Component(const FamilyId& familyId);
 
 public:
+	virtual void			Change_State_FSM(_uint eState);
+
+public:
 	_bool					Save_Args(const _tchar* filePath);
 protected:
 	virtual _bool			Save_Args_Impl(HANDLE hFile);

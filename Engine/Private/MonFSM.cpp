@@ -1,6 +1,7 @@
 #include "MonFSM.h"
 
 #include "GameInstance.h"
+#include "GameObject.h"
 
 CMonFSM::CMonFSM(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner)
 	: CComponent(pDevice, pContext, pOwner)
@@ -71,9 +72,9 @@ HRESULT CMonFSM::Transit_MotionState(MONSTER_STATE eState, CModel* pModel)
 
 	pModel->Set_Animation(iter->second);
 
-	if (nullptr != m_StateChangeCaller[eState])
+	if (nullptr != m_pOwner)
 	{
-		m_StateChangeCaller[eState]();
+		m_pOwner->Change_State_FSM(eState);
 	}
 
 	m_ePrevMotion = m_eCurrentMotion;
@@ -102,15 +103,6 @@ _uint CMonFSM::Find_MotionState(MONSTER_STATE eState)
 	return iter->second;
 }
 
-HRESULT CMonFSM::Set_StateChangeCaller(MONSTER_STATE eMotion, void(*function)(void))
-{
-	if (nullptr == function)
-		return E_FAIL;
-
-	m_StateChangeCaller.insert({ eMotion, function });
-
-	return S_OK;
-}
 
 CMonFSM* CMonFSM::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {

@@ -27,6 +27,7 @@ public:
 
 		_float			moveSpeed;
 		_float			rotateSpeed;
+
 		_uint			m_monsterNo;
 		_uint			m_hpBasis;
 		_uint			m_attackBasis;
@@ -63,6 +64,11 @@ public:
 	virtual _uint LateTick(_double TimeDelta) override;
 	virtual HRESULT Render() override;
 
+public:
+	void Set_MovePosition() {
+		m_MovePosition = { rand() % 10 + 12.f, 0.f, rand() % 10 + 15.f, 1.f };
+	}
+
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
 	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
@@ -70,7 +76,6 @@ protected:
 protected:
 	virtual HRESULT Add_MotionState();
 	virtual	HRESULT Add_TransitionRandomState() PURE;
-	virtual	HRESULT	Set_ChangeStates() PURE;
 	virtual	_uint	State_Tick(const _double& TimeDelta) PURE;
 
 private:
@@ -87,8 +92,10 @@ protected:
 	CPickingCube* m_pPickingCube = { nullptr };
 	CMonFSM* m_pMonFSM = { nullptr };
 
-private:
+protected:
 	POKEMON_DESC		m_PokemonDesc = {};
+	_float4				m_MovePosition = { 20.f, 0.f, 20.f, 1.f };
+
 
 public:
 	//static CMonster* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) ;

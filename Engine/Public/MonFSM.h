@@ -4,6 +4,7 @@
 BEGIN(Engine)
 
 class CModel;
+class CGameObject;
 
 class ENGINE_DLL CMonFSM :
     public CComponent
@@ -42,15 +43,11 @@ public:
 	void			Get_RandomState(CModel* pModel = nullptr);
 	_uint			Find_MotionState(MONSTER_STATE eState);
 
-public:
-	HRESULT			Set_StateChangeCaller(MONSTER_STATE eMotion, void(*function)(void));
-
 private:
-	MONSTER_STATE								m_eCurrentMotion;
-	MONSTER_STATE								m_ePrevMotion;
+	MONSTER_STATE								m_eCurrentMotion = { IDLE1 };
+	MONSTER_STATE								m_ePrevMotion = { END_MOTION };
 	vector<MONSTER_STATE>						m_RandomState;
 	unordered_map<MONSTER_STATE, _uint>			m_MotionState;
-	unordered_map<MONSTER_STATE, void(*)(void)>	m_StateChangeCaller;
 
 public:
 	virtual CComponent* Clone(CGameObject* pOwner, void* pArg) override;
