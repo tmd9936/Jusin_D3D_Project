@@ -31,11 +31,14 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* p
 	if (FAILED(Add_MotionState()))
 		return E_FAIL;
 
+	if (FAILED(Set_ChangeStates()))
+		return E_FAIL;
+
 	m_eRenderId = RENDER_NONBLEND;
 
 	m_pTransformCom->Set_Pos(rand() % 10 + 12.f, 0.f, rand() % 10 + 19.f);
 
-	Add_TransitionState();
+	Add_TransitionRandomState();
 
 	m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1);
 
@@ -61,15 +64,20 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const c
 		m_strSaveJsonPath = filePath;
 	}
 
+	m_pTransformCom->Set_TransforDesc({ m_PokemonDesc.moveSpeed, m_PokemonDesc.rotateSpeed });
+
 	if (FAILED(Add_Components_By_File()))
 		return E_FAIL;
 
 	if (FAILED(Add_MotionState()))
 		return E_FAIL;
 
+	if (FAILED(Set_ChangeStates()))
+		return E_FAIL;
+
 	m_eRenderId = RENDER_NONBLEND;
 
-	Add_TransitionState();
+	Add_TransitionRandomState();
 
 	m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1);
 
@@ -78,13 +86,9 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const c
 
 _uint CMonster::Tick(_double TimeDelta)
 {
-	m_pMonFSM->Update_Component((_float)TimeDelta);
-
-	m_pModelCom->Play_Animation(TimeDelta);
-
-	State_Tick(TimeDelta);
+	m_pMonFSM->Update_Component((_float)TimeDelta, m_pModelCom);
 	
-	return Change_State();
+	return State_Tick(TimeDelta);
 }
 
 _uint CMonster::LateTick(_double TimeDelta)

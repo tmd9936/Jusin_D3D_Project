@@ -27,6 +27,8 @@ HRESULT CBaseCampMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex,
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 		return E_FAIL;
 
+	m_MotionChangeDelay = _float(rand() % 3 + 2);
+
 	return S_OK;
 }
 
@@ -34,6 +36,8 @@ HRESULT CBaseCampMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex,
 {
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, filePath)))
 		return E_FAIL;
+
+	m_MotionChangeDelay = _float(rand() % 3 + 2);
 
 	return S_OK;
 }
@@ -53,19 +57,56 @@ HRESULT CBaseCampMonster::Render()
 	return __super::Render();
 }
 
-HRESULT CBaseCampMonster::Add_TransitionState()
+HRESULT CBaseCampMonster::Add_TransitionRandomState()
 {
+	m_pMonFSM->Add_RandomTransitionState(CMonFSM::IDLE1);
+	m_pMonFSM->Add_RandomTransitionState(CMonFSM::RUN_GOUND2);
+	m_pMonFSM->Add_RandomTransitionState(CMonFSM::RUN_GOUND4);
+	m_pMonFSM->Add_RandomTransitionState(CMonFSM::RUN_NO);
+	m_pMonFSM->Add_RandomTransitionState(CMonFSM::IDLE_GROUND);
+	m_pMonFSM->Add_RandomTransitionState(CMonFSM::ROTATE_LOOP);
+
 	return S_OK;
 }
 
-_uint CBaseCampMonster::Change_State()
+HRESULT CBaseCampMonster::Set_ChangeStates()
 {
-	return _uint();
+
+	return S_OK;
 }
 
 _uint CBaseCampMonster::State_Tick(const _double& TimeDelta)
 {
-	return _uint();
+	switch (m_pMonFSM->Get_MotionState())
+	{
+	case CMonFSM::IDLE1:
+		break;
+
+	case CMonFSM::RUN_GOUND2:
+		break;
+
+	case CMonFSM::RUN_GOUND4:
+		break;
+
+	case CMonFSM::RUN_NO:
+		break;
+
+	case CMonFSM::IDLE_GROUND:
+		break;
+
+	case CMonFSM::ROTATE_LOOP:
+		break;
+
+	default:
+		break;
+	}
+
+	return 0;
+}
+
+void CBaseCampMonster::MotionChange_Random()
+{
+	m_pMonFSM->Get_RandomState();
 }
 
 CBaseCampMonster* CBaseCampMonster::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

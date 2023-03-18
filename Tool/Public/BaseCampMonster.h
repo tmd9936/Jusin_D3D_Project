@@ -21,9 +21,21 @@ public:
 	virtual HRESULT Render() override;
 
 protected:
-	virtual HRESULT Add_TransitionState() override;
-	virtual _uint Change_State() override;
+	virtual HRESULT Add_TransitionRandomState() override;
+	virtual HRESULT Set_ChangeStates() override;
 	virtual _uint State_Tick(const _double& TimeDelta) override;
+
+protected:
+	void		MotionChange_Random();
+
+private:
+	_float		m_MotionChangeDelay = { 3.f };
+	_float		m_CurMotionChangeDelayTime = { 0.f };
+
+	_float		m_MoveSpeed = { 0.f };
+	_float		m_RotateSpeed = { 0.f };
+
+
 
 public:
 	static CBaseCampMonster* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

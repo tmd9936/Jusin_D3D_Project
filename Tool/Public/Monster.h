@@ -69,8 +69,8 @@ protected:
 
 protected:
 	virtual HRESULT Add_MotionState();
-	virtual	HRESULT Add_TransitionState() PURE;
-	virtual	_uint	Change_State() PURE;
+	virtual	HRESULT Add_TransitionRandomState() PURE;
+	virtual	HRESULT	Set_ChangeStates() PURE;
 	virtual	_uint	State_Tick(const _double& TimeDelta) PURE;
 
 private:
@@ -79,7 +79,7 @@ private:
 
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 던진다. */
 
-private:
+protected:
 	CTransform* m_pTransformCom = { nullptr };
 	CRenderer* m_pRendererCom = { nullptr };
 	CShader* m_pShaderCom = { nullptr };
