@@ -94,11 +94,11 @@ public:
 		_float				m_fSizeX;
 		_float				m_fSizeY;
 
-		_uint				m_eModelPrototypLevel;
+		_uint				m_ModelPrototypLevel;
 		_uint				m_ShaderLevelIndex;
-		char  				m_DiffuseTextureName[MAX_PATH];
-		_tchar				m_MaskPrototype[MAX_PATH];
-		_tchar				m_BrushPrototype[MAX_PATH];
+		char  				m_DiffuseTexturePath[MAX_PATH];
+		_tchar				m_MaskPrototypeTag[MAX_PATH];
+		_tchar				m_BrushPrototypeTag[MAX_PATH];
 		_tchar				m_ButtonName[MAX_PATH];
 
 
@@ -123,12 +123,20 @@ protected:
 public:
 	virtual HRESULT Initialize_Prototype() override; /* 원형객체의 초기화작업 */
 	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override; /* 사본객체의 초기화작업 */
+	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath);
+
 	virtual _uint Tick(_double TimeDelta) override;
 	virtual _uint LateTick(_double TimeDelta) override;
 	virtual HRESULT Render() override;
 
 protected:
+	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
+	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
+
+protected:
 	HRESULT Add_Components();
+	HRESULT Add_Components_By_File();
+
 	HRESULT SetUp_ShaderResources();
 
 protected:
@@ -136,11 +144,14 @@ protected:
 	void	Picking_Button();
 	_uint	Change_State();
 
-public:
+protected:
 	virtual _uint	On_Idle() PURE;
 	virtual _uint	On_Press() PURE;
 	virtual _uint	On_Select() PURE;
 	virtual _uint	On_Release() PURE;
+
+protected:
+	HRESULT Common_Initialize();
 
 protected:
 	CTransform*		m_pTransformCom = { nullptr };
@@ -150,7 +161,7 @@ protected:
 	CTexture*		m_pTextureCom = { nullptr };
 
 protected:
-	BUTTON_DESC		m_UIDesc = {};
+	BUTTON_DESC		m_ButtonDesc = {};
 	_float4x4		m_ViewMatrix = {};
 	_float4x4		m_ProjMatrix = {};
 	BUTTON_STATE	m_ePreState = { BUTTON_END };
@@ -165,6 +176,8 @@ protected:
 	const			LONG		m_mouseInterSize = { 5 };
 
 public:
+	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) PURE;
+	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath = nullptr) PURE;
 	virtual void Free() override;
 };
 

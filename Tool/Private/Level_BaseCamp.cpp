@@ -159,21 +159,23 @@ HRESULT CLevel_BaseCamp::Ready_Layer_UI(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_Layer(LEVEL_BASECAMP, pLayerTag)))
 		return E_FAIL;
 
-	CButton::BUTTON_DESC desc = {};
-	desc.m_fSizeX = 80.5f;
-	desc.m_fSizeY = 30.f;
-	desc.m_fX = g_iWinSizeX - 100.f;
-	desc.m_fY = g_iWinSizeY - 25.f;
-	desc.m_ShaderLevelIndex = LEVEL_BASECAMP;
-	desc.m_eModelPrototypLevel = LEVEL_BASECAMP;
+	//CButton::BUTTON_DESC desc = {};
+	//desc.m_fSizeX = 80.5f;
+	//desc.m_fSizeY = 30.f;
+	//desc.m_fX = g_iWinSizeX - 100.f;
+	//desc.m_fY = g_iWinSizeY - 25.f;
+	//desc.m_ShaderLevelIndex = LEVEL_BASECAMP;
+	//desc.m_ModelPrototypLevel = LEVEL_BASECAMP;
 
-	strcpy(desc.m_DiffuseTextureName, "./BaseCamp_worldmapL_button.png");
-	lstrcpy(desc.m_MaskPrototype, TEXT("Prototype_Component_Button_Color_Mask"));
-	lstrcpy(desc.m_ButtonName, TEXT("GO_TO_WORLDMAP"));
+	//strcpy(desc.m_DiffuseTexturePath, "./BaseCamp_worldmapL_button.png");
+	//lstrcpy(desc.m_MaskPrototypeTag, TEXT("Prototype_Component_Button_Color_Mask"));
+	//lstrcpy(desc.m_ButtonName, TEXT("GO_TO_WORLDMAP_BUTTON"));
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GoToWorldMapButton"), LEVEL_BASECAMP, pLayerTag, nullptr, &desc)))
+	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GoToWorldMapButton"), LEVEL_BASECAMP, pLayerTag, desc.m_ButtonName, &desc)))
+	//	return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GoToWorldMapButton"), LEVEL_BASECAMP, pLayerTag, L"GoToWorldMapButton", "../../Reference/Resources/Data/Scene/BaseCamp/Button/GoToMap_Button_data.json", CLONE_FILEPATH)))
 		return E_FAIL;
-
 
 	Safe_Release(pGameInstance);
 
@@ -187,11 +189,11 @@ HRESULT CLevel_BaseCamp::Ready_Layer_Monster(const _tchar* pLayerTag)
 
 	if (FAILED(pGameInstance->Add_Layer(LEVEL_BASECAMP, pLayerTag)))
 		return E_FAIL;
-	for (size_t i = 0; i < 10; i++)
-	{
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Monster"), LEVEL_BASECAMP, pLayerTag)))
-			return E_FAIL;
-	}
+	//for (size_t i = 0; i < 10; i++)
+	//{
+	//	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Monster"), LEVEL_BASECAMP, pLayerTag)))
+	//		return E_FAIL;
+	//}
 
 	Safe_Release(pGameInstance);
 

@@ -156,21 +156,6 @@ HRESULT CLevel_WorldMap::Ready_Layer_UI(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_Layer(LEVEL_WORLDMAP, pLayerTag)))
 		return E_FAIL;
 
-	CButton::BUTTON_DESC desc = {};
-	desc.m_fSizeX = 80.5f;
-	desc.m_fSizeY = 30.f;
-	desc.m_fX = g_iWinSizeX - 100.f;
-	desc.m_fY = g_iWinSizeY - 25.f;
-	desc.m_ShaderLevelIndex = LEVEL_WORLDMAP;
-	desc.m_eModelPrototypLevel = LEVEL_WORLDMAP;
-
-	strcpy(desc.m_DiffuseTextureName, "./BaseCamp_worldmapL_button.png");
-	lstrcpy(desc.m_MaskPrototype, TEXT("Prototype_Component_Button_Color_Mask"));
-	lstrcpy(desc.m_ButtonName, TEXT("GO_TO_WORLDMAP"));
-
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Button"), LEVEL_WORLDMAP, pLayerTag, nullptr, &desc)))
-		return E_FAIL;
-
 
 	Safe_Release(pGameInstance);
 

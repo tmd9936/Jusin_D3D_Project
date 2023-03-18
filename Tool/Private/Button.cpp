@@ -5,6 +5,8 @@
 
 #include "Level_Loading.h"
 
+#include <codecvt>
+
 CButton::CButton(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
 {
@@ -23,7 +25,7 @@ HRESULT CButton::Initialize_Prototype()
 HRESULT CButton::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
 	if (pArg != nullptr)
-		memcpy(&m_UIDesc, pArg, (sizeof m_UIDesc) + 2);
+		memcpy(&m_ButtonDesc, pArg, (sizeof m_ButtonDesc) + 2);
 
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 		return E_FAIL;
@@ -31,15 +33,36 @@ HRESULT CButton::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pA
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
-	m_eRenderId = RENDER_UI;	
+	Common_Initialize();
 
- 	m_pTransformCom->Set_Scaled({ m_UIDesc.m_fSizeX, m_UIDesc.m_fSizeY, 1.f });
-	m_pTransformCom->Set_Pos(m_UIDesc.m_fX - g_iWinSizeX * 0.5f, -m_UIDesc.m_fY + g_iWinSizeY * 0.5f, 0.f);
+	m_pModelCom->Set_Animation(0);
 
-	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
+	return S_OK;
+}
 
-	XMStoreFloat4x4(&m_ProjMatrix,
-		XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
+HRESULT CButton::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath)
+{
+	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, filePath)))
+		return E_FAIL;
+
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	/* For.Com_Transform */
+	CTransform::TRANSFORMDESC		TransformDesc = { 10.f, XMConvertToRadians(90.0f) };
+	if (FAILED(pGameInstance->Add_Component(CTransform::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+		(CComponent**)&m_pTransformCom, &TransformDesc)))
+		return E_FAIL;
+
+	if (filePath)
+	{
+		Load_By_JsonFile(filePath);
+		m_strSaveJsonPath = filePath;
+	}
+
+	if (FAILED(Add_Components_By_File()))
+		return E_FAIL;
+
+	Common_Initialize();
 
 	m_pModelCom->Set_Animation(0);
 
@@ -94,6 +117,82 @@ HRESULT CButton::Render()
 	return S_OK;
 }
 
+_bool CButton::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator)
+{
+	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
+	if (m_pTransformCom)
+	{
+		Value ButtonDesc(kObjectType);
+		{
+			ButtonDesc.AddMember("m_fX", m_ButtonDesc.m_fX, allocator);
+			ButtonDesc.AddMember("m_fY", m_ButtonDesc.m_fY, allocator);
+			ButtonDesc.AddMember("m_fSizeX", m_ButtonDesc.m_fSizeX, allocator);
+			ButtonDesc.AddMember("m_fSizeY", m_ButtonDesc.m_fSizeY, allocator);
+
+			ButtonDesc.AddMember("m_eModelPrototypLevel", m_ButtonDesc.m_ModelPrototypLevel, allocator);
+			ButtonDesc.AddMember("m_ShaderLevelIndex", m_ButtonDesc.m_ShaderLevelIndex, allocator);
+
+			Value m_DiffuseTexturePath;
+			string tag = m_ButtonDesc.m_DiffuseTexturePath;
+			m_DiffuseTexturePath.SetString(tag.c_str(), (SizeType)tag.size(), allocator);
+			ButtonDesc.AddMember("m_DiffuseTexturePath", m_DiffuseTexturePath, allocator);
+
+			Value m_MaskPrototypeTag;
+			tag = convert.to_bytes(m_ButtonDesc.m_MaskPrototypeTag);
+			m_MaskPrototypeTag.SetString(tag.c_str(), (SizeType)tag.size(), allocator);
+			ButtonDesc.AddMember("m_MaskPrototypeTag", m_MaskPrototypeTag, allocator);
+
+			Value m_BrushPrototypeTag;
+			tag = convert.to_bytes(m_ButtonDesc.m_BrushPrototypeTag);
+			m_BrushPrototypeTag.SetString(tag.c_str(), (SizeType)tag.size(), allocator);
+			ButtonDesc.AddMember("m_BrushPrototypeTag", m_BrushPrototypeTag, allocator);
+
+			Value m_ButtonName;
+			tag = convert.to_bytes(m_ButtonDesc.m_ButtonName);
+			m_ButtonName.SetString(tag.c_str(), (SizeType)tag.size(), allocator);
+			ButtonDesc.AddMember("m_ButtonName", m_ButtonName, allocator);
+
+		}
+		doc.AddMember("ButtonDesc", ButtonDesc, allocator);
+
+	}
+
+	return true;
+}
+
+_bool CButton::Load_By_JsonFile_Impl(Document& doc)
+{
+	if (m_pTransformCom)
+	{
+		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
+
+		const Value& ButtonDesc = doc["ButtonDesc"];
+
+		m_ButtonDesc.m_fX = ButtonDesc["m_fX"].GetFloat();
+		m_ButtonDesc.m_fY = ButtonDesc["m_fY"].GetFloat();
+		m_ButtonDesc.m_fSizeX = ButtonDesc["m_fSizeX"].GetFloat();
+		m_ButtonDesc.m_fSizeY = ButtonDesc["m_fSizeY"].GetFloat();
+
+		m_ButtonDesc.m_ModelPrototypLevel = ButtonDesc["m_ModelPrototypLevel"].GetUint();
+		m_ButtonDesc.m_ShaderLevelIndex = ButtonDesc["m_ShaderLevelIndex"].GetUint();
+
+		string m_DiffuseTexturePath = ButtonDesc["m_DiffuseTexturePath"].GetString();
+		strcpy(m_ButtonDesc.m_DiffuseTexturePath, m_DiffuseTexturePath.c_str());
+
+		string m_MaskPrototypeTag = ButtonDesc["m_MaskPrototypeTag"].GetString();
+		lstrcpy(m_ButtonDesc.m_MaskPrototypeTag, convert.from_bytes(m_MaskPrototypeTag).c_str());
+
+		string m_BrushPrototypeTag = ButtonDesc["m_BrushPrototypeTag"].GetString();
+		lstrcpy(m_ButtonDesc.m_BrushPrototypeTag, convert.from_bytes(m_BrushPrototypeTag).c_str());
+
+		string m_ButtonName = ButtonDesc["m_ButtonName"].GetString();
+		lstrcpy(m_ButtonDesc.m_ButtonName, convert.from_bytes(m_ButtonName).c_str());
+
+	}
+
+	return true;
+}
+
 HRESULT CButton::Add_Components()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
@@ -109,16 +208,16 @@ HRESULT CButton::Add_Components()
 		(CComponent**)&m_pRendererCom, nullptr)))
 		return E_FAIL;
 
-	/* For.Com_VIBuffer */
-	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, m_UIDesc.m_eModelPrototypLevel, TEXT("Prototype_Component_Model_Button_Base"),
+	/* For.Com_Model */
+	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, m_ButtonDesc.m_ModelPrototypLevel, TEXT("Prototype_Component_Model_Button_Base"),
 		(CComponent**)&m_pModelCom, nullptr)))
 		return E_FAIL;
 
-	if (strlen(m_UIDesc.m_DiffuseTextureName) > 0)
-		m_pModelCom->Set_Texture_In_Material(0, 1, m_UIDesc.m_DiffuseTextureName);
+	if (strlen(m_ButtonDesc.m_DiffuseTexturePath) > 0)
+		m_pModelCom->Set_Texture_In_Material(0, 1, m_ButtonDesc.m_DiffuseTexturePath);
 
 	/* For.Com_Shader */
-	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, m_UIDesc.m_ShaderLevelIndex, TEXT("Prototype_Component_Shader_VtxtexButton"),
+	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, m_ButtonDesc.m_ShaderLevelIndex, TEXT("Prototype_Component_Shader_VtxtexButton"),
 		(CComponent**)&m_pShaderCom, nullptr)))
 		return E_FAIL;
 
@@ -127,6 +226,31 @@ HRESULT CButton::Add_Components()
 	//	(CComponent**)&m_pTextureCom, nullptr)))
 	//	return E_FAIL;
 
+
+	return S_OK;
+}
+
+HRESULT CButton::Add_Components_By_File()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	/* For.Com_Renderer */
+	if (FAILED(pGameInstance->Add_Component(CRenderer::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Renderer"),
+		(CComponent**)&m_pRendererCom, nullptr)))
+		return E_FAIL;
+
+	/* For.Com_Model */
+	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, m_ButtonDesc.m_ModelPrototypLevel, TEXT("Prototype_Component_Model_Button_Base"),
+		(CComponent**)&m_pModelCom, nullptr)))
+		return E_FAIL;
+
+	if (strlen(m_ButtonDesc.m_DiffuseTexturePath) > 0)
+		m_pModelCom->Set_Texture_In_Material(0, 1, m_ButtonDesc.m_DiffuseTexturePath);
+
+	/* For.Com_Shader */
+	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, m_ButtonDesc.m_ShaderLevelIndex, TEXT("Prototype_Component_Shader_VtxtexButton"),
+		(CComponent**)&m_pShaderCom, nullptr)))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -161,17 +285,17 @@ void CButton::Button_Motion(_double TimeDelta)
 	{
 	case CButton::BUTTON_IDLE:
 		m_pModelCom->Play_Animation(TimeDelta);
-		m_pTransformCom->Set_Scaled({ m_UIDesc.m_fSizeX,  m_UIDesc.m_fSizeY, 1.f });
+		m_pTransformCom->Set_Scaled({ m_ButtonDesc.m_fSizeX,  m_ButtonDesc.m_fSizeY, 1.f });
 		break;
 	case CButton::BUTTON_PRESS:
-		m_pTransformCom->Set_Scaled({ m_UIDesc.m_fSizeX * m_TransformMatrix.m[0][0],  m_UIDesc.m_fSizeY * m_TransformMatrix.m[1][1], 1.f });
+		m_pTransformCom->Set_Scaled({ m_ButtonDesc.m_fSizeX * m_TransformMatrix.m[0][0],  m_ButtonDesc.m_fSizeY * m_TransformMatrix.m[1][1], 1.f });
 		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
 			m_eCurState = BUTTON_SELECT;
 		}
 		break;
 	case CButton::BUTTON_RELEASE:
-		m_pTransformCom->Set_Scaled({ m_UIDesc.m_fSizeX * m_TransformMatrix.m[0][0],  m_UIDesc.m_fSizeY * m_TransformMatrix.m[1][1], 1.f });
+		m_pTransformCom->Set_Scaled({ m_ButtonDesc.m_fSizeX * m_TransformMatrix.m[0][0],  m_ButtonDesc.m_fSizeY * m_TransformMatrix.m[1][1], 1.f });
 		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
 			m_eCurState = BUTTON_IDLE;
@@ -179,7 +303,7 @@ void CButton::Button_Motion(_double TimeDelta)
 		break;
 	case CButton::BUTTON_SELECT:
 		m_pModelCom->Play_Animation(TimeDelta);
-		//m_pTransformCom->Set_Scaled({ m_UIDesc.m_fSizeX * m_TransformMatrix.m[0][0],  m_UIDesc.m_fSizeY * m_TransformMatrix.m[1][1], 1.f });
+		//m_pTransformCom->Set_Scaled({ m_ButtonDesc.m_fSizeX * m_TransformMatrix.m[0][0],  m_ButtonDesc.m_fSizeY * m_TransformMatrix.m[1][1], 1.f });
 
 		break;
 	}
@@ -189,8 +313,8 @@ void CButton::Picking_Button()
 {
 	if (MOUSE_TAB(MOUSE::LBTN) && m_eCurState == BUTTON_IDLE)
 	{
-		RECT uiRect{ LONG(m_UIDesc.m_fX - m_UIDesc.m_fSizeX * 0.5f), LONG(m_UIDesc.m_fY - m_UIDesc.m_fSizeY * 0.5f)
-		, LONG(m_UIDesc.m_fX + m_UIDesc.m_fSizeX * 0.5f),  LONG(m_UIDesc.m_fY + m_UIDesc.m_fSizeY * 0.5f) };
+		RECT uiRect{ LONG(m_ButtonDesc.m_fX - m_ButtonDesc.m_fSizeX * 0.5f), LONG(m_ButtonDesc.m_fY - m_ButtonDesc.m_fSizeY * 0.5f)
+		, LONG(m_ButtonDesc.m_fX + m_ButtonDesc.m_fSizeX * 0.5f),  LONG(m_ButtonDesc.m_fY + m_ButtonDesc.m_fSizeY * 0.5f) };
 
 		POINT pt{};
 		GetCursorPos(&pt);
@@ -245,6 +369,21 @@ _uint CButton::Change_State()
 	}
 
 	return result;
+}
+
+HRESULT CButton::Common_Initialize()
+{
+	m_eRenderId = RENDER_UI;
+
+	m_pTransformCom->Set_Scaled({ m_ButtonDesc.m_fSizeX, m_ButtonDesc.m_fSizeY, 1.f });
+	m_pTransformCom->Set_Pos(m_ButtonDesc.m_fX - g_iWinSizeX * 0.5f, -m_ButtonDesc.m_fY + g_iWinSizeY * 0.5f, 0.f);
+
+	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
+
+	XMStoreFloat4x4(&m_ProjMatrix,
+		XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
+
+	return S_OK;
 }
 
 

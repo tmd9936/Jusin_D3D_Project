@@ -64,7 +64,21 @@ CGameObject* CGoToWorldMapButton::Clone(const _tchar* pLayerTag, _uint iLevelInd
 	return pInstance;
 }
 
+CGameObject* CGoToWorldMapButton::Clone(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath)
+{
+	CGoToWorldMapButton* pInstance = new CGoToWorldMapButton(*this);
+
+	if (FAILED(pInstance->Initialize(pLayerTag, iLevelIndex, filePath)))
+	{
+		MSG_BOX("Failed to Cloned CGoToWorldMapButton");
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
+}
+
 void CGoToWorldMapButton::Free()
 {
 	__super::Free();
 }
+
