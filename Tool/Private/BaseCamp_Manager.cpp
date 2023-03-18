@@ -109,7 +109,7 @@ void CBaseCamp_Manager::Focus_Stay(const _double& TimeDelta)
 
 void CBaseCamp_Manager::Focus_Out(const _double& TimeDelta)
 {
-	if (p_MainCamera->Go_To_DefaultPosition(XMLoadFloat4(&m_FocusPosition), (_float)TimeDelta, 0.2))
+	if (p_MainCamera->Go_To_DefaultPosition(XMLoadFloat4(&m_FocusPosition), (_float)TimeDelta, 0.2f))
 	{
 		m_eCurState = MANAGER_IDLE;
 	}

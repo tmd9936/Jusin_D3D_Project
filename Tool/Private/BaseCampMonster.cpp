@@ -55,7 +55,7 @@ HRESULT CBaseCampMonster::Render()
 
 HRESULT CBaseCampMonster::Add_TransitionState()
 {
-	return E_NOTIMPL;
+	return S_OK;
 }
 
 _uint CBaseCampMonster::Change_State()

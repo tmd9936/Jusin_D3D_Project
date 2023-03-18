@@ -17,7 +17,7 @@
 
 #include "Player.h"
 #include "GoToWorldMapButton.h"
-#include "Monster.h"
+#include "BaseCampMonster.h"
 #include "BaseCamp_Manager.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -309,9 +309,9 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 			CStove::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
-		/* For.Prototype_GameObject_Monster */
-		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster"),
-			CMonster::Create(m_pDevice, m_pContext))))
+		/* For.Prototype_GameObject_BaseCampMonster */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BaseCampMonster"),
+			CBaseCampMonster::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
 		/* For.Prototype_GameObject_BaseCamp_Manager*/
@@ -437,38 +437,6 @@ HRESULT CLoader::Loading_ForWorldMapLevel()
 
 	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_WORLDMAP))
 	{
-		///* For.Prototype_GameObject_Button */
-		//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Button"),
-		//	CButton::Create(m_pDevice, m_pContext))))
-		//	return E_FAIL;
-		///* For.Prototype_GameObject_FlatTerrain */
-		//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_FlatTerrain"),
-		//	CFlatTerrain::Create(m_pDevice, m_pContext))))
-		//	return E_FAIL;
-
-		///* For.Prototype_GameObject_Camera_Dynamic */
-		//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera_Dynamic"),
-		//	CCamera_Dynamic::Create(m_pDevice, m_pContext))))
-		//	return E_FAIL;
-
-		//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera_Public"),
-		//	CCamera_Public::Create(m_pDevice, m_pContext))))
-		//	return E_FAIL;
-
-		///* For.Prototype_GameObject_TestModel */
-		//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_TestModel"),
-		//	CTestModel::Create(m_pDevice, m_pContext))))
-		//	return E_FAIL;
-
-		///* For.Prototype_GameObject_Player */
-		//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player"),
-		//	CPlayer::Create(m_pDevice, m_pContext))))
-		//	return E_FAIL;
-
-		//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Map"),
-		//	CMap::Create(m_pDevice, m_pContext))))
-		//	return E_FAIL;
-
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_WorldMap_Cloud"),
 			CWorldMapCloud::Create(m_pDevice, m_pContext))))
 			return E_FAIL;

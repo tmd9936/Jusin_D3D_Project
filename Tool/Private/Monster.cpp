@@ -35,9 +35,9 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* p
 
 	m_pTransformCom->Set_Pos(rand() % 10 + 12.f, 0.f, rand() % 10 + 19.f);
 
-	m_pModelCom->Set_Animation(0);
-
 	Add_TransitionState();
+
+	m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1);
 
 	return S_OK;
 }
@@ -67,23 +67,24 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const c
 	if (FAILED(Add_MotionState()))
 		return E_FAIL;
 
-	m_pModelCom->Set_Animation(0);
+	m_eRenderId = RENDER_NONBLEND;
 
 	Add_TransitionState();
 
-	m_eRenderId = RENDER_NONBLEND;
+	m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1);
 
 	return S_OK;
 }
 
 _uint CMonster::Tick(_double TimeDelta)
 {
+	m_pMonFSM->Update_Component((_float)TimeDelta);
+
 	m_pModelCom->Play_Animation(TimeDelta);
 
 	State_Tick(TimeDelta);
-	Change_State();
-
-	return _uint();
+	
+	return Change_State();
 }
 
 _uint CMonster::LateTick(_double TimeDelta)
@@ -152,7 +153,7 @@ HRESULT CMonster::Add_Components()
 
 	/* For.Com_MonFSM */
 	if (FAILED(pGameInstance->Add_Component(CMonFSM::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_MonFSM"),
-		(CComponent**)&m_pShaderCom, nullptr)))
+		(CComponent**)&m_pMonFSM, nullptr)))
 		return E_FAIL;
 
 	return S_OK;
@@ -184,7 +185,7 @@ HRESULT CMonster::Add_Components_By_File()
 
 	/* For.Com_MonFSM */
 	if (FAILED(pGameInstance->Add_Component(CMonFSM::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_MonFSM"),
-		(CComponent**)&m_pShaderCom, nullptr)))
+		(CComponent**)&m_pMonFSM, nullptr)))
 		return E_FAIL;
 
 
@@ -347,7 +348,7 @@ HRESULT CMonster::Add_MotionState()
 
 	for (_uint i = 0; i < CMonFSM::END_MOTION; ++i)
 	{
-		m_pMonFSM->Add_MotionState(CMonFSM::MOTION_STATE(i), i);
+		m_pMonFSM->Add_MotionState(CMonFSM::MONSTER_STATE(i), i);
 	}
 
 	return S_OK;

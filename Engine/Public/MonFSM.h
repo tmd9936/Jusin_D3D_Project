@@ -12,7 +12,7 @@ public:
 	static const FamilyId familyId = FAMILY_ID_LOGIC_STATE_MACHINE;
 
 public:
-	enum MOTION_STATE {
+	enum MONSTER_STATE {
 		IDLE1, IDLE2,
 		ATK_NORMAL, ATK_SLE_NORMAL_END, ATK_SLE_NORMAL_LOOP, ATK_SLE_NORMAL_START, BODYBLOW,
 		DASH_SLE_END, DASH_SLE_LOOP, DASH_SLE_START, DEAD_BOSS, DEAD_LASTBOSS, DEAD_ROTATE,
@@ -28,31 +28,34 @@ protected:
 	virtual ~CMonFSM() = default;
 
 public:
-public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
 
-	_int	Update_Component(const _float& fTimeDelta);
+public:
+	_int			Update_Component(const _float& fTimeDelta, CModel* pModel = nullptr);
 
-	MOTION_STATE Get_MotionState(void) const { return m_eCurrentMotion; }
-	HRESULT		 Add_MotionState(MOTION_STATE eState, _uint index);
-	HRESULT		 Transit_MotionState(MOTION_STATE eState);
-	HRESULT		 Add_TransitionState(MOTION_STATE eState);
+	MONSTER_STATE	Get_MotionState(void) const { return m_eCurrentMotion; }
+	HRESULT			Add_MotionState(MONSTER_STATE eState, _uint index);
+	HRESULT			Transit_MotionState(MONSTER_STATE eState, CModel* pModel = nullptr);
+	HRESULT			Add_RandomTransitionState(MONSTER_STATE eState);
 
-	void		 Get_RandomState(void);
+	void			Get_RandomState(CModel* pModel = nullptr);
+	_uint			Find_MotionState(MONSTER_STATE eState);
 
-	_uint		 Find_MotionState(MOTION_STATE eState);
+public:
+	HRESULT			Set_StateChangeCaller(MONSTER_STATE eMotion, void(*function)(void));
+
+private:
+	MONSTER_STATE								m_eCurrentMotion;
+	MONSTER_STATE								m_ePrevMotion;
+	vector<MONSTER_STATE>						m_RandomState;
+	unordered_map<MONSTER_STATE, _uint>			m_MotionState;
+	unordered_map<MONSTER_STATE, void(*)(void)>	m_StateChangeCaller;
 
 public:
 	virtual CComponent* Clone(CGameObject* pOwner, void* pArg) override;
 	static CMonFSM* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual void	Free() override;
-
-private:
-	MOTION_STATE						m_eCurrentMotion;
-	MOTION_STATE						m_ePrevMotion;
-	vector<MOTION_STATE>				m_vecState;
-	unordered_map<MOTION_STATE, _uint>	m_mapMotionState;
 
 };
 
