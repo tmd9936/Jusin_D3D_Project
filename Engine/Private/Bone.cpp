@@ -71,6 +71,11 @@ CBone* CBone::Create(aiNode* pAINode, CModel* pModel, CBone* pParent)
 	return pInstance;
 }
 
+CBone* CBone::Create()
+{
+	return new CBone();
+}
+
 CBone* CBone::Clone()
 {
 	return new CBone(*this);

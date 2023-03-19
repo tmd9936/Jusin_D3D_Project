@@ -89,13 +89,14 @@ private:
 	vector<CAnimation*>		m_Animations;
 
 private:
-	HRESULT Ready_Meshes();
+	HRESULT Ready_Meshes(_bool saveJson);
 	HRESULT Ready_Materials(const char* pModelFilePath);
 	HRESULT Ready_Bones(aiNode* pAINode, CBone* pParent);
 	HRESULT Ready_Animations();
 
 private:
 	HRESULT Save_Json(TYPE eType, const char* pModelFilePath);
+	HRESULT Load_Json(TYPE eType, const char* pModelFilePath);
 
 public:
 	static CModel* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TYPE eType, const char* pModelFilePath, _fmatrix PivotMatrix = XMMatrixIdentity(), _bool saveJson = false);

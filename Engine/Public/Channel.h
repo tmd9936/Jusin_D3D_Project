@@ -41,6 +41,23 @@ public:
 		}
 	}
 
+public:
+	void	Set_Name(string szName) {
+		strcpy_s(m_szName, szName.c_str());
+	}
+
+	void	Set_NumKeyFrames(_uint NumKeyFrames) {
+		m_iNumKeyFrames = NumKeyFrames;
+	}
+
+	void	Add_KeyFrame(KEYFRAME keyFrame) {
+		m_KeyFrames.push_back(keyFrame);
+	}
+
+	void	Set_BoneIndex(_uint BoneIndex) {
+		m_iBoneIndex = BoneIndex;
+	}
+
 private:
 	char				m_szName[MAX_PATH] = "";
 
@@ -51,6 +68,9 @@ private:
 
 public:
 	static CChannel* Create(aiNodeAnim* pAIChannel, CModel* pModel);
+
+	static CChannel* Create();
+
 	virtual void Free() override;
 };
 

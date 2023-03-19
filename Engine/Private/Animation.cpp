@@ -86,6 +86,11 @@ CAnimation* CAnimation::Create(aiAnimation* pAIAnimation, CModel* pModel)
 	return pInstance;
 }
 
+CAnimation* CAnimation::Create()
+{
+	return new CAnimation();
+}
+
 CAnimation* CAnimation::Clone()
 {
 	return new CAnimation(*this);

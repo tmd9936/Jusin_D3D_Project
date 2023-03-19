@@ -57,7 +57,9 @@ public:
 	}
 
 public:
-	virtual HRESULT Initialize_Prototype(CModel::TYPE eType, aiMesh* pAIMesh, CModel* pModel, _fmatrix PivotMatrix);
+	virtual HRESULT Initialize_Prototype(CModel::TYPE eType, aiMesh* pAIMesh, CModel* pModel, _fmatrix PivotMatrix, _bool DataSave = false);
+	virtual HRESULT Initialize_Prototype(CModel::TYPE eType, const Value& Mesh);
+
 	virtual HRESULT Initialize(void* pArg) override;
 
 private:
@@ -71,14 +73,17 @@ private:
 	_float					m_ViewZ = { 0.f };
 
 private:
-	HRESULT Ready_VertexBuffer_ForNonAnim(aiMesh* pAIMesh, _fmatrix PivotMatrix);
-	HRESULT Ready_VertexBuffer_ForAnim(aiMesh* pAIMesh, CModel* pModel);
+	HRESULT Ready_VertexBuffer_ForNonAnim(aiMesh* pAIMesh, _fmatrix PivotMatrix, _bool DataSave = false);
+	HRESULT Ready_VertexBuffer_ForAnim(aiMesh* pAIMesh, CModel* pModel, _bool DataSave = false);
 
-	HRESULT Ready_VertexBuffer_ForNonAnimUI(aiMesh* pAIMesh, _fmatrix PivotMatrix);
-	HRESULT Ready_VertexBuffer_ForAnimUI(aiMesh* pAIMesh, CModel* pModel);
+	HRESULT Ready_VertexBuffer_ForNonAnimUI(aiMesh* pAIMesh, _fmatrix PivotMatrix, _bool DataSave = false);
+	HRESULT Ready_VertexBuffer_ForAnimUI(aiMesh* pAIMesh, CModel* pModel, _bool DataSave = false);
 
-	HRESULT Ready_VertexBuffer_ForColorNonAnim(aiMesh* pAIMesh, _fmatrix PivotMatrix);
-	HRESULT Ready_VertexBuffer_ForColorAnim(aiMesh* pAIMesh, CModel* pModel);
+	HRESULT Ready_VertexBuffer_ForColorNonAnim(aiMesh* pAIMesh, _fmatrix PivotMatrix, _bool DataSave = false);
+	HRESULT Ready_VertexBuffer_ForColorAnim(aiMesh* pAIMesh, CModel* pModel, _bool DataSave = false);
+
+private:
+	HRESULT Ready_VertexBuffer_ForColorAnim_Json(const Value& Mesh);
 
 
 private:
@@ -86,7 +91,10 @@ private:
 	vector<FACEINDICES32>	 m_IndexBufferData;
 
 public:
-	static CMesh* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CModel::TYPE eType, aiMesh* pAIMesh, CModel* pModel, _fmatrix PivotMatrix);
+	static CMesh* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CModel::TYPE eType, aiMesh* pAIMesh, CModel* pModel, _fmatrix PivotMatrix, _bool DataSave = false);
+
+	static CMesh* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CModel::TYPE eType, const Value& Mesh);
+
 	virtual CComponent* Clone(CGameObject* pOwner, void* pArg = nullptr) override;
 	virtual void Free() override;
 };

@@ -50,6 +50,32 @@ public:
 		}
 	}
 
+public:
+	void Set_Name(string szName) {
+		strcpy_s(m_szName, szName.c_str());
+	}
+
+	void Set_Duration(_double Duration) {
+		m_Duration = Duration;
+	}
+
+	void Set_TickPerSecond(_double TickPerSecond) {
+		m_TickPerSecond = TickPerSecond;
+	}
+
+	void Set_NumChannels(_uint NumChannels) {
+		m_iNumChannels = NumChannels;
+	}
+
+	void Add_Channel(CChannel* pChannel) {
+		m_Channels.push_back(pChannel);
+	}
+
+
+	void Add_CurrentKeyFrames(_uint CurrentKeyFrame) {
+		m_iCurrentKeyFrames.push_back(CurrentKeyFrame);
+	}
+
 private:
 	char			m_szName[MAX_PATH] = "";
 	_double			m_Duration = { 0.0 }; /* 이 애니메이션을 재생하는데 걸리는 총 시간. */
@@ -67,6 +93,8 @@ private:  /* 뼈들 */ /* CChannel : 이 뼈가 이 애니메이션을 구동하기위한 전체 시�
 
 public:
 	static	CAnimation* Create(aiAnimation* pAIAnimation, CModel* pModel);
+	static	CAnimation* Create();
+
 	CAnimation* Clone();
 	virtual void Free() override;
 

@@ -154,7 +154,7 @@ HRESULT CModel::Initialize_Prototype(TYPE eType, const char* pModelFilePath, _fm
 		return E_FAIL;
 
 	/* 모델을 구성하는 메시들을 생성한다.(버텍스, 인덱스버퍼를 생성하는 것이다.) */
-	if (FAILED(Ready_Meshes()))
+	if (FAILED(Ready_Meshes(saveJson)))
 		return E_FAIL;
 
 	if (FAILED(Ready_Materials(pModelFilePath)))
@@ -325,7 +325,6 @@ HRESULT CModel::Save_Json(TYPE eType, const char* pModelFilePath)
 	}
 	doc.AddMember("Bones", Bones, allocator);
 #pragma endregion
-
 
 #pragma region MeshSave
 	// Mesh 저장
@@ -602,7 +601,198 @@ HRESULT CModel::Save_Json(TYPE eType, const char* pModelFilePath)
 	return S_OK;
 }
 
-HRESULT CModel::Ready_Meshes()
+HRESULT CModel::Load_Json(TYPE eType, const char* pModelFilePath)
+{
+	FILE* fp = fopen(pModelFilePath, "rb"); // non-Windows use "r"
+
+	if (NULL == fp)
+	{
+		MSG_BOX("Load File Open Error");
+		return E_FAIL;
+	}
+	else
+	{
+		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
+
+		char* readBuffer = new char[65536];
+		FileReadStream is(fp, readBuffer, sizeof(readBuffer));
+
+		Document document;
+		document.ParseStream(is);
+
+#pragma region BoneLoad
+		const Value& Bones = document["Bones"];
+		assert(Bones.IsArray());
+
+		m_Bones.reserve(Bones.Size());
+		for (SizeType i = 0; i < Bones.Size(); ++i)
+		{
+			CBone* pBone = CBone::Create();
+			pBone->Set_Name(Bones[i]["szName"].GetString());
+
+			_int parentIndex = Bones[i]["m_iParentIndex"].GetInt();
+			pBone->Set_ParentIndex(parentIndex);
+			if (parentIndex >= 0)
+			{
+				pBone->Set_Parent(m_Bones[i]);
+			}
+
+			const Value& OffSetMatrix = Bones[i]["m_OffSetMatrix"];
+			assert(OffSetMatrix.IsArray());
+			_float4x4 offsetMatrix{};
+			
+			_uint indexX = 0;
+			_uint indexY = 0;
+			for (size_t j = 0; j < 16;)
+			{
+				indexX = _uint(j / 4);
+				indexY = j % 4;
+				offsetMatrix.m[indexX][indexY] = OffSetMatrix[j].GetFloat();
+			}
+			pBone->Set_OffSetMatrix(offsetMatrix);
+
+			const Value& TransformationMatrix = Bones[i]["m_TransformationMatrix"];
+			assert(TransformationMatrix.IsArray());
+			_float4x4 transformationMatrix{};
+
+			_uint indexX = 0;
+			_uint indexY = 0;
+
+			for (size_t j = 0; j < 16;)
+			{
+				indexX = _uint(j / 4);
+				indexY = j % 4;
+				transformationMatrix.m[indexX][indexY] = TransformationMatrix[j].GetFloat();
+			}
+			pBone->Set_TransformationMatrix(transformationMatrix);
+			
+			m_Bones.push_back(pBone);
+		}
+#pragma endregion 
+
+#pragma region MeshLoad
+		const Value& Meshs = document["Meshs"];
+		assert(Meshs.IsArray());
+
+		m_Meshes.reserve(Meshs.Size());
+		for (SizeType i = 0; i < Meshs.Size(); ++i)
+		{
+			const Value& Mash = Meshs[i].GetObj();
+			CMesh* pMesh = CMesh::Create(m_pDevice, m_pContext, eType, Mash);
+
+			if (nullptr == pMesh)
+				return E_FAIL;
+
+			m_Meshes.push_back(pMesh);
+		}
+#pragma endregion	
+
+#pragma region MaterialLoad
+		const Value& Materials = document["Materials"];
+		assert(Materials.IsArray());
+
+		m_Materials.reserve(Materials.Size());
+		for (SizeType i = 0; i < Materials.Size(); ++i)
+		{
+			MESH_MATERIAL material{};
+			
+			assert(Materials[i].IsArray());
+			for (_uint j = 0; j < Materials[i].Size(); ++j)
+			{
+				wstring texturePath = convert.from_bytes(Materials[i][j].GetString());
+
+				CTexture* pTexture = CTexture::Create(m_pDevice, m_pContext, texturePath.c_str());
+				if (nullptr == pTexture)
+					return E_FAIL;
+
+				material.pMtrlTexture[j] = pTexture;
+			}
+
+			m_Materials.push_back(material);
+		}
+
+#pragma endregion	
+
+#pragma region AnimationLoad
+		const Value& Animations = document["Animations"];
+		assert(Animations.IsArray());
+
+		m_Animations.reserve(Animations.Size());
+		for (SizeType i = 0; i < Animations.Size(); ++i)
+		{
+			CAnimation* pAnimation = CAnimation::Create();
+
+			pAnimation->Set_Name(Animations[i]["szName"].GetString());
+			pAnimation->Set_Duration(Animations[i]["m_Duration"].GetDouble());
+			pAnimation->Set_TickPerSecond(Animations[i]["m_TickPerSecond"].GetDouble());
+
+			pAnimation->Set_NumChannels(Animations[i]["m_iNumChannels"].GetUint());
+
+			const Value& Channels = Animations[i]["m_Channels"];
+			assert(Channels.IsArray());
+			for (SizeType j = 0; j < Channels.Size(); ++j)
+			{
+				CChannel* pChannel = CChannel::Create();
+				pChannel->Set_Name(Channels[j]["szName"].GetString());
+				
+				pChannel->Set_NumKeyFrames(Channels[j]["m_iNumKeyFrames"].GetUint());
+
+				KEYFRAME keyFrame{};
+
+				const Value& KeyFrames = Channels[j]["KeyFrames"];
+				assert(KeyFrames.IsArray());
+				for (SizeType k = 0; k < KeyFrames.Size(); ++k)
+				{
+					keyFrame.vScale =
+					{
+						KeyFrames[k]["vScaleX"].GetFloat(),
+						KeyFrames[k]["vScaleY"].GetFloat(),
+						KeyFrames[k]["vScaleZ"].GetFloat()
+					};
+
+					keyFrame.vRotation =
+					{
+						KeyFrames[k]["vRotationX"].GetFloat(),
+						KeyFrames[k]["vRotationY"].GetFloat(),
+						KeyFrames[k]["vRotationZ"].GetFloat(),
+						KeyFrames[k]["vRotationW"].GetFloat()
+					};
+
+					keyFrame.vPosition =
+					{
+						KeyFrames[k]["vPositionX"].GetFloat(),
+						KeyFrames[k]["vPositionY"].GetFloat(),
+						KeyFrames[k]["vPositionZ"].GetFloat()
+					};
+
+					keyFrame.Time = KeyFrames[k]["Time"].GetDouble();
+				}
+				pChannel->Add_KeyFrame(keyFrame);
+
+				pChannel->Set_BoneIndex(Channels[j]["m_iBoneIndex"].GetUint());
+
+				pAnimation->Add_Channel(pChannel);
+			}
+
+			const Value& CurrentKeyFrames = Animations[i]["m_iCurrentKeyFrames"];
+			assert(CurrentKeyFrames.IsArray());
+			for (SizeType j = 0; j < CurrentKeyFrames.Size(); ++j)
+			{
+				pAnimation->Add_CurrentKeyFrames(CurrentKeyFrames[j].GetUint());
+			}
+
+		}
+#pragma endregion
+
+		fclose(fp);
+		Safe_Delete_Array(readBuffer);
+	}
+	return S_OK;
+}
+
+
+
+HRESULT CModel::Ready_Meshes(_bool saveJson)
 {
 	m_iNumMeshes = m_pAIScene->mNumMeshes;
 
@@ -615,7 +805,7 @@ HRESULT CModel::Ready_Meshes()
 
 		for (_uint i = 0; i < m_iNumMeshes; ++i)
 		{
-			CMesh* pMesh = CMesh::Create(m_pDevice, m_pContext, m_eType, m_pAIScene->mMeshes[i], this, XMLoadFloat4x4(&m_PivotMatrix));
+			CMesh* pMesh = CMesh::Create(m_pDevice, m_pContext, m_eType, m_pAIScene->mMeshes[i], this, XMLoadFloat4x4(&m_PivotMatrix), saveJson);
 			if (nullptr == pMesh)
 				return E_FAIL;
 
@@ -627,7 +817,7 @@ HRESULT CModel::Ready_Meshes()
 	{
 		for (_uint i = 0; i < m_iNumMeshes; ++i)
 		{
-			CMesh* pMesh = CMesh::Create(m_pDevice, m_pContext, m_eType, m_pAIScene->mMeshes[i], this, XMLoadFloat4x4(&m_PivotMatrix));
+			CMesh* pMesh = CMesh::Create(m_pDevice, m_pContext, m_eType, m_pAIScene->mMeshes[i], this, XMLoadFloat4x4(&m_PivotMatrix), saveJson);
 			if (nullptr == pMesh)
 				return E_FAIL;
 

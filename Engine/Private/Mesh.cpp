@@ -25,7 +25,7 @@ void CMesh::Get_BoneMatrices(_float4x4* pBoneMatrices, const vector<CBone*>& Bon
 	}
 }
 
-HRESULT CMesh::Initialize_Prototype(CModel::TYPE eType, aiMesh* pAIMesh, CModel* pModel, _fmatrix PivotMatrix)
+HRESULT CMesh::Initialize_Prototype(CModel::TYPE eType, aiMesh* pAIMesh, CModel* pModel, _fmatrix PivotMatrix, _bool DataSave)
 {
 	strcpy_s(m_szName, pAIMesh->mName.data);
 	m_iMaterialIndex = pAIMesh->mMaterialIndex;
@@ -37,7 +37,8 @@ HRESULT CMesh::Initialize_Prototype(CModel::TYPE eType, aiMesh* pAIMesh, CModel*
 	m_eFormat = DXGI_FORMAT_R32_UINT;
 	m_eTopology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 
-	m_VertexBufferData.resize(m_iNumVertices);
+	if (DataSave)
+		m_VertexBufferData.resize(m_iNumVertices);
 
 #pragma region VERTEX_BUFFER
 	HRESULT hr = E_FAIL;
@@ -74,7 +75,8 @@ HRESULT CMesh::Initialize_Prototype(CModel::TYPE eType, aiMesh* pAIMesh, CModel*
 #pragma endregion
 
 #pragma region INDEX_BUFFER
-	m_IndexBufferData.resize(m_iNumPrimitives);
+	if (DataSave)
+		m_IndexBufferData.resize(m_iNumPrimitives);
 
 	ZeroMemory(&m_BufferDesc, sizeof m_BufferDesc);
 	m_BufferDesc.ByteWidth = m_iIndexSizePrimitive * m_iNumPrimitives;
@@ -94,7 +96,88 @@ HRESULT CMesh::Initialize_Prototype(CModel::TYPE eType, aiMesh* pAIMesh, CModel*
 		pIndices[i]._1 = pAIMesh->mFaces[i].mIndices[1];
 		pIndices[i]._2 = pAIMesh->mFaces[i].mIndices[2];
 
-		m_IndexBufferData.push_back(pIndices[i]);
+		if (DataSave)
+			m_IndexBufferData.push_back(pIndices[i]);
+	}
+
+	m_SubResourceData.pSysMem = pIndices;
+
+	if (FAILED(__super::Create_IndexBuffer()))
+		return E_FAIL;
+
+	Safe_Delete_Array(pIndices);
+
+#pragma endregion
+
+	return S_OK;
+}
+
+HRESULT CMesh::Initialize_Prototype(CModel::TYPE eType, const Value& Mesh)
+{
+	strcpy_s(m_szName, Mesh["szName"].GetString());
+	m_iMaterialIndex = Mesh["m_iMaterialIndex"].GetUint();
+	m_iNumVertices = Mesh["m_iNumVertices"].GetUint();
+	m_iIndexSizePrimitive = sizeof(FACEINDICES32);
+	m_iNumPrimitives = Mesh["m_iNumPrimitives"].GetUint();
+	m_iNumIndicesPrimitive = 3;
+	m_iNumBuffers = 1;
+	m_eFormat = DXGI_FORMAT_R32_UINT;
+	m_eTopology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+
+#pragma region VERTEX_BUFFER
+	HRESULT hr = E_FAIL;
+
+	switch (eType)
+	{
+	case Engine::CModel::TYPE_NONANIM:
+		//hr = Ready_VertexBuffer_ForNonAnim(pAIMesh, PivotMatrix);
+		break;
+	case Engine::CModel::TYPE_ANIM:
+		//hr = Ready_VertexBuffer_ForAnim(pAIMesh, pModel);
+		break;
+	case Engine::CModel::TYPE_NONANIM_UI:
+		//hr = Ready_VertexBuffer_ForNonAnimUI(pAIMesh, PivotMatrix);
+		break;
+	case Engine::CModel::TYPE_ANIM_UI:
+		//hr = Ready_VertexBuffer_ForAnimUI(pAIMesh, pModel);
+		break;
+	case Engine::CModel::TYPE_MESH_COLOR_NONANIM:
+		//hr = Ready_VertexBuffer_ForColorNonAnim(pAIMesh, PivotMatrix);
+		break;
+	case Engine::CModel::TYPE_MESH_COLOR_ANIM:
+		//hr = Ready_VertexBuffer_ForColorAnim(pAIMesh, pModel);
+		break;
+
+	default:
+		return E_FAIL;
+		break;
+	}
+
+	if (FAILED(hr))
+		return E_FAIL;
+
+#pragma endregion
+
+#pragma region INDEX_BUFFER
+	ZeroMemory(&m_BufferDesc, sizeof m_BufferDesc);
+	m_BufferDesc.ByteWidth = m_iIndexSizePrimitive * m_iNumPrimitives;
+	m_BufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	m_BufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	m_BufferDesc.StructureByteStride = 0;
+	m_BufferDesc.CPUAccessFlags = 0;
+	m_BufferDesc.MiscFlags = 0;
+
+	ZeroMemory(&m_SubResourceData, sizeof m_SubResourceData);
+
+	FACEINDICES32* pIndices = new FACEINDICES32[m_iNumPrimitives];
+	
+	const Value& IndexBuffers = Mesh["IndexBuffers"].GetArray();
+	assert(IndexBuffers.IsArray());
+	for (SizeType i = 0; i < IndexBuffers.Size(); ++i)
+	{
+		pIndices[i]._0 = IndexBuffers["_0"].GetUint();
+		pIndices[i]._1 = IndexBuffers["_1"].GetUint();
+		pIndices[i]._2 = IndexBuffers["_2"].GetUint();
 	}
 
 	m_SubResourceData.pSysMem = pIndices;
@@ -115,7 +198,7 @@ HRESULT CMesh::Initialize(void* pArg)
 }
 
 
-HRESULT CMesh::Ready_VertexBuffer_ForNonAnim(aiMesh* pAIMesh, _fmatrix PivotMatrix)
+HRESULT CMesh::Ready_VertexBuffer_ForNonAnim(aiMesh* pAIMesh, _fmatrix PivotMatrix, _bool DataSave)
 {
 	m_iStride = sizeof(VTXMODEL);
 
@@ -142,9 +225,12 @@ HRESULT CMesh::Ready_VertexBuffer_ForNonAnim(aiMesh* pAIMesh, _fmatrix PivotMatr
 
 		memcpy(&pVertices[i].vTexUV, &pAIMesh->mTextureCoords[0][i], sizeof(_float2));
 
-		m_VertexBufferData[i].vPosition = pVertices[i].vPosition;
-		m_VertexBufferData[i].vNormal = pVertices[i].vNormal;
-		m_VertexBufferData[i].vTexUV = pVertices[i].vTexUV;
+		if (DataSave)
+		{
+			m_VertexBufferData[i].vPosition = pVertices[i].vPosition;
+			m_VertexBufferData[i].vNormal = pVertices[i].vNormal;
+			m_VertexBufferData[i].vTexUV = pVertices[i].vTexUV;
+		}
 	}
 
 	m_SubResourceData.pSysMem = pVertices;
@@ -157,7 +243,7 @@ HRESULT CMesh::Ready_VertexBuffer_ForNonAnim(aiMesh* pAIMesh, _fmatrix PivotMatr
 	return S_OK;
 }
 
-HRESULT CMesh::Ready_VertexBuffer_ForAnim(aiMesh* pAIMesh, CModel* pModel)
+HRESULT CMesh::Ready_VertexBuffer_ForAnim(aiMesh* pAIMesh, CModel* pModel, _bool DataSave)
 {
 	m_iStride = sizeof(VTXANIMMODEL);
 
@@ -180,9 +266,13 @@ HRESULT CMesh::Ready_VertexBuffer_ForAnim(aiMesh* pAIMesh, CModel* pModel)
 		memcpy(&pVertices[i].vNormal, &pAIMesh->mNormals[i], sizeof(_float3));
 		memcpy(&pVertices[i].vTexUV, &pAIMesh->mTextureCoords[0][i], sizeof(_float2));
 
-		m_VertexBufferData[i].vPosition = pVertices[i].vPosition;
-		m_VertexBufferData[i].vNormal = pVertices[i].vNormal;
-		m_VertexBufferData[i].vTexUV = pVertices[i].vTexUV;
+
+		if (DataSave) 
+		{
+			m_VertexBufferData[i].vPosition = pVertices[i].vPosition;
+			m_VertexBufferData[i].vNormal = pVertices[i].vNormal;
+			m_VertexBufferData[i].vTexUV = pVertices[i].vTexUV;
+		}
 	}
 
 	/* 이 메시에 영향을 주는 뼈의 개수. */
@@ -231,8 +321,11 @@ HRESULT CMesh::Ready_VertexBuffer_ForAnim(aiMesh* pAIMesh, CModel* pModel)
 				pVertices[pAIBone->mWeights[j].mVertexId].vBlendWeight.w = pAIBone->mWeights[j].mWeight;
 			}
 
-			m_VertexBufferData[pAIBone->mWeights[j].mVertexId].vBlendIndex = pVertices[pAIBone->mWeights[j].mVertexId].vBlendIndex;
-			m_VertexBufferData[pAIBone->mWeights[j].mVertexId].vBlendWeight = pVertices[pAIBone->mWeights[j].mVertexId].vBlendWeight;
+			if (DataSave)
+			{
+				m_VertexBufferData[pAIBone->mWeights[j].mVertexId].vBlendIndex = pVertices[pAIBone->mWeights[j].mVertexId].vBlendIndex;
+				m_VertexBufferData[pAIBone->mWeights[j].mVertexId].vBlendWeight = pVertices[pAIBone->mWeights[j].mVertexId].vBlendWeight;
+			}
 		}
 	}
 
@@ -253,7 +346,7 @@ HRESULT CMesh::Ready_VertexBuffer_ForAnim(aiMesh* pAIMesh, CModel* pModel)
 	return S_OK;
 }
 
-HRESULT CMesh::Ready_VertexBuffer_ForNonAnimUI(aiMesh* pAIMesh, _fmatrix PivotMatrix)
+HRESULT CMesh::Ready_VertexBuffer_ForNonAnimUI(aiMesh* pAIMesh, _fmatrix PivotMatrix, _bool DataSave)
 {
 	m_iStride = sizeof(VTXTEX);
 
@@ -286,8 +379,11 @@ HRESULT CMesh::Ready_VertexBuffer_ForNonAnimUI(aiMesh* pAIMesh, _fmatrix PivotMa
 		pVertices[i].vPosition.z = 0.f;
 		memcpy(&pVertices[i].vTexUV, &pAIMesh->mTextureCoords[0][i], sizeof(_float2));
 
-		m_VertexBufferData[i].vPosition = pVertices[i].vPosition;
-		m_VertexBufferData[i].vTexUV = pVertices[i].vTexUV;
+		if (DataSave)
+		{
+			m_VertexBufferData[i].vPosition = pVertices[i].vPosition;
+			m_VertexBufferData[i].vTexUV = pVertices[i].vTexUV;
+		}
 	}
 
 	m_SubResourceData.pSysMem = pVertices;
@@ -300,7 +396,7 @@ HRESULT CMesh::Ready_VertexBuffer_ForNonAnimUI(aiMesh* pAIMesh, _fmatrix PivotMa
 	return S_OK;
 }
 
-HRESULT CMesh::Ready_VertexBuffer_ForAnimUI(aiMesh* pAIMesh, CModel* pModel)
+HRESULT CMesh::Ready_VertexBuffer_ForAnimUI(aiMesh* pAIMesh, CModel* pModel, _bool DataSave)
 {
 	m_iStride = sizeof(VTXUIANIMMODEL);
 
@@ -330,8 +426,11 @@ HRESULT CMesh::Ready_VertexBuffer_ForAnimUI(aiMesh* pAIMesh, CModel* pModel)
 		//memcpy(&pVertices[i].vNormal, &pAIMesh->mNormals[i], sizeof(_float3));
 		memcpy(&pVertices[i].vTexUV, &pAIMesh->mTextureCoords[0][i], sizeof(_float2));
 
-		m_VertexBufferData[i].vPosition = pVertices[i].vPosition;
-		m_VertexBufferData[i].vTexUV = pVertices[i].vTexUV;
+		if (DataSave)
+		{
+			m_VertexBufferData[i].vPosition = pVertices[i].vPosition;
+			m_VertexBufferData[i].vTexUV = pVertices[i].vTexUV;
+		}
 	}
 
 	/* 이 메시에 영향을 주는 뼈의 개수. */
@@ -380,8 +479,11 @@ HRESULT CMesh::Ready_VertexBuffer_ForAnimUI(aiMesh* pAIMesh, CModel* pModel)
 				pVertices[pAIBone->mWeights[j].mVertexId].vBlendWeight.w = pAIBone->mWeights[j].mWeight;
 			}
 
-			m_VertexBufferData[pAIBone->mWeights[j].mVertexId].vBlendIndex = pVertices[pAIBone->mWeights[j].mVertexId].vBlendIndex;
-			m_VertexBufferData[pAIBone->mWeights[j].mVertexId].vBlendWeight = pVertices[pAIBone->mWeights[j].mVertexId].vBlendWeight;
+			if (DataSave)
+			{
+				m_VertexBufferData[pAIBone->mWeights[j].mVertexId].vBlendIndex = pVertices[pAIBone->mWeights[j].mVertexId].vBlendIndex;
+				m_VertexBufferData[pAIBone->mWeights[j].mVertexId].vBlendWeight = pVertices[pAIBone->mWeights[j].mVertexId].vBlendWeight;
+			}
 		}
 	}
 
@@ -402,7 +504,7 @@ HRESULT CMesh::Ready_VertexBuffer_ForAnimUI(aiMesh* pAIMesh, CModel* pModel)
 	return S_OK;
 }
 
-HRESULT CMesh::Ready_VertexBuffer_ForColorNonAnim(aiMesh* pAIMesh, _fmatrix PivotMatrix)
+HRESULT CMesh::Ready_VertexBuffer_ForColorNonAnim(aiMesh* pAIMesh, _fmatrix PivotMatrix, _bool DataSave)
 {
 	m_iStride = sizeof(VTXCOLORMODEL);
 
@@ -429,9 +531,12 @@ HRESULT CMesh::Ready_VertexBuffer_ForColorNonAnim(aiMesh* pAIMesh, _fmatrix Pivo
 
 		memcpy(&pVertices[i].vColor, &pAIMesh->mColors[0][i], sizeof(_float4));
 
-		m_VertexBufferData[i].vPosition = pVertices[i].vPosition;
-		m_VertexBufferData[i].vNormal = pVertices[i].vNormal;
-		m_VertexBufferData[i].vColor = pVertices[i].vColor;
+		if (DataSave)
+		{
+			m_VertexBufferData[i].vPosition = pVertices[i].vPosition;
+			m_VertexBufferData[i].vNormal = pVertices[i].vNormal;
+			m_VertexBufferData[i].vColor = pVertices[i].vColor;
+		}
 	}
 
 	m_SubResourceData.pSysMem = pVertices;
@@ -444,7 +549,7 @@ HRESULT CMesh::Ready_VertexBuffer_ForColorNonAnim(aiMesh* pAIMesh, _fmatrix Pivo
 	return S_OK;
 }
 
-HRESULT CMesh::Ready_VertexBuffer_ForColorAnim(aiMesh* pAIMesh, CModel* pModel)
+HRESULT CMesh::Ready_VertexBuffer_ForColorAnim(aiMesh* pAIMesh, CModel* pModel, _bool DataSave)
 {
 	m_iStride = sizeof(VTXCOLORANIMMODEL);
 
@@ -467,9 +572,12 @@ HRESULT CMesh::Ready_VertexBuffer_ForColorAnim(aiMesh* pAIMesh, CModel* pModel)
 		memcpy(&pVertices[i].vNormal, &pAIMesh->mNormals[i], sizeof(_float3));
 		memcpy(&pVertices[i].vColor, &pAIMesh->mColors[0][i], sizeof(_float4));
 
-		m_VertexBufferData[i].vPosition = pVertices[i].vPosition;
-		m_VertexBufferData[i].vNormal = pVertices[i].vNormal;
-		m_VertexBufferData[i].vColor = pVertices[i].vColor;
+		if (DataSave)
+		{
+			m_VertexBufferData[i].vPosition = pVertices[i].vPosition;
+			m_VertexBufferData[i].vNormal = pVertices[i].vNormal;
+			m_VertexBufferData[i].vColor = pVertices[i].vColor;
+		}
 	}
 
 	/* 이 메시에 영향을 주는 뼈의 개수. */
@@ -518,8 +626,11 @@ HRESULT CMesh::Ready_VertexBuffer_ForColorAnim(aiMesh* pAIMesh, CModel* pModel)
 				pVertices[pAIBone->mWeights[j].mVertexId].vBlendWeight.w = pAIBone->mWeights[j].mWeight;
 			}
 
-			m_VertexBufferData[pAIBone->mWeights[j].mVertexId].vBlendIndex = pVertices[pAIBone->mWeights[j].mVertexId].vBlendIndex;
-			m_VertexBufferData[pAIBone->mWeights[j].mVertexId].vBlendWeight = pVertices[pAIBone->mWeights[j].mVertexId].vBlendWeight;
+			if (DataSave)
+			{
+				m_VertexBufferData[pAIBone->mWeights[j].mVertexId].vBlendIndex = pVertices[pAIBone->mWeights[j].mVertexId].vBlendIndex;
+				m_VertexBufferData[pAIBone->mWeights[j].mVertexId].vBlendWeight = pVertices[pAIBone->mWeights[j].mVertexId].vBlendWeight;
+			}
 		}
 	}
 
@@ -540,11 +651,98 @@ HRESULT CMesh::Ready_VertexBuffer_ForColorAnim(aiMesh* pAIMesh, CModel* pModel)
 	return S_OK;
 }
 
-CMesh* CMesh::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CModel::TYPE eType, aiMesh* pAIMesh, CModel* pModel, _fmatrix PivotMatrix)
+HRESULT CMesh::Ready_VertexBuffer_ForColorAnim_Json(const Value& Mesh)
+{
+	m_iStride = sizeof(VTXCOLORANIMMODEL);
+
+	ZeroMemory(&m_BufferDesc, sizeof m_BufferDesc);
+	m_BufferDesc.ByteWidth = m_iStride * m_iNumVertices;
+	m_BufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	m_BufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	m_BufferDesc.StructureByteStride = m_iStride;
+	m_BufferDesc.CPUAccessFlags = 0;
+	m_BufferDesc.MiscFlags = 0;
+
+	ZeroMemory(&m_SubResourceData, sizeof m_SubResourceData);
+
+	VTXCOLORANIMMODEL* pVertices = new VTXCOLORANIMMODEL[m_iNumVertices];
+	ZeroMemory(pVertices, m_iStride * m_iNumVertices);
+
+	const Value& VertexBuffers = Mesh["VertexBuffers"].GetArray();
+	assert(VertexBuffers.IsArray());
+	for (SizeType i = 0; i < VertexBuffers.Size(); ++i)
+	{
+		pVertices[i].vPosition =
+		{
+			VertexBuffers[i]["vPositionX"].GetFloat(),
+			VertexBuffers[i]["vPositionY"].GetFloat(),
+			VertexBuffers[i]["vPositionZ"].GetFloat()
+		};
+
+		pVertices[i].vNormal =
+		{
+			VertexBuffers[i]["vNormalX"].GetFloat(),
+			VertexBuffers[i]["vNormalY"].GetFloat(),
+			VertexBuffers[i]["vNormalZ"].GetFloat()
+		};
+
+		pVertices[i].vColor =
+		{
+			VertexBuffers[i]["vColorX"].GetFloat(),
+			VertexBuffers[i]["vColorY"].GetFloat(),
+			VertexBuffers[i]["vColorZ"].GetFloat(),
+			VertexBuffers[i]["vColorW"].GetFloat()
+
+		};
+
+		pVertices[i].vBlendIndex =
+		{
+			VertexBuffers[i]["vBlendIndexX"].GetUint(),
+			VertexBuffers[i]["vBlendIndexY"].GetUint(),
+			VertexBuffers[i]["vBlendIndexZ"].GetUint(),
+			VertexBuffers[i]["vBlendIndexW"].GetUint()
+		};
+
+		pVertices[i].vBlendWeight =
+		{
+			VertexBuffers[i]["vBlendWeightX"].GetFloat(),
+			VertexBuffers[i]["vBlendWeightY"].GetFloat(),
+			VertexBuffers[i]["vBlendWeightZ"].GetFloat(),
+			VertexBuffers[i]["vBlendWeightW"].GetFloat()
+		};
+	}
+
+	/* 이 메시에 영향을 주는 뼈의 개수. */
+	m_iNumBones = Mesh["m_iNumBones"].GetInt();
+
+	m_SubResourceData.pSysMem = pVertices;
+
+	if (FAILED(__super::Create_VertexBuffer()))
+		return E_FAIL;
+
+	Safe_Delete_Array(pVertices);
+
+	return S_OK;
+}
+
+CMesh* CMesh::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CModel::TYPE eType, aiMesh* pAIMesh, CModel* pModel, _fmatrix PivotMatrix, _bool DataSave = false)
 {
 	CMesh* pInstance = new CMesh(pDevice, pContext, nullptr);
 
-	if (FAILED(pInstance->Initialize_Prototype(eType, pAIMesh, pModel, PivotMatrix)))
+	if (FAILED(pInstance->Initialize_Prototype(eType, pAIMesh, pModel, PivotMatrix, DataSave)))
+	{
+		MSG_BOX("Failed to Created : CMesh");
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
+}
+
+CMesh* CMesh::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CModel::TYPE eType, const Value& Mesh)
+{
+	CMesh* pInstance = new CMesh(pDevice, pContext, nullptr);
+
+	if (FAILED(pInstance->Initialize_Prototype(eType, Mesh)))
 	{
 		MSG_BOX("Failed to Created : CMesh");
 		Safe_Release(pInstance);
@@ -571,4 +769,6 @@ void CMesh::Free()
 	__super::Free();
 
 	m_Bones.clear();
+	m_IndexBufferData.clear();
+	m_VertexBufferData.clear();
 }

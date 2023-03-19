@@ -121,6 +121,11 @@ CChannel* CChannel::Create(aiNodeAnim* pAIChannel, CModel* pModel)
 	return pInstance;
 }
 
+CChannel* CChannel::Create()
+{
+	return new CChannel();
+}
+
 void CChannel::Free()
 {
 	m_KeyFrames.clear();

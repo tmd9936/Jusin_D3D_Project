@@ -47,6 +47,27 @@ public:
 		Safe_AddRef(m_pParent);
 	}
 
+	void Set_Name(char szName[MAX_PATH]) {
+		strcpy_s(m_szName, szName);
+	}
+
+	void Set_Name(string szName) {
+		strcpy_s(m_szName, szName.c_str());
+	}
+
+	void Set_ParentIndex(_int index) {
+		m_iParentIndex = index;
+	}
+
+	void Set_OffSetMatrix(const _float4x4& _matrix) {
+		m_OffSetMatrix = _matrix;
+	}
+
+	void Set_TransformationMatrix(const _float4x4& _matrix) {
+		m_TransformationMatrix = _matrix;
+	}
+
+
 public:
 	HRESULT Initialize(aiNode* pAINode, CModel* pModel, CBone* pParent);
 	void SetUp_TransformationMatrix(_fmatrix Matrix);
@@ -64,6 +85,8 @@ private:
 
 public:
 	static CBone* Create(aiNode* pAINode, CModel* pModel, CBone* pParent);
+	static CBone* Create();
+
 	CBone* Clone();
 	virtual void Free() override;
 };
