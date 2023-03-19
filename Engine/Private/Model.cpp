@@ -526,27 +526,27 @@ HRESULT CModel::Save_Json(TYPE eType, const char* pModelFilePath)
 
 						Value KeyFrames(kArrayType);
 						{
-							vector<KEYFRAME> keyFrames;
-							channels[j]->Get_KeyFrames(keyFrames);
+							vector<KEYFRAME> keyFramesData;
+							channels[j]->Get_KeyFrames(keyFramesData);
 
-							for (size_t k = 0; k < keyFrames.size(); k++)
+							for (size_t k = 0; k < keyFramesData.size(); k++)
 							{
 								Value KeyFrame(kObjectType);
 								{
-									KeyFrame.AddMember("vScaleX", keyFrames[k].vScale.x, allocator);
-									KeyFrame.AddMember("vScaleY", keyFrames[k].vScale.y, allocator);
-									KeyFrame.AddMember("vScaleZ", keyFrames[k].vScale.z, allocator);
+									KeyFrame.AddMember("vScaleX", keyFramesData[k].vScale.x, allocator);
+									KeyFrame.AddMember("vScaleY", keyFramesData[k].vScale.y, allocator);
+									KeyFrame.AddMember("vScaleZ", keyFramesData[k].vScale.z, allocator);
 
-									KeyFrame.AddMember("vRotationX", keyFrames[k].vRotation.x, allocator);
-									KeyFrame.AddMember("vRotationY", keyFrames[k].vRotation.y, allocator);
-									KeyFrame.AddMember("vRotationZ", keyFrames[k].vRotation.z, allocator);
-									KeyFrame.AddMember("vRotationW", keyFrames[k].vRotation.w, allocator);
+									KeyFrame.AddMember("vRotationX", keyFramesData[k].vRotation.x, allocator);
+									KeyFrame.AddMember("vRotationY", keyFramesData[k].vRotation.y, allocator);
+									KeyFrame.AddMember("vRotationZ", keyFramesData[k].vRotation.z, allocator);
+									KeyFrame.AddMember("vRotationW", keyFramesData[k].vRotation.w, allocator);
 
-									KeyFrame.AddMember("vPositionX", keyFrames[k].vPosition.x, allocator);
-									KeyFrame.AddMember("vPositionY", keyFrames[k].vPosition.y, allocator);
-									KeyFrame.AddMember("vPositionZ", keyFrames[k].vPosition.z, allocator);
+									KeyFrame.AddMember("vPositionX", keyFramesData[k].vPosition.x, allocator);
+									KeyFrame.AddMember("vPositionY", keyFramesData[k].vPosition.y, allocator);
+									KeyFrame.AddMember("vPositionZ", keyFramesData[k].vPosition.z, allocator);
 
-									KeyFrame.AddMember("Time", keyFrames[k].Time, allocator);
+									KeyFrame.AddMember("Time", keyFramesData[k].Time, allocator);
 								}
 								KeyFrames.PushBack(KeyFrame, allocator);
 							}

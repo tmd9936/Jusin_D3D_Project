@@ -712,6 +712,13 @@ HRESULT CMesh::Ready_VertexBuffer_ForColorAnim_Json(const Value& Mesh)
 		};
 	}
 
+	const Value& Bones = Mesh["m_Bones"].GetArray();
+	assert(Bones.IsArray());
+	for (SizeType i = 0; i < Bones.Size(); ++i)
+	{
+		m_Bones.push_back(Bones[i].GetInt());
+	}
+
 	/* 이 메시에 영향을 주는 뼈의 개수. */
 	m_iNumBones = Mesh["m_iNumBones"].GetInt();
 
