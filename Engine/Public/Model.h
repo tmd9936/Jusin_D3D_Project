@@ -47,6 +47,9 @@ public:
 
 public:
 	virtual HRESULT Initialize_Prototype(TYPE eType, const char* pModelFilePath, _fmatrix PivotMatrix, _bool saveJson);
+
+	virtual HRESULT Initialize_Prototype(TYPE eType, const char* pModelJsonFilePath, _fmatrix PivotMatrix);
+
 	virtual HRESULT Initialize(void* pArg);
 
 public:
@@ -100,6 +103,9 @@ private:
 
 public:
 	static CModel* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TYPE eType, const char* pModelFilePath, _fmatrix PivotMatrix = XMMatrixIdentity(), _bool saveJson = false);
+
+	static CModel* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const char* pModelJsonFilePath, TYPE eType, _fmatrix PivotMatrix);
+
 	virtual CComponent* Clone(CGameObject* pOwner, void* pArg = nullptr) override;
 	virtual void Free() override;
 };

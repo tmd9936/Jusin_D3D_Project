@@ -145,7 +145,7 @@ HRESULT CMesh::Initialize_Prototype(CModel::TYPE eType, const Value& Mesh)
 		//hr = Ready_VertexBuffer_ForColorNonAnim(pAIMesh, PivotMatrix);
 		break;
 	case Engine::CModel::TYPE_MESH_COLOR_ANIM:
-		//hr = Ready_VertexBuffer_ForColorAnim(pAIMesh, pModel);
+		hr = Ready_VertexBuffer_ForColorAnim_Json(Mesh);
 		break;
 
 	default:
@@ -173,11 +173,11 @@ HRESULT CMesh::Initialize_Prototype(CModel::TYPE eType, const Value& Mesh)
 	
 	const Value& IndexBuffers = Mesh["IndexBuffers"].GetArray();
 	assert(IndexBuffers.IsArray());
-	for (SizeType i = 0; i < IndexBuffers.Size(); ++i)
+	for (size_t i = 0; i < m_iNumPrimitives; ++i)
 	{
-		pIndices[i]._0 = IndexBuffers["_0"].GetUint();
-		pIndices[i]._1 = IndexBuffers["_1"].GetUint();
-		pIndices[i]._2 = IndexBuffers["_2"].GetUint();
+		pIndices[i]._0 = IndexBuffers[i]["_0"].GetUint();
+		pIndices[i]._1 = IndexBuffers[i]["_1"].GetUint();
+		pIndices[i]._2 = IndexBuffers[i]["_2"].GetUint();
 	}
 
 	m_SubResourceData.pSysMem = pIndices;
@@ -670,7 +670,7 @@ HRESULT CMesh::Ready_VertexBuffer_ForColorAnim_Json(const Value& Mesh)
 
 	const Value& VertexBuffers = Mesh["VertexBuffers"].GetArray();
 	assert(VertexBuffers.IsArray());
-	for (SizeType i = 0; i < VertexBuffers.Size(); ++i)
+	for (size_t i = 0; i < m_iNumVertices; ++i)
 	{
 		pVertices[i].vPosition =
 		{

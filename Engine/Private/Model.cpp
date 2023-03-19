@@ -169,6 +169,18 @@ HRESULT CModel::Initialize_Prototype(TYPE eType, const char* pModelFilePath, _fm
 	return S_OK;
 }
 
+HRESULT CModel::Initialize_Prototype(TYPE eType, const char* pModelJsonFilePath, _fmatrix PivotMatrix)
+{
+	XMStoreFloat4x4(&m_PivotMatrix, PivotMatrix);
+
+	m_eType = eType;
+
+	if (FAILED(Load_Json(eType, pModelJsonFilePath)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 HRESULT CModel::Initialize(void* pArg)
 {
 	for (auto& pBone : m_Bones)
@@ -634,7 +646,7 @@ HRESULT CModel::Load_Json(TYPE eType, const char* pModelFilePath)
 			pBone->Set_ParentIndex(parentIndex);
 			if (parentIndex >= 0)
 			{
-				pBone->Set_Parent(m_Bones[i]);
+				pBone->Set_Parent(m_Bones[parentIndex]);
 			}
 
 			const Value& OffSetMatrix = Bones[i]["m_OffSetMatrix"];
@@ -643,7 +655,7 @@ HRESULT CModel::Load_Json(TYPE eType, const char* pModelFilePath)
 			
 			_uint indexX = 0;
 			_uint indexY = 0;
-			for (size_t j = 0; j < 16;)
+			for (size_t j = 0; j < 16; ++j)
 			{
 				indexX = _uint(j / 4);
 				indexY = j % 4;
@@ -658,7 +670,7 @@ HRESULT CModel::Load_Json(TYPE eType, const char* pModelFilePath)
 			indexX = 0;
 			indexY = 0;
 
-			for (size_t j = 0; j < 16;)
+			for (size_t j = 0; j < 16; ++j)
 			{
 				indexX = _uint(j / 4);
 				indexY = j % 4;
@@ -674,11 +686,13 @@ HRESULT CModel::Load_Json(TYPE eType, const char* pModelFilePath)
 		const Value& Meshs = document["Meshs"];
 		assert(Meshs.IsArray());
 
+		m_iNumMeshes = Meshs.Size();
+
 		m_Meshes.reserve(Meshs.Size());
 		for (SizeType i = 0; i < Meshs.Size(); ++i)
 		{
-			const Value& Mash = Meshs[i].GetObj();
-			CMesh* pMesh = CMesh::Create(m_pDevice, m_pContext, eType, Mash);
+			//const Value& Mash = Meshs[i].GetObj();
+			CMesh* pMesh = CMesh::Create(m_pDevice, m_pContext, eType, Meshs[i]);
 
 			if (nullptr == pMesh)
 				return E_FAIL;
@@ -690,6 +704,8 @@ HRESULT CModel::Load_Json(TYPE eType, const char* pModelFilePath)
 #pragma region MaterialLoad
 		const Value& Materials = document["Materials"];
 		assert(Materials.IsArray());
+
+		m_iNumMaterials = Materials.Size();
 
 		m_Materials.reserve(Materials.Size());
 		for (SizeType i = 0; i < Materials.Size(); ++i)
@@ -717,6 +733,7 @@ HRESULT CModel::Load_Json(TYPE eType, const char* pModelFilePath)
 		const Value& Animations = document["Animations"];
 		assert(Animations.IsArray());
 
+		m_iNumAnimations = Animations.Size();
 		m_Animations.reserve(Animations.Size());
 		for (SizeType i = 0; i < Animations.Size(); ++i)
 		{
@@ -737,12 +754,11 @@ HRESULT CModel::Load_Json(TYPE eType, const char* pModelFilePath)
 				
 				pChannel->Set_NumKeyFrames(Channels[j]["m_iNumKeyFrames"].GetUint());
 
-				KEYFRAME keyFrame{};
-
 				const Value& KeyFrames = Channels[j]["KeyFrames"];
 				assert(KeyFrames.IsArray());
 				for (SizeType k = 0; k < KeyFrames.Size(); ++k)
 				{
+					KEYFRAME keyFrame{};
 					keyFrame.vScale =
 					{
 						KeyFrames[k]["vScaleX"].GetFloat(),
@@ -766,8 +782,8 @@ HRESULT CModel::Load_Json(TYPE eType, const char* pModelFilePath)
 					};
 
 					keyFrame.Time = KeyFrames[k]["Time"].GetDouble();
+					pChannel->Add_KeyFrame(keyFrame);
 				}
-				pChannel->Add_KeyFrame(keyFrame);
 
 				pChannel->Set_BoneIndex(Channels[j]["m_iBoneIndex"].GetUint());
 
@@ -886,6 +902,19 @@ CModel* CModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TYP
 	CModel* pInstance = new CModel(pDevice, pContext, nullptr);
 
 	if (FAILED(pInstance->Initialize_Prototype(eType, pModelFilePath, PivotMatrix, saveJson)))
+	{
+		MSG_BOX("Failed to Created : CModel");
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
+}
+
+CModel* CModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const char* pModelJsonFilePath, TYPE eType, _fmatrix PivotMatrix)
+{
+	CModel* pInstance = new CModel(pDevice, pContext, nullptr);
+
+	if (FAILED(pInstance->Initialize_Prototype(eType, pModelJsonFilePath, PivotMatrix)))
 	{
 		MSG_BOX("Failed to Created : CModel");
 		Safe_Release(pInstance);
