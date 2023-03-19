@@ -42,6 +42,20 @@ public:
 		}
 	}
 
+	void	Get_VertexBufferData(vector<VTXMODEL_ALL_DATA>& vertexBuffer) {
+		for (size_t i = 0; i < m_VertexBufferData.size(); i++)
+		{
+			vertexBuffer.push_back(m_VertexBufferData[i]);
+		}
+	}
+
+	void	Get_IndexBufferData(vector<FACEINDICES32>& indexBuffer) {
+		for (size_t i = 0; i < m_IndexBufferData.size(); i++)
+		{
+			indexBuffer.push_back(m_IndexBufferData[i]);
+		}
+	}
+
 public:
 	virtual HRESULT Initialize_Prototype(CModel::TYPE eType, aiMesh* pAIMesh, CModel* pModel, _fmatrix PivotMatrix);
 	virtual HRESULT Initialize(void* pArg) override;
@@ -66,6 +80,10 @@ private:
 	HRESULT Ready_VertexBuffer_ForColorNonAnim(aiMesh* pAIMesh, _fmatrix PivotMatrix);
 	HRESULT Ready_VertexBuffer_ForColorAnim(aiMesh* pAIMesh, CModel* pModel);
 
+
+private:
+	vector<VTXMODEL_ALL_DATA> m_VertexBufferData;
+	vector<FACEINDICES32>	 m_IndexBufferData;
 
 public:
 	static CMesh* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CModel::TYPE eType, aiMesh* pAIMesh, CModel* pModel, _fmatrix PivotMatrix);

@@ -317,7 +317,7 @@ HRESULT CModel::Save_Json(TYPE eType, const char* pModelFilePath)
 
 				Value m_TransformationMatrix(kArrayType);
 				//_float4x4 offsetMatrix = m_Bones[i]->Get_OffsetMatrix_float4_4();
-				CUtility::Save_Matrix_in_json(m_OffSetMatrix, m_Bones[i]->Get_CombinedTransformationMatrix_float4_4(), allocator);
+				CUtility::Save_Matrix_in_json(m_TransformationMatrix, m_Bones[i]->Get_TransformationMatrix_float4_4(), allocator);
 				BoneDesc.AddMember("m_TransformationMatrix", m_TransformationMatrix, allocator);
 			}
 			Bones.PushBack(BoneDesc, allocator);
@@ -326,6 +326,7 @@ HRESULT CModel::Save_Json(TYPE eType, const char* pModelFilePath)
 	doc.AddMember("Bones", Bones, allocator);
 #pragma endregion
 
+/*
 #pragma region MeshSave
 	// Mesh 历厘
 	Value Meshs(kArrayType);
@@ -367,10 +368,58 @@ HRESULT CModel::Save_Json(TYPE eType, const char* pModelFilePath)
 				MeshDesc.AddMember("m_eFormat", m_Meshes[i]->Get_Format(), allocator);
 				MeshDesc.AddMember("m_eTopology", m_Meshes[i]->Get_Topology(), allocator);
 
-				for (_uint j = 0; j < m_iNumMeshes; ++j)
+				Value VertexBuffers(kArrayType);
 				{
-					aiMesh* pAiMesh = m_pAIScene->mMeshes[j];
+					vector<VTXMODEL_ALL_DATA> VertexBufferData;
+					m_Meshes[i]->Get_VertexBufferData(VertexBufferData);
+
+					for (size_t j = 0; j < VertexBufferData.size(); ++j)
+					{
+						Value VertexBufferDesc(kObjectType);
+						{
+							VertexBufferDesc.AddMember("vPositionX", VertexBufferData[j].vPosition.x, allocator);
+							VertexBufferDesc.AddMember("vPositionY", VertexBufferData[j].vPosition.y, allocator);
+							VertexBufferDesc.AddMember("vPositionZ", VertexBufferData[j].vPosition.z, allocator);
+
+							VertexBufferDesc.AddMember("vNormalX", VertexBufferData[j].vNormal.x, allocator);
+							VertexBufferDesc.AddMember("vNormalY", VertexBufferData[j].vNormal.y, allocator);
+							VertexBufferDesc.AddMember("vNormalZ", VertexBufferData[j].vNormal.z, allocator);
+
+							VertexBufferDesc.AddMember("vColorX", VertexBufferData[j].vColor.x, allocator);
+							VertexBufferDesc.AddMember("vColorY", VertexBufferData[j].vColor.y, allocator);
+							VertexBufferDesc.AddMember("vColorZ", VertexBufferData[j].vColor.z, allocator);
+							VertexBufferDesc.AddMember("vColorW", VertexBufferData[j].vColor.w, allocator);
+
+							VertexBufferDesc.AddMember("vBlendIndex", VertexBufferData[j].vBlendIndex, allocator);
+
+							VertexBufferDesc.AddMember("vBlendWeightX", VertexBufferData[j].vBlendWeight.x, allocator);
+							VertexBufferDesc.AddMember("vBlendWeightY", VertexBufferData[j].vBlendWeight.y, allocator);
+							VertexBufferDesc.AddMember("vBlendWeightZ", VertexBufferData[j].vBlendWeight.z, allocator);
+							VertexBufferDesc.AddMember("vBlendWeightW", VertexBufferData[j].vBlendWeight.w, allocator);
+						}
+						VertexBuffers.PushBack(VertexBufferDesc, allocator);
+					}
 				}
+				MeshDesc.AddMember("VertexBuffers", VertexBuffers, allocator);
+				
+				Value IndexBuffers(kArrayType);
+				{
+					vector<FACEINDICES32>	 IndexBufferData;
+					m_Meshes[i]->Get_IndexBufferData(IndexBufferData);
+					for (size_t j = 0; j < IndexBufferData.size(); ++j)
+					{
+						Value IndexBufferDesc(kObjectType);
+						{
+							IndexBufferDesc.AddMember("_0", IndexBufferData[j]._0, allocator);
+							IndexBufferDesc.AddMember("_1", IndexBufferData[j]._0, allocator);
+							IndexBufferDesc.AddMember("_2", IndexBufferData[j]._0, allocator);
+
+						}
+						IndexBuffers.PushBack(IndexBufferDesc, allocator);
+					}
+
+				}
+				MeshDesc.AddMember("IndexBuffers", IndexBuffers, allocator);
 
 			}
 			Meshs.PushBack(MeshDesc, allocator);
@@ -517,7 +566,7 @@ HRESULT CModel::Save_Json(TYPE eType, const char* pModelFilePath)
 	doc.AddMember("Animations", Animations, allocator);
 
 #pragma endregion 
-
+*/
 	// 备泅何 场
 
 	FILE* fp = fopen(szFullPath, "wb"); // non-Windows use "w"

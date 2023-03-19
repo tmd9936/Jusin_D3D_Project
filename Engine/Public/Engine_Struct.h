@@ -150,6 +150,15 @@ namespace Engine
 		static D3D11_INPUT_ELEMENT_DESC			Elements[4];
 	} VTXUIANIMMODEL_DECLARATION;
 
+	typedef struct tagVertex_ModelAllData
+	{
+		XMFLOAT3			vPosition;
+		XMFLOAT3			vNormal;
+		XMFLOAT2			vTexUV;
+		XMFLOAT4			vColor;
+		XMUINT4				vBlendIndex; /* 이 정점이 따라다녀야할 뼈의인덱스들(뼈의 인덱스 : 모델전체의 뼈 중 특정 인덱스(x) 메시에 영향을 주는 뼈들 중 특정 인덱스(0), 최대 뼈의 갯수는 : 4개) */
+		XMFLOAT4			vBlendWeight; /* 이 정점이 영향을 받고 있는 뼈들의 상태를 몇퍼센트(0 ~ 1)나 이용할지에 대한 값. */
+	}VTXMODEL_ALL_DATA;
 
 
 	typedef struct tagIndices16
