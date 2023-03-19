@@ -357,6 +357,21 @@ HRESULT CModel::Save_Json(TYPE eType, const char* pModelFilePath)
 				}
 
 				MeshDesc.AddMember("m_Bones", m_Bones, allocator);
+
+				MeshDesc.AddMember("m_iNumVertices", m_Meshes[i]->Get_NumVertices(), allocator);
+				MeshDesc.AddMember("m_iStride", m_Meshes[i]->Get_Stride(), allocator);
+				MeshDesc.AddMember("m_iNumBuffers", m_Meshes[i]->Get_NumBuffers(), allocator);
+				MeshDesc.AddMember("m_iIndexSizePrimitive", m_Meshes[i]->Get_IndexSizePrimitive(), allocator);
+				MeshDesc.AddMember("m_iNumPrimitives", m_Meshes[i]->Get_NumPrimitives(), allocator);
+				MeshDesc.AddMember("m_iNumIndicesPrimitive", m_Meshes[i]->Get_NumIndicesPrimitive(), allocator);
+				MeshDesc.AddMember("m_eFormat", m_Meshes[i]->Get_Format(), allocator);
+				MeshDesc.AddMember("m_eTopology", m_Meshes[i]->Get_Topology(), allocator);
+
+				for (_uint j = 0; j < m_iNumMeshes; ++j)
+				{
+					aiMesh* pAiMesh = m_pAIScene->mMeshes[j];
+				}
+
 			}
 			Meshs.PushBack(MeshDesc, allocator);
 		}
@@ -440,8 +455,40 @@ HRESULT CModel::Save_Json(TYPE eType, const char* pModelFilePath)
 					{
 						Value szName;
 						string	channelName = channels[j]->Get_Name();
-						szName.SetString(animationName.c_str(), (SizeType)animationName.size(), allocator);
-						AnimationDesc.AddMember("szName", szName, allocator);
+						szName.SetString(channelName.c_str(), (SizeType)channelName.size(), allocator);
+						ChannelDesc.AddMember("szName", szName, allocator);
+
+						ChannelDesc.AddMember("m_iNumKeyFrames", channels[j]->Get_NumKeyFrames(), allocator);
+
+						Value KeyFrames(kArrayType);
+						{
+							vector<KEYFRAME> keyFrames;
+							channels[j]->Get_KeyFrames(keyFrames);
+
+							Value KeyFrame(kObjectType);
+							for (size_t k = 0; k < keyFrames.size(); k++)
+							{
+								KeyFrame.AddMember("vScaleX", keyFrames[k].vScale.x, allocator);
+								KeyFrame.AddMember("vScaleY", keyFrames[k].vScale.y, allocator);
+								KeyFrame.AddMember("vScaleZ", keyFrames[k].vScale.z, allocator);
+
+								KeyFrame.AddMember("vRotationX", keyFrames[k].vRotation.x, allocator);
+								KeyFrame.AddMember("vRotationY", keyFrames[k].vRotation.y, allocator);
+								KeyFrame.AddMember("vRotationX", keyFrames[k].vRotation.z, allocator);
+								KeyFrame.AddMember("vRotationW", keyFrames[k].vRotation.w, allocator);
+
+								KeyFrame.AddMember("vPositionX", keyFrames[k].vPosition.x, allocator);
+								KeyFrame.AddMember("vPositionY", keyFrames[k].vPosition.y, allocator);
+								KeyFrame.AddMember("vPositionZ", keyFrames[k].vPosition.z, allocator);
+
+								KeyFrame.AddMember("Time", keyFrames[k].Time, allocator);
+							}
+							KeyFrames.PushBack(KeyFrame, allocator);
+
+						}
+						ChannelDesc.AddMember("KeyFrames", KeyFrames, allocator);
+
+						ChannelDesc.AddMember("m_iBoneIndex", channels[j]->Get_BoneIndex(), allocator);
 
 					}
 					m_Channels.PushBack(ChannelDesc, allocator);

@@ -12,7 +12,7 @@ class ENGINE_DLL CVIBuffer abstract : public CComponent
 public:
 	static const FamilyId familyId = FAMILY_ID_VIBUFFER;
 protected:
-	CVIBuffer(ID3D11Device * pDevice, ID3D11DeviceContext * pContext, CGameObject* pOwner);
+	CVIBuffer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner);
 	CVIBuffer(const CVIBuffer& rhs, CGameObject* pOwner);
 	virtual ~CVIBuffer() = default;
 
@@ -25,6 +25,39 @@ public:
 
 public:
 	HRESULT Render();
+
+public:
+	const _uint	Get_NumVertices() const {
+		return m_iNumVertices;
+	}
+
+	const _uint	Get_Stride() const {
+		return m_iStride;
+	}
+
+	const _uint	Get_NumBuffers() const {
+		return m_iNumBuffers;
+	}
+
+	const _uint Get_IndexSizePrimitive() const {
+		return m_iIndexSizePrimitive;
+	}
+
+	const _uint Get_NumPrimitives() const {
+		return m_iNumPrimitives;
+	}
+
+	const _uint Get_NumIndicesPrimitive() const {
+		return m_iNumIndicesPrimitive;
+	}
+
+	const DXGI_FORMAT Get_Format() const {
+		return m_eFormat;
+	}
+
+	const D3D11_PRIMITIVE_TOPOLOGY Get_Topology() const {
+		return m_eTopology;
+	}
 
 protected:
 	ID3D11Buffer*					m_pVB = { nullptr };

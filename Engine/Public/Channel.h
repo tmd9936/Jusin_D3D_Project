@@ -26,6 +26,21 @@ public:
 		return m_szName;
 	}
 
+	const _uint Get_NumKeyFrames() const {
+		return m_iNumKeyFrames;
+	}
+
+	const _int	Get_BoneIndex() const {
+		return m_iBoneIndex;
+	}
+
+	void Get_KeyFrames(vector<KEYFRAME>& keyFrames) {
+		for (size_t i = 0; i < m_KeyFrames.size(); ++i)
+		{
+			keyFrames.push_back(m_KeyFrames[i]);
+		}
+	}
+
 private:
 	char				m_szName[MAX_PATH] = "";
 
