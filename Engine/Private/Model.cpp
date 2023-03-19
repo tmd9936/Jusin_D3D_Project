@@ -326,7 +326,7 @@ HRESULT CModel::Save_Json(TYPE eType, const char* pModelFilePath)
 	doc.AddMember("Bones", Bones, allocator);
 #pragma endregion
 
-/*
+
 #pragma region MeshSave
 	// Mesh 历厘
 	Value Meshs(kArrayType);
@@ -390,7 +390,10 @@ HRESULT CModel::Save_Json(TYPE eType, const char* pModelFilePath)
 							VertexBufferDesc.AddMember("vColorZ", VertexBufferData[j].vColor.z, allocator);
 							VertexBufferDesc.AddMember("vColorW", VertexBufferData[j].vColor.w, allocator);
 
-							VertexBufferDesc.AddMember("vBlendIndex", VertexBufferData[j].vBlendIndex, allocator);
+							VertexBufferDesc.AddMember("vBlendIndexX", VertexBufferData[j].vBlendIndex.x, allocator);
+							VertexBufferDesc.AddMember("vBlendIndexY", VertexBufferData[j].vBlendIndex.y, allocator);
+							VertexBufferDesc.AddMember("vBlendIndexZ", VertexBufferData[j].vBlendIndex.z, allocator);
+							VertexBufferDesc.AddMember("vBlendIndexW", VertexBufferData[j].vBlendIndex.w, allocator);
 
 							VertexBufferDesc.AddMember("vBlendWeightX", VertexBufferData[j].vBlendWeight.x, allocator);
 							VertexBufferDesc.AddMember("vBlendWeightY", VertexBufferData[j].vBlendWeight.y, allocator);
@@ -404,15 +407,15 @@ HRESULT CModel::Save_Json(TYPE eType, const char* pModelFilePath)
 				
 				Value IndexBuffers(kArrayType);
 				{
-					vector<FACEINDICES32>	 IndexBufferData;
-					m_Meshes[i]->Get_IndexBufferData(IndexBufferData);
-					for (size_t j = 0; j < IndexBufferData.size(); ++j)
+					vector<FACEINDICES32>	 IndexBufferDataArray;
+					m_Meshes[i]->Get_IndexBufferData(IndexBufferDataArray);
+					for (size_t j = 0; j < IndexBufferDataArray.size(); ++j)
 					{
 						Value IndexBufferDesc(kObjectType);
 						{
-							IndexBufferDesc.AddMember("_0", IndexBufferData[j]._0, allocator);
-							IndexBufferDesc.AddMember("_1", IndexBufferData[j]._0, allocator);
-							IndexBufferDesc.AddMember("_2", IndexBufferData[j]._0, allocator);
+							IndexBufferDesc.AddMember("_0", (_uint)IndexBufferDataArray[j]._0, allocator);
+							IndexBufferDesc.AddMember("_1", (_uint)IndexBufferDataArray[j]._1, allocator);
+							IndexBufferDesc.AddMember("_2", (_uint)IndexBufferDataArray[j]._2, allocator);
 
 						}
 						IndexBuffers.PushBack(IndexBufferDesc, allocator);
@@ -514,25 +517,27 @@ HRESULT CModel::Save_Json(TYPE eType, const char* pModelFilePath)
 							vector<KEYFRAME> keyFrames;
 							channels[j]->Get_KeyFrames(keyFrames);
 
-							Value KeyFrame(kObjectType);
 							for (size_t k = 0; k < keyFrames.size(); k++)
 							{
-								KeyFrame.AddMember("vScaleX", keyFrames[k].vScale.x, allocator);
-								KeyFrame.AddMember("vScaleY", keyFrames[k].vScale.y, allocator);
-								KeyFrame.AddMember("vScaleZ", keyFrames[k].vScale.z, allocator);
+								Value KeyFrame(kObjectType);
+								{
+									KeyFrame.AddMember("vScaleX", keyFrames[k].vScale.x, allocator);
+									KeyFrame.AddMember("vScaleY", keyFrames[k].vScale.y, allocator);
+									KeyFrame.AddMember("vScaleZ", keyFrames[k].vScale.z, allocator);
 
-								KeyFrame.AddMember("vRotationX", keyFrames[k].vRotation.x, allocator);
-								KeyFrame.AddMember("vRotationY", keyFrames[k].vRotation.y, allocator);
-								KeyFrame.AddMember("vRotationX", keyFrames[k].vRotation.z, allocator);
-								KeyFrame.AddMember("vRotationW", keyFrames[k].vRotation.w, allocator);
+									KeyFrame.AddMember("vRotationX", keyFrames[k].vRotation.x, allocator);
+									KeyFrame.AddMember("vRotationY", keyFrames[k].vRotation.y, allocator);
+									KeyFrame.AddMember("vRotationZ", keyFrames[k].vRotation.z, allocator);
+									KeyFrame.AddMember("vRotationW", keyFrames[k].vRotation.w, allocator);
 
-								KeyFrame.AddMember("vPositionX", keyFrames[k].vPosition.x, allocator);
-								KeyFrame.AddMember("vPositionY", keyFrames[k].vPosition.y, allocator);
-								KeyFrame.AddMember("vPositionZ", keyFrames[k].vPosition.z, allocator);
+									KeyFrame.AddMember("vPositionX", keyFrames[k].vPosition.x, allocator);
+									KeyFrame.AddMember("vPositionY", keyFrames[k].vPosition.y, allocator);
+									KeyFrame.AddMember("vPositionZ", keyFrames[k].vPosition.z, allocator);
 
-								KeyFrame.AddMember("Time", keyFrames[k].Time, allocator);
+									KeyFrame.AddMember("Time", keyFrames[k].Time, allocator);
+								}
+								KeyFrames.PushBack(KeyFrame, allocator);
 							}
-							KeyFrames.PushBack(KeyFrame, allocator);
 
 						}
 						ChannelDesc.AddMember("KeyFrames", KeyFrames, allocator);
@@ -566,7 +571,7 @@ HRESULT CModel::Save_Json(TYPE eType, const char* pModelFilePath)
 	doc.AddMember("Animations", Animations, allocator);
 
 #pragma endregion 
-*/
+
 	// 备泅何 场
 
 	FILE* fp = fopen(szFullPath, "wb"); // non-Windows use "w"
@@ -584,7 +589,9 @@ HRESULT CModel::Save_Json(TYPE eType, const char* pModelFilePath)
 		char* writeBuffer = new char[65536];
 		FileWriteStream os(fp, writeBuffer, sizeof(writeBuffer));
 
-		PrettyWriter<FileWriteStream> writer(os);
+		//PrettyWriter<FileWriteStream> writer(os);
+		Writer<FileWriteStream> writer(os);
+
 		doc.Accept(writer);
 
 		fclose(fp);
