@@ -286,8 +286,7 @@ _bool CMonster::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& al
 			{
 				for (size_t i = 0; i < m_PokemonDesc.m_skillIDs.size(); ++i)
 				{
-					Value skillID(kNumberType);
-					m_skillIDs.AddMember(skillID, m_PokemonDesc.m_skillIDs[i], allocator);
+					m_skillIDs.PushBack(m_PokemonDesc.m_skillIDs[i], allocator);
 				}
 			}
 			PokemonDesc.AddMember("m_skillIDs", m_skillIDs, allocator);
@@ -336,6 +335,11 @@ _bool CMonster::Load_By_JsonFile_Impl(Document& doc)
 		m_PokemonDesc.m_slotTypeWeightAttack = PokemonDesc["m_slotTypeWeightAttack"].GetUint();
 		m_PokemonDesc.m_slotTypeWeightMulti = PokemonDesc["m_slotTypeWeightMulti"].GetUint();
 
+		//const Value& skillIDs = PokemonDesc["m_skillIDs"];
+		//for (SizeType i = 0; i < skillIDs.Size(); ++i)
+		//{
+		//	m_PokemonDesc.m_skillIDs.push_back(skillIDs[i].GetInt());
+		//}
 	}
 
 	return true;

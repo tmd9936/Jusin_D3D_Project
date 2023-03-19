@@ -13,6 +13,8 @@ private:
 
 public:
 	static HRESULT	Load_Args_Data(const _tchar* filePath, void* args, _uint size);
+	static void		Save_Matrix_in_json(Value& arrayValue, _float4x4& matrix, Document::AllocatorType& allocator);
+
 
 };
 

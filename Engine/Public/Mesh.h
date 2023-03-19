@@ -27,6 +27,21 @@ public:
 		return m_ViewZ;
 	}
 
+	string Get_Name() {
+		return m_szName;
+	}
+
+	_uint	Get_iNumBones() {
+		return m_iNumBones;
+	}
+
+	void	 Get_Bones(vector<_int>& Bones) {
+		for (size_t i = 0; i < m_Bones.size(); i++)
+		{
+			Bones.push_back(m_Bones[i]);
+		}
+	}
+
 public:
 	virtual HRESULT Initialize_Prototype(CModel::TYPE eType, aiMesh* pAIMesh, CModel* pModel, _fmatrix PivotMatrix);
 	virtual HRESULT Initialize(void* pArg) override;

@@ -19,6 +19,37 @@ public:
 	HRESULT Initialize(aiAnimation* pAIAnimation, CModel* pModel);
 	_bool Update(vector<CBone*>& Bones, _double TimeDelta);
 
+public:
+	const char* Get_Name() const {
+		return m_szName;
+	}
+
+	const _double Get_Duration() const {
+		return m_Duration;
+	}
+
+	const _double Get_TickPerSecond() const {
+		return m_TickPerSecond;
+	}
+
+	const _uint	Get_NumChannels() const {
+		return m_iNumChannels;
+	}
+
+	void Get_CurrentKeyFrames(vector<_uint>& CurrentkeyFrames) const {
+		for (size_t i = 0; i < m_iCurrentKeyFrames.size(); ++i)
+		{
+			CurrentkeyFrames.push_back(m_iCurrentKeyFrames[i]);
+		}
+	}
+
+	void Get_Channels(vector<CChannel*>& Channels) const {
+		for (size_t i = 0; i < m_Channels.size(); ++i)
+		{
+			Channels.push_back(m_Channels[i]);
+		}
+	}
+
 private:
 	char			m_szName[MAX_PATH] = "";
 	_double			m_Duration = { 0.0 }; /* 이 애니메이션을 재생하는데 걸리는 총 시간. */

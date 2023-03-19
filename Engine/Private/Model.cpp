@@ -4,6 +4,8 @@
 #include "Bone.h"
 #include "Animation.h"
 #include "Shader.h"
+#include "Utility.h"
+#include "Channel.h"
 
 CModel::CModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner)
 	: CComponent(pDevice, pContext, pOwner)
@@ -129,7 +131,7 @@ HRESULT CModel::Set_Texture_In_Material(const _uint& materialIndex, const _uint&
 	return S_OK;
 }
 
-HRESULT CModel::Initialize_Prototype(TYPE eType, const char* pModelFilePath, _fmatrix PivotMatrix)
+HRESULT CModel::Initialize_Prototype(TYPE eType, const char* pModelFilePath, _fmatrix PivotMatrix, _bool saveJson)
 {
 	_uint		iFlag = 0;
 
@@ -160,6 +162,9 @@ HRESULT CModel::Initialize_Prototype(TYPE eType, const char* pModelFilePath, _fm
 
 	if (FAILED(Ready_Animations()))
 		return E_FAIL;
+
+	if (saveJson)
+		Save_Json(eType, pModelFilePath);
 
 	return S_OK;
 }
@@ -272,6 +277,228 @@ HRESULT CModel::Ready_Animations()
 	return S_OK;
 }
 
+HRESULT CModel::Save_Json(TYPE eType, const char* pModelFilePath)
+{
+	char		szDrive[MAX_PATH] = "";
+	char		szDir[MAX_PATH] = "";
+	char		szFileName[MAX_PATH] = "";
+
+	_splitpath_s(pModelFilePath, szDrive, MAX_PATH, szDir, MAX_PATH, szFileName, MAX_PATH, nullptr, 0);
+
+	char		szFullPath[MAX_PATH] = "";
+	strcpy_s(szFullPath, szDrive);
+	strcat_s(szFullPath, szDir);
+	strcat_s(szFullPath, szFileName);
+	strcat_s(szFullPath, ".json");
+
+	Document doc(kObjectType);
+	Document::AllocatorType& allocator = doc.GetAllocator();
+
+	//* 备泅何
+
+#pragma region BoneSave
+	Value Bones(kArrayType);
+	{
+		for (size_t i = 0; i < m_Bones.size(); ++i)
+		{
+			Value BoneDesc(kObjectType);
+			{
+				Value szName;
+				string	boneName = m_Bones[i]->Get_Name();
+				szName.SetString(boneName.c_str(), (SizeType)boneName.size(), allocator);
+				BoneDesc.AddMember("szName", szName, allocator);
+
+				BoneDesc.AddMember("m_iParentIndex", m_Bones[i]->Get_ParentIndex(), allocator);
+				
+				Value m_OffSetMatrix(kArrayType);
+				//_float4x4 offsetMatrix = m_Bones[i]->Get_OffsetMatrix_float4_4();
+				CUtility::Save_Matrix_in_json(m_OffSetMatrix, m_Bones[i]->Get_OffsetMatrix_float4_4(), allocator);
+				BoneDesc.AddMember("m_OffSetMatrix", m_OffSetMatrix, allocator);
+
+				Value m_TransformationMatrix(kArrayType);
+				//_float4x4 offsetMatrix = m_Bones[i]->Get_OffsetMatrix_float4_4();
+				CUtility::Save_Matrix_in_json(m_OffSetMatrix, m_Bones[i]->Get_CombinedTransformationMatrix_float4_4(), allocator);
+				BoneDesc.AddMember("m_TransformationMatrix", m_TransformationMatrix, allocator);
+			}
+			Bones.PushBack(BoneDesc, allocator);
+		}
+	}
+	doc.AddMember("Bones", Bones, allocator);
+#pragma endregion
+
+#pragma region MeshSave
+	// Mesh 历厘
+	Value Meshs(kArrayType);
+	{
+		for (size_t i = 0; i < m_Meshes.size(); ++i)
+		{
+			Value MeshDesc(kObjectType);
+			{
+				Value szName;
+				string	meshName = m_Meshes[i]->Get_Name();
+				szName.SetString(meshName.c_str(), (SizeType)meshName.size(), allocator);
+				MeshDesc.AddMember("szName", szName, allocator);
+
+				MeshDesc.AddMember("m_iMaterialIndex", m_Meshes[i]->Get_MaterialIndex(), allocator);
+
+				MeshDesc.AddMember("m_iNumBones", m_Meshes[i]->Get_iNumBones(), allocator);
+
+				MeshDesc.AddMember("m_ViewZ", m_Meshes[i]->Get_ViewZ(), allocator);
+
+				Value m_Bones(kArrayType);
+				{
+					vector<_int> Bones;
+					m_Meshes[i]->Get_Bones(Bones);
+
+					for (size_t j = 0; j < Bones.size(); ++j)
+					{
+						m_Bones.PushBack(Bones[j], allocator);
+					}
+				}
+
+				MeshDesc.AddMember("m_Bones", m_Bones, allocator);
+			}
+			Meshs.PushBack(MeshDesc, allocator);
+		}
+	}
+	doc.AddMember("Meshs", Meshs, allocator);
+	// Mesh 历厘 场
+#pragma endregion
+
+#pragma region MaterialSave
+	Value Materials(kArrayType);
+	{
+		m_iNumMaterials = m_pAIScene->mNumMaterials;
+		
+		Document TexturePaths(kArrayType);
+		for (_uint i = 0; i < m_iNumMaterials; ++i)
+		{
+			aiMaterial* pAIMaterial = m_pAIScene->mMaterials[i];
+
+			for (_uint j = 0; j < AI_TEXTURE_TYPE_MAX; ++j)
+			{
+				_uint	iNumTextures = pAIMaterial->GetTextureCount(aiTextureType(j));
+
+				aiString		TexturePath;
+
+				if (FAILED(pAIMaterial->GetTexture(aiTextureType(j), 0, &TexturePath)))
+					continue;
+
+				char		szFileName[MAX_PATH] = "";
+				char		szEXT[MAX_PATH] = "";
+
+				_splitpath_s(TexturePath.data, nullptr, 0, nullptr, 0, szFileName, MAX_PATH, szEXT, MAX_PATH);
+
+				char		szDrive[MAX_PATH] = "";
+				char		szDir[MAX_PATH] = "";
+
+				_splitpath_s(pModelFilePath, szDrive, MAX_PATH, szDir, MAX_PATH, nullptr, 0, nullptr, 0);
+
+				char		szFullPath[MAX_PATH] = "";
+
+				strcpy_s(szFullPath, szDrive);
+				strcat_s(szFullPath, szDir);
+				strcat_s(szFullPath, szFileName);
+				strcat_s(szFullPath, szEXT);
+
+				Value szName;
+				string	texturePath = szFullPath;
+				szName.SetString(texturePath.c_str(), (SizeType)texturePath.size(), allocator);
+				TexturePaths.PushBack(szName, allocator);
+			}
+			Materials.PushBack(TexturePaths, allocator);
+		}
+	}
+	doc.AddMember("Materials", Materials, allocator);
+#pragma endregion
+
+#pragma region AnimationSave
+	Value Animations(kArrayType);
+	{
+		for (size_t i = 0; i < m_Animations.size(); ++i)
+		{
+			Value AnimationDesc(kObjectType);
+			{
+				Value szName;
+				string	animationName = m_Animations[i]->Get_Name();
+				szName.SetString(animationName.c_str(), (SizeType)animationName.size(), allocator);
+				AnimationDesc.AddMember("szName", szName, allocator);
+
+				AnimationDesc.AddMember("m_Duration", m_Animations[i]->Get_Duration(), allocator);
+
+				AnimationDesc.AddMember("m_TickPerSecond", m_Animations[i]->Get_TickPerSecond(), allocator);
+
+				AnimationDesc.AddMember("m_iNumChannels", m_Animations[i]->Get_NumChannels(), allocator);
+
+				Value m_Channels(kArrayType);
+				{
+					vector<CChannel*> channels;
+					m_Animations[i]->Get_Channels(channels);
+
+					Value ChannelDesc(kObjectType);
+					for (size_t j = 0; j < channels.size(); ++j)
+					{
+						Value szName;
+						string	channelName = channels[j]->Get_Name();
+						szName.SetString(animationName.c_str(), (SizeType)animationName.size(), allocator);
+						AnimationDesc.AddMember("szName", szName, allocator);
+
+					}
+					m_Channels.PushBack(ChannelDesc, allocator);
+
+				}
+				AnimationDesc.AddMember("m_Channels", m_Channels, allocator);
+
+
+				Value m_iCurrentKeyFrames(kArrayType);
+				{
+					vector<_uint> CurrentKeyFrames;
+					m_Animations[i]->Get_CurrentKeyFrames(CurrentKeyFrames);
+
+					for (size_t j = 0; j < CurrentKeyFrames.size(); ++j)
+					{
+						m_iCurrentKeyFrames.PushBack(CurrentKeyFrames[j], allocator);
+					}
+
+				}
+				AnimationDesc.AddMember("m_iCurrentKeyFrames", m_iCurrentKeyFrames, allocator);
+
+			}
+			Animations.PushBack(AnimationDesc, allocator);
+		}
+	}
+	doc.AddMember("Animations", Animations, allocator);
+
+#pragma endregion 
+
+	// 备泅何 场
+
+	FILE* fp = fopen(szFullPath, "wb"); // non-Windows use "w"
+
+	if (doc.MemberCount() <= 0)
+		return E_FAIL;
+
+	if (NULL == fp)
+	{
+		MSG_BOX("Save File Open Error");
+		return E_FAIL;
+	}
+	else
+	{
+		char* writeBuffer = new char[65536];
+		FileWriteStream os(fp, writeBuffer, sizeof(writeBuffer));
+
+		PrettyWriter<FileWriteStream> writer(os);
+		doc.Accept(writer);
+
+		fclose(fp);
+
+		Safe_Delete_Array(writeBuffer);
+	}
+
+	return S_OK;
+}
+
 HRESULT CModel::Ready_Meshes()
 {
 	m_iNumMeshes = m_pAIScene->mNumMeshes;
@@ -362,11 +589,11 @@ HRESULT CModel::Ready_Materials(const char* pModelFilePath)
 	return S_OK;
 }
 
-CModel* CModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TYPE eType, const char* pModelFilePath, _fmatrix PivotMatrix)
+CModel* CModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TYPE eType, const char* pModelFilePath, _fmatrix PivotMatrix, _bool saveJson)
 {
 	CModel* pInstance = new CModel(pDevice, pContext, nullptr);
 
-	if (FAILED(pInstance->Initialize_Prototype(eType, pModelFilePath, PivotMatrix)))
+	if (FAILED(pInstance->Initialize_Prototype(eType, pModelFilePath, PivotMatrix, saveJson)))
 	{
 		MSG_BOX("Failed to Created : CModel");
 		Safe_Release(pInstance);

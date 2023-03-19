@@ -8,6 +8,7 @@ class CBone;
 class CAnimation;
 class CMesh;
 class CShader;
+class CChannel;
 
 class ENGINE_DLL CModel final : public CComponent
 {
@@ -45,7 +46,7 @@ public:
 	HRESULT Set_Texture_In_Material(const _uint& materialIndex, const _uint& aiTextureType, const char* pTexturePath);
 
 public:
-	virtual HRESULT Initialize_Prototype(TYPE eType, const char* pModelFilePath, _fmatrix PivotMatrix);
+	virtual HRESULT Initialize_Prototype(TYPE eType, const char* pModelFilePath, _fmatrix PivotMatrix, _bool saveJson);
 	virtual HRESULT Initialize(void* pArg);
 
 public:
@@ -93,8 +94,11 @@ private:
 	HRESULT Ready_Bones(aiNode* pAINode, CBone* pParent);
 	HRESULT Ready_Animations();
 
+private:
+	HRESULT Save_Json(TYPE eType, const char* pModelFilePath);
+
 public:
-	static CModel* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TYPE eType, const char* pModelFilePath, _fmatrix PivotMatrix = XMMatrixIdentity());
+	static CModel* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TYPE eType, const char* pModelFilePath, _fmatrix PivotMatrix = XMMatrixIdentity(), _bool saveJson = false);
 	virtual CComponent* Clone(CGameObject* pOwner, void* pArg = nullptr) override;
 	virtual void Free() override;
 };

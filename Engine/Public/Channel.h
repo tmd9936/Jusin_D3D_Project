@@ -21,6 +21,11 @@ public:
 	HRESULT Initialize(aiNodeAnim* pAIChannel, CModel* pModel);
 	void Update(vector<CBone*>& Bones, _uint& pCurrentKeyFrame, _double CurrentTime);
 
+public:
+	const char* Get_Name() const {
+		return m_szName;
+	}
+
 private:
 	char				m_szName[MAX_PATH] = "";
 
