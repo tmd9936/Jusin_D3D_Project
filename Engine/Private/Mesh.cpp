@@ -46,22 +46,22 @@ HRESULT CMesh::Initialize_Prototype(CModel::TYPE eType, aiMesh* pAIMesh, CModel*
 	switch (eType)
 	{
 	case Engine::CModel::TYPE_NONANIM:
-		hr = Ready_VertexBuffer_ForNonAnim(pAIMesh, PivotMatrix);
+		hr = Ready_VertexBuffer_ForNonAnim(pAIMesh, PivotMatrix, DataSave);
 		break;
 	case Engine::CModel::TYPE_ANIM:
-		hr = Ready_VertexBuffer_ForAnim(pAIMesh, pModel);
+		hr = Ready_VertexBuffer_ForAnim(pAIMesh, pModel, DataSave);
 		break;
 	case Engine::CModel::TYPE_NONANIM_UI:
-		hr = Ready_VertexBuffer_ForNonAnimUI(pAIMesh, PivotMatrix);
+		hr = Ready_VertexBuffer_ForNonAnimUI(pAIMesh, PivotMatrix, DataSave);
 		break;
 	case Engine::CModel::TYPE_ANIM_UI:
-		hr = Ready_VertexBuffer_ForAnimUI(pAIMesh, pModel);
+		hr = Ready_VertexBuffer_ForAnimUI(pAIMesh, pModel, DataSave);
 		break;
 	case Engine::CModel::TYPE_MESH_COLOR_NONANIM:
-		hr = Ready_VertexBuffer_ForColorNonAnim(pAIMesh, PivotMatrix);
+		hr = Ready_VertexBuffer_ForColorNonAnim(pAIMesh, PivotMatrix, DataSave);
 		break;
 	case Engine::CModel::TYPE_MESH_COLOR_ANIM:
-		hr = Ready_VertexBuffer_ForColorAnim(pAIMesh, pModel);
+		hr = Ready_VertexBuffer_ForColorAnim(pAIMesh, pModel, DataSave);
 		break;
 
 	default:
@@ -97,7 +97,7 @@ HRESULT CMesh::Initialize_Prototype(CModel::TYPE eType, aiMesh* pAIMesh, CModel*
 		pIndices[i]._2 = pAIMesh->mFaces[i].mIndices[2];
 
 		if (DataSave)
-			m_IndexBufferData.push_back(pIndices[i]);
+			m_IndexBufferData[i] = pIndices[i];
 	}
 
 	m_SubResourceData.pSysMem = pIndices;
@@ -173,7 +173,7 @@ HRESULT CMesh::Initialize_Prototype(CModel::TYPE eType, const Value& Mesh)
 	
 	const Value& IndexBuffers = Mesh["IndexBuffers"].GetArray();
 	assert(IndexBuffers.IsArray());
-	for (size_t i = 0; i < m_iNumPrimitives; ++i)
+	for (SizeType i = 0; i < IndexBuffers.Size(); ++i)
 	{
 		pIndices[i]._0 = IndexBuffers[i]["_0"].GetUint();
 		pIndices[i]._1 = IndexBuffers[i]["_1"].GetUint();
@@ -670,7 +670,7 @@ HRESULT CMesh::Ready_VertexBuffer_ForColorAnim_Json(const Value& Mesh)
 
 	const Value& VertexBuffers = Mesh["VertexBuffers"].GetArray();
 	assert(VertexBuffers.IsArray());
-	for (size_t i = 0; i < m_iNumVertices; ++i)
+	for (SizeType i = 0; i < VertexBuffers.Size(); ++i)
 	{
 		pVertices[i].vPosition =
 		{

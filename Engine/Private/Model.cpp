@@ -513,9 +513,10 @@ HRESULT CModel::Save_Json(TYPE eType, const char* pModelFilePath)
 					vector<CChannel*> channels;
 					m_Animations[i]->Get_Channels(channels);
 
-					Value ChannelDesc(kObjectType);
 					for (size_t j = 0; j < channels.size(); ++j)
 					{
+						Value ChannelDesc(kObjectType);
+
 						Value szName;
 						string	channelName = channels[j]->Get_Name();
 						szName.SetString(channelName.c_str(), (SizeType)channelName.size(), allocator);
@@ -555,8 +556,8 @@ HRESULT CModel::Save_Json(TYPE eType, const char* pModelFilePath)
 
 						ChannelDesc.AddMember("m_iBoneIndex", channels[j]->Get_BoneIndex(), allocator);
 
+						m_Channels.PushBack(ChannelDesc, allocator);
 					}
-					m_Channels.PushBack(ChannelDesc, allocator);
 
 				}
 				AnimationDesc.AddMember("m_Channels", m_Channels, allocator);
@@ -600,8 +601,8 @@ HRESULT CModel::Save_Json(TYPE eType, const char* pModelFilePath)
 		char* writeBuffer = new char[65536];
 		FileWriteStream os(fp, writeBuffer, sizeof(writeBuffer));
 
-		//PrettyWriter<FileWriteStream> writer(os);
-		Writer<FileWriteStream> writer(os);
+		PrettyWriter<FileWriteStream> writer(os);
+		//Writer<FileWriteStream> writer(os);
 
 		doc.Accept(writer);
 
@@ -746,6 +747,7 @@ HRESULT CModel::Load_Json(TYPE eType, const char* pModelFilePath)
 			pAnimation->Set_NumChannels(Animations[i]["m_iNumChannels"].GetUint());
 
 			const Value& Channels = Animations[i]["m_Channels"];
+			//pAnimation->Set_NumChannels(Channels.Size());
 			assert(Channels.IsArray());
 			for (SizeType j = 0; j < Channels.Size(); ++j)
 			{
