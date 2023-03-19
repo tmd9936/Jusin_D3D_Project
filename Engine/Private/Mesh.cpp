@@ -725,7 +725,7 @@ HRESULT CMesh::Ready_VertexBuffer_ForColorAnim_Json(const Value& Mesh)
 	return S_OK;
 }
 
-CMesh* CMesh::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CModel::TYPE eType, aiMesh* pAIMesh, CModel* pModel, _fmatrix PivotMatrix, _bool DataSave = false)
+CMesh* CMesh::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CModel::TYPE eType, aiMesh* pAIMesh, CModel* pModel, _fmatrix PivotMatrix, _bool DataSave)
 {
 	CMesh* pInstance = new CMesh(pDevice, pContext, nullptr);
 

@@ -655,8 +655,8 @@ HRESULT CModel::Load_Json(TYPE eType, const char* pModelFilePath)
 			assert(TransformationMatrix.IsArray());
 			_float4x4 transformationMatrix{};
 
-			_uint indexX = 0;
-			_uint indexY = 0;
+			indexX = 0;
+			indexY = 0;
 
 			for (size_t j = 0; j < 16;)
 			{
@@ -781,6 +781,7 @@ HRESULT CModel::Load_Json(TYPE eType, const char* pModelFilePath)
 				pAnimation->Add_CurrentKeyFrames(CurrentKeyFrames[j].GetUint());
 			}
 
+			m_Animations.push_back(pAnimation);
 		}
 #pragma endregion
 
@@ -789,8 +790,6 @@ HRESULT CModel::Load_Json(TYPE eType, const char* pModelFilePath)
 	}
 	return S_OK;
 }
-
-
 
 HRESULT CModel::Ready_Meshes(_bool saveJson)
 {
