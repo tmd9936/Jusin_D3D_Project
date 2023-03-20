@@ -95,6 +95,7 @@ public:
 		m_LerpDuration = LerpDuration;
 	}
 
+
 private:
 	char					m_szName[MAX_PATH] = "";
 	_double					m_Duration = { 0.0 }; /* 이 애니메이션을 재생하는데 걸리는 총 시간. */
@@ -113,7 +114,9 @@ private:  /* 뼈들 */ /* CChannel : 이 뼈가 이 애니메이션을 구동하기위한 전체 시�
 	_bool			 		m_bAnimationChangeLerp = { false };
 
 	unordered_map<_uint, KEYFRAME>	m_ChangePreAnimation_LastKeyFrames;
-	_double							m_LerpDuration = { 0.27 }; /* 이 애니메이션을 재생하는데 걸리는 총 시간. */
+	
+public:
+	static _double							m_LerpDuration; /* 이 애니메이션을 재생하는데 걸리는 총 시간. */
 
 
 public:

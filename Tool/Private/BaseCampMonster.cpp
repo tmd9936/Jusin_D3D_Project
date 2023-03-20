@@ -93,7 +93,7 @@ void CBaseCampMonster::Go_To_RandomPosition(const _double& TimeDelta)
 {
 	if (m_bTurn)
 	{
-		if (m_pTransformCom->TurnToTarget(XMVectorSet(0.f, 0.1f, 0.f, 1.f), XMLoadFloat4(&m_MovePosition), TimeDelta))
+		if (m_pTransformCom->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMLoadFloat4(&m_MovePosition), TimeDelta))
 			m_bTurn = false;
 	}
 	else

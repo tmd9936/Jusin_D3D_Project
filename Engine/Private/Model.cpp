@@ -257,6 +257,16 @@ _float4x4 CModel::Get_CombinedTransformationMatrix_float4_4(const _uint& boneInd
 	return m_Bones[boneIndex]->Get_CombinedTransformationMatrix_float4_4();
 }
 
+const _double CModel::Get_LerpDuration()
+{
+	return CAnimation::m_LerpDuration;
+}
+
+void CModel::Set_LerpDuration(_double duration)
+{
+	CAnimation::m_LerpDuration = duration;
+}
+
 HRESULT CModel::Ready_Bones(aiNode* pAINode, CBone* pParent)
 {
 	CBone* pBone = CBone::Create(pAINode, this, pParent);

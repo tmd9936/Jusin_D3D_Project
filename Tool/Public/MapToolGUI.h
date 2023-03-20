@@ -125,6 +125,8 @@ private:
 
 	_bool				m_bMapToolOpen = { true };
 
+	_float				m_LerpDuration = { 0.0 };
+
 private:
 	CCalculator* m_pCalculator		= { nullptr };
 	CGameObject* m_pViewerObject	= { nullptr };

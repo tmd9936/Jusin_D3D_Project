@@ -2,6 +2,8 @@
 
 #include "Bone.h"
 
+_double							CAnimation::m_LerpDuration = 2.7;
+
 CAnimation::CAnimation()
 {
 }

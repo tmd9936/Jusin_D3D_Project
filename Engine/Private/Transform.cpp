@@ -197,7 +197,8 @@ _bool CTransform::TurnToTarget(_fvector vAxis, _fvector vTargetPos, _float TimeD
 	Set_State(CTransform::STATE_UP, XMVector3TransformNormal(vUp, RotationMatrix));
 	Set_State(CTransform::STATE_LOOK, XMVector3TransformNormal(vLook, RotationMatrix));
 
-	if (XMVectorGetX(XMVector3Dot(vLookTarget, vAxis)) <= 0.3f)
+
+	if (XMVectorGetX(XMVector3Dot(vAxis, vLookTarget)) <= 0.01f)
 		return true;
 	else
 		return false;

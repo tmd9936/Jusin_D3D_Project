@@ -75,6 +75,8 @@ HRESULT CMapToolGUI::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pCon
 
 	//m_pContext->RSSetViewports(1, ViewPort);
 
+	m_LerpDuration = (_float)CModel::Get_LerpDuration();
+
 	return S_OK;
 }
 
@@ -139,6 +141,13 @@ HRESULT CMapToolGUI::Render()
 			ImGui::Text("vAxisY: %.2f", camera_desc.vAxisY);
 			ImGui::Text("fFovy: %.2f, fAspect: %.2f, fNear: %.2f, fFar: %.2f", camera_desc.fFovy, camera_desc.fAspect, camera_desc.fNear, camera_desc.fFar);
 
+
+		}
+
+		ImGui::Text("Lerp_Duration");
+		ImGui::PushItemWidth(100);
+		if (ImGui::DragFloat("LerpDuration", &m_LerpDuration, 0.01f))
+		{
 
 		}
 

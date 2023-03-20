@@ -61,6 +61,10 @@ public:
 	_matrix Get_BoneCombinedMatrix(const _uint& boneIndex);
 
 	_float4x4 Get_CombinedTransformationMatrix_float4_4(const _uint& boneIndex);
+	
+public:
+	static const _double		Get_LerpDuration();
+	static void					Set_LerpDuration(_double duration);
 
 private:
 	Assimp::Importer				m_Importer; /* 경로의 파일을 읽어서 저장하는 기능을 한다. */
