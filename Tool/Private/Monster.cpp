@@ -61,7 +61,7 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const c
 		m_strSaveJsonPath = filePath;
 	}
 
-	m_pTransformCom->Set_TransforDesc({ m_PokemonDesc.moveSpeed, XMConvertToRadians(5.0f) });
+	m_pTransformCom->Set_TransforDesc({ m_PokemonDesc.moveSpeed, XMConvertToRadians(45.0f) });
 
 	if (FAILED(Add_Components_By_File()))
 		return E_FAIL;
@@ -135,7 +135,7 @@ HRESULT CMonster::Add_Components()
 		return E_FAIL;
 
 	/* For.Com_Shader */
-	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxAnimModel"),
+	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxAnimModelColor"),
 		(CComponent**)&m_pShaderCom, nullptr)))
 		return E_FAIL;
 

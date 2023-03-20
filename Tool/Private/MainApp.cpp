@@ -26,6 +26,8 @@ CMainApp::CMainApp()
 
 HRESULT CMainApp::Initialize()
 {
+	srand(time(nullptr));
+
 	GRAPHIC_DESC			GraphicDesc;
 	ZeroMemory(&GraphicDesc, sizeof GraphicDesc);
 

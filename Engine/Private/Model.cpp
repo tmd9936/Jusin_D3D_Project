@@ -918,6 +918,7 @@ void CModel::Set_Animation(_uint iIndex)
 	if (iIndex >= m_Animations.size())
 		return;
 
+	
 	m_Animations[iIndex]->Set_AnimationChangeLerp(true);
 	m_Animations[iIndex]->Set_ChangePreAnimation_LastKeyFrame(*m_Animations[m_iCurrentAnimationIndex]);
 	m_iCurrentAnimationIndex = iIndex;

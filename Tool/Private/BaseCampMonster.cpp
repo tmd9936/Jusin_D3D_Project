@@ -79,10 +79,10 @@ void CBaseCampMonster::Change_State_FSM(_uint eState)
 		Set_MovePosition();
 		break;
 
-	case CMonFSM::ROTATE_LOOP:
-		m_bTurn = true;
-		Set_MovePosition();
-		break;
+	//case CMonFSM::ROTATE_LOOP:
+	//	m_bTurn = true;
+	//	Set_MovePosition();
+	//	break;
 
 	default:
 		break;
@@ -93,17 +93,21 @@ void CBaseCampMonster::Go_To_RandomPosition(const _double& TimeDelta)
 {
 	if (m_bTurn)
 	{
-		if (m_pTransformCom->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMLoadFloat4(&m_MovePosition), TimeDelta))
+		if (m_pTransformCom->TurnToTarget({ 0.f, 1.f, 0.f, 0.f }, XMLoadFloat4(&m_MovePosition), (_float)TimeDelta))
+		{
 			m_bTurn = false;
+		}
 	}
 	else
 	{
+		Check_Do_Change_RandomMotion(TimeDelta);
 		if (m_pTransformCom->Chase(XMLoadFloat4(&m_MovePosition), (_float)TimeDelta))
 		{
 			MotionChange_Random();
 			Init_RandomMotionChangeDelay();
 		}
 	}
+	
 }
 
 void CBaseCampMonster::Init_RandomMotionChangeDelay()
@@ -118,7 +122,7 @@ HRESULT CBaseCampMonster::Add_TransitionRandomState()
 	m_pMonFSM->Add_RandomTransitionState(CMonFSM::RUN_GOUND2);
 	m_pMonFSM->Add_RandomTransitionState(CMonFSM::RUN_GOUND4);
 	m_pMonFSM->Add_RandomTransitionState(CMonFSM::IDLE_GROUND);
-	m_pMonFSM->Add_RandomTransitionState(CMonFSM::ROTATE_LOOP);
+	//m_pMonFSM->Add_RandomTransitionState(CMonFSM::ROTATE_LOOP);
 
 	return S_OK;
 }
@@ -133,23 +137,20 @@ _uint CBaseCampMonster::State_Tick(const _double& TimeDelta)
 
 	case CMonFSM::RUN_GOUND2:
 		Go_To_RandomPosition(TimeDelta);
-		Check_Do_Change_RandomMotion(TimeDelta);
 		break;
 
 	case CMonFSM::RUN_GOUND4:
 		Go_To_RandomPosition(TimeDelta);
-		Check_Do_Change_RandomMotion(TimeDelta);
 		break;
 
 	case CMonFSM::IDLE_GROUND:
 		Go_To_RandomPosition(TimeDelta);
-		Check_Do_Change_RandomMotion(TimeDelta);
 		break;
 
-	case CMonFSM::ROTATE_LOOP:
-		Go_To_RandomPosition(TimeDelta);
-		Check_Do_Change_RandomMotion(TimeDelta);
-		break;
+	//case CMonFSM::ROTATE_LOOP:
+	//	Go_To_RandomPosition(TimeDelta);
+	//	Check_Do_Change_RandomMotion(TimeDelta);
+	//	break;
 
 	default:
 		break;

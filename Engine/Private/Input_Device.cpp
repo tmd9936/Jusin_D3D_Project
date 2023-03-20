@@ -50,7 +50,13 @@ _int g_arrDIK[(_int)KEY::LAST] =
 	DIK_F9,
 	DIK_F10,
 	DIK_F11,
-	DIK_F12
+	DIK_F12,
+
+	DIK_UP,
+	DIK_DOWN,
+	DIK_LEFT,
+	DIK_RIGHT
+
 };
 
 CInput_Device::CInput_Device()

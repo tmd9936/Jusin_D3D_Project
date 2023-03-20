@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Base.h"
-#include "Channel.h"
 
 BEGIN(Engine)
 
@@ -11,6 +10,12 @@ class CBone;
 
 class CAnimation final : public CBase
 {
+	typedef struct ChangeLastFrame {
+		_uint		key;
+		KEYFRAME keyFrame;
+
+	}CHANGE_LAST_FRAME;
+
 public:
 	CAnimation();
 	CAnimation(const CAnimation& rhs);
@@ -78,18 +83,12 @@ public:
 	}
 
 	void Set_AnimationChangeLerp(_bool AnimationChangeLerp) {
+		//m_TimeAcc = 0.0;
 		m_bAnimationChangeLerp = true;
 	}
 
-	void Set_ChangePreAnimation_LastKeyFrame(CAnimation& pAnimation) {
-		for (size_t i = 0; i < m_iNumChannels; ++i)
-		{
-			m_ChangePreAnimation_LastKeyFrames.insert({
-				pAnimation.m_iCurrentKeyFrames[i],
-				pAnimation.m_Channels[i]->Get_LastKeyFrame()
-			});
-		}
-	}
+	// 현재 키프레임을 현재 본들의 transMatrix값으로 가져오기
+	void Set_ChangePreAnimation_LastKeyFrame(CAnimation& pAnimation);
 
 	void Set_LerpDuration(_double LerpDuration) {
 		m_LerpDuration = LerpDuration;
@@ -113,7 +112,7 @@ private:  /* 뼈들 */ /* CChannel : 이 뼈가 이 애니메이션을 구동하기위한 전체 시�
 
 	_bool			 		m_bAnimationChangeLerp = { false };
 
-	unordered_map<_uint, KEYFRAME>	m_ChangePreAnimation_LastKeyFrames;
+	vector<KEYFRAME>		m_ChangePreAnimation_LastKeyFrames;
 	
 public:
 	static _double							m_LerpDuration; /* 이 애니메이션을 재생하는데 걸리는 총 시간. */

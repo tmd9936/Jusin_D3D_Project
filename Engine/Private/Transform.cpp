@@ -184,24 +184,27 @@ void CTransform::Turn(_fvector vAxis, _float TimeDelta)
 
 _bool CTransform::TurnToTarget(_fvector vAxis, _fvector vTargetPos, _float TimeDelta)
 {
-	_vector		vRight = Get_State(CTransform::STATE_RIGHT);
 	_vector		vUp = Get_State(CTransform::STATE_UP);
 	_vector		vLook = Get_State(CTransform::STATE_LOOK);
 	_vector		vPos = Get_State(STATE_POSITION);
 
 	_vector		vLookTarget = XMVector3Normalize(vTargetPos - vPos);
 
-	_matrix		RotationMatrix = XMMatrixRotationAxis(vAxis, m_TransformDesc.RotationPerSec * TimeDelta);
+	_float dot = XMVectorGetX(XMVector3Dot(vLookTarget, vLook));
 
-	Set_State(CTransform::STATE_RIGHT, XMVector3TransformNormal(vRight, RotationMatrix));
-	Set_State(CTransform::STATE_UP, XMVector3TransformNormal(vUp, RotationMatrix));
-	Set_State(CTransform::STATE_LOOK, XMVector3TransformNormal(vLook, RotationMatrix));
+	_float angle = acos(dot);
 
-
-	if (XMVectorGetX(XMVector3Dot(vAxis, vLookTarget)) <= 0.01f)
+	if (angle <= XMConvertToRadians(2.f) && dot >= XMConvertToRadians(-2.f))
 		return true;
 	else
+	{
+		if (dot < 0.f)
+			Turn(vUp, TimeDelta * -1.f);
+		else
+			Turn(vUp, TimeDelta);
+
 		return false;
+	}
 }
 
 void CTransform::LookAt(_fvector vTargetPos)
@@ -222,6 +225,27 @@ void CTransform::LookAt(_fvector vTargetPos)
 _bool CTransform::Chase(_fvector vTargetPos, _float TimeDelta, _float limitDitance)
 {
 	LookAt(vTargetPos);
+
+	_vector vPosition = Get_State(STATE_POSITION);
+
+	_vector vDir = vTargetPos - vPosition;
+
+	_float length = XMVectorGetX(XMVector3Length(vDir));
+
+	if (length >= limitDitance)
+	{
+		vPosition += XMVector3Normalize(vDir) * TimeDelta * m_TransformDesc.SpeedPerSec;
+		Set_State(STATE_POSITION, vPosition);
+
+		return false;
+	}
+
+	return true;
+}
+
+_bool CTransform::TurnAndChase(_fvector vTargetPos, _float TimeDelta, _float limitDitance)
+{
+	_vector vLook = Get_State(STATE_LOOK);
 
 	_vector vPosition = Get_State(STATE_POSITION);
 

@@ -1,22 +1,25 @@
 #include "stdafx.h"
-#include "..\Public\Player.h"
+#include "Player.h"
 
 #include "GameInstance.h"
 
 CPlayer::CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
-	: CGameObject(pDevice, pContext)
+	: CMonster(pDevice, pContext)
 {
 
 }
 
 CPlayer::CPlayer(const CPlayer& rhs)
-	: CGameObject(rhs)
+	: CMonster(rhs)
 {
 
 }
 
 HRESULT CPlayer::Initialize_Prototype()
 {
+	if (FAILED(__super::Initialize_Prototype()))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -25,8 +28,8 @@ HRESULT CPlayer::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pA
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 		return E_FAIL;
 
-	if (FAILED(Add_Components()))
-		return E_FAIL;
+	//if (FAILED(Add_Components()))
+	//	return E_FAIL;
 
 	m_eRenderId = RENDER_NONBLEND;
 
@@ -40,20 +43,27 @@ HRESULT CPlayer::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pA
 _uint CPlayer::Tick(_double TimeDelta)
 {
 	_bool move = false;
-	if (GetKeyState(VK_DOWN) & 0x8000)
+	if (KEY_TAB(KEY::DOWN))
+	{
+		if (m_pMonFSM->Get_MotionState() != CMonFSM::IDLE_FLY)
+		{
+			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE_FLY, m_pModelCom);
+		}
+		m_pTransformCom->Go_Backward((_float)TimeDelta);
+	}
+	else if (KEY_HOLD(KEY::DOWN))
 	{
 		m_pTransformCom->Go_Backward((_float)TimeDelta);
-		m_pModelCom->Set_Animation(15);
-		move = true;
-
+	}
+	else  if (KEY_AWAY(KEY::DOWN))
+	{
+		m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
 	}
 
 	if (GetKeyState(VK_LEFT) & 0x8000)
 	{
 		m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), (_float)TimeDelta * -1.f);
 		//m_pModelCom->Set_Animation(41);
-		move = true;
-
 
 	}
 
@@ -64,16 +74,23 @@ _uint CPlayer::Tick(_double TimeDelta)
 
 	}
 
-	if (GetKeyState(VK_UP) & 0x8000)
+	if (KEY_TAB(KEY::UP))
+	{
+		if (m_pMonFSM->Get_MotionState() != CMonFSM::IDLE_FLY)
+		{
+			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE_FLY, m_pModelCom);
+		}
+
+		m_pTransformCom->Go_Straight((_float)TimeDelta);
+	}
+	else if (KEY_HOLD(KEY::UP))
 	{
 		m_pTransformCom->Go_Straight((_float)TimeDelta);
-		m_pModelCom->Set_Animation(15);
-		move = true;
-
 	}
-
-	if (move !=false)
-		m_pModelCom->Set_Animation(0);
+	else  if (KEY_AWAY(KEY::UP))
+	{
+		m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
+	}
 
 	m_pModelCom->Play_Animation(TimeDelta);
 
@@ -105,35 +122,6 @@ HRESULT CPlayer::Render()
 
 		m_pModelCom->Render(i);
 	}
-
-	return S_OK;
-}
-
-HRESULT CPlayer::Add_Components()
-{
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-
-	/* For.Com_Transform */
-	CTransform::TRANSFORMDESC		TransformDesc = { 10.f, XMConvertToRadians(90.0f) };
-	if (FAILED(pGameInstance->Add_Component(CTransform::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
-		(CComponent**)&m_pTransformCom, &TransformDesc)))
-		return E_FAIL;
-
-	/* For.Com_Renderer */
-	if (FAILED(pGameInstance->Add_Component(CRenderer::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Renderer"),
-		(CComponent**)&m_pRendererCom, nullptr)))
-		return E_FAIL;
-
-	/* For.Com_Model */
-	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, LEVEL_BASECAMP, TEXT("Prototype_Component_Model_Pokemon_PM6"),
-		(CComponent**)&m_pModelCom, nullptr)))
-		return E_FAIL;
-
-	/* For.Com_Shader */
-	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxAnimModelColor"),
-		(CComponent**)&m_pShaderCom, nullptr)))
-		return E_FAIL;
-
 
 	return S_OK;
 }
@@ -217,4 +205,19 @@ void CPlayer::Free()
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pRendererCom);
 
+}
+
+HRESULT CPlayer::Add_TransitionRandomState()
+{
+	return S_OK;
+}
+
+_uint CPlayer::State_Tick(const _double& TimeDelta)
+{
+	return _uint();
+}
+
+CGameObject* CPlayer::Clone(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath)
+{
+	return nullptr;
 }
