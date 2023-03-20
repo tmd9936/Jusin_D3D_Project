@@ -113,10 +113,10 @@ _bool CChannel::Update_Change_Animation_Lerp(vector<CBone*>& Bones, KEYFRAME& pP
 
 	_vector			vScale, vRotation, vPosition;
 
-	_double		Ratio = CurrentTime / EndTime;
 
 	KEYFRAME FrontKeyFrame = m_KeyFrames.front();
 
+	_double		Ratio = CurrentTime / EndTime;
 	if (Ratio >= 1.f)
 		return true;
 
@@ -124,14 +124,14 @@ _bool CChannel::Update_Change_Animation_Lerp(vector<CBone*>& Bones, KEYFRAME& pP
 	_vector		vSourRotation, vDestRotation;
 	_vector		vSourPosition, vDestPosition;
 
-	vSourScale = XMLoadFloat3(&FrontKeyFrame.vScale);
-	vDestScale = XMLoadFloat3(&pPreKeyFrame.vScale);
+	vSourScale = XMLoadFloat3(&pPreKeyFrame.vScale);
+	vDestScale = XMLoadFloat3(&FrontKeyFrame.vScale);
 
-	vSourRotation = XMLoadFloat4(&FrontKeyFrame.vRotation);
-	vDestRotation = XMLoadFloat4(&pPreKeyFrame.vRotation);
+	vSourRotation = XMLoadFloat4(&pPreKeyFrame.vRotation);
+	vDestRotation = XMLoadFloat4(&FrontKeyFrame.vRotation);
 
-	vSourPosition = XMLoadFloat3(&FrontKeyFrame.vPosition);
-	vDestPosition = XMLoadFloat3(&pPreKeyFrame.vPosition);
+	vSourPosition = XMLoadFloat3(&pPreKeyFrame.vPosition);
+	vDestPosition = XMLoadFloat3(&FrontKeyFrame.vPosition);
 
 	vScale = XMVectorLerp(vSourScale, vDestScale, (_float)Ratio);
 	vRotation = XMQuaternionSlerp(vSourRotation, vDestRotation, (_float)Ratio);
