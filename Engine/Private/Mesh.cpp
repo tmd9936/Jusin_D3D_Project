@@ -766,8 +766,6 @@ HRESULT CMesh::Ready_VertexBuffer_ForColorAnim_Json(const Value& Mesh)
 			VertexBuffers[i]["vNormalZ"].GetFloat()
 		};
 
-		//XMStoreFloat3(&pVertices[i].vNormal, XMVector3Normalize(XMLoadFloat3(&pVertices[i].vNormal)));
-
 		pVertices[i].vColor =
 		{
 			VertexBuffers[i]["vColorX"].GetFloat(),
@@ -775,8 +773,6 @@ HRESULT CMesh::Ready_VertexBuffer_ForColorAnim_Json(const Value& Mesh)
 			VertexBuffers[i]["vColorZ"].GetFloat(),
 			VertexBuffers[i]["vColorW"].GetFloat()
 		};
-
-		//XMStoreFloat4(&pVertices[i].vColor, XMVector4Normalize(XMLoadFloat4(&pVertices[i].vColor)));
 
 		pVertices[i].vBlendIndex =
 		{

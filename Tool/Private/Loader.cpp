@@ -219,7 +219,7 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 
 
 	//PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f) * XMMatrixRotationY(XMConvertToRadians(180.f));;
-	//for (int i = 1; i <= 6; ++i)
+	//for (int i = 1; i <= 151; ++i)
 	//{
 	// 	_tchar* pokemonPrototype = new _tchar[MAX_PATH];
 	//	char* pokemonFilePath = new char[MAX_PATH];
@@ -228,7 +228,7 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 	//	sprintf(pokemonFilePath, "../../Reference/Resources/Mesh/Animation/Pokemon/PM%d.fbx", i);
 
 	//	if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, pokemonPrototype,
-	//		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, pokemonFilePath, PivotMatrix))))
+	//		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, pokemonFilePath, PivotMatrix, true))))
 	//		return E_FAIL;
 	//}
 
