@@ -65,18 +65,22 @@ void CBaseCampMonster::Change_State_FSM(_uint eState)
 		break;
 
 	case CMonFSM::RUN_GOUND2:
+		m_bTurn = true;
 		Set_MovePosition();
 		break;
 
 	case CMonFSM::RUN_GOUND4:
+		m_bTurn = true;
 		Set_MovePosition();
 		break;
 
 	case CMonFSM::IDLE_GROUND:
+		m_bTurn = true;
 		Set_MovePosition();
 		break;
 
 	case CMonFSM::ROTATE_LOOP:
+		m_bTurn = true;
 		Set_MovePosition();
 		break;
 
@@ -87,10 +91,18 @@ void CBaseCampMonster::Change_State_FSM(_uint eState)
 
 void CBaseCampMonster::Go_To_RandomPosition(const _double& TimeDelta)
 {
-	if (m_pTransformCom->Chase(XMLoadFloat4(&m_MovePosition), (_float)TimeDelta))
+	if (m_bTurn)
 	{
-		MotionChange_Random();
-		Init_RandomMotionChangeDelay();
+		if (m_pTransformCom->TurnToTarget(XMVectorSet(0.f, 0.1f, 0.f, 1.f), XMLoadFloat4(&m_MovePosition), TimeDelta))
+			m_bTurn = false;
+	}
+	else
+	{
+		if (m_pTransformCom->Chase(XMLoadFloat4(&m_MovePosition), (_float)TimeDelta))
+		{
+			MotionChange_Random();
+			Init_RandomMotionChangeDelay();
+		}
 	}
 }
 
@@ -130,6 +142,7 @@ _uint CBaseCampMonster::State_Tick(const _double& TimeDelta)
 		break;
 
 	case CMonFSM::IDLE_GROUND:
+		Go_To_RandomPosition(TimeDelta);
 		Check_Do_Change_RandomMotion(TimeDelta);
 		break;
 

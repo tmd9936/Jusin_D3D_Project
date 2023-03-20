@@ -39,12 +39,12 @@ HRESULT CPlayer::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pA
 
 _uint CPlayer::Tick(_double TimeDelta)
 {
-	m_pModelCom->Set_Animation(0);
-
+	_bool move = false;
 	if (GetKeyState(VK_DOWN) & 0x8000)
 	{
 		m_pTransformCom->Go_Backward((_float)TimeDelta);
 		m_pModelCom->Set_Animation(15);
+		move = true;
 
 	}
 
@@ -52,6 +52,7 @@ _uint CPlayer::Tick(_double TimeDelta)
 	{
 		m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), (_float)TimeDelta * -1.f);
 		//m_pModelCom->Set_Animation(41);
+		move = true;
 
 
 	}
@@ -67,7 +68,12 @@ _uint CPlayer::Tick(_double TimeDelta)
 	{
 		m_pTransformCom->Go_Straight((_float)TimeDelta);
 		m_pModelCom->Set_Animation(15);
+		move = true;
+
 	}
+
+	if (move !=false)
+		m_pModelCom->Set_Animation(0);
 
 	m_pModelCom->Play_Animation(TimeDelta);
 

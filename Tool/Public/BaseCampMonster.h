@@ -37,6 +37,8 @@ private:
 	_float		m_MotionChangeDelay = { 3.f };
 	_float		m_CurMotionChangeDelayTime = { 0.f };
 
+	_bool		m_bTurn = { false };
+
 public:
 	static CBaseCampMonster* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) override;

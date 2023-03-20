@@ -61,7 +61,7 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const c
 		m_strSaveJsonPath = filePath;
 	}
 
-	m_pTransformCom->Set_TransforDesc({ m_PokemonDesc.moveSpeed, m_PokemonDesc.rotateSpeed });
+	m_pTransformCom->Set_TransforDesc({ m_PokemonDesc.moveSpeed, XMConvertToRadians(5.0f) });
 
 	if (FAILED(Add_Components_By_File()))
 		return E_FAIL;

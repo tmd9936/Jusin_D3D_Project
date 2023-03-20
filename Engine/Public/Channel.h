@@ -21,6 +21,8 @@ public:
 	HRESULT Initialize(aiNodeAnim* pAIChannel, CModel* pModel);
 	void Update(vector<CBone*>& Bones, _uint& pCurrentKeyFrame, _double CurrentTime);
 
+	_bool Update_Change_Animation_Lerp(vector<CBone*>& Bones, KEYFRAME& pPreKeyFrame, _uint& pCurrentKeyFrame, _double CurrentTime, _double EndTime);
+
 public:
 	const char* Get_Name() const {
 		return m_szName;
@@ -39,6 +41,10 @@ public:
 		{
 			keyFrames.push_back(m_KeyFrames[i]);
 		}
+	}
+
+	const KEYFRAME Get_LastKeyFrame() const {
+		return m_KeyFrames.back();
 	}
 
 public:
@@ -65,6 +71,8 @@ private:
 	vector<KEYFRAME>	m_KeyFrames;
 
 	_int				m_iBoneIndex = { 0 };
+
+	_bool				m_bAnimationChangeLerp = { false };
 
 public:
 	static CChannel* Create(aiNodeAnim* pAIChannel, CModel* pModel);

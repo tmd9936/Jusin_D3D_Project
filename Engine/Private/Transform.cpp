@@ -182,6 +182,27 @@ void CTransform::Turn(_fvector vAxis, _float TimeDelta)
 	//Set_State(CTransform::STATE_LOOK, XMVector3Normalize(vLook) * vScale.z);
 }
 
+_bool CTransform::TurnToTarget(_fvector vAxis, _fvector vTargetPos, _float TimeDelta)
+{
+	_vector		vRight = Get_State(CTransform::STATE_RIGHT);
+	_vector		vUp = Get_State(CTransform::STATE_UP);
+	_vector		vLook = Get_State(CTransform::STATE_LOOK);
+	_vector		vPos = Get_State(STATE_POSITION);
+
+	_vector		vLookTarget = XMVector3Normalize(vTargetPos - vPos);
+
+	_matrix		RotationMatrix = XMMatrixRotationAxis(vAxis, m_TransformDesc.RotationPerSec * TimeDelta);
+
+	Set_State(CTransform::STATE_RIGHT, XMVector3TransformNormal(vRight, RotationMatrix));
+	Set_State(CTransform::STATE_UP, XMVector3TransformNormal(vUp, RotationMatrix));
+	Set_State(CTransform::STATE_LOOK, XMVector3TransformNormal(vLook, RotationMatrix));
+
+	if (XMVectorGetX(XMVector3Dot(vLookTarget, vAxis)) <= 0.3f)
+		return true;
+	else
+		return false;
+}
+
 void CTransform::LookAt(_fvector vTargetPos)
 {
 	_vector vPos = Get_State(STATE_POSITION);

@@ -117,6 +117,8 @@ public:
 	void Rotation(_fvector vAxis, _float Radian);
 	void Turn(_fvector vAxis, _float TimeDelta);
 
+	_bool TurnToTarget(_fvector vAxis, _fvector vTargetPos, _float TimeDelta);
+
 	void LookAt(_fvector vTargetPos);
 
 	/**

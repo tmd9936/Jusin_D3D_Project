@@ -38,9 +38,8 @@ public:
 	}
 
 public:
-	void Set_Animation(_uint iIndex) {
-		m_iCurrentAnimationIndex = iIndex;
-	}
+	void Set_Animation(_uint iIndex);
+	void Set_Animation_No_Lerp(_uint iIndex);
 
 public:
 	HRESULT Set_Texture_In_Material(const _uint& materialIndex, const _uint& aiTextureType, const char* pTexturePath);

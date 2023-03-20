@@ -108,6 +108,43 @@ void CChannel::Update(vector<CBone*>& Bones, _uint& pCurrentKeyFrame, _double Cu
 	Bones[m_iBoneIndex]->SetUp_TransformationMatrix(TransformationMatrix);
 }
 
+_bool CChannel::Update_Change_Animation_Lerp(vector<CBone*>& Bones, KEYFRAME& pPreKeyFrame, _uint& pCurrentKeyFrame, _double CurrentTime, _double EndTime)
+{
+
+	_vector			vScale, vRotation, vPosition;
+
+	_double		Ratio = CurrentTime / EndTime;
+
+	KEYFRAME FrontKeyFrame = m_KeyFrames.front();
+
+	if (Ratio >= 1.f)
+		return true;
+
+	_vector		vSourScale, vDestScale;
+	_vector		vSourRotation, vDestRotation;
+	_vector		vSourPosition, vDestPosition;
+
+	vSourScale = XMLoadFloat3(&FrontKeyFrame.vScale);
+	vDestScale = XMLoadFloat3(&pPreKeyFrame.vScale);
+
+	vSourRotation = XMLoadFloat4(&FrontKeyFrame.vRotation);
+	vDestRotation = XMLoadFloat4(&pPreKeyFrame.vRotation);
+
+	vSourPosition = XMLoadFloat3(&FrontKeyFrame.vPosition);
+	vDestPosition = XMLoadFloat3(&pPreKeyFrame.vPosition);
+
+	vScale = XMVectorLerp(vSourScale, vDestScale, (_float)Ratio);
+	vRotation = XMQuaternionSlerp(vSourRotation, vDestRotation, (_float)Ratio);
+	vPosition = XMVectorLerp(vSourPosition, vDestPosition, (_float)Ratio);
+	vPosition = XMVectorSetW(vPosition, 1.f);
+	
+	_matrix		TransformationMatrix = XMMatrixAffineTransformation(vScale, XMVectorSet(0.f, 0.f, 0.f, 1.f), vRotation, vPosition);
+
+	Bones[m_iBoneIndex]->SetUp_TransformationMatrix(TransformationMatrix);
+
+	return false;
+}
+
 CChannel* CChannel::Create(aiNodeAnim* pAIChannel, CModel* pModel)
 {
 	CChannel* pInstance = new CChannel();
