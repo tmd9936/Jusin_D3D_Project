@@ -278,7 +278,7 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 		CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxAnimModelColor.hlsl"), VTXCOLORANIMMODEL_DECLARATION::Elements, VTXCOLORANIMMODEL_DECLARATION::iNumElements))))
 		return E_FAIL;
 
-	/* For.Prototype_Component_Shader_VtxAnimModelColor */
+	/* For.Prototype_Component_Shader_VtxtexButton */
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Shader_VtxtexButton"),
 		CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_Vtxtex_Button.hlsl"), VTXUIANIMMODEL_DECLARATION::Elements, VTXUIANIMMODEL_DECLARATION::iNumElements))))
 		return E_FAIL;

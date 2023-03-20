@@ -401,6 +401,9 @@ HRESULT CModel::Save_Json(TYPE eType, const char* pModelFilePath)
 							VertexBufferDesc.AddMember("vColorZ", VertexBufferData[j].vColor.z, allocator);
 							VertexBufferDesc.AddMember("vColorW", VertexBufferData[j].vColor.w, allocator);
 
+							VertexBufferDesc.AddMember("vTexUVX", VertexBufferData[j].vTexUV.x, allocator);
+							VertexBufferDesc.AddMember("vTexUVY", VertexBufferData[j].vTexUV.y, allocator);
+
 							VertexBufferDesc.AddMember("vBlendIndexX", VertexBufferData[j].vBlendIndex.x, allocator);
 							VertexBufferDesc.AddMember("vBlendIndexY", VertexBufferData[j].vBlendIndex.y, allocator);
 							VertexBufferDesc.AddMember("vBlendIndexZ", VertexBufferData[j].vBlendIndex.z, allocator);
@@ -448,9 +451,9 @@ HRESULT CModel::Save_Json(TYPE eType, const char* pModelFilePath)
 	{
 		m_iNumMaterials = m_pAIScene->mNumMaterials;
 		
-		Document TexturePaths(kArrayType);
 		for (_uint i = 0; i < m_iNumMaterials; ++i)
 		{
+			Document TexturePaths(kArrayType);
 			aiMaterial* pAIMaterial = m_pAIScene->mMaterials[i];
 
 			for (_uint j = 0; j < AI_TEXTURE_TYPE_MAX; ++j)
@@ -479,10 +482,11 @@ HRESULT CModel::Save_Json(TYPE eType, const char* pModelFilePath)
 				strcat_s(szFullPath, szFileName);
 				strcat_s(szFullPath, szEXT);
 
-				Value szName;
+				Value path;
 				string	texturePath = szFullPath;
-				szName.SetString(texturePath.c_str(), (SizeType)texturePath.size(), allocator);
-				TexturePaths.PushBack(szName, allocator);
+				path.SetString(texturePath.c_str(), (SizeType)texturePath.size(), allocator);
+
+				TexturePaths.PushBack(path, allocator);
 			}
 			Materials.PushBack(TexturePaths, allocator);
 		}

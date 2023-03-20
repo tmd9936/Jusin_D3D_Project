@@ -133,7 +133,7 @@ HRESULT CMesh::Initialize_Prototype(CModel::TYPE eType, const Value& Mesh)
 		//hr = Ready_VertexBuffer_ForNonAnim(pAIMesh, PivotMatrix);
 		break;
 	case Engine::CModel::TYPE_ANIM:
-		//hr = Ready_VertexBuffer_ForAnim(pAIMesh, pModel);
+		hr = Ready_VertexBuffer_ForAnim_Json(Mesh);
 		break;
 	case Engine::CModel::TYPE_NONANIM_UI:
 		//hr = Ready_VertexBuffer_ForNonAnimUI(pAIMesh, PivotMatrix);
@@ -175,9 +175,9 @@ HRESULT CMesh::Initialize_Prototype(CModel::TYPE eType, const Value& Mesh)
 	assert(IndexBuffers.IsArray());
 	for (SizeType i = 0; i < IndexBuffers.Size(); ++i)
 	{
-		pIndices[i]._0 = IndexBuffers[i]["_0"].GetUint();
-		pIndices[i]._1 = IndexBuffers[i]["_1"].GetUint();
-		pIndices[i]._2 = IndexBuffers[i]["_2"].GetUint();
+		pIndices[i]._0 = (unsigned long)IndexBuffers[i]["_0"].GetInt();
+		pIndices[i]._1 = (unsigned long)IndexBuffers[i]["_1"].GetInt();
+		pIndices[i]._2 = (unsigned long)IndexBuffers[i]["_2"].GetInt();
 	}
 
 	m_SubResourceData.pSysMem = pIndices;
@@ -269,9 +269,9 @@ HRESULT CMesh::Ready_VertexBuffer_ForAnim(aiMesh* pAIMesh, CModel* pModel, _bool
 
 		if (DataSave) 
 		{
-			m_VertexBufferData[i].vPosition = pVertices[i].vPosition;
-			m_VertexBufferData[i].vNormal = pVertices[i].vNormal;
-			m_VertexBufferData[i].vTexUV = pVertices[i].vTexUV;
+			memcpy(&m_VertexBufferData[i].vPosition, &pAIMesh->mVertices[i], sizeof(_float3));
+			memcpy(&m_VertexBufferData[i].vNormal, &pAIMesh->mNormals[i], sizeof(_float3));
+			memcpy(&m_VertexBufferData[i].vTexUV, &pAIMesh->mTextureCoords[0][i], sizeof(_float2));
 		}
 	}
 
@@ -335,6 +335,86 @@ HRESULT CMesh::Ready_VertexBuffer_ForAnim(aiMesh* pAIMesh, CModel* pModel, _bool
 
 		m_Bones.push_back(pModel->Get_BoneIndex(m_szName));
 	}
+
+	m_SubResourceData.pSysMem = pVertices;
+
+	if (FAILED(__super::Create_VertexBuffer()))
+		return E_FAIL;
+
+	Safe_Delete_Array(pVertices);
+
+	return S_OK;
+}
+
+HRESULT CMesh::Ready_VertexBuffer_ForAnim_Json(const Value& Mesh)
+{
+	m_iStride = sizeof(VTXANIMMODEL);
+
+	ZeroMemory(&m_BufferDesc, sizeof m_BufferDesc);
+	m_BufferDesc.ByteWidth = m_iStride * m_iNumVertices;
+	m_BufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	m_BufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	m_BufferDesc.StructureByteStride = m_iStride;
+	m_BufferDesc.CPUAccessFlags = 0;
+	m_BufferDesc.MiscFlags = 0;
+
+	ZeroMemory(&m_SubResourceData, sizeof m_SubResourceData);
+
+	VTXANIMMODEL* pVertices = new VTXANIMMODEL[m_iNumVertices];
+	ZeroMemory(pVertices, m_iStride * m_iNumVertices);
+
+	const Value& VertexBuffers = Mesh["VertexBuffers"].GetArray();
+	assert(VertexBuffers.IsArray());
+	for (SizeType i = 0; i < VertexBuffers.Size(); ++i)
+	{
+		pVertices[i].vPosition =
+		{
+			VertexBuffers[i]["vPositionX"].GetFloat(),
+			VertexBuffers[i]["vPositionY"].GetFloat(),
+			VertexBuffers[i]["vPositionZ"].GetFloat()
+		};
+
+		pVertices[i].vNormal =
+		{
+			VertexBuffers[i]["vNormalX"].GetFloat(),
+			VertexBuffers[i]["vNormalY"].GetFloat(),
+			VertexBuffers[i]["vNormalZ"].GetFloat()
+		};
+
+		//XMStoreFloat3(&pVertices[i].vNormal, XMVector3Normalize(XMLoadFloat3(&pVertices[i].vNormal)));
+
+		pVertices[i].vTexUV =
+		{
+			VertexBuffers[i]["vTexUVX"].GetFloat(),
+			VertexBuffers[i]["vTexUVY"].GetFloat(),
+		};
+
+		pVertices[i].vBlendIndex =
+		{
+			VertexBuffers[i]["vBlendIndexX"].GetUint(),
+			VertexBuffers[i]["vBlendIndexY"].GetUint(),
+			VertexBuffers[i]["vBlendIndexZ"].GetUint(),
+			VertexBuffers[i]["vBlendIndexW"].GetUint()
+		};
+
+		pVertices[i].vBlendWeight =
+		{
+			VertexBuffers[i]["vBlendWeightX"].GetFloat(),
+			VertexBuffers[i]["vBlendWeightY"].GetFloat(),
+			VertexBuffers[i]["vBlendWeightZ"].GetFloat(),
+			VertexBuffers[i]["vBlendWeightW"].GetFloat()
+		};
+	}
+
+	const Value& Bones = Mesh["m_Bones"].GetArray();
+	assert(Bones.IsArray());
+	for (SizeType i = 0; i < Bones.Size(); ++i)
+	{
+		m_Bones.push_back(Bones[i].GetInt());
+	}
+
+	/* 이 메시에 영향을 주는 뼈의 개수. */
+	m_iNumBones = Mesh["m_iNumBones"].GetInt();
 
 	m_SubResourceData.pSysMem = pVertices;
 
@@ -574,9 +654,9 @@ HRESULT CMesh::Ready_VertexBuffer_ForColorAnim(aiMesh* pAIMesh, CModel* pModel, 
 
 		if (DataSave)
 		{
-			m_VertexBufferData[i].vPosition = pVertices[i].vPosition;
-			m_VertexBufferData[i].vNormal = pVertices[i].vNormal;
-			m_VertexBufferData[i].vColor = pVertices[i].vColor;
+			memcpy(&m_VertexBufferData[i].vPosition, &pAIMesh->mVertices[i], sizeof(_float3));
+			memcpy(&m_VertexBufferData[i].vNormal, &pAIMesh->mNormals[i], sizeof(_float3));
+			memcpy(&m_VertexBufferData[i].vColor, &pAIMesh->mColors[0][i], sizeof(_float4));
 		}
 	}
 
@@ -686,14 +766,17 @@ HRESULT CMesh::Ready_VertexBuffer_ForColorAnim_Json(const Value& Mesh)
 			VertexBuffers[i]["vNormalZ"].GetFloat()
 		};
 
+		//XMStoreFloat3(&pVertices[i].vNormal, XMVector3Normalize(XMLoadFloat3(&pVertices[i].vNormal)));
+
 		pVertices[i].vColor =
 		{
 			VertexBuffers[i]["vColorX"].GetFloat(),
 			VertexBuffers[i]["vColorY"].GetFloat(),
 			VertexBuffers[i]["vColorZ"].GetFloat(),
 			VertexBuffers[i]["vColorW"].GetFloat()
-
 		};
+
+		//XMStoreFloat4(&pVertices[i].vColor, XMVector4Normalize(XMLoadFloat4(&pVertices[i].vColor)));
 
 		pVertices[i].vBlendIndex =
 		{
