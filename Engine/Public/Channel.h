@@ -72,8 +72,6 @@ private:
 
 	_int				m_iBoneIndex = { 0 };
 
-	_bool				m_bAnimationChangeLerp = { false };
-
 public:
 	static CChannel* Create(aiNodeAnim* pAIChannel, CModel* pModel);
 

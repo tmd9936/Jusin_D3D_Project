@@ -73,24 +73,25 @@ _bool CAnimation::Update(vector<CBone*>& Bones, _double TimeDelta)
 	}
 	else
 	{
-		if (m_TimeAcc < m_LerpDuration)
-			m_isFinished = false;
 
 		/* m_TimeAcc : 현재 애니메이션이 재생된 시간. */
 		m_TimeAcc += m_TickPerSecond * TimeDelta;
 
-		if (m_TimeAcc >= m_LerpDuration)
-		{
-			m_bAnimationChangeLerp = false;
-			m_isFinished = true;
-			m_TimeAcc = 0.0;
-		}
+		//if (m_TimeAcc >= m_LerpDuration)
+		//{
+		//	m_bAnimationChangeLerp = false;
+		//	m_isFinished = true;
+		//	m_TimeAcc = 0.0;
+		//}
 
 		/* 이 애님을 표현하는데 필요한 모든 뼈대들의 행렬을 키프레임정보로 만들어낸다. */
 		for (_uint i = 0; i < m_iNumChannels; ++i)
 		{
 			if (m_Channels[i]->Update_Change_Animation_Lerp(Bones, m_ChangePreAnimation_LastKeyFrames[i], m_iCurrentKeyFrames[i], m_TimeAcc, m_LerpDuration))
+			{
+				//m_TimeAcc = 0.0;
 				m_bAnimationChangeLerp = false;
+			}
 		}
 	}
 
