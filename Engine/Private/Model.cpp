@@ -918,17 +918,14 @@ void CModel::Set_Animation(_uint iIndex)
 	if (iIndex >= m_Animations.size())
 		return;
 
-	
-	m_Animations[iIndex]->Set_AnimationChangeLerp(true);
-	m_Animations[iIndex]->Set_ChangePreAnimation_LastKeyFrame(*m_Animations[m_iCurrentAnimationIndex]);
-	m_iCurrentAnimationIndex = iIndex;
-}
-
-void CModel::Set_Animation_No_Lerp(_uint iIndex)
-{
-	if (iIndex >= m_Animations.size())
+	if (iIndex == m_iCurrentAnimationIndex)
 		return;
+
+	m_iPreAnimationIndex = m_iCurrentAnimationIndex;
+
 	m_iCurrentAnimationIndex = iIndex;
+
+	m_Animations[iIndex]->Set_AnimationChangeLerp(true, m_Animations[m_iPreAnimationIndex]);
 }
 
 CModel* CModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TYPE eType, const char* pModelFilePath, _fmatrix PivotMatrix, _bool saveJson)

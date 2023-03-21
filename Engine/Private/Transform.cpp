@@ -192,17 +192,16 @@ _bool CTransform::TurnToTarget(_fvector vAxis, _fvector vTargetPos, _float TimeD
 
 	_float dot = XMVectorGetX(XMVector3Dot(vLookTarget, vLook));
 
-	_float angle = acos(dot);
+	_float radian = acosf(dot);
 
-	if (angle <= XMConvertToRadians(2.f) && dot >= XMConvertToRadians(-2.f))
+	if (dot >= 0.95f)
 		return true;
 	else
 	{
-		if (dot < 0.f)
-			Turn(vUp, TimeDelta * -1.f);
-		else
+		if (radian >= XMConvertToRadians(-180.f) && radian < XMConvertToRadians(180.f))
 			Turn(vUp, TimeDelta);
-
+		else
+			Turn(vUp, TimeDelta * -1.f);
 		return false;
 	}
 }

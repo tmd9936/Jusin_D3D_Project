@@ -39,8 +39,6 @@ public:
 
 public:
 	void Set_Animation(_uint iIndex);
-	void Set_Animation_No_Lerp(_uint iIndex);
-
 public:
 	HRESULT Set_Texture_In_Material(const _uint& materialIndex, const _uint& aiTextureType, const char* pTexturePath);
 
@@ -90,6 +88,7 @@ private:
 	vector<CBone*>			m_Bones;
 
 private:
+	_uint					m_iPreAnimationIndex = { 0 };
 	_uint					m_iCurrentAnimationIndex = { 0 };
 	_uint					m_iNumAnimations = { 0 };
 	vector<CAnimation*>		m_Animations;

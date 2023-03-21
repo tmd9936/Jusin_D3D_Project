@@ -42,6 +42,8 @@ HRESULT CPlayer::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pA
 
 _uint CPlayer::Tick(_double TimeDelta)
 {
+	m_pModelCom->Play_Animation(TimeDelta);
+
 	_bool move = false;
 	if (KEY_TAB(KEY::DOWN))
 	{
@@ -91,8 +93,6 @@ _uint CPlayer::Tick(_double TimeDelta)
 	{
 		m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
 	}
-
-	m_pModelCom->Play_Animation(TimeDelta);
 
 	return _uint();
 }

@@ -19,9 +19,12 @@ private:
 
 public:
 	HRESULT Initialize(aiNodeAnim* pAIChannel, CModel* pModel);
-	void Update(vector<CBone*>& Bones, _uint& pCurrentKeyFrame, _double CurrentTime, KEYFRAME& OutKeyFrame);
+	void Update(vector<CBone*>& Bones, _uint& pCurrentKeyFrame, _double CurrentTime);
 
-	_bool Update_Change_Animation_Lerp(vector<CBone*>& Bones, KEYFRAME& pPreKeyFrame, _uint& pCurrentKeyFrame, _double CurrentTime, _double EndTime);
+	_bool Update_Change_Animation_Lerp(vector<CBone*>& Bones, KEYFRAME& pPreKeyFrame, _uint& pCurrentKeyFrame, _double CurrentTime, _float LerpRatio);
+
+	void Make_KeyFrame(_vector& vScale, _vector& vRotation, _vector& vPosition, _uint& pCurrentKeyFrame, _double CurrentTime);
+	void Make_KeyFrame(KEYFRAME& OutKeyFrame, _uint& pCurrentKeyFrame, _double CurrentTime);
 
 public:
 	const char* Get_Name() const {
