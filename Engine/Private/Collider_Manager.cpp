@@ -230,8 +230,8 @@ HRESULT CCollider_Manager::Add_Check_CollisionGroup(wstring LeftLayerTag, wstrin
 {
 	for (auto& pair : m_ColLayers)
 	{
-		if ((!pair.first.compare(LeftLayerTag) && pair.second.compare(RightLayerTag))
-			|| (!pair.second.compare(LeftLayerTag) && pair.first.compare(RightLayerTag)))
+		if ((!pair.first.compare(LeftLayerTag) && !pair.second.compare(RightLayerTag))
+			|| (!pair.second.compare(LeftLayerTag) && !pair.first.compare(RightLayerTag)))
 			return E_FAIL;
 	}
 

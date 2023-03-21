@@ -9,6 +9,7 @@ class CRenderer;
 class CShader;
 class CModel;
 class CPickingCube;
+class CAABB;
 END
 
 BEGIN(Client)
@@ -35,6 +36,7 @@ private:
 	CShader* m_pShaderCom = { nullptr };
 	CModel* m_pModelCom = { nullptr };
 	CPickingCube* m_pPickingCube = { nullptr };
+	CAABB* m_pAABB = { nullptr };
 
 private:
 	HRESULT Add_Components();

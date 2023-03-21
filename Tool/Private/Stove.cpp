@@ -40,6 +40,8 @@ _uint CStove::Tick(_double TimeDelta)
 	if (m_bDead)
 		return OBJ_DEAD;
 
+	m_pAABB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
+
 	return _uint();
 }
 
@@ -68,6 +70,10 @@ HRESULT CStove::Render()
 
 		m_pModelCom->Render(i);
 	}
+
+#ifdef _DEBUG
+	m_pAABB->Render();
+#endif // _DEBUG
 
 	return S_OK;
 }
@@ -101,6 +107,16 @@ HRESULT CStove::Add_Components()
 	/* For.Com_Shader */
 	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxModelColor"),
 		(CComponent**)&m_pShaderCom, nullptr)))
+		return E_FAIL;
+
+	/* For.Com_AABB*/
+	CCollider::COLLIDER_DESC		ColliderDesc;
+
+	ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
+	ColliderDesc.vScale = _float3(1.f, 2.f, 1.f);
+	ColliderDesc.vPosition = _float3(0.0f, ColliderDesc.vScale.y * 0.5f, 0.f);
+	if (FAILED(pGameInstance->Add_Component(CCollider::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB"),
+		(CComponent**)&m_pAABB, &ColliderDesc)))
 		return E_FAIL;
 
 
@@ -188,5 +204,5 @@ void CStove::Free()
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pRendererCom);
-
+	Safe_Release(m_pAABB);
 }
