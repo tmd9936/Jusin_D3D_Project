@@ -121,6 +121,18 @@
     <Filter Include="01. Utility\03. Component\Model\Bone">
       <UniqueIdentifier>{027ea661-3bcf-46bb-bd5f-351438e7ccf6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\03. Component\Collider">
+      <UniqueIdentifier>{612fb1aa-5616-4dba-992b-2fe41529c3d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\03. Component\Collider\AABB">
+      <UniqueIdentifier>{220bcda3-b71a-4ea3-8e28-6f52d18da4dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\03. Component\Collider\OBB">
+      <UniqueIdentifier>{b0fd0fcc-fd5b-4fb8-8b64-be934badb898}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\03. Component\Collider\Sphere">
+      <UniqueIdentifier>{af2200cd-e829-4588-a4db-022d91bee786}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Engine_Defines.h">
@@ -249,6 +261,21 @@
     <ClInclude Include="..\Public\MonFSM.h">
       <Filter>01. Utility\03. Component\FSM</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\DebugDraw.h">
+      <Filter>01. Utility\03. Component\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Collider.h">
+      <Filter>01. Utility\03. Component\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AABB.h">
+      <Filter>01. Utility\03. Component\Collider\AABB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\OBB.h">
+      <Filter>01. Utility\03. Component\Collider\OBB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Sphere.h">
+      <Filter>01. Utility\03. Component\Collider\Sphere</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -361,6 +388,21 @@
     </ClCompile>
     <ClCompile Include="..\Private\Object_Manager.cpp">
       <Filter>01. Utility\02. GameObject\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\DebugDraw.cpp">
+      <Filter>01. Utility\03. Component\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Collider.cpp">
+      <Filter>01. Utility\03. Component\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AABB.cpp">
+      <Filter>01. Utility\03. Component\Collider\AABB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\OBB.cpp">
+      <Filter>01. Utility\03. Component\Collider\OBB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Sphere.cpp">
+      <Filter>01. Utility\03. Component\Collider\Sphere</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

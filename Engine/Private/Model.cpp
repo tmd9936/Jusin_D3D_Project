@@ -674,7 +674,7 @@ HRESULT CModel::Load_Json(TYPE eType, const char* pModelFilePath)
 			{
 				indexX = _uint(j / 4);
 				indexY = j % 4;
-				offsetMatrix.m[indexX][indexY] = OffSetMatrix[j].GetFloat();
+				offsetMatrix.m[indexX][indexY] = OffSetMatrix[SizeType(j)].GetFloat();
 			}
 			pBone->Set_OffSetMatrix(offsetMatrix);
 
@@ -689,7 +689,7 @@ HRESULT CModel::Load_Json(TYPE eType, const char* pModelFilePath)
 			{
 				indexX = _uint(j / 4);
 				indexY = j % 4;
-				transformationMatrix.m[indexX][indexY] = TransformationMatrix[j].GetFloat();
+				transformationMatrix.m[indexX][indexY] = TransformationMatrix[SizeType(j)].GetFloat();
 			}
 			pBone->Set_TransformationMatrix(transformationMatrix);
 			

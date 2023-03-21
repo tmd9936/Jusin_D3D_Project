@@ -3,7 +3,7 @@
 #include "Bone.h"
 #include "Channel.h"
 
-_double							CAnimation::m_LerpDuration = 1.0;
+_double							CAnimation::m_LerpDuration = 1.85;
 
 CAnimation::CAnimation()
 {
@@ -84,8 +84,12 @@ _bool CAnimation::Update(vector<CBone*>& Bones, _double TimeDelta)
 		/* 이 애님을 표현하는데 필요한 모든 뼈대들의 행렬을 키프레임정보로 만들어낸다. */
 		for (_uint i = 0; i < m_iNumChannels; ++i)
 		{
-			_float LerpRatio = m_LerpTimeAcc / m_LerpDuration;
-			if (m_Channels[i]->Update_Change_Animation_Lerp(Bones, preKeyFrame, m_iCurrentKeyFrames[i], m_TimeAcc, LerpRatio))
+			_float LerpRatio = _float(m_LerpTimeAcc / m_LerpDuration);
+
+			if (LerpRatio > 1.f)
+				LerpRatio = 1.f;
+
+			if (m_Channels[i]->Update_Change_Animation_Lerp(Bones, preKeyFrame, m_iCurrentKeyFrames[i], m_TimeAcc, LerpRatio, 0.0015f))
 			{
 				m_bAnimationChangeLerp = false;
 			}

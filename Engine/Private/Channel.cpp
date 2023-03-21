@@ -70,7 +70,7 @@ void CChannel::Update(vector<CBone*>& Bones, _uint& pCurrentKeyFrame, _double Cu
 	Bones[m_iBoneIndex]->SetUp_TransformationMatrix(TransformationMatrix);
 }
 
-_bool CChannel::Update_Change_Animation_Lerp(vector<CBone*>& Bones, KEYFRAME& pPreKeyFrame, _uint& pCurrentKeyFrame, _double CurrentTime, _float LerpRatio)
+_bool CChannel::Update_Change_Animation_Lerp(vector<CBone*>& Bones, KEYFRAME& pPreKeyFrame, _uint& pCurrentKeyFrame, _double CurrentTime, _float LerpRatio, _float EndLimitInterval)
 {
 	_bool			result = true;
 	_vector			vScale, vRotation, vPosition;
@@ -127,45 +127,45 @@ _bool CChannel::Update_Change_Animation_Lerp(vector<CBone*>& Bones, KEYFRAME& pP
 
 	Bones[m_iBoneIndex]->SetUp_TransformationMatrix(TransformationMatrix);
 
-	if (fabs(XMVectorGetX(vResultScale) - XMVectorGetX(vScale)) > 0.001)
+	if (fabs(XMVectorGetX(vResultScale) - XMVectorGetX(vScale)) > EndLimitInterval)
 	{
 		return false;
 	}
-	if (fabs(XMVectorGetY(vResultScale) - XMVectorGetY(vScale)) > 0.001)
+	if (fabs(XMVectorGetY(vResultScale) - XMVectorGetY(vScale)) > EndLimitInterval)
 	{
 		return false;
 	}
-	if (fabs(XMVectorGetZ(vResultScale) - XMVectorGetZ(vScale)) > 0.001)
-	{
-		return false;
-	}
-
-	if (fabs(XMVectorGetX(vResultRotation) - XMVectorGetX(vRotation)) > 0.001)
-	{
-		return false;
-	}
-	if (fabs(XMVectorGetY(vResultRotation) - XMVectorGetY(vRotation)) > 0.001)
-	{
-		return false;
-	}
-	if (fabs(XMVectorGetZ(vResultRotation) - XMVectorGetZ(vRotation)) > 0.001)
-	{
-		return false;
-	}
-	if (fabs(XMVectorGetW(vResultRotation) - XMVectorGetW(vRotation)) > 0.001)
+	if (fabs(XMVectorGetZ(vResultScale) - XMVectorGetZ(vScale)) > EndLimitInterval)
 	{
 		return false;
 	}
 
-	if (fabs(XMVectorGetX(vResultPosition) - XMVectorGetX(vPosition)) > 0.001)
+	if (fabs(XMVectorGetX(vResultRotation) - XMVectorGetX(vRotation)) > EndLimitInterval)
 	{
 		return false;
 	}
-	if (fabs(XMVectorGetY(vResultPosition) - XMVectorGetY(vPosition)) > 0.001)
+	if (fabs(XMVectorGetY(vResultRotation) - XMVectorGetY(vRotation)) > EndLimitInterval)
 	{
 		return false;
 	}
-	if (fabs(XMVectorGetZ(vResultPosition) - XMVectorGetZ(vPosition)) > 0.001)
+	if (fabs(XMVectorGetZ(vResultRotation) - XMVectorGetZ(vRotation)) > EndLimitInterval)
+	{
+		return false;
+	}
+	if (fabs(XMVectorGetW(vResultRotation) - XMVectorGetW(vRotation)) > EndLimitInterval)
+	{
+		return false;
+	}
+
+	if (fabs(XMVectorGetX(vResultPosition) - XMVectorGetX(vPosition)) > EndLimitInterval)
+	{
+		return false;
+	}
+	if (fabs(XMVectorGetY(vResultPosition) - XMVectorGetY(vPosition)) > EndLimitInterval)
+	{
+		return false;
+	}
+	if (fabs(XMVectorGetZ(vResultPosition) - XMVectorGetZ(vPosition)) > EndLimitInterval)
 	{
 		return false;
 	}

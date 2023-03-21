@@ -11,6 +11,10 @@ class CShader;
 class CModel;
 class CPickingCube;
 class CMonFSM;
+class CAABB;
+class COBB;
+class CSphere;
+
 END
 
 BEGIN(Client)

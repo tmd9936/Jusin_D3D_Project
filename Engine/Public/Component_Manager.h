@@ -17,6 +17,14 @@
 #include "MonFSM.h"
 #pragma endregion
 
+#pragma region COLLIDER
+#include "Collider.h"
+#include "AABB.h"
+#include "OBB.h"
+#include "Sphere.h"
+#pragma endregion
+
+
 
 /* 0.원형컴포넌트를 레벨별로 보관한다. */
 /* 1.특정 원형을 찾아서 복제하여 리턴한다. */
