@@ -30,10 +30,10 @@ HRESULT CBuffState::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void*
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
-	//m_pTransformCom->Set_Scaled(_float3(0.1f, 0.1f, 0.1f));
-	//m_pTransformCom->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(180.0f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(0.0f, 0.0f, 0.f, 1.f));
+	m_pTransformCom->Set_Scaled(_float3(1.0f, 1.0f, 1.0f));
+	m_pTransformCom->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(90.0f));
 
+	m_eRenderId = RENDER_NONBLEND;
 
 	return S_OK;
 }
@@ -52,7 +52,8 @@ _uint CBuffState::LateTick(_double TimeDelta)
 
 	m_pAABB->Tick(XMLoadFloat4x4(&m_FinalWorldMatrix));
 
-	m_pRendererCom->Add_RenderGroup(RENDER_NONBLEND, this);
+	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
+
 
 	return _uint();
 }
@@ -62,7 +63,7 @@ HRESULT CBuffState::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	m_pShaderCom->Begin(0);
+	m_pShaderCom->Begin(1);
 
 	m_pVIBufferCom->Render();
 
@@ -107,7 +108,7 @@ HRESULT CBuffState::Add_Components()
 	CCollider::COLLIDER_DESC		ColliderDesc;
 
 	ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
-	ColliderDesc.vScale = _float3(10.f, 10.f, 10.f);
+	ColliderDesc.vScale = _float3(1.f, 1.f, 1.f);
 	ColliderDesc.vPosition = _float3(0.0f, ColliderDesc.vScale.y * 0.5f, 0.f);
 	if (FAILED(pGameInstance->Add_Component(CCollider::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB"),
 		(CComponent**)&m_pAABB, &ColliderDesc)))
