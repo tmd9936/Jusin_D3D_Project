@@ -116,9 +116,13 @@ using namespace DirectX;
 #define FAMILY_ID_VIBUFFER					31
 
 #define FAMILY_ID_COLLISION					35
-#define FAMILY_ID_RENDERER					36
+#define FAMILY_ID_COLLISION_AABB			36
+#define FAMILY_ID_COLLISION_OBB				37
+#define FAMILY_ID_COLLISION_SPHERE			38
 
-#define FAMILY_ID_PICKING_CUBE				40
+#define FAMILY_ID_RENDERER					46
+
+#define FAMILY_ID_PICKING_CUBE				50
 
 
 #define		KEY_CHECK(key, state)	CGameInstance::GetInstance()->Get_KeyState(key) == state

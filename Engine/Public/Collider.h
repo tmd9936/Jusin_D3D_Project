@@ -6,6 +6,8 @@ BEGIN(Engine)
 class ENGINE_DLL CCollider abstract :
     public CComponent
 {
+public:
+    static const FamilyId familyId = FAMILY_ID_COLLISION;
 
 public:
     typedef struct tagCollider_Desc

@@ -96,6 +96,11 @@ protected:
 	CPickingCube* m_pPickingCube = { nullptr };
 	CMonFSM* m_pMonFSM = { nullptr };
 
+	CAABB* m_pAABB = { nullptr };
+	COBB* m_pOBB = { nullptr };
+	CSphere* m_pSphere = { nullptr };
+
+
 protected:
 	POKEMON_DESC		m_PokemonDesc = {};
 	_float4				m_MovePosition = { 20.f, 0.f, 20.f, 1.f };

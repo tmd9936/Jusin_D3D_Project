@@ -21,7 +21,8 @@ public:
 	virtual void Set_TransformMatrix() override;
 
 private:
-	BoundingBox* m_pAABB = { nullptr };
+	BoundingOrientedBox* m_pOBB_Original = { nullptr };
+	BoundingOrientedBox* m_pOBB = { nullptr };
 
 public:
 	static COBB* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

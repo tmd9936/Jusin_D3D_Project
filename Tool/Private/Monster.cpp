@@ -81,6 +81,10 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const c
 _uint CMonster::Tick(_double TimeDelta)
 {
 	m_pMonFSM->Update_Component((_float)TimeDelta, m_pModelCom);
+
+	m_pAABB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
+	m_pOBB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
+	m_pSphere->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
 	
 	return State_Tick(TimeDelta);
 }
@@ -110,6 +114,12 @@ HRESULT CMonster::Render()
 
 		m_pModelCom->Render(i);
 	}
+
+#ifdef _DEBUG
+	m_pAABB->Render();
+	m_pOBB->Render();
+	m_pSphere->Render();
+#endif // _DEBUG
 
 	return S_OK;
 }
@@ -154,6 +164,32 @@ HRESULT CMonster::Add_Components()
 		(CComponent**)&m_pMonFSM, nullptr)))
 		return E_FAIL;
 
+	/* For.Com_AABB*/
+	CCollider::COLLIDER_DESC		ColliderDesc;
+
+	ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
+	ColliderDesc.vScale = _float3(1.f, 2.f, 1.f);
+	ColliderDesc.vPosition = _float3(0.0f, ColliderDesc.vScale.y * 0.5f, 0.f);
+	if (FAILED(pGameInstance->Add_Component(FAMILY_ID_COLLISION_AABB, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB"),
+		(CComponent**)&m_pAABB, &ColliderDesc)))
+		return E_FAIL;
+
+	/* For.Com_OBB*/
+	ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
+	ColliderDesc.vScale = _float3(1.2f, 2.0f, 1.2f);
+	ColliderDesc.vPosition = _float3(0.0f, ColliderDesc.vScale.y * 0.5f, 0.f);
+	if (FAILED(pGameInstance->Add_Component(FAMILY_ID_COLLISION_OBB, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"),
+		(CComponent**)&m_pOBB, &ColliderDesc)))
+		return E_FAIL;
+
+	/* For.Com_Sphere */
+	ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
+	ColliderDesc.vScale = _float3(1.2f, 1.2f, 1.2f);
+	ColliderDesc.vPosition = _float3(0.0f, ColliderDesc.vScale.y * 0.5f, 0.f);
+	if (FAILED(pGameInstance->Add_Component(FAMILY_ID_COLLISION_SPHERE, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_SPHERE"),
+		(CComponent**)&m_pSphere, &ColliderDesc)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -188,6 +224,31 @@ HRESULT CMonster::Add_Components_By_File()
 		(CComponent**)&m_pMonFSM, nullptr)))
 		return E_FAIL;
 
+	/* For.Com_AABB*/
+	CCollider::COLLIDER_DESC		ColliderDesc;
+
+	ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
+	ColliderDesc.vScale = _float3(1.f, 2.f, 1.f);
+	ColliderDesc.vPosition = _float3(0.0f, ColliderDesc.vScale.y * 0.5f, 0.f);
+	if (FAILED(pGameInstance->Add_Component(FAMILY_ID_COLLISION_AABB, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB"),
+		(CComponent**)&m_pAABB, &ColliderDesc)))
+		return E_FAIL;
+
+	/* For.Com_OBB*/
+	ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
+	ColliderDesc.vScale = _float3(1.2f, 2.0f, 1.2f);
+	ColliderDesc.vPosition = _float3(0.0f, ColliderDesc.vScale.y * 0.5f, 0.f);
+	if (FAILED(pGameInstance->Add_Component(FAMILY_ID_COLLISION_OBB, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"),
+		(CComponent**)&m_pOBB, &ColliderDesc)))
+		return E_FAIL;
+
+	/* For.Com_Sphere */
+	ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
+	ColliderDesc.vScale = _float3(1.2f, 1.2f, 1.2f);
+	ColliderDesc.vPosition = _float3(0.0f, ColliderDesc.vScale.y * 0.5f, 0.f);
+	if (FAILED(pGameInstance->Add_Component(FAMILY_ID_COLLISION_SPHERE, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_SPHERE"),
+		(CComponent**)&m_pSphere, &ColliderDesc)))
+		return E_FAIL;
 
 	return S_OK;
 }

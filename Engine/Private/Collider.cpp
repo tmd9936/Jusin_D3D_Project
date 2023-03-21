@@ -25,7 +25,7 @@ CCollider::CCollider(const CCollider& rhs)
 }
 #endif // _DEBUG
 
-
+#ifdef _DEBUG
 HRESULT CCollider::Render()
 {
 	m_pEffect->SetWorld(XMMatrixIdentity());
@@ -52,6 +52,7 @@ HRESULT CCollider::Render()
 
 	return S_OK;
 }
+#endif // _DEBUG
 
 HRESULT CCollider::Initialize_Prototype()
 {

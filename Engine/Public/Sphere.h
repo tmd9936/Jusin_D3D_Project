@@ -21,7 +21,8 @@ public:
 	virtual void Set_TransformMatrix() override;
 
 private:
-	BoundingBox* m_pAABB = { nullptr };
+	BoundingSphere* m_pSphere_Original = { nullptr };
+	BoundingSphere* m_pSphere = { nullptr };
 
 public:
 	static CSphere* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

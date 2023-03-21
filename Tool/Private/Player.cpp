@@ -94,36 +94,21 @@ _uint CPlayer::Tick(_double TimeDelta)
 		m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
 	}
 
+	m_pAABB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
+	m_pOBB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
+	m_pSphere->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
+
 	return _uint();
 }
 
 _uint CPlayer::LateTick(_double TimeDelta)
 {
-	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
-
-	return _uint();
+	return __super::LateTick(TimeDelta);
 }
 
 HRESULT CPlayer::Render()
 {
-	if (FAILED(SetUp_ShaderResources()))
-		return E_FAIL;
-
-	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
-
-	for (_uint i = 0; i < iNumMeshes; ++i)
-	{
-		if (FAILED(m_pModelCom->SetUp_ShaderResource(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
-			return E_FAIL;
-		if (FAILED(m_pModelCom->SetUp_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
-			return E_FAIL;
-
-		m_pShaderCom->Begin(0);
-
-		m_pModelCom->Render(i);
-	}
-
-	return S_OK;
+	return __super::Render();
 }
 
 HRESULT CPlayer::SetUp_ShaderResources()
@@ -199,11 +184,6 @@ CGameObject* CPlayer::Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pA
 void CPlayer::Free()
 {
 	__super::Free();
-
-	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pShaderCom);
-	Safe_Release(m_pModelCom);
-	Safe_Release(m_pRendererCom);
 
 }
 

@@ -9,16 +9,16 @@ CAABB::CAABB(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 
 CAABB::CAABB(const CAABB& rhs)
     : CCollider(rhs)
-    , m_pAABB(nullptr == rhs.m_pAABB ? rhs.m_pAABB : new BoundingBox(*rhs.m_pAABB))
+    , m_pAABB_Original(nullptr == rhs.m_pAABB_Original ? rhs.m_pAABB_Original : new BoundingBox(*rhs.m_pAABB_Original))
 {
 }
 
 HRESULT CAABB::Initialize_Prototype()
 {
+    m_pAABB_Original = new BoundingBox(_float3(0.f, 0.f, 0.f), _float3(0.5f, 0.5f, 0.5f));
+
     if (FAILED(__super::Initialize_Prototype()))
         return E_FAIL;
-
-    m_pAABB = new BoundingBox(_float3(0.f, 0.f, 0.f), _float3(0.5f, 0.5f, 0.5f));
 
     return S_OK;
 }
@@ -33,7 +33,7 @@ HRESULT CAABB::Initialize(void* pArg)
 
 void CAABB::Tick(_fmatrix TransformMatrix)
 {
-    m_pAABB->Transform(*m_pAABB, XMLoadFloat4x4(&m_TransformationMatrix) * Remove_Rotation(TransformMatrix));
+    m_pAABB_Original->Transform(*m_pAABB, Remove_Rotation(TransformMatrix));
 }
 
 void CAABB::Draw(_vector vColor)
@@ -48,9 +48,8 @@ void CAABB::Set_TransformMatrix()
     ScaleMatrix = XMMatrixScaling(m_Collider_Desc.vScale.x, m_Collider_Desc.vScale.y, m_Collider_Desc.vScale.z);
     TranslationMatrix = XMMatrixTranslation(m_Collider_Desc.vPosition.x, m_Collider_Desc.vPosition.y, m_Collider_Desc.vPosition.z);
 
-    XMStoreFloat4x4(&m_TransformationMatrix, ScaleMatrix * TranslationMatrix);
-
-    m_pAABB->Transform(*m_pAABB, XMLoadFloat4x4(&m_TransformationMatrix));
+    m_pAABB_Original->Transform(*m_pAABB_Original, ScaleMatrix * TranslationMatrix);
+    m_pAABB = new BoundingBox(*m_pAABB_Original);
 }
 
 

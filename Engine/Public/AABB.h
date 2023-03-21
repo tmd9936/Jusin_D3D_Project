@@ -21,6 +21,7 @@ public:
 	virtual void Set_TransformMatrix() override;
 
 private:
+	BoundingBox* m_pAABB_Original = { nullptr };
 	BoundingBox* m_pAABB = { nullptr };
 
 public:
