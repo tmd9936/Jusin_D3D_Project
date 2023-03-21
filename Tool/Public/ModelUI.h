@@ -44,7 +44,6 @@ private:
 	CTransform*			m_pTransformCom = { nullptr };
 	CRenderer*			m_pRendererCom = { nullptr };
 	CShader*			m_pShaderCom = { nullptr };
-	CTexture*			m_pTextureCom = { nullptr };
 	CModel*				m_pModelCom = { nullptr };
 
 private:

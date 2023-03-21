@@ -9,12 +9,17 @@ CSphere::CSphere(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 
 CSphere::CSphere(const CSphere& rhs)
     : CCollider(rhs)
-    , m_pSphere_Original(nullptr == rhs.m_pSphere_Original ? rhs.m_pSphere_Original : new BoundingSphere(*rhs.m_pSphere_Original))
 {
+    if (rhs.m_pSphere_Original == nullptr)
+        m_pSphere_Original = rhs.m_pSphere_Original;
+    else
+        new BoundingSphere(*rhs.m_pSphere_Original);
 }
 
 HRESULT CSphere::Initialize_Prototype()
 {
+    m_eType = TYPE_SPHERE;
+
     m_pSphere_Original = new BoundingSphere(_float3(0.f, 0.f, 0.f), 0.5f);
 
     if (FAILED(__super::Initialize_Prototype()))
@@ -34,6 +39,8 @@ HRESULT CSphere::Initialize(void* pArg)
 void CSphere::Tick(_fmatrix TransformMatrix)
 {
     m_pSphere_Original->Transform(*m_pSphere, TransformMatrix);
+
+    m_isCollision = false;
 }
 
 void CSphere::Draw(_vector vColor)
@@ -51,7 +58,6 @@ void CSphere::Set_TransformMatrix()
     m_pSphere_Original->Transform(*m_pSphere_Original, ScaleMatrix * TranslationMatrix);
     m_pSphere = new BoundingSphere(*m_pSphere_Original);
 }
-
 
 CSphere* CSphere::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
@@ -83,4 +89,6 @@ void CSphere::Free()
 {
     __super::Free();
     Safe_Delete(m_pSphere);
+    Safe_Delete(m_pSphere_Original);
+
 }

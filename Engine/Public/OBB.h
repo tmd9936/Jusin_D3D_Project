@@ -16,13 +16,8 @@ public:
 	virtual void Tick(_fmatrix TransformMatrix);
 
 public:
-	// CCollider을(를) 통해 상속됨
 	virtual void Draw(_vector vColor) override;
 	virtual void Set_TransformMatrix() override;
-
-private:
-	BoundingOrientedBox* m_pOBB_Original = { nullptr };
-	BoundingOrientedBox* m_pOBB = { nullptr };
 
 public:
 	static COBB* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

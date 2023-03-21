@@ -10,6 +10,9 @@ public:
     static const FamilyId familyId = FAMILY_ID_COLLISION;
 
 public:
+    enum TYPE { TYPE_SPHERE, TYPE_AABB, TYPE_OBB, TYPE_END };
+
+public:
     typedef struct tagCollider_Desc
     {
         _float3		vScale;
@@ -36,21 +39,51 @@ public:
 
     virtual void Set_TransformMatrix() PURE;
 
+    _bool Collision(CCollider* pTarget);;
+
+    const TYPE   Get_Type() const {
+        return m_eType;
+    }
+
+    const BoundingBox* Get_AABB() const {
+        return m_pAABB;
+    }
+
+    const BoundingOrientedBox* Get_OBB() const {
+        return m_pOBB;
+    }
+
+    const BoundingSphere* Get_Sphere() const {
+        return m_pSphere;
+    }
+
 protected:
-    _float4x4		m_TransformationMatrix = {};
+    _matrix Remove_Rotation(_fmatrix TranformMatrix);
+
+
+protected:
+    BoundingBox* m_pAABB_Original = { nullptr };
+    BoundingBox* m_pAABB = { nullptr };
+
+protected:
+    BoundingOrientedBox* m_pOBB_Original = { nullptr };
+    BoundingOrientedBox* m_pOBB = { nullptr };
+
+protected:
+    BoundingSphere* m_pSphere_Original = { nullptr };
+    BoundingSphere* m_pSphere = { nullptr };
+
+protected:
     _bool			m_isCollision = { false };
 
     COLLIDER_DESC   m_Collider_Desc = {};
-
+    TYPE	        m_eType = { TYPE_END };
 #ifdef _DEBUG
 protected:
     PrimitiveBatch<DirectX::VertexPositionColor>* m_pBatch = { nullptr };
     BasicEffect* m_pEffect = { nullptr };
     ID3D11InputLayout* m_pInputLayout = { nullptr };
 #endif // _DEBUG
-
-protected:
-    _matrix Remove_Rotation(_fmatrix TranformMatrix);
 
 public:
     virtual void Free() override;

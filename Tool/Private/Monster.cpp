@@ -468,5 +468,8 @@ void CMonster::Free()
 	Safe_Release(m_pRendererCom);
 	Safe_Release(m_pPickingCube);
 	Safe_Release(m_pMonFSM);
+	Safe_Release(m_pAABB);
+	Safe_Release(m_pOBB);
+	Safe_Release(m_pSphere);
 
 }

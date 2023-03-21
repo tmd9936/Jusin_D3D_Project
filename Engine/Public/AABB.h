@@ -20,10 +20,6 @@ public:
 	virtual void Draw(_vector vColor) override;
 	virtual void Set_TransformMatrix() override;
 
-private:
-	BoundingBox* m_pAABB_Original = { nullptr };
-	BoundingBox* m_pAABB = { nullptr };
-
 public:
 	static CAABB* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CComponent* Clone(CGameObject* pOwner, void* pArg) override;

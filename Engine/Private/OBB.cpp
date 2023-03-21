@@ -9,12 +9,17 @@ COBB::COBB(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 
 COBB::COBB(const COBB& rhs)
     : CCollider(rhs)
-    , m_pOBB_Original(nullptr == rhs.m_pOBB_Original ? rhs.m_pOBB_Original : new BoundingOrientedBox(*rhs.m_pOBB_Original))
 {
+    if (rhs.m_pOBB_Original == nullptr)
+        m_pOBB_Original = rhs.m_pOBB_Original;
+    else
+        new BoundingOrientedBox(*rhs.m_pOBB_Original);
 }
 
 HRESULT COBB::Initialize_Prototype()
 {
+    m_eType = TYPE_OBB;
+
     m_pOBB_Original = new BoundingOrientedBox(_float3(0.f, 0.f, 0.f), _float3(0.5f, 0.5f, 0.5f), _float4(0.0f, 0.f, 0.f, 1.f));
 
     if (FAILED(__super::Initialize_Prototype()))
@@ -34,6 +39,8 @@ HRESULT COBB::Initialize(void* pArg)
 void COBB::Tick(_fmatrix TransformMatrix)
 {
     m_pOBB_Original->Transform(*m_pOBB, TransformMatrix);
+
+    m_isCollision = false;
 }
 
 void COBB::Draw(_vector vColor)
@@ -54,7 +61,6 @@ void COBB::Set_TransformMatrix()
     m_pOBB_Original->Transform(*m_pOBB_Original, ScaleMatrix * RotationXMatrix * RotationYMatrix * RotationZMatrix * TranslationMatrix);
     m_pOBB = new BoundingOrientedBox(*m_pOBB_Original);
 }
-
 
 COBB* COBB::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
@@ -86,4 +92,6 @@ void COBB::Free()
 {
     __super::Free();
     Safe_Delete(m_pOBB);
+    Safe_Delete(m_pOBB_Original);
+
 }

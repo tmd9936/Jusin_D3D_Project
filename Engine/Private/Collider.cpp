@@ -14,12 +14,14 @@ CCollider::CCollider(const CCollider& rhs)
 	, m_pBatch(rhs.m_pBatch)
 	, m_pEffect(rhs.m_pEffect)
 	, m_pInputLayout(rhs.m_pInputLayout)
+	, m_eType(rhs.m_eType)
 {
 	Safe_AddRef(m_pInputLayout);
 }
 #else
 CCollider::CCollider(const CCollider& rhs)
 	: CComponent(rhs)
+	, m_eType(rhs.m_eType)
 {
 
 }
@@ -103,6 +105,45 @@ HRESULT CCollider::Initialize(void* pArg)
 
 void CCollider::Tick(_fmatrix TransformMatrix)
 {
+	m_isCollision = false;
+}
+
+_bool CCollider::Collision(CCollider* pTarget)
+{
+	if (TYPE_AABB == m_eType)
+	{
+		if (TYPE_AABB == pTarget->m_eType)
+			m_isCollision = m_pAABB->Intersects(*pTarget->m_pAABB);
+		else if (TYPE_OBB == pTarget->m_eType)
+			m_isCollision = m_pAABB->Intersects(*pTarget->m_pOBB);
+		else if (TYPE_SPHERE == pTarget->m_eType)
+			m_isCollision = m_pAABB->Intersects(*pTarget->m_pSphere);
+	}
+
+	else if (TYPE_OBB == m_eType)
+	{
+		if (TYPE_AABB == pTarget->m_eType)
+			m_isCollision = m_pOBB->Intersects(*pTarget->m_pAABB);
+		else if (TYPE_OBB == pTarget->m_eType)
+			m_isCollision = m_pOBB->Intersects(*pTarget->m_pOBB);
+		else if (TYPE_SPHERE == pTarget->m_eType)
+			m_isCollision = m_pOBB->Intersects(*pTarget->m_pSphere);
+	}
+
+	else if (TYPE_SPHERE == m_eType)
+	{
+		if (TYPE_AABB == pTarget->m_eType)
+			m_isCollision = m_pSphere->Intersects(*pTarget->m_pAABB);
+		else if (TYPE_OBB == pTarget->m_eType)
+			m_isCollision = m_pSphere->Intersects(*pTarget->m_pOBB);
+		else if (TYPE_SPHERE == pTarget->m_eType)
+			m_isCollision = m_pSphere->Intersects(*pTarget->m_pSphere);
+	}
+
+	if (true == m_isCollision)
+		pTarget->m_isCollision = true;
+
+	return m_isCollision;
 }
 
 _matrix CCollider::Remove_Rotation(_fmatrix TranformMatrix)

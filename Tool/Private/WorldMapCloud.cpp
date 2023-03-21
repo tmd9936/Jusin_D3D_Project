@@ -81,7 +81,7 @@ HRESULT CWorldMapCloud::Add_Components()
 
 	/* For.Com_PickingCube */
 	if (FAILED(pGameInstance->Add_Component(CPickingCube::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_PickingCube"),
-		(CComponent**)&m_pColliderCom, nullptr)))
+		(CComponent**)&m_pPickingCubCom, nullptr)))
 		return E_FAIL;
 
 	/* For.Com_Transform */
@@ -185,7 +185,7 @@ void CWorldMapCloud::Free()
 {
 	__super::Free();
 
-	Safe_Release(m_pColliderCom);
+	Safe_Release(m_pPickingCubCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pModelCom);

@@ -83,6 +83,5 @@ CBone* CBone::Clone()
 
 void CBone::Free()
 {
-	__super::Free();
 	Safe_Release(m_pParent);
 }

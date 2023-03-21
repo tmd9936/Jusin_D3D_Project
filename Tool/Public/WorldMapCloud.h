@@ -34,7 +34,7 @@ private:
 	CRenderer* m_pRendererCom = { nullptr };
 	CShader* m_pShaderCom = { nullptr };
 	CModel* m_pModelCom = { nullptr };
-	CPickingCube* m_pColliderCom = { nullptr };
+	CPickingCube* m_pPickingCubCom = { nullptr };
 
 private:
 	HRESULT Add_Components();
