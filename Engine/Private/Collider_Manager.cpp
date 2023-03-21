@@ -160,17 +160,21 @@ XMVECTOR CCollider_Manager::Get_Min_Vector(CCollider* Col)
 
 	if (Col->Get_Type() == CCollider::TYPE_AABB)
 	{
+		_float3 coners[8];
+		Col->Get_AABB()->GetCorners(coners);
 		for (size_t i = 1; i < Col->Get_AABB()->CORNER_COUNT; ++i)
 		{
-			Min = XMVectorMin(Min, Corner);
+			Min = XMVectorMin(Min, XMLoadFloat3(&coners[i]));
 		}
 	}
 
 	if (Col->Get_Type() == CCollider::TYPE_OBB)
 	{
+		_float3 coners[8];
+		Col->Get_OBB()->GetCorners(coners);
 		for (size_t i = 1; i < Col->Get_OBB()->CORNER_COUNT; ++i)
 		{
-			Min = XMVectorMin(Min, Corner);
+			Min = XMVectorMin(Min, XMLoadFloat3(&coners[i]));
 		}
 	}
 
@@ -186,17 +190,21 @@ XMVECTOR CCollider_Manager::Get_Max_Vector(CCollider* Col)
 
 	if (Col->Get_Type() == CCollider::TYPE_AABB)
 	{
+		_float3 coners[8];
+		Col->Get_AABB()->GetCorners(coners);
 		for (size_t i = 1; i < Col->Get_AABB()->CORNER_COUNT; ++i)
 		{
-			Max = XMVectorMax(Max, Corner);
+			Max = XMVectorMax(Max, XMLoadFloat3(&coners[i]));
 		}
 	}
 
 	if (Col->Get_Type() == CCollider::TYPE_OBB)
 	{
+		_float3 coners[8];
+		Col->Get_AABB()->GetCorners(coners);
 		for (size_t i = 1; i < Col->Get_OBB()->CORNER_COUNT; ++i)
 		{
-			Max = XMVectorMax(Max, Corner);
+			Max = XMVectorMax(Max, XMLoadFloat3(&coners[i]));
 		}
 	}
 

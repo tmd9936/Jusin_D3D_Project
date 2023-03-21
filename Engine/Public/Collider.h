@@ -45,6 +45,8 @@ public:
 
 public:
     _uint Get_ID() { return m_iID; }
+    const _vector Get_Center() const;
+
 
 public:
     virtual void Draw(_vector vColor) PURE;

@@ -85,6 +85,11 @@ public:
 	void Set_ScaledY(const _float& scale);
 	void Set_ScaledZ(const _float& scale);
 
+	void Move_Pos(float x, float y, float z) {
+		m_WorldMatrix.m[3][0] += x;
+		m_WorldMatrix.m[3][1] += y;
+		m_WorldMatrix.m[3][2] += z;
+	}
 
 	void Set_Pos(float x, float y, float z) {
 		m_WorldMatrix.m[3][0] = x;

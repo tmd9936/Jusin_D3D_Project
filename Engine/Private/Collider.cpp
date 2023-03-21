@@ -151,6 +151,24 @@ void CCollider::On_CollisionExit(CCollider* pOther, const _float& fX, const _flo
 	m_pOwner->On_CollisionExit(pOther, fX, fY, fZ);
 }
 
+const _vector CCollider::Get_Center() const
+{
+	switch (m_eType)
+	{
+	case TYPE_AABB:
+		return XMLoadFloat3(&m_pAABB->Center);
+		break;
+	case TYPE_OBB:
+		return XMLoadFloat3(&m_pOBB->Center);
+		break;
+	case TYPE_SPHERE:
+		return XMLoadFloat3(&m_pSphere->Center);
+		break;
+	}
+
+	return _vector();
+}
+
 _bool CCollider::Collision(CCollider* pTarget)
 {
 	if (TYPE_AABB == m_eType)
