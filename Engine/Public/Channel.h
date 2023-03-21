@@ -26,6 +26,8 @@ public:
 	void Make_KeyFrame(_vector& vScale, _vector& vRotation, _vector& vPosition, _uint& pCurrentKeyFrame, _double CurrentTime);
 	void Make_KeyFrame(KEYFRAME& OutKeyFrame, _uint& pCurrentKeyFrame, _double CurrentTime);
 
+	void Make_AffineMatrix(_matrix& OutMatrix, _uint& pCurrentKeyFrame, _double CurrentTime);
+
 public:
 	const char* Get_Name() const {
 		return m_szName;

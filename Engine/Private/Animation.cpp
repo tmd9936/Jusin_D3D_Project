@@ -3,7 +3,7 @@
 #include "Bone.h"
 #include "Channel.h"
 
-_double							CAnimation::m_LerpDuration = 0.2;
+_double							CAnimation::m_LerpDuration = 1.0;
 
 CAnimation::CAnimation()
 {
@@ -50,23 +50,24 @@ HRESULT CAnimation::Initialize(aiAnimation* pAIAnimation, CModel* pModel)
 
 _bool CAnimation::Update(vector<CBone*>& Bones, _double TimeDelta)
 {
+	if (m_TimeAcc < m_Duration)
+		m_isFinished = false;
+
+	/* m_TimeAcc : 현재 애니메이션이 재생된 시간. */
+	m_TimeAcc += m_TickPerSecond * TimeDelta;
+
+	if (m_TimeAcc >= m_Duration)
+	{
+		m_isFinished = true;
+
+		if (true == m_isLoop)
+		{
+			m_TimeAcc = 0.0;
+		}
+	}
+
 	if (!m_bAnimationChangeLerp)
 	{
-		if (m_TimeAcc < m_Duration)
-			m_isFinished = false;
-
-		/* m_TimeAcc : 현재 애니메이션이 재생된 시간. */
-		m_TimeAcc += m_TickPerSecond * TimeDelta;
-
-		if (m_TimeAcc >= m_Duration)
-		{
-			m_isFinished = true;
-
-			if (true == m_isLoop)
-			{
-				m_TimeAcc = 0.0;
-			}
-		}
 		/* 이 애님을 표현하는데 필요한 모든 뼈대들의 행렬을 키프레임정보로 만들어낸다. */
 		for (_uint i = 0; i < m_iNumChannels; ++i)
 		{
@@ -75,22 +76,7 @@ _bool CAnimation::Update(vector<CBone*>& Bones, _double TimeDelta)
 	}
 	else
 	{
-		if (m_TimeAcc < m_Duration)
-			m_isFinished = false;
-		/* m_TimeAcc : 현재 애니메이션이 재생된 시간. */
-		m_TimeAcc += m_TickPerSecond * TimeDelta;
-
-		m_LerpTimeAcc += TimeDelta;
-
-		if (m_TimeAcc >= m_Duration)
-		{
-			m_isFinished = true;
-
-			if (true == m_isLoop)
-			{
-				m_TimeAcc = 0.0;
-			}
-		}
+		m_LerpTimeAcc += m_TickPerSecond * TimeDelta;
 
 		KEYFRAME preKeyFrame{};
 		m_pPreAnimation->Update_Lerp(preKeyFrame, TimeDelta);
@@ -98,11 +84,10 @@ _bool CAnimation::Update(vector<CBone*>& Bones, _double TimeDelta)
 		/* 이 애님을 표현하는데 필요한 모든 뼈대들의 행렬을 키프레임정보로 만들어낸다. */
 		for (_uint i = 0; i < m_iNumChannels; ++i)
 		{
-			_float LerpRatio = 0.2f;
+			_float LerpRatio = m_LerpTimeAcc / m_LerpDuration;
 			if (m_Channels[i]->Update_Change_Animation_Lerp(Bones, preKeyFrame, m_iCurrentKeyFrames[i], m_TimeAcc, LerpRatio))
 			{
 				m_bAnimationChangeLerp = false;
-				break;
 			}
 		}
 	}

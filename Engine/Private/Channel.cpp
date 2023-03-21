@@ -122,7 +122,7 @@ _bool CChannel::Update_Change_Animation_Lerp(vector<CBone*>& Bones, KEYFRAME& pP
 	vResultRotation = XMQuaternionSlerp(XMLoadFloat4(&pPreKeyFrame.vRotation), vRotation, (_float)LerpRatio);
 	vResultPosition = XMVectorLerp(XMLoadFloat3(&pPreKeyFrame.vPosition), vPosition, (_float)LerpRatio);
 	vResultPosition = XMVectorSetW(vPosition, 1.f);
-
+	
 	_matrix		TransformationMatrix = XMMatrixAffineTransformation(vResultScale, XMVectorSet(0.f, 0.f, 0.f, 1.f), vResultRotation, vResultPosition);
 
 	Bones[m_iBoneIndex]->SetUp_TransformationMatrix(TransformationMatrix);
@@ -261,6 +261,10 @@ void CChannel::Make_KeyFrame(KEYFRAME& OutKeyFrame, _uint& pCurrentKeyFrame, _do
 		XMStoreFloat4(&OutKeyFrame.vRotation, XMQuaternionSlerp(vSourRotation, vDestRotation, (_float)Ratio));
 		XMStoreFloat3(&OutKeyFrame.vPosition, XMVectorLerp(vSourPosition, vDestPosition, (_float)Ratio));
 	}
+}
+
+void CChannel::Make_AffineMatrix(_matrix& OutMatrix, _uint& pCurrentKeyFrame, _double CurrentTime)
+{
 }
 
 CChannel* CChannel::Create(aiNodeAnim* pAIChannel, CModel* pModel)
