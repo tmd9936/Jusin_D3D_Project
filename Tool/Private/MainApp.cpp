@@ -95,6 +95,7 @@ void CMainApp::Tick(_double TimeDelta)
 		m_pMapToolGUI->Tick(TimeDelta);
 	}
 	m_pGameInstance->Tick_Engine(TimeDelta);
+
 }
 
 HRESULT CMainApp::Render()

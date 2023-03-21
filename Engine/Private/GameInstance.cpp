@@ -5,6 +5,7 @@
 #include "Component_Manager.h"
 #include "Sound_Manager.h"
 #include "Light_Manager.h"
+#include "Collider_Manager.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -18,6 +19,7 @@ CGameInstance::CGameInstance()
 	, m_pPipeLine(CPipeLine::GetInstance())
 	, m_pInput_Device(CInput_Device::GetInstance())
 	, m_pLight_Manager(CLight_Manager::GetInstance())
+	, m_pCollider_Manager(CCollider_Manager::GetInstance())
 {
 	Safe_AddRef(m_pLight_Manager);
 	Safe_AddRef(m_pComponent_Manager);
@@ -28,6 +30,7 @@ CGameInstance::CGameInstance()
 	Safe_AddRef(m_pSound_Manager);
 	Safe_AddRef(m_pPipeLine);
 	Safe_AddRef(m_pInput_Device);
+	Safe_AddRef(m_pCollider_Manager);
 }
 
 HRESULT CGameInstance::Initialize_Engine(_uint iNumLevels, HINSTANCE hInstance, const GRAPHIC_DESC& GraphicDesc, ID3D11Device** ppDeviceOut, ID3D11DeviceContext** ppContextOut)
@@ -73,7 +76,10 @@ HRESULT CGameInstance::Tick_Engine(_double TimeDelta)
 
 	m_pPipeLine->Update();
 
+	CGameInstance::GetInstance()->Update_CollisionMgr(m_pLevel_Manager->Get_LevelIndex());
+
 	m_pObject_Manager->LateTick(TimeDelta);
+
 
 	return S_OK;
 }
@@ -454,6 +460,30 @@ HRESULT CGameInstance::Add_Light(ID3D11Device* pDevice, ID3D11DeviceContext* pCo
 	return m_pLight_Manager->Add_Light(pDevice, pContext, LightDesc);
 }
 
+void CGameInstance::Update_CollisionMgr(_uint iLevelIndex)
+{
+	if (nullptr == m_pCollider_Manager)
+		return;
+
+	m_pCollider_Manager->Update_CollisionMgr(iLevelIndex);
+}
+
+HRESULT CGameInstance::Add_Check_CollisionGroup(wstring LeftLayerTag, wstring RightLayerTag)
+{
+	if (nullptr == m_pCollider_Manager)
+		return E_FAIL;
+
+	return m_pCollider_Manager->Add_Check_CollisionGroup(LeftLayerTag, RightLayerTag);
+}
+
+void CGameInstance::Reset_CollisionGroup()
+{
+	if (nullptr == m_pCollider_Manager)
+		return;
+
+	m_pCollider_Manager->Reset_CollisionGroup();
+}
+
 
 void CGameInstance::Release_Engine()
 {
@@ -470,6 +500,8 @@ void CGameInstance::Release_Engine()
 	CTimer_Manager::GetInstance()->DestroyInstance();
 
 	CPipeLine::GetInstance()->DestroyInstance();
+
+	CCollider_Manager::GetInstance()->DestroyInstance();
 
 	CLight_Manager::GetInstance()->DestroyInstance();
 
@@ -489,5 +521,6 @@ void CGameInstance::Free(void)
 	Safe_Release(m_pTimer_Manager);
 	Safe_Release(m_pInput_Device);
 	Safe_Release(m_pPipeLine);
+	Safe_Release(m_pCollider_Manager);
 
 }

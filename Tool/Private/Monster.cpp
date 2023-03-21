@@ -170,7 +170,7 @@ HRESULT CMonster::Add_Components()
 	ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
 	ColliderDesc.vScale = _float3(1.f, 2.f, 1.f);
 	ColliderDesc.vPosition = _float3(0.0f, ColliderDesc.vScale.y * 0.5f, 0.f);
-	if (FAILED(pGameInstance->Add_Component(FAMILY_ID_COLLISION_AABB, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB"),
+	if (FAILED(pGameInstance->Add_Component(CCollider::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB"),
 		(CComponent**)&m_pAABB, &ColliderDesc)))
 		return E_FAIL;
 
@@ -230,7 +230,7 @@ HRESULT CMonster::Add_Components_By_File()
 	ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
 	ColliderDesc.vScale = _float3(1.f, 2.f, 1.f);
 	ColliderDesc.vPosition = _float3(0.0f, ColliderDesc.vScale.y * 0.5f, 0.f);
-	if (FAILED(pGameInstance->Add_Component(FAMILY_ID_COLLISION_AABB, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB"),
+	if (FAILED(pGameInstance->Add_Component(CCollider::familyId	, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB"),
 		(CComponent**)&m_pAABB, &ColliderDesc)))
 		return E_FAIL;
 

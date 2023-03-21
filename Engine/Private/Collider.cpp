@@ -2,15 +2,20 @@
 
 #include "DebugDraw.h"
 #include "PipeLine.h"
+#include "GameObject.h"
+
+_uint CCollider::g_iColliderID = 0;
 
 CCollider::CCollider(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CComponent(pDevice, pContext)
+	, m_iID(g_iColliderID++)
 {
 }
 
 #ifdef _DEBUG
 CCollider::CCollider(const CCollider& rhs)
 	: CComponent(rhs)
+	, m_iID(g_iColliderID++)
 	, m_pBatch(rhs.m_pBatch)
 	, m_pEffect(rhs.m_pEffect)
 	, m_pInputLayout(rhs.m_pInputLayout)
@@ -53,7 +58,7 @@ HRESULT CCollider::Render()
 	m_pBatch->Begin();
 
 	_vector		vColor = true == m_isCollision ? XMVectorSet(1.f, 0.f, 0.f, 1.f) : XMVectorSet(0.f, 1.f, 0.f, 1.f);
-
+	
 	Draw(vColor);
 
 	m_pBatch->End();
@@ -74,6 +79,7 @@ HRESULT CCollider::Initialize_Prototype()
 		break;
 	case TYPE_OBB:
 		m_pOBB_Original = new BoundingOrientedBox(_float3(0.f, 0.f, 0.f), _float3(0.5f, 0.5f, 0.5f), _float4(0.0f, 0.f, 0.f, 1.f));
+
 		break;
 	case TYPE_SPHERE:
 		m_pSphere_Original = new BoundingSphere(_float3(0.f, 0.f, 0.f), 0.5f);
@@ -127,7 +133,22 @@ HRESULT CCollider::Initialize(void* pArg)
 
 void CCollider::Tick(_fmatrix TransformMatrix)
 {
-	m_isCollision = false;
+
+}
+
+void CCollider::On_Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
+{
+	m_pOwner->On_Collision(pOther, fX, fY, fZ);
+}
+
+void CCollider::On_CollisionEnter(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
+{
+	m_pOwner->On_CollisionEnter(pOther, fX, fY, fZ);
+}
+
+void CCollider::On_CollisionExit(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
+{
+	m_pOwner->On_CollisionExit(pOther, fX, fY, fZ);
 }
 
 _bool CCollider::Collision(CCollider* pTarget)
@@ -142,6 +163,7 @@ _bool CCollider::Collision(CCollider* pTarget)
 			m_isCollision = m_pAABB->Intersects(*pTarget->m_pSphere);
 	}
 
+
 	else if (TYPE_OBB == m_eType)
 	{
 		if (TYPE_AABB == pTarget->m_eType)
@@ -151,6 +173,7 @@ _bool CCollider::Collision(CCollider* pTarget)
 		else if (TYPE_SPHERE == pTarget->m_eType)
 			m_isCollision = m_pOBB->Intersects(*pTarget->m_pSphere);
 	}
+
 
 	else if (TYPE_SPHERE == m_eType)
 	{

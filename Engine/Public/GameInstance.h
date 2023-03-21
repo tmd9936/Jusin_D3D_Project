@@ -13,6 +13,7 @@ class CLevel_Manager;
 class CComponent_Manager;
 class CSound_Manager;
 class CLight_Manager;
+class CCollider_Manager;
 
 class ENGINE_DLL CGameInstance :
     public CBase
@@ -97,6 +98,11 @@ public: /*For.Light_Manager*/
 	HRESULT Add_Light(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const LIGHTDESC& LightDesc);
 
 
+public: /*For.Collider_Manager*/
+	void Update_CollisionMgr(_uint iLevelIndex);
+	HRESULT Add_Check_CollisionGroup(wstring LeftLayerTag, wstring RightLayerTag);
+	void Reset_CollisionGroup();
+
 private:
 	CTimer_Manager*			m_pTimer_Manager = { nullptr };
 	CGraphic_Device*		m_pGraphic_Device = { nullptr };
@@ -107,6 +113,7 @@ private:
 	CPipeLine*				m_pPipeLine = { nullptr };
 	CInput_Device*			m_pInput_Device = { nullptr };
 	CLight_Manager*			m_pLight_Manager = { nullptr };
+	CCollider_Manager*		m_pCollider_Manager = { nullptr };
 
 public:
 	static void Release_Engine();

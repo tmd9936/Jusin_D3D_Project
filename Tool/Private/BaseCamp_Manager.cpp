@@ -9,9 +9,6 @@
 
 #include "Client_Utility.h"
 
-#include <codecvt>
-
-
 CBaseCamp_Manager::CBaseCamp_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
 {

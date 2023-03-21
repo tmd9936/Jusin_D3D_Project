@@ -18,6 +18,7 @@ CLevel_BaseCamp::CLevel_BaseCamp(ID3D11Device* pDevice, ID3D11DeviceContext* pCo
 
 HRESULT CLevel_BaseCamp::Initialize()
 {
+
 	if (FAILED(Ready_LightDesc()))
 		return E_FAIL;
 
@@ -44,6 +45,8 @@ HRESULT CLevel_BaseCamp::Initialize()
 
 	if (FAILED(Ready_Layer_Manager(TEXT("Layer_Manager"))))
 		return E_FAIL;
+
+	CGameInstance::GetInstance()->Add_Check_CollisionGroup(L"Layer_Player", L"Layer_Monster");
 
 	CClient_Utility::Load_Layer_GameObjects("../../Reference/Resources/Data/Scene/BaseCamp/Stove.json");
 

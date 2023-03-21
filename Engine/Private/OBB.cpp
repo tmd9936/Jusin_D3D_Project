@@ -54,6 +54,7 @@ void COBB::Set_TransformMatrix()
     TranslationMatrix = XMMatrixTranslation(m_Collider_Desc.vPosition.x, m_Collider_Desc.vPosition.y, m_Collider_Desc.vPosition.z);
 
     m_pOBB_Original->Transform(*m_pOBB_Original, ScaleMatrix * RotationXMatrix * RotationYMatrix * RotationZMatrix * TranslationMatrix);
+    m_pOBB_Original->Extents = _float3(m_Collider_Desc.vScale.x * 0.5f, m_Collider_Desc.vScale.y * 0.5f, m_Collider_Desc.vScale.z * 0.5f);
     m_pOBB = new BoundingOrientedBox(*m_pOBB_Original);
 }
 

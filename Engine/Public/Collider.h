@@ -3,6 +3,8 @@
 
 BEGIN(Engine)
 
+class CGameObject;
+
 class ENGINE_DLL CCollider abstract :
     public CComponent
 {
@@ -35,12 +37,22 @@ public:
     virtual HRESULT Initialize(void* pArg) override;
     virtual void Tick(_fmatrix TransformMatrix);
 
+public:
+    void On_Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ); // call on collising
+    void On_CollisionEnter(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
+    void On_CollisionExit(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
+
+
+public:
+    _uint Get_ID() { return m_iID; }
+
+public:
     virtual void Draw(_vector vColor) PURE;
-
     virtual void Set_TransformMatrix() PURE;
+    _bool Collision(CCollider* pTarget);
 
-    _bool Collision(CCollider* pTarget);;
 
+public:
     const TYPE   Get_Type() const {
         return m_eType;
     }
@@ -78,6 +90,11 @@ protected:
 
     COLLIDER_DESC   m_Collider_Desc = {};
     TYPE	        m_eType = { TYPE_END };
+
+protected:
+    static _uint g_iColliderID;
+    _uint m_iID = { 0 };
+
 #ifdef _DEBUG
 protected:
     PrimitiveBatch<DirectX::VertexPositionColor>* m_pBatch = { nullptr };
