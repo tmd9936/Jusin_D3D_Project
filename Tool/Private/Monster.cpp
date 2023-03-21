@@ -4,6 +4,7 @@
 #include "GameInstance.h"
 
 #include "BuffState.h"
+#include "Weapon.h"
 
 CMonster::CMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
@@ -31,6 +32,9 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* p
 		return E_FAIL;
 
 	if (FAILED(Add_MotionState()))
+		return E_FAIL;
+
+	if (FAILED(Add_BuffState()))
 		return E_FAIL;
 
 	m_eRenderId = RENDER_NONBLEND;
@@ -71,6 +75,9 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const c
 	if (FAILED(Add_MotionState()))
 		return E_FAIL;
 
+	if (FAILED(Add_BuffState()))
+		return E_FAIL;
+
 	m_eRenderId = RENDER_NONBLEND;
 
 	Add_TransitionRandomState();
@@ -88,14 +95,14 @@ _uint CMonster::Tick(_double TimeDelta)
 	m_pOBB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
 	m_pSphere->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
 	
+	for (auto& pGameObject : m_Parts)
+		pGameObject->Tick(TimeDelta);
+
 	return State_Tick(TimeDelta);
 }
 
 _uint CMonster::LateTick(_double TimeDelta)
 {
-	for (auto& pGameObject : m_Parts)
-		pGameObject->Tick(TimeDelta);
-
 	for (auto& pGameObject : m_Parts)
 		pGameObject->LateTick(TimeDelta);
 
@@ -134,31 +141,61 @@ HRESULT CMonster::Render()
 
 HRESULT CMonster::Add_BuffState()
 {
+	//CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	//Safe_AddRef(pGameInstance);
+
+	//CGameObject* pGameObject = nullptr;
+
+	//CBone* pBone = m_pModelCom->Get_BonePtr("effect00_end");
+	//if (nullptr == pBone)
+	//	return E_FAIL;
+
+	//CBuffState::BUFFSTATE_DESC		BuffStateDesc;
+	//ZeroMemory(&BuffStateDesc, sizeof BuffStateDesc);
+
+	//BuffStateDesc.pBonePtr = pBone;
+	//Safe_AddRef(pBone);
+
+	//BuffStateDesc.pParent = m_pTransformCom;
+	//Safe_AddRef(m_pTransformCom);
+
+	//XMStoreFloat4x4(&BuffStateDesc.PivotMatrix, m_pModelCom->Get_PivotMatrix());
+
+	//lstrcpy(BuffStateDesc.m_TextureProtoTypeName, L"Prototype_Component_Texture_Pokemon_State_doku");
+
+	//BuffStateDesc.m_TextureLevelIndex = LEVEL_BASECAMP;
+
+	//pGameObject = pGameInstance->Clone_GameObject(L"Layer_BuffState", BuffStateDesc.m_TextureLevelIndex, TEXT("Prototype_GameObject_BuffState"), &BuffStateDesc);
+	//if (nullptr == pGameObject)
+	//	return E_FAIL;
+
+	//m_Parts.push_back(pGameObject);
+
+	//Safe_Release(pGameInstance);
+
+	//return S_OK;
+
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
 	CGameObject* pGameObject = nullptr;
 
-	CBone* pBone = m_pModelCom->Get_BonePtr("effect00");
+	CBone* pBone = m_pModelCom->Get_BonePtr("effect00_end");
 	if (nullptr == pBone)
 		return E_FAIL;
 
-	CBuffState::BUFFSTATE_DESC		BuffStateDesc;
-	ZeroMemory(&BuffStateDesc, sizeof BuffStateDesc);
+	CWeapon::WEAPONDESC		WeaponDesc;
+	ZeroMemory(&WeaponDesc, sizeof WeaponDesc);
 
-	BuffStateDesc.pBonePtr = pBone;
+	WeaponDesc.pBonePtr = pBone;
 	Safe_AddRef(pBone);
 
-	BuffStateDesc.pParent = m_pTransformCom;
+	WeaponDesc.pParent = m_pTransformCom;
 	Safe_AddRef(m_pTransformCom);
 
-	XMStoreFloat4x4(&BuffStateDesc.PivotMatrix, m_pModelCom->Get_PivotMatrix());
+	XMStoreFloat4x4(&WeaponDesc.PivotMatrix, m_pModelCom->Get_PivotMatrix());
 
-	lstrcpy(BuffStateDesc.m_TextureProtoTypeName, L"Prototype_Component_Texture_Pokemon_State_doku");
-
-	BuffStateDesc.m_TextureLevelIndex = LEVEL_BASECAMP;
-
-	pGameObject = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_BuffState"), &BuffStateDesc);
+	pGameObject = pGameInstance->Clone_GameObject(L"Layer_BuffState", LEVEL_BASECAMP, TEXT("Prototype_GameObject_Weapon"), &WeaponDesc);
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
@@ -167,6 +204,7 @@ HRESULT CMonster::Add_BuffState()
 	Safe_Release(pGameInstance);
 
 	return S_OK;
+
 }
 
 HRESULT CMonster::Add_Components()
@@ -506,6 +544,12 @@ HRESULT CMonster::Add_MotionState()
 void CMonster::Free()
 {
 	__super::Free();
+
+
+	for (auto& pGameObject : m_Parts)
+		Safe_Release(pGameObject);
+
+	m_Parts.clear();
 
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pShaderCom);

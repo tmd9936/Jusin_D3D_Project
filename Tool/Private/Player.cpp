@@ -28,8 +28,6 @@ HRESULT CPlayer::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pA
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 		return E_FAIL;
 
-	//if (FAILED(Add_Components()))
-	//	return E_FAIL;
 
 	m_eRenderId = RENDER_NONBLEND;
 

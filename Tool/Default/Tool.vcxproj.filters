@@ -112,6 +112,9 @@
     <Filter Include="02. GameObject\Monster\BuffState">
       <UniqueIdentifier>{774a5ff9-7f28-4297-bad2-5965d1976156}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\TestModel\Weapon">
+      <UniqueIdentifier>{f793c2f5-1112-4711-9364-0f5bb9ff8a3a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -242,6 +245,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\BuffState.h">
       <Filter>02. GameObject\Monster\BuffState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Weapon.h">
+      <Filter>02. GameObject\TestModel\Weapon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -374,6 +380,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\BuffState.cpp">
       <Filter>02. GameObject\Monster\BuffState</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Weapon.cpp">
+      <Filter>02. GameObject\TestModel\Weapon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

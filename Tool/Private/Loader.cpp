@@ -21,6 +21,7 @@
 #include "BaseCamp_Manager.h"
 
 #include "BuffState.h"
+#include "Weapon.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
@@ -330,6 +331,10 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 			CPlayer::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
+		/* For.Prototype_GameObject_Weapon */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Weapon"),
+			CWeapon::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
 
 		/* For.Prototype_GameObject_Map */
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Map"),

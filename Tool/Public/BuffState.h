@@ -11,6 +11,7 @@ class CTexture;
 class CTransform;
 class CModel;
 class CBone;
+class CAABB;
 END
 
 BEGIN(Client)
@@ -41,11 +42,13 @@ public:
 	virtual HRESULT Render() override;
 
 private:
-	CTransform* m_pTransformCom = { nullptr };
-	CRenderer* m_pRendererCom = { nullptr };
-	CShader* m_pShaderCom = { nullptr };
-	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
-	CTexture* m_pTextureCom = { nullptr };
+	CTransform*				m_pTransformCom = { nullptr };
+	CRenderer*				m_pRendererCom = { nullptr };
+	CShader*				m_pShaderCom = { nullptr };
+	CVIBuffer_Rect*			m_pVIBufferCom = { nullptr };
+	CTexture*				m_pTextureCom = { nullptr };
+	CAABB* m_pAABB = { nullptr };
+
 
 private:
 	BUFFSTATE_DESC		m_Desc = {};

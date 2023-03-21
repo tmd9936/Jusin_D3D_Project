@@ -193,6 +193,7 @@
     <ClInclude Include="..\Public\TextureUI.h" />
     <ClInclude Include="..\Public\UI.h" />
     <ClInclude Include="..\Public\UIToolGUI.h" />
+    <ClInclude Include="..\Public\Weapon.h" />
     <ClInclude Include="..\Public\WorldMapCloud.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Resource.h" />
@@ -236,6 +237,7 @@
     <ClCompile Include="..\Private\TextureUI.cpp" />
     <ClCompile Include="..\Private\UI.cpp" />
     <ClCompile Include="..\Private\UIToolGUI.cpp" />
+    <ClCompile Include="..\Private\Weapon.cpp" />
     <ClCompile Include="..\Private\WorldMapCloud.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="Tool.cpp" />
