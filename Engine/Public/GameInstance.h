@@ -66,6 +66,7 @@ public: /* For.Object_Manager */
 	const unordered_map<const _tchar*, class CGameObject*>* Get_GameObject_Prototypes();
 	HRESULT	Remove_All_GameObject_In_Layer(_uint iLevelIndex, const _tchar* pLayerTag);
 	HRESULT Get_All_GameObject_In_Layer(vector<CGameObject*>& result, _uint iLevelIndex, const _tchar* pLayerTag);
+	CGameObject* Clone_GameObject(const _tchar* pLayerTag, _uint iLevelIndex, const _tchar* pPrototypeTag, void* pArg);
 
 public: /* For.Component_Manager */
 	HRESULT Add_Prototype(_uint iLevelIndex, const _tchar* pPrototypeTag, class CComponent* pPrototype);

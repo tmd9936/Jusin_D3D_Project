@@ -299,6 +299,14 @@ const unordered_map<const _tchar*, class CGameObject*>* CGameInstance::Get_GameO
 	return m_pObject_Manager->Get_GameObject_Prototypes();
 }
 
+CGameObject* CGameInstance::Clone_GameObject(const _tchar* pLayerTag, _uint iLevelIndex, const _tchar* pPrototypeTag, void* pArg)
+{
+	if (nullptr == m_pObject_Manager)
+		return nullptr;
+
+	return m_pObject_Manager->Clone_GameObject(pLayerTag, iLevelIndex, pPrototypeTag, pArg);
+}
+
 HRESULT CGameInstance::Add_Prototype(_uint iLevelIndex, const _tchar* pPrototypeTag, CComponent* pPrototype)
 {
 	if (nullptr == m_pComponent_Manager)

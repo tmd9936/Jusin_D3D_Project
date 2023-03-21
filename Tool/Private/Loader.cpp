@@ -20,6 +20,8 @@
 #include "BaseCampMonster.h"
 #include "BaseCamp_Manager.h"
 
+#include "BuffState.h"
+
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
 	, m_pContext(pContext)
@@ -164,9 +166,18 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Brush.png")))))
 		return E_FAIL;
 
-	/* For.Prototype_Component_Texture_Brush */
+	/* For.Prototype_Component_Button_Color_Mask */
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Button_Color_Mask"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Window/window_button.png")))))
+		return E_FAIL;
+
+	wsprintf(m_szLoadingText, TEXT("포켓몬 상태 텍스쳐를 로딩중입니다."));
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Texture_Pokemon_State_doku"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Pokemon_State/UI_ss_n_doku.png")))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Texture_Pokemon_State_damageup"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Pokemon_State/UI_ss_p_damageup.png")))))
 		return E_FAIL;
 #pragma endregion
 
@@ -338,6 +349,11 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 		/* For.Prototype_GameObject_BaseCamp_Manager*/
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BaseCamp_Manager"),
 			CBaseCamp_Manager::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		/* For.Prototype_GameObject_BuffState*/
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BuffState"),
+			CBuffState::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 	}
 #pragma endregion

@@ -107,6 +107,7 @@ public:
 public:
 	HRESULT		Get_Layer_Names(_uint iLevelIndex, vector<wstring>& vecNames);
 	const unordered_map<const _tchar*, class CGameObject*>*		Get_GameObject_Prototypes();
+	CGameObject* Clone_GameObject(const _tchar* pLayerTag, _uint iLevelIndex, const _tchar* pPrototypeTag, void* pArg);
 
 protected:
 	HRESULT		Store_Component(const _tchar* pLayerTag, class CGameObject* pGameObject, const FamilyId& id);

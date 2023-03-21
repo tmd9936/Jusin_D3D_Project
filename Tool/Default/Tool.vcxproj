@@ -167,6 +167,7 @@
     <ClInclude Include="..\Public\BackGround.h" />
     <ClInclude Include="..\Public\BaseCampMonster.h" />
     <ClInclude Include="..\Public\BaseCamp_Manager.h" />
+    <ClInclude Include="..\Public\BuffState.h" />
     <ClInclude Include="..\Public\Button.h" />
     <ClInclude Include="..\Public\Camera_Public.h" />
     <ClInclude Include="..\Public\Client_Utility.h" />
@@ -210,6 +211,7 @@
     <ClCompile Include="..\Private\BackGround.cpp" />
     <ClCompile Include="..\Private\BaseCampMonster.cpp" />
     <ClCompile Include="..\Private\BaseCamp_Manager.cpp" />
+    <ClCompile Include="..\Private\BuffState.cpp" />
     <ClCompile Include="..\Private\Button.cpp" />
     <ClCompile Include="..\Private\Camera_Public.cpp" />
     <ClCompile Include="..\Private\Client_Utility.cpp" />

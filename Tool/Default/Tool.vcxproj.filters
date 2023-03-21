@@ -109,6 +109,9 @@
     <Filter Include="02. GameObject\Monster\BaseCampMonster">
       <UniqueIdentifier>{22071bd7-dd02-4e8d-9104-33797aa1607d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\Monster\BuffState">
+      <UniqueIdentifier>{774a5ff9-7f28-4297-bad2-5965d1976156}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -236,6 +239,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\BaseCampMonster.h">
       <Filter>02. GameObject\Monster\BaseCampMonster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BuffState.h">
+      <Filter>02. GameObject\Monster\BuffState</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -365,6 +371,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\BaseCampMonster.cpp">
       <Filter>02. GameObject\Monster\BaseCampMonster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BuffState.cpp">
+      <Filter>02. GameObject\Monster\BuffState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -82,6 +82,8 @@ protected:
 	virtual	HRESULT Add_TransitionRandomState() PURE;
 	virtual	_uint	State_Tick(const _double& TimeDelta) PURE;
 
+protected:
+	HRESULT Add_BuffState();
 private:
 	HRESULT Add_Components();
 	HRESULT Add_Components_By_File();
@@ -105,6 +107,8 @@ protected:
 	POKEMON_DESC		m_PokemonDesc = {};
 	_float4				m_MovePosition = { 20.f, 0.f, 20.f, 1.f };
 
+protected:
+	vector<CGameObject*>	m_Parts;
 
 public:
 	//static CMonster* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) ;
