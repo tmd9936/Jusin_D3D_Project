@@ -24,6 +24,10 @@ public:
 	virtual _uint LateTick(_double TimeDelta);
 	virtual HRESULT Render();
 
+public:
+	virtual void On_Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ) {}
+	virtual void On_CollisionEnter(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ) {}
+	virtual void On_CollisionExit(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ) {}
 
 public:
 	const wstring			Get_NameTag() const {

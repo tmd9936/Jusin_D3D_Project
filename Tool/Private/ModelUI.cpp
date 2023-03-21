@@ -78,6 +78,7 @@ HRESULT CModelUI::Render()
 		if (FAILED(m_pModelCom->SetUp_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
 			return E_FAIL;
 
+
 		m_pShaderCom->Begin(1);
 
 		m_pModelCom->Render(i);
@@ -168,5 +169,6 @@ void CModelUI::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pRendererCom);
+	Safe_Release(m_pTextureCom);
 
 }

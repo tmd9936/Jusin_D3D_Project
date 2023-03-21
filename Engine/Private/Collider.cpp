@@ -15,6 +15,9 @@ CCollider::CCollider(const CCollider& rhs)
 	, m_pEffect(rhs.m_pEffect)
 	, m_pInputLayout(rhs.m_pInputLayout)
 	, m_eType(rhs.m_eType)
+	, m_pSphere_Original(nullptr == rhs.m_pSphere_Original ? rhs.m_pSphere_Original : new BoundingSphere(*rhs.m_pSphere_Original))
+	, m_pAABB_Original(nullptr == rhs.m_pAABB_Original ? rhs.m_pAABB_Original : new BoundingBox(*rhs.m_pAABB_Original))
+	, m_pOBB_Original(nullptr == rhs.m_pOBB_Original ? rhs.m_pOBB_Original : new BoundingOrientedBox(*rhs.m_pOBB_Original))
 {
 	Safe_AddRef(m_pInputLayout);
 }
@@ -22,6 +25,9 @@ CCollider::CCollider(const CCollider& rhs)
 CCollider::CCollider(const CCollider& rhs)
 	: CComponent(rhs)
 	, m_eType(rhs.m_eType)
+	, m_pSphere_Original(nullptr == rhs.m_pSphere_Original ? rhs.m_pSphere_Original : new BoundingSphere(*rhs.m_pSphere_Original))
+	, m_pAABB_Original(nullptr == rhs.m_pAABB_Original ? rhs.m_pAABB_Original : new BoundingBox(*rhs.m_pAABB_Original))
+	, m_pOBB_Original(nullptr == rhs.m_pOBB_Original ? rhs.m_pOBB_Original : new BoundingOrientedBox(*rhs.m_pOBB_Original))
 {
 
 }
@@ -58,6 +64,22 @@ HRESULT CCollider::Render()
 
 HRESULT CCollider::Initialize_Prototype()
 {
+	if (m_eType == TYPE_END)
+		return E_FAIL;
+
+	switch (m_eType)
+	{
+	case TYPE_AABB:
+		m_pAABB_Original = new BoundingBox(_float3(0.f, 0.f, 0.f), _float3(0.5f, 0.5f, 0.5f));
+		break;
+	case TYPE_OBB:
+		m_pOBB_Original = new BoundingOrientedBox(_float3(0.f, 0.f, 0.f), _float3(0.5f, 0.5f, 0.5f), _float4(0.0f, 0.f, 0.f, 1.f));
+		break;
+	case TYPE_SPHERE:
+		m_pSphere_Original = new BoundingSphere(_float3(0.f, 0.f, 0.f), 0.5f);
+		break;
+	}
+
 #ifdef _DEBUG
 	m_pBatch = new PrimitiveBatch<DirectX::VertexPositionColor>(m_pContext);
 	if (nullptr == m_pBatch)
@@ -169,5 +191,13 @@ void CCollider::Free()
 	}
 	Safe_Release(m_pInputLayout);
 #endif // _DEBUG
+
+	Safe_Delete(m_pSphere_Original);
+	Safe_Delete(m_pAABB_Original);
+	Safe_Delete(m_pOBB_Original);
+
+	Safe_Delete(m_pSphere);
+	Safe_Delete(m_pAABB);
+	Safe_Delete(m_pOBB);
 
 }

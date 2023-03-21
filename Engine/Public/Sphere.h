@@ -19,7 +19,7 @@ public:
 	// CCollider을(를) 통해 상속됨
 	virtual void Draw(_vector vColor) override;
 	virtual void Set_TransformMatrix() override;
-	s
+	
 public:
 	static CSphere* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CComponent* Clone(CGameObject* pOwner, void* pArg) override;

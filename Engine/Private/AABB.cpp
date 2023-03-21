@@ -10,17 +10,12 @@ CAABB::CAABB(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 CAABB::CAABB(const CAABB& rhs)
     : CCollider(rhs)
 {
-    if (rhs.m_pAABB_Original == nullptr)
-        m_pAABB_Original = rhs.m_pAABB_Original;
-    else
-        new BoundingBox(*rhs.m_pAABB_Original);
+
 }
 
 HRESULT CAABB::Initialize_Prototype()
 {
     m_eType = TYPE_AABB;
-
-    m_pAABB_Original = new BoundingBox(_float3(0.f, 0.f, 0.f), _float3(0.5f, 0.5f, 0.5f));
 
     if (FAILED(__super::Initialize_Prototype()))
         return E_FAIL;
@@ -88,7 +83,5 @@ CComponent* CAABB::Clone(CGameObject* pOwner, void* pArg)
 void CAABB::Free()
 {
     __super::Free();
-    Safe_Delete(m_pAABB);
-    Safe_Delete(m_pAABB_Original);
 
 }

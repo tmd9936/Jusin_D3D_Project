@@ -10,17 +10,12 @@ COBB::COBB(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 COBB::COBB(const COBB& rhs)
     : CCollider(rhs)
 {
-    if (rhs.m_pOBB_Original == nullptr)
-        m_pOBB_Original = rhs.m_pOBB_Original;
-    else
-        new BoundingOrientedBox(*rhs.m_pOBB_Original);
+
 }
 
 HRESULT COBB::Initialize_Prototype()
 {
     m_eType = TYPE_OBB;
-
-    m_pOBB_Original = new BoundingOrientedBox(_float3(0.f, 0.f, 0.f), _float3(0.5f, 0.5f, 0.5f), _float4(0.0f, 0.f, 0.f, 1.f));
 
     if (FAILED(__super::Initialize_Prototype()))
         return E_FAIL;
@@ -91,7 +86,5 @@ CComponent* COBB::Clone(CGameObject* pOwner, void* pArg)
 void COBB::Free()
 {
     __super::Free();
-    Safe_Delete(m_pOBB);
-    Safe_Delete(m_pOBB_Original);
 
 }

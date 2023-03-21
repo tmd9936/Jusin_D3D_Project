@@ -10,17 +10,11 @@ CSphere::CSphere(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 CSphere::CSphere(const CSphere& rhs)
     : CCollider(rhs)
 {
-    if (rhs.m_pSphere_Original == nullptr)
-        m_pSphere_Original = rhs.m_pSphere_Original;
-    else
-        new BoundingSphere(*rhs.m_pSphere_Original);
 }
 
 HRESULT CSphere::Initialize_Prototype()
 {
     m_eType = TYPE_SPHERE;
-
-    m_pSphere_Original = new BoundingSphere(_float3(0.f, 0.f, 0.f), 0.5f);
 
     if (FAILED(__super::Initialize_Prototype()))
         return E_FAIL;
@@ -88,7 +82,5 @@ CComponent* CSphere::Clone(CGameObject* pOwner, void* pArg)
 void CSphere::Free()
 {
     __super::Free();
-    Safe_Delete(m_pSphere);
-    Safe_Delete(m_pSphere_Original);
 
 }
