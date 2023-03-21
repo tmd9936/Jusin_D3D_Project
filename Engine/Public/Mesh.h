@@ -12,8 +12,8 @@ class CBone;
 class CMesh final : public CVIBuffer
 {
 private:
-	CMesh(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner);
-	CMesh(const CMesh& rhs, CGameObject* pOwner);
+	explicit CMesh(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner);
+	explicit CMesh(const CMesh& rhs, CGameObject* pOwner);
 	virtual ~CMesh() = default;
 
 public:

@@ -22,6 +22,7 @@
     <ClInclude Include="..\Public\AABB.h" />
     <ClInclude Include="..\Public\Animation.h" />
     <ClInclude Include="..\Public\Base.h" />
+    <ClInclude Include="..\Public\Billboard.h" />
     <ClInclude Include="..\Public\Bone.h" />
     <ClInclude Include="..\Public\Calculator.h" />
     <ClInclude Include="..\Public\Camera.h" />
@@ -72,6 +73,7 @@
     <ClCompile Include="..\Private\AABB.cpp" />
     <ClCompile Include="..\Private\Animation.cpp" />
     <ClCompile Include="..\Private\Base.cpp" />
+    <ClCompile Include="..\Private\Billboard.cpp" />
     <ClCompile Include="..\Private\Bone.cpp" />
     <ClCompile Include="..\Private\Calculator.cpp" />
     <ClCompile Include="..\Private\Camera.cpp" />

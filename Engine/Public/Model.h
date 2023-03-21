@@ -18,8 +18,8 @@ public:
 public:
 	enum TYPE { TYPE_NONANIM, TYPE_ANIM, TYPE_NONANIM_UI, TYPE_ANIM_UI, TYPE_MESH_COLOR_NONANIM, TYPE_MESH_COLOR_ANIM, TYPE_END };
 private:
-	CModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner);
-	CModel(const CModel& rhs, CGameObject* pOwner);
+	explicit CModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner);
+	explicit CModel(const CModel& rhs, CGameObject* pOwner);
 	virtual ~CModel() = default;
 
 public:

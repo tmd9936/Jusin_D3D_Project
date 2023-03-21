@@ -139,6 +139,9 @@ public:
 
 	void Set_Rotation(const _float3& rotaion);
 
+	void	Set_Matrix(_fmatrix matrix) {
+		XMStoreFloat4x4(&m_WorldMatrix, matrix);
+	}
 
 private:
 	_float4x4	m_WorldMatrix = { };

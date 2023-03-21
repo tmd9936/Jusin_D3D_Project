@@ -77,6 +77,8 @@ HRESULT CWeapon::Render()
 #ifdef _DEBUG
     m_pAABB->Render();
 #endif // _DEBUG
+
+    return S_OK;
 }
 
 HRESULT CWeapon::Add_Components()

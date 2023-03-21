@@ -9,8 +9,8 @@ class CModel;
 class ENGINE_DLL CBone final : public CBase
 {
 private:
-	CBone();
-	CBone(const CBone& rhs);
+	explicit CBone();
+	explicit CBone(const CBone& rhs);
 	virtual ~CBone() = default;
 public:
 	const char* Get_Name() const {
