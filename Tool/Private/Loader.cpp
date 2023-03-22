@@ -104,6 +104,14 @@ HRESULT CLoader::Loading_ForLogoLevel()
 #pragma region MODELS
 	wsprintf(m_szLoadingText, TEXT("모델를 로딩중입니다."));
 
+	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_LOGO))
+	{
+		/* For.Prototype_Component_Billboard */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Billboard"),
+			CBillboard::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+	}
+
 	_matrix PivotMatrix = XMMatrixIdentity();
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Model_Logo_Scene"),
 		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../../Reference/Resources/Mesh/Animation/Logo/Logo_Scene.fbx", PivotMatrix))))

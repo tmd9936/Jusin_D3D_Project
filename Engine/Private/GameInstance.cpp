@@ -428,6 +428,14 @@ _float4 CGameInstance::Get_CamPosition()
 	return m_pPipeLine->Get_CamPosition();
 }
 
+_matrix CGameInstance::Get_ViewPort_Matrix(float x, float y, float w, float h, float minZ, float maxZ)
+{
+	if (nullptr == m_pPipeLine)
+		return XMMatrixIdentity();
+
+	return m_pPipeLine->Get_ViewPort_Matrix(x, y, w, h, minZ, maxZ);
+}
+
 const KEY_STATE CGameInstance::Get_KeyState(KEY eKey)
 {
 	if (nullptr == m_pInput_Device)

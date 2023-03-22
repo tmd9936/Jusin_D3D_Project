@@ -4,7 +4,6 @@
 #include "GameInstance.h"
 #include "Bone.h"
 
-
 CBuffState::CBuffState(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
 {
@@ -30,10 +29,21 @@ HRESULT CBuffState::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void*
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_Scaled(_float3(1.0f, 1.0f, 1.0f));
-	m_pTransformCom->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(90.0f));
+	m_Desc.m_fSizeX = 50.f;
+	m_Desc.m_fSizeY = 50.f;
 
-	m_eRenderId = RENDER_NONBLEND;
+	m_pTransformCom->Set_Pos(0.f, 1.5f, 0.0f);
+	//m_pTransformCom->Set_Scaled(_float3(20.3f, 20.3f, 1.0f));
+	m_pTransformCom->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(180.0f));
+
+	//m_pTransformCom->Set_Scaled({ m_Desc.m_fSizeX, m_Desc.m_fSizeY, 1.f });
+
+	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
+
+	XMStoreFloat4x4(&m_ProjMatrix,
+		XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
+
+	m_eRenderId = RENDER_UI;
 
 	return S_OK;
 }
@@ -47,13 +57,31 @@ _uint CBuffState::LateTick(_double TimeDelta)
 {
 	_matrix		ParentMatrix = m_Desc.pBonePtr->Get_OffsetMatrix() *
 		m_Desc.pBonePtr->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_Desc.PivotMatrix);
-
+	
+	//m_pBillboard->Late_Tick(ParentMat);
 	XMStoreFloat4x4(&m_FinalWorldMatrix, m_pTransformCom->Get_WorldMatrix_Matrix() * Remove_Scale(ParentMatrix) * m_Desc.pParent->Get_WorldMatrix_Matrix());
+	
+	_matrix		ViewPortMatrix = CGameInstance::GetInstance()->Get_ViewPort_Matrix(0, 0, g_iWinSizeX, g_iWinSizeY, 0.f, 1.f);
+
+	XMStoreFloat4x4(&m_FinalWorldMatrix, XMLoadFloat4x4(&m_FinalWorldMatrix) * XMLoadFloat4x4(&m_ViewMatrix) * XMLoadFloat4x4(&m_ProjMatrix) * ViewPortMatrix);
+
+	//_float3 vScale = m_pTransformCom->Get_Scaled();
+	_float4 r = { m_Desc.m_fSizeX, 0.f, 0.f, 0.f };
+	_float4 u = { 0.f, m_Desc.m_fSizeY, 0.f, 0.f };
+	_float4 l = { 0.f, 0.f, 1.f, 0.f };
+
+	memcpy(m_FinalWorldMatrix.m[0], &r, sizeof _float4);
+	memcpy(m_FinalWorldMatrix.m[1], &u, sizeof _float4);
+	memcpy(m_FinalWorldMatrix.m[2], &l, sizeof _float4);
+
+	m_FinalWorldMatrix.m[3][0] = m_FinalWorldMatrix.m[3][0] - g_iWinSizeX * 0.5f;
+	m_FinalWorldMatrix.m[3][1] = -m_FinalWorldMatrix.m[3][1] + g_iWinSizeY * 0.5f;
+	//m_FinalWorldMatrix.m[3][1] *= -1.f;
+	m_FinalWorldMatrix.m[3][2] = 0.1f;
 
 	m_pAABB->Tick(XMLoadFloat4x4(&m_FinalWorldMatrix));
 
 	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
-
 
 	return _uint();
 }
@@ -63,7 +91,7 @@ HRESULT CBuffState::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	m_pShaderCom->Begin(1);
+	m_pShaderCom->Begin(0);
 
 	m_pVIBufferCom->Render();
 
@@ -104,6 +132,11 @@ HRESULT CBuffState::Add_Components()
 		(CComponent**)&m_pTextureCom, nullptr)))
 		return E_FAIL;
 
+	/* For.Com_Billboard */
+	if (FAILED(pGameInstance->Add_Component(CBillboard::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Billboard"),
+		(CComponent**)&m_pBillboard, nullptr)))
+		return E_FAIL;
+
 	/* For.Com_AABB*/
 	CCollider::COLLIDER_DESC		ColliderDesc;
 
@@ -127,10 +160,10 @@ HRESULT CBuffState::SetUp_ShaderResources()
 	Safe_AddRef(pGameInstance);
 
 	if (FAILED(m_pShaderCom->Set_Matrix("g_ViewMatrix",
-		&pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_VIEW))))
+		&m_ViewMatrix)))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_Matrix("g_ProjMatrix",
-		&pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_PROJ))))
+		&m_ProjMatrix)))
 		return E_FAIL;
 
 	//if (FAILED(m_pShaderCom->Set_RawValue("g_vCamPosition",
@@ -189,11 +222,14 @@ void CBuffState::Free()
 	Safe_Release(m_Desc.pBonePtr);
 	Safe_Release(m_Desc.pParent);
 
+	Safe_Release(m_pBillboard);
+
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pRendererCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pAABB);
+
 
 }

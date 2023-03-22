@@ -15,6 +15,7 @@
 #include "Model.h"
 #include "PickingCube.h"
 #include "MonFSM.h"
+#include "Billboard.h"
 #pragma endregion
 
 #pragma region COLLIDER

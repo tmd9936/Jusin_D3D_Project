@@ -19,7 +19,11 @@ public:
 	virtual HRESULT Initialize(void* pArg) override;
 
 public:
-	virtual _uint Late_Tick(_double TimeDelta);
+	_uint Late_Tick(_double TimeDelta);
+
+	_uint Late_Tick(_float4x4& customMatrix);
+
+	_matrix Get_BillBoarMatrix();
 
 public:
 	static CBillboard* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

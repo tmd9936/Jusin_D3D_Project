@@ -30,6 +30,8 @@ public:
 		return m_vCamPosition;
 	}
 
+	_matrix Get_ViewPort_Matrix(float x, float y, float w, float h, float minZ, float maxZ);
+
 public:
 	void	Update();
 

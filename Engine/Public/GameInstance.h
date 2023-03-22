@@ -88,6 +88,7 @@ public: /* For.PipeLine */
 	_float4x4 Get_Transform_Float4x4(CPipeLine::TRANSFORMSTATE eState);
 	_matrix Get_Transform_Matrix(CPipeLine::TRANSFORMSTATE eState);
 	_float4 Get_CamPosition();
+	_matrix Get_ViewPort_Matrix(float x, float y, float w, float h, float minZ, float maxZ);
 
 public: /* For.InputDevice */
 	const KEY_STATE Get_KeyState(KEY eKey);

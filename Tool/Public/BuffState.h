@@ -12,6 +12,7 @@ class CTransform;
 class CModel;
 class CBone;
 class CAABB;
+class CBillboard;
 END
 
 BEGIN(Client)
@@ -24,6 +25,9 @@ public:
 		CBone*				pBonePtr = { nullptr };
 		CTransform*			pParent = { nullptr };
 		_float4x4			PivotMatrix;
+
+		_float				m_fSizeX;
+		_float				m_fSizeY;
 
 		_tchar				m_TextureProtoTypeName[MAX_PATH];
 		_uint				m_TextureLevelIndex;
@@ -47,12 +51,15 @@ private:
 	CShader*				m_pShaderCom = { nullptr };
 	CVIBuffer_Rect*			m_pVIBufferCom = { nullptr };
 	CTexture*				m_pTextureCom = { nullptr };
-	CAABB* m_pAABB = { nullptr };
-
-
+	CAABB*					m_pAABB = { nullptr };
+	CBillboard*				m_pBillboard = { nullptr };
+	
 private:
 	BUFFSTATE_DESC		m_Desc = {};
 	_float4x4			m_FinalWorldMatrix; /* 원점기준 (내 월드 * 부모월드) */
+
+	_float4x4			m_ViewMatrix = {};
+	_float4x4			m_ProjMatrix = {};
 
 private:
 	HRESULT Add_Components();
