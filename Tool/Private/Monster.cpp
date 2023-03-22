@@ -150,9 +150,6 @@ HRESULT CMonster::Add_BuffState()
 	CBuffState::BUFFSTATE_DESC		BuffStateDesc;
 	ZeroMemory(&BuffStateDesc, sizeof BuffStateDesc);
 
-	BuffStateDesc.pBonePtr = pBone;
-	Safe_AddRef(pBone);
-
 	BuffStateDesc.pParent = m_pTransformCom;
 	Safe_AddRef(m_pTransformCom);
 

@@ -55,18 +55,10 @@ _uint CBuffState::Tick(_double TimeDelta)
 
 _uint CBuffState::LateTick(_double TimeDelta)
 {
-	//_matrix		ParentMatrix = m_Desc.pBonePtr->Get_OffsetMatrix() *
-	//	m_Desc.pBonePtr->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_Desc.PivotMatrix);
-	
-	//m_pBillboard->Late_Tick(ParentMat);
-	//XMStoreFloat4x4(&m_FinalWorldMatrix, m_pTransformCom->Get_WorldMatrix_Matrix() * Remove_Scale(ParentMatrix) * m_Desc.pParent->Get_WorldMatrix_Matrix());
-	
 	_matrix		ViewPortMatrix = CGameInstance::GetInstance()->Get_ViewPort_Matrix(0, 0, g_iWinSizeX, g_iWinSizeY, 0.f, 1.f);
-
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
 	_matrix viewMatrix = pGameInstance->Get_Transform_Matrix(CPipeLine::D3DTS_VIEW);
-
 	_matrix projMatrix = pGameInstance->Get_Transform_Matrix(CPipeLine::D3DTS_PROJ);
 
 	_float4x4 ParentMat{};
@@ -231,7 +223,6 @@ void CBuffState::Free()
 {
 	__super::Free();
 
-	Safe_Release(m_Desc.pBonePtr);
 	Safe_Release(m_Desc.pParent);
 
 	Safe_Release(m_pBillboard);

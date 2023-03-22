@@ -22,7 +22,6 @@ class CBuffState final : public CGameObject
 public:
 	typedef struct BuffState_Desc
 	{
-		CBone*				pBonePtr = { nullptr };
 		CTransform*			pParent = { nullptr };
 		_float4x4			PivotMatrix;
 
