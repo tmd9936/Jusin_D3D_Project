@@ -49,9 +49,6 @@
     <Filter Include="96 ImGui\DataToolGUI">
       <UniqueIdentifier>{4b68341e-8e0c-4946-a930-0258f43bc12d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\Player">
-      <UniqueIdentifier>{7132cc79-bd6b-439e-b4b1-ae5ec88af567}</UniqueIdentifier>
-    </Filter>
     <Filter Include="96 ImGui\Utill">
       <UniqueIdentifier>{2124fcc0-bcc6-4afe-87b3-1b720a27b396}</UniqueIdentifier>
     </Filter>
@@ -114,6 +111,9 @@
     </Filter>
     <Filter Include="02. GameObject\TestModel\Weapon">
       <UniqueIdentifier>{f793c2f5-1112-4711-9364-0f5bb9ff8a3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Monster\Player">
+      <UniqueIdentifier>{7132cc79-bd6b-439e-b4b1-ae5ec88af567}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -193,7 +193,7 @@
       <Filter>02. GameObject\TestModel</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Player.h">
-      <Filter>02. GameObject\Player</Filter>
+      <Filter>02. GameObject\Monster\Player</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\FileDialogUtill.h">
       <Filter>96 ImGui\Utill</Filter>
@@ -322,7 +322,7 @@
       <Filter>02. GameObject\TestModel</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Player.cpp">
-      <Filter>02. GameObject\Player</Filter>
+      <Filter>02. GameObject\Monster\Player</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\FileDialogUtill.cpp">
       <Filter>96 ImGui\Utill</Filter>

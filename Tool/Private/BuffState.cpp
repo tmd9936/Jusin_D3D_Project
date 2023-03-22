@@ -55,24 +55,36 @@ _uint CBuffState::Tick(_double TimeDelta)
 
 _uint CBuffState::LateTick(_double TimeDelta)
 {
-	_matrix		ParentMatrix = m_Desc.pBonePtr->Get_OffsetMatrix() *
-		m_Desc.pBonePtr->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_Desc.PivotMatrix);
+	//_matrix		ParentMatrix = m_Desc.pBonePtr->Get_OffsetMatrix() *
+	//	m_Desc.pBonePtr->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_Desc.PivotMatrix);
 	
 	//m_pBillboard->Late_Tick(ParentMat);
-	XMStoreFloat4x4(&m_FinalWorldMatrix, m_pTransformCom->Get_WorldMatrix_Matrix() * Remove_Scale(ParentMatrix) * m_Desc.pParent->Get_WorldMatrix_Matrix());
+	//XMStoreFloat4x4(&m_FinalWorldMatrix, m_pTransformCom->Get_WorldMatrix_Matrix() * Remove_Scale(ParentMatrix) * m_Desc.pParent->Get_WorldMatrix_Matrix());
 	
 	_matrix		ViewPortMatrix = CGameInstance::GetInstance()->Get_ViewPort_Matrix(0, 0, g_iWinSizeX, g_iWinSizeY, 0.f, 1.f);
 
-	XMStoreFloat4x4(&m_FinalWorldMatrix, XMLoadFloat4x4(&m_FinalWorldMatrix) * XMLoadFloat4x4(&m_ViewMatrix) * XMLoadFloat4x4(&m_ProjMatrix) * ViewPortMatrix);
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	_matrix viewMatrix = pGameInstance->Get_Transform_Matrix(CPipeLine::D3DTS_VIEW);
+
+	_matrix projMatrix = pGameInstance->Get_Transform_Matrix(CPipeLine::D3DTS_PROJ);
+
+	_float4x4 ParentMat{};
+	XMStoreFloat4x4(&ParentMat, m_Desc.pParent->Get_WorldMatrix_Matrix());
+	XMStoreFloat4x4(&ParentMat, XMLoadFloat4x4(&ParentMat) * viewMatrix * projMatrix * ViewPortMatrix);
 
 	//_float3 vScale = m_pTransformCom->Get_Scaled();
 	_float4 r = { m_Desc.m_fSizeX, 0.f, 0.f, 0.f };
 	_float4 u = { 0.f, m_Desc.m_fSizeY, 0.f, 0.f };
 	_float4 l = { 0.f, 0.f, 1.f, 0.f };
+	_float4 p = { ParentMat.m[3][0] / ParentMat.m[3][3], ParentMat.m[3][1] / ParentMat.m[3][3], 0.1f, 1.f};
 
-	memcpy(m_FinalWorldMatrix.m[0], &r, sizeof _float4);
-	memcpy(m_FinalWorldMatrix.m[1], &u, sizeof _float4);
-	memcpy(m_FinalWorldMatrix.m[2], &l, sizeof _float4);
+	memcpy(ParentMat.m[0], &r, sizeof _float4);
+	memcpy(ParentMat.m[1], &u, sizeof _float4);
+	memcpy(ParentMat.m[2], &l, sizeof _float4);
+	memcpy(ParentMat.m[3], &p, sizeof _float4);
+
+	m_FinalWorldMatrix = ParentMat;
 
 	m_FinalWorldMatrix.m[3][0] = m_FinalWorldMatrix.m[3][0] - g_iWinSizeX * 0.5f;
 	m_FinalWorldMatrix.m[3][1] = -m_FinalWorldMatrix.m[3][1] + g_iWinSizeY * 0.5f;
