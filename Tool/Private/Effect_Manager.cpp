@@ -64,7 +64,7 @@ _uint CEffect_Manager::LateTick(_double TimeDelta)
 	return _uint();
 }
 
-CEffect* CEffect_Manager::Create_Effect(_uint effectType, const _tchar* pLayerTag, _uint iLevelIndex)
+CEffect* CEffect_Manager::Create_Effect(_uint effectType, const _tchar* pLayerTag, _uint iLevelIndex, _float3 vPos)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
@@ -124,6 +124,8 @@ _bool CEffect_Manager::Load_By_JsonFile_Impl(Document& doc)
 
 		m_Effect_Descs.push_back(m_desc);
 	}
+
+	m_Effect_Prototype_Check.reserve(m_Effect_Descs.size());
 
 	return true;
 }

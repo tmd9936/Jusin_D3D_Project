@@ -903,6 +903,9 @@ HRESULT CModel::Ready_Materials(const char* pModelFilePath)
 			ModelMaterial.szModelPath = pModelFilePath;
 
 			ModelMaterial.pMtrlTexture[j] = CTexture::Create(m_pDevice, m_pContext, szFinalPath);
+
+			TexturePath.Clear();
+
 			if (nullptr == ModelMaterial.pMtrlTexture[j])
 				return E_FAIL;
 		}

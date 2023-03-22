@@ -55,6 +55,30 @@ _uint CSkill_Manager::LateTick(_double TimeDelta)
 	return _uint();
 }
 
+CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (skillType >= m_Skill_Depend_Datas.size() || nullptr == pLayerTag || iLevelIndex >= LEVEL_END)
+		return nullptr;
+
+	CGameObject* pEffect_Manager = pGameInstance->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"Effect_Manager");
+
+	if (nullptr == pEffect_Manager)
+		return nullptr;
+
+	for (auto& effectIndex : m_Skill_Depend_Datas[skillType].m_effects)
+	{
+		CGameObject* pEffect = nullptr;
+
+	}
+
+	Safe_Release(pGameInstance);
+
+	return nullptr;
+}
+
 
 HRESULT CSkill_Manager::Reload_Datas()
 {

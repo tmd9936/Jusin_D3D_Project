@@ -118,6 +118,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			return E_FAIL;
 	}
 
+	// TODO: 모델 생성시 생기는 메모리릭 잡기
 	_matrix PivotMatrix = XMMatrixIdentity();
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Model_Logo_Scene"),
 		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../../Reference/Resources/Mesh/Animation/Logo/Logo_Scene.fbx", PivotMatrix))))
@@ -174,10 +175,10 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	wsprintf(m_szLoadingText, TEXT("LEVEL_STATIC 객체 로딩중."));
 	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_LOGO))
 	{
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Effect_Manager"), LEVEL_STATIC, L"Layer_Manager")))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Effect_Manager"), LEVEL_STATIC, L"Layer_Manager", L"Effect_Manager")))
 			return E_FAIL;
 
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Skill_Manager"), LEVEL_STATIC, L"Layer_Manager")))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Skill_Manager"), LEVEL_STATIC, L"Layer_Manager", L"Skill_Manager")))
 			return E_FAIL;
 	}
 

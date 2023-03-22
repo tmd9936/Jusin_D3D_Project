@@ -75,7 +75,8 @@ _uint CBuffState::LateTick(_double TimeDelta)
 
 	//_float ScaleRatio = ParentMat.m[3][3] / ParentMat.m[3][2];
 
-	// z뺴기를 해주면 뷰포트 기준 정상적은 위치가 나옴
+	// x와 y에 z빼기를 해주면 뷰포트 기준으로의 위치가 만들어짐
+	// z까지 z뺴기를 해주면 부모의 뒤로 랜더가 될 경우가 생기기 때문에 z는 임의의 값으로 놔둠
 	_float3 vScale = m_pTransformCom->Get_Scaled();
 	_float4 r = { vScale.x, 0.f, 0.f, 0.f };
 	_float4 u = { 0.f, vScale.y, 0.f, 0.f };

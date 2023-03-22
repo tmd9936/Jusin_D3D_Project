@@ -32,6 +32,8 @@ public:
 	virtual _uint Tick(_double TimeDelta) override;
 	virtual _uint LateTick(_double TimeDelta) override;
 
+public:
+	CSkill* Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillindex);
 
 public:
 	HRESULT	Reload_Datas();

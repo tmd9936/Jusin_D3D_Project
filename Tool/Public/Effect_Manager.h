@@ -26,7 +26,7 @@ public:
 	virtual _uint Tick(_double TimeDelta) override;
 	virtual _uint LateTick(_double TimeDelta) override;
 
-	CEffect* Create_Effect(_uint effectType, const _tchar* pLayerTag, _uint iLevelIndex);
+	CEffect* Create_Effect(_uint effectType, const _tchar* pLayerTag, _uint iLevelIndex, _float3 vPos);
 
 public:
 	HRESULT	Reload_Datas();
@@ -44,6 +44,9 @@ private:
 
 private:
 	vector<CEffect::EFFECT_DESC> m_Effect_Descs;
+
+	vector<_bool>	m_Effect_Prototype_Check;
+
 
 	const wstring m_EffectFilePath = { L"../../Reference/Resources/Mesh/Animation/Effect/" };
 
