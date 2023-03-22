@@ -30,7 +30,7 @@ HRESULT CBuffState::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void*
 		return E_FAIL;
 
 	m_pTransformCom->Set_Scaled({ m_Desc.m_fSizeX, m_Desc.m_fSizeY, 1.f });
-	m_pTransformCom->Set_Pos(0.f, 5.f, 0.0f);
+	m_pTransformCom->Set_Pos(m_Desc.m_fPositionX, m_Desc.m_fPositinoY, m_Desc.m_fPositinoZ);
 
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
 
@@ -49,7 +49,10 @@ _uint CBuffState::Tick(_double TimeDelta)
 
 _uint CBuffState::LateTick(_double TimeDelta)
 {
-	_matrix		ViewPortMatrix = CGameInstance::GetInstance()->Get_ViewPort_Matrix(-10.f, -70.f, g_iWinSizeX, g_iWinSizeY, 0.f, 1.f);
+	_float4 BuffPos{};
+	XMStoreFloat4(&BuffPos, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
+
+	_matrix		ViewPortMatrix = CGameInstance::GetInstance()->Get_ViewPort_Matrix(BuffPos.x, BuffPos.y, g_iWinSizeX, g_iWinSizeY, 0.f, 1.f);
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
 	_matrix viewMatrix = pGameInstance->Get_Transform_Matrix(CPipeLine::D3DTS_VIEW);
@@ -72,9 +75,6 @@ _uint CBuffState::LateTick(_double TimeDelta)
 	_float4 l = { 0.f, 0.f, 1.f, 0.f };
 	_float4 p = { (ParentMat.m[3][0]) / ParentMat.m[3][2], (ParentMat.m[3][1]) / ParentMat.m[3][2], 0.f, 1.f};
 
-	_float4 BuffPos{};
-	XMStoreFloat4(&BuffPos, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
-
 	memcpy(ParentMat.m[0], &r, sizeof _float4);
 	memcpy(ParentMat.m[1], &u, sizeof _float4);
 	memcpy(ParentMat.m[2], &l, sizeof _float4);
@@ -85,7 +85,7 @@ _uint CBuffState::LateTick(_double TimeDelta)
 	m_FinalWorldMatrix.m[3][0] = (m_FinalWorldMatrix.m[3][0]) - g_iWinSizeX * 0.5f;
 	m_FinalWorldMatrix.m[3][1] = -(m_FinalWorldMatrix.m[3][1]) + g_iWinSizeY * 0.5f;
 	//m_FinalWorldMatrix.m[3][1] *= -1.f;
-	m_FinalWorldMatrix.m[3][2] = 0.1f;
+	m_FinalWorldMatrix.m[3][2] = m_Desc.m_fPositinoZ;
 
 	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
 

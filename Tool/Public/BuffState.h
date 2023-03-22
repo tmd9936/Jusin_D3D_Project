@@ -22,6 +22,10 @@ public:
 		CTransform*			pParent = { nullptr };
 		_float4x4			PivotMatrix;
 
+		_float				m_fPositionX;
+		_float				m_fPositinoY;
+		_float				m_fPositinoZ;
+
 		_float				m_fSizeX;
 		_float				m_fSizeY;
 
