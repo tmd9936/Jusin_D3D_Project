@@ -24,6 +24,8 @@
 #include "Weapon.h"
 #include "Effect.h"
 #include "Effect_Manager.h"
+#include "Skill.h"
+#include "Skill_Manager.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
@@ -148,6 +150,16 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CEffect_Manager::Create(m_pDevice, m_pContext, "../../Reference/Resources/Data/Effect/EffectDataSet.json"))))
 			return E_FAIL;
 
+		/* For.Prototype_GameObject_Skill */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill"),
+			CSkill::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		/* For.Prototype_GameObject_Skill_Manager */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_Manager"),
+			CSkill_Manager::Create(m_pDevice, m_pContext, "../../Reference/Resources/Data/Skill/SkillDependDataSet.json", "../../Reference/Resources/Data/Skill/SkillDataResourcesSet.json"))))
+			return E_FAIL;
+
 		///* For.Prototype_GameObject_BackGround */
 		//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround"),
 		//	CBackGround::Create(m_pDevice, m_pContext))))
@@ -161,6 +173,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_LOGO))
 	{
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Effect_Manager"), LEVEL_STATIC, L"Layer_Manager")))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Skill_Manager"), LEVEL_STATIC, L"Layer_Manager")))
 			return E_FAIL;
 	}
 

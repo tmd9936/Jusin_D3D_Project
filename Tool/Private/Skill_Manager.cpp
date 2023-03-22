@@ -17,17 +17,17 @@ CSkill_Manager::CSkill_Manager(const CSkill_Manager& rhs)
 
 }
 
-HRESULT CSkill_Manager::Initialize_Prototype(const char* skillDepnedDataFilePath, const char* skillDepnedResourceFilePath)
+HRESULT CSkill_Manager::Initialize_Prototype(const char* skillDepnedDataFilePath, const char* skillDataResourceFilePath)
 {
 	if (false == Load_By_JsonFile(skillDepnedDataFilePath))
 		return E_FAIL;
 
 	m_skillDepnedDataFilePath = skillDepnedDataFilePath;
 
-	if (false == Load_SkillDataResourcesSet_JsonFile(skillDepnedResourceFilePath))
+	if (false == Load_SkillDataResourcesSet_JsonFile(skillDataResourceFilePath))
 		return E_FAIL;
 
-	m_skillDepnedResourceFilePath = skillDepnedResourceFilePath;
+	m_skillDataResourceFilePath = skillDataResourceFilePath;
 
 	return S_OK;
 }
@@ -64,7 +64,7 @@ HRESULT CSkill_Manager::Reload_Datas()
 	if (false == Load_By_JsonFile(m_skillDepnedDataFilePath.c_str()))
 		return E_FAIL;
 
-	if (false == Load_SkillDataResourcesSet_JsonFile(m_skillDepnedResourceFilePath.c_str()))
+	if (false == Load_SkillDataResourcesSet_JsonFile(m_skillDataResourceFilePath.c_str()))
 		return E_FAIL;
 
 	return S_OK;
@@ -91,14 +91,14 @@ _bool CSkill_Manager::Load_By_JsonFile_Impl(Document& doc)
 		assert(m_effects.IsArray());
 		for (SizeType j = 0; j < m_effects.Size(); ++j)
 		{
-			m_desc.m_effects.push_back(m_effects[i].GetUint());
+			m_desc.m_effects.push_back(m_effects[j].GetUint());
 		}
 
 		const Value& m_conditions = m_datas[i]["m_conditions"];
 		assert(m_conditions.IsArray());
 		for (SizeType j = 0; j < m_conditions.Size(); ++j)
 		{
-			m_desc.m_conditions.push_back(m_conditions[i].GetUint());
+			m_desc.m_conditions.push_back(m_conditions[j].GetUint());
 
 		}
 

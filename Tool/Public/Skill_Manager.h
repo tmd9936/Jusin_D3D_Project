@@ -26,7 +26,7 @@ private:
 	virtual ~CSkill_Manager() = default;
 
 public:
-	HRESULT Initialize_Prototype(const char* skillDepnedDataFilePath, const char* skillDepnedResourceFilePaths); /* 원형객체의 초기화작업 */
+	HRESULT Initialize_Prototype(const char* skillDepnedDataFilePath, const char* skillDataResourceFilePath); /* 원형객체의 초기화작업 */
 	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override; /* 사본객체의 초기화작업 */
 
 	virtual _uint Tick(_double TimeDelta) override;
@@ -51,11 +51,11 @@ private:
 	vector<SKILL_DEPEND_DATA> m_Skill_Depend_Datas;
 	vector<CSkill::SKILL_DESC> m_Skill_Desc_Datas;
 
-	string m_skillDepnedResourceFilePath = {};
 	string m_skillDepnedDataFilePath = {};
+	string m_skillDataResourceFilePath = {};
 
 public:
-	static CSkill_Manager* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const char* skillDepnedDataFilePath, const char* skillDepnedResourceFilePath);
+	static CSkill_Manager* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const char* skillDepnedDataFilePath, const char* skillDataResourceFilePath);
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) override;
 	virtual void Free() override;
 };
