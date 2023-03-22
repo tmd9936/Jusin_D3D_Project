@@ -121,6 +121,18 @@
     <Filter Include="02. GameObject\Monster\UI\HpBar">
       <UniqueIdentifier>{a12b8741-0500-446a-9d84-2c3537cde0a5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\Effect">
+      <UniqueIdentifier>{be9f8978-f02c-438a-a2f4-fc6971dd938a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Effect\Effect_Manager">
+      <UniqueIdentifier>{e994c659-68b1-471e-bbe4-f1aabd47ff64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Skill">
+      <UniqueIdentifier>{7f876eed-6c42-4f03-b288-ece67e4d7aaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Skill\Skill_Manager">
+      <UniqueIdentifier>{3f632fe4-71ce-4b1c-9de0-bf40fbeda2bd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -257,6 +269,18 @@
     </ClInclude>
     <ClInclude Include="..\Public\HpBar.h">
       <Filter>02. GameObject\Monster\UI\HpBar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Effect.h">
+      <Filter>02. GameObject\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Effect_Manager.h">
+      <Filter>02. GameObject\Effect\Effect_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill.h">
+      <Filter>02. GameObject\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_Manager.h">
+      <Filter>02. GameObject\Skill\Skill_Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -395,6 +419,18 @@
     </ClCompile>
     <ClCompile Include="..\Private\HpBar.cpp">
       <Filter>02. GameObject\Monster\UI\HpBar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect.cpp">
+      <Filter>02. GameObject\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect_Manager.cpp">
+      <Filter>02. GameObject\Effect\Effect_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill.cpp">
+      <Filter>02. GameObject\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_Manager.cpp">
+      <Filter>02. GameObject\Skill\Skill_Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

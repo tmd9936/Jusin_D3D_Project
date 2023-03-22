@@ -172,6 +172,8 @@
     <ClInclude Include="..\Public\Camera_Public.h" />
     <ClInclude Include="..\Public\Client_Utility.h" />
     <ClInclude Include="..\Public\DataToolGUI.h" />
+    <ClInclude Include="..\Public\Effect.h" />
+    <ClInclude Include="..\Public\Effect_Manager.h" />
     <ClInclude Include="..\Public\FileDialogUtill.h" />
     <ClInclude Include="..\Public\FlatTerrain.h" />
     <ClInclude Include="..\Public\GoToWorldMapButton.h" />
@@ -187,6 +189,8 @@
     <ClInclude Include="..\Public\ModelUI.h" />
     <ClInclude Include="..\Public\Monster.h" />
     <ClInclude Include="..\Public\Player.h" />
+    <ClInclude Include="..\Public\Skill.h" />
+    <ClInclude Include="..\Public\Skill_Manager.h" />
     <ClInclude Include="..\Public\Stove.h" />
     <ClInclude Include="..\Public\Terrain.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
@@ -218,6 +222,8 @@
     <ClCompile Include="..\Private\Camera_Public.cpp" />
     <ClCompile Include="..\Private\Client_Utility.cpp" />
     <ClCompile Include="..\Private\DataToolGUI.cpp" />
+    <ClCompile Include="..\Private\Effect.cpp" />
+    <ClCompile Include="..\Private\Effect_Manager.cpp" />
     <ClCompile Include="..\Private\FileDialogUtill.cpp" />
     <ClCompile Include="..\Private\FlatTerrain.cpp" />
     <ClCompile Include="..\Private\GoToWorldMapButton.cpp" />
@@ -233,6 +239,8 @@
     <ClCompile Include="..\Private\ModelUI.cpp" />
     <ClCompile Include="..\Private\Monster.cpp" />
     <ClCompile Include="..\Private\Player.cpp" />
+    <ClCompile Include="..\Private\Skill.cpp" />
+    <ClCompile Include="..\Private\Skill_Manager.cpp" />
     <ClCompile Include="..\Private\Stove.cpp" />
     <ClCompile Include="..\Private\Terrain.cpp" />
     <ClCompile Include="..\Private\TestModel.cpp" />

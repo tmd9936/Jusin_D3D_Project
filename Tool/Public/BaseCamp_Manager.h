@@ -5,7 +5,6 @@
 #include "Camera_Public.h"
 
 BEGIN(Engine)
-class CTransform;
 class CCamera;
 class CCalculator;
 END

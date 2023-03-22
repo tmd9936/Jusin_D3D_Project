@@ -31,6 +31,11 @@ public:
 	void Update_CollisionMgr(_uint iLevelIndex);
 	HRESULT Add_Check_CollisionGroup(wstring LeftLayerTag, wstring RightLayerTag);
 	void Reset_CollisionGroup() {
+		for (size_t i = 0; i < m_ColLayers.size(); i++)
+		{
+			m_ColLayers[i].first.resize(0);
+			m_ColLayers[i].second.resize(0);
+		}
 		m_ColLayers.clear();
 	}
 

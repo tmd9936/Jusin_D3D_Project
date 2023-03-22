@@ -46,6 +46,12 @@ HRESULT CLevel_BaseCamp::Initialize()
 	if (FAILED(Ready_Layer_Manager(TEXT("Layer_Manager"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_PlayerBullet(TEXT("Layer_PlayerBullet"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_Effect(TEXT("Layer_Effect"))))
+		return E_FAIL;
+
 	if (FAILED(CGameInstance::GetInstance()->Add_Check_CollisionGroup(L"Layer_Player", L"Layer_Monster")))
 		return E_FAIL;
 
@@ -233,6 +239,30 @@ HRESULT CLevel_BaseCamp::Ready_Layer_Manager(const _tchar* pLayerTag)
 	return S_OK;
 }
 
+HRESULT CLevel_BaseCamp::Ready_Layer_Effect(const _tchar* pLayerTag)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_BASECAMP, pLayerTag)))
+		return E_FAIL;
+
+	Safe_Release(pGameInstance);
+	return S_OK;
+}
+
+HRESULT CLevel_BaseCamp::Ready_Layer_PlayerBullet(const _tchar* pLayerTag)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_BASECAMP, pLayerTag)))
+		return E_FAIL;
+
+	Safe_Release(pGameInstance);
+	return S_OK;
+}
+
 HRESULT CLevel_BaseCamp::Ready_LightDesc()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
@@ -270,6 +300,4 @@ CLevel_BaseCamp* CLevel_BaseCamp::Create(ID3D11Device* pDevice, ID3D11DeviceCont
 void CLevel_BaseCamp::Free()
 {
 	__super::Free();
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	pGameInstance->Reset_CollisionGroup();
 }

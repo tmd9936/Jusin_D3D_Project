@@ -22,6 +22,8 @@
 
 #include "BuffState.h"
 #include "Weapon.h"
+#include "Effect.h"
+#include "Effect_Manager.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
@@ -120,7 +122,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 #pragma region SHADERS
 	wsprintf(m_szLoadingText, TEXT("셰이더를 로딩중입니다."));
-	for (_uint i = 0; i < 999999; ++i)
+	for (_uint i = 0; i < 9999; ++i)
 	{
 		int a = 10;
 	}
@@ -136,6 +138,16 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CUI::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
+		/* For.Prototype_GameObject_Effect */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect"),
+			CEffect::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		/* For.Prototype_GameObject_Effect_Manager */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Manager"),
+			CEffect_Manager::Create(m_pDevice, m_pContext, "../../Reference/Resources/Data/Effect/EffectDataSet.json"))))
+			return E_FAIL;
+
 		///* For.Prototype_GameObject_BackGround */
 		//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround"),
 		//	CBackGround::Create(m_pDevice, m_pContext))))
@@ -144,6 +156,15 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 #pragma endregion
 
+#pragma region STATIC_GAMEOBJECTS
+	wsprintf(m_szLoadingText, TEXT("LEVEL_STATIC 객체 로딩중."));
+	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_LOGO))
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Effect_Manager"), LEVEL_STATIC, L"Layer_Manager")))
+			return E_FAIL;
+	}
+
+#pragma endregion
 	wsprintf(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 	m_isFinished = true;
 

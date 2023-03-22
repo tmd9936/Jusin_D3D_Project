@@ -75,6 +75,9 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(Ready_Prototype_GameObject_For_Static()))
 		return E_FAIL;
 
+	if (FAILED(Ready_GameObject_For_Static()))
+		return E_FAIL;
+
 	if (FAILED(SetUp_StartLevel(LEVEL_LOGO)))
 		return E_FAIL;
 
@@ -252,6 +255,14 @@ HRESULT CMainApp::Ready_Prototype_GameObject_For_Static()
 	/* For.Prototype_GameObject_ModelUI */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ModelUI"),
 		CModelUI::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CMainApp::Ready_GameObject_For_Static()
+{
+	if (FAILED(m_pGameInstance->Add_Layer(LEVEL_STATIC, L"Layer_Manager")))
 		return E_FAIL;
 
 	return S_OK;
