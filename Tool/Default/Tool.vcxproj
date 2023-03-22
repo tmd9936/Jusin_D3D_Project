@@ -175,6 +175,7 @@
     <ClInclude Include="..\Public\FileDialogUtill.h" />
     <ClInclude Include="..\Public\FlatTerrain.h" />
     <ClInclude Include="..\Public\GoToWorldMapButton.h" />
+    <ClInclude Include="..\Public\HpBar.h" />
     <ClInclude Include="..\Public\Level_BaseCamp.h" />
     <ClInclude Include="..\Public\Level_Loading.h" />
     <ClInclude Include="..\Public\Level_Logo.h" />
@@ -220,6 +221,7 @@
     <ClCompile Include="..\Private\FileDialogUtill.cpp" />
     <ClCompile Include="..\Private\FlatTerrain.cpp" />
     <ClCompile Include="..\Private\GoToWorldMapButton.cpp" />
+    <ClCompile Include="..\Private\HpBar.cpp" />
     <ClCompile Include="..\Private\Level_BaseCamp.cpp" />
     <ClCompile Include="..\Private\Level_Loading.cpp" />
     <ClCompile Include="..\Private\Level_Logo.cpp" />

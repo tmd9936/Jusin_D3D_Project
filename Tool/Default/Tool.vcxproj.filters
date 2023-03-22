@@ -106,14 +106,20 @@
     <Filter Include="02. GameObject\Monster\BaseCampMonster">
       <UniqueIdentifier>{22071bd7-dd02-4e8d-9104-33797aa1607d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\Monster\BuffState">
-      <UniqueIdentifier>{774a5ff9-7f28-4297-bad2-5965d1976156}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\TestModel\Weapon">
       <UniqueIdentifier>{f793c2f5-1112-4711-9364-0f5bb9ff8a3a}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject\Monster\Player">
       <UniqueIdentifier>{7132cc79-bd6b-439e-b4b1-ae5ec88af567}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Monster\UI">
+      <UniqueIdentifier>{1494270a-84a3-40af-87e4-1def095f40ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Monster\UI\BuffState">
+      <UniqueIdentifier>{774a5ff9-7f28-4297-bad2-5965d1976156}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Monster\UI\HpBar">
+      <UniqueIdentifier>{a12b8741-0500-446a-9d84-2c3537cde0a5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -244,10 +250,13 @@
       <Filter>02. GameObject\Monster\BaseCampMonster</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\BuffState.h">
-      <Filter>02. GameObject\Monster\BuffState</Filter>
+      <Filter>02. GameObject\Monster\UI\BuffState</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Weapon.h">
       <Filter>02. GameObject\TestModel\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\HpBar.h">
+      <Filter>02. GameObject\Monster\UI\HpBar</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -379,10 +388,13 @@
       <Filter>02. GameObject\Monster\BaseCampMonster</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\BuffState.cpp">
-      <Filter>02. GameObject\Monster\BuffState</Filter>
+      <Filter>02. GameObject\Monster\UI\BuffState</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Weapon.cpp">
       <Filter>02. GameObject\TestModel\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\HpBar.cpp">
+      <Filter>02. GameObject\Monster\UI\HpBar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

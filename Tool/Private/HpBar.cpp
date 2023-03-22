@@ -1,25 +1,24 @@
 #include "stdafx.h"
-#include "BuffState.h"
+#include "HpBar.h"
 
 #include "GameInstance.h"
-#include "Bone.h"
 
-CBuffState::CBuffState(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CHpBar::CHpBar(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
 {
 }
 
-CBuffState::CBuffState(const CBuffState& rhs)
+CHpBar::CHpBar(const CHpBar& rhs)
 	: CGameObject(rhs)
 {
 }
 
-HRESULT CBuffState::Initialize_Prototype()
+HRESULT CHpBar::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CBuffState::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
+HRESULT CHpBar::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
 	memcpy(&m_Desc, pArg, sizeof m_Desc);
 
@@ -30,7 +29,9 @@ HRESULT CBuffState::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void*
 		return E_FAIL;
 
 	m_pTransformCom->Set_Scaled({ m_Desc.m_fSizeX, m_Desc.m_fSizeY, 1.f });
-	m_pTransformCom->Set_Pos(0.f, 5.f, 0.0f);
+	m_pTransformCom->Set_Pos(0.f, 10.f, 0.0f);
+
+	//m_pTransformCom->Set_Scaled({ m_Desc.m_fSizeX, m_Desc.m_fSizeY, 1.f });
 
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
 
@@ -42,14 +43,14 @@ HRESULT CBuffState::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void*
 	return S_OK;
 }
 
-_uint CBuffState::Tick(_double TimeDelta)
+_uint CHpBar::Tick(_double TimeDelta)
 {
 	return _uint();
 }
 
-_uint CBuffState::LateTick(_double TimeDelta)
+_uint CHpBar::LateTick(_double TimeDelta)
 {
-	_matrix		ViewPortMatrix = CGameInstance::GetInstance()->Get_ViewPort_Matrix(-10.f, -70.f, g_iWinSizeX, g_iWinSizeY, 0.f, 1.f);
+	_matrix		ViewPortMatrix = CGameInstance::GetInstance()->Get_ViewPort_Matrix(0, 0, g_iWinSizeX, g_iWinSizeY, 0.f, 1.f);
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
 	_matrix viewMatrix = pGameInstance->Get_Transform_Matrix(CPipeLine::D3DTS_VIEW);
@@ -57,7 +58,6 @@ _uint CBuffState::LateTick(_double TimeDelta)
 
 	_float4x4 ParentMat{};
 	XMStoreFloat4x4(&ParentMat, m_Desc.pParent->Get_WorldMatrix_Matrix());
-
 	XMStoreFloat4x4(&ParentMat, XMLoadFloat4x4(&ParentMat) * viewMatrix * projMatrix * ViewPortMatrix);
 
 	//_float ParentScaleXRatio = XMVectorGetX(XMVector3Length((XMLoadFloat4x4(&ParentMat).r[0]))) / g_iWinSizeX;
@@ -70,10 +70,7 @@ _uint CBuffState::LateTick(_double TimeDelta)
 	_float4 r = { vScale.x, 0.f, 0.f, 0.f };
 	_float4 u = { 0.f, vScale.y, 0.f, 0.f };
 	_float4 l = { 0.f, 0.f, 1.f, 0.f };
-	_float4 p = { (ParentMat.m[3][0]) / ParentMat.m[3][2], (ParentMat.m[3][1]) / ParentMat.m[3][2], 0.f, 1.f};
-
-	_float4 BuffPos{};
-	XMStoreFloat4(&BuffPos, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
+	_float4 p = { ParentMat.m[3][0] / ParentMat.m[3][3], ParentMat.m[3][1] / ParentMat.m[3][3], 0.1f, 1.f };
 
 	memcpy(ParentMat.m[0], &r, sizeof _float4);
 	memcpy(ParentMat.m[1], &u, sizeof _float4);
@@ -82,8 +79,8 @@ _uint CBuffState::LateTick(_double TimeDelta)
 
 	m_FinalWorldMatrix = ParentMat;
 
-	m_FinalWorldMatrix.m[3][0] = (m_FinalWorldMatrix.m[3][0]) - g_iWinSizeX * 0.5f;
-	m_FinalWorldMatrix.m[3][1] = -(m_FinalWorldMatrix.m[3][1]) + g_iWinSizeY * 0.5f;
+	m_FinalWorldMatrix.m[3][0] = m_FinalWorldMatrix.m[3][0] - g_iWinSizeX * 0.5f;
+	m_FinalWorldMatrix.m[3][1] = -m_FinalWorldMatrix.m[3][1] + g_iWinSizeY * 0.5f;
 	//m_FinalWorldMatrix.m[3][1] *= -1.f;
 	m_FinalWorldMatrix.m[3][2] = 0.1f;
 
@@ -92,7 +89,7 @@ _uint CBuffState::LateTick(_double TimeDelta)
 	return _uint();
 }
 
-HRESULT CBuffState::Render()
+HRESULT CHpBar::Render()
 {
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
@@ -104,7 +101,7 @@ HRESULT CBuffState::Render()
 	return S_OK;
 }
 
-HRESULT CBuffState::Add_Components()
+HRESULT CHpBar::Add_Components()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
@@ -138,7 +135,7 @@ HRESULT CBuffState::Add_Components()
 	return S_OK;
 }
 
-HRESULT CBuffState::SetUp_ShaderResources()
+HRESULT CHpBar::SetUp_ShaderResources()
 {
 	if (FAILED(m_pShaderCom->Set_Matrix("g_WorldMatrix", &m_FinalWorldMatrix)))
 		return E_FAIL;
@@ -165,7 +162,7 @@ HRESULT CBuffState::SetUp_ShaderResources()
 	return S_OK;
 }
 
-_matrix CBuffState::Remove_Scale(_fmatrix Matrix)
+_matrix CHpBar::Remove_Scale(_fmatrix Matrix)
 {
 	_matrix		Result = Matrix;
 
@@ -176,33 +173,33 @@ _matrix CBuffState::Remove_Scale(_fmatrix Matrix)
 	return Result;
 }
 
-CBuffState* CBuffState::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CHpBar* CHpBar::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CBuffState* pInstance = new CBuffState(pDevice, pContext);
+	CHpBar* pInstance = new CHpBar(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed to Created CBuffState");
+		MSG_BOX("Failed to Created CHpBar");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CBuffState::Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
+CGameObject* CHpBar::Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
-	CBuffState* pInstance = new CBuffState(*this);
+	CHpBar* pInstance = new CHpBar(*this);
 
 	if (FAILED(pInstance->Initialize(pLayerTag, iLevelIndex, pArg)))
 	{
-		MSG_BOX("Failed to Cloned CBuffState");
+		MSG_BOX("Failed to Cloned CHpBar");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CBuffState::Free()
+void CHpBar::Free()
 {
 	__super::Free();
 

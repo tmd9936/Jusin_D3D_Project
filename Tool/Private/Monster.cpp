@@ -75,6 +75,9 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const c
 	if (FAILED(Add_MotionState()))
 		return E_FAIL;
 
+	if (FAILED(Add_BuffState()))
+		return E_FAIL;
+
 	m_eRenderId = RENDER_NONBLEND;
 
 	Add_TransitionRandomState();
@@ -143,10 +146,6 @@ HRESULT CMonster::Add_BuffState()
 
 	CGameObject* pGameObject = nullptr;
 
-	CBone* pBone = m_pModelCom->Get_BonePtr("effect00_end");
-	if (nullptr == pBone)
-		return E_FAIL;
-
 	CBuffState::BUFFSTATE_DESC		BuffStateDesc;
 	ZeroMemory(&BuffStateDesc, sizeof BuffStateDesc);
 
@@ -154,6 +153,9 @@ HRESULT CMonster::Add_BuffState()
 	Safe_AddRef(m_pTransformCom);
 
 	XMStoreFloat4x4(&BuffStateDesc.PivotMatrix, m_pModelCom->Get_PivotMatrix());
+
+	BuffStateDesc.m_fSizeX = 20.f;
+	BuffStateDesc.m_fSizeY = 20.f;
 
 	lstrcpy(BuffStateDesc.m_TextureProtoTypeName, L"Prototype_Component_Texture_Pokemon_State_doku");
 

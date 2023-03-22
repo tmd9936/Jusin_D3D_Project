@@ -14,13 +14,12 @@ END
 
 BEGIN(Client)
 
-class CBuffState final : public CGameObject
+class CHpBar final : public CGameObject
 {
 public:
 	typedef struct BuffState_Desc
 	{
 		CTransform*			pParent = { nullptr };
-		_float4x4			PivotMatrix;
 
 		_float				m_fSizeX;
 		_float				m_fSizeY;
@@ -28,11 +27,14 @@ public:
 		_tchar				m_TextureProtoTypeName[MAX_PATH];
 		_uint				m_TextureLevelIndex;
 
+		_float				m_vCornerColor;
+		_float				m_vHpColor;
+
 	} BUFFSTATE_DESC;
 private:
-	CBuffState(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CBuffState(const CBuffState& rhs);
-	virtual ~CBuffState() = default;
+	CHpBar(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CHpBar(const CHpBar& rhs);
+	virtual ~CHpBar() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override; /* 원형객체의 초기화작업 */
@@ -42,14 +44,15 @@ public:
 	virtual HRESULT Render() override;
 
 private:
-	CTransform*				m_pTransformCom = { nullptr };
-	CRenderer*				m_pRendererCom = { nullptr };
-	CShader*				m_pShaderCom = { nullptr };
-	CVIBuffer_Rect*			m_pVIBufferCom = { nullptr };
-	CTexture*				m_pTextureCom = { nullptr };
-	
+	CTransform* m_pTransformCom = { nullptr };
+	CRenderer* m_pRendererCom = { nullptr };
+	CShader* m_pShaderCom = { nullptr };
+	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
+	CTexture* m_pTextureCom = { nullptr };
+
 private:
 	BUFFSTATE_DESC		m_Desc = {};
+
 	_float4x4			m_FinalWorldMatrix; /* 원점기준 (내 월드 * 부모월드) */
 
 	_float4x4			m_ViewMatrix = {};
@@ -64,7 +67,7 @@ private:
 public:
 	/* Prototype */
 	/* 원형 객체를 생성한다. */
-	static CBuffState* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CHpBar* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	/* 사본 객체를 생성한다. */
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) override;
 	virtual void Free() override;
