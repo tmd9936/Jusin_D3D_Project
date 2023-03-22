@@ -19,7 +19,7 @@ class CBuffState final : public CGameObject
 public:
 	typedef struct BuffState_Desc
 	{
-		CTransform*			pParent = { nullptr };
+		CTransform*			pParent = { nullptr }; // 기준이 되는 부모
 		_float4x4			PivotMatrix;
 
 		_float				m_fPositionX;

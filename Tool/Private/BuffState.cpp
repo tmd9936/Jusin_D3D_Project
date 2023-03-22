@@ -29,7 +29,10 @@ HRESULT CBuffState::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void*
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
+	// 뷰포트 기준으로 나타낼 크기를 지정함
 	m_pTransformCom->Set_Scaled({ m_Desc.m_fSizeX, m_Desc.m_fSizeY, 1.f });
+	// 부모 기준으로의 자식의 위치를 지정함
+	// UI의 경우에는 뷰포트 기준으로 위치를 지정해줘야함
 	m_pTransformCom->Set_Pos(m_Desc.m_fPositionX, m_Desc.m_fPositinoY, m_Desc.m_fPositinoZ);
 
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
@@ -49,9 +52,12 @@ _uint CBuffState::Tick(_double TimeDelta)
 
 _uint CBuffState::LateTick(_double TimeDelta)
 {
+	// 부모 기준으로의 자식의 위치를 지정함
 	_float4 BuffPos{};
 	XMStoreFloat4(&BuffPos, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
 
+	// 뷰 투영 뷰포트 행렬을 가져올 때 UI지만 직교투영이 아닌 카메라 기준으로 가져오는 이유
+	// 몬스터 기준으로 일단 UI 위치를 특정하기위함 
 	_matrix		ViewPortMatrix = CGameInstance::GetInstance()->Get_ViewPort_Matrix(BuffPos.x, BuffPos.y, g_iWinSizeX, g_iWinSizeY, 0.f, 1.f);
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
@@ -69,6 +75,7 @@ _uint CBuffState::LateTick(_double TimeDelta)
 
 	//_float ScaleRatio = ParentMat.m[3][3] / ParentMat.m[3][2];
 
+	// z뺴기를 해주면 뷰포트 기준 정상적은 위치가 나옴
 	_float3 vScale = m_pTransformCom->Get_Scaled();
 	_float4 r = { vScale.x, 0.f, 0.f, 0.f };
 	_float4 u = { 0.f, vScale.y, 0.f, 0.f };
