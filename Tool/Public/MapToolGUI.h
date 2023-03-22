@@ -91,6 +91,9 @@ private:
 	HRESULT	Terrain_Mask_Pixels_Copy();
 
 private:
+	HRESULT Create_Navigation_Test_Data();
+
+private:
 	ID3D11Device*			m_pDevice = { nullptr };
 	ID3D11DeviceContext*	m_pContext = { nullptr };
 

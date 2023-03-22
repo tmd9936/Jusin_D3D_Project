@@ -63,6 +63,11 @@ HRESULT CFlatTerrain::Render()
 	}
 	m_pVIBufferCom->Render();
 
+
+#ifdef _DEBUG
+	m_pNavigationCom->Render();
+#endif // _DEBUG
+
 	return S_OK;
 }
 
@@ -105,6 +110,11 @@ HRESULT CFlatTerrain::Add_Components()
 	/* For.Com_Brush */
 	if (FAILED(pGameInstance->Add_Component(FAMILY_ID_TEXTURE_BRUSH, this, m_desc.m_Level, TEXT("Prototype_Component_Texture_Brush"),
 		(CComponent**)&m_pTextureCom[TEXTURETYPE_BRUSH], nullptr)))
+		return E_FAIL;
+
+	/* For.Com_Navigation */
+	if (FAILED(pGameInstance->Add_Component(CNavigation::familyId, this, m_desc.m_Level, TEXT("Prototype_Component_Navigation"),
+		(CComponent**)&m_pNavigationCom, nullptr)))
 		return E_FAIL;
 
 
@@ -199,6 +209,8 @@ CGameObject* CFlatTerrain::Clone(const _tchar* pLayerTag, _uint iLevelIndex, voi
 void CFlatTerrain::Free()
 {
 	__super::Free();
+
+	Safe_Release(m_pNavigationCom);
 
 	Safe_Release(m_pTransformCom);
 

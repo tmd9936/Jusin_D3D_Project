@@ -27,6 +27,8 @@
 #include "Skill.h"
 #include "Skill_Manager.h"
 
+#include "Navigation.h"
+
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
 	, m_pContext(pContext)
@@ -192,6 +194,13 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
+
+
+	wsprintf(m_szLoadingText, TEXT("네비게이션을 로딩중."));
+	/* For.Prototype_Component_Navigation */
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Navigation"),
+		CNavigation::Create(m_pDevice, m_pContext, TEXT("../Bin/DataFiles/NavigationData.dat")))))
+		return E_FAIL;
 
 	/*  */
 #pragma region TEXTURES

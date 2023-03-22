@@ -458,6 +458,9 @@
     <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_Vtxtex_Button.hlsl">
       <Filter>97. ShaderFiles</Filter>
     </FxCompile>
+    <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_Cell.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\imgui\CMakeLists.txt">

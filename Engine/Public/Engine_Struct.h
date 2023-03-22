@@ -40,6 +40,16 @@ namespace Engine
 		unsigned int iViewSizeY;
 	}GRAPHIC_DESC;
 
+	typedef struct tagVertex_Position
+	{
+		XMFLOAT3			vPosition;
+	}VTXPOS;
+
+	typedef struct ENGINE_DLL tagVertex_Position_Declaration
+	{
+		const static unsigned int				iNumElements = 1;
+		static D3D11_INPUT_ELEMENT_DESC			Elements[1];
+	} VTXPOS_DECLARATION;
 
 	typedef struct tagVertex_Position_Texcoord
 	{

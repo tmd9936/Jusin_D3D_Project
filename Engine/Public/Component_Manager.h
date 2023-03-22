@@ -16,6 +16,7 @@
 #include "PickingCube.h"
 #include "MonFSM.h"
 #include "Billboard.h"
+#include "Navigation.h"
 #pragma endregion
 
 #pragma region COLLIDER

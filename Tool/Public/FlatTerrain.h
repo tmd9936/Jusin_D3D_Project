@@ -9,6 +9,7 @@ class CRenderer;
 class CShader;
 class CTexture;
 class CTransform;
+class CNavigation;
 END
 
 BEGIN(Client)
@@ -45,6 +46,8 @@ private:
 	CVIBuffer_FlatTerrain* m_pVIBufferCom = { nullptr };
 	CTexture* m_pTextureCom[TEXTURETYPE_END] = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
+	CNavigation* m_pNavigationCom = { nullptr };
+
 
 private:
 	_bool				m_bWire = { true };

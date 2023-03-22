@@ -96,7 +96,7 @@ using namespace DirectX;
 #define FAMILY_ID_KEYINPUT					7
 
 #define FAMILY_ID_TAG						8
-#define FAMILY_ID_TALK						8
+#define FAMILY_ID_TALK						9
 
 #define FAMILY_ID_LOGIC_STATE_MACHINE		10  
 #define FAMILY_ID_LOGIC_ANIMATION			11  
@@ -119,6 +119,8 @@ using namespace DirectX;
 #define FAMILY_ID_COLLISION_AABB			36
 #define FAMILY_ID_COLLISION_OBB				37
 #define FAMILY_ID_COLLISION_SPHERE			38
+
+#define FAMILY_ID_NAVIGATION				40
 
 #define FAMILY_ID_RENDERER					46
 

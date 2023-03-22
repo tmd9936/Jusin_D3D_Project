@@ -24,7 +24,7 @@ public:
 	virtual HRESULT Initialize(void* pArg) override;
 
 public:
-	HRESULT Render();
+	virtual HRESULT Render();
 
 public:
 	const _uint	Get_NumVertices() const {

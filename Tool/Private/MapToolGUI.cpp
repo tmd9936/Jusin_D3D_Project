@@ -150,6 +150,11 @@ HRESULT CMapToolGUI::Render()
 		{
 			CModel::Set_LerpDuration((_double)m_LerpDuration);
 		}
+		
+		if (ImGui::Button("Create Test Nav Data"))
+		{
+			Create_Navigation_Test_Data();
+		}
 
 	}
 	ImGui::End();
@@ -579,6 +584,51 @@ HRESULT CMapToolGUI::Terrain_Mask_Pixels_Copy()
 		return E_FAIL;
 
 	pMaskTexture->Copy_Texture_Pixels(0, &pTerrainMaskPixel);
+
+	return S_OK;
+}
+
+HRESULT CMapToolGUI::Create_Navigation_Test_Data()
+{
+	/* Navigation */
+	HANDLE		hFile = 0;
+	_ulong		dwByte = 0;
+
+	hFile = CreateFile(TEXT("../Bin/DataFiles/NavigationData.dat"), GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
+	if (0 == hFile)
+		return E_FAIL;
+
+	_float3		vPoints[3];
+
+	/* 0번째 삼각형 */
+	ZeroMemory(vPoints, sizeof(_float3) * 3);
+	vPoints[0] = _float3(0.0f, 0.f, 5.f);
+	vPoints[1] = _float3(5.0f, 0.f, 0.f);
+	vPoints[2] = _float3(0.0f, 0.f, 0.f);
+	WriteFile(hFile, vPoints, sizeof(_float3) * 3, &dwByte, nullptr);
+
+	/* 1번째 삼각형 */
+	ZeroMemory(vPoints, sizeof(_float3) * 3);
+	vPoints[0] = _float3(0.0f, 0.f, 5.f);
+	vPoints[1] = _float3(5.0f, 0.f, 5.0f);
+	vPoints[2] = _float3(5.0f, 0.f, 0.f);
+	WriteFile(hFile, vPoints, sizeof(_float3) * 3, &dwByte, nullptr);
+
+	/* 2번째 삼각형 */
+	ZeroMemory(vPoints, sizeof(_float3) * 3);
+	vPoints[0] = _float3(0.0f, 0.f, 10.0f);
+	vPoints[1] = _float3(5.0f, 0.f, 5.0f);
+	vPoints[2] = _float3(0.f, 0.f, 5.0f);
+	WriteFile(hFile, vPoints, sizeof(_float3) * 3, &dwByte, nullptr);
+
+	/* 3번째 삼각형 */
+	ZeroMemory(vPoints, sizeof(_float3) * 3);
+	vPoints[0] = _float3(5.0f, 0.f, 5.0f);
+	vPoints[1] = _float3(10.0f, 0.f, 0.0f);
+	vPoints[2] = _float3(5.0f, 0.f, 0.f);
+	WriteFile(hFile, vPoints, sizeof(_float3) * 3, &dwByte, nullptr);
+
+	CloseHandle(hFile);
 
 	return S_OK;
 }
