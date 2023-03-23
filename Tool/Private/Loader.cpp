@@ -119,10 +119,10 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	}
 
 	// TODO: 모델 생성시 생기는 메모리릭 잡기
-	_matrix PivotMatrix = XMMatrixIdentity();
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Model_Logo_Scene"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../../Reference/Resources/Mesh/Animation/Logo/Logo_Scene.fbx", PivotMatrix))))
-		return E_FAIL;
+	//_matrix PivotMatrix = XMMatrixIdentity();
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Model_Logo_Scene"),
+	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../../Reference/Resources/Mesh/Animation/Logo/Logo_Scene.fbx", PivotMatrix))))
+	//	return E_FAIL;
 #pragma endregion
 
 #pragma region SHADERS

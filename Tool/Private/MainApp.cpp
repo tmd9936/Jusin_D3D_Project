@@ -6,8 +6,11 @@
 
 #include "MainApp.h"
 #include "Level_Loading.h"
+
 #include "MapToolGUI.h"
 #include "DataToolGUI.h"
+#include "SkillToolGUI.h"
+
 #include "GameInstance.h"
 #include "Collider.h"
 #include "ModelUI.h"
@@ -17,10 +20,12 @@ CMainApp::CMainApp()
 	: m_pGameInstance(CGameInstance::GetInstance())
 	, m_pMapToolGUI(CMapToolGUI::GetInstance())
 	, m_pDataToolGUI(CDataToolGUI::GetInstance())
+	, m_pSkillToolGUI(CSkillToolGUI::GetInstance())
 {
 	Safe_AddRef(m_pMapToolGUI);
 	Safe_AddRef(m_pGameInstance);
 	Safe_AddRef(m_pDataToolGUI);
+	Safe_AddRef(m_pSkillToolGUI);
 
 }
 
@@ -87,6 +92,8 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(m_pDataToolGUI->Initialize(m_pDevice, m_pContext)))
 		return E_FAIL;
 
+	if (FAILED(m_pSkillToolGUI->Initialize(m_pDevice, m_pContext)))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -114,7 +121,7 @@ HRESULT CMainApp::Render()
 	//ImGui::ShowDemoWindow();
 	m_pMapToolGUI->Render();
 	m_pDataToolGUI->Render();
-
+	m_pSkillToolGUI->Render();
 
 	ImGuiIO& io = ImGui::GetIO();
 	io.DisplaySize = ImVec2((float)g_iWinSizeX, (float)g_iWinSizeY);
@@ -297,12 +304,13 @@ void CMainApp::Free()
 	Safe_Release(m_pDataToolGUI);
 	CDataToolGUI::GetInstance()->DestroyInstance();
 
+	Safe_Release(m_pSkillToolGUI);
+	CSkillToolGUI::GetInstance()->DestroyInstance();
+
 	ImGui::DestroyPlatformWindows();
 	ImGui_ImplDX11_Shutdown();
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
 
-
 	CGameInstance::Release_Engine();
-
 }

@@ -47,7 +47,6 @@ private:
 	void	ListBox_Effect_List();
 
 private:
-	void	Player_Skill_Change();
 	void	Reload_Skill_Data();
 	void	Reload_Effect_Data();
 
@@ -61,6 +60,11 @@ private:
 	void	Update_Skill_Depend_List();
 	void	Update_Effect_List();
 
+private:
+	void	Player_Skill_Change();
+	void	ToString_Skill_Info(_uint SkillType);
+	void	ToString_Effect_Info(_uint EffectType);
+
 
 private:
 	void	After_Init();
@@ -70,23 +74,25 @@ private:
 	ID3D11DeviceContext* m_pContext = { nullptr };
 
 private:
-	char**					m_SkillListBox;
-	int						m_iSkillListBoxCurrentItem = { 0 };
-	size_t					m_SkillListBoxSize = { 0 };
+	char**						m_SkillListBox;
+	int							m_iSkillListBoxCurrentItem = { 0 };
+	size_t						m_SkillListBoxSize = { 0 };
+	vector<CSkill::SKILL_DESC>	m_Skill_Desc_Datas;
 
-	char**					m_SkillDependListBox;
-	int						m_iSkillDependListBoxCurrentItem = { 0 };
-	size_t					m_SkillDependListBoxSize = { 0 };
+	char**						m_SkillDependListBox;
+	int							m_iSkillDependListBoxCurrentItem = { 0 };
+	size_t						m_SkillDependListBoxSize = { 0 };
+	vector<CSkill_Manager::SKILL_DEPEND_DATA> m_Skill_Depend_Datas;
 
-	char**					m_EffectListBox = { nullptr };
-	int						m_iEffectListCurrentItem = { 0 };
-	size_t					m_EffectListBoxSize = { 0 };
+	char**						m_EffectListBox = { nullptr };
+	int							m_iEffectListCurrentItem = { 0 };
+	size_t						m_EffectListBoxSize = { 0 };
+	vector<CEffect::EFFECT_DESC> m_Effect_Descs;
 
+	_bool						m_ManagerInit = { false };
 
-	_bool					m_ManagerInit = { false };
-
-	CEffect_Manager*		m_pEffect_Manager = { nullptr };
-	CSkill_Manager*			m_pSkill_Manager = { nullptr };
+	CEffect_Manager*			m_pEffect_Manager = { nullptr };
+	CSkill_Manager*				m_pSkill_Manager = { nullptr };
 
 	//char**					m_PrefabListBox = { nullptr };
 	//int						m_iPrefabListCurrentItem = { 0 };

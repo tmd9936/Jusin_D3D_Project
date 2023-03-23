@@ -11,6 +11,7 @@ END
 BEGIN(Client)
 class CMapToolGUI;
 class CDataToolGUI;
+class CSkillToolGUI;
 
 class CMainApp final : public CBase
 {
@@ -35,6 +36,7 @@ private:
 	CRenderer* m_pRenderer = { nullptr };
 	CMapToolGUI* m_pMapToolGUI = { nullptr };
 	CDataToolGUI* m_pDataToolGUI = { nullptr };
+	CSkillToolGUI* m_pSkillToolGUI = { nullptr };
 
 private:
 	_bool		m_bToolMode = { true };

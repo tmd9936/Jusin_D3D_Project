@@ -240,7 +240,9 @@ HRESULT CCollider_Manager::Add_Check_CollisionGroup(wstring LeftLayerTag, wstrin
 	return S_OK;
 }
 
+//콜라이더 매니저 프리
 void CCollider_Manager::Free(void)
 {
 	m_ColLayers.clear();
+	m_mapColInfo.clear();
 }

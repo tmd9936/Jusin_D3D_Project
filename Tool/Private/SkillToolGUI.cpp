@@ -48,9 +48,10 @@ HRESULT CSkillToolGUI::Render()
 {
 	After_Init();
 
-	View_Base();
+	//View_Base();
 	
 	View_Skill_Layer();
+	//View_Skill_Depend_Layer();
 	View_Effect_Layer();
 
 	Reload_Skill_Data(); ImGui::SameLine();
@@ -72,7 +73,10 @@ void CSkillToolGUI::View_Skill_Layer()
 	ImGui::Begin("View_Skill_Layer");
 	{
 		if (m_ManagerInit)
+		{
 			ListBox_Skill_List();
+			ListBox_Skill_Depend_List();
+		}
 	}
 	ImGui::End();
 }
@@ -99,8 +103,7 @@ void CSkillToolGUI::View_Effect_Layer()
 
 void CSkillToolGUI::ListBox_Skill_List()
 {
-	ImGui::Text("ListBox_Skill_List");
-	if (ImGui::ListBox(" ", &m_iSkillListBoxCurrentItem, m_SkillListBox, m_SkillListBoxSize))
+	if (ImGui::ListBox("Skill_List ", &m_iSkillListBoxCurrentItem, m_SkillListBox, m_SkillListBoxSize))
 	{
 
 	}
@@ -108,8 +111,7 @@ void CSkillToolGUI::ListBox_Skill_List()
 
 void CSkillToolGUI::ListBox_Skill_Depend_List()
 {
-	ImGui::Text("ListBox_Skill_Depend_List");
-	if (ImGui::ListBox(" ", &m_iSkillDependListBoxCurrentItem, m_SkillDependListBox, m_SkillDependListBoxSize))
+	if (ImGui::ListBox("Skill_Depend_List", &m_iSkillDependListBoxCurrentItem, m_SkillDependListBox, m_SkillDependListBoxSize))
 	{
 
 	}
@@ -180,23 +182,75 @@ void CSkillToolGUI::EffectListBox_Free()
 
 void CSkillToolGUI::Update_Skill_List()
 {
-	vector<CSkill::SKILL_DESC> Skill_Desc_Datas;
-	m_pSkill_Manager->Get_Skill_Desces(Skill_Desc_Datas);
+	SkillListBox_Free();
+	m_pSkill_Manager->Get_Skill_Desces(m_Skill_Desc_Datas);
 
+	m_SkillListBoxSize = m_Skill_Desc_Datas.size();
+
+	m_SkillListBox = new char* [m_SkillListBoxSize];
+
+	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
+
+	for (size_t i = 0; i < m_SkillListBoxSize; ++i)
+	{
+		m_SkillListBox[i] = new char[MAX_PATH];
+		string skill_Path = convert.to_bytes(m_Skill_Desc_Datas[i].m_skillPath);
+		strcpy(m_SkillListBox[i], skill_Path.c_str());
+	}
 
 }
 
 void CSkillToolGUI::Update_Skill_Depend_List()
 {
-	vector<CSkill_Manager::SKILL_DEPEND_DATA> Skill_Depend_Datas;
-	m_pSkill_Manager->Get_Skill_Depends(Skill_Depend_Datas);
+	SkillDependListBox_Free();
+
+	m_pSkill_Manager->Get_Skill_Depends(m_Skill_Depend_Datas);
+
+	m_SkillDependListBoxSize = m_Skill_Depend_Datas.size();
+
+	m_SkillDependListBox = new char* [m_SkillDependListBoxSize];
+
+	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
+
+	for (size_t i = 0; i < m_SkillDependListBoxSize; ++i)
+	{
+		m_SkillDependListBox[i] = new char[MAX_PATH];
+		string skill_Depend;
+		skill_Depend += "effect: ";
+		for (size_t j = 0; j < m_Skill_Depend_Datas[i].m_effects.size(); j++)
+		{
+			skill_Depend += to_string(m_Skill_Depend_Datas[i].m_effects[j]);
+			skill_Depend += ",";
+		}
+		skill_Depend += " condition: ";
+		for (size_t j = 0; j < m_Skill_Depend_Datas[i].m_conditions.size(); j++)
+		{
+			skill_Depend += to_string(m_Skill_Depend_Datas[i].m_conditions[j]);
+			skill_Depend += ",";
+		}
+
+		strcpy(m_SkillDependListBox[i], skill_Depend.c_str());
+	}
 
 }
 
 void CSkillToolGUI::Update_Effect_List()
 {
-	vector<CEffect::EFFECT_DESC> Effect_Descs;
-	m_pEffect_Manager->Get_Effect_Desces(Effect_Descs);
+	EffectListBox_Free();
+	m_pEffect_Manager->Get_Effect_Desces(m_Effect_Descs);
+
+	m_EffectListBoxSize = m_Effect_Descs.size();
+
+	m_EffectListBox = new char* [m_EffectListBoxSize];
+
+	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
+
+	for (size_t i = 0; i < m_EffectListBoxSize; ++i)
+	{
+		m_EffectListBox[i] = new char[MAX_PATH];
+		string effect_Path = convert.to_bytes(m_Effect_Descs[i].m_effectPath);
+		strcpy(m_EffectListBox[i], effect_Path.c_str());
+	}
 
 }
 
@@ -231,10 +285,10 @@ void CSkillToolGUI::Free(void)
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
 
-	SkillListBox_Free();
-	SkillDependListBox_Free();
-	EffectListBox_Free();
-
 	Safe_Release(m_pEffect_Manager);
 	Safe_Release(m_pSkill_Manager);
+
+	SkillDependListBox_Free();
+	EffectListBox_Free();
+	SkillListBox_Free();
 }

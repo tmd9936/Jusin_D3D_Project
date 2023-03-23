@@ -30,14 +30,6 @@ private:
 public:
 	void Update_CollisionMgr(_uint iLevelIndex);
 	HRESULT Add_Check_CollisionGroup(wstring LeftLayerTag, wstring RightLayerTag);
-	void Reset_CollisionGroup() {
-		for (size_t i = 0; i < m_ColLayers.size(); i++)
-		{
-			m_ColLayers[i].first.resize(0);
-			m_ColLayers[i].second.resize(0);
-		}
-		m_ColLayers.clear();
-	}
 
 public:
 	void Collision_GroupUpdate(wstring LeftTag, wstring RightTag, _uint iLevelIndex);
@@ -49,7 +41,13 @@ public:
 	_float Get_Min(_float fSour, _float fDest);
 	_float Get_Max(_float fSour, _float fDest);
 
+	// 벡터 클리어용 코드 
+	void Reset_CollisionGroup() {
+		m_ColLayers.clear();
+	}
+	// 문제가 됐던 벡터 컨테이너
 	vector<pair<wstring, wstring>> m_ColLayers;
+
 
 	map<ULONGLONG, _bool> m_mapColInfo;
 
