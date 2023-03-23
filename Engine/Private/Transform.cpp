@@ -1,6 +1,8 @@
 #include "Transform.h"
 #include "Shader.h"
 
+#include "Navigation.h"
+
 CTransform::CTransform(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner)
 	: CComponent(pDevice, pContext, pOwner)
 {
@@ -78,14 +80,21 @@ void CTransform::Set_ScaledZ(const _float& scale)
 
 }
 
-void CTransform::Go_Straight(_float TimeDelta)
+void CTransform::Go_Straight(_float TimeDelta, CNavigation* pNavigation)
 {
+	_bool		isMove = true;
 	_vector vlook = Get_State(STATE_LOOK);
 	_vector vPosition = Get_State(STATE_POSITION);
 
 	vPosition += XMVector3Normalize(vlook) * m_TransformDesc.SpeedPerSec * TimeDelta;
 
-	Set_State(STATE_POSITION, vPosition);
+	if (nullptr != pNavigation)
+	{
+		isMove = pNavigation->Move_OnNavigation(vPosition);
+	}
+
+	if (true == isMove)
+		Set_State(CTransform::STATE_POSITION, vPosition);
 }
 
 void CTransform::Go_Left(_float TimeDelta)
@@ -108,14 +117,21 @@ void CTransform::Go_Right(_float TimeDelta)
 	Set_State(STATE_POSITION, vPosition);
 }
 
-void CTransform::Go_Backward(_float TimeDelta)
+void CTransform::Go_Backward(_float TimeDelta, CNavigation* pNavigation)
 {
+	_bool		isMove = true;
 	_vector vLook = Get_State(STATE_LOOK);
 	_vector vPosition = Get_State(STATE_POSITION);
 
 	vPosition -= XMVector3Normalize(vLook) * m_TransformDesc.SpeedPerSec * TimeDelta;
 
-	Set_State(STATE_POSITION, vPosition);
+	if (nullptr != pNavigation)
+	{
+		isMove = pNavigation->Move_OnNavigation(vPosition);
+	}
+
+	if (true == isMove)
+		Set_State(STATE_POSITION, vPosition);
 }
 
 void CTransform::Go_Up(_float TimeDelta)

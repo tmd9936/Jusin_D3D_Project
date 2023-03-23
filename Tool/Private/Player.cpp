@@ -31,10 +31,9 @@ HRESULT CPlayer::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pA
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 		return E_FAIL;
 
-
 	m_eRenderId = RENDER_NONBLEND;
 
-	m_pTransformCom->Set_Pos(20.f, 0.5f, 20.f);
+	m_pTransformCom->Set_Pos(22.f, 0.f, 13.5f);
 
 	m_pModelCom->Set_Animation(0);
 
@@ -62,11 +61,11 @@ _uint CPlayer::Tick(_double TimeDelta)
 		{
 			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE_FLY, m_pModelCom);
 		}
-		m_pTransformCom->Go_Backward((_float)TimeDelta);
+		m_pTransformCom->Go_Backward((_float)TimeDelta, m_pNavigationCom);
 	}
 	else if (KEY_HOLD(KEY::DOWN))
 	{
-		m_pTransformCom->Go_Backward((_float)TimeDelta);
+		m_pTransformCom->Go_Backward((_float)TimeDelta, m_pNavigationCom);
 	}
 	else  if (KEY_AWAY(KEY::DOWN))
 	{
@@ -94,11 +93,11 @@ _uint CPlayer::Tick(_double TimeDelta)
 			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE_FLY, m_pModelCom);
 		}
 
-		m_pTransformCom->Go_Straight((_float)TimeDelta);
+		m_pTransformCom->Go_Straight((_float)TimeDelta, m_pNavigationCom);
 	}
 	else if (KEY_HOLD(KEY::UP))
 	{
-		m_pTransformCom->Go_Straight((_float)TimeDelta);
+		m_pTransformCom->Go_Straight((_float)TimeDelta, m_pNavigationCom);
 	}
 	else  if (KEY_AWAY(KEY::UP))
 	{
@@ -124,6 +123,8 @@ _uint CPlayer::LateTick(_double TimeDelta)
 
 HRESULT CPlayer::Render()
 {
+
+
 	return __super::Render();
 }
 

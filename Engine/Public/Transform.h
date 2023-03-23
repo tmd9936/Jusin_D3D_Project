@@ -9,6 +9,8 @@ Release에 경우에는 참조형으로 계산을 해야해서 최대한 조심해야함
 
 BEGIN(Engine)
 
+class CNavigation;
+
 class ENGINE_DLL CTransform : public CComponent
 {
 public:
@@ -111,10 +113,10 @@ public:
 
 public:
 
-	void Go_Straight(_float TimeDelta);
+	void Go_Straight(_float TimeDelta, CNavigation* pNavigation = nullptr);
 	void Go_Left(_float TimeDelta);
 	void Go_Right(_float TimeDelta);
-	void Go_Backward(_float TimeDelta);
+	void Go_Backward(_float TimeDelta, CNavigation* pNavigation = nullptr);
 	void Go_Up(_float TimeDelta);
 	void Go_Down(_float TimeDelta);
 

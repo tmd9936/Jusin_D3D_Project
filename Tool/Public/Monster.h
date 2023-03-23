@@ -15,6 +15,8 @@ class CAABB;
 class COBB;
 class CSphere;
 
+class CNavigation;
+
 END
 
 BEGIN(Client)
@@ -102,6 +104,7 @@ protected:
 	COBB* m_pOBB = { nullptr };
 	CSphere* m_pSphere = { nullptr };
 
+	CNavigation* m_pNavigationCom = { nullptr };
 
 protected:
 	POKEMON_DESC		m_PokemonDesc = {};

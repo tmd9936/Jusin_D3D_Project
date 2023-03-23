@@ -117,6 +117,9 @@ HRESULT CNavigation::Initialize_Prototype_Json(const char* pNavigationData)
 
 HRESULT CNavigation::Initialize(void* pArg)
 {
+	if (nullptr != pArg)
+		memcpy(&m_NaviDesc, pArg, sizeof m_NaviDesc);
+
 	return S_OK;
 }
 
@@ -136,12 +139,14 @@ HRESULT CNavigation::Render()
 
 	Safe_Release(pPipeLine);
 
-	_float4			vColor = _float4(0.f, 1.f, 0.f, 1.f);
+	WorldMatrix._42 = 1.1f;
+
+	_float4			vColor = _float4(0.f, 0.f, 1.f, 1.f);
 
 	if (0 <= m_NaviDesc.iIndex)
 	{
 		vColor = _float4(1.f, 0.f, 0.f, 1.f);
-		WorldMatrix._42 = 0.1f;
+		WorldMatrix._42 = 1.3f;
 	}
 
 	if (FAILED(m_pShader->Set_Matrix("g_WorldMatrix", &WorldMatrix)))
@@ -176,27 +181,32 @@ _bool CNavigation::Move_OnNavigation(_fvector vPosition)
 		return false;
 
 	_int		iNeighborIndex = { 0 };
-	
-	// 움직인 위치가 현재 셀 안에 있는지 판단
+
 	if (true == m_Cells[m_NaviDesc.iIndex]->isIn(vPosition, iNeighborIndex))
 	{
 		return true;
 	}
-	else // 셀 밖으로 움직인 경우
+	else /* 쎌 밖으로 움직였어. */
 	{
+		/* 나간 방향에 이웃이 있다면?*/
 		if (0 <= iNeighborIndex)
 		{
 			while (true)
 			{
 				if (-1 == iNeighborIndex)
 					return false;
+
 				if (true == m_Cells[iNeighborIndex]->isIn(vPosition, iNeighborIndex))
 				{
 					m_NaviDesc.iIndex = iNeighborIndex;
 					break;
 				}
 			}
+
+			return true;
 		}
+
+		/* 나간 방향에 이웃이 없다면?*/
 		return false;
 	}
 }

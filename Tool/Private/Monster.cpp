@@ -134,6 +134,10 @@ HRESULT CMonster::Render()
 	m_pAABB->Render();
 	m_pOBB->Render();
 	m_pSphere->Render();
+
+	if (m_pNavigationCom)
+		m_pNavigationCom->Render();
+
 #endif // _DEBUG
 
 	return S_OK;
@@ -241,6 +245,16 @@ HRESULT CMonster::Add_Components()
 	if (FAILED(pGameInstance->Add_Component(FAMILY_ID_COLLISION_SPHERE, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_SPHERE"),
 		(CComponent**)&m_pSphere, &ColliderDesc)))
 		return E_FAIL;
+
+	/* For.Com_Navigation */
+
+	CNavigation::NAVIDESC		NaviDesc;
+	ZeroMemory(&NaviDesc, sizeof NaviDesc);
+	NaviDesc.iIndex = 1;
+	if (FAILED(pGameInstance->Add_Component(CNavigation::familyId, this, LEVEL_BASECAMP, TEXT("Prototype_Component_Navigation"),
+		(CComponent**)&m_pNavigationCom, &NaviDesc)))
+		return E_FAIL;
+
 
 	return S_OK;
 }
@@ -529,5 +543,6 @@ void CMonster::Free()
 	Safe_Release(m_pAABB);
 	Safe_Release(m_pOBB);
 	Safe_Release(m_pSphere);
+	Safe_Release(m_pNavigationCom);
 
 }
