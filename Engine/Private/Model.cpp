@@ -974,7 +974,6 @@ void CModel::Free()
 {
 	__super::Free();
 
-
 	for (auto& pAnimation : m_Animations)
 		Safe_Release(pAnimation);
 

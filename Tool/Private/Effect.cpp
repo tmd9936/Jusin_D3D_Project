@@ -25,7 +25,16 @@ HRESULT CEffect::Initialize_Prototype()
 HRESULT CEffect::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
 	if (pArg)
-		memcpy(&m_EffectDesc, pArg, sizeof m_EffectDesc);
+	{
+		m_EffectDesc.m_actionType = (*(EFFECT_DESC*)(pArg)).m_actionType;
+		m_EffectDesc.m_effectPath = (*(EFFECT_DESC*)(pArg)).m_effectPath;
+		m_EffectDesc.m_effectType = (*(EFFECT_DESC*)(pArg)).m_effectType;
+		m_EffectDesc.m_exPath1 = (*(EFFECT_DESC*)(pArg)).m_exPath1;
+		m_EffectDesc.m_exPath2 = (*(EFFECT_DESC*)(pArg)).m_exPath2;
+		m_EffectDesc.m_soundEventID = (*(EFFECT_DESC*)(pArg)).m_soundEventID;
+		m_EffectDesc.m_soundEventTag = (*(EFFECT_DESC*)(pArg)).m_soundEventTag;
+		m_EffectDesc.m_underFlag = (*(EFFECT_DESC*)(pArg)).m_underFlag;
+	}
 
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 		return E_FAIL;

@@ -25,7 +25,27 @@ HRESULT CSkill::Initialize_Prototype()
 HRESULT CSkill::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
 	if (pArg)
-		memcpy(&m_SkillDesc, pArg, sizeof m_SkillDesc);
+	{
+		m_SkillDesc.m_chargeSecond = (*(SKILL_DESC*)(pArg)).m_chargeSecond;
+		m_SkillDesc.m_damagePercent = (*(SKILL_DESC*)(pArg)).m_damagePercent;
+		m_SkillDesc.m_iconPath= (*(SKILL_DESC*)(pArg)).m_iconPath;
+		m_SkillDesc.m_isEnablePotential_BuffProbUp = (*(SKILL_DESC*)(pArg)).m_isEnablePotential_BuffProbUp;
+		m_SkillDesc.m_isEnablePotential_BuffShare = (*(SKILL_DESC*)(pArg)).m_isEnablePotential_BuffShare;
+		m_SkillDesc.m_isEnablePotential_BuffTimeUp = (*(SKILL_DESC*)(pArg)).m_isEnablePotential_BuffTimeUp;
+		m_SkillDesc.m_isEnablePotential_Charge = (*(SKILL_DESC*)(pArg)).m_isEnablePotential_Charge;
+		m_SkillDesc.m_isEnablePotential_ConditionDuration = (*(SKILL_DESC*)(pArg)).m_isEnablePotential_ConditionDuration;
+		m_SkillDesc.m_isEnablePotential_Continue = (*(SKILL_DESC*)(pArg)).m_isEnablePotential_Continue;
+		m_SkillDesc.m_isEnablePotential_Damage = (*(SKILL_DESC*)(pArg)).m_isEnablePotential_Damage;
+		m_SkillDesc.m_isEnablePotential_DebuffProbUp = (*(SKILL_DESC*)(pArg)).m_isEnablePotential_DebuffProbUp;
+		m_SkillDesc.m_isEnablePotential_Distance = (*(SKILL_DESC*)(pArg)).m_isEnablePotential_Distance;
+		m_SkillDesc.m_isEnablePotential_Extend = (*(SKILL_DESC*)(pArg)).m_isEnablePotential_Extend;
+		m_SkillDesc.m_isEnablePotential_Homing = (*(SKILL_DESC*)(pArg)).m_isEnablePotential_Homing;
+		m_SkillDesc.m_isEnablePotential_Knockback = (*(SKILL_DESC*)(pArg)).m_isEnablePotential_Knockback;
+		m_SkillDesc.m_isEnablePotential_Nway = (*(SKILL_DESC*)(pArg)).m_isEnablePotential_Nway;
+		m_SkillDesc.m_isEnablePotential_Rapid = (*(SKILL_DESC*)(pArg)).m_isEnablePotential_Rapid;
+		m_SkillDesc.m_rapidDelay = (*(SKILL_DESC*)(pArg)).m_rapidDelay;
+		m_SkillDesc.m_skillPath = (*(SKILL_DESC*)(pArg)).m_skillPath;
+	}
 
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 		return E_FAIL;
@@ -43,7 +63,7 @@ _uint CSkill::Tick(_double TimeDelta)
 {
 	if (m_bDead)
 	{
-	/*	for (auto& iter : m_effects)
+		for (auto& iter : m_effects)
 		{
 			if (nullptr != iter)
 			{
@@ -57,7 +77,7 @@ _uint CSkill::Tick(_double TimeDelta)
 			{
 				iter->Set_Dead();
 			}
-		}*/
+		}
 
 		return OBJ_DEAD;
 	}
