@@ -3,7 +3,7 @@
 #include "Bone.h"
 #include "Channel.h"
 
-_double							CAnimation::m_LerpDuration = 1.75;
+_double							CAnimation::m_LerpDuration = 0.54;
 
 CAnimation::CAnimation()
 {
