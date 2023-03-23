@@ -76,25 +76,30 @@ CEffect* CEffect_Manager::Create_Effect(_uint effectType, const _tchar* pLayerTa
 
 	CEffect::EFFECT_DESC effect_Desc = m_Effect_Descs[effectType];
 
-	wstring	ProtoTypeTag = L"Prototype_Component_Model_" + effect_Desc.m_effectPath;
-
-	effect_Desc.m_effectPath = m_EffectFilePath + effect_Desc.m_effectPath + L".fbx";
+	wstring	FilePath = m_EffectFilePath + effect_Desc.m_effectPath + L".fbx";
+	effect_Desc.m_effectPath = L"Prototype_Component_Model_" + effect_Desc.m_effectPath;
 
 	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
-	if (false == pGameInstance->Check_Prototype(ProtoTypeTag))
+	if (false == pGameInstance->Check_Prototype(effect_Desc.m_effectPath))
 	{
-		_matrix	PivotMatrix = XMMatrixIdentity();
-		string effectPath = convert.to_bytes(effect_Desc.m_effectPath);
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, ProtoTypeTag.c_str(),
+		_matrix	PivotMatrix = XMMatrixScaling(0.3f, 0.3f, 0.3f);
+		string effectPath = convert.to_bytes(FilePath);
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, effect_Desc.m_effectPath.c_str(),
 			CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, effectPath.c_str(), PivotMatrix))))
 			return	nullptr;
 
 		//m_Effect_Prototype_Check[effectType] = true;
 	}
 
-	CEffect* pEffect = nullptr;
+	//CGameObject* pEffect = nullptr;
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Effect"), iLevelIndex, pLayerTag, (CGameObject**)&pEffect, nullptr, &effect_Desc)))
+	//pEffect = pGameInstance->Clone_GameObject(L"Layer_Effect", iLevelIndex, TEXT("Prototype_GameObject_Effect"), &effect_Desc);
+
+	//if (nullptr == pEffect)
+	//	return nullptr;
+
+	CEffect* pEffect = nullptr;
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Effect"), iLevelIndex, L"Layer_Effect", (CGameObject**)&pEffect, nullptr, &effect_Desc)))
 		return nullptr;
 
 	Safe_Release(pGameInstance);

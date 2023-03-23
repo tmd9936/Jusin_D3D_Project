@@ -242,7 +242,7 @@ void CPlayer::Do_Skill()
 		CGameObject* pSkill_Mananger = CGameInstance::GetInstance()->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"Skill_Manager");
 		if (nullptr != pSkill_Mananger)
 		{
-			CSkill* pSkill = dynamic_cast<CSkill_Manager*>(pSkill_Mananger)->Create_Skill(L"Layer_Skill", m_iLevelindex, m_TestSkillindex);
+			CSkill* pSkill = dynamic_cast<CSkill_Manager*>(pSkill_Mananger)->Create_Skill(L"Layer_PlayerSkill", m_iLevelindex, m_TestSkillindex);
 			if (nullptr != pSkill)
 			{
 				_float3 vPos{};
@@ -250,6 +250,9 @@ void CPlayer::Do_Skill()
 
 				XMStoreFloat3(&vPos, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_pTransformCom->Get_State(CTransform::STATE_LOOK));
 				pSkill->Set_Effects_Pos(vPos);
+				pSkill->Set_Conditions_Pos({ vPos.x + 1.f, vPos.y, vPos.z + 1.f });
+
+				Safe_Release(pSkill);
 			}
 		}
 	}

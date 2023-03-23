@@ -44,6 +44,8 @@ _uint CEffect::Tick(_double TimeDelta)
 	if (m_bDead)
 		return OBJ_DEAD;
 
+	m_pModelCom->Play_Animation(TimeDelta);
+
 	return _uint();
 }
 
@@ -65,8 +67,9 @@ HRESULT CEffect::Render()
 	{
 		if (FAILED(m_pModelCom->SetUp_ShaderResource(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
 			return E_FAIL;
-		/*if (FAILED(m_pModelCom->SetUp_ShaderResource(m_pShaderCom, "g_NormalTexture", i, aiTextureType_NORMALS)))
-			return E_FAIL;*/
+
+		if (FAILED(m_pModelCom->SetUp_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
+			return E_FAIL;
 
 		m_pShaderCom->Begin(0);
 
@@ -183,8 +186,8 @@ void CEffect::Free()
 {
 	__super::Free();
 
+	Safe_Release(m_pModelCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pShaderCom);
-	Safe_Release(m_pModelCom);
 	Safe_Release(m_pRendererCom);
 }

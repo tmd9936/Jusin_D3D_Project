@@ -81,16 +81,18 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 		pEffect = pEffect_Manager->Create_Effect(effectIndex, pLayerTag, iLevelIndex);
 		if (nullptr != pEffect)
 		{
+			//Safe_Release(pEffect);
 			effects.push_back(pEffect);
 		}
 	}
 
 	vector<CEffect*> conditions;
-	for (auto& effectIndex : m_Skill_Depend_Datas[skillType].m_conditions)
+	for (auto& conditionsIndex : m_Skill_Depend_Datas[skillType].m_conditions)
 	{
-		pEffect = pEffect_Manager->Create_Effect(effectIndex, pLayerTag, iLevelIndex);
+		pEffect = pEffect_Manager->Create_Effect(conditionsIndex, pLayerTag, iLevelIndex);
 		if (nullptr != pEffect)
 		{
+			//Safe_Release(pEffect);
 			conditions.push_back(pEffect);
 		}
 	}
@@ -275,4 +277,7 @@ CGameObject* CSkill_Manager::Clone(const _tchar* pLayerTag, _uint iLevelIndex, v
 void CSkill_Manager::Free()
 {
 	__super::Free();
+
+	m_Skill_Desc_Datas.clear();
+	m_Skill_Depend_Datas.clear();
 }

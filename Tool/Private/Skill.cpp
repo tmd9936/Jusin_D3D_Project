@@ -42,7 +42,25 @@ HRESULT CSkill::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pAr
 _uint CSkill::Tick(_double TimeDelta)
 {
 	if (m_bDead)
+	{
+	/*	for (auto& iter : m_effects)
+		{
+			if (nullptr != iter)
+			{
+				iter->Set_Dead();
+			}
+		}
+
+		for (auto& iter : m_conditions)
+		{
+			if (nullptr != iter)
+			{
+				iter->Set_Dead();
+			}
+		}*/
+
 		return OBJ_DEAD;
+	}
 
 	for (auto& iter : m_effects)
 	{
@@ -62,16 +80,16 @@ _uint CSkill::Tick(_double TimeDelta)
 
 	if (m_CurrentTestDeadDuration >= m_TestDeadDuration)
 	{
-		m_CurrentTestDeadDuration += TimeDelta;
 		m_bDead = true;
 	}
+	m_CurrentTestDeadDuration += TimeDelta;
 
 	return _uint();
 }
 
 _uint CSkill::LateTick(_double TimeDelta)
 {
-
+	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
 	return _uint();
 }
 
@@ -134,6 +152,11 @@ HRESULT CSkill::Add_Components()
 		(CComponent**)&m_pTransformCom, &TransformDesc)))
 		return E_FAIL;
 
+	/* For.Com_Renderer */
+	if (FAILED(pGameInstance->Add_Component(CRenderer::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Renderer"),
+		(CComponent**)&m_pRendererCom, nullptr)))
+		return E_FAIL;
+
 
 	return S_OK;
 }
@@ -175,6 +198,7 @@ CGameObject* CSkill::Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pAr
 void CSkill::Free()
 {
 	__super::Free();
+	
 
 	for (auto& effect : m_effects)
 		Safe_Release(effect);
@@ -182,6 +206,7 @@ void CSkill::Free()
 	for (auto& condition : m_conditions)
 		Safe_Release(condition);
 
-	Safe_Release(m_pTransformCom);
 
+	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pRendererCom);
 }

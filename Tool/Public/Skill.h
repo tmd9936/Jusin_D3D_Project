@@ -40,7 +40,6 @@ public:
 		_bool	m_isEnablePotential_BuffShare;
 		_bool	m_isEnablePotential_Knockback;
 		_bool	m_isEnablePotential_Damage;
-
 	} SKILL_DESC;
 
 private:
@@ -78,13 +77,14 @@ public:
 
 private:
 	CTransform* m_pTransformCom = { nullptr };
+	CRenderer* m_pRendererCom = { nullptr };
 
-	_float		m_TestDeadDuration = { 3.f };
+	_float		m_TestDeadDuration = { 2.f };
 
 	_float		m_CurrentTestDeadDuration = { 0.f };
 
 private:
-	SKILL_DESC		m_SkillDesc = {};
+	SKILL_DESC		m_SkillDesc;
 
 	vector<CEffect*> m_effects;
 	vector<CEffect*> m_conditions;
