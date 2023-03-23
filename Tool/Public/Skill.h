@@ -3,7 +3,6 @@
 #include "Client_Defines.h"
 #include "GameObject.h"
 
-
 BEGIN(Engine)
 class CTransform;
 class CRenderer;
@@ -14,6 +13,7 @@ END
 
 BEGIN(Client)
 
+class CEffect;
 class CLoader;
 
 class CSkill final : public CGameObject
@@ -56,13 +56,31 @@ public:
 	virtual _uint LateTick(_double TimeDelta) override;
 	virtual HRESULT Render() override;
 
+public:
+	/**
+	@param effects: this param is transferred to m_effects,
+	which is a member variable of the skill class.
+	*/
+	void	Set_Effects(vector<CEffect*>& effects) {
+		m_effects = move(effects);
+	}
+
+	/**
+	@param conditions: this param is transferred to m_conditions, 
+	which is a member variable of the skill class.
+	*/
+	void	Set_Conditions(vector<CEffect*>& conditions) {
+		m_conditions = move(conditions);
+	}
+
 private:
 	CTransform* m_pTransformCom = { nullptr };
-	CRenderer* m_pRendererCom = { nullptr };
-	CShader* m_pShaderCom = { nullptr };
-	CModel* m_pModelCom = { nullptr };
+
 private:
 	SKILL_DESC		m_SkillDesc = {};
+
+	vector<CEffect*> m_effects;
+	vector<CEffect*> m_conditions;
 
 private:
 	HRESULT Add_Components();

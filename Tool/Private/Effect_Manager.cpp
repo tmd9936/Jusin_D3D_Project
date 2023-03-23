@@ -76,14 +76,14 @@ CEffect* CEffect_Manager::Create_Effect(_uint effectType, const _tchar* pLayerTa
 
 	effect_Desc.m_effectPath = m_EffectFilePath + effect_Desc.m_effectPath + L".fbx";
 
-	CGameObject* pEffect = nullptr;
+	CEffect* pEffect = nullptr;
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Effect"), iLevelIndex, pLayerTag, &pEffect, nullptr, &effect_Desc)))
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Effect"), iLevelIndex, pLayerTag, (CGameObject**)&pEffect, nullptr, &effect_Desc)))
 		return nullptr;
 
 	Safe_Release(pGameInstance);
 
-	return (CEffect*)pEffect;
+	return pEffect;
 }
 
 

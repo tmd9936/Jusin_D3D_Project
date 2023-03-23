@@ -26,7 +26,7 @@ public:
 	virtual _uint Tick(_double TimeDelta) override;
 	virtual _uint LateTick(_double TimeDelta) override;
 
-	CEffect* Create_Effect(_uint effectType, const _tchar* pLayerTag, _uint iLevelIndex, _float3 vPos);
+	CEffect* Create_Effect(_uint effectType, const _tchar* pLayerTag, _uint iLevelIndex, _float3 vPos = {0.f, 0.f, 0.f});
 
 public:
 	HRESULT	Reload_Datas();

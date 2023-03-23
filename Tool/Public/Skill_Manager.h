@@ -3,13 +3,15 @@
 #include "Client_Defines.h"
 #include "GameObject.h"
 
-#include "Effect.h"
 #include "Skill.h"
 
 BEGIN(Engine)
 END
 
 BEGIN(Client)
+
+class CEffect;
+class CEffect_Manager;
 
 class CSkill_Manager final : public CGameObject
 {
@@ -33,7 +35,7 @@ public:
 	virtual _uint LateTick(_double TimeDelta) override;
 
 public:
-	CSkill* Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillindex);
+	CSkill* Create_Skill(const _tchar * pLayerTag, _uint iLevelIndex, _uint skillindex);
 
 public:
 	HRESULT	Reload_Datas();

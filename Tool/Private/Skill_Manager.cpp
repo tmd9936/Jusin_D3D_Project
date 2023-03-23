@@ -3,6 +3,10 @@
 
 #include "GameInstance.h"
 
+#include "Effect_Manager.h"
+
+#include "Effect.h"
+
 CSkill_Manager::CSkill_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
 {
@@ -63,20 +67,47 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 	if (skillType >= m_Skill_Depend_Datas.size() || nullptr == pLayerTag || iLevelIndex >= LEVEL_END)
 		return nullptr;
 
-	CGameObject* pEffect_Manager = pGameInstance->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"Effect_Manager");
+	CEffect_Manager* pEffect_Manager = dynamic_cast<CEffect_Manager*>(pGameInstance->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"Effect_Manager"));
 
 	if (nullptr == pEffect_Manager)
-		return nullptr;
+		return nullptr;;
+
+	CEffect* pEffect = nullptr;
+
+	vector<CEffect*> effects;
 
 	for (auto& effectIndex : m_Skill_Depend_Datas[skillType].m_effects)
 	{
-		CGameObject* pEffect = nullptr;
-
+		pEffect = pEffect_Manager->Create_Effect(effectIndex, pLayerTag, iLevelIndex);
+		if (nullptr != pEffect)
+		{
+			effects.push_back(pEffect);
+		}
 	}
+
+	vector<CEffect*> conditions;
+	for (auto& effectIndex : m_Skill_Depend_Datas[skillType].m_conditions)
+	{
+		pEffect = pEffect_Manager->Create_Effect(effectIndex, pLayerTag, iLevelIndex);
+		if (nullptr != pEffect)
+		{
+			conditions.push_back(pEffect);
+		}
+	}
+
+	CSkill* pSkill = nullptr;
+
+	CSkill::Skill_Desc skill_desc = m_Skill_Desc_Datas[skillType];
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Skill"), iLevelIndex, pLayerTag, (CGameObject**)&pSkill, nullptr, &skill_desc)))
+		return nullptr;
+
+	pSkill->Set_Effects(effects);
+	pSkill->Set_Conditions(conditions);
 
 	Safe_Release(pGameInstance);
 
-	return nullptr;
+	return pSkill;
 }
 
 
