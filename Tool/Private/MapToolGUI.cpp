@@ -144,7 +144,7 @@ HRESULT CMapToolGUI::Render()
 
 		}
 
-		ImGui::Text("Lerp_Duration");
+		ImGui::NewLine();
 		ImGui::PushItemWidth(100);
 		if (ImGui::DragFloat("LerpDuration", &m_LerpDuration, 0.01f))
 		{

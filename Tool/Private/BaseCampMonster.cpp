@@ -101,7 +101,7 @@ void CBaseCampMonster::Go_To_RandomPosition(const _double& TimeDelta)
 	else
 	{
 		Check_Do_Change_RandomMotion(TimeDelta);
-		if (m_pTransformCom->Chase(XMLoadFloat4(&m_MovePosition), (_float)TimeDelta))
+		if (m_pTransformCom->Chase(XMLoadFloat4(&m_MovePosition), (_float)TimeDelta, 0.2f, m_pNavigationCom))
 		{
 			MotionChange_Random();
 			Init_RandomMotionChangeDelay();

@@ -131,7 +131,7 @@ public:
 	/**
 	@return False 움직이는 중, True 도착
 	*/
-	_bool Chase(_fvector vTargetPos, _float TimeDelta, _float limitDitance = 0.2);
+	_bool Chase(_fvector vTargetPos, _float TimeDelta, _float limitDitance = 0.2, CNavigation* pNavigation = nullptr);
 
 	_bool TurnAndChase(_fvector vTargetPos, _float TimeDelta, _float limitDitance = 0.2);
 

@@ -255,7 +255,6 @@ HRESULT CMonster::Add_Components()
 		(CComponent**)&m_pNavigationCom, &NaviDesc)))
 		return E_FAIL;
 
-
 	return S_OK;
 }
 
@@ -315,6 +314,14 @@ HRESULT CMonster::Add_Components_By_File()
 	if (FAILED(pGameInstance->Add_Component(FAMILY_ID_COLLISION_SPHERE, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_SPHERE"),
 		(CComponent**)&m_pSphere, &ColliderDesc)))
 		return E_FAIL;
+
+	CNavigation::NAVIDESC		NaviDesc;
+	ZeroMemory(&NaviDesc, sizeof NaviDesc);
+	NaviDesc.iIndex = 15;
+	if (FAILED(pGameInstance->Add_Component(CNavigation::familyId, this, m_PokemonDesc.ModelPrototypeLevelIndex, TEXT("Prototype_Component_Navigation"),
+		(CComponent**)&m_pNavigationCom, &NaviDesc)))
+		return E_FAIL;
+
 
 	return S_OK;
 }
