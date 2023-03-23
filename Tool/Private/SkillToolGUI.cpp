@@ -112,6 +112,7 @@ void CSkillToolGUI::ListBox_Skill_List()
 	{
 		ToString_Skill_Info(m_iSkillListBoxCurrentItem);
 		Player_Skill_Change(m_iSkillListBoxCurrentItem);
+		m_iSkillDependListBoxCurrentItem = m_iSkillListBoxCurrentItem;
 	}
 }
 
@@ -121,6 +122,7 @@ void CSkillToolGUI::ListBox_Skill_Depend_List()
 	{
 		ToString_Skill_Info(m_iSkillDependListBoxCurrentItem);
 		Player_Skill_Change(m_iSkillDependListBoxCurrentItem);
+		m_iSkillListBoxCurrentItem = m_iSkillDependListBoxCurrentItem;
 	}
 }
 
@@ -294,7 +296,8 @@ void CSkillToolGUI::Update_Skill_List()
 	for (size_t i = 0; i < m_SkillListBoxSize; ++i)
 	{
 		m_SkillListBox[i] = new char[MAX_PATH];
-		string skill_Path = convert.to_bytes(m_Skill_Desc_Datas[i].m_skillPath);
+		string skill_Path = to_string(i) + ": ";
+		skill_Path += convert.to_bytes(m_Skill_Desc_Datas[i].m_skillPath);
 		strcpy(m_SkillListBox[i], skill_Path.c_str());
 	}
 
@@ -315,7 +318,7 @@ void CSkillToolGUI::Update_Skill_Depend_List()
 	for (size_t i = 0; i < m_SkillDependListBoxSize; ++i)
 	{
 		m_SkillDependListBox[i] = new char[MAX_PATH];
-		string skill_Depend;
+		string skill_Depend = to_string(i) + ": ";
 		skill_Depend += "effect: ";
 		for (size_t j = 0; j < m_Skill_Depend_Datas[i].m_effects.size(); j++)
 		{
@@ -348,7 +351,8 @@ void CSkillToolGUI::Update_Effect_List()
 	for (size_t i = 0; i < m_EffectListBoxSize; ++i)
 	{
 		m_EffectListBox[i] = new char[MAX_PATH];
-		string effect_Path = convert.to_bytes(m_Effect_Descs[i].m_effectPath);
+		string effect_Path = to_string(i) + ": ";
+		effect_Path +=	convert.to_bytes(m_Effect_Descs[i].m_effectPath);
 		strcpy(m_EffectListBox[i], effect_Path.c_str());
 	}
 
