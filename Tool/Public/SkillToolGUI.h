@@ -65,6 +65,9 @@ private:
 	void	ToString_Skill_Info(_uint SkillType);
 	void	ToString_Effect_Info(_uint EffectType);
 
+private:
+	void	Skill_Info();
+	void	Effect_Info();
 
 private:
 	void	After_Init();
@@ -100,6 +103,11 @@ private:
 
 	//wstring					m_CurrentPrefabName = {};
 	//wstring					m_CurrentLayerName = {};
+
+	string						m_Skill_Desc_Info;
+	string						m_Skill_Depend_Info;
+	string						m_Effect_Desc_Info;
+
 
 public:
 	virtual void Free(void) override;

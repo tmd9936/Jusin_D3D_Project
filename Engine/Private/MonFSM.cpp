@@ -30,15 +30,13 @@ HRESULT CMonFSM::Initialize(void* pArg)
 
 _int CMonFSM::Update_Component(const _float& fTimeDelta, CModel* pModel)
 {
-	if (nullptr == pModel)
-		return 0;
-
-	pModel->Play_Animation(fTimeDelta);
-
 	if (m_eCurrentMotion == CMonFSM::END_MOTION)
 		Get_RandomState();
 
-	return _int();
+	if (nullptr == pModel)
+		return 0;
+
+	return pModel->Play_Animation(fTimeDelta);
 }
 
 HRESULT CMonFSM::Add_RandomTransitionState(MONSTER_STATE eState)

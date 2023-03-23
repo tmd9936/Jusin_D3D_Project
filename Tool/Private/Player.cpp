@@ -3,6 +3,9 @@
 
 #include "GameInstance.h"
 
+#include "Skill_Manager.h"
+#include "Skill.h"
+
 CPlayer::CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CMonster(pDevice, pContext)
 {
@@ -40,7 +43,17 @@ HRESULT CPlayer::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pA
 
 _uint CPlayer::Tick(_double TimeDelta)
 {
-	m_pModelCom->Play_Animation(TimeDelta);
+	if (m_pModelCom->Play_Animation(TimeDelta))
+	{
+		switch (m_pMonFSM->Get_MotionState())
+		{
+		case CMonFSM::ATK_NORMAL:
+			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE_FLY, m_pModelCom);
+		default:
+			break;
+		}
+		return _uint();
+	}
 
 	_bool move = false;
 	if (KEY_TAB(KEY::DOWN))
@@ -90,6 +103,11 @@ _uint CPlayer::Tick(_double TimeDelta)
 	else  if (KEY_AWAY(KEY::UP))
 	{
 		m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
+	}
+
+	else  if (KEY_AWAY(KEY::SPACE))
+	{
+		Do_Skill();
 	}
 
 	m_pAABB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
@@ -213,6 +231,28 @@ void CPlayer::On_CollisionEnter(CCollider* pOther, const _float& fX, const _floa
 
 void CPlayer::On_CollisionExit(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
 {
+}
+
+void CPlayer::Do_Skill()
+{
+	if (m_pMonFSM->Get_MotionState() != CMonFSM::ATK_NORMAL)
+	{
+		m_pMonFSM->Transit_MotionState(CMonFSM::ATK_NORMAL, m_pModelCom);
+
+		CGameObject* pSkill_Mananger = CGameInstance::GetInstance()->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"Skill_Mananger");
+		if (nullptr != pSkill_Mananger)
+		{
+			CSkill* pSkill = dynamic_cast<CSkill_Manager*>(pSkill_Mananger)->Create_Skill(L"Layer_Skill", m_iLevelindex, m_TestSkillindex);
+			if (nullptr != pSkill)
+			{
+				_float3 vPos{};
+				_float3 vLook{};
+
+				XMStoreFloat3(&vPos, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_pTransformCom->Get_State(CTransform::STATE_LOOK));
+				pSkill->Set_Effects_Pos(vPos);
+			}
+		}
+	}
 }
 
 HRESULT CPlayer::SetUp_ShaderResources()

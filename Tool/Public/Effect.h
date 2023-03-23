@@ -24,11 +24,11 @@ public:
 public:
 	typedef struct Effect_Desc
 	{
-		_uint	m_effectType;
-		_uint	m_actionType;
 		wstring	m_effectPath;
 		wstring	m_exPath1;
 		wstring	m_exPath2;
+		_uint	m_effectType;
+		_uint	m_actionType;
 		_uint	m_soundEventID;
 		wstring	m_soundEventTag;
 		_uint	m_underFlag;

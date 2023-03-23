@@ -44,6 +44,22 @@ _uint CSkill::Tick(_double TimeDelta)
 	if (m_bDead)
 		return OBJ_DEAD;
 
+	for (auto& iter : m_effects)
+	{
+		if (nullptr != iter)
+		{
+			iter->Tick(TimeDelta);
+		}
+	}
+
+	for (auto& iter : m_conditions)
+	{
+		if (nullptr != iter)
+		{
+			iter->Tick(TimeDelta);
+		}
+	}
+
 	return _uint();
 }
 
@@ -62,6 +78,30 @@ HRESULT CSkill::Render()
 	return S_OK;
 }
 
+
+void CSkill::Set_Effects_Pos(const _float3& vPos)
+{
+	for (auto& effect : m_effects)
+	{
+		if (nullptr != effect)
+		{
+			CTransform* pTransform = effect->Get_As<CTransform>();
+			pTransform->Set_Pos(vPos.x, vPos.y, vPos.z);
+		}
+	}
+}
+
+void CSkill::Set_Conditions_Pos(const _float3& vPos)
+{
+	for (auto& condition : m_conditions)
+	{
+		if (nullptr != condition)
+		{
+			CTransform* pTransform = condition->Get_As<CTransform>();
+			pTransform->Set_Pos(vPos.x, vPos.y, vPos.z);
+		}
+	}
+}
 
 HRESULT CSkill::Add_Components()
 {

@@ -32,6 +32,16 @@ public:
 	virtual void On_CollisionEnter(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
 	virtual void On_CollisionExit(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
 
+public:
+	void	Set_TestSkillindex(_uint testSkillindex) {
+		m_TestSkillindex = testSkillindex;
+	}
+
+private:
+	void	Do_Skill();
+
+private:
+	_uint			m_TestSkillindex = { 0 };
 
 private:
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 던진다. */

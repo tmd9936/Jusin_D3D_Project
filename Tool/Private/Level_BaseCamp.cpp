@@ -46,7 +46,7 @@ HRESULT CLevel_BaseCamp::Initialize()
 	if (FAILED(Ready_Layer_Manager(TEXT("Layer_Manager"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_PlayerBullet(TEXT("Layer_PlayerBullet"))))
+	if (FAILED(Ready_Layer_PlayerSkill(TEXT("Layer_PlayerSkill"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Effect(TEXT("Layer_Effect"))))
@@ -251,7 +251,7 @@ HRESULT CLevel_BaseCamp::Ready_Layer_Effect(const _tchar* pLayerTag)
 	return S_OK;
 }
 
-HRESULT CLevel_BaseCamp::Ready_Layer_PlayerBullet(const _tchar* pLayerTag)
+HRESULT CLevel_BaseCamp::Ready_Layer_PlayerSkill(const _tchar* pLayerTag)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
