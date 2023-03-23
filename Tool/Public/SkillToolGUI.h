@@ -20,7 +20,7 @@ class CTransform;
 END
 
 BEGIN(Client)
-class CMapToolGUI;
+class CDataTool;
 
 class CSkillToolGUI final : public CBase
 {
@@ -61,7 +61,7 @@ private:
 	void	Update_Effect_List();
 
 private:
-	void	Player_Skill_Change();
+	void	Player_Skill_Change(_uint SkillType);
 	void	ToString_Skill_Info(_uint SkillType);
 	void	ToString_Effect_Info(_uint EffectType);
 

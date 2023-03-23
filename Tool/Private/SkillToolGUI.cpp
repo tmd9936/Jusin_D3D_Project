@@ -5,6 +5,7 @@
 #include "imgui_impl_dx11.h"
 
 #include "SkillToolGUI.h"
+#include "DataToolGUI.h"
 #include "ImGuiFileBrowser.h"
 
 #include "GameInstance.h"
@@ -107,31 +108,42 @@ void CSkillToolGUI::View_Effect_Layer()
 
 void CSkillToolGUI::ListBox_Skill_List()
 {
-	if (ImGui::ListBox("Skill_List ", &m_iSkillListBoxCurrentItem, m_SkillListBox, m_SkillListBoxSize))
+	if (ImGui::ListBox("Skill_List ", &m_iSkillListBoxCurrentItem, m_SkillListBox, (int)m_SkillListBoxSize))
 	{
 		ToString_Skill_Info(m_iSkillListBoxCurrentItem);
+		Player_Skill_Change(m_iSkillListBoxCurrentItem);
 	}
 }
 
 void CSkillToolGUI::ListBox_Skill_Depend_List()
 {
-	if (ImGui::ListBox("Skill_Depend_List", &m_iSkillDependListBoxCurrentItem, m_SkillDependListBox, m_SkillDependListBoxSize))
+	if (ImGui::ListBox("Skill_Depend_List", &m_iSkillDependListBoxCurrentItem, m_SkillDependListBox, (int)m_SkillDependListBoxSize))
 	{
-		ToString_Skill_Info(m_iSkillListBoxCurrentItem);
+		ToString_Skill_Info(m_iSkillDependListBoxCurrentItem);
+		Player_Skill_Change(m_iSkillDependListBoxCurrentItem);
 	}
 }
 
 void CSkillToolGUI::ListBox_Effect_List()
 {
 	ImGui::Text("ListBox_Effect_List");
-	if (ImGui::ListBox(" ", &m_iEffectListCurrentItem, m_EffectListBox, m_EffectListBoxSize))
+	if (ImGui::ListBox(" ", &m_iEffectListCurrentItem, m_EffectListBox, (int)m_EffectListBoxSize))
 	{
 		ToString_Effect_Info(m_iEffectListCurrentItem);
 	}
 }
 
-void CSkillToolGUI::Player_Skill_Change()
+void CSkillToolGUI::Player_Skill_Change(_uint SkillType)
 {
+	const _uint iLevelindex = CDataToolGUI::GetInstance()->Get_Current_Levelindex();
+
+	CGameObject* pPlayer = CGameInstance::GetInstance()->Get_Object(iLevelindex, L"Layer_Player", L"Player");
+
+	if (pPlayer == nullptr)
+		return;
+
+	dynamic_cast<CPlayer*>(pPlayer)->Set_TestSkillindex(SkillType);
+
 }
 
 void CSkillToolGUI::ToString_Skill_Info(_uint SkillType)

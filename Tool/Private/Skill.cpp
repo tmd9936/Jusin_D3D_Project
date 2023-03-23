@@ -60,6 +60,12 @@ _uint CSkill::Tick(_double TimeDelta)
 		}
 	}
 
+	if (m_CurrentTestDeadDuration >= m_TestDeadDuration)
+	{
+		m_CurrentTestDeadDuration += TimeDelta;
+		m_bDead = true;
+	}
+
 	return _uint();
 }
 
@@ -74,6 +80,21 @@ HRESULT CSkill::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
+	for (auto& iter : m_effects)
+	{
+		if (nullptr != iter)
+		{
+			iter->Render();
+		}
+	}
+
+	for (auto& iter : m_conditions)
+	{
+		if (nullptr != iter)
+		{
+			iter->Render();
+		}
+	}
 
 	return S_OK;
 }

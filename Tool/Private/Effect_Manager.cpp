@@ -89,7 +89,7 @@ CEffect* CEffect_Manager::Create_Effect(_uint effectType, const _tchar* pLayerTa
 			CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, effectPath.c_str(), PivotMatrix))))
 			return	nullptr;
 
-		m_Effect_Prototype_Check[effectType] = true;
+		//m_Effect_Prototype_Check[effectType] = true;
 	}
 
 	CEffect* pEffect = nullptr;

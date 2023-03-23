@@ -79,6 +79,10 @@ public:
 private:
 	CTransform* m_pTransformCom = { nullptr };
 
+	_float		m_TestDeadDuration = { 3.f };
+
+	_float		m_CurrentTestDeadDuration = { 0.f };
+
 private:
 	SKILL_DESC		m_SkillDesc = {};
 
