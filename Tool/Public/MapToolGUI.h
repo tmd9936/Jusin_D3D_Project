@@ -92,6 +92,8 @@ private:
 
 private:
 	HRESULT Create_Navigation_Test_Data();
+	HRESULT Create_Navigation_By_Terrain_Mask(_float interval);
+
 
 private:
 	ID3D11Device*			m_pDevice = { nullptr };
@@ -124,7 +126,7 @@ private:
 
 	_float3				m_vBrushPos = {};
 
-	_uint*				pTerrainMaskPixel = { nullptr };
+	_uint*				m_pTerrainMaskPixel = { nullptr };
 
 	_bool				m_bMapToolOpen = { true };
 

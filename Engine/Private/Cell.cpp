@@ -15,6 +15,17 @@ HRESULT CCell::Initialize(const _float3* pPoints, _uint iIndex)
 
 	m_iIndex = iIndex;
 
+	_vector vLine[LINE_END];
+
+	vLine[LINE_AB] = XMLoadFloat3(&m_vPoints[POINT_B]) - XMLoadFloat3(&m_vPoints[POINT_A]);
+	m_vNormal[LINE_AB] = _float3(XMVectorGetZ(vLine[LINE_AB]) * -1.f, 0.f, XMVectorGetX(vLine[LINE_AB]));
+
+	vLine[LINE_BC] = XMLoadFloat3(&m_vPoints[POINT_C]) - XMLoadFloat3(&m_vPoints[POINT_B]);
+	m_vNormal[LINE_BC] = _float3(XMVectorGetZ(vLine[LINE_BC]) * -1.f, 0.f, XMVectorGetX(vLine[LINE_BC]));
+
+	vLine[LINE_CA] = XMLoadFloat3(&m_vPoints[POINT_A]) - XMLoadFloat3(&m_vPoints[POINT_C]);
+	m_vNormal[LINE_CA] = _float3(XMVectorGetZ(vLine[LINE_CA]) * -1.f, 0.f, XMVectorGetX(vLine[LINE_CA]));
+
 #ifdef _DEBUG
 	m_pVIBuffer = CVIBuffer_Cell::Create(m_pDevice, m_pContext, m_vPoints);
 	if (nullptr == m_pVIBuffer)
@@ -53,6 +64,22 @@ _bool CCell::Compare_Points(const _float3* pSour, const _float3* pDest)
 	return false;
 }
 
+_bool CCell::isIn(_fvector vPosition, _int& iNeighborIndex)
+{
+	for (_uint i = 0; i < LINE_END; ++i)
+	{
+		_vector		vDir = vPosition - XMLoadFloat3(&m_vPoints[i]);
+
+		if (0 < XMVectorGetX(XMVector3Dot(XMVector3Normalize(vDir), XMVector3Normalize(XMLoadFloat3(&m_vNormal[i])))))
+		{
+			iNeighborIndex = m_iNeighborIndices[i];
+			return false;
+		}
+	}
+
+	return true;
+}
+
 #ifdef _DEBUG
 HRESULT CCell::Render()
 {
@@ -61,6 +88,7 @@ HRESULT CCell::Render()
 
 	return m_pVIBuffer->Render();
 }
+
 #endif // _DEBUG
 
 CCell* CCell::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _float3* pPoints, _uint iIndex)

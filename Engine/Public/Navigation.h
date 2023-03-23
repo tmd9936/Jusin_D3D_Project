@@ -4,8 +4,16 @@
 
 BEGIN(Engine)
 
+class CCell;
+
 class ENGINE_DLL CNavigation final : public CComponent
 {
+public:
+	typedef struct tagNavigationDesc
+	{
+		_int	iIndex = -1;
+	}NAVIDESC;
+
 public:
 	static const FamilyId familyId = FAMILY_ID_NAVIGATION;
 
@@ -19,13 +27,16 @@ public:
 	HRESULT Initialize(void* pArg) override;
 	HRESULT Render();
 
+public:
+	_bool Move_OnNavigation(_fvector vPosition);
+
 private:
-	_int					m_iCurrentIndex = { -1 };
-	vector<class CCell*>	m_Cells;
+	NAVIDESC				m_NaviDesc = {};
+	vector<CCell*>			m_Cells;
 
 #ifdef _DEBUG
 private:
-	class CShader* m_pShader = { nullptr };
+	CShader* m_pShader = { nullptr };
 #endif // _DEBUG
 
 private:

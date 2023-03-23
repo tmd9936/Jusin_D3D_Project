@@ -61,7 +61,6 @@ HRESULT CNavigation::Initialize_Prototype(const _tchar* pNavigationData)
 #endif // _DEBUG
 
 
-
 	return S_OK;
 }
 
@@ -76,9 +75,6 @@ HRESULT CNavigation::Render()
 	_float4x4		WorldMatrix;
 	XMStoreFloat4x4(&WorldMatrix, XMMatrixIdentity());
 
-	if (FAILED(m_pShader->Set_Matrix("g_WorldMatrix", &WorldMatrix)))
-		return E_FAIL;
-
 	CPipeLine* pPipeLine = CPipeLine::GetInstance();
 	Safe_AddRef(pPipeLine);
 
@@ -89,13 +85,69 @@ HRESULT CNavigation::Render()
 
 	Safe_Release(pPipeLine);
 
+	_float4			vColor = _float4(0.f, 1.f, 0.f, 1.f);
+
+	if (0 <= m_NaviDesc.iIndex)
+	{
+		vColor = _float4(1.f, 0.f, 0.f, 1.f);
+		WorldMatrix._42 = 0.1f;
+	}
+
+	if (FAILED(m_pShader->Set_Matrix("g_WorldMatrix", &WorldMatrix)))
+		return E_FAIL;
+
+	if (FAILED(m_pShader->Set_RawValue("g_vColor", &vColor, sizeof(_float4))))
+		return E_FAIL;
+
 	m_pShader->Begin(0);
 
-	for (auto& pCell : m_Cells)
-		pCell->Render();
+	if (0 <= m_NaviDesc.iIndex)
+	{
+		m_Cells[m_NaviDesc.iIndex]->Render();
+	}
+	else
+	{
+		for (auto& pCell : m_Cells)
+			pCell->Render();
+	}
+
 #endif // _DEBUG
 
 	return S_OK;
+}
+
+// 움직임이 발생 했을 때 네비게이션 안에 있는지 판단
+// @result 움직인 장소에 움직임 가능한 Cell이 있다면 true, 아니면 false
+// @param vPosition: 움직일 장소
+_bool CNavigation::Move_OnNavigation(_fvector vPosition)
+{
+	if (m_NaviDesc.iIndex >= m_Cells.size())
+		return false;
+
+	_int		iNeighborIndex = { 0 };
+	
+	// 움직인 위치가 현재 셀 안에 있는지 판단
+	if (true == m_Cells[m_NaviDesc.iIndex]->isIn(vPosition, iNeighborIndex))
+	{
+		return true;
+	}
+	else // 셀 밖으로 움직인 경우
+	{
+		if (0 <= iNeighborIndex)
+		{
+			while (true)
+			{
+				if (-1 == iNeighborIndex)
+					return false;
+				if (true == m_Cells[iNeighborIndex]->isIn(vPosition, iNeighborIndex))
+				{
+					m_NaviDesc.iIndex = iNeighborIndex;
+					break;
+				}
+			}
+		}
+		return false;
+	}
 }
 
 HRESULT CNavigation::SetUp_Neighbors()

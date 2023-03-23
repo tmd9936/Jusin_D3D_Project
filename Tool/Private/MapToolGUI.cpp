@@ -432,6 +432,21 @@ void CMapToolGUI::TerrainMenu()
 			dynamic_cast<CFlatTerrain*>(pTerrain)->Switch_Wire();
 
 	}
+
+	if (ImGui::Button("Terrain_Render_Off"))
+	{
+		
+		const _uint iLevelindex = CDataToolGUI::GetInstance()->Get_Current_Levelindex();
+
+		CGameObject* pTerrain = CGameInstance::GetInstance()->Get_Object(iLevelindex, L"Layer_Terrain", L"Terrain");
+		if (pTerrain)
+			dynamic_cast<CFlatTerrain*>(pTerrain)->Switch_Wire();
+	}
+
+	if (ImGui::Button("Create_Navigation_By_Terrain_Mask"))
+	{
+		Create_Navigation_By_Terrain_Mask(1.f);
+	}
 }
 
 void CMapToolGUI::Update_Data()
@@ -545,30 +560,31 @@ void CMapToolGUI::Move_Brush()
 
 	if (MOUSE_TAB(MOUSE::LBTN) && Mouse_Pos_In_Platform())
 	{
-		if (nullptr == pTerrainMaskPixel)
+		if (nullptr == m_pTerrainMaskPixel)
 			Terrain_Mask_Pixels_Copy();
 
 		CTexture* pMaskTexture = dynamic_cast<CTexture*>(CGameInstance::GetInstance()->Get_Component(FAMILY_ID_TEXTURE_MASK, LEVEL_BASECAMP, L"Layer_Terrain", L"Terrain"));
 		if (nullptr == pMaskTexture)
 			return;
 
-		pTerrainMaskPixel[_uint(m_vBrushPos.z * m_iTerrainCntX + m_vBrushPos.x)] = D3DCOLOR_ARGB(255, 0, 0, 0);
-		pMaskTexture->Update_Texture_Pixels_Info(0, pTerrainMaskPixel);
+		m_pTerrainMaskPixel[_uint(m_vBrushPos.z * m_iTerrainCntX + m_vBrushPos.x)] = D3DCOLOR_ARGB(255, 0, 0, 0);
+		pMaskTexture->Update_Texture_Pixels_Info(0, m_pTerrainMaskPixel);
 
 		Terrain_Mask_Pixels_Copy();
 	}
 
 	else if (MOUSE_TAB(MOUSE::RBTN) && Mouse_Pos_In_Platform())
 	{
-		if (nullptr == pTerrainMaskPixel)
+		if (nullptr == m_pTerrainMaskPixel)
 			Terrain_Mask_Pixels_Copy();
 
 		CTexture* pMaskTexture = dynamic_cast<CTexture*>(CGameInstance::GetInstance()->Get_Component(FAMILY_ID_TEXTURE_MASK, LEVEL_BASECAMP, L"Layer_Terrain", L"Terrain"));
 		if (nullptr == pMaskTexture)
 			return;
 
-		pTerrainMaskPixel[_uint(m_vBrushPos.z * m_iTerrainCntX + m_vBrushPos.x)] = D3DCOLOR_ARGB(255, 255, 255, 255);
-		pMaskTexture->Update_Texture_Pixels_Info(0, pTerrainMaskPixel);
+		_uint color = D3DCOLOR_ARGB(255, 255, 255, 255);
+		m_pTerrainMaskPixel[_uint(m_vBrushPos.z * m_iTerrainCntX + m_vBrushPos.x)] = D3DCOLOR_ARGB(255, 255, 255, 255);
+		pMaskTexture->Update_Texture_Pixels_Info(0, m_pTerrainMaskPixel);
 
 		Terrain_Mask_Pixels_Copy();
 	}
@@ -577,13 +593,13 @@ void CMapToolGUI::Move_Brush()
 
 HRESULT CMapToolGUI::Terrain_Mask_Pixels_Copy()
 {
-	Safe_Delete_Array(pTerrainMaskPixel);
+	Safe_Delete_Array(m_pTerrainMaskPixel);
 
 	CTexture* pMaskTexture = dynamic_cast<CTexture*>(CGameInstance::GetInstance()->Get_Component(FAMILY_ID_TEXTURE_MASK, LEVEL_BASECAMP, L"Layer_Terrain", L"Terrain"));
 	if (nullptr == pMaskTexture)
 		return E_FAIL;
 
-	pMaskTexture->Copy_Texture_Pixels(0, &pTerrainMaskPixel);
+	pMaskTexture->Copy_Texture_Pixels(0, &m_pTerrainMaskPixel);
 
 	return S_OK;
 }
@@ -629,6 +645,103 @@ HRESULT CMapToolGUI::Create_Navigation_Test_Data()
 	WriteFile(hFile, vPoints, sizeof(_float3) * 3, &dwByte, nullptr);
 
 	CloseHandle(hFile);
+
+	return S_OK;
+}
+
+HRESULT CMapToolGUI::Create_Navigation_By_Terrain_Mask(_float interval)
+{
+	if (nullptr == m_pTerrainMaskPixel)
+		return E_FAIL;
+
+	if (interval < 0.1f)
+		return E_FAIL;
+
+	size_t pixelSize = sizeof(m_pTerrainMaskPixel) / sizeof(m_pTerrainMaskPixel[0]);
+
+	Document doc(kObjectType);
+	Document::AllocatorType& allocator = doc.GetAllocator();
+
+	Value Cells(kArrayType);
+	
+	/*
+	 0 0 5	5 0 0	0 0 0				0*4 + 0
+	 0 0 5	5 0 5	5 0 0
+
+	 5 0 5	10 0 0	5 0 0				0*4 + 1
+	 5 0 5	10 0 5	10 0 0
+
+	 10 0 5		15 0 0		10 0 0      0*4 + 2
+	 10 0 5		15 0 5		15 0 0
+
+	 15 0 5		20 0 0		15 0 0      0*4 + 3
+	 15 0 5		20 0 5		20 0 0
+
+	 ===========================
+
+	 0 0 10		5 0 5		0 0 5       1*4 + 0
+	 0 0 10		5 0 10		5 0 5
+
+	 5 0 10		10 0 5		5 0 5       1*4 + 1
+	 5 0 10		10 0 10		10 0 5
+
+	아래쪽 삼각형
+	(x좌표 x interval) 0 ((z좌표 +1) x interval ) 
+	((x좌표 + 1) x interval) 0 ((z좌표) x interval )
+	(x좌표 x interval) 0 ((z좌표) x interval )
+
+	위쪽삼각형
+	(x좌표 x interval) 0 ((z좌표 +1) x interval )
+	((x좌표 + 1) x interval) 0 ((z좌표 +1) x interval )
+	((x좌표 + 1) x interval) 0 ((z좌표) x interval )
+	
+	*/
+
+	
+	for (size_t i = 0; i < pixelSize; ++i)
+	{
+		if (m_pTerrainMaskPixel[i] == D3DCOLOR_ARGB(255, 255, 255, 255))
+		{
+			_uint x = i % m_iTerrainCntX;
+			_uint z = i / m_iTerrainCntX;
+
+			Value UnderCell(kObjectType);
+			{
+				UnderCell.AddMember("PointA_X", x * interval, allocator);
+				UnderCell.AddMember("PointA_Y", 0, allocator);
+				UnderCell.AddMember("PointA_Z", (z + 1) * interval, allocator);
+
+				UnderCell.AddMember("PointB_X", (x+1) * interval, allocator);
+				UnderCell.AddMember("PointB_Y", 0, allocator);
+				UnderCell.AddMember("PointB_Z", z * interval, allocator);
+
+				UnderCell.AddMember("PointC_X", x * interval, allocator);
+				UnderCell.AddMember("PointC_Y", 0, allocator);
+				UnderCell.AddMember("PointC_Z", z * interval, allocator);
+
+			}
+			Cells.PushBack(UnderCell, allocator);
+
+			Value OverCell(kObjectType);
+			{
+				OverCell.AddMember("PointA_X", x * interval, allocator);
+				OverCell.AddMember("PointA_Y", 0, allocator);
+				OverCell.AddMember("PointA_Z", (z+1) * interval, allocator);
+
+				OverCell.AddMember("PointB_X", (x+1) * interval, allocator);
+				OverCell.AddMember("PointB_Y", 0, allocator);
+				OverCell.AddMember("PointB_Z", (z+1) * interval, allocator);
+
+				OverCell.AddMember("PointC_X", (x+1) * interval, allocator);
+				OverCell.AddMember("PointC_Y", 0, allocator);
+				OverCell.AddMember("PointC_Z", z * interval, allocator);
+
+			}
+			Cells.PushBack(OverCell, allocator);
+		}
+	}
+
+	doc.AddMember("Cells", Cells, allocator);
 
 	return S_OK;
 }
@@ -874,6 +987,6 @@ void CMapToolGUI::Free(void)
 	Safe_Release(m_pViewerObject);
 	Safe_Release(m_pPickingObject);
 
-	Safe_Delete_Array(pTerrainMaskPixel);
+	Safe_Delete_Array(m_pTerrainMaskPixel);
 
 }

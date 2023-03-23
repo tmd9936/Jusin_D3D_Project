@@ -27,10 +27,15 @@ public:
 public:
 	HRESULT Initialize(const _float3* pPoints, _uint iIndex);
 	_bool Compare_Points(const _float3* pSour, const _float3* pDest);
+
+public:
+	_bool	isIn(_fvector vPosition, _int& iNeighborIndex);
+
 #ifdef _DEBUG
 public:
 	HRESULT Render();
 #endif // _DEBUG
+
 
 private:
 	ID3D11Device* m_pDevice = { nullptr };
@@ -39,6 +44,7 @@ private:
 private:
 	_uint					m_iIndex = { 0 };
 	_float3					m_vPoints[POINT_END];
+	_float3					m_vNormal[LINE_END]; // 각 선분의 수직인 벡터
 	_int					m_iNeighborIndices[LINE_END] = { -1, -1, -1 };
 
 #ifdef _DEBUG

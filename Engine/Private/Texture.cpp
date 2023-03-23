@@ -89,10 +89,10 @@ HRESULT CTexture::Create_New_Texture(_uint iTextureIndex, _uint width, _uint hei
 		{
 			_uint		iIndex = i * TextureDesc.Width + j;
 
-			if (j < 50)
-				pPixel[iIndex] = D3DCOLOR_ARGB(255, 255, 255, 255);
-			else
-				pPixel[iIndex] = D3DCOLOR_ARGB(255, 0, 0, 0);
+			//if (j < 50)
+			//	pPixel[iIndex] = D3DCOLOR_ARGB(255, 255, 255, 255);
+			//else
+			pPixel[iIndex] = D3DCOLOR_ARGB(255, 0, 0, 0);
 
 		}
 	}

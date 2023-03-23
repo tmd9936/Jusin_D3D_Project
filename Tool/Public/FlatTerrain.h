@@ -53,6 +53,8 @@ private:
 	_bool				m_bWire = { true };
 	FLATTERRAIN_DESC	m_desc = {};
 
+	_bool				m_bRender = { true };
+
 private:
 	HRESULT Add_Components();
 	HRESULT SetUp_ShaderResources();

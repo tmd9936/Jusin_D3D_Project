@@ -31,7 +31,7 @@ HRESULT CFlatTerrain::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, voi
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
-	m_eRenderId = RENDER_NONBLEND;
+	m_eRenderId = RENDER_BLEND;
 	
 	return S_OK;
 }
