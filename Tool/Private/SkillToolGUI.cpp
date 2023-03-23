@@ -46,12 +46,14 @@ _uint CSkillToolGUI::LateTick(_double TimeDelta)
 
 HRESULT CSkillToolGUI::Render()
 {
+	After_Init();
+
 	View_Base();
 	
 	View_Skill_Layer();
 	View_Effect_Layer();
 
-	Reload_Skill_Data();
+	Reload_Skill_Data(); ImGui::SameLine();
 	Reload_Effect_Data();
 
 	return S_OK;
@@ -75,6 +77,16 @@ void CSkillToolGUI::View_Skill_Layer()
 	ImGui::End();
 }
 
+void CSkillToolGUI::View_Skill_Depend_Layer()
+{
+	ImGui::Begin("View_Skill_Depend_Layer");
+	{
+		if (m_ManagerInit)
+			ListBox_Skill_Depend_List();
+	}
+	ImGui::End();
+}
+
 void CSkillToolGUI::View_Effect_Layer()
 {
 	ImGui::Begin("View_Effect_Layer");
@@ -89,6 +101,15 @@ void CSkillToolGUI::ListBox_Skill_List()
 {
 	ImGui::Text("ListBox_Skill_List");
 	if (ImGui::ListBox(" ", &m_iSkillListBoxCurrentItem, m_SkillListBox, m_SkillListBoxSize))
+	{
+
+	}
+}
+
+void CSkillToolGUI::ListBox_Skill_Depend_List()
+{
+	ImGui::Text("ListBox_Skill_Depend_List");
+	if (ImGui::ListBox(" ", &m_iSkillDependListBoxCurrentItem, m_SkillDependListBox, m_SkillDependListBoxSize))
 	{
 
 	}
@@ -109,10 +130,24 @@ void CSkillToolGUI::Player_Skill_Change()
 
 void CSkillToolGUI::Reload_Skill_Data()
 {
+	if (ImGui::Button("Reload_Skill_Data"))
+	{
+		if (nullptr != m_pSkill_Manager)
+		{
+			m_pSkill_Manager->Reload_Datas();
+		}
+	}
 }
 
 void CSkillToolGUI::Reload_Effect_Data()
 {
+	if (ImGui::Button("Reload_Effect_Data"))
+	{
+		if (nullptr != m_pEffect_Manager)
+		{
+			m_pEffect_Manager->Reload_Datas();
+		}
+	}
 }
 
 
@@ -125,6 +160,15 @@ void CSkillToolGUI::SkillListBox_Free()
 	Safe_Delete_Array(m_SkillListBox);
 }
 
+void CSkillToolGUI::SkillDependListBox_Free()
+{
+	for (size_t i = 0; i < m_SkillDependListBoxSize; ++i)
+	{
+		Safe_Delete_Array(m_SkillDependListBox[i]);
+	}
+	Safe_Delete_Array(m_SkillDependListBox);
+}
+
 void CSkillToolGUI::EffectListBox_Free()
 {
 	for (size_t i = 0; i < m_EffectListBoxSize; ++i)
@@ -134,6 +178,53 @@ void CSkillToolGUI::EffectListBox_Free()
 	Safe_Delete_Array(m_EffectListBox);
 }
 
+void CSkillToolGUI::Update_Skill_List()
+{
+	vector<CSkill::SKILL_DESC> Skill_Desc_Datas;
+	m_pSkill_Manager->Get_Skill_Desces(Skill_Desc_Datas);
+
+
+}
+
+void CSkillToolGUI::Update_Skill_Depend_List()
+{
+	vector<CSkill_Manager::SKILL_DEPEND_DATA> Skill_Depend_Datas;
+	m_pSkill_Manager->Get_Skill_Depends(Skill_Depend_Datas);
+
+}
+
+void CSkillToolGUI::Update_Effect_List()
+{
+	vector<CEffect::EFFECT_DESC> Effect_Descs;
+	m_pEffect_Manager->Get_Effect_Desces(Effect_Descs);
+
+}
+
+
+void CSkillToolGUI::After_Init()
+{
+	if (false == m_ManagerInit)
+	{
+		CGameObject* pEffect_Manager = CGameInstance::GetInstance()->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"Effect_Manager");
+		if (pEffect_Manager == nullptr)
+			return;
+
+		CGameObject* pSkill_Manager = CGameInstance::GetInstance()->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"Skill_Manager");
+		if (pSkill_Manager == nullptr)
+			return;
+
+		m_pEffect_Manager = dynamic_cast<CEffect_Manager*>(pEffect_Manager);
+		m_pSkill_Manager = dynamic_cast<CSkill_Manager*>(pSkill_Manager);
+		Safe_AddRef(m_pEffect_Manager);
+		Safe_AddRef(m_pSkill_Manager);
+
+		Update_Skill_List();
+		Update_Skill_Depend_List();
+		Update_Effect_List();
+
+		m_ManagerInit = true;
+	}
+}
 
 void CSkillToolGUI::Free(void)
 {
@@ -141,5 +232,9 @@ void CSkillToolGUI::Free(void)
 	Safe_Release(m_pContext);
 
 	SkillListBox_Free();
+	SkillDependListBox_Free();
 	EffectListBox_Free();
+
+	Safe_Release(m_pEffect_Manager);
+	Safe_Release(m_pSkill_Manager);
 }

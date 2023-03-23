@@ -38,10 +38,12 @@ public:
 private:
 	void	View_Base();
 	void	View_Skill_Layer();
+	void	View_Skill_Depend_Layer();
 	void	View_Effect_Layer();
 
 private:
 	void	ListBox_Skill_List();
+	void	ListBox_Skill_Depend_List();
 	void	ListBox_Effect_List();
 
 private:
@@ -51,8 +53,17 @@ private:
 
 private:
 	void	SkillListBox_Free();
+	void	SkillDependListBox_Free();
 	void	EffectListBox_Free();
 
+private:
+	void	Update_Skill_List();
+	void	Update_Skill_Depend_List();
+	void	Update_Effect_List();
+
+
+private:
+	void	After_Init();
 
 private:
 	ID3D11Device* m_pDevice = { nullptr };
@@ -63,12 +74,19 @@ private:
 	int						m_iSkillListBoxCurrentItem = { 0 };
 	size_t					m_SkillListBoxSize = { 0 };
 
+	char**					m_SkillDependListBox;
+	int						m_iSkillDependListBoxCurrentItem = { 0 };
+	size_t					m_SkillDependListBoxSize = { 0 };
+
 	char**					m_EffectListBox = { nullptr };
 	int						m_iEffectListCurrentItem = { 0 };
 	size_t					m_EffectListBoxSize = { 0 };
 
 
 	_bool					m_ManagerInit = { false };
+
+	CEffect_Manager*		m_pEffect_Manager = { nullptr };
+	CSkill_Manager*			m_pSkill_Manager = { nullptr };
 
 	//char**					m_PrefabListBox = { nullptr };
 	//int						m_iPrefabListCurrentItem = { 0 };

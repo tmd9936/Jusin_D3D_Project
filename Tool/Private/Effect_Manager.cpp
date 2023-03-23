@@ -88,6 +88,8 @@ CEffect* CEffect_Manager::Create_Effect(_uint effectType, const _tchar* pLayerTa
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, ProtoTypeTag.c_str(),
 			CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, effectPath.c_str(), PivotMatrix))))
 			return	nullptr;
+
+		m_Effect_Prototype_Check[effectType] = true;
 	}
 
 	CEffect* pEffect = nullptr;
@@ -98,6 +100,11 @@ CEffect* CEffect_Manager::Create_Effect(_uint effectType, const _tchar* pLayerTa
 	Safe_Release(pGameInstance);
 
 	return pEffect;
+}
+
+void CEffect_Manager::Get_Effect_Desces(vector<CEffect::EFFECT_DESC>& Effect_Descs)
+{
+	Effect_Descs = m_Effect_Descs;
 }
 
 

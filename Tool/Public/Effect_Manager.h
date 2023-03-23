@@ -29,6 +29,9 @@ public:
 	CEffect* Create_Effect(_uint effectType, const _tchar* pLayerTag, _uint iLevelIndex, _float3 vPos = {0.f, 0.f, 0.f});
 
 public:
+	void	Get_Effect_Desces(vector<CEffect::EFFECT_DESC>& Effect_Descs);
+
+public:
 	HRESULT	Reload_Datas();
 
 protected:

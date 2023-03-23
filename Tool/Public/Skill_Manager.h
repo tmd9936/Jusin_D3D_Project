@@ -40,6 +40,14 @@ public:
 public:
 	HRESULT	Reload_Datas();
 
+public:
+	void	Get_Skill_Desces(vector<CSkill::SKILL_DESC>& desc_Datas) {
+		desc_Datas = m_Skill_Desc_Datas;
+	}
+	void	Get_Skill_Depends(vector<SKILL_DEPEND_DATA>& depend_Datas) {
+		depend_Datas = m_Skill_Depend_Datas;
+	}
+
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
 	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
