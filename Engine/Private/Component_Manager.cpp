@@ -51,6 +51,19 @@ CComponent* CComponent_Manager::Clone_Component(_uint iLevelIndex, const _tchar*
 	return pComponent;
 }
 
+_bool CComponent_Manager::Check_Prototype(const wstring& prototypeTag)
+{
+	if (nullptr == m_pPrototypes)
+		return false;
+
+	auto iter = m_pPrototypes->find(prototypeTag);
+
+	if (m_pPrototypes->end() == iter)
+		return false;
+
+	return true;
+}
+
 CComponent* CComponent_Manager::Find_Prototype(_uint iLevelIndex, const _tchar* pPrototypeTag)
 {
 	auto	iter = m_pPrototypes[iLevelIndex].find(pPrototypeTag);

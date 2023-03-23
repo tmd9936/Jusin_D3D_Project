@@ -216,7 +216,7 @@
     <ClInclude Include="..\Public\FileDialogUtill.h">
       <Filter>96 ImGui\Utill</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\UIToolGUI.h">
+    <ClInclude Include="..\Public\SkillToolGUI.h">
       <Filter>96 ImGui\UiToolGUI</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI.h">
@@ -360,7 +360,7 @@
     <ClCompile Include="..\Private\FileDialogUtill.cpp">
       <Filter>96 ImGui\Utill</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\UIToolGUI.cpp">
+    <ClCompile Include="..\Private\SkillToolGUI.cpp">
       <Filter>96 ImGui\UiToolGUI</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI.cpp">

@@ -3,6 +3,8 @@
 
 #include "GameInstance.h"
 
+#include "Model.h"
+
 CEffect_Manager::CEffect_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
 {
@@ -74,7 +76,19 @@ CEffect* CEffect_Manager::Create_Effect(_uint effectType, const _tchar* pLayerTa
 
 	CEffect::EFFECT_DESC effect_Desc = m_Effect_Descs[effectType];
 
+	wstring	ProtoTypeTag = L"Prototype_Component_Model_" + effect_Desc.m_effectPath;
+
 	effect_Desc.m_effectPath = m_EffectFilePath + effect_Desc.m_effectPath + L".fbx";
+
+	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
+	if (false == pGameInstance->Check_Prototype(ProtoTypeTag))
+	{
+		_matrix	PivotMatrix = XMMatrixIdentity();
+		string effectPath = convert.to_bytes(effect_Desc.m_effectPath);
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, ProtoTypeTag.c_str(),
+			CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, effectPath.c_str(), PivotMatrix))))
+			return	nullptr;
+	}
 
 	CEffect* pEffect = nullptr;
 

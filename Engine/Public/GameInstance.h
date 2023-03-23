@@ -71,6 +71,7 @@ public: /* For.Object_Manager */
 public: /* For.Component_Manager */
 	HRESULT Add_Prototype(_uint iLevelIndex, const _tchar* pPrototypeTag, class CComponent* pPrototype);
 	class CComponent* Clone_Component(_uint iLevelIndex, const _tchar* pPrototypeTag, class CGameObject* pGameObject, void* pArg = nullptr);
+	_bool	Check_Prototype(const wstring& prototypeTag);
 
 public: /* For.Sound_Manager */
 	HRESULT		Ready_Sound();

@@ -323,6 +323,14 @@ CComponent* CGameInstance::Clone_Component(_uint iLevelIndex, const _tchar* pPro
 	return m_pComponent_Manager->Clone_Component(iLevelIndex, pPrototypeTag, pGameObject, pArg);
 }
 
+_bool CGameInstance::Check_Prototype(const wstring& prototypeTag)
+{
+	if (nullptr == m_pComponent_Manager)
+		return false;
+
+	return m_pComponent_Manager->Check_Prototype(prototypeTag);
+}
+
 
 HRESULT CGameInstance::Ready_Sound()
 {
