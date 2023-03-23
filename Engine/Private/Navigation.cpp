@@ -25,7 +25,7 @@ CNavigation::CNavigation(const CNavigation& rhs, CGameObject* pOwner)
 
 }
 
-HRESULT CNavigation::Initialize_Prototype(const _tchar* pNavigationData)
+HRESULT CNavigation::Initialize_Prototype_HFile(const _tchar* pNavigationData)
 {
 	_ulong		dwByte = 0;
 
@@ -60,6 +60,57 @@ HRESULT CNavigation::Initialize_Prototype(const _tchar* pNavigationData)
 		return E_FAIL;
 #endif // _DEBUG
 
+
+	return S_OK;
+}
+
+HRESULT CNavigation::Initialize_Prototype_Json(const char* pNavigationData)
+{
+	FILE* fp = fopen(pNavigationData, "rb"); // non-Windows use "r"
+
+	if (NULL == fp)
+	{
+		MSG_BOX("Load File Open Error");
+		return E_FAIL;
+	}
+	else
+	{
+		char* readBuffer = new char[65536];
+		FileReadStream is(fp, readBuffer, sizeof(readBuffer));
+
+		Document document;
+		document.ParseStream(is);
+
+		const Value& Cells = document["Cells"];
+		assert(Cells.IsArray());
+
+		_float3		vPoints[3];
+
+		for (SizeType i = 0; i < Cells.Size(); ++i)
+		{
+			vPoints[0] = _float3(Cells[i]["PointA_X"].GetFloat(), Cells[i]["PointA_Y"].GetFloat(), Cells[i]["PointA_Z"].GetFloat());
+			vPoints[1] = _float3(Cells[i]["PointB_X"].GetFloat(), Cells[i]["PointB_Y"].GetFloat(), Cells[i]["PointB_Z"].GetFloat());
+			vPoints[2] = _float3(Cells[i]["PointC_X"].GetFloat(), Cells[i]["PointC_Y"].GetFloat(), Cells[i]["PointC_Z"].GetFloat());
+
+			CCell* pCell = CCell::Create(m_pDevice, m_pContext, vPoints, m_Cells.size());
+			if (nullptr == pCell)
+				return E_FAIL;
+
+			m_Cells.push_back(pCell);
+		}
+
+		fclose(fp);
+		Safe_Delete_Array(readBuffer);
+	}
+
+	if (FAILED(SetUp_Neighbors()))
+		return E_FAIL;
+
+#ifdef _DEBUG
+	m_pShader = CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_Cell.hlsl"), VTXPOS_DECLARATION::Elements, VTXPOS_DECLARATION::iNumElements);
+	if (nullptr == m_pShader)
+		return E_FAIL;
+#endif // _DEBUG
 
 	return S_OK;
 }
@@ -180,11 +231,11 @@ HRESULT CNavigation::SetUp_Neighbors()
 	return S_OK;
 }
 
-CNavigation* CNavigation::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pNavigationData)
+CNavigation* CNavigation::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const char* pNavigationData)
 {
 	CNavigation* pInstance = new CNavigation(pDevice, pContext, nullptr);
 
-	if (FAILED(pInstance->Initialize_Prototype(pNavigationData)))
+	if (FAILED(pInstance->Initialize_Prototype_Json(pNavigationData)))
 	{
 		MSG_BOX("Failed to Created : CNavigation");
 		Safe_Release(pInstance);

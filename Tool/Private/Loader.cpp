@@ -198,9 +198,14 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 
 
 	wsprintf(m_szLoadingText, TEXT("네비게이션을 로딩중."));
+	///* For.Prototype_Component_Navigation */
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Navigation"),
+	//	CNavigation::Create(m_pDevice, m_pContext, TEXT("../Bin/DataFiles/NavigationData.dat")))))
+	//	return E_FAIL;
+
 	/* For.Prototype_Component_Navigation */
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Navigation"),
-		CNavigation::Create(m_pDevice, m_pContext, TEXT("../Bin/DataFiles/NavigationData.dat")))))
+		CNavigation::Create(m_pDevice, m_pContext, "../../nav.json"))))
 		return E_FAIL;
 
 	/*  */

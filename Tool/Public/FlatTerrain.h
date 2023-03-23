@@ -39,6 +39,10 @@ public:
 		m_bWire = !m_bWire;
 	}
 
+	void		Switch_Render() {
+		m_bRender = !m_bRender;
+	}
+
 
 private:
 	CRenderer* m_pRendererCom = { nullptr };

@@ -433,20 +433,33 @@ void CMapToolGUI::TerrainMenu()
 
 	}
 
-	if (ImGui::Button("Terrain_Render_Off"))
+	ImGui::SameLine();
+	if (ImGui::Button("Terrain_Render_On_Off"))
 	{
 		
 		const _uint iLevelindex = CDataToolGUI::GetInstance()->Get_Current_Levelindex();
 
 		CGameObject* pTerrain = CGameInstance::GetInstance()->Get_Object(iLevelindex, L"Layer_Terrain", L"Terrain");
 		if (pTerrain)
-			dynamic_cast<CFlatTerrain*>(pTerrain)->Switch_Wire();
+			dynamic_cast<CFlatTerrain*>(pTerrain)->Switch_Render();
 	}
 
+	_bool save_Navigation = false;
 	if (ImGui::Button("Create_Navigation_By_Terrain_Mask"))
+	{
+		save_Navigation = true;
+	}
+
+	if (save_Navigation)
+	{
+		ImGui::OpenPopup("Save Navigation");
+	}
+
+	if (file_dialog.showFileDialog("Save Navigation", imgui_addons::ImGuiFileBrowser::DialogMode::SAVE, ImVec2(700, 310), ".json, .data"))
 	{
 		Create_Navigation_By_Terrain_Mask(1.f);
 	}
+
 }
 
 void CMapToolGUI::Update_Data()
@@ -657,7 +670,7 @@ HRESULT CMapToolGUI::Create_Navigation_By_Terrain_Mask(_float interval)
 	if (interval < 0.1f)
 		return E_FAIL;
 
-	size_t pixelSize = sizeof(m_pTerrainMaskPixel) / sizeof(m_pTerrainMaskPixel[0]);
+	size_t pixelSize = m_iTerrainCntX * m_iTerrainCntZ;
 
 	Document doc(kObjectType);
 	Document::AllocatorType& allocator = doc.GetAllocator();
@@ -742,6 +755,23 @@ HRESULT CMapToolGUI::Create_Navigation_By_Terrain_Mask(_float interval)
 	}
 
 	doc.AddMember("Cells", Cells, allocator);
+
+	FILE* fp = fopen(string(file_dialog.selected_path + file_dialog.ext).c_str(), "wb"); // non-Windows use "w"
+
+	if (NULL == fp)
+		MSG_BOX("Save File Open Error");
+	else
+	{
+		char* writeBuffer = new char[65536];
+		FileWriteStream os(fp, writeBuffer, sizeof(writeBuffer));
+
+		PrettyWriter<FileWriteStream> writer(os);
+		doc.Accept(writer);
+
+		fclose(fp);
+
+		Safe_Delete_Array(writeBuffer);
+	}
 
 	return S_OK;
 }

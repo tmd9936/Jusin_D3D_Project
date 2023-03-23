@@ -23,7 +23,9 @@ private:
 	virtual ~CNavigation() = default;
 
 public:
-	HRESULT Initialize_Prototype(const _tchar* pNavigationData);
+	HRESULT Initialize_Prototype_HFile(const _tchar* pNavigationData);
+	HRESULT Initialize_Prototype_Json(const char* pNavigationData);
+
 	HRESULT Initialize(void* pArg) override;
 	HRESULT Render();
 
@@ -43,7 +45,7 @@ private:
 	HRESULT SetUp_Neighbors();
 
 public:
-	static CNavigation* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pNavigationData);
+	static CNavigation* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const char* pNavigationData);
 	virtual CComponent* Clone(CGameObject* pOwner, void* pArg = nullptr) override;
 	virtual void Free();
 

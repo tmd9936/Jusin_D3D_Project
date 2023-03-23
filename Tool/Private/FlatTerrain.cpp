@@ -50,20 +50,22 @@ _uint CFlatTerrain::LateTick(_double TimeDelta)
 
 HRESULT CFlatTerrain::Render()
 {
-	if (FAILED(SetUp_ShaderResources()))
-		return E_FAIL;
-
-	if (m_bWire)
+	if (m_bRender)
 	{
-		m_pShaderCom->Begin(1);
-	}
-	else
-	{
-		m_pShaderCom->Begin(0);
-	}
-	m_pVIBufferCom->Render();
+		if (FAILED(SetUp_ShaderResources()))
+			return E_FAIL;
 
+		if (m_bWire)
+		{
+			m_pShaderCom->Begin(1);
+		}
+		else
+		{
+			m_pShaderCom->Begin(0);
+		}
+		m_pVIBufferCom->Render();
 
+	}
 #ifdef _DEBUG
 	m_pNavigationCom->Render();
 #endif // _DEBUG
