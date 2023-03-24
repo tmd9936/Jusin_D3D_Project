@@ -3,7 +3,7 @@
 #include "Bone.h"
 #include "Channel.h"
 
-_double							CAnimation::m_LerpDuration = 0.28;
+_double							CAnimation::m_LerpDuration = 0.62;
 
 CAnimation::CAnimation()
 {
@@ -99,7 +99,7 @@ _bool CAnimation::Update(vector<CBone*>& Bones, _double TimeDelta)
 	return m_isFinished;
 }
 
-KEYFRAME CAnimation::Update_Lerp(KEYFRAME& keyFrame, _double TimeDelta)
+void CAnimation::Update_Lerp(KEYFRAME& keyFrame, _double TimeDelta)
 {
 	if (m_TimeAcc < m_Duration)
 		m_isFinished = false;
@@ -121,7 +121,6 @@ KEYFRAME CAnimation::Update_Lerp(KEYFRAME& keyFrame, _double TimeDelta)
 	{
 		m_Channels[i]->Make_KeyFrame(keyFrame, m_iCurrentKeyFrames[i], m_TimeAcc);
 	}
-	return keyFrame;
 }
 
 CAnimation* CAnimation::Create(aiAnimation* pAIAnimation, CModel* pModel)

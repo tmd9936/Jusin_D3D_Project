@@ -133,6 +133,15 @@
     <Filter Include="02. GameObject\Skill\Skill_Manager">
       <UniqueIdentifier>{3f632fe4-71ce-4b1c-9de0-bf40fbeda2bd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\WorldMap\WorldMapCloud">
+      <UniqueIdentifier>{c31b0b04-5785-4eaf-b05a-60e7b988c4bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\WorldMap\WorldMapFlower">
+      <UniqueIdentifier>{e96a7879-5a88-43d1-86cc-dbcae64e3896}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\WorldMap\WorldMapGrass">
+      <UniqueIdentifier>{5286b04b-599b-414b-8c53-e39f7b9b1e59}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -243,9 +252,6 @@
     <ClInclude Include="..\Public\Level_WorldMap.h">
       <Filter>01. Levels\WorldMap</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\WorldMapCloud.h">
-      <Filter>02. GameObject\WorldMap</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Monster.h">
       <Filter>02. GameObject\Monster</Filter>
     </ClInclude>
@@ -281,6 +287,15 @@
     </ClInclude>
     <ClInclude Include="..\Public\Skill_Manager.h">
       <Filter>02. GameObject\Skill\Skill_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\WorldMapCloud.h">
+      <Filter>02. GameObject\WorldMap\WorldMapCloud</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\WorldMapFlower.h">
+      <Filter>02. GameObject\WorldMap\WorldMapFlower</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\WorldMapGrass.h">
+      <Filter>02. GameObject\WorldMap\WorldMapGrass</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -393,9 +408,6 @@
     <ClCompile Include="..\Private\Level_WorldMap.cpp">
       <Filter>01. Levels\WorldMap</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\WorldMapCloud.cpp">
-      <Filter>02. GameObject\WorldMap</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Monster.cpp">
       <Filter>02. GameObject\Monster</Filter>
     </ClCompile>
@@ -431,6 +443,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\Skill_Manager.cpp">
       <Filter>02. GameObject\Skill\Skill_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\WorldMapCloud.cpp">
+      <Filter>02. GameObject\WorldMap\WorldMapCloud</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\WorldMapFlower.cpp">
+      <Filter>02. GameObject\WorldMap\WorldMapFlower</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\WorldMapGrass.cpp">
+      <Filter>02. GameObject\WorldMap\WorldMapGrass</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -24,7 +24,7 @@ public:
 public:
 	HRESULT Initialize(aiAnimation* pAIAnimation, CModel* pModel);
 	_bool Update(vector<CBone*>& Bones, _double TimeDelta);
-	KEYFRAME Update_Lerp(KEYFRAME& keyFrame, _double TimeDelta);
+	void Update_Lerp(KEYFRAME& keyFrame, _double TimeDelta);
 
 
 public:
