@@ -13,6 +13,8 @@
 #include "Map.h"
 #include "Stove.h"
 
+#include "WorldMapFlower.h"
+#include "WorldMapGrass.h"
 #include "WorldMapCloud.h"
 
 #include "Player.h"
@@ -555,6 +557,14 @@ HRESULT CLoader::Loading_ForWorldMapLevel()
 	{
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_WorldMap_Cloud"),
 			CWorldMapCloud::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_WorldMap_Flower"),
+			CWorldMapFlower::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_WorldMap_Grass"),
+			CWorldMapGrass::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 	}
 #pragma endregion

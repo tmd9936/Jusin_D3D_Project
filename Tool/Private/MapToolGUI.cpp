@@ -273,7 +273,8 @@ void CMapToolGUI::Slider()
 {
 	if (m_pPickingObject != nullptr)
 	{
-		CTransform* pTransform = dynamic_cast<CTransform*>(CGameInstance::GetInstance()->Get_Component(CTransform::familyId, m_pPickingObject));
+		//CGameObject* pTran = CGameInstance::GetInstance()->Get_Component(CTransform::familyId, m_pPickingObject)
+		CTransform* pTransform = m_pPickingObject->Get_As<CTransform>();
 		
 		if (nullptr == pTransform)
 			return;

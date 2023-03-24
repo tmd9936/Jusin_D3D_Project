@@ -78,6 +78,8 @@ private:
 	wstring					m_CurrentPrefabName = {};
 	wstring					m_CurrentLayerName = {};
 
+	_bool					m_StartUpdateObject = { false };
+
 	unordered_map<const char*, vector<CGameObject*>>		m_LevelGameObjects;
 
 public:

@@ -150,9 +150,13 @@ void CDataToolGUI::View_Level_Objects()
 		if (ImGui::Button("Update Objects"))
 		{
 			Update_LevelGameObjects();
+			m_StartUpdateObject = true;
 		}
 
-		Tree_Level_Objects();
+		if (!m_StartUpdateObject)
+			Tree_Level_Objects();
+		else
+			m_StartUpdateObject = false;
 	}
 	ImGui::End();
 }
@@ -195,7 +199,7 @@ void CDataToolGUI::Tree_Level_Objects()
 		{
 			for (CGameObject* object : iter.second)
 			{
-				if (nullptr != object)
+				if (nullptr != object && !object->Is_Dead())
 				{
 					wstring objectNameTag = object->Get_NameTag();
 					flags = ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_OpenOnArrow;

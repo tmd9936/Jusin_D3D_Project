@@ -110,6 +110,12 @@ HRESULT CLevel_WorldMap::Ready_Layer_Env(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_WorldMap_Cloud"), LEVEL_WORLDMAP, pLayerTag, L"Cloud")))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_WorldMap_Flower"), LEVEL_WORLDMAP, pLayerTag, L"Flower")))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_WorldMap_Grass"), LEVEL_WORLDMAP, pLayerTag, L"Grass")))
+		return E_FAIL;
+
 	Safe_Release(pGameInstance);
 	return S_OK;
 }
