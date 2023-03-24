@@ -30,6 +30,10 @@ public:
 	HRESULT Render();
 
 public:
+	HRESULT Change_Cell_Data_By_Json(const char* pNavigationData);
+	void	Free_Cells();
+
+public:
 	_bool Move_OnNavigation(_fvector vPosition);
 
 private:

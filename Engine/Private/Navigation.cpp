@@ -139,14 +139,14 @@ HRESULT CNavigation::Render()
 
 	Safe_Release(pPipeLine);
 
-	WorldMatrix._42 = 1.1f;
+	WorldMatrix._42 = 0.2f;
 
 	_float4			vColor = _float4(0.f, 0.f, 1.f, 1.f);
 
 	if (0 <= m_NaviDesc.iIndex)
 	{
 		vColor = _float4(1.f, 0.f, 0.f, 1.f);
-		WorldMatrix._42 = 1.3f;
+		WorldMatrix._42 = 0.3f;
 	}
 
 	if (FAILED(m_pShader->Set_Matrix("g_WorldMatrix", &WorldMatrix)))
@@ -170,6 +170,20 @@ HRESULT CNavigation::Render()
 #endif // _DEBUG
 
 	return S_OK;
+}
+
+HRESULT CNavigation::Change_Cell_Data_By_Json(const char* pNavigationData)
+{
+	Free_Cells();
+
+	return Initialize_Prototype_Json(pNavigationData);
+}
+
+void CNavigation::Free_Cells()
+{
+	for (auto& pCell : m_Cells)
+		Safe_Release(pCell);
+	m_Cells.clear();
 }
 
 // 움직임이 발생 했을 때 네비게이션 안에 있는지 판단
