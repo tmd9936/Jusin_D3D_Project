@@ -120,6 +120,10 @@ public:
 	void Go_Up(_float TimeDelta);
 	void Go_Down(_float TimeDelta);
 
+	void Go_Straight_No_Y(_float TimeDelta);
+
+	void Go_Down_No_Y(_float TimeDelta);
+
 
 	void Rotation(_fvector vAxis, _float Radian);
 	void Turn(_fvector vAxis, _float TimeDelta);

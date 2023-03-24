@@ -31,7 +31,7 @@ HRESULT CWorldMapFlower::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, 
 
 	m_eRenderId = RENDER_NONBLEND;
 
-	m_pTransformCom->Set_Pos(19.f, 0.25f, 21.f);
+	m_pTransformCom->Set_Pos(18.9f, 0.25f, 21.f);
 
 	return S_OK;
 }

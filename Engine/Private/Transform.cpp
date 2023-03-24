@@ -154,6 +154,31 @@ void CTransform::Go_Down(_float TimeDelta)
 	Set_State(STATE_POSITION, vPosition);
 }
 
+void CTransform::Go_Straight_No_Y(_float TimeDelta)
+{
+	_vector vlook = Get_State(STATE_LOOK);
+	_vector vPosition = Get_State(STATE_POSITION);
+
+	vlook = XMVectorSetY(vlook, 0.f);
+
+	vPosition += XMVector3Normalize(vlook) * m_TransformDesc.SpeedPerSec * TimeDelta;
+
+	Set_State(STATE_POSITION, vPosition);
+}
+
+void CTransform::Go_Down_No_Y(_float TimeDelta)
+{
+	_vector vlook = Get_State(STATE_LOOK);
+	_vector vPosition = Get_State(STATE_POSITION);
+
+	vlook = XMVectorSetY(vlook, 0.f);
+
+	vPosition -= XMVector3Normalize(vlook) * m_TransformDesc.SpeedPerSec * TimeDelta;
+
+	Set_State(STATE_POSITION, vPosition);
+}
+
+
 void CTransform::Rotation(_fvector vAxis, _float Radian)
 {
 	_float3 vScale = Get_Scaled();

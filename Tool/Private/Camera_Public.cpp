@@ -45,6 +45,7 @@ HRESULT CCamera_Public::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, c
 		return E_FAIL;
 
 	m_DefualtPosition = m_CameraPublicDesc.CameraDesc.vEye;
+	
 
 	return S_OK;
 }
@@ -280,7 +281,7 @@ void CCamera_Public::Key_Input(const _double TimeDelta)
 			{
 				if (m_CameraPublicDesc.currentUpMove < m_CameraPublicDesc.upMaxMove)
 				{
-					m_pTransform->Go_Up(_float(TimeDelta * m_CameraPublicDesc.moveSpeed));
+					m_pTransform->Go_Straight_No_Y(_float(TimeDelta * m_CameraPublicDesc.moveSpeed));
 					m_CameraPublicDesc.currentUpMove += TimeDelta * m_CameraPublicDesc.moveSpeed;
 					m_CameraPublicDesc.currentDownMove -= TimeDelta * m_CameraPublicDesc.moveSpeed;
 				}
@@ -290,7 +291,7 @@ void CCamera_Public::Key_Input(const _double TimeDelta)
 			{
 				if (m_CameraPublicDesc.currentDownMove < m_CameraPublicDesc.downMaxMove)
 				{
-					m_pTransform->Go_Down(_float(TimeDelta * m_CameraPublicDesc.moveSpeed));
+					m_pTransform->Go_Down_No_Y(_float(TimeDelta * m_CameraPublicDesc.moveSpeed));
 					m_CameraPublicDesc.currentUpMove -= TimeDelta * m_CameraPublicDesc.moveSpeed;
 					m_CameraPublicDesc.currentDownMove += TimeDelta * m_CameraPublicDesc.moveSpeed;
 				}

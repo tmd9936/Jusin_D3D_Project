@@ -31,7 +31,7 @@ HRESULT CWorldMapGrass::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, v
 
 	m_eRenderId = RENDER_NONBLEND;
 
-	m_pTransformCom->Set_Pos(18.95f, 0.25f, 21.f);
+	m_pTransformCom->Set_Pos(18.85f, 0.25f, 21.f);
 
 	return S_OK;
 }
