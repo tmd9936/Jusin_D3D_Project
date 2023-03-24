@@ -142,6 +142,9 @@
     <Filter Include="02. GameObject\WorldMap\WorldMapGrass">
       <UniqueIdentifier>{5286b04b-599b-414b-8c53-e39f7b9b1e59}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\WorldMap\WorldMapAnimEnv">
+      <UniqueIdentifier>{833878a7-dd96-44eb-82b6-7c9c70bb66c9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -296,6 +299,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\WorldMapGrass.h">
       <Filter>02. GameObject\WorldMap\WorldMapGrass</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\WorldMapAnimEnv.h">
+      <Filter>02. GameObject\WorldMap\WorldMapAnimEnv</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -452,6 +458,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\WorldMapGrass.cpp">
       <Filter>02. GameObject\WorldMap\WorldMapGrass</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\WorldMapAnimEnv.cpp">
+      <Filter>02. GameObject\WorldMap\WorldMapAnimEnv</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

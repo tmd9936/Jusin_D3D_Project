@@ -16,6 +16,7 @@
 #include "WorldMapFlower.h"
 #include "WorldMapGrass.h"
 #include "WorldMapCloud.h"
+#include "WorldMapAnimEnv.h"
 
 #include "Player.h"
 #include "GoToWorldMapButton.h"
@@ -501,17 +502,37 @@ HRESULT CLoader::Loading_ForWorldMapLevel()
 
 	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Model_WorldMap_Cloud"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/WorldMap/W_cloud.fbx", PivotMatrix, true))))
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/WorldMap/W_cloud.fbx", PivotMatrix))))
 		return E_FAIL;
 
 	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Model_WorldMap_Flower"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/WorldMap/W_flower.fbx", PivotMatrix, true))))
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/WorldMap/W_flower.fbx", PivotMatrix))))
 		return E_FAIL;
 
 	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Model_WorldMap_Grass"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/WorldMap/W_grass.fbx", PivotMatrix, true))))
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/WorldMap/W_grass.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Model_WorldMap_Seawave"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/WorldMap/W_seawave.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Model_WorldMap_Ship"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/WorldMap/W_ship.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Model_WorldMap_Special_Idle"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/WorldMap/W_special1_idle.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Model_WorldMap_Water"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/WorldMap/W_water.fbx", PivotMatrix))))
 		return E_FAIL;
 
 	//PivotMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f);
@@ -565,6 +586,10 @@ HRESULT CLoader::Loading_ForWorldMapLevel()
 
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_WorldMap_Grass"),
 			CWorldMapGrass::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_WorldMap_AnimEnv"),
+			CWorldMapAnimEnv::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 	}
 #pragma endregion

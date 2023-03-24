@@ -202,6 +202,7 @@
     <ClInclude Include="..\Public\WorldMapCloud.h" />
     <ClInclude Include="..\Public\WorldMapFlower.h" />
     <ClInclude Include="..\Public\WorldMapGrass.h" />
+    <ClInclude Include="..\Public\WorldMapAnimEnv.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
@@ -253,6 +254,7 @@
     <ClCompile Include="..\Private\WorldMapCloud.cpp" />
     <ClCompile Include="..\Private\WorldMapFlower.cpp" />
     <ClCompile Include="..\Private\WorldMapGrass.cpp" />
+    <ClCompile Include="..\Private\WorldMapAnimEnv.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="Tool.cpp" />
   </ItemGroup>

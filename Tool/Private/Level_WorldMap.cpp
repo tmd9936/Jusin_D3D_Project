@@ -9,6 +9,8 @@
 #include "Button.h"
 #include "WorldMapCloud.h"
 
+#include "WorldMapAnimEnv.h"
+
 CLevel_WorldMap::CLevel_WorldMap(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
 {
@@ -114,6 +116,30 @@ HRESULT CLevel_WorldMap::Ready_Layer_Env(const _tchar* pLayerTag)
 		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_WorldMap_Grass"), LEVEL_WORLDMAP, pLayerTag, L"Grass")))
+		return E_FAIL;
+
+	CWorldMapAnimEnv::WORLDMAP_ANIM_ENV_DESC seawave_desc{};
+	seawave_desc.vPos = { 19.1f, 0.25, 21.f };
+	lstrcpy(seawave_desc.ModelPrototypeTag, L"Prototype_Component_Model_WorldMap_Seawave");
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_WorldMap_AnimEnv"), LEVEL_WORLDMAP, pLayerTag, L"Seawave", &seawave_desc)))
+		return E_FAIL;
+
+	CWorldMapAnimEnv::WORLDMAP_ANIM_ENV_DESC ship_desc{};
+	ship_desc.vPos = { 19.1f, 0.25, 21.f };
+	lstrcpy(ship_desc.ModelPrototypeTag, L"Prototype_Component_Model_WorldMap_Ship");
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_WorldMap_AnimEnv"), LEVEL_WORLDMAP, pLayerTag, L"Ship", &ship_desc)))
+		return E_FAIL;
+
+	CWorldMapAnimEnv::WORLDMAP_ANIM_ENV_DESC special_desc{};
+	special_desc.vPos = { 19.1f, 0.25, 21.f };
+	lstrcpy(special_desc.ModelPrototypeTag, L"Prototype_Component_Model_WorldMap_Special_Idle");
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_WorldMap_AnimEnv"), LEVEL_WORLDMAP, pLayerTag, L"Special", &special_desc)))
+		return E_FAIL;
+
+	CWorldMapAnimEnv::WORLDMAP_ANIM_ENV_DESC water_desc{};
+	water_desc.vPos = { 19.f, 0.25, 21.1f };
+	lstrcpy(water_desc.ModelPrototypeTag, L"Prototype_Component_Model_WorldMap_Water");
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_WorldMap_AnimEnv"), LEVEL_WORLDMAP, pLayerTag, L"Water", &water_desc)))
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);
