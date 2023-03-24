@@ -70,6 +70,7 @@ HRESULT CClient_Utility::Load_Layer_GameObjects(const char* filePath)
 
 			pTransform = (CTransform*)CGameInstance::GetInstance()->Get_Component(CTransform::familyId, pOut);
 
+			Safe_Release(pOut);
 			if (nullptr == pTransform)
 				continue;
 
@@ -77,7 +78,6 @@ HRESULT CClient_Utility::Load_Layer_GameObjects(const char* filePath)
 			pTransform->Set_Rotation(vRot);
 			pTransform->Set_Pos(vPos.x, vPos.y, vPos.z);
 
-			Safe_Release(pOut);
 		}
 
 		fclose(fp);

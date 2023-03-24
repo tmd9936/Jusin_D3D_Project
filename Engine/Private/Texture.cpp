@@ -294,7 +294,7 @@ HRESULT CTexture::Initialize_Prototype(const _tchar* pTextureFilePath, _uint iNu
 
 		ID3D11ShaderResourceView* pSRV = { nullptr };
 		ID3D11Texture2D* pTexture = { nullptr };
-		wstring	texturePath = szFilePath;
+		//wstring	texturePath = szFilePath;
 
 		if (!lstrcmp(szEXT, TEXT(".dds")))
 		{
@@ -310,7 +310,7 @@ HRESULT CTexture::Initialize_Prototype(const _tchar* pTextureFilePath, _uint iNu
 
 		m_SRVs.push_back(pSRV);
 		m_Textures.push_back(pTexture);
-		m_TexturePath.push_back(texturePath);
+		m_TexturePath.push_back(szFilePath);
 	}
 
 	return S_OK;

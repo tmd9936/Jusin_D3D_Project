@@ -107,7 +107,7 @@ HRESULT CModel::Set_Texture_In_Material(const _uint& materialIndex, const _uint&
 	char		szDrive[MAX_PATH] = "";
 	char		szDir[MAX_PATH] = "";
 
-	_splitpath_s(m_Materials[materialIndex].szModelPath.c_str(), szDrive, MAX_PATH, szDir, MAX_PATH, nullptr, 0, nullptr, 0);
+	_splitpath_s(m_Materials[materialIndex].szModelPath, szDrive, MAX_PATH, szDir, MAX_PATH, nullptr, 0, nullptr, 0);
 
 	char		szFullPath[MAX_PATH] = "";
 
@@ -900,11 +900,10 @@ HRESULT CModel::Ready_Materials(const char* pModelFilePath)
 
 			MultiByteToWideChar(CP_ACP, 0, szFullPath, (int)strlen(szFullPath), szFinalPath, MAX_PATH);
 
-			ModelMaterial.szModelPath = pModelFilePath;
+			strcpy(ModelMaterial.szModelPath, pModelFilePath);
+			//ModelMaterial.szModelPath = pModelFilePath;
 
 			ModelMaterial.pMtrlTexture[j] = CTexture::Create(m_pDevice, m_pContext, szFinalPath);
-
-			TexturePath.Clear();
 
 			if (nullptr == ModelMaterial.pMtrlTexture[j])
 				return E_FAIL;

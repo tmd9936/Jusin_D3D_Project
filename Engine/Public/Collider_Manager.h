@@ -41,13 +41,11 @@ public:
 	_float Get_Min(_float fSour, _float fDest);
 	_float Get_Max(_float fSour, _float fDest);
 
-	// 벡터 클리어용 코드 
 	void Reset_CollisionGroup() {
 		m_ColLayers.clear();
 	}
-	// 문제가 됐던 벡터 컨테이너
-	vector<pair<wstring, wstring>> m_ColLayers;
 
+	vector<pair<wstring, wstring>> m_ColLayers;
 
 	map<ULONGLONG, _bool> m_mapColInfo;
 
