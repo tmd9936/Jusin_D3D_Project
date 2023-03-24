@@ -715,8 +715,8 @@ HRESULT CMapToolGUI::Create_Navigation_By_Terrain_Mask(_float interval)
 	{
 		if (m_pTerrainMaskPixel[i] == D3DCOLOR_ARGB(255, 255, 255, 255))
 		{
-			_uint x = i % m_iTerrainCntX;
-			_uint z = i / m_iTerrainCntX;
+			_uint x = _uint(i % m_iTerrainCntX);
+			_uint z = _uint(i / m_iTerrainCntX);
 
 			Value UnderCell(kObjectType);
 			{

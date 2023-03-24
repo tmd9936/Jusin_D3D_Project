@@ -79,9 +79,9 @@ private:
 	CTransform* m_pTransformCom = { nullptr };
 	CRenderer* m_pRendererCom = { nullptr };
 
-	_float		m_TestDeadDuration = { 2.f };
+	_double		m_TestDeadDuration = { 2.f };
 
-	_float		m_CurrentTestDeadDuration = { 0.f };
+	_double		m_CurrentTestDeadDuration = { 0.f };
 
 private:
 	SKILL_DESC		m_SkillDesc;

@@ -900,7 +900,7 @@ HRESULT CModel::Ready_Materials(const char* pModelFilePath)
 
 			MultiByteToWideChar(CP_ACP, 0, szFullPath, (int)strlen(szFullPath), szFinalPath, MAX_PATH);
 
-			strcpy(ModelMaterial.szModelPath, pModelFilePath);
+			strcpy_s(ModelMaterial.szModelPath, pModelFilePath);
 			//ModelMaterial.szModelPath = pModelFilePath;
 
 			ModelMaterial.pMtrlTexture[j] = CTexture::Create(m_pDevice, m_pContext, szFinalPath);

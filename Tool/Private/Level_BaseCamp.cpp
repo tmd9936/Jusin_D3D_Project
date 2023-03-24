@@ -303,6 +303,6 @@ CLevel_BaseCamp* CLevel_BaseCamp::Create(ID3D11Device* pDevice, ID3D11DeviceCont
 
 void CLevel_BaseCamp::Free()
 {
-	//CGameInstance::GetInstance()->Reset_CollisionGroup();
 	__super::Free();
+	//CGameInstance::GetInstance()->Reset_CollisionGroup();
 }

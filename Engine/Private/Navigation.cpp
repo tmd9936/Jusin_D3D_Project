@@ -42,7 +42,7 @@ HRESULT CNavigation::Initialize_Prototype_HFile(const _tchar* pNavigationData)
 		if (0 == dwByte)
 			break;
 
-		CCell* pCell = CCell::Create(m_pDevice, m_pContext, vPoints, m_Cells.size());
+		CCell* pCell = CCell::Create(m_pDevice, m_pContext, vPoints, (_uint)m_Cells.size());
 		if (nullptr == pCell)
 			return E_FAIL;
 
@@ -92,7 +92,7 @@ HRESULT CNavigation::Initialize_Prototype_Json(const char* pNavigationData)
 			vPoints[1] = _float3(Cells[i]["PointB_X"].GetFloat(), Cells[i]["PointB_Y"].GetFloat(), Cells[i]["PointB_Z"].GetFloat());
 			vPoints[2] = _float3(Cells[i]["PointC_X"].GetFloat(), Cells[i]["PointC_Y"].GetFloat(), Cells[i]["PointC_Z"].GetFloat());
 
-			CCell* pCell = CCell::Create(m_pDevice, m_pContext, vPoints, m_Cells.size());
+			CCell* pCell = CCell::Create(m_pDevice, m_pContext, vPoints, (_uint)m_Cells.size());
 			if (nullptr == pCell)
 				return E_FAIL;
 
