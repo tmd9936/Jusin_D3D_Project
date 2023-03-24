@@ -101,7 +101,6 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 
 	CSkill::Skill_Desc skill_desc = m_Skill_Desc_Datas[skillType];
 
-	// 스킬 만들때 pArg로 주지말고 DESC의 모든 값 다 대입해줘야할듯..
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Skill"), iLevelIndex, pLayerTag, (CGameObject**)&pSkill, nullptr, &skill_desc)))
 		return nullptr;
 

@@ -29,10 +29,10 @@ private:
 
 public:
 	void Update_CollisionMgr(_uint iLevelIndex);
-	HRESULT Add_Check_CollisionGroup(wstring LeftLayerTag, wstring RightLayerTag);
+	HRESULT Add_Check_CollisionGroup(const _tchar* LeftLayerTag, const _tchar* RightLayerTag);
 
 public:
-	void Collision_GroupUpdate(wstring LeftTag, wstring RightTag, _uint iLevelIndex);
+	void Collision_GroupUpdate(const _tchar* LeftTag, const _tchar* RightTag, _uint iLevelIndex);
 	bool Is_Collision(CCollider* pLeftCol, CCollider* pRightCol, _float* fX, _float* fY, _float* fZ);
 	void Get_Min_Max(CCollider* Col, _vector& vMin, _vector& vMax);
 	XMVECTOR Get_Min_Vector(CCollider* Col);
@@ -45,7 +45,7 @@ public:
 		m_ColLayers.clear();
 	}
 
-	vector<pair<wstring, wstring>> m_ColLayers;
+	vector<pair<const _tchar*, const _tchar*>> m_ColLayers;
 
 	map<ULONGLONG, _bool> m_mapColInfo;
 

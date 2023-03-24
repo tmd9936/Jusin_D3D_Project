@@ -18,12 +18,12 @@ void CCollider_Manager::Update_CollisionMgr(_uint iLevelIndex)
 	}
 }
 
-void CCollider_Manager::Collision_GroupUpdate(wstring LeftTag, wstring RightTag, _uint iLevelIndex)
+void CCollider_Manager::Collision_GroupUpdate(const _tchar* LeftTag, const _tchar* RightTag, _uint iLevelIndex)
 {
 	vector<CGameObject*> vecLeft, vecRight;
 
-	CGameInstance::GetInstance()->Get_ObjectList<CCollider>(vecLeft, iLevelIndex, LeftTag.c_str());
-	CGameInstance::GetInstance()->Get_ObjectList<CCollider>(vecRight, iLevelIndex, RightTag.c_str());
+	CGameInstance::GetInstance()->Get_ObjectList<CCollider>(vecLeft, iLevelIndex, LeftTag);
+	CGameInstance::GetInstance()->Get_ObjectList<CCollider>(vecRight, iLevelIndex, RightTag);
 
 	map<ULONGLONG, _bool>::iterator iter;
 
@@ -226,12 +226,12 @@ _float CCollider_Manager::Get_Max(_float fSour, _float fDest)
 }
 
 
-HRESULT CCollider_Manager::Add_Check_CollisionGroup(wstring LeftLayerTag, wstring RightLayerTag)
+HRESULT CCollider_Manager::Add_Check_CollisionGroup(const _tchar* LeftLayerTag, const _tchar* RightLayerTag)
 {
 	for (auto& pair : m_ColLayers)
 	{
-		if ((!pair.first.compare(LeftLayerTag) && !pair.second.compare(RightLayerTag))
-			|| (!pair.second.compare(LeftLayerTag) && !pair.first.compare(RightLayerTag)))
+		if ((!lstrcmp(pair.first, LeftLayerTag) && !lstrcmp(pair.second,RightLayerTag))
+			|| (!lstrcmp(pair.second, LeftLayerTag) && !lstrcmp(pair.first, RightLayerTag)))
 			return E_FAIL;
 	}
 

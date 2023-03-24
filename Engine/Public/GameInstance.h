@@ -103,7 +103,7 @@ public: /*For.Light_Manager*/
 
 public: /*For.Collider_Manager*/
 	void Update_CollisionMgr(_uint iLevelIndex);
-	HRESULT Add_Check_CollisionGroup(wstring LeftLayerTag, wstring RightLayerTag);
+	HRESULT Add_Check_CollisionGroup(const _tchar* LeftLayerTag, const _tchar* RightLayerTag);
 	void Reset_CollisionGroup();
 
 private:

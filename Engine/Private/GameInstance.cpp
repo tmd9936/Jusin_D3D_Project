@@ -492,7 +492,7 @@ void CGameInstance::Update_CollisionMgr(_uint iLevelIndex)
 	m_pCollider_Manager->Update_CollisionMgr(iLevelIndex);
 }
 
-HRESULT CGameInstance::Add_Check_CollisionGroup(wstring LeftLayerTag, wstring RightLayerTag)
+HRESULT CGameInstance::Add_Check_CollisionGroup(const _tchar* LeftLayerTag, const _tchar* RightLayerTag)
 {
 	if (nullptr == m_pCollider_Manager)
 		return E_FAIL;
