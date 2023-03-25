@@ -73,11 +73,11 @@ HRESULT CLevel_WorldMap::Ready_Layer_Camera(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_Layer(LEVEL_WORLDMAP, pLayerTag)))
 		return E_FAIL;
 
-	/*if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Camera_Dynamic"), LEVEL_WORLDMAP, pLayerTag, L"Main_Camera", "../../Reference/Resources/Data/Scene/WorldMap/Camera_data.json", CLONE_FILEPATH)))
-		return E_FAIL;*/
-
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Camera_Public"), LEVEL_WORLDMAP, pLayerTag, L"Main_Camera", "../../Reference/Resources/Data/Scene/WorldMap/Camera_Public_data.json", CLONE_FILEPATH)))
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Camera_Dynamic"), LEVEL_WORLDMAP, pLayerTag, L"Main_Camera", "../../Reference/Resources/Data/Scene/WorldMap/Camera_data.json", CLONE_FILEPATH)))
 		return E_FAIL;
+
+	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Camera_Public"), LEVEL_WORLDMAP, pLayerTag, L"Main_Camera", "../../Reference/Resources/Data/Scene/WorldMap/Camera_Public_data.json", CLONE_FILEPATH)))
+	//	return E_FAIL;
 
 	Safe_Release(pGameInstance);
 	return S_OK;
@@ -159,7 +159,7 @@ HRESULT CLevel_WorldMap::Ready_Layer_Player(const _tchar* pLayerTag)
 
 	CMonster::POKEMON_DESC desc{};
 	desc.m_monsterNo = 6;
-	desc.vPos = _float4(347.f, 0.5f, 249.5f, 1.f);
+	desc.vPos = _float4(24.2f, 0.5f, 23.5f, 1.f);
 
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Player"), LEVEL_WORLDMAP, pLayerTag, L"Player", &desc)))
 		return E_FAIL;

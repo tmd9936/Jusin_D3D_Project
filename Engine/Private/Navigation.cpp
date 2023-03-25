@@ -186,6 +186,46 @@ void CNavigation::Free_Cells()
 	m_Cells.clear();
 }
 
+void CNavigation::Set_Index_By_Position(_float3 vPosition)
+{
+	for (size_t i = 0; i < m_Cells.size(); ++i)
+	{
+		_int		iNeighborIndex = i;
+		if (true == m_Cells[iNeighborIndex]->isIn(XMLoadFloat3(&vPosition), iNeighborIndex))
+		{
+			m_NaviDesc.iIndex = iNeighborIndex;
+			break;
+		}
+	}
+}
+
+void CNavigation::Set_Index_By_Position(_float4 vPosition)
+{
+	for (size_t i = 0; i < m_Cells.size(); ++i)
+	{
+		_int		iNeighborIndex = i;
+		if (true == m_Cells[iNeighborIndex]->isIn(XMLoadFloat4(&vPosition), iNeighborIndex))
+		{
+			m_NaviDesc.iIndex = iNeighborIndex;
+			break;
+		}
+	}
+}
+
+void CNavigation::Get_Cells_Point(vector<_float3[CCell::POINT_END]>& points)
+{
+	points.reserve(m_Cells.size());
+	for (auto& cell : m_Cells)
+	{
+		_float3 point[CCell::POINT_END];
+		point[CCell::POINT_A] = *cell->Get_Point(CCell::POINT_A);
+		point[CCell::POINT_B] = *cell->Get_Point(CCell::POINT_B);
+		point[CCell::POINT_C] = *cell->Get_Point(CCell::POINT_C);
+
+		points.push_back(point);
+	}
+}
+
 // 움직임이 발생 했을 때 네비게이션 안에 있는지 판단
 // @result 움직인 장소에 움직임 가능한 Cell이 있다면 true, 아니면 false
 // @param vPosition: 움직일 장소

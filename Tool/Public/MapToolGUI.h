@@ -79,6 +79,7 @@ private:
 	void	FileMenuBar();
 	void	FileMenu();
 	void	TerrainMenu();
+	void	Save_Nav_By_Map_Menu();
 
 private:
 	void	Update_Data();
@@ -141,6 +142,8 @@ private:
 
 	float				m_NavModelUnderLimitTri = { 0.f };
 	float				m_NavModelOverLimitTri = { 0.f };
+
+	float				m_NavModelOverLimitAngle = { 0.f };
 
 
 private:

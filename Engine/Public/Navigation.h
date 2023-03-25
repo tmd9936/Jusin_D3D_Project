@@ -33,6 +33,12 @@ public:
 	HRESULT Change_Cell_Data_By_Json(const char* pNavigationData);
 	void	Free_Cells();
 
+	void	Set_Index_By_Position(_float3 vPosition);
+	void	Set_Index_By_Position(_float4 vPosition);
+
+public:
+	void	Get_Cells_Point(vector<_float3[3]>& points);
+
 public:
 	_bool Move_OnNavigation(_fvector vPosition);
 

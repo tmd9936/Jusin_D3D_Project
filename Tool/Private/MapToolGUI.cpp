@@ -464,7 +464,11 @@ void CMapToolGUI::TerrainMenu()
 		Create_Navigation_By_Terrain_Mask(1.f);
 	}
 
+	//Save_Nav_By_Map_Menu();
+}
 
+void CMapToolGUI::Save_Nav_By_Map_Menu()
+{
 	ImGui::NewLine();
 
 	_bool save_Navigation_by_Map = false;
@@ -486,7 +490,7 @@ void CMapToolGUI::TerrainMenu()
 	ImGui::PushItemWidth(100);
 	ImGui::InputInt("Model Number", &m_NavModelNumber);
 
-	ImGui::PushItemWidth(100);	
+	ImGui::PushItemWidth(100);
 	ImGui::InputFloat("Nav Model Under LimitY", &m_NavModelUnderLimitY);
 
 	ImGui::SameLine();
@@ -500,6 +504,8 @@ void CMapToolGUI::TerrainMenu()
 	ImGui::PushItemWidth(100);
 	ImGui::InputFloat("Nav Model Over Limit Tri", &m_NavModelOverLimitTri);
 
+	ImGui::PushItemWidth(100);
+	ImGui::InputFloat("Nav Model Over Limit Angle", &m_NavModelOverLimitAngle);
 }
 
 void CMapToolGUI::Update_Data()
@@ -870,6 +876,27 @@ HRESULT CMapToolGUI::Create_Navigation_By_Map()
 		if (pointC.y < m_NavModelUnderLimitY || pointC.y > m_NavModelOverLimitY)
 			continue;
 
+		_float lineRadian = { 0.f };
+		_vector LineAB_Normal = XMVector3Normalize(XMLoadFloat3(&pointB) - XMLoadFloat3(&pointA));
+		_vector LineBC_Normal = XMVector3Normalize(XMLoadFloat3(&pointC) - XMLoadFloat3(&pointB));
+		_vector LineCA_Normal = XMVector3Normalize(XMLoadFloat3(&pointA) - XMLoadFloat3(&pointC));
+
+		_vector LineAB_Normal_NoY = XMVectorSetY(LineAB_Normal, 0.f);
+		_vector LineBC_Normal_NoY = XMVectorSetY(LineBC_Normal, 0.f);
+		_vector LineCA_Normal_NoY = XMVectorSetY(LineCA_Normal, 0.f);
+
+		lineRadian = cosf(XMVectorGetX(XMVector3Dot(LineAB_Normal, LineAB_Normal_NoY)));
+		if (lineRadian > XMConvertToRadians(m_NavModelOverLimitAngle))
+			continue;
+
+		lineRadian = cosf(XMVectorGetX(XMVector3Dot(LineBC_Normal, LineBC_Normal_NoY)));
+		if (lineRadian > XMConvertToRadians(m_NavModelOverLimitAngle))
+			continue;
+
+		lineRadian = cosf(XMVectorGetX(XMVector3Dot(LineCA_Normal, LineCA_Normal_NoY)));
+		if (lineRadian > XMConvertToRadians(m_NavModelOverLimitAngle))
+			continue;
+
 		float triSize = 0.5f * XMVectorGetX(XMVector3Length((XMLoadFloat3(&pointA) - XMLoadFloat3(&pointB))))
 			* XMVectorGetX(XMVector3Length((XMLoadFloat3(&pointA) - XMLoadFloat3(&pointC))));
 
@@ -896,6 +923,7 @@ HRESULT CMapToolGUI::Create_Navigation_By_Map()
 		}
 
 		triSize *= sinSize;
+
 
 		if (triSize < m_NavModelUnderLimitTri || triSize > m_NavModelOverLimitTri)
 			continue;

@@ -74,6 +74,8 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* p
 
 	m_pTransformCom->Set_Pos(m_PokemonDesc.vPos.x, m_PokemonDesc.vPos.y, m_PokemonDesc.vPos.z);
 
+	m_pNavigationCom->Set_Index_By_Position({ m_PokemonDesc.vPos.x, m_PokemonDesc.vPos.y, m_PokemonDesc.vPos.z });
+
 	Add_TransitionRandomState();
 
 	m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1);
@@ -100,7 +102,7 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const c
 		m_strSaveJsonPath = filePath;
 	}
 
-	m_pTransformCom->Set_TransforDesc({ m_PokemonDesc.moveSpeed, XMConvertToRadians(45.0f) });
+	m_pTransformCom->Set_TransforDesc({ m_PokemonDesc.moveSpeed, XMConvertToRadians(90.0f) });
 
 	if (FAILED(Add_Components_By_File()))
 		return E_FAIL;
@@ -113,6 +115,8 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const c
 
 	m_eRenderId = RENDER_NONBLEND;
 
+	m_pNavigationCom->Set_Index_By_Position({ m_PokemonDesc.vPos.x, m_PokemonDesc.vPos.y, m_PokemonDesc.vPos.z });
+	
 	Add_TransitionRandomState();
 
 	m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1);
