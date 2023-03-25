@@ -843,7 +843,7 @@ HRESULT CMapToolGUI::Create_Navigation_By_Map()
 	Document::AllocatorType& allocator = doc.GetAllocator();
 
 	Value Cells(kArrayType);
-
+	// 0.5 ~ 1.75
 	for (size_t i = 0; i < triSize; ++i)
 	{
 		_float3 pointA = {};
@@ -862,6 +862,24 @@ HRESULT CMapToolGUI::Create_Navigation_By_Map()
 
 		if (pointC.y < m_NavModelUnderLimitY || pointC.y > m_NavModelOverLimitY)
 			continue;
+
+		float triSize = 0.5f * XMVectorGetX(XMVector3Length((XMLoadFloat3(&pointA) - XMLoadFloat3(&pointB))))
+			* XMVectorGetX(XMVector3Length((XMLoadFloat3(&pointA) - XMLoadFloat3(&pointC))));
+
+		float cosDot = XMVectorGetX(XMVector3Dot(XMLoadFloat3(&pointA) - XMLoadFloat3(&pointB), XMLoadFloat3(&pointA) - XMLoadFloat3(&pointC)));
+		float radian = acosf(cosDot);
+		float sinSize = 0.f;
+
+		if (radian <= XMConvertToRadians(90.f))
+		{
+			sinSize = sinf(radian);
+		}
+		else
+		{
+			sinSize = sinf(XMConvertToRadians(180.f) - radian);
+		}
+
+		triSize *= sinSize;
 
 		Value Cell(kObjectType);
 		{
