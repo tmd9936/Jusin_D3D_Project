@@ -456,13 +456,42 @@ void CMapToolGUI::TerrainMenu()
 
 	if (save_Navigation)
 	{
-		ImGui::OpenPopup("Save Navigation");
+		ImGui::OpenPopup("Save Navigation By Mask");
 	}
 
-	if (file_dialog.showFileDialog("Save Navigation", imgui_addons::ImGuiFileBrowser::DialogMode::SAVE, ImVec2(700, 310), ".json, .data"))
+	if (file_dialog.showFileDialog("Save Navigation By Mask", imgui_addons::ImGuiFileBrowser::DialogMode::SAVE, ImVec2(700, 310), ".json, .data"))
 	{
 		Create_Navigation_By_Terrain_Mask(1.f);
 	}
+
+
+	ImGui::NewLine();
+
+	_bool save_Navigation_by_Map = false;
+	if (ImGui::Button("Create_Navigation_By_Map"))
+	{
+		save_Navigation_by_Map = true;
+	}
+
+	if (save_Navigation_by_Map)
+	{
+		ImGui::OpenPopup("Save Navigation By Map");
+	}
+
+	if (file_dialog.showFileDialog("Save Navigation By Map", imgui_addons::ImGuiFileBrowser::DialogMode::SAVE, ImVec2(700, 310), ".json, .data"))
+	{
+		Create_Navigation_By_Map();
+	}
+
+	ImGui::PushItemWidth(100);
+	ImGui::InputInt("Model Number", &m_NavModelNumber);
+
+	ImGui::PushItemWidth(100);	
+	ImGui::InputFloat("Nav Model Under LimitY", &m_NavModelUnderLimitY);
+
+	ImGui::SameLine();
+	ImGui::PushItemWidth(100);
+	ImGui::InputFloat("Nav Model Over LimitY", &m_NavModelOverLimitY);
 
 }
 
@@ -762,6 +791,94 @@ HRESULT CMapToolGUI::Create_Navigation_By_Terrain_Mask(_float interval)
 			}
 			Cells.PushBack(OverCell, allocator);
 		}
+	}
+
+	doc.AddMember("Cells", Cells, allocator);
+
+	FILE* fp = fopen(string(file_dialog.selected_path + file_dialog.ext).c_str(), "wb"); // non-Windows use "w"
+
+	if (NULL == fp)
+		MSG_BOX("Save File Open Error");
+	else
+	{
+		char* writeBuffer = new char[65536];
+		FileWriteStream os(fp, writeBuffer, sizeof(writeBuffer));
+
+		PrettyWriter<FileWriteStream> writer(os);
+		doc.Accept(writer);
+
+		fclose(fp);
+
+		Safe_Delete_Array(writeBuffer);
+	}
+
+	return S_OK;
+}
+
+HRESULT CMapToolGUI::Create_Navigation_By_Map()
+{
+	const _uint iLevelindex = CDataToolGUI::GetInstance()->Get_Current_Levelindex();
+
+	CComponent* pMapModel = CGameInstance::GetInstance()->Get_Component(CModel::familyId, iLevelindex, L"Layer_Map", L"Map");
+	if (nullptr == pMapModel)
+		return E_FAIL;
+	CModel* pMapModelCom = dynamic_cast<CModel*>(pMapModel);
+
+	CComponent* pTransform = CGameInstance::GetInstance()->Get_Component(CTransform::familyId, iLevelindex, L"Layer_Map", L"Map");
+	if (nullptr == pTransform)
+		return E_FAIL;
+	CTransform* pTransformCom = dynamic_cast<CTransform*>(pTransform);
+
+	_vector vMapWorldPos = pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	vector<VTXMODEL_ALL_DATA> verteces;
+	vector<FACEINDICES32> indeces;
+
+	pMapModelCom->Get_Mesh_VertexBuffer_Data(m_NavModelNumber, verteces);
+	pMapModelCom->Get_Mesh_IndexBuffer_Data(m_NavModelNumber, indeces);
+
+	size_t triSize = indeces.size();
+
+	Document doc(kObjectType);
+	Document::AllocatorType& allocator = doc.GetAllocator();
+
+	Value Cells(kArrayType);
+
+	for (size_t i = 0; i < triSize; ++i)
+	{
+		_float3 pointA = {};
+		_float3 pointB = {};
+		_float3 pointC = {};
+
+		XMStoreFloat3(&pointA, XMLoadFloat3(&verteces[indeces[i]._0].vPosition) + vMapWorldPos);
+		XMStoreFloat3(&pointB, XMLoadFloat3(&verteces[indeces[i]._1].vPosition) + vMapWorldPos);
+		XMStoreFloat3(&pointC, XMLoadFloat3(&verteces[indeces[i]._2].vPosition) + vMapWorldPos);
+
+		if (pointA.y < m_NavModelUnderLimitY || pointA.y > m_NavModelOverLimitY)
+			continue;
+
+		if (pointB.y < m_NavModelUnderLimitY || pointB.y > m_NavModelOverLimitY)
+			continue;
+
+		if (pointC.y < m_NavModelUnderLimitY || pointC.y > m_NavModelOverLimitY)
+			continue;
+
+		Value Cell(kObjectType);
+		{
+			Cell.AddMember("PointA_X", pointA.x, allocator);
+			Cell.AddMember("PointA_Y", pointA.y, allocator);
+			Cell.AddMember("PointA_Z", pointA.z, allocator);
+
+			Cell.AddMember("PointB_X", pointB.x, allocator);
+			Cell.AddMember("PointB_Y", pointB.y, allocator);
+			Cell.AddMember("PointB_Z", pointB.z, allocator);
+
+			Cell.AddMember("PointC_X", pointC.x, allocator);
+			Cell.AddMember("PointC_Y", pointC.y, allocator);
+			Cell.AddMember("PointC_Z", pointC.z, allocator);
+		}
+
+		Cells.PushBack(Cell, allocator);
 	}
 
 	doc.AddMember("Cells", Cells, allocator);

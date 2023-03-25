@@ -94,6 +94,8 @@ private:
 	HRESULT Create_Navigation_Test_Data();
 	HRESULT Create_Navigation_By_Terrain_Mask(_float interval);
 
+	HRESULT Create_Navigation_By_Map();
+
 
 private:
 	ID3D11Device*			m_pDevice = { nullptr };
@@ -131,6 +133,12 @@ private:
 	_bool				m_bMapToolOpen = { true };
 
 	_float				m_LerpDuration = { 0.0 };
+
+	int					m_NavModelNumber = { 0 };
+
+	float				m_NavModelUnderLimitY = { 0.f };
+	float				m_NavModelOverLimitY = { 0.f };
+
 
 private:
 	CCalculator* m_pCalculator		= { nullptr };

@@ -59,6 +59,10 @@ public:
 	_matrix Get_BoneCombinedMatrix(const _uint& boneIndex);
 
 	_float4x4 Get_CombinedTransformationMatrix_float4_4(const _uint& boneIndex);
+
+	HRESULT Get_Mesh_VertexBuffer_Data(_uint meshIndex, vector<VTXMODEL_ALL_DATA>& VertexBufferData);
+	HRESULT Get_Mesh_IndexBuffer_Data(_uint meshIndex, vector<FACEINDICES32>& indexBuffer);
+
 	
 public:
 	static const _double		Get_LerpDuration();

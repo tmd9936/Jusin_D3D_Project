@@ -257,6 +257,26 @@ _float4x4 CModel::Get_CombinedTransformationMatrix_float4_4(const _uint& boneInd
 	return m_Bones[boneIndex]->Get_CombinedTransformationMatrix_float4_4();
 }
 
+HRESULT CModel::Get_Mesh_VertexBuffer_Data(_uint meshIndex, vector<VTXMODEL_ALL_DATA>& VertexBufferData)
+{
+	if (m_Meshes.size() <= meshIndex)
+		return E_FAIL;
+
+	m_Meshes[meshIndex]->Get_VertexBufferData(VertexBufferData);
+
+	return S_OK;
+}
+
+HRESULT CModel::Get_Mesh_IndexBuffer_Data(_uint meshIndex, vector<FACEINDICES32>& indexBuffer)
+{
+	if (m_Meshes.size() <= meshIndex)
+		return E_FAIL;
+
+	m_Meshes[meshIndex]->Get_IndexBufferData(indexBuffer);
+
+	return S_OK;
+}
+
 const _double CModel::Get_LerpDuration()
 {
 	return CAnimation::m_LerpDuration;
