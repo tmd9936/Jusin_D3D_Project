@@ -21,7 +21,8 @@ HRESULT CBuffState::Initialize_Prototype()
 
 HRESULT CBuffState::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
-	memcpy(&m_Desc, pArg, sizeof m_Desc);
+	if (nullptr != pArg)
+		memcpy(&m_Desc, pArg, sizeof m_Desc);
 
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 		return E_FAIL;
@@ -138,7 +139,7 @@ HRESULT CBuffState::Add_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(pGameInstance->Add_Component(CTexture::familyId, this, m_Desc.m_TextureLevelIndex, m_Desc.m_TextureProtoTypeName,
+	if (FAILED(pGameInstance->Add_Component(CTexture::familyId, this, LEVEL_STATIC, m_Desc.m_TextureProtoTypeName,
 		(CComponent**)&m_pTextureCom, nullptr)))
 		return E_FAIL;
 

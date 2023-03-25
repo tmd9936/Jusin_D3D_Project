@@ -28,8 +28,8 @@ HRESULT CLevel_WorldMap::Initialize()
 	if (FAILED(Ready_Layer_Env(TEXT("Layer_Env"))))
 		return E_FAIL;
 
-	//if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
-	//	return E_FAIL;
+	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
+		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Map(TEXT("Layer_Map"))))
 		return E_FAIL;
@@ -154,7 +154,14 @@ HRESULT CLevel_WorldMap::Ready_Layer_Player(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_Layer(LEVEL_WORLDMAP, pLayerTag)))
 		return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Player"), LEVEL_WORLDMAP, pLayerTag)))
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_WORLDMAP, L"Layer_BuffState")))
+		return E_FAIL;
+
+	CMonster::POKEMON_DESC desc{};
+	desc.m_monsterNo = 6;
+	desc.vPos = _float4(347.f, 0.5f, 249.5f, 1.f);
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Player"), LEVEL_WORLDMAP, pLayerTag, L"Player", &desc)))
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);

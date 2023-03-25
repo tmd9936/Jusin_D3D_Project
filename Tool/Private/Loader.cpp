@@ -108,6 +108,29 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/splash/TitleLogo_Korea.png")))))
 		return E_FAIL;
 
+	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_LOGO))
+	{
+		/* For.Prototype_Component_Texture_Terrain */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Terrain"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Tile%d.dds"), 2))))
+			return E_FAIL;
+
+		/* For.Prototype_Component_Texture_TerrainMask */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_TerrainMask"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Filter.dds")))))
+			return E_FAIL;
+
+		/* For.Prototype_Component_Texture_Brush */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Brush"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Brush.png")))))
+			return E_FAIL;
+
+		/* For.Prototype_Component_Button_Color_Mask */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Button_Color_Mask"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Window/window_button.png")))))
+			return E_FAIL;
+	}
+
 #pragma endregion
 
 #pragma region MODELS
@@ -166,6 +189,11 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CSkill_Manager::Create(m_pDevice, m_pContext, "../../Reference/Resources/Data/Skill/SkillDependDataSet.json", "../../Reference/Resources/Data/Skill/SkillDataResourcesSet.json"))))
 			return E_FAIL;
 
+		/* For.Prototype_GameObject_BuffState*/
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BuffState"),
+			CBuffState::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
 		///* For.Prototype_GameObject_BackGround */
 		//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround"),
 		//	CBackGround::Create(m_pDevice, m_pContext))))
@@ -216,35 +244,17 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 	wsprintf(m_szLoadingText, TEXT("텍스쳐를 로딩중입니다."));
 	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_BASECAMP))
 	{
-		/* For.Prototype_Component_Texture_Terrain */
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Terrain"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Tile%d.dds"), 2))))
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Pokemon_State_doku"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Pokemon_State/UI_ss_n_doku.png")))))
 			return E_FAIL;
 
-		/* For.Prototype_Component_Texture_TerrainMask */
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_TerrainMask"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Filter.dds")))))
-			return E_FAIL;
-
-		/* For.Prototype_Component_Texture_Brush */
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Brush"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Brush.png")))))
-			return E_FAIL;
-
-		/* For.Prototype_Component_Button_Color_Mask */
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Button_Color_Mask"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Window/window_button.png")))))
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Pokemon_State_damageup"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Pokemon_State/UI_ss_p_damageup.png")))))
 			return E_FAIL;
 	}
 
 	wsprintf(m_szLoadingText, TEXT("포켓몬 상태 텍스쳐를 로딩중입니다."));
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Texture_Pokemon_State_doku"),
-		CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Pokemon_State/UI_ss_n_doku.png")))))
-		return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Texture_Pokemon_State_damageup"),
-		CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Pokemon_State/UI_ss_p_damageup.png")))))
-		return E_FAIL;
 #pragma endregion
 
 #pragma region MODELS
@@ -429,10 +439,6 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 			CBaseCamp_Manager::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
-		/* For.Prototype_GameObject_BuffState*/
-		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BuffState"),
-			CBuffState::Create(m_pDevice, m_pContext))))
-			return E_FAIL;
 	}
 #pragma endregion
 
@@ -538,12 +544,12 @@ HRESULT CLoader::Loading_ForWorldMapLevel()
 
 	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Model_WorldMap_Special_Idle"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/WorldMap/W_special1_idle.fbx", PivotMatrix))))
+		CModel::Create(m_pDevice, m_pContext, "../../Reference/Resources/Mesh/Animation/WorldMap/W_special1_idle.json", CModel::TYPE_MESH_COLOR_ANIM, PivotMatrix))))
 		return E_FAIL;
 
 	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Model_WorldMap_Water"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/WorldMap/W_water.fbx", PivotMatrix))))
+		CModel::Create(m_pDevice, m_pContext, "../../Reference/Resources/Mesh/Animation/WorldMap/W_water.json", CModel::TYPE_MESH_COLOR_ANIM, PivotMatrix))))
 		return E_FAIL;
 
 	//PivotMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f);

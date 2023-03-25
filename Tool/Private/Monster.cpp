@@ -200,9 +200,9 @@ HRESULT CMonster::Add_BuffState()
 
 	lstrcpy(BuffStateDesc.m_TextureProtoTypeName, L"Prototype_Component_Texture_Pokemon_State_doku");
 
-	BuffStateDesc.m_TextureLevelIndex = LEVEL_BASECAMP;
+	BuffStateDesc.m_TextureLevelIndex = LEVEL_STATIC;
 
-	pGameObject = pGameInstance->Clone_GameObject(L"Layer_BuffState", BuffStateDesc.m_TextureLevelIndex, TEXT("Prototype_GameObject_BuffState"), &BuffStateDesc);
+	pGameObject = pGameInstance->Clone_GameObject(L"Layer_BuffState", m_iLevelindex, TEXT("Prototype_GameObject_BuffState"), &BuffStateDesc);
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
