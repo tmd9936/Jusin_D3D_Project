@@ -139,6 +139,9 @@ private:
 	float				m_NavModelUnderLimitY = { 0.f };
 	float				m_NavModelOverLimitY = { 0.f };
 
+	float				m_NavModelUnderLimitTri = { 0.f };
+	float				m_NavModelOverLimitTri = { 0.f };
+
 
 private:
 	CCalculator* m_pCalculator		= { nullptr };

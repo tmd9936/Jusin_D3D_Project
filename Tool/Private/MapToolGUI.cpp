@@ -493,6 +493,13 @@ void CMapToolGUI::TerrainMenu()
 	ImGui::PushItemWidth(100);
 	ImGui::InputFloat("Nav Model Over LimitY", &m_NavModelOverLimitY);
 
+	ImGui::PushItemWidth(100);
+	ImGui::InputFloat("Nav Model Under Limit Tri", &m_NavModelUnderLimitTri);
+
+	ImGui::SameLine();
+	ImGui::PushItemWidth(100);
+	ImGui::InputFloat("Nav Model Over Limit Tri", &m_NavModelOverLimitTri);
+
 }
 
 void CMapToolGUI::Update_Data()
@@ -880,6 +887,9 @@ HRESULT CMapToolGUI::Create_Navigation_By_Map()
 		}
 
 		triSize *= sinSize;
+
+		if (triSize < m_NavModelUnderLimitTri || triSize > m_NavModelOverLimitTri)
+			continue;
 
 		Value Cell(kObjectType);
 		{
