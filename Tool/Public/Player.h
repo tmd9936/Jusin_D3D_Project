@@ -15,6 +15,7 @@ BEGIN(Client)
 
 class CPlayer final : public CMonster
 {
+
 private:
 	CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CPlayer(const CPlayer& rhs);

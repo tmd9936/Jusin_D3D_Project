@@ -97,26 +97,6 @@ HRESULT CLevel_BaseCamp::Ready_Layer_Camera(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_Layer(LEVEL_BASECAMP, pLayerTag)))
 		return E_FAIL;
 
-	//CCamera_Dynamic::CAMERA_DYNAMIC_DESC		CameraDynamicDesc;
-	//ZeroMemory(&CameraDynamicDesc, sizeof CameraDynamicDesc);
-
-	//if (FAILED(CUtility::Load_Args_Data(L"../../Reference/Resources/Data/Scene/GamePlay/Main_Camera.dat", &CameraDynamicDesc, sizeof CCamera_Dynamic::CAMERA_DYNAMIC_DESC)))
-	//	return E_FAIL;
-
-	//CameraDynamicDesc.CameraDesc.vEye = _float4(0.f, 10.f, -7.f, 1.f);
-	//CameraDynamicDesc.CameraDesc.vAt = _float4(0.f, 0.f, 0.f, 1.f);
-	//CameraDynamicDesc.CameraDesc.vAxisY = _float4(0.f, 1.f, 0.f, 0.f);
-
-	//CameraDynamicDesc.CameraDesc.fFovy = XMConvertToRadians(60.0f);
-	//CameraDynamicDesc.CameraDesc.fAspect = _float(g_iWinSizeX) / g_iWinSizeY;
-	//CameraDynamicDesc.CameraDesc.fNear = 0.2f;
-	//CameraDynamicDesc.CameraDesc.fFar = 300;
-
-	//CameraDynamicDesc.CameraDesc.TransformDesc.SpeedPerSec = 20.f;
-	//CameraDynamicDesc.CameraDesc.TransformDesc.RotationPerSec = XMConvertToRadians(180.0f);
-
-	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Camera_Dynamic"), LEVEL_BASECAMP, pLayerTag, L"Main_Camera", "../../Reference/Resources/Data/Scene/BaseCamp/Camera_data.json", CLONE_FILEPATH)))
-	//	return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Camera_Public"), LEVEL_BASECAMP, pLayerTag, L"Main_Camera", "../../Reference/Resources/Data/Scene/BaseCamp/Camera_Public_data.json", CLONE_FILEPATH)))
 		return E_FAIL;
@@ -163,7 +143,11 @@ HRESULT CLevel_BaseCamp::Ready_Layer_Player(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_Layer(LEVEL_BASECAMP, L"Layer_BuffState")))
 		return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Player"), LEVEL_BASECAMP, pLayerTag, L"Player")))
+	CMonster::POKEMON_DESC desc{};
+	desc.m_monsterNo = 6;
+	desc.vPos = _float4(22.f, 0.f, 13.5f, 1.f);
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Player"), LEVEL_BASECAMP, pLayerTag, L"Player", &desc)))
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);

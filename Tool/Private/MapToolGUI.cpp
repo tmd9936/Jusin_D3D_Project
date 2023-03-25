@@ -873,17 +873,26 @@ HRESULT CMapToolGUI::Create_Navigation_By_Map()
 		float triSize = 0.5f * XMVectorGetX(XMVector3Length((XMLoadFloat3(&pointA) - XMLoadFloat3(&pointB))))
 			* XMVectorGetX(XMVector3Length((XMLoadFloat3(&pointA) - XMLoadFloat3(&pointC))));
 
-		float cosDot = XMVectorGetX(XMVector3Dot(XMLoadFloat3(&pointA) - XMLoadFloat3(&pointB), XMLoadFloat3(&pointA) - XMLoadFloat3(&pointC)));
+		float cosDot = XMVectorGetX(XMVector3Dot(XMVector3Normalize(XMLoadFloat3(&pointC) - XMLoadFloat3(&pointA)), 
+			XMVector3Normalize(XMLoadFloat3(&pointB) - XMLoadFloat3(&pointA))));
 		float radian = acosf(cosDot);
 		float sinSize = 0.f;
 
-		if (radian <= XMConvertToRadians(90.f))
+		if (radian <= XMConvertToRadians(90.f) && radian > XMConvertToRadians(0.f))
 		{
 			sinSize = sinf(radian);
 		}
-		else
+		else if (radian > XMConvertToRadians(90.f) && radian < XMConvertToRadians(180.f))
 		{
 			sinSize = sinf(XMConvertToRadians(180.f) - radian);
+		}
+		else if (radian > XMConvertToRadians(180.f) && radian < XMConvertToRadians(270.f))
+		{
+			sinSize = sinf(XMConvertToRadians(180.f) - (XMConvertToRadians(360.f) - radian));
+		}
+		else if (radian > XMConvertToRadians(270.f) && radian < XMConvertToRadians(360.f))
+		{
+			sinSize = sinf(XMConvertToRadians(360.f) - radian);
 		}
 
 		triSize *= sinSize;

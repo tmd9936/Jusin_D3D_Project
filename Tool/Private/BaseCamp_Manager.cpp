@@ -223,7 +223,7 @@ HRESULT CBaseCamp_Manager::Add_Components()
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
 	/* For.Com_Model */
-	if (FAILED(pGameInstance->Add_Component(CCalculator::familyId, this, LEVEL_BASECAMP, TEXT("Prototype_Component_Model_Pokemon_PM6"),
+	if (FAILED(pGameInstance->Add_Component(CCalculator::familyId, this, LEVEL_BASECAMP, TEXT("Prototype_Component_Calculator"),
 		(CComponent**)&m_pCalculator, nullptr)))
 		return E_FAIL;
 
@@ -235,7 +235,7 @@ HRESULT CBaseCamp_Manager::Add_Components_By_File()
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
 	/* For.Com_Model */
-	if (FAILED(pGameInstance->Add_Component(CCalculator::familyId, this, LEVEL_BASECAMP, TEXT("Prototype_Component_Model_Pokemon_PM6"),
+	if (FAILED(pGameInstance->Add_Component(CCalculator::familyId, this, LEVEL_BASECAMP, TEXT("Prototype_Component_Calculator"),
 		(CComponent**)&m_pCalculator, nullptr)))
 		return E_FAIL;
 

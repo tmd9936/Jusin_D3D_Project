@@ -28,6 +28,39 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* p
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 		return E_FAIL;
 
+	if (nullptr != pArg)
+	{
+		m_PokemonDesc.ModelPrototypeTag = (*(POKEMON_DESC*)(pArg)).ModelPrototypeTag;
+		m_PokemonDesc.ModelPrototypeLevelIndex = (*(POKEMON_DESC*)(pArg)).ModelPrototypeLevelIndex;
+		m_PokemonDesc.vPos = (*(POKEMON_DESC*)(pArg)).vPos;
+		m_PokemonDesc.moveSpeed = (*(POKEMON_DESC*)(pArg)).moveSpeed;
+		m_PokemonDesc.rotateSpeed = (*(POKEMON_DESC*)(pArg)).rotateSpeed;
+		m_PokemonDesc.m_monsterNo = (*(POKEMON_DESC*)(pArg)).m_monsterNo;
+		m_PokemonDesc.m_hpBasis = (*(POKEMON_DESC*)(pArg)).m_hpBasis;
+		m_PokemonDesc.m_attackBasis = (*(POKEMON_DESC*)(pArg)).m_attackBasis;
+		m_PokemonDesc.m_attackGrow = (*(POKEMON_DESC*)(pArg)).m_attackGrow;
+		m_PokemonDesc.m_type1 = (*(POKEMON_DESC*)(pArg)).m_type1;
+		m_PokemonDesc.m_type2 = (*(POKEMON_DESC*)(pArg)).m_type2;
+		m_PokemonDesc.m_visitWeightDefault = (*(POKEMON_DESC*)(pArg)).m_visitWeightDefault;
+		m_PokemonDesc.m_visitWeight = (*(POKEMON_DESC*)(pArg)).m_visitWeight;
+		m_PokemonDesc.m_cookTableID = (*(POKEMON_DESC*)(pArg)).m_cookTableID;
+		m_PokemonDesc.m_color = (*(POKEMON_DESC*)(pArg)).m_color;
+
+		m_PokemonDesc.m_Rate = (*(POKEMON_DESC*)(pArg)).m_Rate;
+		m_PokemonDesc.m_isLayer = (*(POKEMON_DESC*)(pArg)).m_isLayer;
+		m_PokemonDesc.m_meleePercent = (*(POKEMON_DESC*)(pArg)).m_meleePercent;
+		m_PokemonDesc.m_slotTypeWeightHp = (*(POKEMON_DESC*)(pArg)).m_slotTypeWeightHp;
+		m_PokemonDesc.m_slotTypeWeightAttack = (*(POKEMON_DESC*)(pArg)).m_slotTypeWeightAttack;
+		m_PokemonDesc.m_slotTypeWeightMulti = (*(POKEMON_DESC*)(pArg)).m_slotTypeWeightMulti;
+
+		m_PokemonDesc.m_skillIDs = (*(POKEMON_DESC*)(pArg)).m_skillIDs;
+	}
+	else
+	{
+		m_PokemonDesc.m_monsterNo = 6;
+		m_PokemonDesc.vPos = _float4(rand() % 10 + 12.f, 0.f, rand() % 10 + 19.f, 1.f);
+	}
+
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
@@ -39,7 +72,7 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* p
 
 	m_eRenderId = RENDER_NONBLEND;
 
-	m_pTransformCom->Set_Pos(rand() % 10 + 12.f, 0.f, rand() % 10 + 19.f);
+	m_pTransformCom->Set_Pos(m_PokemonDesc.vPos.x, m_PokemonDesc.vPos.y, m_PokemonDesc.vPos.z);
 
 	Add_TransitionRandomState();
 
@@ -205,13 +238,10 @@ HRESULT CMonster::Add_Components()
 		(CComponent**)&m_pShaderCom, nullptr)))
 		return E_FAIL;
 
+	m_PokemonDesc.ModelPrototypeTag = L"Prototype_Component_Model_Pokemon_PM";
+	m_PokemonDesc.ModelPrototypeTag += to_wstring((int)m_PokemonDesc.m_monsterNo);
 	/* For.Com_Model */
-	//if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, m_PokemonDesc.ModelPrototypeLevelIndex, m_PokemonDesc.ModelPrototypeTag.c_str(),
-	//	(CComponent**)&m_pModelCom, nullptr)))
-	//	return E_FAIL;
-
-	/* For.Com_Model */
-	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, LEVEL_BASECAMP, L"Prototype_Component_Model_Pokemon_PM6",
+	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, LEVEL_STATIC, m_PokemonDesc.ModelPrototypeTag.c_str(),
 		(CComponent**)&m_pModelCom, nullptr)))
 		return E_FAIL;
 
@@ -251,7 +281,7 @@ HRESULT CMonster::Add_Components()
 	CNavigation::NAVIDESC		NaviDesc;
 	ZeroMemory(&NaviDesc, sizeof NaviDesc);
 	NaviDesc.iIndex = 1;
-	if (FAILED(pGameInstance->Add_Component(CNavigation::familyId, this, LEVEL_BASECAMP, TEXT("Prototype_Component_Navigation"),
+	if (FAILED(pGameInstance->Add_Component(CNavigation::familyId, this, m_iLevelindex, TEXT("Prototype_Component_Navigation"),
 		(CComponent**)&m_pNavigationCom, &NaviDesc)))
 		return E_FAIL;
 
@@ -280,7 +310,7 @@ HRESULT CMonster::Add_Components_By_File()
 	m_PokemonDesc.ModelPrototypeTag = L"Prototype_Component_Model_Pokemon_PM";
 	m_PokemonDesc.ModelPrototypeTag += to_wstring((int)m_PokemonDesc.m_monsterNo);
 	/* For.Com_Model */
-	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, m_PokemonDesc.ModelPrototypeLevelIndex, m_PokemonDesc.ModelPrototypeTag.c_str(),
+	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, LEVEL_STATIC, m_PokemonDesc.ModelPrototypeTag.c_str(),
 		(CComponent**)&m_pModelCom, nullptr)))
 		return E_FAIL;
 

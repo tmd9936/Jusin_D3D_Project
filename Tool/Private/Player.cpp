@@ -31,9 +31,10 @@ HRESULT CPlayer::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pA
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 		return E_FAIL;
 
-	m_eRenderId = RENDER_NONBLEND;
 
-	m_pTransformCom->Set_Pos(22.f, 0.f, 13.5f);
+	//m_pTransformCom->Set_Pos(22.f, 0.f, 13.5f);
+
+	m_eRenderId = RENDER_NONBLEND;
 
 	m_pModelCom->Set_Animation(0);
 
