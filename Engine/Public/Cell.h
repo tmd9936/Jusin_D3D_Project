@@ -31,6 +31,8 @@ public:
 public:
 	_bool	isIn(_fvector vPosition, _int& iNeighborIndex);
 
+	void Compute_Height(_float3& vPosition, _float& fY);
+
 #ifdef _DEBUG
 public:
 	HRESULT Render();

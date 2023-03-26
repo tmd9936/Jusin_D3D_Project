@@ -42,6 +42,8 @@ public:
 public:
 	_bool Move_OnNavigation(_fvector vPosition);
 
+	_bool Move_OnNavigation_Set_Y(_fvector vPosition, _float& fY);
+
 private:
 	NAVIDESC				m_NaviDesc = {};
 	vector<CCell*>			m_Cells;

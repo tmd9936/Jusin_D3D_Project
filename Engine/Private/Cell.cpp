@@ -80,6 +80,25 @@ _bool CCell::isIn(_fvector vPosition, _int& iNeighborIndex)
 	return true;
 }
 
+void CCell::Compute_Height(_float3& vPosition, _float& fY)
+{
+	_vector		Plane{};
+
+	Plane = XMPlaneFromPoints(
+		XMLoadFloat3(&m_vPoints[POINT_A]),
+		XMLoadFloat3(&m_vPoints[POINT_B]),
+		XMLoadFloat3(&m_vPoints[POINT_C]));
+
+	_float4 resultPlane{};
+
+	XMStoreFloat4(&resultPlane, Plane);
+	if (resultPlane.y > 0.f)
+	{
+		fY = (-resultPlane.x * vPosition.x - resultPlane.z * vPosition.z - resultPlane.w) / resultPlane.y;
+	}
+	
+}
+
 #ifdef _DEBUG
 HRESULT CCell::Render()
 {
