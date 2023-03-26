@@ -11,6 +11,8 @@
 
 #include "WorldMapAnimEnv.h"
 
+#include "StagePoint.h"
+
 CLevel_WorldMap::CLevel_WorldMap(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
 {
@@ -34,7 +36,16 @@ HRESULT CLevel_WorldMap::Initialize()
 	if (FAILED(Ready_Layer_Map(TEXT("Layer_Map"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_Stage_Point(TEXT("Layer_Stage_Point"))))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_PlayerSkill(TEXT("Layer_PlayerSkill"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_Effect(TEXT("Layer_Effect"))))
 		return E_FAIL;
 
 	//if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
@@ -146,6 +157,71 @@ HRESULT CLevel_WorldMap::Ready_Layer_Map(const _tchar* pLayerTag)
 	return S_OK;
 }
 
+HRESULT CLevel_WorldMap::Ready_Layer_Stage_Point(const _tchar* pLayerTag)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_WORLDMAP, pLayerTag)))
+		return E_FAIL;
+	// Stage1 23.6 0.8 23.6
+
+	CStagePoint::STAGE_POINT_DESC stage_point_desc{};
+	stage_point_desc.eState = CStagePoint::STAGE_POINT_STATE_STANDARD;
+	stage_point_desc.stageNumber = 1;
+	stage_point_desc.vPos = _float3(23.6, 0.8, 23.6);
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Stage_Point"), LEVEL_WORLDMAP, pLayerTag, L"Stage_Point1", &stage_point_desc)))
+		return E_FAIL;
+
+	// Stage2 25.6 0.8 25.6
+	stage_point_desc.eState = CStagePoint::STAGE_POINT_STATE_STANDARD;
+	stage_point_desc.stageNumber = 2;
+	stage_point_desc.vPos = _float3(22.6, 0.8, 20.6);
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Stage_Point"), LEVEL_WORLDMAP, pLayerTag, L"Stage_Point2", &stage_point_desc)))
+		return E_FAIL;
+
+	// Stage3 18.0 1.4 18.4
+	stage_point_desc.eState = CStagePoint::STAGE_POINT_STATE_STANDARD;
+	stage_point_desc.stageNumber = 3;
+	stage_point_desc.vPos = _float3(18.0, 1.4, 18.4);
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Stage_Point"), LEVEL_WORLDMAP, pLayerTag, L"Stage_Point3", &stage_point_desc)))
+		return E_FAIL;
+
+	// Stage4 12.6 2.0 16.4
+	stage_point_desc.eState = CStagePoint::STAGE_POINT_STATE_STANDARD;
+	stage_point_desc.stageNumber = 4;
+	stage_point_desc.vPos = _float3(12.6, 2.0, 16.4);
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Stage_Point"), LEVEL_WORLDMAP, pLayerTag, L"Stage_Point4", &stage_point_desc)))
+		return E_FAIL;
+
+	Safe_Release(pGameInstance);
+	return S_OK;
+}
+
+HRESULT CLevel_WorldMap::Ready_Layer_Effect(const _tchar* pLayerTag)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_BASECAMP, pLayerTag)))
+		return E_FAIL;
+
+	Safe_Release(pGameInstance);
+	return S_OK;
+}
+
+HRESULT CLevel_WorldMap::Ready_Layer_PlayerSkill(const _tchar* pLayerTag)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_BASECAMP, pLayerTag)))
+		return E_FAIL;
+
+	Safe_Release(pGameInstance);
+	return S_OK;
+}
+
 HRESULT CLevel_WorldMap::Ready_Layer_Player(const _tchar* pLayerTag)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
@@ -159,7 +235,7 @@ HRESULT CLevel_WorldMap::Ready_Layer_Player(const _tchar* pLayerTag)
 
 	CMonster::POKEMON_DESC desc{};
 	desc.m_monsterNo = 6;
-	desc.vPos = _float4(24.2f, 0.5f, 23.5f, 1.f);
+	desc.vPos = _float4(25.2f, 0.5f, 22.0f, 1.f);
 
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Player"), LEVEL_WORLDMAP, pLayerTag, L"Player", &desc)))
 		return E_FAIL;

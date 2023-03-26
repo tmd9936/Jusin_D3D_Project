@@ -31,6 +31,7 @@
 #include "Skill_Manager.h"
 
 #include "Navigation.h"
+#include "StagePoint.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
@@ -552,6 +553,12 @@ HRESULT CLoader::Loading_ForWorldMapLevel()
 		CModel::Create(m_pDevice, m_pContext, "../../Reference/Resources/Mesh/Animation/WorldMap/W_water.json", CModel::TYPE_MESH_COLOR_ANIM, PivotMatrix))))
 		return E_FAIL;
 
+	wsprintf(m_szLoadingText, TEXT("스테이지 포인트 모델를 로딩중입니다."));
+	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Model_Stage_Point_Standard"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/WorldMap/W_dpoint_stage_standard.fbx", PivotMatrix))))
+		return E_FAIL;
+
 	//PivotMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f);
 	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Model_WolrdMap_Island"),
 	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../../Reference/Resources/Mesh/Animation/WorldMap/W_island.fbx", PivotMatrix))))
@@ -607,6 +614,10 @@ HRESULT CLoader::Loading_ForWorldMapLevel()
 
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_WorldMap_AnimEnv"),
 			CWorldMapAnimEnv::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Stage_Point"),
+			CStagePoint::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 	}
 #pragma endregion

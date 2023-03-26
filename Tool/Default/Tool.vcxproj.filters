@@ -145,6 +145,9 @@
     <Filter Include="02. GameObject\WorldMap\WorldMapAnimEnv">
       <UniqueIdentifier>{833878a7-dd96-44eb-82b6-7c9c70bb66c9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\WorldMap\StagePoint">
+      <UniqueIdentifier>{f51bf141-ba85-4d31-953e-064f92798024}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -302,6 +305,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\WorldMapAnimEnv.h">
       <Filter>02. GameObject\WorldMap\WorldMapAnimEnv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\StagePoint.h">
+      <Filter>02. GameObject\WorldMap\StagePoint</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -461,6 +467,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\WorldMapAnimEnv.cpp">
       <Filter>02. GameObject\WorldMap\WorldMapAnimEnv</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\StagePoint.cpp">
+      <Filter>02. GameObject\WorldMap\StagePoint</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

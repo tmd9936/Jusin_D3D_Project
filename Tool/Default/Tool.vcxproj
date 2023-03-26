@@ -191,6 +191,7 @@
     <ClInclude Include="..\Public\Player.h" />
     <ClInclude Include="..\Public\Skill.h" />
     <ClInclude Include="..\Public\Skill_Manager.h" />
+    <ClInclude Include="..\Public\StagePoint.h" />
     <ClInclude Include="..\Public\Stove.h" />
     <ClInclude Include="..\Public\Terrain.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
@@ -244,6 +245,7 @@
     <ClCompile Include="..\Private\Player.cpp" />
     <ClCompile Include="..\Private\Skill.cpp" />
     <ClCompile Include="..\Private\Skill_Manager.cpp" />
+    <ClCompile Include="..\Private\StagePoint.cpp" />
     <ClCompile Include="..\Private\Stove.cpp" />
     <ClCompile Include="..\Private\Terrain.cpp" />
     <ClCompile Include="..\Private\TestModel.cpp" />
