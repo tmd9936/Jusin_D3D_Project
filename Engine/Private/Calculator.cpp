@@ -73,7 +73,12 @@ _float CCalculator::Compute_HeightOnTerrain(_float3* pPos, const _float3* pTerra
 _float CCalculator::Compute_HeightOnModel(_float3 pPos, const vector<VTXMODEL_ALL_DATA>& VertexBufferData, 
 	const vector<FACEINDICES32>& indexBuffer, _fvector vMapWorldPos)
 {
-	_vector		Plane{};
+	_vector		MeshPlane{};
+	_vector		MeshPlane1{};
+	_vector		MeshPlane2{};
+	_vector		MeshPlane3{};
+
+	_float4		pointInCalculatorPlane{};
 
 	_float fY = 0.f;
 
@@ -82,30 +87,50 @@ _float CCalculator::Compute_HeightOnModel(_float3 pPos, const vector<VTXMODEL_AL
 
 	_float4 resultPlane{};
 
-	_float dotA{}, dotB{}, dotC{};
+	_float dotA{}, dotB{}, dotC{}, dotD{};
 	for (size_t i = 0; i < indexBuffer.size(); ++i)
 	{
-		dotA = XMVectorGetX(XMVector3Dot(XMVector3Normalize(XMLoadFloat3(&pPos) - vMapWorldPos), XMLoadFloat3(&VertexBufferData[indexBuffer[i]._0].vPosition)));
-		if (dotA > XMConvertToRadians(90.f))
-			continue;
-
-		dotB = XMVectorGetX(XMVector3Dot(XMVector3Normalize(XMLoadFloat3(&pPos) - vMapWorldPos), XMLoadFloat3(&VertexBufferData[indexBuffer[i]._1].vPosition)));
-		if (dotB > XMConvertToRadians(90.f))
-			continue;
-
-		dotC = XMVectorGetX(XMVector3Dot(XMVector3Normalize(XMLoadFloat3(&pPos) - vMapWorldPos), XMLoadFloat3(&VertexBufferData[indexBuffer[i]._2].vPosition)));
-		if (dotC > XMConvertToRadians(90.f))
-			continue;
-
-		Plane = XMPlaneFromPoints(
+		MeshPlane = XMPlaneFromPoints(
 			XMLoadFloat3(&VertexBufferData[indexBuffer[i]._0].vPosition) + vMapWorldPos,
 			XMLoadFloat3(&VertexBufferData[indexBuffer[i]._1].vPosition) + vMapWorldPos,
 			XMLoadFloat3(&VertexBufferData[indexBuffer[i]._2].vPosition) + vMapWorldPos);
 
-		XMStoreFloat4(&resultPlane, Plane);
+		MeshPlane1 = XMPlaneFromPoints(
+			XMLoadFloat3(&VertexBufferData[indexBuffer[i]._1].vPosition) + vMapWorldPos,
+			XMVectorSetY(XMLoadFloat3(&VertexBufferData[indexBuffer[i]._1].vPosition) + vMapWorldPos, 0.f),
+			XMLoadFloat3(&VertexBufferData[indexBuffer[i]._2].vPosition) + vMapWorldPos);
+
+		MeshPlane2 = XMPlaneFromPoints(
+			XMLoadFloat3(&VertexBufferData[indexBuffer[i]._0].vPosition) + vMapWorldPos,
+			XMLoadFloat3(&VertexBufferData[indexBuffer[i]._2].vPosition) + vMapWorldPos,
+			XMVectorSetY(XMLoadFloat3(&VertexBufferData[indexBuffer[i]._2].vPosition) + vMapWorldPos, 0.f));
+
+		MeshPlane3 = XMPlaneFromPoints(
+			XMLoadFloat3(&VertexBufferData[indexBuffer[i]._0].vPosition) + vMapWorldPos,
+			XMVectorSetY(XMLoadFloat3(&VertexBufferData[indexBuffer[i]._1].vPosition) + vMapWorldPos, 0.f),
+			XMLoadFloat3(&VertexBufferData[indexBuffer[i]._1].vPosition) + vMapWorldPos);
+
+		dotA = XMVectorGetX(XMPlaneDotCoord(MeshPlane, XMVectorSetW(XMLoadFloat3(&pPos), 1.f)));
+		if (dotA > 0.f)
+			continue;
+
+		dotB = XMVectorGetX(XMPlaneDotCoord(MeshPlane1, XMVectorSetW(XMLoadFloat3(&pPos), 1.f)));
+		if (dotB > 0.f)
+			continue;
+
+		dotC = XMVectorGetX(XMPlaneDotCoord(MeshPlane2, XMVectorSetW(XMLoadFloat3(&pPos), 1.f)));
+		if (dotC > 0.f)
+			continue;
+
+		dotD = XMVectorGetX(XMPlaneDotCoord(MeshPlane3, XMVectorSetW(XMLoadFloat3(&pPos), 1.f)));
+		if (dotD > 0.f)
+			continue;
+
+		XMStoreFloat4(&resultPlane, MeshPlane);
 		
 		if (resultPlane.y > fY)
 			fY = (-resultPlane.x * pPos.x - resultPlane.z * pPos.z - resultPlane.w) / resultPlane.y;
+
 	}
 
 	return fY;
