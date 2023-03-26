@@ -28,10 +28,7 @@ private: /* 이 레벨이 사용하기위한 사본 객체들을 그룹별로 생성하낟. */
 	HRESULT Ready_Layer_Player(const _tchar* pLayerTag);
 	HRESULT Ready_Layer_UI(const _tchar* pLayerTag);
 
-
 	HRESULT	Ready_LightDesc();
-
-
 public:
 	static CLevel_WorldMap* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual void Free() override;

@@ -125,6 +125,10 @@ HRESULT CStagePoint::Render()
 		m_pModelCom->Render(i);
 	}
 
+#ifdef _DEBUG
+	m_pAABB->Render();
+#endif // _DEBUG
+
 
 	return S_OK;
 }
