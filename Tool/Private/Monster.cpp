@@ -102,7 +102,7 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const c
 		m_strSaveJsonPath = filePath;
 	}
 
-	m_pTransformCom->Set_TransforDesc({ m_PokemonDesc.moveSpeed, XMConvertToRadians(90.0f) });
+	m_pTransformCom->Set_TransforDesc({ m_PokemonDesc.moveSpeed, XMConvertToRadians(180.0f) });
 
 	if (FAILED(Add_Components_By_File()))
 		return E_FAIL;
@@ -227,7 +227,7 @@ HRESULT CMonster::Add_Components()
 		return E_FAIL;
 
 	/* For.Com_Transform */
-	CTransform::TRANSFORMDESC		TransformDesc = { 10.f, XMConvertToRadians(90.0f) };
+	CTransform::TRANSFORMDESC		TransformDesc = { 10.f, XMConvertToRadians(180.0f) };
 	if (FAILED(pGameInstance->Add_Component(CTransform::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		(CComponent**)&m_pTransformCom, &TransformDesc)))
 		return E_FAIL;
