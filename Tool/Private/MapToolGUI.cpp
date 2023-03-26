@@ -465,6 +465,8 @@ void CMapToolGUI::TerrainMenu()
 	}
 
 	//Save_Nav_By_Map_Menu();
+
+	Save_Nav_By_Map_And_Cell_Menu();
 }
 
 void CMapToolGUI::Save_Nav_By_Map_Menu()
@@ -506,6 +508,27 @@ void CMapToolGUI::Save_Nav_By_Map_Menu()
 
 	ImGui::PushItemWidth(100);
 	ImGui::InputFloat("Nav Model Over Limit Angle", &m_NavModelOverLimitAngle);
+}
+
+void CMapToolGUI::Save_Nav_By_Map_And_Cell_Menu()
+{
+	ImGui::NewLine();
+
+	_bool save_Navigation_by_Map_And_Cell = false;
+	if (ImGui::Button("Create_Navigation_By_Map_And_Cell"))
+	{
+		save_Navigation_by_Map_And_Cell = true;
+	}
+
+	if (save_Navigation_by_Map_And_Cell)
+	{
+		ImGui::OpenPopup("Save Navigation By Map And Cell");
+	}
+
+	if (file_dialog.showFileDialog("Save Navigation By Map And Cell", imgui_addons::ImGuiFileBrowser::DialogMode::SAVE, ImVec2(700, 310), ".json, .data"))
+	{
+		Create_Navigation_By_Map_And_Cell();
+	}
 }
 
 void CMapToolGUI::Update_Data()
@@ -963,6 +986,77 @@ HRESULT CMapToolGUI::Create_Navigation_By_Map()
 		fclose(fp);
 
 		Safe_Delete_Array(writeBuffer);
+	}
+
+	return S_OK;
+}
+
+HRESULT CMapToolGUI::Create_Navigation_By_Map_And_Cell()
+{
+	if (nullptr == m_pCalculator)
+		return E_FAIL;
+
+	const _uint iLevelindex = CDataToolGUI::GetInstance()->Get_Current_Levelindex();
+
+	CComponent* pMapModel = CGameInstance::GetInstance()->Get_Component(CModel::familyId, iLevelindex, L"Layer_Map", L"Map");
+	if (nullptr == pMapModel)
+		return E_FAIL;
+	CModel* pMapModelCom = dynamic_cast<CModel*>(pMapModel);
+
+	CComponent* pTransform = CGameInstance::GetInstance()->Get_Component(CTransform::familyId, iLevelindex, L"Layer_Map", L"Map");
+	if (nullptr == pTransform)
+		return E_FAIL;
+	CTransform* pTransformCom = dynamic_cast<CTransform*>(pTransform);
+
+	_vector vMapWorldPos = pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	vector<VTXMODEL_ALL_DATA> verteces;
+	vector<FACEINDICES32> indeces;
+
+	pMapModelCom->Get_Mesh_VertexBuffer_Data(m_NavModelNumber, verteces);
+	pMapModelCom->Get_Mesh_IndexBuffer_Data(m_NavModelNumber, indeces);
+
+	CComponent* pNavigation = CGameInstance::GetInstance()->Get_Component(CNavigation::familyId, iLevelindex, L"Layer_Terrain", L"Terrain");
+	if (nullptr == pNavigation)
+		return E_FAIL;
+
+	CNavigation* pNavigationCom = dynamic_cast<CNavigation*>(pNavigation);
+
+	vector<CELL_POINT_DESC> cellPoints;
+	pNavigationCom->Get_Cells_Point(cellPoints);
+
+	size_t cellSize = cellPoints.size();
+
+	Document doc(kObjectType);
+	Document::AllocatorType& allocator = doc.GetAllocator();
+
+	Value Cells(kArrayType);
+
+	float fY = { 0.f };
+	for (size_t i = 0; i < cellSize; ++i)
+	{
+		Value Cell(kObjectType);
+		{
+			fY = m_pCalculator->Compute_HeightOnModel(cellPoints[i].vPointA, verteces, indeces);
+			cellPoints[i].vPointA.y = fY;
+			Cell.AddMember("PointA_X", cellPoints[i].vPointA.x, allocator);
+			Cell.AddMember("PointA_Y", cellPoints[i].vPointA.y, allocator);
+			Cell.AddMember("PointA_Z", cellPoints[i].vPointA.z, allocator);
+
+			fY = m_pCalculator->Compute_HeightOnModel(cellPoints[i].vPointB, verteces, indeces);
+			cellPoints[i].vPointB.y = fY;
+			Cell.AddMember("PointB_X", cellPoints[i].vPointB.x, allocator);
+			Cell.AddMember("PointB_Y", cellPoints[i].vPointB.y, allocator);
+			Cell.AddMember("PointB_Z", cellPoints[i].vPointB.z, allocator);
+
+			fY = m_pCalculator->Compute_HeightOnModel(cellPoints[i].vPointC, verteces, indeces);
+			cellPoints[i].vPointC.y = fY;
+			Cell.AddMember("PointC_X", cellPoints[i].vPointC.x, allocator);
+			Cell.AddMember("PointC_Y", cellPoints[i].vPointC.y, allocator);
+			Cell.AddMember("PointC_Z", cellPoints[i].vPointC.z, allocator);
+		}
+
+		Cells.PushBack(Cell, allocator);
 	}
 
 	return S_OK;

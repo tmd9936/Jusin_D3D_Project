@@ -70,6 +70,29 @@ _float CCalculator::Compute_HeightOnTerrain(_float3* pPos, const _float3* pTerra
 	return fY;
 }
 
+_float CCalculator::Compute_HeightOnModel(_float3 pPos, const vector<VTXMODEL_ALL_DATA>& VertexBufferData, const vector<FACEINDICES32>& indexBuffer)
+{
+	_vector		Plane{};
+
+	for (size_t i = 0; i < indexBuffer.size(); ++i)
+	{
+		Plane = XMPlaneFromPoints(
+			XMLoadFloat3(&VertexBufferData[indexBuffer[i]._0].vPosition),
+			XMLoadFloat3(&VertexBufferData[indexBuffer[i]._1].vPosition),
+			XMLoadFloat3(&VertexBufferData[indexBuffer[i]._2].vPosition));
+	}
+
+	_float fY = 0.f;
+	_float4 resultPlane{};
+
+	XMStoreFloat4(&resultPlane, Plane);
+	if (resultPlane.y > 0.f)
+		fY = (-resultPlane.x * pPos.x - resultPlane.z * pPos.z - resultPlane.w) / resultPlane.y;
+
+	return fY;
+
+}
+
 _float3 CCalculator::Picking_OnTerrain(HWND hWnd, _float2 viewPortSize, const CVIBuffer_FlatTerrain* pTerrainBufferCom, const CTransform* pTerrainTransCom)
 {
 	XMMATRIX projectionMatrix, viewMatrix, inverseViewMatrix, inverseWorldMatrix;

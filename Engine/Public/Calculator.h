@@ -26,6 +26,8 @@ public:
 	virtual _float			Compute_HeightOnTerrain(_float3* pOut) { return 0.f; };
 	_float3					Picking_OnTerrain(HWND hWnd, _float2 viewPortSize, const CVIBuffer_FlatTerrain* pTerrainBufferCom, const CTransform* pTerrainTransCom);
 
+	_float					Compute_HeightOnModel(_float3 pPos, const vector<VTXMODEL_ALL_DATA>& VertexBufferData, const vector<FACEINDICES32>& indexBuffer);
+
 
 	CGameObject* Picking_Cube_Object(HWND hWnd, const _tchar* pLayerTag);
 	CGameObject* Picking_UI_Object(HWND hWnd, const _tchar* pLayerTag);

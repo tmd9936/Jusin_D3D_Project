@@ -80,6 +80,8 @@ private:
 	void	FileMenu();
 	void	TerrainMenu();
 	void	Save_Nav_By_Map_Menu();
+	void	Save_Nav_By_Map_And_Cell_Menu();
+
 
 private:
 	void	Update_Data();
@@ -96,6 +98,7 @@ private:
 	HRESULT Create_Navigation_By_Terrain_Mask(_float interval);
 
 	HRESULT Create_Navigation_By_Map();
+	HRESULT Create_Navigation_By_Map_And_Cell();
 
 
 private:

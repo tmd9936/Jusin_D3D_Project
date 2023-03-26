@@ -220,6 +220,7 @@ _bool CPickingCube::Picking_By_Ray(_fvector vRayOrigin, _fvector vRayDiretion)
 		memcpy(&vtx2, &m_pVtxWire[m_pIndex[i]._2].vPosition, sizeof _float3);
 		memcpy(&vtx3, &m_pVtxWire[m_pIndex[i]._0].vPosition, sizeof _float3);
 
+
 		if (TriangleTests::Intersects(vRayOrigin,
 			vRayDiretion,
 			XMLoadFloat4(&vtx1),

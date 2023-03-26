@@ -37,7 +37,7 @@ public:
 	void	Set_Index_By_Position(_float4 vPosition);
 
 public:
-	void	Get_Cells_Point(vector<_float3[3]>& points);
+	void	Get_Cells_Point(vector<CELL_POINT_DESC>& points);
 
 public:
 	_bool Move_OnNavigation(_fvector vPosition);

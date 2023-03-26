@@ -188,7 +188,7 @@ void CNavigation::Free_Cells()
 
 void CNavigation::Set_Index_By_Position(_float3 vPosition)
 {
-	for (size_t i = 0; i < m_Cells.size(); ++i)
+	for (int i = 0; i < m_Cells.size(); ++i)
 	{
 		_int		iNeighborIndex = i;
 		if (true == m_Cells[iNeighborIndex]->isIn(XMLoadFloat3(&vPosition), iNeighborIndex))
@@ -201,7 +201,7 @@ void CNavigation::Set_Index_By_Position(_float3 vPosition)
 
 void CNavigation::Set_Index_By_Position(_float4 vPosition)
 {
-	for (size_t i = 0; i < m_Cells.size(); ++i)
+	for (int i = 0; i < m_Cells.size(); ++i)
 	{
 		_int		iNeighborIndex = i;
 		if (true == m_Cells[iNeighborIndex]->isIn(XMLoadFloat4(&vPosition), iNeighborIndex))
@@ -212,15 +212,15 @@ void CNavigation::Set_Index_By_Position(_float4 vPosition)
 	}
 }
 
-void CNavigation::Get_Cells_Point(vector<_float3[CCell::POINT_END]>& points)
+void CNavigation::Get_Cells_Point(vector<CELL_POINT_DESC>& points)
 {
 	points.reserve(m_Cells.size());
 	for (auto& cell : m_Cells)
 	{
-		_float3 point[CCell::POINT_END];
-		point[CCell::POINT_A] = *cell->Get_Point(CCell::POINT_A);
-		point[CCell::POINT_B] = *cell->Get_Point(CCell::POINT_B);
-		point[CCell::POINT_C] = *cell->Get_Point(CCell::POINT_C);
+		CELL_POINT_DESC point;
+		point.vPointA = *cell->Get_Point(CCell::POINT_A);
+		point.vPointB = *cell->Get_Point(CCell::POINT_B);
+		point.vPointC = *cell->Get_Point(CCell::POINT_C);
 
 		points.push_back(point);
 	}

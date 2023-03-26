@@ -181,4 +181,11 @@ namespace Engine
 		unsigned long			_0, _1, _2;
 	}FACEINDICES32;
 
+	typedef	struct Cell_Point_Desc
+	{
+		XMFLOAT3 vPointA;
+		XMFLOAT3 vPointB;
+		XMFLOAT3 vPointC;
+	} CELL_POINT_DESC;
+
 }
