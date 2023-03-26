@@ -1037,19 +1037,19 @@ HRESULT CMapToolGUI::Create_Navigation_By_Map_And_Cell()
 	{
 		Value Cell(kObjectType);
 		{
-			fY = m_pCalculator->Compute_HeightOnModel(cellPoints[i].vPointA, verteces, indeces);
+			fY = m_pCalculator->Compute_HeightOnModel(cellPoints[i].vPointA, verteces, indeces, vMapWorldPos);
 			cellPoints[i].vPointA.y = fY;
 			Cell.AddMember("PointA_X", cellPoints[i].vPointA.x, allocator);
 			Cell.AddMember("PointA_Y", cellPoints[i].vPointA.y, allocator);
 			Cell.AddMember("PointA_Z", cellPoints[i].vPointA.z, allocator);
 
-			fY = m_pCalculator->Compute_HeightOnModel(cellPoints[i].vPointB, verteces, indeces);
+			fY = m_pCalculator->Compute_HeightOnModel(cellPoints[i].vPointB, verteces, indeces, vMapWorldPos);
 			cellPoints[i].vPointB.y = fY;
 			Cell.AddMember("PointB_X", cellPoints[i].vPointB.x, allocator);
 			Cell.AddMember("PointB_Y", cellPoints[i].vPointB.y, allocator);
 			Cell.AddMember("PointB_Z", cellPoints[i].vPointB.z, allocator);
 
-			fY = m_pCalculator->Compute_HeightOnModel(cellPoints[i].vPointC, verteces, indeces);
+			fY = m_pCalculator->Compute_HeightOnModel(cellPoints[i].vPointC, verteces, indeces, vMapWorldPos);
 			cellPoints[i].vPointC.y = fY;
 			Cell.AddMember("PointC_X", cellPoints[i].vPointC.x, allocator);
 			Cell.AddMember("PointC_Y", cellPoints[i].vPointC.y, allocator);
@@ -1057,6 +1057,25 @@ HRESULT CMapToolGUI::Create_Navigation_By_Map_And_Cell()
 		}
 
 		Cells.PushBack(Cell, allocator);
+	}
+
+	doc.AddMember("Cells", Cells, allocator);
+
+	FILE* fp = fopen(string(file_dialog.selected_path + file_dialog.ext).c_str(), "wb"); // non-Windows use "w"
+
+	if (NULL == fp)
+		MSG_BOX("Save File Open Error");
+	else
+	{
+		char* writeBuffer = new char[65536];
+		FileWriteStream os(fp, writeBuffer, sizeof(writeBuffer));
+
+		PrettyWriter<FileWriteStream> writer(os);
+		doc.Accept(writer);
+
+		fclose(fp);
+
+		Safe_Delete_Array(writeBuffer);
 	}
 
 	return S_OK;

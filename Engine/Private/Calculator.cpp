@@ -70,24 +70,43 @@ _float CCalculator::Compute_HeightOnTerrain(_float3* pPos, const _float3* pTerra
 	return fY;
 }
 
-_float CCalculator::Compute_HeightOnModel(_float3 pPos, const vector<VTXMODEL_ALL_DATA>& VertexBufferData, const vector<FACEINDICES32>& indexBuffer)
+_float CCalculator::Compute_HeightOnModel(_float3 pPos, const vector<VTXMODEL_ALL_DATA>& VertexBufferData, 
+	const vector<FACEINDICES32>& indexBuffer, _fvector vMapWorldPos)
 {
 	_vector		Plane{};
 
-	for (size_t i = 0; i < indexBuffer.size(); ++i)
-	{
-		Plane = XMPlaneFromPoints(
-			XMLoadFloat3(&VertexBufferData[indexBuffer[i]._0].vPosition),
-			XMLoadFloat3(&VertexBufferData[indexBuffer[i]._1].vPosition),
-			XMLoadFloat3(&VertexBufferData[indexBuffer[i]._2].vPosition));
-	}
-
 	_float fY = 0.f;
+
+	_float3 worldPos{};
+	XMStoreFloat3(&worldPos, vMapWorldPos);
+
 	_float4 resultPlane{};
 
-	XMStoreFloat4(&resultPlane, Plane);
-	if (resultPlane.y > 0.f)
-		fY = (-resultPlane.x * pPos.x - resultPlane.z * pPos.z - resultPlane.w) / resultPlane.y;
+	_float dotA{}, dotB{}, dotC{};
+	for (size_t i = 0; i < indexBuffer.size(); ++i)
+	{
+		dotA = XMVectorGetX(XMVector3Dot(XMVector3Normalize(XMLoadFloat3(&pPos) - vMapWorldPos), XMLoadFloat3(&VertexBufferData[indexBuffer[i]._0].vPosition)));
+		if (dotA > XMConvertToRadians(90.f))
+			continue;
+
+		dotB = XMVectorGetX(XMVector3Dot(XMVector3Normalize(XMLoadFloat3(&pPos) - vMapWorldPos), XMLoadFloat3(&VertexBufferData[indexBuffer[i]._1].vPosition)));
+		if (dotB > XMConvertToRadians(90.f))
+			continue;
+
+		dotC = XMVectorGetX(XMVector3Dot(XMVector3Normalize(XMLoadFloat3(&pPos) - vMapWorldPos), XMLoadFloat3(&VertexBufferData[indexBuffer[i]._2].vPosition)));
+		if (dotC > XMConvertToRadians(90.f))
+			continue;
+
+		Plane = XMPlaneFromPoints(
+			XMLoadFloat3(&VertexBufferData[indexBuffer[i]._0].vPosition) + vMapWorldPos,
+			XMLoadFloat3(&VertexBufferData[indexBuffer[i]._1].vPosition) + vMapWorldPos,
+			XMLoadFloat3(&VertexBufferData[indexBuffer[i]._2].vPosition) + vMapWorldPos);
+
+		XMStoreFloat4(&resultPlane, Plane);
+		
+		if (resultPlane.y > fY)
+			fY = (-resultPlane.x * pPos.x - resultPlane.z * pPos.z - resultPlane.w) / resultPlane.y;
+	}
 
 	return fY;
 
