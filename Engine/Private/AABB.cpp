@@ -40,7 +40,9 @@ void CAABB::Tick(_fmatrix TransformMatrix)
 
 void CAABB::Draw(_vector vColor)
 {
+#ifdef _DEBUG
     DX::Draw(m_pBatch, *m_pAABB, vColor);
+#endif
 }
 
 void CAABB::Set_TransformMatrix()

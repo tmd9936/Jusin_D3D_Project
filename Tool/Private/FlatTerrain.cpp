@@ -50,6 +50,7 @@ _uint CFlatTerrain::LateTick(_double TimeDelta)
 
 HRESULT CFlatTerrain::Render()
 {
+#ifdef _DEBUG
 	if (m_bRender)
 	{
 		if (FAILED(SetUp_ShaderResources()))
@@ -66,7 +67,6 @@ HRESULT CFlatTerrain::Render()
 		m_pVIBufferCom->Render();
 
 	}
-#ifdef _DEBUG
 	m_pNavigationCom->Render();
 #endif // _DEBUG
 

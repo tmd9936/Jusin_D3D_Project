@@ -40,7 +40,9 @@ void COBB::Tick(_fmatrix TransformMatrix)
 
 void COBB::Draw(_vector vColor)
 {
+#ifdef _DEBUG
     DX::Draw(m_pBatch, *m_pOBB, vColor);
+#endif
 }
 
 void COBB::Set_TransformMatrix()

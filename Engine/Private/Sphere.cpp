@@ -39,7 +39,9 @@ void CSphere::Tick(_fmatrix TransformMatrix)
 
 void CSphere::Draw(_vector vColor)
 {
+#ifdef _DEBUG
     DX::Draw(m_pBatch, *m_pSphere, vColor);
+#endif
 }
 
 void CSphere::Set_TransformMatrix()
