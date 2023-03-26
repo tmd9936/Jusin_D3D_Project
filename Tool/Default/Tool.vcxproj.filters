@@ -148,6 +148,12 @@
     <Filter Include="02. GameObject\WorldMap\StagePoint">
       <UniqueIdentifier>{f51bf141-ba85-4d31-953e-064f92798024}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\WorldMap\WorldMap_Manager">
+      <UniqueIdentifier>{472308f7-d71d-4e2b-a2c0-c022ddf72aee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\UI\Button\ButtonPartTexture">
+      <UniqueIdentifier>{5164ee61-0808-4512-bcdc-c52ecc7ec679}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -308,6 +314,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\StagePoint.h">
       <Filter>02. GameObject\WorldMap\StagePoint</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\WorldMap_Manager.h">
+      <Filter>02. GameObject\WorldMap\WorldMap_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ButtonPartTexture.h">
+      <Filter>02. GameObject\UI\Button\ButtonPartTexture</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -470,6 +482,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\StagePoint.cpp">
       <Filter>02. GameObject\WorldMap\StagePoint</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\WorldMap_Manager.cpp">
+      <Filter>02. GameObject\WorldMap\WorldMap_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ButtonPartTexture.cpp">
+      <Filter>02. GameObject\UI\Button\ButtonPartTexture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

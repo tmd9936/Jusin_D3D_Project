@@ -11,6 +11,10 @@ protected:
     virtual ~CGoToWorldMapButton() = default;
 
 protected:
+    virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override; 
+    virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath) override;
+
+protected:
     virtual _uint On_Idle() override;
     virtual _uint On_Press() override;
     virtual _uint On_Select() override;

@@ -167,9 +167,13 @@ protected:
 	BUTTON_STATE	m_ePreState = { BUTTON_END };
 	BUTTON_STATE	m_eCurState = { BUTTON_IDLE };
 
+protected:
+	vector<CGameObject*>	m_Parts;
+
 private:
 	_float4x4		m_TransformMatrix = {};
 	_float4x4		m_selectTransformMatrix = {};
+
 
 
 protected:

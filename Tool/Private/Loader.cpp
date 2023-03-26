@@ -8,7 +8,7 @@
 #include "Camera_Dynamic.h"
 #include "Camera_Public.h"
 
-#include "TestModel.h"
+//#include "TestModel.h"
 #include "ModelUI.h"
 #include "Map.h"
 #include "Stove.h"
@@ -24,7 +24,7 @@
 #include "BaseCamp_Manager.h"
 
 #include "BuffState.h"
-#include "Weapon.h"
+//#include "Weapon.h"
 #include "Effect.h"
 #include "Effect_Manager.h"
 #include "Skill.h"
@@ -32,6 +32,8 @@
 
 #include "Navigation.h"
 #include "StagePoint.h"
+#include "ButtonPartTexture.h"
+
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
@@ -145,7 +147,6 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			return E_FAIL;
 	}
 
-	// TODO: 모델 생성시 생기는 메모리릭 잡기
 	_matrix PivotMatrix = XMMatrixIdentity();
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Model_Logo_Scene"),
 		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../../Reference/Resources/Mesh/Animation/Logo/Logo_Scene.fbx", PivotMatrix))))
@@ -195,6 +196,11 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CBuffState::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
+		/* For.Prototype_GameObject_ButtonPartTexture*/
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ButtonPartTexture"),
+			CButtonPartTexture::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
 		///* For.Prototype_GameObject_BackGround */
 		//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround"),
 		//	CBackGround::Create(m_pDevice, m_pContext))))
@@ -242,7 +248,7 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 
 	/*  */
 #pragma region TEXTURES
-	wsprintf(m_szLoadingText, TEXT("텍스쳐를 로딩중입니다."));
+	wsprintf(m_szLoadingText, TEXT("포켓몬 상태 텍스쳐를 로딩중입니다."));
 	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_BASECAMP))
 	{
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Pokemon_State_doku"),
@@ -253,8 +259,11 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Pokemon_State/UI_ss_p_damageup.png")))))
 			return E_FAIL;
 	}
+	wsprintf(m_szLoadingText, TEXT("텍스쳐를 로딩중입니다."));
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Texture_Window_Arrow_Marker"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Window/window_arrow_marker.png")))))
+		return E_FAIL;
 
-	wsprintf(m_szLoadingText, TEXT("포켓몬 상태 텍스쳐를 로딩중입니다."));
 
 #pragma endregion
 
@@ -302,13 +311,6 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/NonAnimation/Basecamp/BC_stove.fbx", PivotMatrix))))
 		return E_FAIL;
 
-
-	//PivotMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f);
-	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Model_WolrdMap_Island"),
-	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../../Reference/Resources/Mesh/Animation/WorldMap/W_island.fbx", PivotMatrix))))
-	//	return E_FAIL;
-
-
 	//PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f) * XMMatrixRotationY(XMConvertToRadians(180.f));;
 	//for (int i = 1; i <= 151; ++i)
 	//{
@@ -340,18 +342,6 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 
 	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Model_Pokemon_PM10"),
 	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Pokemon/PM10.fbx", PivotMatrix))))
-	//	return E_FAIL;
-
-	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Model_Pokemon_PM1"),
-	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Pokemon/PM1.fbx", PivotMatrix))))
-	//	return E_FAIL;
-
-	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Model_Pokemon_PM2"),
-	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Pokemon/PM2.fbx", PivotMatrix))))
-	//	return E_FAIL;
-
-	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Model_Pokemon_PM7"),
-	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Pokemon/PM7.fbx", PivotMatrix))))
 	//	return E_FAIL;
 
 
@@ -416,9 +406,9 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 			return E_FAIL;
 
 		/* For.Prototype_GameObject_Weapon */
-		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Weapon"),
-			CWeapon::Create(m_pDevice, m_pContext))))
-			return E_FAIL;
+		//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Weapon"),
+		//	CWeapon::Create(m_pDevice, m_pContext))))
+		//	return E_FAIL;
 
 		/* For.Prototype_GameObject_Map */
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Map"),
@@ -470,33 +460,10 @@ HRESULT CLoader::Loading_ForWorldMapLevel()
 	//	CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Tile%d.dds"), 2))))
 	//	return E_FAIL;
 
-	///* For.Prototype_Component_Texture_TerrainMask */
-	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Texture_TerrainMask"),
-	//	CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Filter.dds")))))
-	//	return E_FAIL;
-
-	///* For.Prototype_Component_Texture_Brush */
-	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Texture_Brush"),
-	//	CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Brush.png")))))
-	//	return E_FAIL;
-
-	///* For.Prototype_Component_Texture_Brush */
-	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Button_Color_Mask"),
-	//	CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Window/window_button.png")))))
-	//	return E_FAIL;
 #pragma endregion
 
 #pragma region MODELS
 	wsprintf(m_szLoadingText, TEXT("모델를 로딩중입니다."));
-	///* For.Prototype_Component_VIBuffer_Terrain */
-	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_VIBuffer_Terrain"),
-	//	CVIBuffer_Terrain::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Height.bmp")))))
-	//	return E_FAIL;
-
-	///* For.Prototype_Component_VIBuffer_FlatTerrain */
-	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_VIBuffer_FlatTerrain"),
-	//	CVIBuffer_FlatTerrain::Create(m_pDevice, m_pContext))))
-	//	return E_FAIL;
 
 	/* For.Prototype_Component_Calculator */
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Calculator"),
@@ -504,12 +471,6 @@ HRESULT CLoader::Loading_ForWorldMapLevel()
 		return E_FAIL;
 
 	_matrix		PivotMatrix = XMMatrixIdentity();
-
-	/* For.Prototype_Component_Model_Fiona */
-	//PivotMatrix = XMMatrixRotationY(XMConvertToRadians(180.f));
-	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Model_Fiona"),
-	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Models/Fiona/Fiona.fbx", PivotMatrix))))
-	//	return E_FAIL;
 
 
 	/* For.Prototype_Component_Model_BaseCamp_Field */

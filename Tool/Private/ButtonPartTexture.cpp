@@ -1,24 +1,24 @@
 #include "stdafx.h"
-#include "UI.h"
+#include "ButtonPartTexture.h"
 
 #include "GameInstance.h"
 
-CUI::CUI(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CButtonPartTexture::CButtonPartTexture(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
 {
 }
 
-CUI::CUI(const CUI& rhs)
+CButtonPartTexture::CButtonPartTexture(const CButtonPartTexture& rhs)
 	: CGameObject(rhs)
 {
 }
 
-HRESULT CUI::Initialize_Prototype()
+HRESULT CButtonPartTexture::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
+HRESULT CButtonPartTexture::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
 	if (pArg != nullptr)
 		memcpy(&m_UIDesc, pArg, (sizeof m_UIDesc) + 2);
@@ -32,7 +32,7 @@ HRESULT CUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 	m_eRenderId = RENDER_UI;
 
 	m_pTransformCom->Set_Scaled({ m_UIDesc.m_fSizeX, m_UIDesc.m_fSizeY, 1.f });
-	m_pTransformCom->Set_Pos(m_UIDesc.m_fX - g_iWinSizeX * 0.5f, -m_UIDesc.m_fY + g_iWinSizeY * 0.5f, 0.f);
+	m_pTransformCom->Set_Pos(m_UIDesc.m_fX, m_UIDesc.m_fY, 0.01f);
 
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
 
@@ -42,20 +42,38 @@ HRESULT CUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 	return S_OK;
 }
 
-_uint CUI::Tick(_double TimeDelta)
+_uint CButtonPartTexture::Tick(_double TimeDelta)
 {
 	return _uint();
 }
 
-_uint CUI::LateTick(_double TimeDelta)
+_uint CButtonPartTexture::LateTick(_double TimeDelta)
 {
+	if (m_UIDesc.pParent)
+	{
+		XMStoreFloat4x4(&m_FinalWorldMatrix, XMMatrixIdentity());
+
+		_float4x4 ParentMat{};
+		XMStoreFloat4x4(&ParentMat, m_UIDesc.pParent->Get_WorldMatrix_Matrix());
+
+		_float3 vScale = m_pTransformCom->Get_Scaled();
+		_float4 r = { vScale.x * ParentMat.m[0][0] , 0.f, 0.f, 0.f};
+		_float4 u = { 0.f, vScale.y * ParentMat.m[1][1], 0.f, 0.f };
+		_float4 l = { 0.f, 0.f, 1.f, 0.f };
+		_float4 p = {( ParentMat.m[3][0] + m_UIDesc.m_fX) , (ParentMat.m[3][1]) + m_UIDesc.m_fY, 0.f, 1.f };
+
+		memcpy(m_FinalWorldMatrix.m[0], &r, sizeof _float4);
+		memcpy(m_FinalWorldMatrix.m[1], &u, sizeof _float4);
+		memcpy(m_FinalWorldMatrix.m[2], &l, sizeof _float4);
+		memcpy(m_FinalWorldMatrix.m[3], &p, sizeof _float4);
+	}
 
 	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
 
 	return _uint();
 }
 
-HRESULT CUI::Render()
+HRESULT CButtonPartTexture::Render()
 {
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
@@ -67,7 +85,7 @@ HRESULT CUI::Render()
 	return S_OK;
 }
 
-HRESULT CUI::Add_Components()
+HRESULT CButtonPartTexture::Add_Components()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
@@ -101,9 +119,9 @@ HRESULT CUI::Add_Components()
 	return S_OK;
 }
 
-HRESULT CUI::SetUp_ShaderResources()
+HRESULT CButtonPartTexture::SetUp_ShaderResources()
 {
-	if (FAILED(m_pShaderCom->Set_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
+	if (FAILED(m_pShaderCom->Set_Matrix("g_WorldMatrix", &m_FinalWorldMatrix)))
 		return E_FAIL;
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
@@ -124,33 +142,33 @@ HRESULT CUI::SetUp_ShaderResources()
 	return S_OK;
 }
 
-CUI* CUI::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CButtonPartTexture* CButtonPartTexture::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CUI* pInstance = new CUI(pDevice, pContext);
+	CButtonPartTexture* pInstance = new CButtonPartTexture(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed to Created CUI");
+		MSG_BOX("Failed to Created CButtonPartTexture");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CUI::Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
+CGameObject* CButtonPartTexture::Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
-	CUI* pInstance = new CUI(*this);
+	CButtonPartTexture* pInstance = new CButtonPartTexture(*this);
 
 	if (FAILED(pInstance->Initialize(pLayerTag, iLevelIndex, pArg)))
 	{
-		MSG_BOX("Failed to Cloned CUI");
+		MSG_BOX("Failed to Cloned CButtonPartTexture");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CUI::Free()
+void CButtonPartTexture::Free()
 {
 	__super::Free();
 

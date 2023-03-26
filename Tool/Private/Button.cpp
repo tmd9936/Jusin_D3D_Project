@@ -72,6 +72,11 @@ _uint CButton::Tick(_double TimeDelta)
 	Button_Motion(TimeDelta);
 	Picking_Button();
 
+	
+	for (auto& part : m_Parts)
+	{
+		part->Tick(TimeDelta);
+	}
 	return Change_State();
 	//return _uint();
 }
@@ -79,6 +84,12 @@ _uint CButton::Tick(_double TimeDelta)
 _uint CButton::LateTick(_double TimeDelta)
 {
 	m_TransformMatrix = m_pModelCom->Get_CombinedTransformationMatrix_float4_4(1);
+
+	for (auto& part : m_Parts)
+	{
+		part->LateTick(TimeDelta);
+	}
+
 	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
 
 	return _uint();
@@ -388,6 +399,11 @@ HRESULT CButton::Common_Initialize()
 void CButton::Free()
 {
 	__super::Free();
+
+	for (auto& part : m_Parts)
+	{
+		Safe_Release(part);
+	}
 
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pTransformCom);

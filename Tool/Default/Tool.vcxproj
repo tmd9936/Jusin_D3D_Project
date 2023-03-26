@@ -169,6 +169,7 @@
     <ClInclude Include="..\Public\BaseCamp_Manager.h" />
     <ClInclude Include="..\Public\BuffState.h" />
     <ClInclude Include="..\Public\Button.h" />
+    <ClInclude Include="..\Public\ButtonPartTexture.h" />
     <ClInclude Include="..\Public\Camera_Public.h" />
     <ClInclude Include="..\Public\Client_Utility.h" />
     <ClInclude Include="..\Public\DataToolGUI.h" />
@@ -204,6 +205,7 @@
     <ClInclude Include="..\Public\WorldMapFlower.h" />
     <ClInclude Include="..\Public\WorldMapGrass.h" />
     <ClInclude Include="..\Public\WorldMapAnimEnv.h" />
+    <ClInclude Include="..\Public\WorldMap_Manager.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
@@ -223,6 +225,7 @@
     <ClCompile Include="..\Private\BaseCamp_Manager.cpp" />
     <ClCompile Include="..\Private\BuffState.cpp" />
     <ClCompile Include="..\Private\Button.cpp" />
+    <ClCompile Include="..\Private\ButtonPartTexture.cpp" />
     <ClCompile Include="..\Private\Camera_Public.cpp" />
     <ClCompile Include="..\Private\Client_Utility.cpp" />
     <ClCompile Include="..\Private\DataToolGUI.cpp" />
@@ -257,6 +260,7 @@
     <ClCompile Include="..\Private\WorldMapFlower.cpp" />
     <ClCompile Include="..\Private\WorldMapGrass.cpp" />
     <ClCompile Include="..\Private\WorldMapAnimEnv.cpp" />
+    <ClCompile Include="..\Private\WorldMap_Manager.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="Tool.cpp" />
   </ItemGroup>
