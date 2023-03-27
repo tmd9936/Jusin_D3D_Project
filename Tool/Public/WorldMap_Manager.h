@@ -29,14 +29,9 @@ public:
 public:
 	typedef struct WorldMap_Manager_Desc
 	{
-		_float4 pokemonFocusOffset;
-		_float	pokemonFocusLimitDistance;
-		_float	hideCommonUiTime;
-		_float	visitInterval;
-		_float	lookTime;
-		_float  pokemonFocusStayTime;
-
-		_float stageInfoOpenAlpha;
+		_float m_FadeSecond;
+		_float4 m_FadeStartColor;
+		_float4 m_FadeEndColor;
 
 	} WORLDMAP_MANAGER_DESC;
 
@@ -85,6 +80,9 @@ private:
 
 	_float4x4			m_ViewMatrix = {};
 	_float4x4			m_ProjMatrix = {};
+
+	_float4				m_vCurrentFadeColor = {};
+	_double				m_fCurrentFadeTIme = { 0.f };
 
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);

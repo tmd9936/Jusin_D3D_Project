@@ -17,6 +17,7 @@
 #include "WorldMapGrass.h"
 #include "WorldMapCloud.h"
 #include "WorldMapAnimEnv.h"
+#include "WorldMap_Manager.h"
 
 #include "Player.h"
 #include "GoToWorldMapButton.h"
@@ -633,6 +634,10 @@ HRESULT CLoader::Loading_ForWorldMapLevel()
 
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Stage_Point"),
 			CStagePoint::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_WorldMap_Manager"),
+			CWorldMap_Manager::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 	}
 #pragma endregion

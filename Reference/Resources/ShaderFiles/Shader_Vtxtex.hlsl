@@ -4,6 +4,8 @@ matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
 texture2D		g_Texture;
 
+float4			g_vColor;
+
 struct VS_IN
 {
 	float3		vPosition : POSITION;
@@ -63,8 +65,10 @@ PS_OUT PS_MAIN_ALPHA(PS_IN In)
 
 	Out.vColor = g_Texture.Sample(LinearSampler, In.vTexUV);
 
-	//if (Out.vColor.a < 0.1)
-	//	discard;
+	if (Out.vColor.w < 0.1)
+		discard;
+
+	Out.vColor = g_vColor;
 
 	return Out;
 }

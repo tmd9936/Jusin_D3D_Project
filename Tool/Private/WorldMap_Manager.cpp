@@ -36,8 +36,8 @@ HRESULT CWorldMap_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex
 
 	m_eRenderId = RENDER_BACK_UI;
 
-	m_fSizeX = (_float)g_iWinSizeX;
-	m_fSizeY = (_float)g_iWinSizeY;
+	m_fSizeX = (_float)g_iWinSizeX * 1.5f;
+	m_fSizeY = (_float)g_iWinSizeY * 1.5f;
 	m_fX = (_float)(g_iWinSizeX >> 1);
 	m_fY = (_float)(g_iWinSizeY >> 1);
 
@@ -49,7 +49,7 @@ HRESULT CWorldMap_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex
 	XMStoreFloat4x4(&m_ProjMatrix,
 		XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
 
-	p_MainCamera = (CCamera_Public*)CGameInstance::GetInstance()->Get_Object(LEVEL_BASECAMP, L"Layer_Camera", L"Main_Camera");
+	p_MainCamera = (CCamera_Public*)CGameInstance::GetInstance()->Get_Object(LEVEL_WORLDMAP, L"Layer_Camera", L"Main_Camera");
 	if (nullptr == p_MainCamera)
 		return E_FAIL;
 
@@ -74,8 +74,10 @@ HRESULT CWorldMap_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex
 
 	m_eRenderId = RENDER_BACK_UI;
 
-	m_fSizeX = (_float)g_iWinSizeX;
-	m_fSizeY = (_float)g_iWinSizeY;
+	m_vCurrentFadeColor = m_Desc.m_FadeStartColor;
+
+	m_fSizeX = (_float)g_iWinSizeX * 1.5f;
+	m_fSizeY = (_float)g_iWinSizeY * 1.5f;
 	m_fX = (_float)(g_iWinSizeX >> 1);
 	m_fY = (_float)(g_iWinSizeY >> 1);
 
@@ -87,7 +89,7 @@ HRESULT CWorldMap_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex
 	XMStoreFloat4x4(&m_ProjMatrix,
 		XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
 
-	p_MainCamera = (CCamera_Public*)CGameInstance::GetInstance()->Get_Object(LEVEL_BASECAMP, L"Layer_Camera", L"Main_Camera");
+	p_MainCamera = (CCamera_Public*)CGameInstance::GetInstance()->Get_Object(LEVEL_WORLDMAP, L"Layer_Camera", L"Main_Camera");
 	if (nullptr == p_MainCamera)
 		return E_FAIL;
 
@@ -126,7 +128,7 @@ HRESULT CWorldMap_Manager::Render()
 
 void CWorldMap_Manager::Focus_In(const _double& TimeDelta)
 {
-	if (p_MainCamera->Focus_To_Object(m_FocusPosition, (_float)TimeDelta, m_Desc.pokemonFocusLimitDistance))
+	if (p_MainCamera->Focus_To_Object(m_FocusPosition, (_float)TimeDelta, m_Desc.m_FadeSecond))
 	{
 		//m_eCurState = MANAGER_CAMERA_FOCUS_STAY;
 	}
@@ -137,21 +139,25 @@ _bool CWorldMap_Manager::Save_By_JsonFile_Impl(Document& doc, Document::Allocato
 {
 	Value ManagerDesc(kObjectType);
 	{
-		Value pokemonFocusOffset(kObjectType);
+		ManagerDesc.AddMember("m_FadeSecond", m_Desc.m_FadeSecond, allocator);
+
+		Value m_FadeStartColor(kObjectType);
 		{
-			pokemonFocusOffset.AddMember("x", m_Desc.pokemonFocusOffset.x, allocator);
-			pokemonFocusOffset.AddMember("y", m_Desc.pokemonFocusOffset.y, allocator);
-			pokemonFocusOffset.AddMember("z", m_Desc.pokemonFocusOffset.z, allocator);
-			pokemonFocusOffset.AddMember("w", m_Desc.pokemonFocusOffset.w, allocator);
+			m_FadeStartColor.AddMember("x", m_Desc.m_FadeStartColor.x, allocator);
+			m_FadeStartColor.AddMember("y", m_Desc.m_FadeStartColor.y, allocator);
+			m_FadeStartColor.AddMember("z", m_Desc.m_FadeStartColor.z, allocator);
+			m_FadeStartColor.AddMember("w", m_Desc.m_FadeStartColor.w, allocator);
 		}
-		ManagerDesc.AddMember("pokemonFocusOffset", pokemonFocusOffset, allocator);
+		ManagerDesc.AddMember("m_FadeStartColor", m_FadeStartColor, allocator);
 
-		ManagerDesc.AddMember("pokemonFocusStayTime", m_Desc.pokemonFocusStayTime, allocator);
-
-		ManagerDesc.AddMember("pokemonFocusLimitDistance", m_Desc.pokemonFocusLimitDistance, allocator);
-		ManagerDesc.AddMember("hideCommonUiTime", m_Desc.hideCommonUiTime, allocator);
-		ManagerDesc.AddMember("visitInterval", m_Desc.visitInterval, allocator);
-		ManagerDesc.AddMember("lookTime", m_Desc.lookTime, allocator);
+		Value m_FadeEndColor(kObjectType);
+		{
+			m_FadeEndColor.AddMember("x", m_Desc.m_FadeEndColor.x, allocator);
+			m_FadeEndColor.AddMember("y", m_Desc.m_FadeEndColor.y, allocator);
+			m_FadeEndColor.AddMember("z", m_Desc.m_FadeEndColor.z, allocator);
+			m_FadeEndColor.AddMember("w", m_Desc.m_FadeEndColor.w, allocator);
+		}
+		ManagerDesc.AddMember("m_FadeEndColor", m_FadeEndColor, allocator);
 
 	}
 	doc.AddMember("ManagerDesc", ManagerDesc, allocator);
@@ -164,18 +170,13 @@ _bool CWorldMap_Manager::Load_By_JsonFile_Impl(Document& doc)
 {
 	const Value& ManagerDesc = doc["ManagerDesc"];
 
-	const Value& pokemonFocusOffset = ManagerDesc["pokemonFocusOffset"];
-	m_Desc.pokemonFocusOffset.x = pokemonFocusOffset["x"].GetFloat();
-	m_Desc.pokemonFocusOffset.y = pokemonFocusOffset["y"].GetFloat();
-	m_Desc.pokemonFocusOffset.z = pokemonFocusOffset["z"].GetFloat();
-	m_Desc.pokemonFocusOffset.w = pokemonFocusOffset["w"].GetFloat();
+	m_Desc.m_FadeSecond = ManagerDesc["m_FadeSecond"].GetFloat();
 
-	m_Desc.pokemonFocusLimitDistance = ManagerDesc["pokemonFocusLimitDistance"].GetFloat();
-	m_Desc.pokemonFocusStayTime = ManagerDesc["pokemonFocusStayTime"].GetFloat();
+	const Value& m_FadeStartColor = ManagerDesc["m_FadeStartColor"];
+	m_Desc.m_FadeStartColor = _float4(m_FadeStartColor["x"].GetFloat(), m_FadeStartColor["y"].GetFloat(), m_FadeStartColor["z"].GetFloat(), m_FadeStartColor["w"].GetFloat());
 
-	m_Desc.hideCommonUiTime = ManagerDesc["hideCommonUiTime"].GetFloat();
-	m_Desc.lookTime = ManagerDesc["lookTime"].GetFloat();
-	m_Desc.visitInterval = ManagerDesc["visitInterval"].GetFloat();
+	const Value& m_FadeEndColor = ManagerDesc["m_FadeEndColor"];
+	m_Desc.m_FadeEndColor = _float4(m_FadeEndColor["x"].GetFloat(), m_FadeEndColor["y"].GetFloat(), m_FadeEndColor["z"].GetFloat(), m_FadeEndColor["w"].GetFloat());
 
 	return true;
 }
@@ -185,6 +186,8 @@ void CWorldMap_Manager::State_Tick(const _double& TimeDelta)
 	switch (m_eCurState)
 	{
 	case MANAGER_IDLE:
+		//m_fCurrentFadeTIme += TimeDelta;
+		//m_vCurrentFadeColor.w += TimeDelta;
 		break;
 	case MANAGER_OPEN_STATE_INFO:
 		//Focus_Stay(TimeDelta);
@@ -326,6 +329,9 @@ HRESULT CWorldMap_Manager::SetUp_ShaderResources()
 		return E_FAIL;
 
 	if (FAILED(m_pTextureCom->Set_ShaderResource(m_pShaderCom, "g_Texture", 0)))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_vColor", &m_Desc.m_FadeStartColor, (sizeof m_Desc.m_FadeStartColor))))
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);

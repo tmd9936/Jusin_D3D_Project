@@ -24,8 +24,6 @@ HRESULT CLevel_WorldMap::Initialize()
 	if (FAILED(Ready_LightDesc()))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Manager(TEXT("Layer_Manager"))))
-		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Terrain(TEXT("Layer_Terrain"))))
 		return E_FAIL;
@@ -45,14 +43,17 @@ HRESULT CLevel_WorldMap::Initialize()
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_Manager(TEXT("Layer_Manager"))))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_PlayerSkill(TEXT("Layer_PlayerSkill"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Effect(TEXT("Layer_Effect"))))
 		return E_FAIL;
 
-	//if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
-	//	return E_FAIL;
+	if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -66,6 +67,16 @@ void CLevel_WorldMap::Tick(_double TimeDelta)
 
 HRESULT CLevel_WorldMap::Ready_Layer_Manager(const _tchar* pLayerTag)
 {
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_WORLDMAP, pLayerTag)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_WorldMap_Manager"), LEVEL_WORLDMAP, pLayerTag, L"WorldMap_Manager", "../../Reference/Resources/Data/Scene/WorldMap/WorldMap_Manager.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	Safe_Release(pGameInstance);
 	return S_OK;
 }
 

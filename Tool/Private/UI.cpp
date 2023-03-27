@@ -150,7 +150,6 @@ _bool CUI::Load_By_JsonFile_Impl(Document& doc)
 	m_UIDesc.m_UIType = UIDesc["m_UIType"].GetUint();
 
 	const Value& m_vColor = UIDesc["m_vColor"];
-
 	m_UIDesc.m_vColor = _float4(m_vColor["x"].GetFloat(), m_vColor["y"].GetFloat(), m_vColor["z"].GetFloat(), m_vColor["w"].GetFloat());
 
 	string m_TextureProtoTypeName = UIDesc["m_TextureProtoTypeName"].GetString();
