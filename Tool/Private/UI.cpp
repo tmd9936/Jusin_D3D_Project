@@ -44,6 +44,33 @@ HRESULT CUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 	return S_OK;
 }
 
+HRESULT CUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath)
+{
+	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, filePath)))
+		return E_FAIL;
+
+	if (filePath)
+	{
+		Load_By_JsonFile(filePath);
+		m_strSaveJsonPath = filePath;
+	}
+
+	if (FAILED(Add_Components_By_File()))
+		return E_FAIL;
+
+	m_eRenderId = RENDER_UI;
+
+	m_pTransformCom->Set_Scaled({ m_UIDesc.m_fSizeX, m_UIDesc.m_fSizeY, 1.f });
+	m_pTransformCom->Set_Pos(m_UIDesc.m_fX - g_iWinSizeX * 0.5f, -m_UIDesc.m_fY + g_iWinSizeY * 0.5f, 0.f);
+
+	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
+
+	XMStoreFloat4x4(&m_ProjMatrix,
+		XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
+
+	return S_OK;
+}
+
 _uint CUI::Tick(_double TimeDelta)
 {
 	return _uint();
@@ -67,6 +94,45 @@ HRESULT CUI::Render()
 	m_pVIBufferCom->Render();
 
 	return S_OK;
+}
+
+_bool CUI::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator)
+{
+	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
+
+	Value UIDesc(kObjectType);
+	{
+		UIDesc.AddMember("m_fX", m_UIDesc.m_fX, allocator);
+		UIDesc.AddMember("m_fY", m_UIDesc.m_fY, allocator);
+
+		UIDesc.AddMember("m_fSizeX", m_UIDesc.m_fSizeX, allocator);
+		UIDesc.AddMember("m_fSizeY", m_UIDesc.m_fSizeY, allocator);
+		UIDesc.AddMember("m_TextureProtoTypeLevel", m_UIDesc.m_TextureProtoTypeLevel, allocator);
+		UIDesc.AddMember("m_UIType", m_UIDesc.m_UIType, allocator);
+
+		Value m_vColor(kObjectType);
+		{
+			m_vColor.AddMember("x", m_UIDesc.m_vColor.x, allocator);
+			m_vColor.AddMember("y", m_UIDesc.m_vColor.y, allocator);
+			m_vColor.AddMember("z", m_UIDesc.m_vColor.z, allocator);
+			m_vColor.AddMember("w", m_UIDesc.m_vColor.w, allocator);
+		}
+		UIDesc.AddMember("m_vColor", m_vColor, allocator);
+
+		Value m_TextureProtoTypeName;
+		string TextureProtoTypeName = convert.to_bytes(m_UIDesc.m_TextureProtoTypeName);
+		m_TextureProtoTypeName.SetString(TextureProtoTypeName.c_str(), (SizeType)TextureProtoTypeName.size(), allocator);
+		UIDesc.AddMember("m_TextureProtoTypeName", m_TextureProtoTypeName, allocator);
+
+	}
+	doc.AddMember("UIDesc", UIDesc, allocator);
+
+	return true;
+}
+
+_bool CUI::Load_By_JsonFile_Impl(Document& doc)
+{
+	return _bool();
 }
 
 HRESULT CUI::Add_Components()
@@ -140,6 +206,11 @@ HRESULT CUI::SetUp_ShaderResources()
 	return S_OK;
 }
 
+HRESULT CUI::Add_Components_By_File()
+{
+	return E_NOTIMPL;
+}
+
 CUI* CUI::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 	CUI* pInstance = new CUI(pDevice, pContext);
@@ -158,6 +229,19 @@ CGameObject* CUI::Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 	CUI* pInstance = new CUI(*this);
 
 	if (FAILED(pInstance->Initialize(pLayerTag, iLevelIndex, pArg)))
+	{
+		MSG_BOX("Failed to Cloned CUI");
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
+}
+
+CGameObject* CUI::Clone(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath)
+{
+	CUI* pInstance = new CUI(*this);
+
+	if (FAILED(pInstance->Initialize(pLayerTag, iLevelIndex, filePath)))
 	{
 		MSG_BOX("Failed to Cloned CUI");
 		Safe_Release(pInstance);

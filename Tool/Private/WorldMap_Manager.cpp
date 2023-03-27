@@ -128,28 +128,10 @@ void CWorldMap_Manager::Focus_In(const _double& TimeDelta)
 {
 	if (p_MainCamera->Focus_To_Object(m_FocusPosition, (_float)TimeDelta, m_Desc.pokemonFocusLimitDistance))
 	{
-		m_eCurState = MANAGER_CAMERA_FOCUS_STAY;
+		//m_eCurState = MANAGER_CAMERA_FOCUS_STAY;
 	}
 }
 
-void CWorldMap_Manager::Focus_Stay(const _double& TimeDelta)
-{
-	if (m_CurrentLookTime >= m_Desc.lookTime)
-	{
-		m_eCurState = MANAGER_CAMERA_FOCUS_OUT;
-		return;
-	}
-	m_CurrentLookTime += (_float)TimeDelta;
-
-}
-
-void CWorldMap_Manager::Focus_Out(const _double& TimeDelta)
-{
-	if (p_MainCamera->Go_To_DefaultPosition(XMLoadFloat4(&m_FocusPosition), (_float)TimeDelta, 0.2f))
-	{
-		m_eCurState = MANAGER_IDLE;
-	}
-}
 
 _bool CWorldMap_Manager::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator)
 {
@@ -204,15 +186,13 @@ void CWorldMap_Manager::State_Tick(const _double& TimeDelta)
 	{
 	case MANAGER_IDLE:
 		break;
+	case MANAGER_OPEN_STATE_INFO:
+		//Focus_Stay(TimeDelta);
+		break;
 	case MANAGER_CAMERA_FOCUS_IN:
 		Focus_In(TimeDelta);
 		break;
-	case MANAGER_CAMERA_FOCUS_STAY:
-		Focus_Stay(TimeDelta);
-		break;
-	case MANAGER_CAMERA_FOCUS_OUT:
-		Focus_Out(TimeDelta);
-		break;
+
 	}
 }
 
@@ -225,14 +205,11 @@ void CWorldMap_Manager::Change_State()
 		case MANAGER_IDLE:
 			p_MainCamera->Control_On();
 			break;
-		case MANAGER_CAMERA_FOCUS_IN:
-			p_MainCamera->Control_Off();
-			break;
-		case MANAGER_CAMERA_FOCUS_STAY:
+		case MANAGER_OPEN_STATE_INFO:
 			m_CurrentLookTime = 0.f;
 			break;
-		case MANAGER_CAMERA_FOCUS_OUT:
-			p_MainCamera->CurrentMoveValut_Init();
+		case MANAGER_CAMERA_FOCUS_IN:
+			p_MainCamera->Control_Off();
 			break;
 		}
 		m_ePreState = m_eCurState;
@@ -243,17 +220,17 @@ void CWorldMap_Manager::Picking()
 {
 	if (MOUSE_TAB(MOUSE::LBTN) && CClient_Utility::Mouse_Pos_In_Platform() && m_eCurState == MANAGER_IDLE)
 	{
-		m_pPickingObject = m_pCalculator->Picking_Environment_Object(g_hWnd, L"Layer_Monster", LEVEL_BASECAMP);
+		m_pPickingObject = m_pCalculator->Picking_Environment_Object(g_hWnd, L"Layer_Stage_Point", LEVEL_WORLDMAP);
 		if (nullptr == m_pPickingObject)
 			return;
 
-		CTransform* pTransform = m_pPickingObject->Get_As<CTransform>();
-		if (nullptr == pTransform)
-			return;
+		//CTransform* pTransform = m_pPickingObject->Get_As<CTransform>();
+		//if (nullptr == pTransform)
+		//	return;
 
-		XMStoreFloat4(&m_FocusPosition, pTransform->Get_State(CTransform::STATE_POSITION));
+		//XMStoreFloat4(&m_FocusPosition, pTransform->Get_State(CTransform::STATE_POSITION));
 
-		m_eCurState = MANAGER_CAMERA_FOCUS_IN;
+		//m_eCurState = MANAGER_CAMERA_FOCUS_IN;
 	}
 }
 
@@ -262,7 +239,7 @@ HRESULT CWorldMap_Manager::Add_Components()
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
 	/* For.Com_Calculator */
-	if (FAILED(pGameInstance->Add_Component(CCalculator::familyId, this, LEVEL_BASECAMP, TEXT("Prototype_Component_Calculator"),
+	if (FAILED(pGameInstance->Add_Component(CCalculator::familyId, this, LEVEL_WORLDMAP, TEXT("Prototype_Component_Calculator"),
 		(CComponent**)&m_pCalculator, nullptr)))
 		return E_FAIL;
 
@@ -300,7 +277,7 @@ HRESULT CWorldMap_Manager::Add_Components_By_File()
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
 	/* For.Com_Calculator */
-	if (FAILED(pGameInstance->Add_Component(CCalculator::familyId, this, LEVEL_BASECAMP, TEXT("Prototype_Component_Calculator"),
+	if (FAILED(pGameInstance->Add_Component(CCalculator::familyId, this, LEVEL_WORLDMAP, TEXT("Prototype_Component_Calculator"),
 		(CComponent**)&m_pCalculator, nullptr)))
 		return E_FAIL;
 

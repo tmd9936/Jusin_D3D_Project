@@ -43,6 +43,11 @@ HRESULT CStagePoint::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void
 	return S_OK;
 }
 
+HRESULT CStagePoint::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath)
+{
+	return E_NOTIMPL;
+}
+
 _uint CStagePoint::Tick(_double TimeDelta)
 {
 	switch (m_eState)
@@ -131,6 +136,16 @@ HRESULT CStagePoint::Render()
 
 
 	return S_OK;
+}
+
+_bool CStagePoint::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator)
+{
+	return _bool();
+}
+
+_bool CStagePoint::Load_By_JsonFile_Impl(Document& doc)
+{
+	return _bool();
 }
 
 
@@ -275,6 +290,19 @@ CGameObject* CStagePoint::Clone(const _tchar* pLayerTag, _uint iLevelIndex, void
 	CStagePoint* pInstance = new CStagePoint(*this);
 
 	if (FAILED(pInstance->Initialize(pLayerTag, iLevelIndex, pArg)))
+	{
+		MSG_BOX("Failed to Cloned CStagePoint");
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
+}
+
+CGameObject* CStagePoint::Clone(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath)
+{
+	CStagePoint* pInstance = new CStagePoint(*this);
+
+	if (FAILED(pInstance->Initialize(pLayerTag, iLevelIndex, filePath)))
 	{
 		MSG_BOX("Failed to Cloned CStagePoint");
 		Safe_Release(pInstance);

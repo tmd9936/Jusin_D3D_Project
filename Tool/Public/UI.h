@@ -38,13 +38,16 @@ public:
 	} UI_DESC;
 
 private:
-	CUI(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CUI(const CUI& rhs);
+	explicit CUI(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CUI(const CUI& rhs);
 	virtual ~CUI() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override; /* 원형객체의 초기화작업 */
 	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override; /* 사본객체의 초기화작업 */
+	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath);
+
+public:
 	virtual _uint Tick(_double TimeDelta) override;
 	virtual _uint LateTick(_double TimeDelta) override;
 	virtual HRESULT Render() override;
@@ -66,9 +69,15 @@ protected:
 	vector<CPartText*>		m_TextParts;
 
 
+protected:
+	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
+	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
+
 private:
 	HRESULT Add_Components();
 	HRESULT SetUp_ShaderResources();
+
+	HRESULT Add_Components_By_File();
 
 public:
 	/* Prototype */
@@ -76,6 +85,7 @@ public:
 	static CUI* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	/* 사본 객체를 생성한다. */
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) override;
+	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath = nullptr);
 	virtual void Free() override;
 };
 

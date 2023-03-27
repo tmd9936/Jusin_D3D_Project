@@ -21,9 +21,8 @@ class CWorldMap_Manager final : public CGameObject
 public:
 	enum WORLDMAP_MANAGER_STATE {
 		MANAGER_IDLE,
+		MANAGER_OPEN_STATE_INFO,
 		MANAGER_CAMERA_FOCUS_IN,
-		MANAGER_CAMERA_FOCUS_STAY,
-		MANAGER_CAMERA_FOCUS_OUT,
 		MANAGER_END
 	};
 
@@ -36,6 +35,8 @@ public:
 		_float	visitInterval;
 		_float	lookTime;
 		_float  pokemonFocusStayTime;
+
+		_float stageInfoOpenAlpha;
 
 	} WORLDMAP_MANAGER_DESC;
 
@@ -55,8 +56,6 @@ public:
 
 private:
 	void Focus_In(const _double& TimeDelta);
-	void Focus_Stay(const _double& TimeDelta);
-	void Focus_Out(const _double& TimeDelta);
 
 private:
 	CCalculator* m_pCalculator = { nullptr };
