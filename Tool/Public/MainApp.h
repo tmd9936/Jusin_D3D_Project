@@ -46,6 +46,7 @@ private:
 	HRESULT Ready_Prototype_Component_For_Static();
 	HRESULT Ready_Prototype_GameObject_For_Static();
 	HRESULT Ready_GameObject_For_Static();
+	HRESULT Ready_Fonts();
 
 
 public:

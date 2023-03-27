@@ -148,6 +148,12 @@
     <Filter Include="01. Utility\03. Component\VIBuffer\Cell">
       <UniqueIdentifier>{5d3c38f9-b7d5-4d9d-a12f-96c170863553}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\06. Fonts">
+      <UniqueIdentifier>{35251340-f6af-4ed9-a0a4-98341da7cf98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\06. Fonts\Manager">
+      <UniqueIdentifier>{e20f6673-052d-4325-b7ed-8726ef96db6f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Engine_Defines.h">
@@ -306,6 +312,12 @@
     <ClInclude Include="..\Public\VIBuffer_Cell.h">
       <Filter>01. Utility\03. Component\VIBuffer\Cell</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CustomFont.h">
+      <Filter>01. Utility\06. Fonts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Private\Font_Manager.h">
+      <Filter>01. Utility\06. Fonts\Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -448,6 +460,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_Cell.cpp">
       <Filter>01. Utility\03. Component\VIBuffer\Cell</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CustomFont.cpp">
+      <Filter>01. Utility\06. Fonts</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\Font_Manager.cpp">
+      <Filter>01. Utility\06. Fonts\Manager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

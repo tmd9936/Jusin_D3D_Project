@@ -56,7 +56,7 @@ _uint APIENTRY LoadingMain(void* pArg)
 
 	switch (pLoader->Get_NextLevelID())
 	{
-	case LEVEL_LOGO: /* 로딩씬 다음레벨이 로고다. 로고레벨에 필요한 사전 생성(리소스, 원형객체) 작업을 하자. */
+	case LEVEL_LOGO: 
 		hr = pLoader->Loading_ForLogoLevel();
 		break;
 	case LEVEL_BASECAMP:
@@ -85,13 +85,10 @@ HRESULT CLoader::Initialize(LEVEL eNextLevelID)
 	InitializeCriticalSection(m_CriticalSection);
 
 	/* 스레드를 생성한다. */
-	/* 스레드를 생성하게되면 진입점함수를 정의해야해. */
-
+	/* 스레드를 생성 후 진입점함수를 정의. */
 	m_hThread = (HANDLE)_beginthreadex(nullptr, 0, LoadingMain, this, 0, nullptr);
 	if (0 == m_hThread)
 		return E_FAIL;
-
-
 
 	return S_OK;
 }
@@ -202,6 +199,11 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		/* For.Prototype_Component_Shader_VtxAnimModelColor */
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxAnimModelColor"),
 			CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxAnimModelColor.hlsl"), VTXCOLORANIMMODEL_DECLARATION::Elements, VTXCOLORANIMMODEL_DECLARATION::iNumElements))))
+			return E_FAIL;
+
+		/* For.Prototype_Component_Shader_VtxTexColor */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxTexColor"),
+			CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxTexColor.hlsl"), VTXTEXCOLOR_DECLARATION::Elements, VTXTEXCOLOR_DECLARATION::iNumElements))))
 			return E_FAIL;
 	}
 #pragma endregion
@@ -564,11 +566,6 @@ HRESULT CLoader::Loading_ForWorldMapLevel()
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Model_Stage_Point_Standard"),
 		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/WorldMap/W_dpoint_stage_standard.fbx", PivotMatrix))))
 		return E_FAIL;
-
-	//PivotMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f);
-	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Model_WolrdMap_Island"),
-	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../../Reference/Resources/Mesh/Animation/WorldMap/W_island.fbx", PivotMatrix))))
-	//	return E_FAIL;
 
 	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Model_Pokemon_PM1"),
 	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../../Reference/Resources/Mesh/Animation/Pokemon/PM1.fbx", PivotMatrix))))

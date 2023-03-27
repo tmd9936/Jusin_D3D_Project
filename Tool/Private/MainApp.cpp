@@ -47,6 +47,8 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(m_pGameInstance->Initialize_Engine(LEVEL_END, g_hInst, GraphicDesc, &m_pDevice, &m_pContext)))
 		return E_FAIL;
 
+	if (FAILED(Ready_Fonts()))
+		return E_FAIL;
 
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
@@ -135,6 +137,9 @@ HRESULT CMainApp::Render()
 
 	//m_pMapToolGUI->Reder_End();
 	m_pRenderer->Draw_RenderGroup();
+
+	//if (FAILED(m_pGameInstance->Render_Font(TEXT("Font_NanumBarunGothic"), TEXT("테스트입니다. 화이팅"), _float2(0.f, 0.f), XMVectorSet(1.f, 1.f, 1.f, 1.f))))
+	//	return E_FAIL;
 
 	m_pGameInstance->SetRenderTargets(false);
 	ImGui::Render();
@@ -228,6 +233,14 @@ HRESULT CMainApp::Ready_Prototype_GameObject_For_Static()
 HRESULT CMainApp::Ready_GameObject_For_Static()
 {
 	if (FAILED(m_pGameInstance->Add_Layer(LEVEL_STATIC, L"Layer_Manager")))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CMainApp::Ready_Fonts()
+{
+	if (FAILED(m_pGameInstance->Add_Font(m_pDevice, m_pContext, TEXT("Font_NanumBarunGothic"), TEXT("../../Reference/Resources/Fonts/nanumBarunGothic.spritefont"))))
 		return E_FAIL;
 
 	return S_OK;
