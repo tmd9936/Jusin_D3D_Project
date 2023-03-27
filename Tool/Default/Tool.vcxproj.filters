@@ -151,8 +151,11 @@
     <Filter Include="02. GameObject\WorldMap\WorldMap_Manager">
       <UniqueIdentifier>{472308f7-d71d-4e2b-a2c0-c022ddf72aee}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\UI\Button\ButtonPartTexture">
+    <Filter Include="02. GameObject\UI\PartTexture">
       <UniqueIdentifier>{5164ee61-0808-4512-bcdc-c52ecc7ec679}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\UI\PartText">
+      <UniqueIdentifier>{463966ca-b31b-4191-bc63-74e0d46c11a3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -318,8 +321,11 @@
     <ClInclude Include="..\Public\WorldMap_Manager.h">
       <Filter>02. GameObject\WorldMap\WorldMap_Manager</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\ButtonPartTexture.h">
-      <Filter>02. GameObject\UI\Button\ButtonPartTexture</Filter>
+    <ClInclude Include="..\Public\PartTexture.h">
+      <Filter>02. GameObject\UI\PartTexture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PartText.h">
+      <Filter>02. GameObject\UI\PartText</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -486,8 +492,11 @@
     <ClCompile Include="..\Private\WorldMap_Manager.cpp">
       <Filter>02. GameObject\WorldMap\WorldMap_Manager</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\ButtonPartTexture.cpp">
-      <Filter>02. GameObject\UI\Button\ButtonPartTexture</Filter>
+    <ClCompile Include="..\Private\PartTexture.cpp">
+      <Filter>02. GameObject\UI\PartTexture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PartText.cpp">
+      <Filter>02. GameObject\UI\PartText</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

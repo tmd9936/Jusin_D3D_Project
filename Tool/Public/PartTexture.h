@@ -14,7 +14,7 @@ END
 
 BEGIN(Client)
 
-class CButtonPartTexture final : public CGameObject
+class CPartTexture final : public CGameObject
 {
 public:
 	typedef struct UI_Desc
@@ -31,9 +31,9 @@ public:
 	} UI_DESC;
 
 private:
-	CButtonPartTexture(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CButtonPartTexture(const CButtonPartTexture& rhs);
-	virtual ~CButtonPartTexture() = default;
+	CPartTexture(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CPartTexture(const CPartTexture& rhs);
+	virtual ~CPartTexture() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override; /* 원형객체의 초기화작업 */
@@ -70,7 +70,7 @@ private:
 public:
 	/* Prototype */
 	/* 원형 객체를 생성한다. */
-	static CButtonPartTexture* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CPartTexture* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	/* 사본 객체를 생성한다. */
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) override;
 	virtual void Free() override;

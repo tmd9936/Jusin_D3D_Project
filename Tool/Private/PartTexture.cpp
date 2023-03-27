@@ -1,24 +1,24 @@
 #include "stdafx.h"
-#include "ButtonPartTexture.h"
+#include "PartTexture.h"
 
 #include "GameInstance.h"
 
-CButtonPartTexture::CButtonPartTexture(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CPartTexture::CPartTexture(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
 {
 }
 
-CButtonPartTexture::CButtonPartTexture(const CButtonPartTexture& rhs)
+CPartTexture::CPartTexture(const CPartTexture& rhs)
 	: CGameObject(rhs)
 {
 }
 
-HRESULT CButtonPartTexture::Initialize_Prototype()
+HRESULT CPartTexture::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CButtonPartTexture::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
+HRESULT CPartTexture::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
 	if (pArg != nullptr)
 		memcpy(&m_UIDesc, pArg, (sizeof m_UIDesc) + 2);
@@ -42,12 +42,12 @@ HRESULT CButtonPartTexture::Initialize(const _tchar* pLayerTag, _uint iLevelInde
 	return S_OK;
 }
 
-_uint CButtonPartTexture::Tick(_double TimeDelta)
+_uint CPartTexture::Tick(_double TimeDelta)
 {
 	return _uint();
 }
 
-_uint CButtonPartTexture::LateTick(_double TimeDelta)
+_uint CPartTexture::LateTick(_double TimeDelta)
 {
 	if (m_UIDesc.pParent && m_UIDesc.pParentModel)
 	{
@@ -73,7 +73,7 @@ _uint CButtonPartTexture::LateTick(_double TimeDelta)
 	return _uint();
 }
 
-HRESULT CButtonPartTexture::Render()
+HRESULT CPartTexture::Render()
 {
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
@@ -85,7 +85,7 @@ HRESULT CButtonPartTexture::Render()
 	return S_OK;
 }
 
-HRESULT CButtonPartTexture::Add_Components()
+HRESULT CPartTexture::Add_Components()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
@@ -119,7 +119,7 @@ HRESULT CButtonPartTexture::Add_Components()
 	return S_OK;
 }
 
-HRESULT CButtonPartTexture::SetUp_ShaderResources()
+HRESULT CPartTexture::SetUp_ShaderResources()
 {
 	if (FAILED(m_pShaderCom->Set_Matrix("g_WorldMatrix", &m_FinalWorldMatrix)))
 		return E_FAIL;
@@ -142,33 +142,33 @@ HRESULT CButtonPartTexture::SetUp_ShaderResources()
 	return S_OK;
 }
 
-CButtonPartTexture* CButtonPartTexture::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CPartTexture* CPartTexture::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CButtonPartTexture* pInstance = new CButtonPartTexture(pDevice, pContext);
+	CPartTexture* pInstance = new CPartTexture(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed to Created CButtonPartTexture");
+		MSG_BOX("Failed to Created CPartTexture");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CButtonPartTexture::Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
+CGameObject* CPartTexture::Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
-	CButtonPartTexture* pInstance = new CButtonPartTexture(*this);
+	CPartTexture* pInstance = new CPartTexture(*this);
 
 	if (FAILED(pInstance->Initialize(pLayerTag, iLevelIndex, pArg)))
 	{
-		MSG_BOX("Failed to Cloned CButtonPartTexture");
+		MSG_BOX("Failed to Cloned CPartTexture");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CButtonPartTexture::Free()
+void CPartTexture::Free()
 {
 	__super::Free();
 

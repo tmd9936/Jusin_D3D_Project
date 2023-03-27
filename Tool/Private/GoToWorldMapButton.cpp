@@ -5,7 +5,7 @@
 
 #include "Level_Loading.h"
 
-#include "ButtonPartTexture.h"
+#include "PartTexture.h"
 
 CGoToWorldMapButton::CGoToWorldMapButton(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CButton(pDevice, pContext)

@@ -13,7 +13,7 @@ END
 
 BEGIN(Client)
 
-class CButtonPartTexture;
+class CPartTexture;
 
 class CButton abstract : public CGameObject
 {
@@ -170,7 +170,7 @@ protected:
 	BUTTON_STATE	m_eCurState = { BUTTON_IDLE };
 
 protected:
-	vector<CButtonPartTexture*>	m_TextureParts;
+	vector<CPartTexture*>	m_TextureParts;
 
 private:
 	_float4x4		m_TransformMatrix = {};

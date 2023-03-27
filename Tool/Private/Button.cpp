@@ -4,7 +4,7 @@
 #include "GameInstance.h"
 
 #include "Level_Loading.h"
-#include "ButtonPartTexture.h"
+#include "PartTexture.h"
 
 CButton::CButton(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
@@ -211,7 +211,7 @@ _bool CButton::Load_By_JsonFile_Impl(Document& doc)
 		{
 			CGameObject* pPart = nullptr;
 
-			CButtonPartTexture::UI_DESC desc{};
+			CPartTexture::UI_DESC desc{};
 			desc.pParent = m_pTransformCom;
 			desc.m_fSizeX = parts[i]["m_fSizeX"].GetFloat();
 			desc.m_fSizeY = parts[i]["m_fSizeY"].GetFloat();
@@ -226,7 +226,7 @@ _bool CButton::Load_By_JsonFile_Impl(Document& doc)
 			if (nullptr == pPart)
 				return false;
 
-			m_TextureParts.push_back(dynamic_cast<CButtonPartTexture*>(pPart));
+			m_TextureParts.push_back(dynamic_cast<CPartTexture*>(pPart));
 		}
 
 

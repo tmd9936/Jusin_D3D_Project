@@ -32,7 +32,7 @@
 
 #include "Navigation.h"
 #include "StagePoint.h"
-#include "ButtonPartTexture.h"
+#include "PartTexture.h"
 
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -245,7 +245,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 		/* For.Prototype_GameObject_ButtonPartTexture*/
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ButtonPartTexture"),
-			CButtonPartTexture::Create(m_pDevice, m_pContext))))
+			CPartTexture::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
 		///* For.Prototype_GameObject_BackGround */

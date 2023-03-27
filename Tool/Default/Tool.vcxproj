@@ -169,7 +169,8 @@
     <ClInclude Include="..\Public\BaseCamp_Manager.h" />
     <ClInclude Include="..\Public\BuffState.h" />
     <ClInclude Include="..\Public\Button.h" />
-    <ClInclude Include="..\Public\ButtonPartTexture.h" />
+    <ClInclude Include="..\Public\PartText.h" />
+    <ClInclude Include="..\Public\PartTexture.h" />
     <ClInclude Include="..\Public\Camera_Public.h" />
     <ClInclude Include="..\Public\Client_Utility.h" />
     <ClInclude Include="..\Public\DataToolGUI.h" />
@@ -225,7 +226,8 @@
     <ClCompile Include="..\Private\BaseCamp_Manager.cpp" />
     <ClCompile Include="..\Private\BuffState.cpp" />
     <ClCompile Include="..\Private\Button.cpp" />
-    <ClCompile Include="..\Private\ButtonPartTexture.cpp" />
+    <ClCompile Include="..\Private\PartText.cpp" />
+    <ClCompile Include="..\Private\PartTexture.cpp" />
     <ClCompile Include="..\Private\Camera_Public.cpp" />
     <ClCompile Include="..\Private\Client_Utility.cpp" />
     <ClCompile Include="..\Private\DataToolGUI.cpp" />
