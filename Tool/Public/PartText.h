@@ -22,16 +22,15 @@ public:
 		CTransform*			pParent = { nullptr }; // 기준이 되는 부모
 		CModel*				pParentModel = { nullptr }; // 기준이 되는 부모
 
-		wstring				m_FontTag;
-		wstring				m_Text;
+		_float				m_fX;
+		_float				m_fY;
 		_float4				m_vColor;
 		_float				m_Rotation;
 		_float2				m_vRotationOrigin;
 		_float2				m_vScale;
 
-		//_float2			m_vPosition;
-		_float				m_fX;
-		_float				m_fY;
+		wstring				m_FontTag;
+		wstring				m_Text;
 		
 	} TEXT_DESC;
 

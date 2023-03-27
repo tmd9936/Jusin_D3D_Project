@@ -222,7 +222,7 @@ _bool CButton::Load_By_JsonFile_Impl(Document& doc)
 			string textureProtoTypeName = parts[i]["m_TextureProtoTypeName"].GetString();
 			lstrcpy(desc.m_TextureProtoTypeName, convert.from_bytes(textureProtoTypeName).c_str());
 
-			pPart = pGameInstance->Clone_GameObject(L"Layer_UI", m_iLevelindex, TEXT("Prototype_GameObject_ButtonPartTexture"), &desc);
+			pPart = pGameInstance->Clone_GameObject(L"Layer_UI", m_iLevelindex, TEXT("Prototype_GameObject_PartTexture"), &desc);
 			if (nullptr == pPart)
 				return false;
 
