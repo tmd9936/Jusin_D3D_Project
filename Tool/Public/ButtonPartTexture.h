@@ -9,6 +9,7 @@ class CRenderer;
 class CShader;
 class CTexture;
 class CTransform;
+class CModel;
 END
 
 BEGIN(Client)
@@ -19,6 +20,7 @@ public:
 	typedef struct UI_Desc
 	{
 		CTransform*			pParent = { nullptr }; // 기준이 되는 부모
+		CModel*				pParentModel = { nullptr }; // 기준이 되는 부모
 
 		_float				m_fX;
 		_float				m_fY;
@@ -40,6 +42,11 @@ public:
 	virtual _uint LateTick(_double TimeDelta) override;
 	virtual HRESULT Render() override;	
 
+public:
+	void	Set_Parent_Model(CModel* pModel) {
+		m_UIDesc.pParentModel = pModel;
+	}
+
 private:
 	CTransform* m_pTransformCom = { nullptr };
 	CRenderer* m_pRendererCom = { nullptr };
@@ -52,7 +59,8 @@ private:
 	_float4x4	m_ViewMatrix = {};
 	_float4x4	m_ProjMatrix = {};
 
-	_float4x4			m_FinalWorldMatrix; /* 원점기준 (내 월드 * 부모월드) */
+	_float4x4	m_FinalWorldMatrix; /* 원점기준 (내 월드 * 부모월드) */
+
 
 
 private:

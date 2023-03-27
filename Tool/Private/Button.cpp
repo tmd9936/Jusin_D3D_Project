@@ -4,6 +4,7 @@
 #include "GameInstance.h"
 
 #include "Level_Loading.h"
+#include "ButtonPartTexture.h"
 
 CButton::CButton(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
@@ -62,6 +63,11 @@ HRESULT CButton::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const ch
 
 	Common_Initialize();
 
+	for (auto& part : m_TextureParts)
+	{
+		part->Set_Parent_Model(m_pModelCom);
+	}
+
 	m_pModelCom->Set_Animation(0);
 
 	return S_OK;
@@ -73,7 +79,7 @@ _uint CButton::Tick(_double TimeDelta)
 	Picking_Button();
 
 	
-	for (auto& part : m_Parts)
+	for (auto& part : m_TextureParts)
 	{
 		part->Tick(TimeDelta);
 	}
@@ -85,12 +91,13 @@ _uint CButton::LateTick(_double TimeDelta)
 {
 	m_TransformMatrix = m_pModelCom->Get_CombinedTransformationMatrix_float4_4(1);
 
-	for (auto& part : m_Parts)
+	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
+
+	for (auto& part : m_TextureParts)
 	{
 		part->LateTick(TimeDelta);
 	}
 
-	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
 
 	return _uint();
 }
@@ -106,7 +113,7 @@ HRESULT CButton::Render()
 	{
 		_float viewZ = m_pModelCom->Get_ViewZ(i);
 		m_pTransformCom->Set_PosZ(viewZ);
-
+		
 		if (FAILED(m_pShaderCom->Set_Matrix("g_WorldMatrix", m_pTransformCom->Get_WorldMatrix())))
 			return E_FAIL;
 
@@ -173,6 +180,8 @@ _bool CButton::Load_By_JsonFile_Impl(Document& doc)
 {
 	if (m_pTransformCom)
 	{
+		CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
 		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
 
 		const Value& ButtonDesc = doc["ButtonDesc"];
@@ -196,6 +205,30 @@ _bool CButton::Load_By_JsonFile_Impl(Document& doc)
 
 		string m_ButtonName = ButtonDesc["m_ButtonName"].GetString();
 		lstrcpy(m_ButtonDesc.m_ButtonName, convert.from_bytes(m_ButtonName).c_str());
+
+		const Value& parts = ButtonDesc["m_parts"].GetArray();
+		for (SizeType i = 0; i < parts.Size(); ++i)
+		{
+			CGameObject* pPart = nullptr;
+
+			CButtonPartTexture::UI_DESC desc{};
+			desc.pParent = m_pTransformCom;
+			desc.m_fSizeX = parts[i]["m_fSizeX"].GetFloat();
+			desc.m_fSizeY = parts[i]["m_fSizeY"].GetFloat();
+			desc.m_fX = parts[i]["m_fX"].GetFloat();
+			desc.m_fY = parts[i]["m_fY"].GetFloat();
+			desc.m_TextureProtoTypeLevel = parts[i]["m_TextureProtoTypeLevel"].GetUint();
+
+			string textureProtoTypeName = parts[i]["m_TextureProtoTypeName"].GetString();
+			lstrcpy(desc.m_TextureProtoTypeName, convert.from_bytes(textureProtoTypeName).c_str());
+
+			pPart = pGameInstance->Clone_GameObject(L"Layer_UI", m_iLevelindex, TEXT("Prototype_GameObject_ButtonPartTexture"), &desc);
+			if (nullptr == pPart)
+				return false;
+
+			m_TextureParts.push_back(dynamic_cast<CButtonPartTexture*>(pPart));
+		}
+
 
 	}
 
@@ -294,11 +327,11 @@ void CButton::Button_Motion(_double TimeDelta)
 	{
 	case CButton::BUTTON_IDLE:
 		m_pModelCom->Play_Animation(TimeDelta);
-		m_pTransformCom->Set_Scaled({ m_ButtonDesc.m_fSizeX,  m_ButtonDesc.m_fSizeY, 1.f });
+		//m_pTransformCom->Set_Scaled({ m_ButtonDesc.m_fSizeX,  m_ButtonDesc.m_fSizeY, 1.f });
 		break;
 	case CButton::BUTTON_PRESS:
 		m_pTransformCom->Set_Scaled({ m_ButtonDesc.m_fSizeX * m_TransformMatrix.m[0][0],  m_ButtonDesc.m_fSizeY * m_TransformMatrix.m[1][1], 1.f });
-		if (m_pModelCom->Play_Animation(TimeDelta))
+		if (m_pModelCom->Play_Animation(TimeDelta, false))
 		{
 			m_eCurState = BUTTON_SELECT;
 		}
@@ -311,8 +344,8 @@ void CButton::Button_Motion(_double TimeDelta)
 		}
 		break;
 	case CButton::BUTTON_SELECT:
-		m_pModelCom->Play_Animation(TimeDelta);
-		//m_pTransformCom->Set_Scaled({ m_ButtonDesc.m_fSizeX * m_TransformMatrix.m[0][0],  m_ButtonDesc.m_fSizeY * m_TransformMatrix.m[1][1], 1.f });
+		m_pTransformCom->Set_Scaled({ m_ButtonDesc.m_fSizeX * m_TransformMatrix.m[0][0],  m_ButtonDesc.m_fSizeY * m_TransformMatrix.m[1][1], 1.f });
+		m_pModelCom->Play_Animation(TimeDelta, false);
 
 		break;
 	}
@@ -337,12 +370,8 @@ void CButton::Picking_Button()
 			m_eCurState = BUTTON_PRESS;
 		}
 	}
-	else if (MOUSE_HOLD(MOUSE::LBTN) && m_eCurState == BUTTON_SELECT)
-	{
-		m_eCurState = BUTTON_SELECT;
-	}
 
-	else if (MOUSE_NONE(MOUSE::LBTN) && m_eCurState == BUTTON_SELECT)
+	else if (MOUSE_AWAY(MOUSE::LBTN) && m_eCurState == BUTTON_SELECT)
 	{
 		m_eCurState = BUTTON_RELEASE;
 	}
@@ -369,7 +398,7 @@ _uint CButton::Change_State()
 			break;
 		case CButton::BUTTON_SELECT:
 			m_selectTransformMatrix = m_TransformMatrix;
-			m_pModelCom->Set_Animation(BUTTON_SELECT);
+			//m_pModelCom->Set_Animation(BUTTON_SELECT);
 			result = On_Select();
 			break;
 		}
@@ -400,7 +429,7 @@ void CButton::Free()
 {
 	__super::Free();
 
-	for (auto& part : m_Parts)
+	for (auto& part : m_TextureParts)
 	{
 		Safe_Release(part);
 	}

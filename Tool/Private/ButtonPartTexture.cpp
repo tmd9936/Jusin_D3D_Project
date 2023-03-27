@@ -49,23 +49,35 @@ _uint CButtonPartTexture::Tick(_double TimeDelta)
 
 _uint CButtonPartTexture::LateTick(_double TimeDelta)
 {
-	if (m_UIDesc.pParent)
+	if (m_UIDesc.pParent && m_UIDesc.pParentModel)
 	{
 		XMStoreFloat4x4(&m_FinalWorldMatrix, XMMatrixIdentity());
 
-		_float4x4 ParentMat{};
-		XMStoreFloat4x4(&ParentMat, m_UIDesc.pParent->Get_WorldMatrix_Matrix());
+		// 부모의 스케일을 제거하고 부모의 변환 행렬 가져와서 얘의 부모기준 위치를 같이 변경시켜주면 될듯 한데 .. 
+		_float4x4 parentMat{};
+		XMStoreFloat4x4(&parentMat, m_UIDesc.pParent->Get_WorldMatrix_Matrix());
+
+		_matrix parent = m_UIDesc.pParent->Get_WorldMatrix_Matrix();
+
+		parent.r[0] = XMVector3Normalize(parent.r[0]);
+		parent.r[1] = XMVector3Normalize(parent.r[1]);
+		parent.r[2] = XMVector3Normalize(parent.r[2]);
+
+		_float4x4 vParentCombinedMatrix = m_UIDesc.pParentModel->Get_CombinedTransformationMatrix_float4_4(1);
 
 		_float3 vScale = m_pTransformCom->Get_Scaled();
-		_float4 r = { vScale.x * ParentMat.m[0][0] , 0.f, 0.f, 0.f};
-		_float4 u = { 0.f, vScale.y * ParentMat.m[1][1], 0.f, 0.f };
+		_float4 r = { vScale.x, 0.f, 0.f, 0.f };
+		_float4 u = { 0.f, vScale.y, 0.f, 0.f };
 		_float4 l = { 0.f, 0.f, 1.f, 0.f };
-		_float4 p = {( ParentMat.m[3][0] + m_UIDesc.m_fX) , (ParentMat.m[3][1]) + m_UIDesc.m_fY, 0.f, 1.f };
+		_float4 p = { m_UIDesc.m_fX , m_UIDesc.m_fY , 0.f, 1.f };
 
-		memcpy(m_FinalWorldMatrix.m[0], &r, sizeof _float4);
-		memcpy(m_FinalWorldMatrix.m[1], &u, sizeof _float4);
-		memcpy(m_FinalWorldMatrix.m[2], &l, sizeof _float4);
-		memcpy(m_FinalWorldMatrix.m[3], &p, sizeof _float4);
+		memcpy(parentMat.m[0], &r, sizeof _float4);
+		memcpy(parentMat.m[1], &u, sizeof _float4);
+		memcpy(parentMat.m[2], &l, sizeof _float4);
+		memcpy(parentMat.m[3], &p, sizeof _float4);
+
+		XMStoreFloat4x4(&m_FinalWorldMatrix, XMLoadFloat4x4(&parentMat) * XMMatrixScaling(vParentCombinedMatrix.m[0][0], vParentCombinedMatrix.m[1][1], 1.f) * parent);
+
 	}
 
 	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);

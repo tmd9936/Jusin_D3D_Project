@@ -23,7 +23,7 @@ public:
 
 public:
 	HRESULT Initialize(aiAnimation* pAIAnimation, CModel* pModel);
-	_bool Update(vector<CBone*>& Bones, _double TimeDelta);
+	_bool Update(vector<CBone*>& Bones, _double TimeDelta, _bool isLoop = true);
 	void Update_Lerp(KEYFRAME& keyFrame, _double TimeDelta);
 
 

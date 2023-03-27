@@ -48,7 +48,7 @@ HRESULT CAnimation::Initialize(aiAnimation* pAIAnimation, CModel* pModel)
 	return S_OK;
 }
 
-_bool CAnimation::Update(vector<CBone*>& Bones, _double TimeDelta)
+_bool CAnimation::Update(vector<CBone*>& Bones, _double TimeDelta, _bool isLoop)
 {
 	if (m_TimeAcc < m_Duration)
 		m_isFinished = false;
@@ -60,7 +60,7 @@ _bool CAnimation::Update(vector<CBone*>& Bones, _double TimeDelta)
 	{
 		m_isFinished = true;
 
-		if (true == m_isLoop)
+		if (true == isLoop)
 		{
 			m_TimeAcc = 0.0;
 		}

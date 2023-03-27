@@ -25,32 +25,13 @@ HRESULT CGoToWorldMapButton::Initialize(const _tchar* pLayerTag, _uint iLevelInd
 	return S_OK;
 }
 
+/*
+	
+*/
 HRESULT CGoToWorldMapButton::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath)
 {
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, filePath)))
 		return E_FAIL;
-
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
-
-	CGameObject* pGameObject = nullptr;
-
-	CButtonPartTexture::UI_DESC desc{};
-	desc.pParent = m_pTransformCom;
-	desc.m_fSizeX = 0.5f;
-	desc.m_fSizeY = 0.5f;
-	desc.m_fX = -50.f;
-	desc.m_fY = 100.f;
-	desc.m_TextureProtoTypeLevel = LEVEL_BASECAMP;
-	lstrcpy(desc.m_TextureProtoTypeName, L"Prototype_Component_Texture_Window_Arrow_Marker");
-
-	pGameObject = pGameInstance->Clone_GameObject(L"Layer_UI", m_iLevelindex, TEXT("Prototype_GameObject_ButtonPartTexture"), &desc);
-	if (nullptr == pGameObject)
-		return E_FAIL;
-
-	m_Parts.push_back(pGameObject);
-
-	Safe_Release(pGameInstance);
 
 	return S_OK;
 }

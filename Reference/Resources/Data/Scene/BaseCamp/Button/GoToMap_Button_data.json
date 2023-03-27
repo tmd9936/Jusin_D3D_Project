@@ -9,6 +9,16 @@
         "m_DiffuseTexturePath": "./BaseCamp_worldmapL_button.png",
         "m_MaskPrototypeTag": "Prototype_Component_Button_Color_Mask",
         "m_BrushPrototypeTag": "",
-        "m_ButtonName": "GO_TO_WORLDMAP"
+        "m_ButtonName": "GO_TO_WORLDMAP",
+        "m_parts": [
+            {
+                "m_fX": -3.0,
+                "m_fY": 3.0,
+                "m_fSizeX": 30.0,
+                "m_fSizeY": 30.0,
+                "m_TextureProtoTypeLevel": 3,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_Window_Arrow_Marker"
+            }
+        ]
     }
 }
