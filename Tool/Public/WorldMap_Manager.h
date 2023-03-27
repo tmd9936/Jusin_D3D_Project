@@ -6,6 +6,12 @@
 
 BEGIN(Engine)
 class CCamera;
+class CVIBuffer_Rect;
+class CRenderer;
+class CShader;
+class CTexture;
+class CTransform;
+
 END
 
 BEGIN(Client)
@@ -63,9 +69,23 @@ private:
 	CGameObject* m_pPickingObject = { nullptr };
 
 private:
-	_float						m_CurrentLookTime = { 0.f };
+	CTransform* m_pTransformCom = { nullptr };
+	CRenderer* m_pRendererCom = { nullptr };
+	CShader* m_pShaderCom = { nullptr };
+	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
+	CTexture* m_pTextureCom = { nullptr };
 
-	_float4						m_FocusPosition = {};
+private:
+	_float				m_CurrentLookTime = { 0.f };
+	_float4				m_FocusPosition = {};
+
+	_float				m_fX = { 0.f };
+	_float				m_fY = { 0.f };
+	_float				m_fSizeX = {0.f};
+	_float				m_fSizeY = {0.f};
+
+	_float4x4			m_ViewMatrix = {};
+	_float4x4			m_ProjMatrix = {};
 
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);

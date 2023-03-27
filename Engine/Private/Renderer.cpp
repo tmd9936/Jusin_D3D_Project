@@ -40,7 +40,11 @@ HRESULT CRenderer::Draw_RenderGroup()
 		return E_FAIL;
 	if (FAILED(Draw_Blend()))
 		return E_FAIL;
+	if (FAILED(Draw_Back_UI()))
+		return E_FAIL;
 	if (FAILED(Draw_UI()))
+		return E_FAIL;
+	if (FAILED(Draw_Blend_UI()))
 		return E_FAIL;
 
 	return S_OK;
@@ -106,6 +110,21 @@ HRESULT CRenderer::Draw_Blend()
 	return S_OK;
 }
 
+HRESULT CRenderer::Draw_Back_UI()
+{
+	for (auto& pGameObject : m_RenderGroups[RENDER_BACK_UI])
+	{
+		if (nullptr != pGameObject)
+			pGameObject->Render();
+
+		Safe_Release(pGameObject);
+	}
+
+	m_RenderGroups[RENDER_BACK_UI].clear();
+
+	return S_OK;
+}
+
 HRESULT CRenderer::Draw_UI()
 {
 	for (auto& pGameObject : m_RenderGroups[RENDER_UI])
@@ -117,6 +136,21 @@ HRESULT CRenderer::Draw_UI()
 	}
 
 	m_RenderGroups[RENDER_UI].clear();
+
+	return S_OK;
+}
+
+HRESULT CRenderer::Draw_Blend_UI()
+{
+	for (auto& pGameObject : m_RenderGroups[RENDER_BLEND_UI])
+	{
+		if (nullptr != pGameObject)
+			pGameObject->Render();
+
+		Safe_Release(pGameObject);
+	}
+
+	m_RenderGroups[RENDER_BLEND_UI].clear();
 
 	return S_OK;
 }

@@ -3,19 +3,17 @@
 matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
 texture2D		g_Texture;
-
+float4			g_vColor;
 
 struct VS_IN
 {
 	float3		vPosition : POSITION;
-	float4		vColor : COLOR;
 	float2		vTexUV : TEXCOORD0;
 };
 
 struct VS_OUT
 {
 	float4		vPosition : SV_POSITION;
-	float4		vColor : COLOR;
 	float2		vTexUV : TEXCOORD0;
 	float4		vProjPos: TEXCOORD1;
 };
@@ -39,7 +37,6 @@ VS_OUT VS_MAIN(VS_IN In)
 struct PS_IN
 {
 	float4		vPosition : SV_POSITION;
-	float4		vColor : COLOR;
 	float2		vTexUV : TEXCOORD0;
 	float4		vProjPos: TEXCOORD1;
 };
@@ -59,7 +56,7 @@ PS_OUT PS_MAIN(PS_IN In)
 	if (Out.vColor.a < 0.1)
 		discard;
 
-	Out.vColor = In.vColor;
+	Out.vColor = g_vColor;
 	
 	return Out;
 }

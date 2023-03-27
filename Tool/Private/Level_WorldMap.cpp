@@ -24,6 +24,9 @@ HRESULT CLevel_WorldMap::Initialize()
 	if (FAILED(Ready_LightDesc()))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_Manager(TEXT("Layer_Manager"))))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_Terrain(TEXT("Layer_Terrain"))))
 		return E_FAIL;
 
@@ -57,8 +60,13 @@ HRESULT CLevel_WorldMap::Initialize()
 void CLevel_WorldMap::Tick(_double TimeDelta)
 {
 #ifdef _DEBUG
-	SetWindowText(g_hWnd, TEXT("게임플레이레벨임"));
+	SetWindowText(g_hWnd, TEXT("월드맵 레벨임"));
 #endif
+}
+
+HRESULT CLevel_WorldMap::Ready_Layer_Manager(const _tchar* pLayerTag)
+{
+	return S_OK;
 }
 
 HRESULT CLevel_WorldMap::Ready_Layer_Terrain(const _tchar* pLayerTag)

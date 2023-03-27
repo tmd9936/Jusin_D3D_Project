@@ -32,7 +32,9 @@ private: /* 그리는 그룹들에 따라 셋팅이 바뀌어야할 필요가 생길 수 있기때문에 그�
 	HRESULT Draw_NonBlend();
 	HRESULT Draw_NonLight();
 	HRESULT Draw_Blend();
+	HRESULT Draw_Back_UI();
 	HRESULT Draw_UI();
+	HRESULT Draw_Blend_UI();
 
 public:
 	static CRenderer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

@@ -138,8 +138,8 @@ HRESULT CMainApp::Render()
 	//m_pMapToolGUI->Reder_End();
 	m_pRenderer->Draw_RenderGroup();
 
-	if (FAILED(m_pGameInstance->Render_Font(TEXT("Font_NanumBarunGothic"), TEXT("테스트입니다. 화이팅"), _float2(0.f, 0.f), XMVectorSet(1.f, 1.f, 1.f, 1.f))))
-		return E_FAIL;
+	//if (FAILED(m_pGameInstance->Render_Font(TEXT("Font_NanumBarunGothic"), TEXT("테스트입니다. 화이팅"), _float2(0.f, 0.f), XMVectorSet(1.f, 1.f, 1.f, 1.f))))
+	//	return E_FAIL;
 
 	m_pGameInstance->SetRenderTargets(false);
 	ImGui::Render();

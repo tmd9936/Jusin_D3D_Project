@@ -88,7 +88,6 @@ HRESULT CPartText::Render()
 		m_Text_Desc.m_Rotation, m_Text_Desc.m_vRotationOrigin, _float2(m_FinalWorldMatrix.m[0][0], m_FinalWorldMatrix.m[1][1]))))
 			return E_FAIL;
 
-
 	return S_OK;
 }
 

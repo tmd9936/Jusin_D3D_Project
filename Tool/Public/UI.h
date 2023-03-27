@@ -17,6 +17,13 @@ BEGIN(Client)
 
 class CUI final : public CGameObject
 {
+public: 
+	enum UI_TYPE {
+		UI_TYPE_TEXTURE,
+		UI_TYPE_COLOR_TEXTURE,
+		UI_TYPE_END
+	};
+
 public:
 	typedef struct UI_Desc
 	{
@@ -25,6 +32,8 @@ public:
 		_float				m_fSizeX;
 		_float				m_fSizeY;
 		_uint				m_TextureProtoTypeLevel;
+		_uint				m_UIType;
+		_float4				m_vColor;
 		_tchar				m_TextureProtoTypeName[MAX_PATH];
 	} UI_DESC;
 
@@ -54,7 +63,7 @@ private:
 
 protected:
 	vector<CPartTexture*>	m_TextureParts;
-	vector<CPartText*>	m_TextParts;
+	vector<CPartText*>		m_TextParts;
 
 
 private:

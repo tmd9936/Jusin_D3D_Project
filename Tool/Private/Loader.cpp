@@ -33,6 +33,7 @@
 #include "Navigation.h"
 #include "StagePoint.h"
 #include "PartTexture.h"
+#include "PartText.h"
 
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -130,6 +131,12 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Window/window_button.png")))))
 			return E_FAIL;
 
+
+		/* For.Prototype_Component_Window_Plane_Corner */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Window_Plane_Corner"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Window/window_plane_corner.dds")))))
+			return E_FAIL;
+
 	}
 
 #pragma endregion
@@ -203,7 +210,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 		/* For.Prototype_Component_Shader_VtxTexColor */
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxTexColor"),
-			CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxTexColor.hlsl"), VTXTEXCOLOR_DECLARATION::Elements, VTXTEXCOLOR_DECLARATION::iNumElements))))
+			CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxTexColor.hlsl"), VTXTEX_DECLARATION::Elements, VTXTEX_DECLARATION::iNumElements))))
 			return E_FAIL;
 	}
 #pragma endregion
@@ -246,6 +253,11 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		/* For.Prototype_GameObject_ButtonPartTexture*/
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ButtonPartTexture"),
 			CPartTexture::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		/* For.Prototype_GameObject_ButtonPartTexture*/
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ButtonPartText"),
+			CPartText::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
 		///* For.Prototype_GameObject_BackGround */
