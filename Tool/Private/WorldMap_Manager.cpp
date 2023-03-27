@@ -126,12 +126,9 @@ HRESULT CWorldMap_Manager::Render()
 	return S_OK;
 }
 
-void CWorldMap_Manager::Focus_In(const _double& TimeDelta)
+void CWorldMap_Manager::Fade_In(const _double& TimeDelta)
 {
-	if (p_MainCamera->Focus_To_Object(m_FocusPosition, (_float)TimeDelta, m_Desc.m_FadeSecond))
-	{
-		//m_eCurState = MANAGER_CAMERA_FOCUS_STAY;
-	}
+
 }
 
 
@@ -192,8 +189,8 @@ void CWorldMap_Manager::State_Tick(const _double& TimeDelta)
 	case MANAGER_OPEN_STATE_INFO:
 		//Focus_Stay(TimeDelta);
 		break;
-	case MANAGER_CAMERA_FOCUS_IN:
-		Focus_In(TimeDelta);
+	case MANAGER_CAMERA_FADE_IN:
+		Fade_In(TimeDelta);
 		break;
 
 	}
@@ -209,9 +206,9 @@ void CWorldMap_Manager::Change_State()
 			p_MainCamera->Control_On();
 			break;
 		case MANAGER_OPEN_STATE_INFO:
-			m_CurrentLookTime = 0.f;
+			p_MainCamera->Control_Off();
 			break;
-		case MANAGER_CAMERA_FOCUS_IN:
+		case MANAGER_CAMERA_FADE_IN:
 			p_MainCamera->Control_Off();
 			break;
 		}
@@ -227,13 +224,7 @@ void CWorldMap_Manager::Picking()
 		if (nullptr == m_pPickingObject)
 			return;
 
-		//CTransform* pTransform = m_pPickingObject->Get_As<CTransform>();
-		//if (nullptr == pTransform)
-		//	return;
-
-		//XMStoreFloat4(&m_FocusPosition, pTransform->Get_State(CTransform::STATE_POSITION));
-
-		//m_eCurState = MANAGER_CAMERA_FOCUS_IN;
+		//m_eCurState = MANAGER_CAMERA_FADE_IN;
 	}
 }
 

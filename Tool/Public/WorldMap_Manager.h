@@ -22,7 +22,7 @@ public:
 	enum WORLDMAP_MANAGER_STATE {
 		MANAGER_IDLE,
 		MANAGER_OPEN_STATE_INFO,
-		MANAGER_CAMERA_FOCUS_IN,
+		MANAGER_CAMERA_FADE_IN,
 		MANAGER_END
 	};
 
@@ -50,10 +50,7 @@ public:
 	virtual HRESULT Render() override;
 
 private:
-	void Focus_In(const _double& TimeDelta);
-
-private:
-	CCalculator* m_pCalculator = { nullptr };
+	void Fade_In(const _double& TimeDelta);
 
 private:
 	WORLDMAP_MANAGER_DESC		m_Desc = {};
@@ -63,6 +60,7 @@ private:
 	CGameObject* m_pPickingObject = { nullptr };
 
 private:
+	CCalculator* m_pCalculator = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
 	CRenderer* m_pRendererCom = { nullptr };
 	CShader* m_pShaderCom = { nullptr };
@@ -70,9 +68,6 @@ private:
 	CTexture* m_pTextureCom = { nullptr };
 
 private:
-	_float				m_CurrentLookTime = { 0.f };
-	_float4				m_FocusPosition = {};
-
 	_float				m_fX = { 0.f };
 	_float				m_fY = { 0.f };
 	_float				m_fSizeX = {0.f};
