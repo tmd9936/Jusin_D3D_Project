@@ -138,7 +138,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 #pragma endregion
 
 #pragma region MODELS
-	wsprintf(m_szLoadingText, TEXT("모델를 로딩중입니다."));
+	wsprintf(m_szLoadingText, TEXT("STATIC 컴포넌트를 로딩중입니다."));
 
 	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_LOGO))
 	{
@@ -146,8 +146,45 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Billboard"),
 			CBillboard::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
+		
+		/* For.Prototype_Component_MonFSM */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_MonFSM"),
+			CMonFSM::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
 
+		/* For.Prototype_Component_PickingCube */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_PickingCube"),
+			CPickingCube::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
 
+		/* For.Prototype_Component_Collider_AABB */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB"),
+			CAABB::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		/* For.Prototype_Component_Collider_OBB */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"),
+			COBB::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		/* For.Prototype_Component_Collider_Sphere */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Collider_SPHERE"),
+			CSphere::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+	}
+
+	wsprintf(m_szLoadingText, TEXT("모델을 로딩중입니다."));
+	_matrix PivotMatrix = XMMatrixIdentity();
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Model_Logo_Scene"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../../Reference/Resources/Mesh/Animation/Logo/Logo_Scene.fbx", PivotMatrix))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region SHADERS
+	wsprintf(m_szLoadingText, TEXT("셰이더를 로딩중입니다."));
+	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_LOGO))
+	{
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxTex"),
 			CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxTex.hlsl"), VTXTEX_DECLARATION::Elements, VTXTEX_DECLARATION::iNumElements))))
 			return E_FAIL;
@@ -166,19 +203,6 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxAnimModelColor"),
 			CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxAnimModelColor.hlsl"), VTXCOLORANIMMODEL_DECLARATION::Elements, VTXCOLORANIMMODEL_DECLARATION::iNumElements))))
 			return E_FAIL;
-	}
-
-	_matrix PivotMatrix = XMMatrixIdentity();
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Model_Logo_Scene"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../../Reference/Resources/Mesh/Animation/Logo/Logo_Scene.fbx", PivotMatrix))))
-		return E_FAIL;
-#pragma endregion
-
-#pragma region SHADERS
-	wsprintf(m_szLoadingText, TEXT("셰이더를 로딩중입니다."));
-	for (_uint i = 0; i < 9999; ++i)
-	{
-		int a = 10;
 	}
 #pragma endregion
 
