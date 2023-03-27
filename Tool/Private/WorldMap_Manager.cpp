@@ -183,13 +183,16 @@ void CWorldMap_Manager::State_Tick(const _double& TimeDelta)
 	switch (m_eCurState)
 	{
 	case MANAGER_IDLE:
-		//m_fCurrentFadeTIme += TimeDelta;
-		//m_vCurrentFadeColor.w += TimeDelta;
 		break;
 	case MANAGER_OPEN_STATE_INFO:
 		//Focus_Stay(TimeDelta);
 		break;
 	case MANAGER_CAMERA_FADE_IN:
+		//m_vCurrentFadeColor.x += TimeDelta;
+		//m_vCurrentFadeColor.y += TimeDelta;
+		//m_vCurrentFadeColor.z += TimeDelta;
+		//m_vCurrentFadeColor.w += TimeDelta;
+		//m_fCurrentFadeTIme += TimeDelta;
 		Fade_In(TimeDelta);
 		break;
 
@@ -203,12 +206,15 @@ void CWorldMap_Manager::Change_State()
 		switch (m_eCurState)
 		{
 		case MANAGER_IDLE:
+			m_eRenderId = RENDER_END;
 			p_MainCamera->Control_On();
 			break;
 		case MANAGER_OPEN_STATE_INFO:
+			m_eRenderId = RENDER_BACK_UI;
 			p_MainCamera->Control_Off();
 			break;
 		case MANAGER_CAMERA_FADE_IN:
+			m_eRenderId = RENDER_BACK_UI;
 			p_MainCamera->Control_Off();
 			break;
 		}

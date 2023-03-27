@@ -515,10 +515,10 @@ HRESULT CLoader::Loading_ForWorldMapLevel()
 	/*  */
 #pragma region TEXTURES
 	wsprintf(m_szLoadingText, TEXT("텍스쳐를 로딩중입니다."));
-	///* For.Prototype_Component_Texture_Terrain */
-	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Texture_Terrain"),
-	//	CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Tile%d.dds"), 2))))
-	//	return E_FAIL;
+	/* For.Prototype_Component_Texture_Stage_Icon */
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Texture_Stage_Icon"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Textures/World/world_dungeonicon%d.dds"), 2))))
+		return E_FAIL;
 
 #pragma endregion
 

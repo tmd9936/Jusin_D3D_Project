@@ -79,6 +79,8 @@ private:
 	_float4				m_vCurrentFadeColor = {};
 	_double				m_fCurrentFadeTIme = { 0.f };
 
+	_float4				m_FocusPosition = {};
+
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
 	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
