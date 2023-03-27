@@ -12,8 +12,8 @@
         "m_ButtonName": "GO_TO_WORLDMAP",
         "m_parts": [
             {
-                "m_fX": -3.0,
-                "m_fY": 3.0,
+                "m_fX": -20.0,
+                "m_fY": 20.0,
                 "m_fSizeX": 30.0,
                 "m_fSizeY": 30.0,
                 "m_TextureProtoTypeLevel": 3,

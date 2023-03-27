@@ -50,3 +50,8 @@
 			return dwRefCnt;								\
 		}
 
+
+#define REMOVE_SCALE(matrix)						\
+	matrix.r[0] = XMVector3Normalize(matrix.r[0]);	\
+	matrix.r[1] = XMVector3Normalize(matrix.r[1]);	\
+	matrix.r[2] = XMVector3Normalize(matrix.r[2]);	\
