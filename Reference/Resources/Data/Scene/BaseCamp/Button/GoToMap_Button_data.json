@@ -13,7 +13,7 @@
         "m_parts": [
             {
                 "m_fX": -20.0,
-                "m_fY": 20.0,
+                "m_fY": -20.0,
                 "m_fSizeX": 30.0,
                 "m_fSizeY": 30.0,
                 "m_TextureProtoTypeLevel": 3,

@@ -61,10 +61,11 @@ _uint CButtonPartTexture::LateTick(_double TimeDelta)
 			vScale.x, 0.f, 0.f, 0.f,
 			0.f, vScale.y, 0.f, 0.f,
 			0.f, 0.f, 1.f, 0.f,
-			m_UIDesc.m_fX, m_UIDesc.m_fY, 0.f, 1.f
+			m_UIDesc.m_fX, -m_UIDesc.m_fY, 0.f, 1.f
 		));
 
-		XMStoreFloat4x4(&m_FinalWorldMatrix, XMLoadFloat4x4(&m_FinalWorldMatrix) * XMMatrixScaling(vParentCombinedMatrix.m[0][0], vParentCombinedMatrix.m[1][1], 1.f) * parent);
+		XMStoreFloat4x4(&m_FinalWorldMatrix, XMLoadFloat4x4(&m_FinalWorldMatrix) * 
+			XMMatrixScaling(vParentCombinedMatrix.m[0][0], vParentCombinedMatrix.m[1][1], 1.f) * parent);
 	}
 
 	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
