@@ -1,0 +1,18 @@
+{
+    "StagePointDesc": {
+        "vPos": {
+            "x": 22.6,
+            "y": 0.8,
+            "z": 20.6
+        },
+        "vColor": {
+            "x": 0.788235366,
+            "y": 0.670588255,
+            "z": 0.509803951,
+            "w": 1.0
+        },
+        "eState": 1,
+        "stageNumber" : 2,
+        "levelTitleText": "지그재그강"
+    }
+}

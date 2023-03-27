@@ -172,34 +172,17 @@ HRESULT CLevel_WorldMap::Ready_Layer_Stage_Point(const _tchar* pLayerTag)
 
 	if (FAILED(pGameInstance->Add_Layer(LEVEL_WORLDMAP, pLayerTag)))
 		return E_FAIL;
-	// Stage1 23.6 0.8 23.6
 
-	CStagePoint::STAGE_POINT_DESC stage_point_desc{};
-	stage_point_desc.eState = CStagePoint::STAGE_POINT_STATE_STANDARD;
-	stage_point_desc.stageNumber = 1;
-	stage_point_desc.vPos = _float3(23.6f, 0.8f, 23.6f);
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Stage_Point"), LEVEL_WORLDMAP, pLayerTag, L"Stage_Point1", &stage_point_desc)))
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Stage_Point"), LEVEL_WORLDMAP, pLayerTag, L"Stage_Point1", "../../Reference/Resources/Data/Scene/WorldMap/StagePoint/StagePoint1.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
-	// Stage2 25.6 0.8 25.6
-	stage_point_desc.eState = CStagePoint::STAGE_POINT_STATE_STANDARD;
-	stage_point_desc.stageNumber = 2;
-	stage_point_desc.vPos = _float3(22.6f, 0.8f, 20.6f);
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Stage_Point"), LEVEL_WORLDMAP, pLayerTag, L"Stage_Point2", &stage_point_desc)))
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Stage_Point"), LEVEL_WORLDMAP, pLayerTag, L"Stage_Point2", "../../Reference/Resources/Data/Scene/WorldMap/StagePoint/StagePoint2.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
-	// Stage3 18.0 1.4 18.4
-	stage_point_desc.eState = CStagePoint::STAGE_POINT_STATE_STANDARD;
-	stage_point_desc.stageNumber = 3;
-	stage_point_desc.vPos = _float3(18.0f, 1.4f, 18.4f);
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Stage_Point"), LEVEL_WORLDMAP, pLayerTag, L"Stage_Point3", &stage_point_desc)))
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Stage_Point"), LEVEL_WORLDMAP, pLayerTag, L"Stage_Point3", "../../Reference/Resources/Data/Scene/WorldMap/StagePoint/StagePoint3.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
-	// Stage4 12.6 2.0 16.4
-	stage_point_desc.eState = CStagePoint::STAGE_POINT_STATE_STANDARD;
-	stage_point_desc.stageNumber = 4;
-	stage_point_desc.vPos = _float3(12.6f, 2.0f, 16.4f);
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Stage_Point"), LEVEL_WORLDMAP, pLayerTag, L"Stage_Point4", &stage_point_desc)))
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Stage_Point"), LEVEL_WORLDMAP, pLayerTag, L"Stage_Point4", "../../Reference/Resources/Data/Scene/WorldMap/StagePoint/StagePoint4.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);

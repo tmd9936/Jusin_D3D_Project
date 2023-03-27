@@ -71,6 +71,7 @@ private:
 	CPickingCube*	m_pPickingCube = { nullptr };
 	CAABB*			m_pAABB = { nullptr };
 
+private:
 	STAGE_POINT_DESC		m_Desc = { };
 	STAGE_POINT_STATE		m_eState = { STAGE_POINT_STATE_STANDARD };
 

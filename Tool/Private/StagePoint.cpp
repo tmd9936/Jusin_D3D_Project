@@ -45,7 +45,23 @@ HRESULT CStagePoint::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void
 
 HRESULT CStagePoint::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath)
 {
-	return E_NOTIMPL;
+	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, filePath)))
+		return E_FAIL;
+
+	if (filePath)
+	{
+		Load_By_JsonFile(filePath);
+		m_strSaveJsonPath = filePath;
+	}
+
+	if (FAILED(Add_Components()))
+		return E_FAIL;
+
+	m_pTransformCom->Set_Pos(m_Desc.vPos.x, m_Desc.vPos.y, m_Desc.vPos.z);
+
+	m_eRenderId = RENDER_NONBLEND;
+
+	return S_OK;
 }
 
 _uint CStagePoint::Tick(_double TimeDelta)
@@ -140,12 +156,62 @@ HRESULT CStagePoint::Render()
 
 _bool CStagePoint::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator)
 {
-	return _bool();
+	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
+
+	Value StagePointDesc(kObjectType);
+	{
+		Value vPos(kObjectType);
+		{
+			vPos.AddMember("x", m_Desc.vPos.x, allocator);
+			vPos.AddMember("y", m_Desc.vPos.y, allocator);
+			vPos.AddMember("z", m_Desc.vPos.z, allocator);
+		}
+		StagePointDesc.AddMember("vPos", vPos, allocator);
+
+		Value vColor(kObjectType);
+		{
+			vColor.AddMember("x", m_Desc.vColor.x, allocator);
+			vColor.AddMember("y", m_Desc.vColor.y, allocator);
+			vColor.AddMember("z", m_Desc.vColor.z, allocator);
+			vColor.AddMember("w", m_Desc.vColor.w, allocator);
+		}
+		StagePointDesc.AddMember("vColor", vColor, allocator);
+
+		StagePointDesc.AddMember("eState", m_Desc.eState, allocator);
+		StagePointDesc.AddMember("stageNumber", m_Desc.stageNumber, allocator);
+
+		Value levelTitleTextValue;
+		string levelTitleText = convert.to_bytes(m_Desc.levelTitleText);
+		levelTitleTextValue.SetString(levelTitleText.c_str(), (SizeType)levelTitleText.size(), allocator);
+		StagePointDesc.AddMember("levelTitleText", levelTitleTextValue, allocator);
+
+	}
+	doc.AddMember("StagePointDesc", StagePointDesc, allocator);
+
+	return true;
 }
 
 _bool CStagePoint::Load_By_JsonFile_Impl(Document& doc)
 {
-	return _bool();
+	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
+
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	const Value& StagePointDesc = doc["StagePointDesc"];
+
+	const Value& vPos = StagePointDesc["vPos"];
+	m_Desc.vPos = _float3(vPos["x"].GetFloat(), vPos["y"].GetFloat(), vPos["z"].GetFloat());
+
+	const Value& vColor = StagePointDesc["vColor"];
+	m_Desc.vColor = _float4(vColor["x"].GetFloat(), vColor["y"].GetFloat(), vColor["z"].GetFloat(), vColor["w"].GetFloat());
+
+	m_Desc.eState = StagePointDesc["eState"].GetUint();
+	m_Desc.stageNumber = StagePointDesc["stageNumber"].GetUint();
+
+	string levelTitleText = StagePointDesc["levelTitleText"].GetString();
+	m_Desc.levelTitleText = convert.from_bytes(levelTitleText);
+
+	return true;
 }
 
 
