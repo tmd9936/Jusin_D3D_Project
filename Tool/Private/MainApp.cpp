@@ -210,10 +210,6 @@ HRESULT CMainApp::Ready_Prototype_Component_For_Static()
 		CModel::Create(m_pDevice, m_pContext, "../../Reference/Resources/Mesh/Animation/Loading/title_loading.json", CModel::TYPE_ANIM, PivotMatrix))))
 		return E_FAIL;
 
-	//if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOADING, TEXT("Prototype_Component_Shader_VtxTex"),
-	//	CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxTex.hlsl"), VTXTEX_DECLARATION::Elements, VTXTEX_DECLARATION::iNumElements))))
-	//	return E_FAIL;
-
 
 	Safe_AddRef(m_pRenderer);
 

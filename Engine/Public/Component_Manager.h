@@ -4,6 +4,8 @@
 #include "VIBuffer_Rect.h"
 #include "VIBuffer_Terrain.h"
 #include "VIBuffer_FlatTerrain.h"
+
+#include "VIBuffer_Rect_Instance.h"
 #pragma endregion
 
 #pragma region COMPONENT

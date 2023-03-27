@@ -184,6 +184,21 @@ namespace Engine
 	} VTXTEXCOLOR_DECLARATION;
 
 
+	typedef struct tagVertex_Matrix
+	{
+		XMFLOAT4			vRight;
+		XMFLOAT4			vUp;
+		XMFLOAT4			vLook;
+		XMFLOAT4			vTranslation;
+	}VTXMATRIX;
+
+	// 인스턴스 sementic 값이외의 인스턴스가 아닌 기존의 값을 같이 셰이더에 전달해야해서 Element 개수가 4개가 아닌 6개
+	typedef struct ENGINE_DLL tagVertex_Instance_Declaration
+	{
+		const static unsigned int				iNumElements = 6;
+		static D3D11_INPUT_ELEMENT_DESC			Elements[6];
+	} VTXINSTANCE_DECLARATION;
+
 	typedef struct tagIndices16
 	{
 		unsigned short			_0, _1, _2;

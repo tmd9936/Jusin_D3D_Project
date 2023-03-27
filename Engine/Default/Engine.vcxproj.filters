@@ -154,6 +154,12 @@
     <Filter Include="01. Utility\06. Fonts\Manager">
       <UniqueIdentifier>{e20f6673-052d-4325-b7ed-8726ef96db6f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\03. Component\VIBuffer\Instancing">
+      <UniqueIdentifier>{3736d6e2-050f-4ac8-984b-f2df3ee70892}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\03. Component\VIBuffer\Instancing\Rect">
+      <UniqueIdentifier>{9787b89a-7c13-4813-9069-751a4f10bb93}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Engine_Defines.h">
@@ -318,6 +324,9 @@
     <ClInclude Include="..\Private\Font_Manager.h">
       <Filter>01. Utility\06. Fonts\Manager</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_Rect_Instance.h">
+      <Filter>01. Utility\03. Component\VIBuffer\Instancing\Rect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -466,6 +475,9 @@
     </ClCompile>
     <ClCompile Include="..\Public\Font_Manager.cpp">
       <Filter>01. Utility\06. Fonts\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_Rect_Instance.cpp">
+      <Filter>01. Utility\03. Component\VIBuffer\Instancing\Rect</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
