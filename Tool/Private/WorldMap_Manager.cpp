@@ -199,7 +199,6 @@ void CWorldMap_Manager::State_Tick(const _double& TimeDelta)
 	case MANAGER_CAMERA_FADE_IN:
 		Fade_In(TimeDelta);
 		break;
-
 	}
 }
 

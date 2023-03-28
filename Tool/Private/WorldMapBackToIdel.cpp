@@ -42,6 +42,7 @@ _uint CWorldMapBackToIdel::On_Idle()
 
 _uint CWorldMapBackToIdel::On_Press()
 {
+
 	return 0;
 }
 
@@ -59,6 +60,7 @@ _uint CWorldMapBackToIdel::On_Release()
 
 	dynamic_cast<CWorldMap_Manager*>(pWorldMap_Manager)->Be_Idle();
 
+	m_TickResult = 0;
 	return 0;
 }
 

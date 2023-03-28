@@ -86,9 +86,9 @@ _uint CButton::Tick(_double TimeDelta)
 		{
 			part->Tick(TimeDelta);
 		}
-		return Change_State();
+		Change_State();
 	}
-	return _uint();
+	return m_TickResult;
 }
 
 _uint CButton::LateTick(_double TimeDelta)
@@ -385,9 +385,10 @@ void CButton::Button_Motion(_double TimeDelta)
 		break;
 	case CButton::BUTTON_RELEASE:
 		m_pTransformCom->Set_Scaled({ m_ButtonDesc.m_fSizeX * m_TransformMatrix.m[0][0],  m_ButtonDesc.m_fSizeY * m_TransformMatrix.m[1][1], 1.f });
-		if (m_pModelCom->Play_Animation(TimeDelta))
+		if (m_pModelCom->Play_Animation(TimeDelta * 1.3f))
 		{
 			m_eCurState = BUTTON_IDLE;
+			m_TickResult = On_Release();
 		}
 		break;
 	case CButton::BUTTON_SELECT:
@@ -418,7 +419,7 @@ void CButton::Picking_Button()
 		}
 	}
 
-	else if (MOUSE_AWAY(MOUSE::LBTN))
+	else if (MOUSE_AWAY(MOUSE::LBTN) && m_eCurState == BUTTON_SELECT)
 	{
 		m_eCurState = BUTTON_RELEASE;
 	}
@@ -433,27 +434,27 @@ _uint CButton::Change_State()
 		{
 		case CButton::BUTTON_IDLE:
 			m_pModelCom->Set_Animation(BUTTON_IDLE);
-			result = On_Idle();
+			m_TickResult = On_Idle();
 			break;
 		case CButton::BUTTON_PRESS:
 			m_pModelCom->Set_Animation(BUTTON_PRESS);
-			result = On_Press();
+			m_TickResult = On_Press();
 			break;
 		case CButton::BUTTON_RELEASE:
 			m_pModelCom->Set_Animation(BUTTON_RELEASE);
-			result = On_Release();
+			//result = On_Release();
 			break;
 		case CButton::BUTTON_SELECT:
 			m_selectTransformMatrix = m_TransformMatrix;
 			//m_pModelCom->Set_Animation(BUTTON_SELECT);
-			result = On_Select();
+			m_TickResult = On_Select();
 			break;
 		}
 		m_ePreState = m_eCurState;
 
 	}
 
-	return result;
+	return m_TickResult;
 }
 
 HRESULT CButton::Common_Initialize()
