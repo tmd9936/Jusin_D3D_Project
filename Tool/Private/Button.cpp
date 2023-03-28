@@ -297,7 +297,7 @@ _bool CButton::Load_By_JsonFile_Impl(Document& doc)
 			string m_Text = TextParts[i]["m_Text"].GetString();
 			desc.m_Text = convert.from_bytes(m_Text);
 
-			string szLayerTag = TextureParts[i]["LayerTag"].GetString();
+			string szLayerTag = TextParts[i]["LayerTag"].GetString();
 			wstring LayerTag = convert.from_bytes(szLayerTag);
 
 			pPart = pGameInstance->Clone_GameObject(LayerTag.c_str(), m_iLevelindex, TEXT("Prototype_GameObject_PartText"), &desc);

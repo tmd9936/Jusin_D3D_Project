@@ -1,9 +1,9 @@
 {
     "ButtonDesc": {
-        "m_fX": 830.0,
-        "m_fY": 407.0,
-        "m_fSizeX": 80.5,
-        "m_fSizeY": 30.0,
+        "m_fX": 800.0,
+        "m_fY": 387.0,
+        "m_fSizeX": 90.5,
+        "m_fSizeY": 36.0,
         "m_ModelPrototypLevel": 0,
         "m_ShaderLevelIndex": 0,
         "m_DiffuseTexturePath": "./BaseCamp_worldmapL_button.png",
@@ -11,25 +11,31 @@
         "m_BrushPrototypeTag": "",
         "m_ButtonName": "GO_TO_WORLDMAP",
         "m_TextureParts": [
+
+        ],
+        "m_TextParts": [
             {
                 "m_fX": -20.0,
-                "m_fY": -20.0,
-                "m_fSizeX": 30.0,
-                "m_fSizeY": 30.0,
-                "m_eType": 0,
+                "m_fY": -12.0,
                 "m_vColor": {
                     "x": 1.0,
                     "y": 1.0,
                     "z": 1.0,
                     "w": 1.0
                 },
-                "m_TextureProtoTypeLevel": 3,
-                "m_TextureProtoTypeName": "Prototype_Component_Texture_Window_Arrow_Marker",
+                "m_Rotation": 0.0,
+                "m_vRotationOrigin": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "m_vScale": {
+                    "x": 0.48,
+                    "y": 0.48
+                },
+                "m_FontTag": "Font_NanumBarunGothic", 
+                "m_Text": "섬탐험",
                 "LayerTag": "Layer_UI"
             }
-        ],
-        "m_TextParts": [
-            
         ]
     }
 }
