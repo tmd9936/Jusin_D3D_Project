@@ -271,43 +271,48 @@ void CMapToolGUI::ListBox()
 
 void CMapToolGUI::Slider()
 {
-	if (m_pPickingObject != nullptr)
+	const _uint iLevelindex = CDataToolGUI::GetInstance()->Get_Current_Levelindex();
+
+	if (iLevelindex != LEVEL_LOADING)
 	{
-		//CGameObject* pTran = CGameInstance::GetInstance()->Get_Component(CTransform::familyId, m_pPickingObject)
-		CTransform* pTransform = m_pPickingObject->Get_As<CTransform>();
-		
-		if (nullptr == pTransform)
-			return;
-		
-		ImGui::Text("Set_Scale");
-		ImGui::PushItemWidth(100);
-		ImGui::DragFloat("ScaleX", &m_vScale.x, 0.2f);
-		ImGui::SameLine(); ImGui::SameLine();
-		ImGui::DragFloat("ScaleY", &m_vScale.y, 0.2f);
-		ImGui::SameLine(); ImGui::SameLine();
-		ImGui::DragFloat("ScaleZ", &m_vScale.z, 0.2f);
+		if (m_pPickingObject != nullptr)
+		{
+			//CGameObject* pTran = CGameInstance::GetInstance()->Get_Component(CTransform::familyId, m_pPickingObject)
+			CTransform* pTransform = m_pPickingObject->Get_As<CTransform>();
 
-		ImGui::Text("Set_Rot");
-		ImGui::PushItemWidth(100);
-		ImGui::DragFloat("RotX", &m_vRot.x, 0.2f);
-		ImGui::SameLine(); ImGui::SameLine();
-		ImGui::DragFloat("RotY", &m_vRot.y, 0.2f);
-		ImGui::SameLine(); ImGui::SameLine();
-		ImGui::DragFloat("RotZ", &m_vRot.z, 0.2f);
+			if (nullptr == pTransform)
+				return;
 
-		ImGui::Text("Set_Pos");
-		ImGui::PushItemWidth(100);
-		ImGui::DragFloat("PosX", &m_vPos.x, 0.2f);
-		ImGui::SameLine(); ImGui::SameLine();
-		ImGui::DragFloat("PosY", &m_vPos.y, 0.2f);
-		ImGui::SameLine(); ImGui::SameLine();
-		ImGui::DragFloat("PosZ", &m_vPos.z, 0.2f);
+			ImGui::Text("Set_Scale");
+			ImGui::PushItemWidth(100);
+			ImGui::DragFloat("ScaleX", &m_vScale.x, 0.2f);
+			ImGui::SameLine(); ImGui::SameLine();
+			ImGui::DragFloat("ScaleY", &m_vScale.y, 0.2f);
+			ImGui::SameLine(); ImGui::SameLine();
+			ImGui::DragFloat("ScaleZ", &m_vScale.z, 0.2f);
 
-		ImGui::PopItemWidth();
+			ImGui::Text("Set_Rot");
+			ImGui::PushItemWidth(100);
+			ImGui::DragFloat("RotX", &m_vRot.x, 0.2f);
+			ImGui::SameLine(); ImGui::SameLine();
+			ImGui::DragFloat("RotY", &m_vRot.y, 0.2f);
+			ImGui::SameLine(); ImGui::SameLine();
+			ImGui::DragFloat("RotZ", &m_vRot.z, 0.2f);
 
-		pTransform->Set_Scaled({ m_vScale.x , m_vScale.y, m_vScale.z});
-		pTransform->Set_Rotation({ XMConvertToRadians(m_vRot.x), XMConvertToRadians(m_vRot.y), XMConvertToRadians(m_vRot.z) });
-		pTransform->Set_Pos(m_vPos.x, m_vPos.y, m_vPos.z);
+			ImGui::Text("Set_Pos");
+			ImGui::PushItemWidth(100);
+			ImGui::DragFloat("PosX", &m_vPos.x, 0.2f);
+			ImGui::SameLine(); ImGui::SameLine();
+			ImGui::DragFloat("PosY", &m_vPos.y, 0.2f);
+			ImGui::SameLine(); ImGui::SameLine();
+			ImGui::DragFloat("PosZ", &m_vPos.z, 0.2f);
+
+			ImGui::PopItemWidth();
+
+			pTransform->Set_Scaled({ m_vScale.x , m_vScale.y, m_vScale.z });
+			pTransform->Set_Rotation({ XMConvertToRadians(m_vRot.x), XMConvertToRadians(m_vRot.y), XMConvertToRadians(m_vRot.z) });
+			pTransform->Set_Pos(m_vPos.x, m_vPos.y, m_vPos.z);
+		}
 	}
 }
 

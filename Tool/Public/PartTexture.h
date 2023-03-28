@@ -56,6 +56,10 @@ public:
 		m_UIDesc.pParentModel = pModel;
 	}
 
+	void	Set_TextureNumBer(_uint iNumber) {
+		m_TextureNumber = iNumber;
+	}
+
 private:
 	CTransform* m_pTransformCom = { nullptr };
 	CRenderer* m_pRendererCom = { nullptr };
@@ -71,6 +75,9 @@ private:
 	_float4x4	m_FinalWorldMatrix; /* 원점기준 (내 월드 * 부모월드) */
 
 	TYPE		m_eType = { TYPE_END };
+
+private:
+	_uint		m_TextureNumber = { 0 };
 
 private:
 	HRESULT Add_Components();

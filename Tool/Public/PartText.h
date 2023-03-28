@@ -51,6 +51,15 @@ public:
 		m_Text_Desc.pParentModel = pModel;
 	}
 
+public:
+	void	Set_Color(_float4 vColor) {
+		m_Text_Desc.m_vColor = vColor;
+	}
+
+	void	Set_Scale(_float2 vScale) {
+		m_Text_Desc.m_vScale = vScale;
+	}
+
 private:
 	CTransform* m_pTransformCom = { nullptr };
 	CRenderer* m_pRendererCom = { nullptr };

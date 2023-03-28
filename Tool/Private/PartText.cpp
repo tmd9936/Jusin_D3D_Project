@@ -71,7 +71,7 @@ _uint CPartText::LateTick(_double TimeDelta)
 
 		_float3 pScale = m_Text_Desc.pParent->Get_Scaled();
 		m_FinalWorldMatrix.m[3][0] = g_iWinSizeX * 0.5f - m_FinalWorldMatrix.m[3][0] - pScale.x * 0.5f;
-		m_FinalWorldMatrix.m[3][1] = m_FinalWorldMatrix.m[3][1] - pScale.y * 0.5f;
+		//m_FinalWorldMatrix.m[3][1] = m_FinalWorldMatrix.m[3][1] - pScale.y * 0.5f;
 	}
 
 	else if (m_Text_Desc.pParent && !m_Text_Desc.pParentModel)
@@ -91,7 +91,7 @@ _uint CPartText::LateTick(_double TimeDelta)
 
 		_float3 pScale = m_Text_Desc.pParent->Get_Scaled();
 		m_FinalWorldMatrix.m[3][0] = g_iWinSizeX * 0.5f + m_FinalWorldMatrix.m[3][0] - pScale.x * 0.5f;
-		m_FinalWorldMatrix.m[3][1] = m_FinalWorldMatrix.m[3][1] - pScale.y * 0.5f;
+		m_FinalWorldMatrix.m[3][1] = g_iWinSizeY * 0.5f - (m_FinalWorldMatrix.m[3][1] + pScale.y * 0.5f);
 	}
 
 	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
