@@ -70,6 +70,22 @@ _uint CPartText::LateTick(_double TimeDelta)
 			XMMatrixScaling(vParentCombinedMatrix.m[0][0], vParentCombinedMatrix.m[1][1], 1.f) * parent);
 	}
 
+	else if (m_Text_Desc.pParent && !m_Text_Desc.pParentModel)
+	{
+		_matrix parent = m_Text_Desc.pParent->Get_WorldMatrix_Matrix();
+		REMOVE_SCALE(parent);
+
+		XMStoreFloat4x4(&m_FinalWorldMatrix, XMMatrixSet(
+			m_Text_Desc.m_vScale.x, 0.f, 0.f, 0.f,
+			0.f, m_Text_Desc.m_vScale.y, 0.f, 0.f,
+			0.f, 0.f, 1.f, 0.f,
+			m_Text_Desc.m_fX, -m_Text_Desc.m_fY, 0.f, 1.f
+		));
+
+		XMStoreFloat4x4(&m_FinalWorldMatrix, XMLoadFloat4x4(&m_FinalWorldMatrix) *
+			 parent);
+	}
+
 	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
 
 	return _uint();
@@ -94,6 +110,11 @@ HRESULT CPartText::Render()
 HRESULT CPartText::Add_Components()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	/* For.Com_Renderer */
+	if (FAILED(pGameInstance->Add_Component(CRenderer::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Renderer"),
+		(CComponent**)&m_pRendererCom, nullptr)))
+		return E_FAIL;
 
 	return S_OK;
 }

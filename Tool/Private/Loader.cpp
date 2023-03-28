@@ -19,6 +19,8 @@
 #include "WorldMapAnimEnv.h"
 #include "WorldMap_Manager.h"
 #include "WorldMapBackToIdel.h"
+#include "StageInfoUI.h"
+#include "StagePoint.h"
 
 #include "Player.h"
 #include "GoToWorldMapButton.h"
@@ -33,9 +35,9 @@
 #include "Skill_Manager.h"
 
 #include "Navigation.h"
-#include "StagePoint.h"
 #include "PartTexture.h"
 #include "PartText.h"
+
 
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -642,6 +644,10 @@ HRESULT CLoader::Loading_ForWorldMapLevel()
 
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_WorldMap_BackToIdle"),
 			CWorldMapBackToIdel::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_WorldMap_StageInfoUI"),
+			CStageInfoUI::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 	}
 #pragma endregion

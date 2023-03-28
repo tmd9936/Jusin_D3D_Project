@@ -35,6 +35,16 @@ HRESULT CButton::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pA
 
 	Common_Initialize();
 
+	for (auto& part : m_TextureParts)
+	{
+		part->Set_Parent_Model(m_pModelCom);
+	}
+
+	for (auto& part : m_TextParts)
+	{
+		part->Set_Parent_Model(m_pModelCom);
+	}
+
 	m_pModelCom->Set_Animation(0);
 
 	return S_OK;
@@ -69,6 +79,11 @@ HRESULT CButton::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const ch
 		part->Set_Parent_Model(m_pModelCom);
 	}
 
+	for (auto& part : m_TextParts)
+	{
+		part->Set_Parent_Model(m_pModelCom);
+	}
+
 	m_pModelCom->Set_Animation(0);
 
 	return S_OK;
@@ -81,12 +96,17 @@ _uint CButton::Tick(_double TimeDelta)
 		Button_Motion(TimeDelta);
 		Picking_Button();
 
-
+		Change_State();
 		for (auto& part : m_TextureParts)
 		{
 			part->Tick(TimeDelta);
 		}
-		Change_State();
+
+		for (auto& part : m_TextParts)
+		{
+			part->Tick(TimeDelta);
+		}
+
 	}
 	return m_TickResult;
 }
@@ -104,8 +124,13 @@ _uint CButton::LateTick(_double TimeDelta)
 		{
 			part->LateTick(TimeDelta);
 		}
-	}
 
+
+		for (auto& part : m_TextParts)
+		{
+			part->LateTick(TimeDelta);
+		}
+	}
 
 	return _uint();
 }
@@ -235,7 +260,10 @@ _bool CButton::Load_By_JsonFile_Impl(Document& doc)
 			string textureProtoTypeName = TextureParts[i]["m_TextureProtoTypeName"].GetString();
 			lstrcpy(desc.m_TextureProtoTypeName, convert.from_bytes(textureProtoTypeName).c_str());
 
-			pPart = pGameInstance->Clone_GameObject(L"Layer_UI", m_iLevelindex, TEXT("Prototype_GameObject_PartTexture"), &desc);
+			string szLayerTag = TextureParts[i]["LayerTag"].GetString();
+			wstring LayerTag = convert.from_bytes(szLayerTag);
+
+			pPart = pGameInstance->Clone_GameObject(LayerTag.c_str(), m_iLevelindex, TEXT("Prototype_GameObject_PartTexture"), &desc);
 			if (nullptr == pPart)
 				return false;
 
@@ -269,7 +297,10 @@ _bool CButton::Load_By_JsonFile_Impl(Document& doc)
 			string m_Text = TextParts[i]["m_Text"].GetString();
 			desc.m_Text = convert.from_bytes(m_Text);
 
-			pPart = pGameInstance->Clone_GameObject(L"Layer_UI", m_iLevelindex, TEXT("Prototype_GameObject_PartText"), &desc);
+			string szLayerTag = TextureParts[i]["LayerTag"].GetString();
+			wstring LayerTag = convert.from_bytes(szLayerTag);
+
+			pPart = pGameInstance->Clone_GameObject(LayerTag.c_str(), m_iLevelindex, TEXT("Prototype_GameObject_PartText"), &desc);
 			if (nullptr == pPart)
 				return false;
 

@@ -258,6 +258,9 @@ HRESULT CLevel_WorldMap::Ready_Layer_State_Info_UI(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_WorldMap_BackToIdle"), LEVEL_WORLDMAP, pLayerTag, L"BackToIdle", "../../Reference/Resources/Data/Scene/WorldMap/Button/WorldMapBackToIdle.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_WorldMap_StageInfoUI"), LEVEL_WORLDMAP, pLayerTag, L"StageInfo", "../../Reference/Resources/Data/Scene/WorldMap/StageInfoUI/StageInfoUI.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
 	Safe_Release(pGameInstance);
 
 	return S_OK;

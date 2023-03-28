@@ -31,9 +31,9 @@ public:
 		_float				m_fY;
 		_float				m_fSizeX;
 		_float				m_fSizeY;
-		_uint				m_TextureProtoTypeLevel;
 		_uint				m_UIType;
 		_float4				m_vColor;
+		_uint				m_TextureProtoTypeLevel;
 		_tchar				m_TextureProtoTypeName[MAX_PATH];
 	} UI_DESC;
 
@@ -52,6 +52,11 @@ public:
 	virtual _uint LateTick(_double TimeDelta) override;
 	virtual HRESULT Render() override;
 
+public:
+	void	Set_Color(_float4 vColor) {
+		m_UIDesc.m_vColor = vColor;
+	}
+
 protected:
 	CTransform* m_pTransformCom = { nullptr };
 	CRenderer* m_pRendererCom = { nullptr };
@@ -67,7 +72,6 @@ protected:
 protected:
 	vector<CPartTexture*>	m_TextureParts;
 	vector<CPartText*>		m_TextParts;
-
 
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);

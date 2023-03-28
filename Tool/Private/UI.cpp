@@ -36,6 +36,7 @@ HRESULT CUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 
 	m_eRenderId = RENDER_UI;
 
+
 	m_pTransformCom->Set_Scaled({ m_UIDesc.m_fSizeX, m_UIDesc.m_fSizeY, 1.f });
 	m_pTransformCom->Set_Pos(m_UIDesc.m_fX - g_iWinSizeX * 0.5f, -m_UIDesc.m_fY + g_iWinSizeY * 0.5f, 0.f);
 
@@ -50,6 +51,14 @@ HRESULT CUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 HRESULT CUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath)
 {
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, filePath)))
+		return E_FAIL;
+
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	/* For.Com_Transform */
+	CTransform::TRANSFORMDESC		TransformDesc = { 10.f, XMConvertToRadians(90.0f) };
+	if (FAILED(pGameInstance->Add_Component(CTransform::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+		(CComponent**)&m_pTransformCom, &TransformDesc)))
 		return E_FAIL;
 
 	if (filePath)
@@ -76,6 +85,16 @@ HRESULT CUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* 
 
 _uint CUI::Tick(_double TimeDelta)
 {
+	for (auto& part : m_TextureParts)
+	{
+		part->Tick(TimeDelta);
+	}
+
+	for (auto& part : m_TextParts)
+	{
+		part->Tick(TimeDelta);
+	}
+
 	return _uint();
 }
 
@@ -83,6 +102,16 @@ _uint CUI::LateTick(_double TimeDelta)
 {
 
 	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
+
+	for (auto& part : m_TextureParts)
+	{
+		part->LateTick(TimeDelta);
+	}
+
+	for (auto& part : m_TextParts)
+	{
+		part->LateTick(TimeDelta);
+	}
 
 	return _uint();
 }
@@ -177,7 +206,10 @@ _bool CUI::Load_By_JsonFile_Impl(Document& doc)
 		string textureProtoTypeName = TextureParts[i]["m_TextureProtoTypeName"].GetString();
 		lstrcpy(desc.m_TextureProtoTypeName, convert.from_bytes(textureProtoTypeName).c_str());
 
-		pPart = pGameInstance->Clone_GameObject(L"Layer_UI", m_iLevelindex, TEXT("Prototype_GameObject_PartTexture"), &desc);
+		string szLayerTag = TextureParts[i]["LayerTag"].GetString();
+		wstring LayerTag =  convert.from_bytes(szLayerTag);
+
+		pPart = pGameInstance->Clone_GameObject(LayerTag.c_str(), m_iLevelindex, TEXT("Prototype_GameObject_PartTexture"), &desc);
 		if (nullptr == pPart)
 			return false;
 
@@ -211,7 +243,10 @@ _bool CUI::Load_By_JsonFile_Impl(Document& doc)
 		string m_Text = TextParts[i]["m_Text"].GetString();
 		desc.m_Text = convert.from_bytes(m_Text);
 
-		pPart = pGameInstance->Clone_GameObject(L"Layer_UI", m_iLevelindex, TEXT("Prototype_GameObject_PartText"), &desc);
+		string szLayerTag = TextureParts[i]["LayerTag"].GetString();
+		wstring LayerTag = convert.from_bytes(szLayerTag);
+
+		pPart = pGameInstance->Clone_GameObject(LayerTag.c_str(), m_iLevelindex, TEXT("Prototype_GameObject_PartText"), &desc);
 		if (nullptr == pPart)
 			return false;
 
@@ -294,7 +329,40 @@ HRESULT CUI::SetUp_ShaderResources()
 
 HRESULT CUI::Add_Components_By_File()
 {
-	return E_NOTIMPL;
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	/* For.Com_Renderer */
+	if (FAILED(pGameInstance->Add_Component(CRenderer::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Renderer"),
+		(CComponent**)&m_pRendererCom, nullptr)))
+		return E_FAIL;
+
+	/* For.Com_VIBuffer */
+	if (FAILED(pGameInstance->Add_Component(CVIBuffer_Rect::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
+		(CComponent**)&m_pVIBufferCom, nullptr)))
+		return E_FAIL;
+
+	if (m_UIDesc.m_UIType == UI_TYPE_TEXTURE)
+	{
+		/* For.Com_Shader */
+		if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxTex"),
+			(CComponent**)&m_pShaderCom, nullptr)))
+			return E_FAIL;
+	}
+	else if (m_UIDesc.m_UIType == UI_TYPE_COLOR_TEXTURE)
+	{
+		/* For.Com_Shader */
+		if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxTexColor"),
+			(CComponent**)&m_pShaderCom, nullptr)))
+			return E_FAIL;
+	}
+
+	/* For.Com_Texture */
+	if (FAILED(pGameInstance->Add_Component(CTexture::familyId, this, m_UIDesc.m_TextureProtoTypeLevel, m_UIDesc.m_TextureProtoTypeName,
+		(CComponent**)&m_pTextureCom, nullptr)))
+		return E_FAIL;
+
+
+	return S_OK;
 }
 
 CUI* CUI::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

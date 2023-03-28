@@ -24,7 +24,8 @@
                     "w": 1.0
                 },
                 "m_TextureProtoTypeLevel": 3,
-                "m_TextureProtoTypeName": "Prototype_Component_Texture_Window_Arrow_Marker"
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_Window_Arrow_Marker",
+                "LayerTag": "Layer_UI"
             }
         ],
         "m_TextParts": [

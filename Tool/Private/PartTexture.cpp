@@ -68,6 +68,23 @@ _uint CPartTexture::LateTick(_double TimeDelta)
 			XMMatrixScaling(vParentCombinedMatrix.m[0][0], vParentCombinedMatrix.m[1][1], 1.f) * parent);
 	}
 
+	else if (m_UIDesc.pParent && !m_UIDesc.pParentModel)
+	{
+		_matrix parent = m_UIDesc.pParent->Get_WorldMatrix_Matrix();
+		REMOVE_SCALE(parent);
+
+		_float3 vScale = m_pTransformCom->Get_Scaled();
+		XMStoreFloat4x4(&m_FinalWorldMatrix, XMMatrixSet(
+			vScale.x, 0.f, 0.f, 0.f,
+			0.f, vScale.y, 0.f, 0.f,
+			0.f, 0.f, 1.f, 0.f,
+			m_UIDesc.m_fX, -m_UIDesc.m_fY, 0.f, 1.f
+		));
+
+		XMStoreFloat4x4(&m_FinalWorldMatrix, XMLoadFloat4x4(&m_FinalWorldMatrix) *
+			  parent);
+	}
+
 	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
 
 	return _uint();
