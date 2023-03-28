@@ -60,6 +60,10 @@ public:
 		m_Text_Desc.m_vScale = vScale;
 	}
 
+	void	Set_Text(const wstring& text) {
+		m_Text_Desc.m_Text = text;
+	}
+
 private:
 	CTransform* m_pTransformCom = { nullptr };
 	CRenderer* m_pRendererCom = { nullptr };

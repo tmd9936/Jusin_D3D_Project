@@ -8,6 +8,9 @@
 #include "Monster.h"
 
 #include "Client_Utility.h"
+#include "StageInfoUI.h"
+#include "StagePoint.h"
+
 
 CWorldMap_Manager::CWorldMap_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
@@ -218,6 +221,7 @@ void CWorldMap_Manager::Change_State()
 			m_vCurrentFadeColor = m_Desc.m_FadeStartColor;
 			p_MainCamera->Control_Off();
 			CGameInstance::GetInstance()->Layer_Tick_State_Change(L"Layer_Stage_Info_UI", LEVEL_WORLDMAP, true);
+
 			break;
 		case MANAGER_CAMERA_FADE_IN:
 			m_eRenderId = RENDER_BACK_UI;
@@ -234,9 +238,22 @@ void CWorldMap_Manager::Picking()
 {
 	if (MOUSE_TAB(MOUSE::LBTN) && CClient_Utility::Mouse_Pos_In_Platform() && m_eCurState == MANAGER_IDLE)
 	{
-		m_pPickingObject = m_pCalculator->Picking_Environment_Object(g_hWnd, L"Layer_Stage_Point", LEVEL_WORLDMAP);
-		if (nullptr == m_pPickingObject)
+		CGameObject* pStagePoint = m_pCalculator->Picking_Environment_Object(g_hWnd, L"Layer_Stage_Point", LEVEL_WORLDMAP);
+		if (nullptr == pStagePoint)
 			return;
+
+		CGameObject* pStageInfo = CGameInstance::GetInstance()->Get_Object(LEVEL_WORLDMAP, L"Layer_Stage_Info_UI", L"StageInfo");
+		if (nullptr == pStageInfo)
+			return;
+
+		CStagePoint::Stage_Point_Desc stagePointDesc =  dynamic_cast<CStagePoint*>(pStagePoint)->Get_Stage_Point_Desc();
+
+		CStageInfoUI::STAGE_INFO_DESC stageInfoDesc{};
+		stageInfoDesc.m_StageNumber = stagePointDesc.stageNumber;
+		stageInfoDesc.m_vBaseColor = stagePointDesc.vColor;
+		lstrcpy(stageInfoDesc.m_vStageNameText, stagePointDesc.levelTitleText.c_str());
+
+		((CStageInfoUI*)pStageInfo)->Change_Stage_Info(stagePointDesc.vColor, stagePointDesc.stageNumber, stagePointDesc.levelTitleText);
 
 		m_eCurState = MANAGER_OPEN_STATE_INFO;
 	}

@@ -16,6 +16,9 @@ END
 
 BEGIN(Client)
 
+class CStageInfoUI;
+class CStagePoint;
+
 class CWorldMap_Manager final : public CGameObject
 {
 public:
@@ -62,7 +65,7 @@ private:
 	WORLDMAP_MANAGER_STATE		m_ePreState = { MANAGER_END };
 	WORLDMAP_MANAGER_STATE		m_eCurState = { MANAGER_IDLE };
 	CCamera_Public* p_MainCamera = { nullptr };
-	CGameObject* m_pPickingObject = { nullptr };
+	//CGameObject* m_pPickingObject = { nullptr };
 
 private:
 	CCalculator* m_pCalculator = { nullptr };

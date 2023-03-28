@@ -17,7 +17,7 @@ BEGIN(Client)
 
 class CUI : public CGameObject
 {
-public: 
+public:
 	enum UI_TYPE {
 		UI_TYPE_TEXTURE,
 		UI_TYPE_COLOR_TEXTURE,
@@ -72,6 +72,9 @@ protected:
 protected:
 	vector<CPartTexture*>	m_TextureParts;
 	vector<CPartText*>		m_TextParts;
+
+protected:
+	_uint		m_TextureNumber = { 0 };
 
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);

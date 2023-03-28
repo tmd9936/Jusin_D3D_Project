@@ -529,7 +529,7 @@ HRESULT CLoader::Loading_ForWorldMapLevel()
 	wsprintf(m_szLoadingText, TEXT("텍스쳐를 로딩중입니다."));
 	/* For.Prototype_Component_Texture_Stage_Icon */
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Texture_Stage_Icon"),
-		CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/World/world_dungeonicon1.dds")))))
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/World/world_dungeonicon%d.dds"), 5))))
 		return E_FAIL;
 
 #pragma endregion

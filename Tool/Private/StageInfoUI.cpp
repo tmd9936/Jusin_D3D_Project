@@ -51,6 +51,27 @@ HRESULT CStageInfoUI::Render()
 	return __super::Render();
 }
 
+void CStageInfoUI::Change_Stage_Info(STAGE_INFO_DESC desc)
+{
+	if (nullptr == m_pTextureCom)
+		return;
+	
+	m_UIDesc.m_vColor = desc.m_vBaseColor;
+	m_TextureNumber = desc.m_StageNumber;
+	m_TextParts[0]->Set_Text(to_wstring(desc.m_StageNumber) + L". " + desc.m_vStageNameText);
+
+}
+
+void CStageInfoUI::Change_Stage_Info(_float4 vBaseColor, _uint stageNumber, wstring nameText)
+{
+	if (nullptr == m_pTextureCom)
+		return;
+
+	m_UIDesc.m_vColor = vBaseColor;
+	m_TextureParts[0]->Set_TextureNumber(stageNumber);
+	m_TextParts[0]->Set_Text(to_wstring(stageNumber) + L". " + nameText);
+}
+
 CStageInfoUI* CStageInfoUI::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 	CStageInfoUI* pInstance = new CStageInfoUI(pDevice, pContext);

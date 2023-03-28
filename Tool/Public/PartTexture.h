@@ -56,7 +56,7 @@ public:
 		m_UIDesc.pParentModel = pModel;
 	}
 
-	void	Set_TextureNumBer(_uint iNumber) {
+	void	Set_TextureNumber(_uint iNumber) {
 		m_TextureNumber = iNumber;
 	}
 

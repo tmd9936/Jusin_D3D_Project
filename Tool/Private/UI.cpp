@@ -315,8 +315,9 @@ HRESULT CUI::SetUp_ShaderResources()
 		&m_ProjMatrix)))
 		return E_FAIL;
 
-	if (FAILED(m_pTextureCom->Set_ShaderResource(m_pShaderCom, "g_Texture", 0)))
+	if (FAILED(m_pTextureCom->Set_ShaderResource(m_pShaderCom, "g_Texture", m_TextureNumber)))
 		return E_FAIL;
+
 	else if (m_UIDesc.m_UIType == UI_TYPE_COLOR_TEXTURE)
 	{
 		m_pShaderCom->Set_RawValue("g_vColor", &m_UIDesc.m_vColor, sizeof(_float4));
