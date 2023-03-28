@@ -172,6 +172,12 @@
     <Filter Include="02. GameObject\WorldMap\UI\StageInfoUI">
       <UniqueIdentifier>{22562c75-c985-437a-b457-8273b019764a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Levels\Stage">
+      <UniqueIdentifier>{462dc141-b935-47dc-b4f2-e616d01cc96e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Mouse">
+      <UniqueIdentifier>{8a2c3441-f0b3-48ea-a613-c9ff1f859d27}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -347,6 +353,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\StageInfoUI.h">
       <Filter>02. GameObject\WorldMap\UI\StageInfoUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Stage.h">
+      <Filter>01. Levels\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Mouse.h">
+      <Filter>02. GameObject\Mouse</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -524,6 +536,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\StageInfoUI.cpp">
       <Filter>02. GameObject\WorldMap\UI\StageInfoUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Stage.cpp">
+      <Filter>01. Levels\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Mouse.cpp">
+      <Filter>02. GameObject\Mouse</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

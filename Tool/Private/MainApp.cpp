@@ -16,6 +16,9 @@
 #include "ModelUI.h"
 #include "MonFSM.h"
 
+#include "Client_Utility.h"
+
+
 CMainApp::CMainApp()
 	: m_pGameInstance(CGameInstance::GetInstance())
 	, m_pMapToolGUI(CMapToolGUI::GetInstance())
@@ -119,6 +122,12 @@ HRESULT CMainApp::Render()
 
 	Tool_Mode_ON_OFF_UI();
 
+	if (CClient_Utility::Mouse_Pos_In_Platform())
+	{
+		ImGui::SetMouseCursor(ImGuiMouseCursor_None);
+		SetCursor(NULL);
+	}
+
 	//bool bDemo = true;
 	//ImGui::ShowDemoWindow();
 	m_pMapToolGUI->Render();
@@ -144,6 +153,7 @@ HRESULT CMainApp::Render()
 	m_pGameInstance->SetRenderTargets(false);
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+
 
 	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 	{
@@ -229,6 +239,9 @@ HRESULT CMainApp::Ready_Prototype_GameObject_For_Static()
 HRESULT CMainApp::Ready_GameObject_For_Static()
 {
 	if (FAILED(m_pGameInstance->Add_Layer(LEVEL_STATIC, L"Layer_Manager")))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Layer(LEVEL_STATIC, L"Layer_Mouse")))
 		return E_FAIL;
 
 	return S_OK;

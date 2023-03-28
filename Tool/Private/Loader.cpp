@@ -8,6 +8,8 @@
 #include "Camera_Dynamic.h"
 #include "Camera_Public.h"
 
+#include "Mouse.h"
+
 //#include "TestModel.h"
 #include "ModelUI.h"
 #include "Map.h"
@@ -192,6 +194,14 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	}
 
 	wsprintf(m_szLoadingText, TEXT("모델을 로딩중입니다."));
+	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_LOGO))
+	{
+		_matrix PivotMatrix = XMMatrixIdentity();
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Mouse"),
+			CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../../Reference/Resources/Mesh/Animation/Logo/touch_marker.fbx", PivotMatrix))))
+			return E_FAIL;
+	}
+
 	_matrix PivotMatrix = XMMatrixIdentity();
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Model_Logo_Scene"),
 		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../../Reference/Resources/Mesh/Animation/Logo/Logo_Scene.fbx", PivotMatrix))))
@@ -273,6 +283,12 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CPartText::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
+		/* For.Prototype_GameObject_Mouse*/
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Mouse"),
+			CMouse::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+
 		///* For.Prototype_GameObject_BackGround */
 		//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround"),
 		//	CBackGround::Create(m_pDevice, m_pContext))))
@@ -289,6 +305,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			return E_FAIL;
 
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Skill_Manager"), LEVEL_STATIC, L"Layer_Manager", L"Skill_Manager")))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_Mouse", LEVEL_STATIC, L"Layer_Mouse", L"Mouse")))
 			return E_FAIL;
 	}
 

@@ -169,6 +169,8 @@
     <ClInclude Include="..\Public\BaseCamp_Manager.h" />
     <ClInclude Include="..\Public\BuffState.h" />
     <ClInclude Include="..\Public\Button.h" />
+    <ClInclude Include="..\Public\Level_Stage.h" />
+    <ClInclude Include="..\Public\Mouse.h" />
     <ClInclude Include="..\Public\PartText.h" />
     <ClInclude Include="..\Public\PartTexture.h" />
     <ClInclude Include="..\Public\Camera_Public.h" />
@@ -228,6 +230,8 @@
     <ClCompile Include="..\Private\BaseCamp_Manager.cpp" />
     <ClCompile Include="..\Private\BuffState.cpp" />
     <ClCompile Include="..\Private\Button.cpp" />
+    <ClCompile Include="..\Private\Level_Stage.cpp" />
+    <ClCompile Include="..\Private\Mouse.cpp" />
     <ClCompile Include="..\Private\PartText.cpp" />
     <ClCompile Include="..\Private\PartTexture.cpp" />
     <ClCompile Include="..\Private\Camera_Public.cpp" />

@@ -188,6 +188,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
     g_hWnd = hWnd;
 
+    SetCursor(NULL);
+
     return TRUE;
 }
 
@@ -208,6 +210,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
     switch (message)
     {
+    case WM_SETCURSOR:
+        {
+            SetCursor(NULL);
+
+            return TRUE;
+        }
+    break;
+
     case WM_SIZE:
     {
         const ID3D11Device* pd3dDevice = CGameInstance::GetInstance()->Get_Device();
