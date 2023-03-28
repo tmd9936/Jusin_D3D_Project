@@ -10,7 +10,10 @@
         "m_MaskPrototypeTag": "Prototype_Component_Button_Color_Mask",
         "m_BrushPrototypeTag": "",
         "m_ButtonName": "WorldMap_Back_To_Idle",
-        "m_parts": [
+        "m_TextureParts": [
+
+        ],
+        "m_TextParts": [
 
         ]
     }

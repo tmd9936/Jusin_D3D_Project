@@ -14,6 +14,7 @@ END
 BEGIN(Client)
 
 class CPartTexture;
+class CPartText;
 
 class CButton abstract : public CGameObject
 {
@@ -131,6 +132,12 @@ public:
 	virtual _uint LateTick(_double TimeDelta) override;
 	virtual HRESULT Render() override;
 
+
+public:
+	void	Action_Change(_bool bAction) {
+		m_bAction = bAction;
+	}
+
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
 	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
@@ -156,11 +163,11 @@ protected:
 	HRESULT Common_Initialize();
 
 protected:
-	CTransform*		m_pTransformCom = { nullptr };
-	CRenderer*		m_pRendererCom = { nullptr };
-	CShader*		m_pShaderCom = { nullptr };
-	CModel*			m_pModelCom = { nullptr };;
-	CTexture*		m_pTextureCom = { nullptr };
+	CTransform* m_pTransformCom = { nullptr };
+	CRenderer* m_pRendererCom = { nullptr };
+	CShader* m_pShaderCom = { nullptr };
+	CModel* m_pModelCom = { nullptr };;
+	CTexture* m_pTextureCom = { nullptr };
 
 protected:
 	BUTTON_DESC		m_ButtonDesc = {};
@@ -171,12 +178,15 @@ protected:
 
 protected:
 	vector<CPartTexture*>	m_TextureParts;
+	vector<CPartText*>		m_TextParts;
 
 private:
 	_float4x4		m_TransformMatrix = {};
 	_float4x4		m_selectTransformMatrix = {};
 
 
+private:
+	_bool			m_bAction = { true };
 
 protected:
 	const			LONG		m_mouseInterSize = { 5 };

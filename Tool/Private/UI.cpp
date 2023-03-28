@@ -190,7 +190,7 @@ _bool CUI::Load_By_JsonFile_Impl(Document& doc)
 		desc.m_fY = TextParts[i]["m_fY"].GetFloat();
 
 		const Value& m_vPartColor = TextParts[i]["m_vColor"];
-		m_UIDesc.m_vColor = _float4(m_vPartColor["x"].GetFloat(), m_vPartColor["y"].GetFloat(), m_vPartColor["z"].GetFloat(), m_vPartColor["w"].GetFloat());
+		desc.m_vColor = _float4(m_vPartColor["x"].GetFloat(), m_vPartColor["y"].GetFloat(), m_vPartColor["z"].GetFloat(), m_vPartColor["w"].GetFloat());
 
 		desc.m_Rotation = TextParts[i]["m_Rotation"].GetFloat();
 

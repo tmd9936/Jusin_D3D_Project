@@ -10,7 +10,7 @@
         "m_MaskPrototypeTag": "Prototype_Component_Button_Color_Mask",
         "m_BrushPrototypeTag": "",
         "m_ButtonName": "GO_TO_WORLDMAP",
-        "m_parts": [
+        "m_TextureParts": [
             {
                 "m_fX": -20.0,
                 "m_fY": -20.0,
@@ -19,6 +19,9 @@
                 "m_TextureProtoTypeLevel": 3,
                 "m_TextureProtoTypeName": "Prototype_Component_Texture_Window_Arrow_Marker"
             }
+        ],
+        "m_TextParts": [
+            
         ]
     }
 }

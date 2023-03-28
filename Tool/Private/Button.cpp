@@ -5,6 +5,7 @@
 
 #include "Level_Loading.h"
 #include "PartTexture.h"
+#include "PartText.h"
 
 CButton::CButton(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
@@ -75,27 +76,34 @@ HRESULT CButton::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const ch
 
 _uint CButton::Tick(_double TimeDelta)
 {
-	Button_Motion(TimeDelta);
-	Picking_Button();
-
-	
-	for (auto& part : m_TextureParts)
+	if (m_bAction)
 	{
-		part->Tick(TimeDelta);
+		Button_Motion(TimeDelta);
+		Picking_Button();
+
+
+		for (auto& part : m_TextureParts)
+		{
+			part->Tick(TimeDelta);
+		}
+		return Change_State();
 	}
-	return Change_State();
-	//return _uint();
+	return _uint();
 }
 
 _uint CButton::LateTick(_double TimeDelta)
 {
-	m_TransformMatrix = m_pModelCom->Get_CombinedTransformationMatrix_float4_4(1);
-
-	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
-
-	for (auto& part : m_TextureParts)
+	if (m_bAction)
 	{
-		part->LateTick(TimeDelta);
+		m_TransformMatrix = m_pModelCom->Get_CombinedTransformationMatrix_float4_4(1);
+
+
+		m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
+
+		for (auto& part : m_TextureParts)
+		{
+			part->LateTick(TimeDelta);
+		}
 	}
 
 
@@ -206,20 +214,20 @@ _bool CButton::Load_By_JsonFile_Impl(Document& doc)
 		string m_ButtonName = ButtonDesc["m_ButtonName"].GetString();
 		lstrcpy(m_ButtonDesc.m_ButtonName, convert.from_bytes(m_ButtonName).c_str());
 
-		const Value& parts = ButtonDesc["m_parts"].GetArray();
-		for (SizeType i = 0; i < parts.Size(); ++i)
+		const Value& TextureParts = ButtonDesc["m_TextureParts"].GetArray();
+		for (SizeType i = 0; i < TextureParts.Size(); ++i)
 		{
 			CGameObject* pPart = nullptr;
 
 			CPartTexture::UI_DESC desc{};
 			desc.pParent = m_pTransformCom;
-			desc.m_fSizeX = parts[i]["m_fSizeX"].GetFloat();
-			desc.m_fSizeY = parts[i]["m_fSizeY"].GetFloat();
-			desc.m_fX = parts[i]["m_fX"].GetFloat();
-			desc.m_fY = parts[i]["m_fY"].GetFloat();
-			desc.m_TextureProtoTypeLevel = parts[i]["m_TextureProtoTypeLevel"].GetUint();
+			desc.m_fSizeX = TextureParts[i]["m_fSizeX"].GetFloat();
+			desc.m_fSizeY = TextureParts[i]["m_fSizeY"].GetFloat();
+			desc.m_fX = TextureParts[i]["m_fX"].GetFloat();
+			desc.m_fY = TextureParts[i]["m_fY"].GetFloat();
+			desc.m_TextureProtoTypeLevel = TextureParts[i]["m_TextureProtoTypeLevel"].GetUint();
 
-			string textureProtoTypeName = parts[i]["m_TextureProtoTypeName"].GetString();
+			string textureProtoTypeName = TextureParts[i]["m_TextureProtoTypeName"].GetString();
 			lstrcpy(desc.m_TextureProtoTypeName, convert.from_bytes(textureProtoTypeName).c_str());
 
 			pPart = pGameInstance->Clone_GameObject(L"Layer_UI", m_iLevelindex, TEXT("Prototype_GameObject_PartTexture"), &desc);
@@ -227,6 +235,40 @@ _bool CButton::Load_By_JsonFile_Impl(Document& doc)
 				return false;
 
 			m_TextureParts.push_back(dynamic_cast<CPartTexture*>(pPart));
+		}
+
+		const Value& TextParts = ButtonDesc["m_TextParts"].GetArray();
+		for (SizeType i = 0; i < TextParts.Size(); ++i)
+		{
+			CGameObject* pPart = nullptr;
+			CPartText::TEXT_DESC desc{};
+
+			desc.pParent = m_pTransformCom;
+			desc.m_fX = TextParts[i]["m_fX"].GetFloat();
+			desc.m_fY = TextParts[i]["m_fY"].GetFloat();
+
+			const Value& m_vPartColor = TextParts[i]["m_vColor"];
+			desc.m_vColor = _float4(m_vPartColor["x"].GetFloat(), m_vPartColor["y"].GetFloat(), m_vPartColor["z"].GetFloat(), m_vPartColor["w"].GetFloat());
+
+			desc.m_Rotation = TextParts[i]["m_Rotation"].GetFloat();
+
+			const Value& m_vRotationOrigin = TextParts[i]["m_vRotationOrigin"];
+			desc.m_vRotationOrigin = _float2(m_vRotationOrigin["x"].GetFloat(), m_vRotationOrigin["y"].GetFloat());
+
+			const Value& m_vScale = TextParts[i]["m_vScale"];
+			desc.m_vScale = _float2(m_vScale["x"].GetFloat(), m_vScale["y"].GetFloat());
+
+			string fontTag = TextParts[i]["m_FontTag"].GetString();
+			desc.m_FontTag = convert.from_bytes(fontTag);
+
+			string m_Text = TextParts[i]["m_Text"].GetString();
+			desc.m_Text = convert.from_bytes(m_Text);
+
+			pPart = pGameInstance->Clone_GameObject(L"Layer_UI", m_iLevelindex, TEXT("Prototype_GameObject_PartText"), &desc);
+			if (nullptr == pPart)
+				return false;
+
+			m_TextParts.push_back(dynamic_cast<CPartText*>(pPart));
 		}
 
 
