@@ -255,7 +255,10 @@
     <ClCompile Include="..\Private\Stove.cpp" />
     <ClCompile Include="..\Private\Terrain.cpp" />
     <ClCompile Include="..\Private\TestModel.cpp" />
-    <ClCompile Include="..\Private\TextureUI.cpp" />
+    <ClCompile Include="..\Private\TextureUI.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\Private\UI.cpp" />
     <ClCompile Include="..\Private\SkillToolGUI.cpp" />
     <ClCompile Include="..\Private\Weapon.cpp" />

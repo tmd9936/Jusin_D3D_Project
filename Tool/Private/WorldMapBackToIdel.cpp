@@ -52,6 +52,12 @@ _uint CWorldMapBackToIdel::On_Select()
 
 _uint CWorldMapBackToIdel::On_Release()
 {
+	CGameObject* pWorldMap_Manager = CGameInstance::GetInstance()->Get_Object(LEVEL_WORLDMAP, L"Layer_Manager", L"WorldMap_Manager");
+
+	if (nullptr == pWorldMap_Manager)
+		return 0;
+
+	dynamic_cast<CWorldMap_Manager*>(pWorldMap_Manager)->Be_Idle();
 
 	return 0;
 }

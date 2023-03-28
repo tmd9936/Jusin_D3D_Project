@@ -49,6 +49,11 @@ public:
 	virtual _uint LateTick(_double TimeDelta) override;
 	virtual HRESULT Render() override;
 
+public:
+	void	Be_Idle() {
+		m_eCurState = MANAGER_IDLE;
+	}
+
 private:
 	void Fade_In(const _double& TimeDelta);
 

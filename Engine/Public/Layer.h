@@ -26,6 +26,11 @@ public:
 
 	void Get_All_GameObject_In_Layer(vector<CGameObject*>& result);
 
+public:
+	void		Tick_State_Change(_bool bTick) {
+		m_bTick = bTick;
+	}
+
 private:
 	HRESULT Erase_GameObject(CGameObject* pObj);
 	HRESULT Remove_GameObject(CGameObject* pObj);
@@ -35,6 +40,7 @@ private:
 	unordered_map<wstring, CGameObject*>				m_objectStore;
 	unordered_multimap<FamilyId, CGameObject*>			m_componentStore;
 
+	_bool												m_bTick = { true };
 public:
 	static CLayer* Create();
 	virtual void Free() override;

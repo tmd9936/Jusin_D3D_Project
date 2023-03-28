@@ -302,6 +302,24 @@ const unordered_map<const _tchar*, class CGameObject*>*
 	return &m_Prototypes;
 }
 
+HRESULT CObject_Manager::Layer_Tick_State_Change(const _tchar* pLayerTag, _uint iLevelIndex, _bool bTick)
+{
+	if (nullptr == m_pLayers)
+		return E_FAIL;
+
+	if (iLevelIndex >= m_iNumLevels)
+		return E_FAIL;
+
+	CLayer* pLayer = Find_Layer(iLevelIndex, pLayerTag);
+
+	if (nullptr == pLayer)
+		return E_FAIL;
+
+	pLayer->Tick_State_Change(bTick);
+
+	return S_OK;
+}
+
 CGameObject* CObject_Manager::Clone_GameObject(const _tchar* pLayerTag, _uint iLevelIndex, const _tchar* pPrototypeTag, void* pArg)
 {
 	/* 원형을 찾는다. */

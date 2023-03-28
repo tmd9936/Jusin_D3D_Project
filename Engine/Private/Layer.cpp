@@ -28,33 +28,28 @@ HRESULT CLayer::Add_GameObject(CGameObject* pGameObject, const _tchar* pObjectNa
 
 _uint CLayer::Tick(_double TimeDelta)
 {
-	_uint state = 0;
-
-	//for (auto& pGameObject : m_GameObjects)
-	//{
-	//	if (nullptr != pGameObject)
-	//	{
-	//		state = pGameObject->Tick(TimeDelta);
-	//	}
-	//}
-
-	for (auto iter = m_GameObjects.begin(); iter != m_GameObjects.end();)
+	if (m_bTick)
 	{
-		if (nullptr != (*iter))
+		_uint state = 0;
+
+		for (auto iter = m_GameObjects.begin(); iter != m_GameObjects.end();)
 		{
-			state = (*iter)->Tick(TimeDelta);
-			if (state == OBJ_DEAD)
+			if (nullptr != (*iter))
 			{
-				Remove_GameObject((*iter));
-				iter = m_GameObjects.erase(iter);
-				continue;
+				state = (*iter)->Tick(TimeDelta);
+				if (state == OBJ_DEAD)
+				{
+					Remove_GameObject((*iter));
+					iter = m_GameObjects.erase(iter);
+					continue;
+				}
+				else if (state == OBJ_SCENE_CHNAGE)
+				{
+					return OBJ_SCENE_CHNAGE;
+				}
+				else
+					++iter;
 			}
-			else if (state == OBJ_SCENE_CHNAGE)
-			{
-				return OBJ_SCENE_CHNAGE;
-			}
-			else
-				++iter;
 		}
 	}
 
@@ -63,10 +58,13 @@ _uint CLayer::Tick(_double TimeDelta)
 
 void CLayer::LateTick(_double TimeDelta)
 {
-	for (auto& pGameObject : m_GameObjects)
+	if (m_bTick)
 	{
-		if (nullptr != pGameObject)
-			pGameObject->LateTick(TimeDelta);
+		for (auto& pGameObject : m_GameObjects)
+		{
+			if (nullptr != pGameObject)
+				pGameObject->LateTick(TimeDelta);
+		}
 	}
 }
 

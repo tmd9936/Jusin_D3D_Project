@@ -1,9 +1,9 @@
 {
     "ButtonDesc": {
-        "m_fX": 830.0,
-        "m_fY": 407.0,
-        "m_fSizeX": 30.5,
-        "m_fSizeY": 30.5,
+        "m_fX": 800.0,
+        "m_fY": 367.0,
+        "m_fSizeX": 25.5,
+        "m_fSizeY": 25.5,
         "m_ModelPrototypLevel": 0,
         "m_ShaderLevelIndex": 0,
         "m_DiffuseTexturePath": "./button_allround_exit.dds",

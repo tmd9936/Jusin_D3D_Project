@@ -18,6 +18,7 @@
 #include "WorldMapCloud.h"
 #include "WorldMapAnimEnv.h"
 #include "WorldMap_Manager.h"
+#include "WorldMapBackToIdel.h"
 
 #include "Player.h"
 #include "GoToWorldMapButton.h"
@@ -637,6 +638,10 @@ HRESULT CLoader::Loading_ForWorldMapLevel()
 
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_WorldMap_Manager"),
 			CWorldMap_Manager::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_WorldMap_BackToIdle"),
+			CWorldMapBackToIdel::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 	}
 #pragma endregion
