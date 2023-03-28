@@ -127,18 +127,6 @@
     <Filter Include="02. GameObject\Skill\Skill_Manager">
       <UniqueIdentifier>{3f632fe4-71ce-4b1c-9de0-bf40fbeda2bd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\WorldMap\WorldMapCloud">
-      <UniqueIdentifier>{c31b0b04-5785-4eaf-b05a-60e7b988c4bc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\WorldMap\WorldMapFlower">
-      <UniqueIdentifier>{e96a7879-5a88-43d1-86cc-dbcae64e3896}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\WorldMap\WorldMapGrass">
-      <UniqueIdentifier>{5286b04b-599b-414b-8c53-e39f7b9b1e59}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\WorldMap\WorldMapAnimEnv">
-      <UniqueIdentifier>{833878a7-dd96-44eb-82b6-7c9c70bb66c9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\WorldMap\StagePoint">
       <UniqueIdentifier>{f51bf141-ba85-4d31-953e-064f92798024}</UniqueIdentifier>
     </Filter>
@@ -151,14 +139,32 @@
     <Filter Include="02. GameObject\UI\PartText">
       <UniqueIdentifier>{463966ca-b31b-4191-bc63-74e0d46c11a3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\BaseCamp\Button">
-      <UniqueIdentifier>{2540afa4-ecb0-44e7-b26f-375ca846369c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\BaseCamp\BaseCampMonster">
       <UniqueIdentifier>{22071bd7-dd02-4e8d-9104-33797aa1607d}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject\BaseCamp\GoToWorldMapButton">
       <UniqueIdentifier>{05d2d0bd-73c3-4600-9abe-ce3a11ec84cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\WorldMap\Env">
+      <UniqueIdentifier>{b51e2319-9e51-4c41-84ca-55554c1f0e75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\WorldMap\Env\WorldMapCloud">
+      <UniqueIdentifier>{c31b0b04-5785-4eaf-b05a-60e7b988c4bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\WorldMap\Env\WorldMapFlower">
+      <UniqueIdentifier>{e96a7879-5a88-43d1-86cc-dbcae64e3896}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\WorldMap\Env\WorldMapGrass">
+      <UniqueIdentifier>{5286b04b-599b-414b-8c53-e39f7b9b1e59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\WorldMap\Env\WorldMapAnimEnv">
+      <UniqueIdentifier>{833878a7-dd96-44eb-82b6-7c9c70bb66c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\WorldMap\Button">
+      <UniqueIdentifier>{c0105f66-0ef3-43ce-9cd3-2ab86d543c18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\WorldMap\Button\WorldMapBackToIdel">
+      <UniqueIdentifier>{b35511cb-1759-40ff-871f-121a1932f65f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -307,16 +313,16 @@
       <Filter>02. GameObject\Skill\Skill_Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\WorldMapCloud.h">
-      <Filter>02. GameObject\WorldMap\WorldMapCloud</Filter>
+      <Filter>02. GameObject\WorldMap\Env\WorldMapCloud</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\WorldMapFlower.h">
-      <Filter>02. GameObject\WorldMap\WorldMapFlower</Filter>
+      <Filter>02. GameObject\WorldMap\Env\WorldMapFlower</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\WorldMapGrass.h">
-      <Filter>02. GameObject\WorldMap\WorldMapGrass</Filter>
+      <Filter>02. GameObject\WorldMap\Env\WorldMapGrass</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\WorldMapAnimEnv.h">
-      <Filter>02. GameObject\WorldMap\WorldMapAnimEnv</Filter>
+      <Filter>02. GameObject\WorldMap\Env\WorldMapAnimEnv</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\StagePoint.h">
       <Filter>02. GameObject\WorldMap\StagePoint</Filter>
@@ -329,6 +335,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\PartText.h">
       <Filter>02. GameObject\UI\PartText</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\WorldMapBackToIdel.h">
+      <Filter>02. GameObject\WorldMap\Button\WorldMapBackToIdel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -478,16 +487,16 @@
       <Filter>02. GameObject\Skill\Skill_Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\WorldMapCloud.cpp">
-      <Filter>02. GameObject\WorldMap\WorldMapCloud</Filter>
+      <Filter>02. GameObject\WorldMap\Env\WorldMapCloud</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\WorldMapFlower.cpp">
-      <Filter>02. GameObject\WorldMap\WorldMapFlower</Filter>
+      <Filter>02. GameObject\WorldMap\Env\WorldMapFlower</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\WorldMapGrass.cpp">
-      <Filter>02. GameObject\WorldMap\WorldMapGrass</Filter>
+      <Filter>02. GameObject\WorldMap\Env\WorldMapGrass</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\WorldMapAnimEnv.cpp">
-      <Filter>02. GameObject\WorldMap\WorldMapAnimEnv</Filter>
+      <Filter>02. GameObject\WorldMap\Env\WorldMapAnimEnv</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\StagePoint.cpp">
       <Filter>02. GameObject\WorldMap\StagePoint</Filter>
@@ -500,6 +509,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\PartText.cpp">
       <Filter>02. GameObject\UI\PartText</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\WorldMapBackToIdel.cpp">
+      <Filter>02. GameObject\WorldMap\Button\WorldMapBackToIdel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

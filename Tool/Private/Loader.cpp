@@ -132,10 +132,14 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Window/window_button.png")))))
 			return E_FAIL;
 
-
 		/* For.Prototype_Component_Window_Plane_Corner */
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Window_Plane_Corner"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Window/window_plane_corner.dds")))))
+			return E_FAIL;
+
+		/* For.Prototype_Component_Texture_Button_Allround_Exit */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Button_Allround_Exit"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/UI/button_allround_exit.dds")))))
 			return E_FAIL;
 
 	}
@@ -329,6 +333,7 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 
 #pragma region MODELS
 	wsprintf(m_szLoadingText, TEXT("모델를 로딩중입니다."));
+	_matrix		PivotMatrix = XMMatrixIdentity();
 	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_BASECAMP))
 	{
 		/* For.Prototype_Component_VIBuffer_Terrain */
@@ -340,6 +345,16 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_FlatTerrain"),
 			CVIBuffer_FlatTerrain::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
+
+		PivotMatrix = XMMatrixIdentity();
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Button_Base"),
+			CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM_UI, "../../Reference/Resources/Mesh/Animation/UI/Button_Base.fbx", PivotMatrix))))
+			return E_FAIL;
+
+		/* For.Prototype_Component_Shader_VtxtexButton */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxtexButton"),
+			CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_Vtxtex_Button.hlsl"), VTXUIANIMMODEL_DECLARATION::Elements, VTXUIANIMMODEL_DECLARATION::iNumElements))))
+			return E_FAIL;
 	}
 
 	/* For.Prototype_Component_Calculator */
@@ -347,7 +362,6 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 		CCalculator::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	_matrix		PivotMatrix = XMMatrixIdentity();
 
 	/* For.Prototype_Component_Model_Fiona */
 	//PivotMatrix = XMMatrixRotationY(XMConvertToRadians(180.f));
@@ -359,11 +373,6 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Model_BaseCamp_Field"),
 		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Basecamp/BC_field.fbx", PivotMatrix))))
-		return E_FAIL;
-
-	PivotMatrix = XMMatrixIdentity();
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Model_Button_Base"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM_UI, "../../Reference/Resources/Mesh/Animation/UI/Button_Base.fbx", PivotMatrix))))
 		return E_FAIL;
 
 	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
@@ -422,11 +431,6 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 	/* For.Prototype_Component_Shader_VtxAnimModelColor */
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Shader_VtxAnimModelColor"),
 		CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxAnimModelColor.hlsl"), VTXCOLORANIMMODEL_DECLARATION::Elements, VTXCOLORANIMMODEL_DECLARATION::iNumElements))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Shader_VtxtexButton */
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Shader_VtxtexButton"),
-		CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_Vtxtex_Button.hlsl"), VTXUIANIMMODEL_DECLARATION::Elements, VTXUIANIMMODEL_DECLARATION::iNumElements))))
 		return E_FAIL;
 
 #pragma endregion
@@ -601,11 +605,6 @@ HRESULT CLoader::Loading_ForWorldMapLevel()
 	/* For.Prototype_Component_Shader_VtxAnimModelColor */
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Shader_VtxAnimModelColor"),
 		CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxAnimModelColor.hlsl"), VTXCOLORANIMMODEL_DECLARATION::Elements, VTXCOLORANIMMODEL_DECLARATION::iNumElements))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Shader_VtxAnimModelColor */
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Shader_VtxtexButton"),
-		CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_Vtxtex_Button.hlsl"), VTXUIANIMMODEL_DECLARATION::Elements, VTXUIANIMMODEL_DECLARATION::iNumElements))))
 		return E_FAIL;
 
 #pragma endregion

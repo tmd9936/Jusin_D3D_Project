@@ -52,6 +52,7 @@ _uint CWorldMapBackToIdel::On_Select()
 
 _uint CWorldMapBackToIdel::On_Release()
 {
+
 	return 0;
 }
 
