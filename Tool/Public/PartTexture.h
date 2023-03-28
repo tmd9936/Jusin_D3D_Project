@@ -17,11 +17,20 @@ BEGIN(Client)
 class CPartTexture final : public CGameObject
 {
 public:
+	enum TYPE {
+		TYPE_TEXTURE,
+		TYPE_COLOR_TEXTURE,
+		TYPE_END
+	};
+
+public:
 	typedef struct UI_Desc
 	{
 		CTransform*			pParent = { nullptr }; // 기준이 되는 부모
 		CModel*				pParentModel = { nullptr }; // 기준이 되는 부모
 
+		_uint				m_eType;
+		_float4				m_vColor;
 		_float				m_fX;
 		_float				m_fY;
 		_float				m_fSizeX;
@@ -61,7 +70,7 @@ private:
 
 	_float4x4	m_FinalWorldMatrix; /* 원점기준 (내 월드 * 부모월드) */
 
-
+	TYPE		m_eType = { TYPE_END };
 
 private:
 	HRESULT Add_Components();

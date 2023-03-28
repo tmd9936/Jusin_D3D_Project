@@ -15,7 +15,7 @@ END
 
 BEGIN(Client)
 
-class CUI final : public CGameObject
+class CUI : public CGameObject
 {
 public: 
 	enum UI_TYPE {
@@ -37,7 +37,7 @@ public:
 		_tchar				m_TextureProtoTypeName[MAX_PATH];
 	} UI_DESC;
 
-private:
+protected:
 	explicit CUI(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	explicit CUI(const CUI& rhs);
 	virtual ~CUI() = default;
@@ -52,14 +52,14 @@ public:
 	virtual _uint LateTick(_double TimeDelta) override;
 	virtual HRESULT Render() override;
 
-private:
+protected:
 	CTransform* m_pTransformCom = { nullptr };
 	CRenderer* m_pRendererCom = { nullptr };
 	CShader* m_pShaderCom = { nullptr };
 	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
 	CTexture* m_pTextureCom = { nullptr };
 
-private:
+protected:
 	UI_DESC		m_UIDesc = {};
 	_float4x4	m_ViewMatrix = {};
 	_float4x4	m_ProjMatrix = {};
@@ -80,10 +80,8 @@ private:
 	HRESULT Add_Components_By_File();
 
 public:
-	/* Prototype */
-	/* 원형 객체를 생성한다. */
 	static CUI* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	/* 사본 객체를 생성한다. */
+
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) override;
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath = nullptr);
 	virtual void Free() override;

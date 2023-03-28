@@ -169,6 +169,11 @@ _bool CUI::Load_By_JsonFile_Impl(Document& doc)
 		desc.m_fY = TextureParts[i]["m_fY"].GetFloat();
 		desc.m_TextureProtoTypeLevel = TextureParts[i]["m_TextureProtoTypeLevel"].GetUint();
 
+		desc.m_eType = TextureParts[i]["m_eType"].GetUint();
+
+		const Value& m_vPartColor = TextureParts[i]["m_vColor"];
+		desc.m_vColor = _float4(m_vPartColor["x"].GetFloat(), m_vPartColor["y"].GetFloat(), m_vPartColor["z"].GetFloat(), m_vPartColor["w"].GetFloat());
+
 		string textureProtoTypeName = TextureParts[i]["m_TextureProtoTypeName"].GetString();
 		lstrcpy(desc.m_TextureProtoTypeName, convert.from_bytes(textureProtoTypeName).c_str());
 

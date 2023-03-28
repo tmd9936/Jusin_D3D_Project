@@ -105,10 +105,21 @@ HRESULT CPartTexture::Add_Components()
 		(CComponent**)&m_pVIBufferCom, nullptr)))
 		return E_FAIL;
 
-	/* For.Com_Shader */
-	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxTex"),
-		(CComponent**)&m_pShaderCom, nullptr)))
-		return E_FAIL;
+
+	if (m_UIDesc.m_eType == TYPE_TEXTURE)
+	{
+		/* For.Com_Shader */
+		if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxTex"),
+			(CComponent**)&m_pShaderCom, nullptr)))
+			return E_FAIL;
+	}
+	else if (m_UIDesc.m_eType == TYPE_COLOR_TEXTURE)
+	{
+		/* For.Com_Shader */
+		if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxTexColor"),
+			(CComponent**)&m_pShaderCom, nullptr)))
+			return E_FAIL;
+	}
 
 	/* For.Com_Texture */
 	if (FAILED(pGameInstance->Add_Component(CTexture::familyId, this, m_UIDesc.m_TextureProtoTypeLevel, m_UIDesc.m_TextureProtoTypeName,
@@ -136,6 +147,12 @@ HRESULT CPartTexture::SetUp_ShaderResources()
 
 	if (FAILED(m_pTextureCom->Set_ShaderResource(m_pShaderCom, "g_Texture", 0)))
 		return E_FAIL;
+
+	else if (m_UIDesc.m_eType == TYPE_COLOR_TEXTURE)
+	{
+		m_pShaderCom->Set_RawValue("g_vColor", &m_UIDesc.m_vColor, sizeof(_float4));
+	}
+
 
 	Safe_Release(pGameInstance);
 
