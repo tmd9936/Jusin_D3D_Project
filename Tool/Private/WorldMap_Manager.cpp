@@ -101,7 +101,6 @@ HRESULT CWorldMap_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex
 _uint CWorldMap_Manager::Tick(_double TimeDelta)
 {
 	State_Tick(TimeDelta);
-	Picking();
 	Change_State();
 
 	return _uint();
@@ -128,7 +127,16 @@ HRESULT CWorldMap_Manager::Render()
 
 void CWorldMap_Manager::Fade_In(const _double& TimeDelta)
 {
+	if (p_MainCamera->Focus_To_Object(m_FocusPosition, (_float)TimeDelta, 0.01f))
+	{
+		m_eCurState = MANAGER_IDLE;
+	}
 
+	m_vCurrentFadeColor.x += (_float)TimeDelta;
+	m_vCurrentFadeColor.y += (_float)TimeDelta;
+	m_vCurrentFadeColor.z += (_float)TimeDelta;
+	m_vCurrentFadeColor.w += (_float)TimeDelta;
+	m_fCurrentFadeTIme += TimeDelta;
 }
 
 
@@ -183,16 +191,12 @@ void CWorldMap_Manager::State_Tick(const _double& TimeDelta)
 	switch (m_eCurState)
 	{
 	case MANAGER_IDLE:
+		Picking();
 		break;
 	case MANAGER_OPEN_STATE_INFO:
 		//Focus_Stay(TimeDelta);
 		break;
 	case MANAGER_CAMERA_FADE_IN:
-		//m_vCurrentFadeColor.x += TimeDelta;
-		//m_vCurrentFadeColor.y += TimeDelta;
-		//m_vCurrentFadeColor.z += TimeDelta;
-		//m_vCurrentFadeColor.w += TimeDelta;
-		//m_fCurrentFadeTIme += TimeDelta;
 		Fade_In(TimeDelta);
 		break;
 
@@ -211,10 +215,12 @@ void CWorldMap_Manager::Change_State()
 			break;
 		case MANAGER_OPEN_STATE_INFO:
 			m_eRenderId = RENDER_BACK_UI;
+			m_vCurrentFadeColor = m_Desc.m_FadeStartColor;
 			p_MainCamera->Control_Off();
 			break;
 		case MANAGER_CAMERA_FADE_IN:
 			m_eRenderId = RENDER_BACK_UI;
+			m_vCurrentFadeColor = m_Desc.m_FadeStartColor;
 			p_MainCamera->Control_Off();
 			break;
 		}
@@ -230,7 +236,7 @@ void CWorldMap_Manager::Picking()
 		if (nullptr == m_pPickingObject)
 			return;
 
-		//m_eCurState = MANAGER_CAMERA_FADE_IN;
+		m_eCurState = MANAGER_OPEN_STATE_INFO;
 	}
 }
 

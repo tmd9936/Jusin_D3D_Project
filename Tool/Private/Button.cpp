@@ -371,7 +371,7 @@ void CButton::Picking_Button()
 		}
 	}
 
-	else if (MOUSE_AWAY(MOUSE::LBTN) && m_eCurState == BUTTON_SELECT)
+	else if (MOUSE_AWAY(MOUSE::LBTN))
 	{
 		m_eCurState = BUTTON_RELEASE;
 	}

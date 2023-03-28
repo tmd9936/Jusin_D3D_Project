@@ -97,14 +97,8 @@
     <Filter Include="Client_Utility">
       <UniqueIdentifier>{90363512-9d02-46ba-a50c-d5e5a1df79ce}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\UI\Button\GoToWorldMapButton">
-      <UniqueIdentifier>{05d2d0bd-73c3-4600-9abe-ce3a11ec84cb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\BaseCamp\BaseCamp_Manager">
       <UniqueIdentifier>{c0ffc40b-ce40-4f7b-b011-36bbb94db644}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\Monster\BaseCampMonster">
-      <UniqueIdentifier>{22071bd7-dd02-4e8d-9104-33797aa1607d}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject\TestModel\Weapon">
       <UniqueIdentifier>{f793c2f5-1112-4711-9364-0f5bb9ff8a3a}</UniqueIdentifier>
@@ -156,6 +150,15 @@
     </Filter>
     <Filter Include="02. GameObject\UI\PartText">
       <UniqueIdentifier>{463966ca-b31b-4191-bc63-74e0d46c11a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\BaseCamp\Button">
+      <UniqueIdentifier>{2540afa4-ecb0-44e7-b26f-375ca846369c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\BaseCamp\BaseCampMonster">
+      <UniqueIdentifier>{22071bd7-dd02-4e8d-9104-33797aa1607d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\BaseCamp\GoToWorldMapButton">
+      <UniqueIdentifier>{05d2d0bd-73c3-4600-9abe-ce3a11ec84cb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -274,13 +277,13 @@
       <Filter>Client_Utility</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\GoToWorldMapButton.h">
-      <Filter>02. GameObject\UI\Button\GoToWorldMapButton</Filter>
+      <Filter>02. GameObject\BaseCamp\GoToWorldMapButton</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\BaseCamp_Manager.h">
       <Filter>02. GameObject\BaseCamp\BaseCamp_Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\BaseCampMonster.h">
-      <Filter>02. GameObject\Monster\BaseCampMonster</Filter>
+      <Filter>02. GameObject\BaseCamp\BaseCampMonster</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\BuffState.h">
       <Filter>02. GameObject\Monster\UI\BuffState</Filter>
@@ -445,13 +448,13 @@
       <Filter>Client_Utility</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\GoToWorldMapButton.cpp">
-      <Filter>02. GameObject\UI\Button\GoToWorldMapButton</Filter>
+      <Filter>02. GameObject\BaseCamp\GoToWorldMapButton</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\BaseCamp_Manager.cpp">
       <Filter>02. GameObject\BaseCamp\BaseCamp_Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\BaseCampMonster.cpp">
-      <Filter>02. GameObject\Monster\BaseCampMonster</Filter>
+      <Filter>02. GameObject\BaseCamp\BaseCampMonster</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\BuffState.cpp">
       <Filter>02. GameObject\Monster\UI\BuffState</Filter>
