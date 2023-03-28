@@ -16,6 +16,13 @@
                 "m_fY": -20.0,
                 "m_fSizeX": 30.0,
                 "m_fSizeY": 30.0,
+                "m_eType": 0,
+                "m_vColor": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
                 "m_TextureProtoTypeLevel": 3,
                 "m_TextureProtoTypeName": "Prototype_Component_Texture_Window_Arrow_Marker"
             }
