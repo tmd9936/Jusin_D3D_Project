@@ -67,8 +67,8 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* p
 	if (FAILED(Add_MotionState()))
 		return E_FAIL;
 
-	if (FAILED(Add_BuffState()))
-		return E_FAIL;
+	/*if (FAILED(Add_BuffState()))
+		return E_FAIL;*/
 
 	m_eRenderId = RENDER_NONBLEND;
 
@@ -110,8 +110,8 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const c
 	if (FAILED(Add_MotionState()))
 		return E_FAIL;
 
-	if (FAILED(Add_BuffState()))
-		return E_FAIL;
+	/*if (FAILED(Add_BuffState()))
+		return E_FAIL;*/
 
 	m_eRenderId = RENDER_NONBLEND;
 

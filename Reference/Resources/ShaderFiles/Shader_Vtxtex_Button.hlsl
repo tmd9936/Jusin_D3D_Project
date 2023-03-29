@@ -1,5 +1,31 @@
 #include "Shader_Defines.hlsli"
 
+bool ShouldDiscard(float2 coords, float2 dimensions, float radius)
+{
+	float2 circle_center = float2(radius, radius);
+
+	if (length(coords - circle_center) > radius
+		&& coords.x < circle_center.x && coords.y < circle_center.y) return true; //first circle
+
+	circle_center.x += dimensions.x - 2 * radius;
+
+	if (length(coords - circle_center) > radius
+		&& coords.x > circle_center.x && coords.y < circle_center.y) return true; //second circle
+
+	circle_center.y += dimensions.y - 2 * radius;
+
+	if (length(coords - circle_center) > radius
+		&& coords.x > circle_center.x && coords.y > circle_center.y) return true; //third circle
+
+	circle_center.x -= dimensions.x - 2 * radius;
+
+	if (length(coords - circle_center) > radius
+		&& coords.x < circle_center.x && coords.y > circle_center.y) return true; //fourth circle
+
+	return false;
+
+}
+
 matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
 matrix			g_BoneMatrices[256]; /* 메시에 영향을 주는 뼈들이다.  VTF */
@@ -77,6 +103,10 @@ PS_OUT PS_MAIN(PS_IN In)
 	Out.vColor = g_Texture.Sample(PointSampler, In.vTexUV);
 
 	if (Out.vColor.a < 0.1)
+		discard;
+
+	float2 coords = In.vTexUV * 5.f;
+	if (ShouldDiscard(coords, 5.f, 1.f))
 		discard;
 
 	return Out;
