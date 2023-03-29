@@ -184,7 +184,7 @@ HRESULT CLevel_Stage::Ready_Layer_Player(const _tchar* pLayerTag)
 
 	CMonster::POKEMON_DESC desc{};
 	desc.m_monsterNo = 6;
-	desc.vPos = _float4(25.2f, 0.5f, 22.0f, 1.f);
+	desc.vPos = _float4(29.2f, 0.5f, 22.0f, 1.f);
 
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Player"), LEVEL_STAGE, pLayerTag, L"Player", &desc)))
 		return E_FAIL;
