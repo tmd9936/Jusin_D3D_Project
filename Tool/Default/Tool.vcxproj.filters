@@ -178,6 +178,9 @@
     <Filter Include="02. GameObject\Mouse">
       <UniqueIdentifier>{8a2c3441-f0b3-48ea-a613-c9ff1f859d27}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\WorldMap\Button\GoToStageButton">
+      <UniqueIdentifier>{5f7bc79b-fa2a-4b32-b032-624295726326}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -359,6 +362,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Mouse.h">
       <Filter>02. GameObject\Mouse</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\GoToStageButton.h">
+      <Filter>02. GameObject\WorldMap\Button\GoToStageButton</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -542,6 +548,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Mouse.cpp">
       <Filter>02. GameObject\Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\GoToStageButton.cpp">
+      <Filter>02. GameObject\WorldMap\Button\GoToStageButton</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

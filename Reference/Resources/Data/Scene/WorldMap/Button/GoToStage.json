@@ -1,0 +1,101 @@
+{
+    "ButtonDesc": {
+        "m_fX": 400.0,
+        "m_fY": 270.0,
+        "m_fSizeX": 100.5,
+        "m_fSizeY": 80.0,
+        "m_ModelPrototypLevel": 0,
+        "m_ShaderLevelIndex": 0,
+        "m_DiffuseTexturePath": "./window_plane_corner.png",
+        "m_MaskPrototypeTag": "Prototype_Component_Button_Color_Mask",
+        "m_BrushPrototypeTag": "",
+        "m_ButtonName": "GO_TO_STAGE1",
+        "m_UIType": 1,
+        "m_vColor": {
+            "x" : 0.6,
+            "y" : 0.5,
+            "z" : 0.4,
+            "w" : 1.0
+        },
+        "m_TextureParts": [
+            {
+                "m_fX": 0.0,
+                "m_fY": 18.0,
+                "m_fSizeX": 180.0,
+                "m_fSizeY": 110.0,
+                "m_eType": 1,
+                "m_vColor": {
+                    "x": 0.7,
+                    "y": 0.6,
+                    "z": 0.5,
+                    "w": 1.0
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_Window_Plane_Corner",
+                "LayerTag": "Layer_Stage_Info_UI"
+            },
+            {
+                "m_fX": 0.0,
+                "m_fY": 20.0,
+                "m_fSizeX": 140.0,
+                "m_fSizeY": 80.0,
+                "m_eType": 0,
+                "m_vColor": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "m_TextureProtoTypeLevel": 4,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_Window_Power_Enemy",
+                "LayerTag": "Layer_Stage_Info_UI"
+            }
+        ],
+        "m_TextParts": [
+            {
+                "m_fX": 20.0,
+                "m_fY": -35.0,
+                "m_vColor": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "m_Rotation": 0.0,
+                "m_vRotationOrigin": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "m_vScale": {
+                    "x": 0.68,
+                    "y": 0.68
+                },
+                "m_FontTag": "Font_NanumBarunGothic", 
+                "m_Text": "2-1",
+                "LayerTag": "Layer_Stage_Info_UI"
+            },
+            {
+                "m_fX": 0.0,
+                "m_fY": 60.0,
+                "m_vColor": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "m_Rotation": 0.0,
+                "m_vRotationOrigin": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "m_vScale": {
+                    "x": 0.95,
+                    "y": 0.8
+                },
+                "m_FontTag": "Font_NanumBarunGothic", 
+                "m_Text": "1,000",
+                "LayerTag": "Layer_Stage_Info_UI"
+            }
+        ]
+    }
+}

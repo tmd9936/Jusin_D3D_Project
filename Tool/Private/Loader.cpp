@@ -10,7 +10,6 @@
 
 #include "Mouse.h"
 
-//#include "TestModel.h"
 #include "ModelUI.h"
 #include "Map.h"
 #include "Stove.h"
@@ -23,6 +22,7 @@
 #include "WorldMapBackToIdel.h"
 #include "StageInfoUI.h"
 #include "StagePoint.h"
+#include "GoToStageButton.h"
 
 #include "Player.h"
 #include "GoToWorldMapButton.h"
@@ -39,7 +39,6 @@
 #include "Navigation.h"
 #include "PartTexture.h"
 #include "PartText.h"
-
 
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -551,6 +550,10 @@ HRESULT CLoader::Loading_ForWorldMapLevel()
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/World/world_dungeonicon%d.dds"), 5))))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Texture_Window_Power_Enemy"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/World/window_power_enemy.dds")))))
+		return E_FAIL;
+
 #pragma endregion
 
 #pragma region MODELS
@@ -672,6 +675,10 @@ HRESULT CLoader::Loading_ForWorldMapLevel()
 
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_WorldMap_StageInfoUI"),
 			CStageInfoUI::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_WorldMap_GoToStageButton"),
+			CGoToStageButton::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 	}
 #pragma endregion

@@ -157,7 +157,7 @@ HRESULT CButton::Render()
 			return E_FAIL;
 
 
-		m_pShaderCom->Begin(0);
+		m_pShaderCom->Begin((_uint)m_ButtonDesc.m_UIType);
 
 		m_pModelCom->Render(i);
 
@@ -201,6 +201,17 @@ _bool CButton::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& all
 			m_ButtonName.SetString(tag.c_str(), (SizeType)tag.size(), allocator);
 			ButtonDesc.AddMember("m_ButtonName", m_ButtonName, allocator);
 
+			ButtonDesc.AddMember("m_UIType", m_ButtonDesc.m_UIType, allocator);
+
+			Value m_vColor(kObjectType);
+			{
+				m_vColor.AddMember("x", m_ButtonDesc.m_vColor.x, allocator);
+				m_vColor.AddMember("y", m_ButtonDesc.m_vColor.y, allocator);
+				m_vColor.AddMember("z", m_ButtonDesc.m_vColor.z, allocator);
+				m_vColor.AddMember("w", m_ButtonDesc.m_vColor.w, allocator);
+			}
+			ButtonDesc.AddMember("m_vColor", m_vColor, allocator);
+
 		}
 		doc.AddMember("ButtonDesc", ButtonDesc, allocator);
 
@@ -223,6 +234,11 @@ _bool CButton::Load_By_JsonFile_Impl(Document& doc)
 		m_ButtonDesc.m_fY = ButtonDesc["m_fY"].GetFloat();
 		m_ButtonDesc.m_fSizeX = ButtonDesc["m_fSizeX"].GetFloat();
 		m_ButtonDesc.m_fSizeY = ButtonDesc["m_fSizeY"].GetFloat();
+
+		m_ButtonDesc.m_UIType = ButtonDesc["m_UIType"].GetUint();
+
+		const Value& m_vColor = ButtonDesc["m_vColor"];
+		m_ButtonDesc.m_vColor = _float4(m_vColor["x"].GetFloat(), m_vColor["y"].GetFloat(), m_vColor["z"].GetFloat(), m_vColor["w"].GetFloat());
 
 		m_ButtonDesc.m_ModelPrototypLevel = ButtonDesc["m_ModelPrototypLevel"].GetUint();
 		m_ButtonDesc.m_ShaderLevelIndex = ButtonDesc["m_ShaderLevelIndex"].GetUint();
@@ -396,6 +412,8 @@ HRESULT CButton::SetUp_ShaderResources()
 
 	//if (FAILED(m_pTextureCom->Set_ShaderResource(m_pShaderCom, "g_Texture", 0)))
 	//	return E_FAIL;	
+
+	m_pShaderCom->Set_RawValue("g_vColor", &m_ButtonDesc.m_vColor, sizeof(_float4));
 
 	Safe_Release(pGameInstance);
 

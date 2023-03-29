@@ -19,6 +19,9 @@ class CPartText;
 class CButton abstract : public CGameObject
 {
 public:
+	enum TYPE { TYPE_TEXTURE, TYPE_COLOR, TYPE_END };
+
+public:
 	enum BUTTON_STATE
 	{
 		BUTTON_IDLE,
@@ -96,6 +99,9 @@ public:
 		_float				m_fY;
 		_float				m_fSizeX;
 		_float				m_fSizeY;
+
+		_float4				m_vColor;
+		_uint				m_UIType;
 
 		_uint				m_ModelPrototypLevel;
 		_uint				m_ShaderLevelIndex;
