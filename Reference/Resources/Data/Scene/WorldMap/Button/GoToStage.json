@@ -75,7 +75,7 @@
                 "LayerTag": "Layer_Stage_Info_UI"
             },
             {
-                "m_fX": 0.0,
+                "m_fX": -10.0,
                 "m_fY": 60.0,
                 "m_vColor": {
                     "x": 1.0,

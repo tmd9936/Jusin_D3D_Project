@@ -130,6 +130,7 @@ _uint CButton::LateTick(_double TimeDelta)
 		{
 			part->LateTick(TimeDelta);
 		}
+
 	}
 
 	return _uint();
@@ -426,7 +427,7 @@ void CButton::Button_Motion(_double TimeDelta)
 	switch (m_eCurState)
 	{
 	case CButton::BUTTON_IDLE:
-		m_pModelCom->Play_Animation(TimeDelta);
+		m_pModelCom->Play_Animation(TimeDelta, false);
 		//m_pTransformCom->Set_Scaled({ m_ButtonDesc.m_fSizeX,  m_ButtonDesc.m_fSizeY, 1.f });
 		break;
 	case CButton::BUTTON_PRESS:
@@ -437,12 +438,12 @@ void CButton::Button_Motion(_double TimeDelta)
 		}
 		break;
 	case CButton::BUTTON_RELEASE:
-		m_pTransformCom->Set_Scaled({ m_ButtonDesc.m_fSizeX * m_TransformMatrix.m[0][0],  m_ButtonDesc.m_fSizeY * m_TransformMatrix.m[1][1], 1.f });
-		if (m_pModelCom->Play_Animation(TimeDelta * 1.5f))
+		if (m_pModelCom->Play_Animation(TimeDelta * 1.5f, false))
 		{
 			m_eCurState = BUTTON_IDLE;
-			m_TickResult = On_Release();
+			break;
 		}
+		m_pTransformCom->Set_Scaled({ m_ButtonDesc.m_fSizeX * m_TransformMatrix.m[0][0],  m_ButtonDesc.m_fSizeY * m_TransformMatrix.m[1][1], 1.f });
 		break;
 	case CButton::BUTTON_SELECT:
 		m_pTransformCom->Set_Scaled({ m_ButtonDesc.m_fSizeX * m_TransformMatrix.m[0][0],  m_ButtonDesc.m_fSizeY * m_TransformMatrix.m[1][1], 1.f });
@@ -472,7 +473,7 @@ void CButton::Picking_Button()
 		}
 	}
 
-	else if (MOUSE_AWAY(MOUSE::LBTN) && m_eCurState == BUTTON_SELECT)
+	else if (MOUSE_AWAY(MOUSE::LBTN) && (m_eCurState == BUTTON_SELECT || m_eCurState == BUTTON_PRESS))
 	{
 		m_eCurState = BUTTON_RELEASE;
 	}
@@ -486,7 +487,7 @@ _uint CButton::Change_State()
 		switch (m_eCurState)
 		{
 		case CButton::BUTTON_IDLE:
-			m_pModelCom->Set_Animation(BUTTON_IDLE);
+			//m_pModelCom->Set_Animation(BUTTON_IDLE);
 			m_TickResult = On_Idle();
 			break;
 		case CButton::BUTTON_PRESS:
@@ -495,7 +496,7 @@ _uint CButton::Change_State()
 			break;
 		case CButton::BUTTON_RELEASE:
 			m_pModelCom->Set_Animation(BUTTON_RELEASE);
-			//result = On_Release();
+			m_TickResult = On_Release();
 			break;
 		case CButton::BUTTON_SELECT:
 			m_selectTransformMatrix = m_TransformMatrix;

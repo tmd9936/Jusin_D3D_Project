@@ -38,7 +38,7 @@ private:
 	CModel* m_pModelCom = { nullptr };
 
 private:
-	STATE			m_eState = { STATE_IDLE };
+	STATE			m_eState = { STATE_CLICK };
 	_float4x4		m_ViewMatrix = {};
 	_float4x4		m_ProjMatrix = {};
 
