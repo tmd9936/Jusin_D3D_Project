@@ -10,6 +10,7 @@
 #include "Level_Logo.h"
 #include "Level_BaseCamp.h"
 #include "Level_WorldMap.h"
+#include "Level_Stage.h"
 
 #include "ModelUI.h"
 #pragma endregion
@@ -83,6 +84,9 @@ void CLevel_Loading::Tick(_double TimeDelta)
 				pNewLevel = CLevel_WorldMap::Create(m_pDevice, m_pContext);
 				break;
 
+			case LEVEL_STAGE:
+				pNewLevel = CLevel_Stage::Create(m_pDevice, m_pContext);
+				break;
 			}
 
 			if (nullptr == pNewLevel)

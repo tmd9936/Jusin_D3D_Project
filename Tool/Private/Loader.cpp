@@ -71,6 +71,9 @@ _uint APIENTRY LoadingMain(void* pArg)
 	case LEVEL_WORLDMAP:
 		hr = pLoader->Loading_ForWorldMapLevel();
 		break;
+	case LEVEL_STAGE:
+		hr = pLoader->Loading_ForStageLevel();
+		break;
 	}
 
 	if (FAILED(hr))
@@ -233,6 +236,11 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		/* For.Prototype_Component_Shader_VtxTexColor */
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxTexColor"),
 			CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxTexColor.hlsl"), VTXTEX_DECLARATION::Elements, VTXTEX_DECLARATION::iNumElements))))
+			return E_FAIL;
+
+		/* For.Prototype_Component_Shader_VtxNorTex_HeightTerrain */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxNorTex_HeightTerrain"),
+			CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxNorTex_HeightTerrain.hlsl"), VTXNORTEX_DECLARATION::Elements, VTXNORTEX_DECLARATION::iNumElements))))
 			return E_FAIL;
 	}
 #pragma endregion
@@ -449,10 +457,6 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 		CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxNorTex.hlsl"), VTXNORTEX_DECLARATION::Elements, VTXNORTEX_DECLARATION::iNumElements))))
 		return E_FAIL;
 
-	/* For.Prototype_Component_Shader_VtxNorTex_HeightTerrain */
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Shader_VtxNorTex_HeightTerrain"),
-		CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxNorTex_HeightTerrain.hlsl"), VTXNORTEX_DECLARATION::Elements, VTXNORTEX_DECLARATION::iNumElements))))
-		return E_FAIL;
 
 	/* For.Prototype_Component_Shader_VtxAnimModelColor */
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Shader_VtxAnimModelColor"),
@@ -627,11 +631,6 @@ HRESULT CLoader::Loading_ForWorldMapLevel()
 	//	CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxNorTex.hlsl"), VTXNORTEX_DECLARATION::Elements, VTXNORTEX_DECLARATION::iNumElements))))
 	//	return E_FAIL;
 
-	/* For.Prototype_Component_Shader_VtxNorTex_HeightTerrain */
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Shader_VtxNorTex_HeightTerrain"),
-		CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxNorTex_HeightTerrain.hlsl"), VTXNORTEX_DECLARATION::Elements, VTXNORTEX_DECLARATION::iNumElements))))
-		return E_FAIL;
-
 	/* For.Prototype_Component_Shader_VtxAnimModelColor */
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Shader_VtxAnimModelColor"),
 		CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxAnimModelColor.hlsl"), VTXCOLORANIMMODEL_DECLARATION::Elements, VTXCOLORANIMMODEL_DECLARATION::iNumElements))))
@@ -682,6 +681,59 @@ HRESULT CLoader::Loading_ForWorldMapLevel()
 			return E_FAIL;
 	}
 #pragma endregion
+
+	wsprintf(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
+	m_isFinished = true;
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_ForStageLevel()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	wsprintf(m_szLoadingText, TEXT("네비게이션 데이터 로딩중."));
+	/* For.Prototype_Component_Navigation */
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Navigation"),
+		CNavigation::Create(m_pDevice, m_pContext, "../../Reference/Resources/Data/NavMask/Stage/C_cave1_01.json"))))
+		return E_FAIL;
+
+	wsprintf(m_szLoadingText, TEXT("모델를 로딩중입니다."));
+
+	_matrix		PivotMatrix = XMMatrixIdentity();
+
+	/* For.Prototype_Component_Model_Stage_Map */
+	PivotMatrix = XMMatrixScaling(1.1f, 1.1f, 1.1f);
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_Map"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/Map/C_cave1_01.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Model_Stage_LD */
+	PivotMatrix = XMMatrixScaling(0.4f, 0.4f, 0.4f);
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_LD"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/Map/C_cave1_out_LD.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Model_Stage_LU */
+	//PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_LU"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/Map/C_cave1_out_LU.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Model_Stage_RD */
+	//PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_RD"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/Map/C_cave1_out_RD.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Model_Stage_RU */
+	//PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_RU"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/Map/C_cave1_out_RU.fbx", PivotMatrix))))
+		return E_FAIL;
 
 	wsprintf(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 	m_isFinished = true;

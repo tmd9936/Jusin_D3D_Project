@@ -5,6 +5,8 @@
 
 #include "WorldMap_Manager.h"
 
+#include "Level_Loading.h"
+
 
 CGoToStageButton::CGoToStageButton(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CButton(pDevice, pContext)
@@ -53,15 +55,10 @@ _uint CGoToStageButton::On_Select()
 
 _uint CGoToStageButton::On_Release()
 {
-	//CGameObject* pWorldMap_Manager = CGameInstance::GetInstance()->Get_Object(LEVEL_WORLDMAP, L"Layer_Manager", L"WorldMap_Manager");
-
-	//if (nullptr == pWorldMap_Manager)
-	//	return 0;
-
-	//dynamic_cast<CWorldMap_Manager*>(pWorldMap_Manager)->Be_Idle();
-
-	//m_TickResult = 0;
-	return 0;
+	if (FAILED(CGameInstance::GetInstance()->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_STAGE))))
+		return 0;
+	else
+		return OBJ_SCENE_CHNAGE;
 }
 
 CGoToStageButton* CGoToStageButton::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

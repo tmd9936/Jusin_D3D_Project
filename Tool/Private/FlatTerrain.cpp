@@ -95,7 +95,7 @@ HRESULT CFlatTerrain::Add_Components()
 		return E_FAIL;
 
 	/* For.Com_Shader */
-	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, m_desc.m_Level, TEXT("Prototype_Component_Shader_VtxNorTex_HeightTerrain"),
+	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxNorTex_HeightTerrain"),
 		(CComponent**)&m_pShaderCom, nullptr)))
 		return E_FAIL;
 

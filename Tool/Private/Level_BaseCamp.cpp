@@ -10,6 +10,8 @@
 
 #include "Client_Utility.h"
 
+#include "FlatTerrain.h"
+
 CLevel_BaseCamp::CLevel_BaseCamp(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
 {
@@ -82,7 +84,9 @@ HRESULT CLevel_BaseCamp::Ready_Layer_Terrain(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_Layer(LEVEL_BASECAMP, pLayerTag)))
 		return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_FlatTerrain"), LEVEL_BASECAMP, pLayerTag, L"Terrain")))
+	CFlatTerrain::FLATTERRAIN_DESC desc{};
+	desc.m_Level = LEVEL_BASECAMP;
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_FlatTerrain"), LEVEL_BASECAMP, pLayerTag, L"Terrain", &desc)))
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);

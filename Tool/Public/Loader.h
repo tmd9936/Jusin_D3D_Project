@@ -40,6 +40,8 @@ public:
 	HRESULT Loading_ForLogoLevel();
 	HRESULT Loading_ForBaseCampLevel();
 	HRESULT Loading_ForWorldMapLevel();
+	HRESULT Loading_ForStageLevel();
+
 
 
 private:

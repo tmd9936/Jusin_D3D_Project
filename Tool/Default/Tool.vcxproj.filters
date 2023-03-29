@@ -25,12 +25,6 @@
     <Filter Include="01. Levels\Loading\Loader">
       <UniqueIdentifier>{879cfb9b-fd15-4e1c-b93c-0b1c2177aa76}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\Background">
-      <UniqueIdentifier>{f03ceea5-0c2c-4691-82b1-383262c4bfa4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\Terrain">
-      <UniqueIdentifier>{e6d9082e-df02-4579-a3ac-3ae46d42b422}</UniqueIdentifier>
-    </Filter>
     <Filter Include="97. ShaderFiles">
       <UniqueIdentifier>{1169c46f-4a0a-4057-9bdf-6284a9995c54}</UniqueIdentifier>
     </Filter>
@@ -43,9 +37,6 @@
     <Filter Include="96 ImGui\imgui">
       <UniqueIdentifier>{880dc489-0647-4238-86cd-128dd5a4f5dd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\Terrain\FlatTerrain">
-      <UniqueIdentifier>{0c109fd4-e705-4af0-9aac-48c2dbc7ae06}</UniqueIdentifier>
-    </Filter>
     <Filter Include="96 ImGui\DataToolGUI">
       <UniqueIdentifier>{4b68341e-8e0c-4946-a930-0258f43bc12d}</UniqueIdentifier>
     </Filter>
@@ -55,32 +46,8 @@
     <Filter Include="96 ImGui\UiToolGUI">
       <UniqueIdentifier>{42977d6c-63c4-4b92-847f-ad3e2c051569}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\UI">
-      <UniqueIdentifier>{57346e36-1bc9-4e61-a482-51ada3529dbb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\UI\ModelUI">
-      <UniqueIdentifier>{ae585fe3-8c7f-4404-bc37-4ef318b9503c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\UI\TextureUI">
-      <UniqueIdentifier>{fd3276a0-7b60-40c6-b554-423274bf23f9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\BaseCamp">
       <UniqueIdentifier>{e9b07c8e-9610-4a89-b5c9-82703cc58110}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\Map">
-      <UniqueIdentifier>{8e605126-9621-4e87-9a52-105cad4ffca5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\TestModel">
-      <UniqueIdentifier>{d0983206-d520-4cb0-a2ce-f921a2558e65}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\Camera">
-      <UniqueIdentifier>{d0cd6129-d1d0-4c79-a307-aac1f29c9e76}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\Camera\Public">
-      <UniqueIdentifier>{ade22b3d-5e2c-4d64-a46c-594cdf5ebf08}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\UI\Button">
-      <UniqueIdentifier>{486196df-508d-4ae8-ae3b-9071d41cdf7a}</UniqueIdentifier>
     </Filter>
     <Filter Include="01. Levels\BaseCamp">
       <UniqueIdentifier>{904cf744-ac4b-4777-8420-7603b08c6275}</UniqueIdentifier>
@@ -91,41 +58,11 @@
     <Filter Include="02. GameObject\WorldMap">
       <UniqueIdentifier>{c22b070c-2ee9-4911-a960-18b46263c1e6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\Monster">
-      <UniqueIdentifier>{54be1a60-304a-4f70-ad89-77a4ecc855d9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Client_Utility">
       <UniqueIdentifier>{90363512-9d02-46ba-a50c-d5e5a1df79ce}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject\BaseCamp\BaseCamp_Manager">
       <UniqueIdentifier>{c0ffc40b-ce40-4f7b-b011-36bbb94db644}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\TestModel\Weapon">
-      <UniqueIdentifier>{f793c2f5-1112-4711-9364-0f5bb9ff8a3a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\Monster\Player">
-      <UniqueIdentifier>{7132cc79-bd6b-439e-b4b1-ae5ec88af567}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\Monster\UI">
-      <UniqueIdentifier>{1494270a-84a3-40af-87e4-1def095f40ff}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\Monster\UI\BuffState">
-      <UniqueIdentifier>{774a5ff9-7f28-4297-bad2-5965d1976156}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\Monster\UI\HpBar">
-      <UniqueIdentifier>{a12b8741-0500-446a-9d84-2c3537cde0a5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\Effect">
-      <UniqueIdentifier>{be9f8978-f02c-438a-a2f4-fc6971dd938a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\Effect\Effect_Manager">
-      <UniqueIdentifier>{e994c659-68b1-471e-bbe4-f1aabd47ff64}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\Skill">
-      <UniqueIdentifier>{7f876eed-6c42-4f03-b288-ece67e4d7aaa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\Skill\Skill_Manager">
-      <UniqueIdentifier>{3f632fe4-71ce-4b1c-9de0-bf40fbeda2bd}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject\WorldMap\StagePoint">
       <UniqueIdentifier>{f51bf141-ba85-4d31-953e-064f92798024}</UniqueIdentifier>
@@ -133,17 +70,8 @@
     <Filter Include="02. GameObject\WorldMap\WorldMap_Manager">
       <UniqueIdentifier>{472308f7-d71d-4e2b-a2c0-c022ddf72aee}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\UI\PartTexture">
-      <UniqueIdentifier>{5164ee61-0808-4512-bcdc-c52ecc7ec679}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\UI\PartText">
-      <UniqueIdentifier>{463966ca-b31b-4191-bc63-74e0d46c11a3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\BaseCamp\BaseCampMonster">
       <UniqueIdentifier>{22071bd7-dd02-4e8d-9104-33797aa1607d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\BaseCamp\GoToWorldMapButton">
-      <UniqueIdentifier>{05d2d0bd-73c3-4600-9abe-ce3a11ec84cb}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject\WorldMap\Env">
       <UniqueIdentifier>{b51e2319-9e51-4c41-84ca-55554c1f0e75}</UniqueIdentifier>
@@ -175,11 +103,92 @@
     <Filter Include="01. Levels\Stage">
       <UniqueIdentifier>{462dc141-b935-47dc-b4f2-e616d01cc96e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\Mouse">
-      <UniqueIdentifier>{8a2c3441-f0b3-48ea-a613-c9ff1f859d27}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\WorldMap\Button\GoToStageButton">
       <UniqueIdentifier>{5f7bc79b-fa2a-4b32-b032-624295726326}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static">
+      <UniqueIdentifier>{6c9ebd10-a1b6-4444-9c0a-3972c67e2dc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Skill">
+      <UniqueIdentifier>{7f876eed-6c42-4f03-b288-ece67e4d7aaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Skill\Skill_Manager">
+      <UniqueIdentifier>{3f632fe4-71ce-4b1c-9de0-bf40fbeda2bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Terrain">
+      <UniqueIdentifier>{e6d9082e-df02-4579-a3ac-3ae46d42b422}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Terrain\FlatTerrain">
+      <UniqueIdentifier>{0c109fd4-e705-4af0-9aac-48c2dbc7ae06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\TestModel">
+      <UniqueIdentifier>{d0983206-d520-4cb0-a2ce-f921a2558e65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\TestModel\Weapon">
+      <UniqueIdentifier>{f793c2f5-1112-4711-9364-0f5bb9ff8a3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Mouse">
+      <UniqueIdentifier>{8a2c3441-f0b3-48ea-a613-c9ff1f859d27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Effect">
+      <UniqueIdentifier>{be9f8978-f02c-438a-a2f4-fc6971dd938a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Effect\Effect_Manager">
+      <UniqueIdentifier>{e994c659-68b1-471e-bbe4-f1aabd47ff64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Camera">
+      <UniqueIdentifier>{d0cd6129-d1d0-4c79-a307-aac1f29c9e76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Camera\Public">
+      <UniqueIdentifier>{ade22b3d-5e2c-4d64-a46c-594cdf5ebf08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Map">
+      <UniqueIdentifier>{8e605126-9621-4e87-9a52-105cad4ffca5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\UI">
+      <UniqueIdentifier>{57346e36-1bc9-4e61-a482-51ada3529dbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\UI\ModelUI">
+      <UniqueIdentifier>{ae585fe3-8c7f-4404-bc37-4ef318b9503c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\UI\TextureUI">
+      <UniqueIdentifier>{fd3276a0-7b60-40c6-b554-423274bf23f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\UI\Button">
+      <UniqueIdentifier>{486196df-508d-4ae8-ae3b-9071d41cdf7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\UI\PartTexture">
+      <UniqueIdentifier>{5164ee61-0808-4512-bcdc-c52ecc7ec679}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\UI\PartText">
+      <UniqueIdentifier>{463966ca-b31b-4191-bc63-74e0d46c11a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\BaseCamp\Button">
+      <UniqueIdentifier>{b8927ac3-46cd-4a52-9397-663b9c9a77a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\BaseCamp\Button\GoToWorldMapButton">
+      <UniqueIdentifier>{05d2d0bd-73c3-4600-9abe-ce3a11ec84cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\BaseCamp\Stove">
+      <UniqueIdentifier>{7d493592-211a-48bd-9fdb-9b85e8bdd155}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Background">
+      <UniqueIdentifier>{f03ceea5-0c2c-4691-82b1-383262c4bfa4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Monster">
+      <UniqueIdentifier>{54be1a60-304a-4f70-ad89-77a4ecc855d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Monster\Player">
+      <UniqueIdentifier>{7132cc79-bd6b-439e-b4b1-ae5ec88af567}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Monster\UI">
+      <UniqueIdentifier>{1494270a-84a3-40af-87e4-1def095f40ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Monster\UI\BuffState">
+      <UniqueIdentifier>{774a5ff9-7f28-4297-bad2-5965d1976156}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Monster\UI\HpBar">
+      <UniqueIdentifier>{a12b8741-0500-446a-9d84-2c3537cde0a5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -214,10 +223,10 @@
       <Filter>01. Levels\Logo</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\BackGround.h">
-      <Filter>02. GameObject\Background</Filter>
+      <Filter>02. GameObject\Static\Background</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Terrain.h">
-      <Filter>02. GameObject\Terrain</Filter>
+      <Filter>02. GameObject\Static\Terrain</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\MapToolGUI.h">
       <Filter>96 ImGui\MapToolGUI</Filter>
@@ -250,16 +259,16 @@
       <Filter>96 ImGui\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\FlatTerrain.h">
-      <Filter>02. GameObject\Terrain\FlatTerrain</Filter>
+      <Filter>02. GameObject\Static\Terrain\FlatTerrain</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\DataToolGUI.h">
       <Filter>96 ImGui\DataToolGUI</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\TestModel.h">
-      <Filter>02. GameObject\TestModel</Filter>
+      <Filter>02. GameObject\Static\TestModel</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Player.h">
-      <Filter>02. GameObject\Monster\Player</Filter>
+      <Filter>02. GameObject\Static\Monster\Player</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\FileDialogUtill.h">
       <Filter>96 ImGui\Utill</Filter>
@@ -268,37 +277,34 @@
       <Filter>96 ImGui\UiToolGUI</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI.h">
-      <Filter>02. GameObject\UI</Filter>
+      <Filter>02. GameObject\Static\UI</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\ModelUI.h">
-      <Filter>02. GameObject\UI\ModelUI</Filter>
+      <Filter>02. GameObject\Static\UI\ModelUI</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\TextureUI.h">
-      <Filter>02. GameObject\UI\TextureUI</Filter>
+      <Filter>02. GameObject\Static\UI\TextureUI</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Map.h">
-      <Filter>02. GameObject\Map</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Stove.h">
-      <Filter>02. GameObject\BaseCamp</Filter>
+      <Filter>02. GameObject\Static\Map</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Camera_Public.h">
-      <Filter>02. GameObject\Camera\Public</Filter>
+      <Filter>02. GameObject\Static\Camera\Public</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Button.h">
-      <Filter>02. GameObject\UI\Button</Filter>
+      <Filter>02. GameObject\Static\UI\Button</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_WorldMap.h">
       <Filter>01. Levels\WorldMap</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Monster.h">
-      <Filter>02. GameObject\Monster</Filter>
+      <Filter>02. GameObject\Static\Monster</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Client_Utility.h">
       <Filter>Client_Utility</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\GoToWorldMapButton.h">
-      <Filter>02. GameObject\BaseCamp\GoToWorldMapButton</Filter>
+      <Filter>02. GameObject\BaseCamp\Button\GoToWorldMapButton</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\BaseCamp_Manager.h">
       <Filter>02. GameObject\BaseCamp\BaseCamp_Manager</Filter>
@@ -307,25 +313,25 @@
       <Filter>02. GameObject\BaseCamp\BaseCampMonster</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\BuffState.h">
-      <Filter>02. GameObject\Monster\UI\BuffState</Filter>
+      <Filter>02. GameObject\Static\Monster\UI\BuffState</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Weapon.h">
-      <Filter>02. GameObject\TestModel\Weapon</Filter>
+      <Filter>02. GameObject\Static\TestModel\Weapon</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\HpBar.h">
-      <Filter>02. GameObject\Monster\UI\HpBar</Filter>
+      <Filter>02. GameObject\Static\Monster\UI\HpBar</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Effect.h">
-      <Filter>02. GameObject\Effect</Filter>
+      <Filter>02. GameObject\Static\Effect</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Effect_Manager.h">
-      <Filter>02. GameObject\Effect\Effect_Manager</Filter>
+      <Filter>02. GameObject\Static\Effect\Effect_Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Skill.h">
-      <Filter>02. GameObject\Skill</Filter>
+      <Filter>02. GameObject\Static\Skill</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Skill_Manager.h">
-      <Filter>02. GameObject\Skill\Skill_Manager</Filter>
+      <Filter>02. GameObject\Static\Skill\Skill_Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\WorldMapCloud.h">
       <Filter>02. GameObject\WorldMap\Env\WorldMapCloud</Filter>
@@ -346,10 +352,10 @@
       <Filter>02. GameObject\WorldMap\WorldMap_Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\PartTexture.h">
-      <Filter>02. GameObject\UI\PartTexture</Filter>
+      <Filter>02. GameObject\Static\UI\PartTexture</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\PartText.h">
-      <Filter>02. GameObject\UI\PartText</Filter>
+      <Filter>02. GameObject\Static\UI\PartText</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\WorldMapBackToIdel.h">
       <Filter>02. GameObject\WorldMap\Button\WorldMapBackToIdel</Filter>
@@ -361,10 +367,13 @@
       <Filter>01. Levels\Stage</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Mouse.h">
-      <Filter>02. GameObject\Mouse</Filter>
+      <Filter>02. GameObject\Static\Mouse</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\GoToStageButton.h">
       <Filter>02. GameObject\WorldMap\Button\GoToStageButton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Stove.h">
+      <Filter>02. GameObject\BaseCamp\Stove</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -394,10 +403,10 @@
       <Filter>01. Levels\Loading\Loader</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\BackGround.cpp">
-      <Filter>02. GameObject\Background</Filter>
+      <Filter>02. GameObject\Static\Background</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Terrain.cpp">
-      <Filter>02. GameObject\Terrain</Filter>
+      <Filter>02. GameObject\Static\Terrain</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>98. Default</Filter>
@@ -430,16 +439,16 @@
       <Filter>96 ImGui\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\FlatTerrain.cpp">
-      <Filter>02. GameObject\Terrain\FlatTerrain</Filter>
+      <Filter>02. GameObject\Static\Terrain\FlatTerrain</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\DataToolGUI.cpp">
       <Filter>96 ImGui\DataToolGUI</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\TestModel.cpp">
-      <Filter>02. GameObject\TestModel</Filter>
+      <Filter>02. GameObject\Static\TestModel</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Player.cpp">
-      <Filter>02. GameObject\Monster\Player</Filter>
+      <Filter>02. GameObject\Static\Monster\Player</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\FileDialogUtill.cpp">
       <Filter>96 ImGui\Utill</Filter>
@@ -448,43 +457,40 @@
       <Filter>96 ImGui\UiToolGUI</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI.cpp">
-      <Filter>02. GameObject\UI</Filter>
+      <Filter>02. GameObject\Static\UI</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\ModelUI.cpp">
-      <Filter>02. GameObject\UI\ModelUI</Filter>
+      <Filter>02. GameObject\Static\UI\ModelUI</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\TextureUI.cpp">
-      <Filter>02. GameObject\UI\TextureUI</Filter>
+      <Filter>02. GameObject\Static\UI\TextureUI</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_BaseCamp.cpp">
       <Filter>01. Levels\BaseCamp</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Map.cpp">
-      <Filter>02. GameObject\Map</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Stove.cpp">
-      <Filter>02. GameObject\BaseCamp</Filter>
+      <Filter>02. GameObject\Static\Map</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Camera_Public.cpp">
-      <Filter>02. GameObject\Camera\Public</Filter>
+      <Filter>02. GameObject\Static\Camera\Public</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_Logo.cpp">
       <Filter>01. Levels\Logo</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Button.cpp">
-      <Filter>02. GameObject\UI\Button</Filter>
+      <Filter>02. GameObject\Static\UI\Button</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_WorldMap.cpp">
       <Filter>01. Levels\WorldMap</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Monster.cpp">
-      <Filter>02. GameObject\Monster</Filter>
+      <Filter>02. GameObject\Static\Monster</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Client_Utility.cpp">
       <Filter>Client_Utility</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\GoToWorldMapButton.cpp">
-      <Filter>02. GameObject\BaseCamp\GoToWorldMapButton</Filter>
+      <Filter>02. GameObject\BaseCamp\Button\GoToWorldMapButton</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\BaseCamp_Manager.cpp">
       <Filter>02. GameObject\BaseCamp\BaseCamp_Manager</Filter>
@@ -493,25 +499,25 @@
       <Filter>02. GameObject\BaseCamp\BaseCampMonster</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\BuffState.cpp">
-      <Filter>02. GameObject\Monster\UI\BuffState</Filter>
+      <Filter>02. GameObject\Static\Monster\UI\BuffState</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Weapon.cpp">
-      <Filter>02. GameObject\TestModel\Weapon</Filter>
+      <Filter>02. GameObject\Static\TestModel\Weapon</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\HpBar.cpp">
-      <Filter>02. GameObject\Monster\UI\HpBar</Filter>
+      <Filter>02. GameObject\Static\Monster\UI\HpBar</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Effect.cpp">
-      <Filter>02. GameObject\Effect</Filter>
+      <Filter>02. GameObject\Static\Effect</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Effect_Manager.cpp">
-      <Filter>02. GameObject\Effect\Effect_Manager</Filter>
+      <Filter>02. GameObject\Static\Effect\Effect_Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Skill.cpp">
-      <Filter>02. GameObject\Skill</Filter>
+      <Filter>02. GameObject\Static\Skill</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Skill_Manager.cpp">
-      <Filter>02. GameObject\Skill\Skill_Manager</Filter>
+      <Filter>02. GameObject\Static\Skill\Skill_Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\WorldMapCloud.cpp">
       <Filter>02. GameObject\WorldMap\Env\WorldMapCloud</Filter>
@@ -532,10 +538,10 @@
       <Filter>02. GameObject\WorldMap\WorldMap_Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\PartTexture.cpp">
-      <Filter>02. GameObject\UI\PartTexture</Filter>
+      <Filter>02. GameObject\Static\UI\PartTexture</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\PartText.cpp">
-      <Filter>02. GameObject\UI\PartText</Filter>
+      <Filter>02. GameObject\Static\UI\PartText</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\WorldMapBackToIdel.cpp">
       <Filter>02. GameObject\WorldMap\Button\WorldMapBackToIdel</Filter>
@@ -547,10 +553,13 @@
       <Filter>01. Levels\Stage</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Mouse.cpp">
-      <Filter>02. GameObject\Mouse</Filter>
+      <Filter>02. GameObject\Static\Mouse</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\GoToStageButton.cpp">
       <Filter>02. GameObject\WorldMap\Button\GoToStageButton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Stove.cpp">
+      <Filter>02. GameObject\BaseCamp\Stove</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

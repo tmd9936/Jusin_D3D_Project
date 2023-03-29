@@ -252,7 +252,7 @@ void CPlayer::Do_Skill()
 
 				XMStoreFloat4(&vPosLook, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
 
-				XMStoreFloat4(&vPos, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_pTransformCom->Get_State(CTransform::STATE_LOOK) * 0.2);
+				XMStoreFloat4(&vPos, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_pTransformCom->Get_State(CTransform::STATE_LOOK) * 0.2f);
 				pSkill->Set_Effects_Pos(vPos);
 				pSkill->Set_Conditions_Pos(vPos);
 

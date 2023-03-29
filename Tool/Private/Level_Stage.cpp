@@ -8,6 +8,8 @@
 
 #include "Button.h"
 
+#include "FlatTerrain.h"
+
 CLevel_Stage::CLevel_Stage(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
 {
@@ -29,9 +31,6 @@ HRESULT CLevel_Stage::Initialize()
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Map(TEXT("Layer_Map"))))
-		return E_FAIL;
-
-	if (FAILED(Ready_Layer_Stage_Point(TEXT("Layer_Stage_Point"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
@@ -80,7 +79,9 @@ HRESULT CLevel_Stage::Ready_Layer_Terrain(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_Layer(LEVEL_STAGE, pLayerTag)))
 		return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_FlatTerrain"), LEVEL_STAGE, pLayerTag, L"Terrain")))
+	CFlatTerrain::FLATTERRAIN_DESC desc{};
+	desc.m_Level = LEVEL_STAGE;
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_FlatTerrain"), LEVEL_STAGE, pLayerTag, L"Terrain", &desc)))
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);
@@ -129,25 +130,25 @@ HRESULT CLevel_Stage::Ready_Layer_Map(const _tchar* pLayerTag)
 	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Map"), LEVEL_STAGE, pLayerTag)))
 	//	return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Map"), LEVEL_STAGE, pLayerTag, L"Map", "../../Reference/Resources/Data/Scene/Stage/Map_data.json", CLONE_FILEPATH)))
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Map"), LEVEL_STAGE, pLayerTag, L"Map", "../../Reference/Resources/Data/Scene/Stage/Map/C_cave1_1.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Map"), LEVEL_STAGE, pLayerTag, L"LD", "../../Reference/Resources/Data/Scene/Stage/Map/C_cave_LD.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Map"), LEVEL_STAGE, pLayerTag, L"LU", "../../Reference/Resources/Data/Scene/Stage/Map/C_cave_LU.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Map"), LEVEL_STAGE, pLayerTag, L"RD", "../../Reference/Resources/Data/Scene/Stage/Map/C_cave_RD.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Map"), LEVEL_STAGE, pLayerTag, L"RU", "../../Reference/Resources/Data/Scene/Stage/Map/C_cave_RU.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);
 	return S_OK;
 }
 
-HRESULT CLevel_Stage::Ready_Layer_Stage_Point(const _tchar* pLayerTag)
-{
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
-
-	if (FAILED(pGameInstance->Add_Layer(LEVEL_STAGE, pLayerTag)))
-		return E_FAIL;
-
-
-	Safe_Release(pGameInstance);
-	return S_OK;
-}
 
 HRESULT CLevel_Stage::Ready_Layer_Effect(const _tchar* pLayerTag)
 {

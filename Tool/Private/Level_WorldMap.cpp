@@ -13,6 +13,8 @@
 
 #include "StagePoint.h"
 
+#include "FlatTerrain.h"
+
 CLevel_WorldMap::CLevel_WorldMap(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
 {
@@ -88,7 +90,9 @@ HRESULT CLevel_WorldMap::Ready_Layer_Terrain(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_Layer(LEVEL_WORLDMAP, pLayerTag)))
 		return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_FlatTerrain"), LEVEL_WORLDMAP, pLayerTag, L"Terrain")))
+	CFlatTerrain::FLATTERRAIN_DESC desc{};
+	desc.m_Level = LEVEL_WORLDMAP;
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_FlatTerrain"), LEVEL_WORLDMAP, pLayerTag, L"Terrain", &desc)))
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);
