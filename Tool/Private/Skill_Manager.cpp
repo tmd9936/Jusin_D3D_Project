@@ -71,7 +71,7 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 
 	if (nullptr == pEffect_Manager)
 		return nullptr;;
-
+	
 	CEffect* pEffect = nullptr;
 
 	vector<CEffect*> effects;

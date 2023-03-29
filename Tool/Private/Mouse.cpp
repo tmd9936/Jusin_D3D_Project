@@ -37,7 +37,7 @@ HRESULT CMouse::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pAr
 	XMStoreFloat4x4(&m_ProjMatrix,
 		XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
 
-	m_pTransformCom->Set_Scaled({ 4.f, 4.f, 1.f });
+	m_pTransformCom->Set_Scaled({ 3.f, 3.f,1.f  });
 
 	m_pModelCom->Set_Animation(0);
 
@@ -65,7 +65,6 @@ _uint CMouse::Tick(_double TimeDelta)
 	switch (m_eState)
 	{
 	case STATE_IDLE:
-		//m_pModelCom->Play_Animation(TimeDelta);
 		if (MOUSE_TAB(MOUSE::LBTN))
 		{
 			m_eState = STATE_CLICK;

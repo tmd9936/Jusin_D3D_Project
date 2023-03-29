@@ -85,7 +85,7 @@ CEffect* CEffect_Manager::Create_Effect(_uint effectType, const _tchar* pLayerTa
 		_matrix	PivotMatrix = XMMatrixScaling(0.3f, 0.3f, 0.3f);
 		string effectPath = convert.to_bytes(FilePath);
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, effect_Desc.m_effectPath.c_str(),
-			CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, effectPath.c_str(), PivotMatrix))))
+			CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, effectPath.c_str(), PivotMatrix))))
 			return	nullptr;
 
 		//m_Effect_Prototype_Check[effectType] = true;
