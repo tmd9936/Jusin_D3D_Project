@@ -105,8 +105,8 @@ PS_OUT PS_MAIN(PS_IN In)
 	if (Out.vColor.a < 0.1)
 		discard;
 
-	float2 coords = In.vTexUV * 5.f;
-	if (ShouldDiscard(coords, 5.f, 1.f))
+	float2 coords = In.vTexUV * 7.f;
+	if (ShouldDiscard(coords, 7.f, 1.f))
 		discard;
 
 	return Out;
