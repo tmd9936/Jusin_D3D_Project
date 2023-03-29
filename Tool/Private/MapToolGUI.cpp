@@ -649,7 +649,7 @@ void CMapToolGUI::Move_Brush()
 
 	pBrushTexture->Set_BrushPos({ m_vBrushPos.x, m_vBrushPos.y, m_vBrushPos.z, 1.f });
 
-	if (MOUSE_TAB(MOUSE::LBTN) && Mouse_Pos_In_Platform())
+	if (MOUSE_HOLD(MOUSE::LBTN) && Mouse_Pos_In_Platform())
 	{
 		if (nullptr == m_pTerrainMaskPixel)
 			Terrain_Mask_Pixels_Copy();
@@ -664,7 +664,7 @@ void CMapToolGUI::Move_Brush()
 		Terrain_Mask_Pixels_Copy();
 	}
 
-	else if (MOUSE_TAB(MOUSE::RBTN) && Mouse_Pos_In_Platform())
+	else if (MOUSE_HOLD(MOUSE::RBTN) && Mouse_Pos_In_Platform())
 	{
 		if (nullptr == m_pTerrainMaskPixel)
 			Terrain_Mask_Pixels_Copy();
