@@ -698,7 +698,7 @@ HRESULT CLoader::Loading_ForStageLevel()
 	wsprintf(m_szLoadingText, TEXT("네비게이션 데이터 로딩중."));
 	/* For.Prototype_Component_Navigation */
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Navigation"),
-		CNavigation::Create(m_pDevice, m_pContext, "../../Reference/Resources/Data/NavMask/Stage/C_cave1_01.json"))))
+		CNavigation::Create(m_pDevice, m_pContext, "../../Reference/Resources/Data/NavMask/Stage/C_water1_01.json"))))
 		return E_FAIL;
 
 	wsprintf(m_szLoadingText, TEXT("모델를 로딩중입니다."));
@@ -706,33 +706,33 @@ HRESULT CLoader::Loading_ForStageLevel()
 	_matrix		PivotMatrix = XMMatrixIdentity();
 
 	/* For.Prototype_Component_Model_Stage_Map */
-	PivotMatrix = XMMatrixScaling(1.1f, 1.1f, 1.1f);
+	PivotMatrix = XMMatrixScaling(0.65f, 0.65f, 0.65f);
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_Map"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/Map/C_cave1_01.fbx", PivotMatrix))))
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Map/C_water1_06.fbx", PivotMatrix))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Model_Stage_LD */
-	PivotMatrix = XMMatrixScaling(0.4f, 0.4f, 0.4f);
+	PivotMatrix = XMMatrixScaling(0.22f, 0.22f, 0.22f);
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_LD"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/Map/C_cave1_out_LD.fbx", PivotMatrix))))
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/Map/C_water1_out_LD.fbx", PivotMatrix))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Model_Stage_LU */
 	//PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_LU"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/Map/C_cave1_out_LU.fbx", PivotMatrix))))
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/Map/C_water1_out_LU.fbx", PivotMatrix))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Model_Stage_RD */
 	//PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_RD"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/Map/C_cave1_out_RD.fbx", PivotMatrix))))
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/Map/C_water1_out_RD.fbx", PivotMatrix))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Model_Stage_RU */
 	//PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_RU"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/Map/C_cave1_out_RU.fbx", PivotMatrix))))
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/Map/C_water1_out_RU.fbx", PivotMatrix))))
 		return E_FAIL;
 
 	wsprintf(m_szLoadingText, TEXT("로딩이 완료되었습니다."));

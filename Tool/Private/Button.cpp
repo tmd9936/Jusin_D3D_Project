@@ -96,7 +96,6 @@ _uint CButton::Tick(_double TimeDelta)
 		Button_Motion(TimeDelta);
 		Picking_Button();
 
-		Change_State();
 		for (auto& part : m_TextureParts)
 		{
 			part->Tick(TimeDelta);
@@ -106,6 +105,7 @@ _uint CButton::Tick(_double TimeDelta)
 		{
 			part->Tick(TimeDelta);
 		}
+		Change_State();
 
 	}
 	return m_TickResult;
@@ -441,6 +441,7 @@ void CButton::Button_Motion(_double TimeDelta)
 		if (m_pModelCom->Play_Animation(TimeDelta * 1.5f, false))
 		{
 			m_eCurState = BUTTON_IDLE;
+			m_TickResult = On_Release();
 			break;
 		}
 		m_pTransformCom->Set_Scaled({ m_ButtonDesc.m_fSizeX * m_TransformMatrix.m[0][0],  m_ButtonDesc.m_fSizeY * m_TransformMatrix.m[1][1], 1.f });
@@ -496,7 +497,7 @@ _uint CButton::Change_State()
 			break;
 		case CButton::BUTTON_RELEASE:
 			m_pModelCom->Set_Animation(BUTTON_RELEASE);
-			m_TickResult = On_Release();
+			//m_TickResult = On_Release();
 			break;
 		case CButton::BUTTON_SELECT:
 			m_selectTransformMatrix = m_TransformMatrix;
