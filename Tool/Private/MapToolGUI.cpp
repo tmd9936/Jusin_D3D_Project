@@ -275,7 +275,7 @@ void CMapToolGUI::Slider()
 
 	if (iLevelindex != LEVEL_LOADING)
 	{
-		if (m_pPickingObject != nullptr)
+		if (m_pPickingObject != nullptr && !m_pPickingObject->Is_Dead())
 		{
 			//CGameObject* pTran = CGameInstance::GetInstance()->Get_Component(CTransform::familyId, m_pPickingObject)
 			CTransform* pTransform = m_pPickingObject->Get_As<CTransform>();

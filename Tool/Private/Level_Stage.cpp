@@ -130,7 +130,31 @@ HRESULT CLevel_Stage::Ready_Layer_Map(const _tchar* pLayerTag)
 	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Map"), LEVEL_STAGE, pLayerTag)))
 	//	return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Map"), LEVEL_STAGE, pLayerTag, L"Map", "../../Reference/Resources/Data/Scene/Stage/Map/C_water1_01.json", CLONE_FILEPATH)))
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Map"), LEVEL_STAGE, pLayerTag, L"Map1", "../../Reference/Resources/Data/Scene/Stage/Map/C_water1_01.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Map"), LEVEL_STAGE, pLayerTag, L"Map2", "../../Reference/Resources/Data/Scene/Stage/Map/C_water1_02.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Map"), LEVEL_STAGE, pLayerTag, L"Map3", "../../Reference/Resources/Data/Scene/Stage/Map/C_water1_03.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Map"), LEVEL_STAGE, pLayerTag, L"Map4", "../../Reference/Resources/Data/Scene/Stage/Map/C_water1_04.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Map"), LEVEL_STAGE, pLayerTag, L"Map5", "../../Reference/Resources/Data/Scene/Stage/Map/C_water1_05.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Map"), LEVEL_STAGE, pLayerTag, L"Map6", "../../Reference/Resources/Data/Scene/Stage/Map/C_water1_06.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Map"), LEVEL_STAGE, pLayerTag, L"Map7", "../../Reference/Resources/Data/Scene/Stage/Map/C_water1_07.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Map"), LEVEL_STAGE, pLayerTag, L"Map8", "../../Reference/Resources/Data/Scene/Stage/Map/C_water1_08.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Map"), LEVEL_STAGE, pLayerTag, L"Map9", "../../Reference/Resources/Data/Scene/Stage/Map/C_water1_09.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Map"), LEVEL_STAGE, pLayerTag, L"LD", "../../Reference/Resources/Data/Scene/Stage/Map/C_water_LD.json", CLONE_FILEPATH)))
@@ -184,7 +208,7 @@ HRESULT CLevel_Stage::Ready_Layer_Player(const _tchar* pLayerTag)
 
 	CMonster::POKEMON_DESC desc{};
 	desc.m_monsterNo = 6;
-	desc.vPos = _float4(29.2f, 0.5f, 22.0f, 1.f);
+	desc.vPos = _float4(19.2f, 0.5f, 22.0f, 1.f);
 
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Player"), LEVEL_STAGE, pLayerTag, L"Player", &desc)))
 		return E_FAIL;

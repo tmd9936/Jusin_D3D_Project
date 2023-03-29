@@ -57,7 +57,7 @@ private:
 	_bool				m_bWire = { true };
 	FLATTERRAIN_DESC	m_desc = {};
 
-	_bool				m_bRender = { true };
+	_bool				m_bRender = { false };
 
 private:
 	HRESULT Add_Components();

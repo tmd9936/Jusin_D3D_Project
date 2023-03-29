@@ -63,7 +63,7 @@ HRESULT CMap::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char*
 _uint CMap::Tick(_double TimeDelta)
 {
 	if (m_MapDesc.isAnim)
-		m_pModelCom->Play_Animation(TimeDelta);
+		m_pModelCom->Play_Animation(TimeDelta * 0.5);
 
 	return _uint();
 }
