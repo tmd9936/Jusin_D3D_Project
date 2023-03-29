@@ -29,8 +29,8 @@ public:
 		_float2				m_vRotationOrigin;
 		_float2				m_vScale;
 
-		wstring				m_FontTag;
-		wstring				m_Text;
+		_tchar				m_FontTag[MAX_PATH];
+		_tchar				m_Text[MAX_PATH];
 		
 	} TEXT_DESC;
 
@@ -61,7 +61,7 @@ public:
 	}
 
 	void	Set_Text(const wstring& text) {
-		m_Text_Desc.m_Text = text;
+		lstrcpy(m_Text_Desc.m_Text, text.c_str());
 	}
 
 private:

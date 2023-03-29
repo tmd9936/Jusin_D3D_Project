@@ -238,10 +238,10 @@ _bool CUI::Load_By_JsonFile_Impl(Document& doc)
 		desc.m_vScale = _float2(m_vScale["x"].GetFloat(), m_vScale["y"].GetFloat());
 
 		string fontTag = TextParts[i]["m_FontTag"].GetString();
-		desc.m_FontTag = convert.from_bytes(fontTag);
+		lstrcpy(desc.m_FontTag, convert.from_bytes(fontTag).c_str());
 
 		string m_Text = TextParts[i]["m_Text"].GetString();
-		desc.m_Text = convert.from_bytes(m_Text);
+		lstrcpy(desc.m_Text, convert.from_bytes(m_Text).c_str());
 
 		string szLayerTag = TextureParts[i]["LayerTag"].GetString();
 		wstring LayerTag = convert.from_bytes(szLayerTag);

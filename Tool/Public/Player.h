@@ -38,6 +38,10 @@ public:
 		m_TestSkillindex = testSkillindex;
 	}
 
+public:
+	virtual HRESULT Add_TransitionRandomState() override;
+	virtual _uint State_Tick(const _double& TimeDelta) override;
+
 private:
 	void	Do_Skill();
 
@@ -51,10 +55,6 @@ public:
 	static CPlayer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) override;
 	virtual void Free() override;
-
-	// CMonster을(를) 통해 상속됨
-	virtual HRESULT Add_TransitionRandomState() override;
-	virtual _uint State_Tick(const _double& TimeDelta) override;
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath) override;
 };
 

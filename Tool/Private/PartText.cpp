@@ -24,8 +24,12 @@ HRESULT CPartText::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* 
 	{
 		m_Text_Desc.pParent = (*(TEXT_DESC*)(pArg)).pParent;
 		m_Text_Desc.pParentModel = (*(TEXT_DESC*)(pArg)).pParentModel;
-		m_Text_Desc.m_FontTag = (*(TEXT_DESC*)(pArg)).m_FontTag;
-		m_Text_Desc.m_Text = (*(TEXT_DESC*)(pArg)).m_Text;
+		
+		lstrcpy(m_Text_Desc.m_FontTag, (*(TEXT_DESC*)(pArg)).m_FontTag);
+		//m_Text_Desc.m_FontTag = (*(TEXT_DESC*)(pArg)).m_FontTag;
+		lstrcpy(m_Text_Desc.m_Text, (*(TEXT_DESC*)(pArg)).m_Text);
+		//m_Text_Desc.m_Text = (*(TEXT_DESC*)(pArg)).m_Text;
+		
 		m_Text_Desc.m_vColor = (*(TEXT_DESC*)(pArg)).m_vColor;
 		m_Text_Desc.m_Rotation = (*(TEXT_DESC*)(pArg)).m_Rotation;
 		m_Text_Desc.m_vRotationOrigin = (*(TEXT_DESC*)(pArg)).m_vRotationOrigin;
@@ -105,8 +109,8 @@ HRESULT CPartText::Render()
 	if (nullptr == pGameInstance)
 		return E_FAIL;
 
-	if (FAILED(pGameInstance->Render_Font(m_Text_Desc.m_FontTag.c_str(),
-		m_Text_Desc.m_Text.c_str(),
+	if (FAILED(pGameInstance->Render_Font(m_Text_Desc.m_FontTag,
+		m_Text_Desc.m_Text,
 		_float2(m_FinalWorldMatrix.m[3][0], m_FinalWorldMatrix.m[3][1]),
 		XMLoadFloat4(&m_Text_Desc.m_vColor),
 		m_Text_Desc.m_Rotation, m_Text_Desc.m_vRotationOrigin, _float2(m_FinalWorldMatrix.m[0][0], m_FinalWorldMatrix.m[1][1]))))
