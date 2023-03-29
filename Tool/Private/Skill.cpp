@@ -138,7 +138,7 @@ HRESULT CSkill::Render()
 }
 
 
-void CSkill::Set_Effects_Pos(const _float3& vPos)
+void CSkill::Set_Effects_Pos(const _float4& vPos)
 {
 	for (auto& effect : m_effects)
 	{
@@ -150,7 +150,7 @@ void CSkill::Set_Effects_Pos(const _float3& vPos)
 	}
 }
 
-void CSkill::Set_Conditions_Pos(const _float3& vPos)
+void CSkill::Set_Conditions_Pos(const _float4& vPos)
 {
 	for (auto& condition : m_conditions)
 	{
@@ -158,6 +158,30 @@ void CSkill::Set_Conditions_Pos(const _float3& vPos)
 		{
 			CTransform* pTransform = condition->Get_As<CTransform>();
 			pTransform->Set_Pos(vPos.x, vPos.y, vPos.z);
+		}
+	}
+}
+
+void CSkill::Set_Effects_Look(const _float4& vLook)
+{
+	for (auto& effect : m_effects)
+	{
+		if (nullptr != effect)
+		{
+			CTransform* pTransform = effect->Get_As<CTransform>();
+			pTransform->LookAt(XMLoadFloat4(&vLook));
+		}
+	}
+}
+
+void CSkill::Set_Conditions_Look(const _float4& vLook)
+{
+	for (auto& condition : m_conditions)
+	{
+		if (nullptr != condition)
+		{
+			CTransform* pTransform = condition->Get_As<CTransform>();
+			pTransform->LookAt(XMLoadFloat4(&vLook));
 		}
 	}
 }

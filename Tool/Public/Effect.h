@@ -9,6 +9,8 @@ class CTransform;
 class CRenderer;
 class CShader;
 class CModel;
+class COBB;
+class CNavigation;
 
 END
 
@@ -32,6 +34,8 @@ public:
 		_uint	m_soundEventID;
 		wstring	m_soundEventTag;
 		_uint	m_underFlag;
+		_uint	m_bCollision;
+		_double	m_AnimationLoopTime;
 
 	} EFFECT_DESC;
 
@@ -53,8 +57,13 @@ private:
 	CRenderer*		m_pRendererCom = { nullptr };
 	CShader*		m_pShaderCom = { nullptr };
 	CModel*			m_pModelCom = { nullptr };
+	COBB*			m_pColliderCom = { nullptr };
+	CNavigation*	m_pNavigationCom = { nullptr };
+
 private:
 	EFFECT_DESC		m_EffectDesc = {};
+
+	_double			m_CurrontAnimationAcc = { 0.0 };
 
 private:
 	HRESULT Add_Components();

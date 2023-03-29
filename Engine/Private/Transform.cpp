@@ -277,6 +277,21 @@ void CTransform::LookAt(_fvector vTargetPos)
 
 }
 
+void CTransform::BackAt(_fvector vTargetPos)
+{
+	_vector vPos = Get_State(STATE_POSITION);
+	_vector vLook = vPos - vTargetPos;
+	_vector vRight = XMVector3Cross(XMVectorSet(0.f, 1.f, 0.f, 0.f), vLook);
+	_vector vUp = XMVector3Cross(vLook, vRight);
+
+	_float3		vScale = Get_Scaled();
+
+	Set_State(STATE_RIGHT, XMVector3Normalize(vRight) * vScale.x);
+	Set_State(STATE_UP, XMVector3Normalize(vUp) * vScale.y);
+	Set_State(STATE_LOOK, XMVector3Normalize(vLook) * vScale.z);
+
+}
+
 _bool CTransform::Chase(_fvector vTargetPos, _float TimeDelta, _float limitDitance, CNavigation* pNavigation)
 {
 	LookAt(vTargetPos);

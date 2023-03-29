@@ -72,8 +72,12 @@ public:
 		m_conditions = move(conditions);
 	}
 
-	void	Set_Effects_Pos(const _float3& vPos);
-	void	Set_Conditions_Pos(const _float3& vPos);
+	void	Set_Effects_Pos(const _float4& vPos);
+	void	Set_Conditions_Pos(const _float4& vPos);
+
+
+	void	Set_Effects_Look(const _float4& vLook);
+	void	Set_Conditions_Look(const _float4& vLook);
 
 private:
 	CTransform* m_pTransformCom = { nullptr };

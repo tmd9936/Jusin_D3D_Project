@@ -247,12 +247,17 @@ void CPlayer::Do_Skill()
 			CSkill* pSkill = dynamic_cast<CSkill_Manager*>(pSkill_Mananger)->Create_Skill(L"Layer_PlayerSkill", m_iLevelindex, m_TestSkillindex);
 			if (nullptr != pSkill)
 			{
-				_float3 vPos{};
-				_float3 vLook{};
+				_float4 vPos{};
+				_float4 vPosLook{};
 
-				XMStoreFloat3(&vPos, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_pTransformCom->Get_State(CTransform::STATE_LOOK));
+				XMStoreFloat4(&vPosLook, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
+
+				XMStoreFloat4(&vPos, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_pTransformCom->Get_State(CTransform::STATE_LOOK));
 				pSkill->Set_Effects_Pos(vPos);
-				pSkill->Set_Conditions_Pos({ vPos.x + 1.f, vPos.y, vPos.z + 1.f });
+				pSkill->Set_Conditions_Pos(vPos);
+
+				pSkill->Set_Effects_Look(vPosLook);
+				pSkill->Set_Conditions_Look(vPosLook);
 
 				Safe_Release(pSkill);
 			}

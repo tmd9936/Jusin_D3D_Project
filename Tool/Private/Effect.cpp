@@ -5,6 +5,7 @@
 
 #include "Loader.h"
 
+
 CEffect::CEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
 {
@@ -34,6 +35,9 @@ HRESULT CEffect::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pA
 		m_EffectDesc.m_soundEventID = (*(EFFECT_DESC*)(pArg)).m_soundEventID;
 		m_EffectDesc.m_soundEventTag = (*(EFFECT_DESC*)(pArg)).m_soundEventTag;
 		m_EffectDesc.m_underFlag = (*(EFFECT_DESC*)(pArg)).m_underFlag;
+
+		m_EffectDesc.m_bCollision = (*(EFFECT_DESC*)(pArg)).m_bCollision;
+		m_EffectDesc.m_AnimationLoopTime = (*(EFFECT_DESC*)(pArg)).m_AnimationLoopTime;
 	}
 
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
@@ -43,6 +47,11 @@ HRESULT CEffect::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pA
 		return E_FAIL;
 
 	m_eRenderId = RENDER_NONBLEND;
+
+	_float3 vPos{};
+	XMStoreFloat3(&vPos, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
+
+	m_pNavigationCom->Set_Index_By_Position({ vPos.x, vPos.y, vPos.z });
 
 	return S_OK;
 }
@@ -55,12 +64,25 @@ _uint CEffect::Tick(_double TimeDelta)
 
 	m_pModelCom->Play_Animation(TimeDelta);
 
+	if (m_pColliderCom)
+		m_pColliderCom->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
+
 	return _uint();
 }
 
 _uint CEffect::LateTick(_double TimeDelta)
 {
 	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
+
+
+#ifdef _DEBUG
+	if (m_pColliderCom)
+		m_pColliderCom->Render();
+
+	if (m_pNavigationCom)
+		m_pNavigationCom->Render();
+
+#endif // _DEBUG
 
 	return _uint();
 }
@@ -115,6 +137,24 @@ HRESULT CEffect::Add_Components()
 		(CComponent**)&m_pShaderCom, nullptr)))
 		return E_FAIL;
 
+	CNavigation::NAVIDESC		NaviDesc;
+	ZeroMemory(&NaviDesc, sizeof NaviDesc);
+	NaviDesc.iIndex = 1;
+	if (FAILED(pGameInstance->Add_Component(CNavigation::familyId, this, m_iLevelindex, TEXT("Prototype_Component_Navigation"),
+		(CComponent**)&m_pNavigationCom, &NaviDesc)))
+		return E_FAIL;
+
+	/* For.Com_OBB*/
+	if (m_EffectDesc.m_bCollision)
+	{
+		CCollider::COLLIDER_DESC		ColliderDesc;
+		ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
+		ColliderDesc.vScale = _float3(1.2f, 2.0f, 1.2f);
+		ColliderDesc.vPosition = _float3(0.0f, ColliderDesc.vScale.y * 0.5f, 0.f);
+		if (FAILED(pGameInstance->Add_Component(FAMILY_ID_COLLISION_OBB, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"),
+			(CComponent**)&m_pColliderCom, &ColliderDesc)))
+			return E_FAIL;
+	}
 
 	return S_OK;
 }
@@ -199,4 +239,6 @@ void CEffect::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pRendererCom);
+	Safe_Release(m_pColliderCom);
+	Safe_Release(m_pNavigationCom);
 }

@@ -132,6 +132,9 @@ public:
 
 	void LookAt(_fvector vTargetPos);
 
+	void BackAt(_fvector vTargetPos);
+
+
 	/**
 	@return False 움직이는 중, True 도착
 	*/
