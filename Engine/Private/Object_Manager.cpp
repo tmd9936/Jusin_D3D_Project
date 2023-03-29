@@ -335,6 +335,27 @@ CGameObject* CObject_Manager::Clone_GameObject(const _tchar* pLayerTag, _uint iL
 	return pGameObject;
 }
 
+CGameObject* CObject_Manager::Clone_GameObject(const _tchar* pLayerTag, _uint iLevelIndex, const _tchar* pPrototypeTag, CGameObject** ppOut, void* pArg)
+{
+	/* 원형을 찾는다. */
+	CGameObject* pPrototype = Find_Prototype(pPrototypeTag);
+	if (nullptr == pPrototype)
+		return nullptr;
+
+	/* 사본을 생성한다. */
+	CGameObject* pGameObject = pPrototype->Clone(pLayerTag, iLevelIndex, pArg);
+	if (nullptr == pGameObject)
+		return nullptr;
+
+	if (ppOut)
+	{
+		*ppOut = pGameObject;
+	}
+
+	return pGameObject;
+}
+
+
 
 CGameObject* CObject_Manager::Get_Object(_uint iLevelIndex, const _tchar* pLayerTag, const _tchar* pObjectTag) const
 {

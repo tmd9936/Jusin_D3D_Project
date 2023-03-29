@@ -68,6 +68,7 @@ public: /* For.Object_Manager */
 	HRESULT	Remove_All_GameObject_In_Layer(_uint iLevelIndex, const _tchar* pLayerTag);
 	HRESULT Get_All_GameObject_In_Layer(vector<CGameObject*>& result, _uint iLevelIndex, const _tchar* pLayerTag);
 	CGameObject* Clone_GameObject(const _tchar* pLayerTag, _uint iLevelIndex, const _tchar* pPrototypeTag, void* pArg);
+	CGameObject* Clone_GameObject(const _tchar* pLayerTag, _uint iLevelIndex, const _tchar* pPrototypeTag, CGameObject** ppOut, void* pArg);
 	HRESULT		Layer_Tick_State_Change(const _tchar* pLayerTag, _uint iLevelIndex, _bool bTick);
 
 public: /* For.Component_Manager */

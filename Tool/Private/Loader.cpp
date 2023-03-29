@@ -273,12 +273,12 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CBuffState::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
-		/* For.Prototype_GameObject_ButtonPartTexture*/
+		/* For.Prototype_GameObject_PartTexture*/
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_PartTexture"),
 			CPartTexture::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
-		/* For.Prototype_GameObject_ButtonPartTexture*/
+		/* For.Prototype_GameObject_PartText*/
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_PartText"),
 			CPartText::Create(m_pDevice, m_pContext))))
 			return E_FAIL;

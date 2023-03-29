@@ -310,6 +310,15 @@ CGameObject* CGameInstance::Clone_GameObject(const _tchar* pLayerTag, _uint iLev
 	return m_pObject_Manager->Clone_GameObject(pLayerTag, iLevelIndex, pPrototypeTag, pArg);
 }
 
+CGameObject* CGameInstance::Clone_GameObject(const _tchar* pLayerTag, _uint iLevelIndex, const _tchar* pPrototypeTag, CGameObject** ppOut, void* pArg)
+{
+	if (nullptr == m_pObject_Manager)
+		return nullptr;
+
+	return m_pObject_Manager->Clone_GameObject(pLayerTag, iLevelIndex, pPrototypeTag, ppOut, pArg);
+}
+
+
 HRESULT CGameInstance::Layer_Tick_State_Change(const _tchar* pLayerTag, _uint iLevelIndex, _bool bTick)
 {
 	if (nullptr == m_pObject_Manager)
@@ -557,9 +566,9 @@ void CGameInstance::Release_Engine()
 
 	CLight_Manager::GetInstance()->DestroyInstance();
 
-	CFont_Manager::GetInstance()->DestroyInstance();
-
 	CInput_Device::GetInstance()->DestroyInstance();
+
+	CFont_Manager::GetInstance()->DestroyInstance();
 
 	CGraphic_Device::GetInstance()->DestroyInstance();
 }

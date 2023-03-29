@@ -108,6 +108,7 @@ public:
 	HRESULT		Get_Layer_Names(_uint iLevelIndex, vector<wstring>& vecNames);
 	const unordered_map<const _tchar*, class CGameObject*>*		Get_GameObject_Prototypes();
 	CGameObject* Clone_GameObject(const _tchar* pLayerTag, _uint iLevelIndex, const _tchar* pPrototypeTag, void* pArg);
+	CGameObject* Clone_GameObject(const _tchar* pLayerTag, _uint iLevelIndex, const _tchar* pPrototypeTag, CGameObject** ppOut, void* pArg);
 	HRESULT		Layer_Tick_State_Change(const _tchar* pLayerTag, _uint iLevelIndex, _bool bTick);
 
 protected:

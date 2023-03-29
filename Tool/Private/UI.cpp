@@ -188,7 +188,7 @@ _bool CUI::Load_By_JsonFile_Impl(Document& doc)
 	const Value& TextureParts = UIDesc["m_TextureParts"].GetArray();
 	for (SizeType i = 0; i < TextureParts.Size(); ++i)
 	{
-		CGameObject* pPart = nullptr;
+		CPartTexture* pTexturePart = nullptr;
 
 		CPartTexture::UI_DESC desc{};
 		desc.pParent = m_pTransformCom;
@@ -207,19 +207,20 @@ _bool CUI::Load_By_JsonFile_Impl(Document& doc)
 		lstrcpy(desc.m_TextureProtoTypeName, convert.from_bytes(textureProtoTypeName).c_str());
 
 		string szLayerTag = TextureParts[i]["LayerTag"].GetString();
-		wstring LayerTag =  convert.from_bytes(szLayerTag);
+		wstring layerTag = convert.from_bytes(szLayerTag);
 
-		pPart = pGameInstance->Clone_GameObject(LayerTag.c_str(), m_iLevelindex, TEXT("Prototype_GameObject_PartTexture"), &desc);
-		if (nullptr == pPart)
+		pGameInstance->Clone_GameObject(layerTag.c_str(), m_iLevelindex, TEXT("Prototype_GameObject_PartTexture"), (CGameObject**)&pTexturePart, &desc);
+		if (nullptr == pTexturePart)
 			return false;
 
-		m_TextureParts.push_back(dynamic_cast<CPartTexture*>(pPart));
+		m_TextureParts.push_back(pTexturePart);
 	}
 
 	const Value& TextParts = UIDesc["m_TextParts"].GetArray();
 	for (SizeType i = 0; i < TextParts.Size(); ++i)
 	{
-		CGameObject* pPart = nullptr;
+		CPartText* pTextPart = nullptr;
+
 		CPartText::TEXT_DESC desc{};
 
 		desc.pParent = m_pTransformCom;
@@ -243,14 +244,17 @@ _bool CUI::Load_By_JsonFile_Impl(Document& doc)
 		string m_Text = TextParts[i]["m_Text"].GetString();
 		lstrcpy(desc.m_Text, convert.from_bytes(m_Text).c_str());
 
-		string szLayerTag = TextureParts[i]["LayerTag"].GetString();
-		wstring LayerTag = convert.from_bytes(szLayerTag);
+		string szLayerTag = TextParts[i]["LayerTag"].GetString();
+		_tchar layerTag[MAX_PATH];
+		lstrcpy(layerTag, convert.from_bytes(szLayerTag).c_str());
 
-		pPart = pGameInstance->Clone_GameObject(LayerTag.c_str(), m_iLevelindex, TEXT("Prototype_GameObject_PartText"), &desc);
-		if (nullptr == pPart)
+		pGameInstance->Clone_GameObject(layerTag, m_iLevelindex, TEXT("Prototype_GameObject_PartText"), (CGameObject**)&pTextPart, &desc);
+		if (nullptr == pTextPart)
 			return false;
 
-		m_TextParts.push_back(dynamic_cast<CPartText*>(pPart));
+		pTextPart->Set_Text(convert.from_bytes(m_Text));
+
+		m_TextParts.push_back(pTextPart);
 	}
 
 	return true;
@@ -408,6 +412,16 @@ CGameObject* CUI::Clone(const _tchar* pLayerTag, _uint iLevelIndex, const char* 
 void CUI::Free()
 {
 	__super::Free();
+
+	for (auto& part : m_TextureParts)
+	{
+		Safe_Release(part);
+	}
+
+	for (auto& part : m_TextParts)
+	{
+		Safe_Release(part);
+	}
 
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pTransformCom);
