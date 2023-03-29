@@ -413,14 +413,14 @@ void CButton::Button_Motion(_double TimeDelta)
 		break;
 	case CButton::BUTTON_PRESS:
 		m_pTransformCom->Set_Scaled({ m_ButtonDesc.m_fSizeX * m_TransformMatrix.m[0][0],  m_ButtonDesc.m_fSizeY * m_TransformMatrix.m[1][1], 1.f });
-		if (m_pModelCom->Play_Animation(TimeDelta, false))
+		if (m_pModelCom->Play_Animation(TimeDelta * 1.5, false))
 		{
 			m_eCurState = BUTTON_SELECT;
 		}
 		break;
 	case CButton::BUTTON_RELEASE:
 		m_pTransformCom->Set_Scaled({ m_ButtonDesc.m_fSizeX * m_TransformMatrix.m[0][0],  m_ButtonDesc.m_fSizeY * m_TransformMatrix.m[1][1], 1.f });
-		if (m_pModelCom->Play_Animation(TimeDelta * 1.3f))
+		if (m_pModelCom->Play_Animation(TimeDelta * 1.5f))
 		{
 			m_eCurState = BUTTON_IDLE;
 			m_TickResult = On_Release();

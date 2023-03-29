@@ -88,7 +88,6 @@ CEffect* CEffect_Manager::Create_Effect(_uint effectType, const _tchar* pLayerTa
 			CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, effectPath.c_str(), PivotMatrix))))
 			return	nullptr;
 
-		//m_Effect_Prototype_Check[effectType] = true;
 	}
 
 	//CGameObject* pEffect = nullptr;
@@ -150,8 +149,6 @@ _bool CEffect_Manager::Load_By_JsonFile_Impl(Document& doc)
 
 		m_Effect_Descs.push_back(m_desc);
 	}
-
-	m_Effect_Prototype_Check.reserve(m_Effect_Descs.size());
 
 	return true;
 }

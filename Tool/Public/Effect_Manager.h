@@ -48,9 +48,6 @@ private:
 private:
 	vector<CEffect::EFFECT_DESC> m_Effect_Descs;
 
-	vector<_bool>	m_Effect_Prototype_Check;
-
-
 	const wstring m_EffectFilePath = { L"../../Reference/Resources/Mesh/Animation/Effect/" };
 
 	string m_filePath = {};

@@ -1856,6 +1856,15 @@
       "m_underFlag": 0
     },
     {
+      "m_effectType": 205,
+      "m_actionType": 0,
+      "m_effectPath": "E_EF_Sleep",
+      "m_exPath1": "",
+      "m_exPath2": "",
+      "m_soundEventID": 1953786442,
+      "m_underFlag": 0
+    },
+    {
       "m_effectType": 206,
       "m_actionType": 0,
       "m_effectPath": "E_EF_Onpa",
