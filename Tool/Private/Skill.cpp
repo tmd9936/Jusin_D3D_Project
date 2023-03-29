@@ -144,8 +144,7 @@ void CSkill::Set_Effects_Pos(const _float4& vPos)
 	{
 		if (nullptr != effect)
 		{
-			CTransform* pTransform = effect->Get_As<CTransform>();
-			pTransform->Set_Pos(vPos.x, vPos.y, vPos.z);
+			effect->Set_Pos(vPos);
 		}
 	}
 }

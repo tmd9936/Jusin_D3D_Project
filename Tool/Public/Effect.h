@@ -27,6 +27,7 @@ public:
 	typedef struct Effect_Desc
 	{
 		wstring	m_effectPath;
+		wstring	m_ProtoTypeTag;
 		wstring	m_exPath1;
 		wstring	m_exPath2;
 		_uint	m_effectType;
@@ -52,6 +53,9 @@ public:
 	virtual _uint LateTick(_double TimeDelta) override;
 	virtual HRESULT Render() override;
 
+public:
+	void	Set_Pos(const _float4& vPos);
+
 private:
 	CTransform*		m_pTransformCom = { nullptr };
 	CRenderer*		m_pRendererCom = { nullptr };
@@ -64,6 +68,8 @@ private:
 	EFFECT_DESC		m_EffectDesc = {};
 
 	_double			m_CurrontAnimationAcc = { 0.0 };
+
+	wstring			m_EffectTypeName = {};
 
 private:
 	HRESULT Add_Components();

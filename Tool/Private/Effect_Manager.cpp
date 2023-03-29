@@ -77,14 +77,14 @@ CEffect* CEffect_Manager::Create_Effect(_uint effectType, const _tchar* pLayerTa
 	CEffect::EFFECT_DESC effect_Desc = m_Effect_Descs[effectType];
 
 	wstring	FilePath = m_EffectFilePath + effect_Desc.m_effectPath + L".fbx";
-	effect_Desc.m_effectPath = L"Prototype_Component_Model_" + effect_Desc.m_effectPath;
+	effect_Desc.m_ProtoTypeTag = L"Prototype_Component_Model_" + effect_Desc.m_effectPath;
 
 	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
-	if (false == pGameInstance->Check_Prototype(effect_Desc.m_effectPath))
+	if (false == pGameInstance->Check_Prototype(effect_Desc.m_ProtoTypeTag))
 	{
 		_matrix	PivotMatrix = XMMatrixScaling(0.3f, 0.3f, 0.3f);
 		string effectPath = convert.to_bytes(FilePath);
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, effect_Desc.m_effectPath.c_str(),
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, effect_Desc.m_ProtoTypeTag.c_str(),
 			CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, effectPath.c_str(), PivotMatrix))))
 			return	nullptr;
 

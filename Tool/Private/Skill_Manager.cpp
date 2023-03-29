@@ -76,14 +76,15 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 
 	vector<CEffect*> effects;
 
+	size_t i = 0;
 	for (auto& effectIndex : m_Skill_Depend_Datas[skillType].m_effects)
 	{
-		pEffect = pEffect_Manager->Create_Effect(effectIndex, pLayerTag, iLevelIndex);
-		if (nullptr != pEffect)
-		{
-			//Safe_Release(pEffect);
-			effects.push_back(pEffect);
-		}
+			pEffect = pEffect_Manager->Create_Effect(effectIndex, pLayerTag, iLevelIndex);
+			if (nullptr != pEffect)
+			{
+				//Safe_Release(pEffect);
+				effects.push_back(pEffect);
+			}
 	}
 
 	vector<CEffect*> conditions;

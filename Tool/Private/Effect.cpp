@@ -29,6 +29,8 @@ HRESULT CEffect::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pA
 	{
 		m_EffectDesc.m_actionType = (*(EFFECT_DESC*)(pArg)).m_actionType;
 		m_EffectDesc.m_effectPath = (*(EFFECT_DESC*)(pArg)).m_effectPath;
+		m_EffectDesc.m_ProtoTypeTag = (*(EFFECT_DESC*)(pArg)).m_ProtoTypeTag;
+
 		m_EffectDesc.m_effectType = (*(EFFECT_DESC*)(pArg)).m_effectType;
 		m_EffectDesc.m_exPath1 = (*(EFFECT_DESC*)(pArg)).m_exPath1;
 		m_EffectDesc.m_exPath2 = (*(EFFECT_DESC*)(pArg)).m_exPath2;
@@ -39,6 +41,7 @@ HRESULT CEffect::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pA
 		m_EffectDesc.m_bCollision = (*(EFFECT_DESC*)(pArg)).m_bCollision;
 		m_EffectDesc.m_AnimationLoopTime = (*(EFFECT_DESC*)(pArg)).m_AnimationLoopTime;
 	}
+
 
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 		return E_FAIL;
@@ -110,6 +113,22 @@ HRESULT CEffect::Render()
 	return S_OK;
 }
 
+void CEffect::Set_Pos(const _float4& vPos)
+{
+	if (m_pTransformCom)
+	{
+		if (m_EffectDesc.m_effectPath.find(L"E_BD") != wstring::npos)
+		{
+			m_pTransformCom->Set_Pos(vPos.x, -0.2f , vPos.z);
+		}
+
+		else
+		{
+			m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
+		}
+	}
+}
+
 
 HRESULT CEffect::Add_Components()
 {
@@ -128,7 +147,7 @@ HRESULT CEffect::Add_Components()
 		return E_FAIL;
 
 	/* For.Com_Model */
-	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, LEVEL_STATIC, m_EffectDesc.m_effectPath.c_str(),
+	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, LEVEL_STATIC, m_EffectDesc.m_ProtoTypeTag.c_str(),
 		(CComponent**)&m_pModelCom, nullptr)))
 		return E_FAIL;
 
