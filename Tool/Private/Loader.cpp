@@ -706,7 +706,7 @@ HRESULT CLoader::Loading_ForStageLevel()
 	_matrix		PivotMatrix = XMMatrixIdentity();
 
 	/* For.Prototype_Component_Model_Stage_Map */
-	PivotMatrix = XMMatrixScaling(0.65f, 0.65f, 0.65f);
+	PivotMatrix = XMMatrixScaling(0.666f, 0.666f, 0.666f);
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_Map"),
 		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Map/C_water1_06.fbx", PivotMatrix))))
 		return E_FAIL;
