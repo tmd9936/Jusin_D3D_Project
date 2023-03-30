@@ -20,6 +20,7 @@
 #include "WorldMapAnimEnv.h"
 #include "WorldMap_Manager.h"
 #include "WorldMapBackToIdel.h"
+
 #include "StageInfoUI.h"
 #include "StagePoint.h"
 #include "GoToStageButton.h"
@@ -39,6 +40,8 @@
 #include "Navigation.h"
 #include "PartTexture.h"
 #include "PartText.h"
+
+#include "PokemonSkillButton.h"
 
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -815,6 +818,15 @@ HRESULT CLoader::Loading_ForStageLevel()
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_RU"),
 		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/Map/C_water1_out_RU.fbx", PivotMatrix))))
 		return E_FAIL;
+
+	wsprintf(m_szLoadingText, TEXT("객체원형을 로딩중."));
+
+	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_WORLDMAP))
+	{
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_PokemonSkillButton"),
+			CPokemonSkillButton::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+	}
 
 	wsprintf(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 	m_isFinished = true;

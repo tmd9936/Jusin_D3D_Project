@@ -194,6 +194,7 @@
     <ClInclude Include="..\Public\ModelUI.h" />
     <ClInclude Include="..\Public\Monster.h" />
     <ClInclude Include="..\Public\Player.h" />
+    <ClInclude Include="..\Public\PokemonSkillButton.h" />
     <ClInclude Include="..\Public\Skill.h" />
     <ClInclude Include="..\Public\Skill_Manager.h" />
     <ClInclude Include="..\Public\StageInfoUI.h" />
@@ -256,6 +257,7 @@
     <ClCompile Include="..\Private\ModelUI.cpp" />
     <ClCompile Include="..\Private\Monster.cpp" />
     <ClCompile Include="..\Private\Player.cpp" />
+    <ClCompile Include="..\Private\PokemonSkillButton.cpp" />
     <ClCompile Include="..\Private\Skill.cpp" />
     <ClCompile Include="..\Private\Skill_Manager.cpp" />
     <ClCompile Include="..\Private\StageInfoUI.cpp" />

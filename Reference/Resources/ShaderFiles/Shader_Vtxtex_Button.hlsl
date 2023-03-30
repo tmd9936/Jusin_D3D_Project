@@ -75,7 +75,7 @@ PS_OUT PS_MAIN(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
-	Out.vColor = g_Texture.Sample(PointSampler, In.vTexUV);
+	Out.vColor = g_Texture.Sample(LinearSampler, In.vTexUV);
 
 	if (Out.vColor.a < 0.1)
 		discard;
@@ -92,7 +92,7 @@ PS_OUT PS_MAIN_COLOR(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
-	Out.vColor = g_Texture.Sample(PointSampler, In.vTexUV);
+	Out.vColor = g_Texture.Sample(LinearSampler, In.vTexUV);
 
 	if (Out.vColor.a < 0.1)
 		discard;
