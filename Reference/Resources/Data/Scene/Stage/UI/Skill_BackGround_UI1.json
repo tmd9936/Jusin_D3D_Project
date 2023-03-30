@@ -1,9 +1,9 @@
 {
     "UIDesc": {
-        "m_fX": 120.0,
-        "m_fY": 350.0,
-        "m_fSizeX": 250.5,
-        "m_fSizeY": 120.0,
+        "m_fX": 150.0,
+        "m_fY": 375.0,
+        "m_fSizeX": 280.5,
+        "m_fSizeY": 100.0,
         "m_UIType": 1,
         "m_ShaderPass": 1,
         "m_vColor": {
@@ -17,9 +17,9 @@
         "m_TextureParts": [
             {
                 "m_fX": 0.0,
-                "m_fY": -20.0,
-                "m_fSizeX": 150.0,
-                "m_fSizeY": 100.0,
+                "m_fY": -5.0,
+                "m_fSizeX": 240.0,
+                "m_fSizeY": 80.0,
                 "m_eType": 1,
                 "m_ShaderPass": 1,
                 "m_vColor": {
