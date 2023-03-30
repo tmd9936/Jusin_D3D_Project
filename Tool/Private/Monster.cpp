@@ -6,6 +6,21 @@
 #include "BuffState.h"
 #include "Weapon.h"
 
+/*
+기본공격 2개만
+원거리 근거리
+
+발사스킬 
+유지스킬
+맞아도 유지 되는거
+맞으면 사라지기
+
+===
+버프 
+디버프
+
+*/
+
 CMonster::CMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
 {
@@ -140,11 +155,13 @@ _uint CMonster::Tick(_double TimeDelta)
 
 _uint CMonster::LateTick(_double TimeDelta)
 {
-	for (auto& pGameObject : m_Parts)
-		pGameObject->LateTick(TimeDelta);
+	if (true == CGameInstance::GetInstance()->Is_In_Frustum(m_pTransformCom->Get_State(CTransform::STATE_POSITION), 1.f))
+	{
+		for (auto& pGameObject : m_Parts)
+			pGameObject->LateTick(TimeDelta);
 
-	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
-
+		m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
+	}
 	return _uint();
 }
 
