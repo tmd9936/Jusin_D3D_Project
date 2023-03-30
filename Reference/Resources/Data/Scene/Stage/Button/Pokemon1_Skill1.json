@@ -1,9 +1,9 @@
 {
     "ButtonDesc": {
         "m_fX": 70.0,
-        "m_fY": 382.0,
-        "m_fSizeX": 22.0,
-        "m_fSizeY": 22.0,
+        "m_fY": 383.0,
+        "m_fSizeX": 21.0,
+        "m_fSizeY": 21.0,
         "m_ModelPrototypLevel": 0,
         "m_ShaderLevelIndex": 0,
         "m_DiffuseTexturePath": "./button_skill_iwa_iwaotosi.dds",
@@ -21,8 +21,8 @@
             {
                 "m_fX": 0.0,
                 "m_fY": 0.0,
-                "m_fSizeX": 24.0,
-                "m_fSizeY": 24.0,
+                "m_fSizeX": 21.0,
+                "m_fSizeY": 21.0,
                 "m_eType": 0,
                 "m_ShaderPass": 2,
                 "m_vColor": {
