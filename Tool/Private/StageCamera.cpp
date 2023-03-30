@@ -67,25 +67,24 @@ _uint CStageCamera::Tick(_double TimeDelta)
 	else if (KEY_TAB(KEY::M))
 		m_pTransform->Go_Backward((_float)TimeDelta);
 
-	CGameObject* pCameraTarget = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_CameraTarget", L"CameraTarget");
-	if (nullptr == pCameraTarget)
-		return E_FAIL;
-	CTransform* pTransform = pCameraTarget->Get_As<CTransform>();
-
-
-	_vector movePoint = pTransform->Get_State(CTransform::STATE_POSITION) + (m_vNorVectorFromAt * m_StageCameraDesc.m_distance);
-	/*_float4 targetPos = {};
-	XMStoreFloat4(&targetPos, pTransform->Get_State(CTransform::STATE_POSITION));*/
-
-	m_pTransform->ChaseNoLook(movePoint, (_float)TimeDelta, 0.1f);
-
-	m_StageCameraDesc.CameraDesc = m_CameraDesc;
-
 	return __super::Tick(TimeDelta);
 }
 
 _uint CStageCamera::LateTick(_double TimeDelta)
 {
+	CGameObject* pCameraTarget = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_CameraTarget", L"CameraTarget");
+	if (nullptr == pCameraTarget)
+		return E_FAIL;
+	CTransform* pTransform = pCameraTarget->Get_As<CTransform>();
+
+	_vector movePoint = pTransform->Get_State(CTransform::STATE_POSITION) + (m_vNorVectorFromAt * m_StageCameraDesc.m_distance);
+	/*_float4 targetPos = {};
+	XMStoreFloat4(&targetPos, pTransform->Get_State(CTransform::STATE_POSITION));*/
+
+	m_pTransform->ChaseNoLook(movePoint, (_float)TimeDelta * m_StageCameraDesc.m_moveSpeed, 0.2f);
+
+	m_StageCameraDesc.CameraDesc = m_CameraDesc;
+
 
 	return __super::LateTick(TimeDelta);
 }
