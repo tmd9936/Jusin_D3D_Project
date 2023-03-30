@@ -71,8 +71,8 @@ PS_OUT PS_MAIN_CORNER_ROUND(PS_IN In)
 	if (Out.vColor.a < 0.1)
 		discard;
 
-	float2 coords = In.vTexUV * 7.f;
-	if (ShouldDiscard(coords, 7.f, 1.f))
+	float2 coords = In.vTexUV * 10.f;
+	if (ShouldDiscard(coords, 10.f, 1.f))
 		discard;
 
 	Out.vColor = g_vColor;

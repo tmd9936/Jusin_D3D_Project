@@ -1,33 +1,35 @@
 {
     "UIDesc": {
-        "m_fX": 120.0,
-        "m_fY": 300.0,
-        "m_fSizeX": 200.5,
-        "m_fSizeY": 180.0,
+        "m_fX": 465.0,
+        "m_fY": 390.0,
+        "m_fSizeX": 280.5,
+        "m_fSizeY": 80.0,
         "m_UIType": 1,
+        "m_ShaderPass": 1,
         "m_vColor": {
-            "x": 0.73725,
-            "y": 0.28235,
-            "z": 0.129411,
+            "x": 0.352941,
+            "y": 0.709803,
+            "z": 0.1215686,
             "w": 1.0
         },
         "m_TextureProtoTypeLevel": 0,
-        "m_TextureProtoTypeName" : "Prototype_Component_Texture_Window_Plane_Corner",
+        "m_TextureProtoTypeName" : "Prototype_Component_Texture_Rectangle_Base",
         "m_TextureParts": [
             {
                 "m_fX": 0.0,
-                "m_fY": 0.0,
-                "m_fSizeX": 150.0,
-                "m_fSizeY": 130.0,
-                "m_eType": 0,
+                "m_fY": -6.0,
+                "m_fSizeX": 240.0,
+                "m_fSizeY": 50.0,
+                "m_eType": 1,
+                "m_ShaderPass": 1,
                 "m_vColor": {
-                    "x": 0.81568,
-                    "y": 0.36862745,
-                    "z": 0.223529,
+                    "x": 0.470588,
+                    "y": 0.823529,
+                    "z": 0.23529411,
                     "w": 1.0
                 },
                 "m_TextureProtoTypeLevel": 0,
-                "m_TextureProtoTypeName": "Prototype_Component_Texture_Window_Plane_Corner",
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_Rectangle_Base",
                 "LayerTag": "Layer_UI"
             }
         ],

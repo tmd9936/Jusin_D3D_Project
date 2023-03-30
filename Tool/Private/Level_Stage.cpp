@@ -229,6 +229,11 @@ HRESULT CLevel_Stage::Ready_Layer_UI(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UI"), LEVEL_STAGE, pLayerTag, L"SkillBase1", "../../Reference/Resources/Data/Scene/Stage/UI/Skill_BackGround_UI1.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UI"), LEVEL_STAGE, pLayerTag, L"SkillBase2", "../../Reference/Resources/Data/Scene/Stage/UI/Skill_BackGround_UI2.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UI"), LEVEL_STAGE, pLayerTag, L"SkillBase3", "../../Reference/Resources/Data/Scene/Stage/UI/Skill_BackGround_UI3.json", CLONE_FILEPATH)))
+		return E_FAIL;
 
 	Safe_Release(pGameInstance);
 
