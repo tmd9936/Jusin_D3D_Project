@@ -144,15 +144,17 @@ void CPlayer::On_Collision(CCollider* pOther, const _float& fX, const _float& fY
 		if (!pOtherTransform)
 			return;
 
+		CNavigation* pNavigationCom = pOtherOwner->Get_As<CNavigation>();
+
 		if (XMVectorGetZ(vDestCenter) < XMVectorGetZ(vSourCenter))
 		{
-			pOtherTransform->Move_Pos(0.f, 0.f, fZ * 0.0166f);
-		
+			pOtherTransform->Move(0.f, 0.f, fZ * 0.0166f, pNavigationCom);
 		}
 		else
 		{
-			pOtherTransform->Move_Pos(0.f, 0.f, -fZ * 0.0166f);
+			pOtherTransform->Move(0.f, 0.f, -fZ * 0.0166f, pNavigationCom);
 		}
+		
 	}
 	else if (fX == fZ) {}
 	else
@@ -165,17 +167,20 @@ void CPlayer::On_Collision(CCollider* pOther, const _float& fX, const _float& fY
 			return;
 
 		CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
+
 		if (!pOtherTransform)
 			return;
+		
+		CNavigation* pNavigationCom = pOtherOwner->Get_As<CNavigation>();
 
 		if (XMVectorGetX(vDestCenter) < XMVectorGetX(vSourCenter))
 		{
-			pOtherTransform->Move_Pos(fX * 0.0166f, 0.f, 0.f);
+			pOtherTransform->Move(fX * 0.0166f, 0.f, 0.f, pNavigationCom);
 
 		}
 		else
 		{
-			pOtherTransform->Move_Pos(-fX * 0.0166f, 0.f, 0.f);
+			pOtherTransform->Move(-fX * 0.0166f, 0.f, 0.f, pNavigationCom);
 		}
 	}
 }
@@ -195,14 +200,16 @@ void CPlayer::On_CollisionEnter(CCollider* pOther, const _float& fX, const _floa
 		if (!pOtherTransform)
 			return;
 
+		CNavigation* pNavigationCom = pOtherOwner->Get_As<CNavigation>();
+
 		if (XMVectorGetZ(vDestCenter) < XMVectorGetZ(vSourCenter))
 		{
-			pOtherTransform->Move_Pos(0.f, 0.f, fZ * 0.0166f);
+			pOtherTransform->Move(0.f, 0.f, fZ * 0.0166f, pNavigationCom);
 
 		}
 		else
 		{
-			pOtherTransform->Move_Pos(0.f, 0.f, -fZ * 0.0166f);
+			pOtherTransform->Move(0.f, 0.f, -fZ * 0.0166f, pNavigationCom);
 		}
 	}
 	else if (fX == fZ) {}
@@ -219,14 +226,16 @@ void CPlayer::On_CollisionEnter(CCollider* pOther, const _float& fX, const _floa
 		if (!pOtherTransform)
 			return;
 
+		CNavigation* pNavigationCom = pOtherOwner->Get_As<CNavigation>();
+
 		if (XMVectorGetX(vDestCenter) < XMVectorGetX(vSourCenter))
 		{
-			pOtherTransform->Move_Pos(fX * 0.0166f, 0.f, 0.f);
+			pOtherTransform->Move(fX * 0.0166f, 0.f, 0.f, pNavigationCom);
 
 		}
 		else
 		{
-			pOtherTransform->Move_Pos(-fX * 0.0166f, 0.f, 0.f);
+			pOtherTransform->Move(-fX * 0.0166f, 0.f, 0.f, pNavigationCom);
 		}
 	}
 }

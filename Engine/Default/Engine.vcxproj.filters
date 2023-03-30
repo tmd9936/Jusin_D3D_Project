@@ -163,6 +163,9 @@
     <Filter Include="01. Utility\07. Frustum">
       <UniqueIdentifier>{62f3a908-eba6-4fb8-a73c-7b96d40297bc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\03. Component\HP">
+      <UniqueIdentifier>{d00401c2-ffe8-42db-8bf6-09ab5f2a88a1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Engine_Defines.h">
@@ -333,6 +336,9 @@
     <ClInclude Include="..\Public\Frustum.h">
       <Filter>01. Utility\07. Frustum</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\HP.h">
+      <Filter>01. Utility\03. Component\HP</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -487,6 +493,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Frustum.cpp">
       <Filter>01. Utility\07. Frustum</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\HP.cpp">
+      <Filter>01. Utility\03. Component\HP</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

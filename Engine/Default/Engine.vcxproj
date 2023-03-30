@@ -35,6 +35,7 @@
     <ClInclude Include="..\Public\CustomFont.h" />
     <ClInclude Include="..\Public\DebugDraw.h" />
     <ClInclude Include="..\Public\Frustum.h" />
+    <ClInclude Include="..\Public\HP.h" />
     <ClInclude Include="..\Public\Navigation.h" />
     <ClInclude Include="..\Public\OBB.h" />
     <ClInclude Include="..\Public\PickingCube.h" />
@@ -92,6 +93,7 @@
     <ClCompile Include="..\Private\CustomFont.cpp" />
     <ClCompile Include="..\Private\DebugDraw.cpp" />
     <ClCompile Include="..\Private\Frustum.cpp" />
+    <ClCompile Include="..\Private\HP.cpp" />
     <ClCompile Include="..\Private\Navigation.cpp" />
     <ClCompile Include="..\Private\OBB.cpp" />
     <ClCompile Include="..\Private\PickingCube.cpp" />

@@ -80,6 +80,30 @@ void CTransform::Set_ScaledZ(const _float& scale)
 
 }
 
+void CTransform::Move(float x, float y, float z, CNavigation* pNavigation)
+{
+	_bool isMove = true;
+
+	_vector vPosition = Get_State(STATE_POSITION);
+
+	vPosition = vPosition + XMVectorSet(x, y, z, 0.f);
+
+	_float fY = XMVectorGetY(vPosition);
+
+	if (nullptr != pNavigation)
+	{
+		isMove = pNavigation->Move_OnNavigation_Set_Y(vPosition, fY);
+	}
+
+	if (true == isMove)
+	{
+		if (nullptr != pNavigation)
+			Set_State(CTransform::STATE_POSITION, XMVectorSetY(vPosition, fY + 0.5f));
+		else
+			Set_State(CTransform::STATE_POSITION, vPosition);
+	}
+}
+
 void CTransform::Go_Straight(_float TimeDelta, CNavigation* pNavigation)
 {
 	_bool	isMove = true;
