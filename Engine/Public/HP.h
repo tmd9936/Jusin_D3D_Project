@@ -8,7 +8,14 @@ class CGameObject;
 class ENGINE_DLL CHP : public CComponent
 {
 public:
-	static const FamilyId familyId = FAMILY_ID_BILLBOARD;
+	typedef struct hp_Desc
+	{
+		_uint m_MaxHp;
+		_uint m_HpChangeTick;
+	} HP_DESC;
+
+public:
+	static const FamilyId familyId = FAMILY_ID_HP;
 protected:
 	explicit CHP(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner);
 	explicit CHP(const CHP& rhs, CGameObject* pOwner);
@@ -19,11 +26,26 @@ public:
 	virtual HRESULT Initialize(void* pArg) override;
 
 public:
-	_uint Late_Tick(_double TimeDelta);
+	_uint	Tick();
 
-	_uint Late_Tick(_float4x4& customMatrix);
+public:
+	const _float		Get_MaxHpP() const {
+		return m_MaxHP;
+	}
 
-	_matrix Get_BillBoarMatrix();
+	const _float		Get_CurrentHp() const {
+		return m_CurrentHP;
+	}
+
+	_bool 	Set_TargetHP(_float targetHP);
+
+private:
+	HP_DESC		m_Desc = {};
+
+	_uint		m_MaxHP = { 0.f };
+	_uint		m_CurrentHP = { 0.f };
+
+	_uint		m_TargetHP = { 0.f };
 
 public:
 	static CHP* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

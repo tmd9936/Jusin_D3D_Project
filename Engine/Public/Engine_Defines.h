@@ -112,6 +112,8 @@ using namespace DirectX;
 #define FAMILY_ID_TEXTURE_BRUSH				23
 #define FAMILY_ID_MATERIAL					25
 
+#define FAMILY_ID_HP					27
+
 #define FAMILY_ID_SHADER					30
 #define FAMILY_ID_VIBUFFER					31
 
