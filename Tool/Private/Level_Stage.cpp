@@ -250,6 +250,18 @@ HRESULT CLevel_Stage::Ready_Layer_UI(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PokemonSkillButton"), LEVEL_STAGE, pLayerTag, L"Pokemon1_Skill2", "../../Reference/Resources/Data/Scene/Stage/Button/Pokemon1_Skill2.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PokemonSkillButton"), LEVEL_STAGE, pLayerTag, L"Pokemon2_Skill1", "../../Reference/Resources/Data/Scene/Stage/Button/Pokemon2_Skill1.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PokemonSkillButton"), LEVEL_STAGE, pLayerTag, L"Pokemon2_Skill2", "../../Reference/Resources/Data/Scene/Stage/Button/Pokemon2_Skill2.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PokemonSkillButton"), LEVEL_STAGE, pLayerTag, L"Pokemon3_Skill1", "../../Reference/Resources/Data/Scene/Stage/Button/Pokemon3_Skill1.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PokemonSkillButton"), LEVEL_STAGE, pLayerTag, L"Pokemon3_Skill2", "../../Reference/Resources/Data/Scene/Stage/Button/Pokemon3_Skill2.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
 
 	/* ÇÇÄ«Ãò, ÆÄ¸£¼¿, ·Õ½ºÅæ*/
 

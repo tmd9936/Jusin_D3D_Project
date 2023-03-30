@@ -194,11 +194,17 @@ void CMapToolGUI::Picking_GameObject()
 
 		const wstring* layerTag = CDataToolGUI::GetInstance()->Get_Current_LayerName();
 		const _uint iLevelindex = CDataToolGUI::GetInstance()->Get_Current_Levelindex();
-
-		m_pPickingObject = m_pCalculator->Picking_Environment_Object(g_hWnd, layerTag->c_str(), iLevelindex);
+	
+		CGameObject* pPickingObject = m_pCalculator->Picking_Environment_Object(g_hWnd, layerTag->c_str(), iLevelindex);
 		
-		if (nullptr == m_pPickingObject)
+		if (nullptr == pPickingObject)
 			return;
+
+		Safe_Release(m_pPickingObject);
+
+		Safe_AddRef(pPickingObject);
+
+		m_pPickingObject = pPickingObject;
 
 		CTransform* pTransform = dynamic_cast<CTransform*>(CGameInstance::GetInstance()->Get_Component(CTransform::familyId, m_pPickingObject));
 
@@ -238,7 +244,7 @@ void CMapToolGUI::Remove_PickingObject()
 	if (m_pPickingObject)
 	{
 		m_pPickingObject->Set_Dead();
-		//Safe_Release(m_pPickingObject);
+		Safe_Release(m_pPickingObject);
 		m_pPickingObject = nullptr;
 		CDataToolGUI::GetInstance()->Update_LevelGameObjects();
 	}
