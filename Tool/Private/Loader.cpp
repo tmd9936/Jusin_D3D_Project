@@ -42,6 +42,8 @@
 #include "PartText.h"
 
 #include "PokemonSkillButton.h"
+#include "StageCamera.h"
+#include "StageCameraTarget.h"
 
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -825,6 +827,14 @@ HRESULT CLoader::Loading_ForStageLevel()
 	{
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_PokemonSkillButton"),
 			CPokemonSkillButton::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_StageCamera"),
+			CStageCamera::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_StageCameraTarget"),
+			CStageCameraTarget::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 	}
 
