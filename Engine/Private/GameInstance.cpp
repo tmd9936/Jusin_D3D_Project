@@ -7,6 +7,7 @@
 #include "Light_Manager.h"
 #include "Collider_Manager.h"
 #include "Font_Manager.h"
+#include "Frustum.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -22,6 +23,7 @@ CGameInstance::CGameInstance()
 	, m_pLight_Manager(CLight_Manager::GetInstance())
 	, m_pCollider_Manager(CCollider_Manager::GetInstance())
 	, m_pFont_Manager(CFont_Manager::GetInstance())
+	, m_pFrustum(CFrustum::GetInstance())
 {
 	Safe_AddRef(m_pLight_Manager);
 	Safe_AddRef(m_pComponent_Manager);
@@ -34,6 +36,7 @@ CGameInstance::CGameInstance()
 	Safe_AddRef(m_pInput_Device);
 	Safe_AddRef(m_pCollider_Manager);
 	Safe_AddRef(m_pFont_Manager);
+	Safe_AddRef(m_pFrustum);
 }
 
 HRESULT CGameInstance::Initialize_Engine(_uint iNumLevels, HINSTANCE hInstance, const GRAPHIC_DESC& GraphicDesc, ID3D11Device** ppDeviceOut, ID3D11DeviceContext** ppContextOut)
@@ -62,6 +65,8 @@ HRESULT CGameInstance::Initialize_Engine(_uint iNumLevels, HINSTANCE hInstance, 
 	if (FAILED(m_pLevel_Manager->Reserve_Manager(iNumLevels)))
 		return E_FAIL;
 
+	if (FAILED(m_pFrustum->Initialize()))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -78,6 +83,8 @@ HRESULT CGameInstance::Tick_Engine(_double TimeDelta)
 	m_pObject_Manager->Tick(TimeDelta);
 
 	m_pPipeLine->Update();
+
+	m_pFrustum->Update();
 
 	CGameInstance::GetInstance()->Update_CollisionMgr(m_pLevel_Manager->Get_LevelIndex());
 
@@ -546,6 +553,14 @@ HRESULT CGameInstance::Render_Font(const _tchar* pFontTag, const _tchar* pText, 
 	return m_pFont_Manager->Render_Font(pFontTag, pText, vPosition, vColor, fRotation, vRotationOrigin, vScale);
 }
 
+_bool CGameInstance::Is_In_Frustum(_fvector vPosition, _float fRange)
+{
+	if (nullptr == m_pFrustum)
+		return false;
+
+	return m_pFrustum->Is_In(vPosition, fRange);
+}
+
 void CGameInstance::Release_Engine()
 {
 	CGameInstance::GetInstance()->DestroyInstance();
@@ -559,6 +574,8 @@ void CGameInstance::Release_Engine()
 	CSound_Manager::GetInstance()->DestroyInstance();
 
 	CTimer_Manager::GetInstance()->DestroyInstance();
+
+	CFrustum::GetInstance()->DestroyInstance();
 
 	CPipeLine::GetInstance()->DestroyInstance();
 
@@ -583,6 +600,7 @@ void CGameInstance::Free(void)
 	Safe_Release(m_pGraphic_Device);
 	Safe_Release(m_pTimer_Manager);
 	Safe_Release(m_pInput_Device);
+	Safe_Release(m_pFrustum);
 	Safe_Release(m_pPipeLine);
 	Safe_Release(m_pCollider_Manager);
 	Safe_Release(m_pFont_Manager);

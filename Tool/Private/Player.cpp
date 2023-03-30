@@ -265,49 +265,49 @@ void CPlayer::Do_Skill()
 	}
 }
 
-HRESULT CPlayer::SetUp_ShaderResources()
-{
-	if (FAILED(m_pTransformCom->Set_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
-		return E_FAIL;
-
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
-
-	if (FAILED(m_pShaderCom->Set_Matrix("g_ViewMatrix",
-		&pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_VIEW))))
-		return E_FAIL;
-	if (FAILED(m_pShaderCom->Set_Matrix("g_ProjMatrix",
-		&pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_PROJ))))
-		return E_FAIL;
-
-	if (FAILED(m_pShaderCom->Set_RawValue("g_vCamPosition",
-		&pGameInstance->Get_CamPosition(), sizeof(_float4))))
-		return E_FAIL;
-
-	const LIGHTDESC* pLightDesc = pGameInstance->Get_Light(0);
-	if (nullptr == pLightDesc)
-		return E_FAIL;
-
-	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightDir",
-		&pLightDesc->vDirection, sizeof(_float4))))
-		return E_FAIL;
-
-	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightDiffuse",
-		&pLightDesc->vDiffuse, sizeof(_float4))))
-		return E_FAIL;
-
-	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightAmbient",
-		&pLightDesc->vAmbient, sizeof(_float4))))
-		return E_FAIL;
-
-	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightSpecular",
-		&pLightDesc->vSpecular, sizeof(_float4))))
-		return E_FAIL;
-
-	Safe_Release(pGameInstance);
-
-	return S_OK;
-}
+//HRESULT CPlayer::SetUp_ShaderResources()
+//{
+//	if (FAILED(m_pTransformCom->Set_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
+//		return E_FAIL;
+//
+//	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+//	Safe_AddRef(pGameInstance);
+//
+//	if (FAILED(m_pShaderCom->Set_Matrix("g_ViewMatrix",
+//		&pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_VIEW))))
+//		return E_FAIL;
+//	if (FAILED(m_pShaderCom->Set_Matrix("g_ProjMatrix",
+//		&pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_PROJ))))
+//		return E_FAIL;
+//
+//	if (FAILED(m_pShaderCom->Set_RawValue("g_vCamPosition",
+//		&pGameInstance->Get_CamPosition(), sizeof(_float4))))
+//		return E_FAIL;
+//
+//	const LIGHTDESC* pLightDesc = pGameInstance->Get_Light(0);
+//	if (nullptr == pLightDesc)
+//		return E_FAIL;
+//
+//	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightDir",
+//		&pLightDesc->vDirection, sizeof(_float4))))
+//		return E_FAIL;
+//
+//	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightDiffuse",
+//		&pLightDesc->vDiffuse, sizeof(_float4))))
+//		return E_FAIL;
+//
+//	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightAmbient",
+//		&pLightDesc->vAmbient, sizeof(_float4))))
+//		return E_FAIL;
+//
+//	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightSpecular",
+//		&pLightDesc->vSpecular, sizeof(_float4))))
+//		return E_FAIL;
+//
+//	Safe_Release(pGameInstance);
+//
+//	return S_OK;
+//}
 
 CPlayer* CPlayer::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {

@@ -48,8 +48,8 @@ private:
 private:
 	_uint			m_TestSkillindex = { 0 };
 
-private:
-	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 던진다. */
+//private:
+//	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 던진다. */
 
 public:
 	static CPlayer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

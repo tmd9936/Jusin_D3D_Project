@@ -15,6 +15,7 @@ class CSound_Manager;
 class CLight_Manager;
 class CCollider_Manager;
 class CFont_Manager;
+class CFrustum;
 
 class ENGINE_DLL CGameInstance :
     public CBase
@@ -113,6 +114,8 @@ public: /*For.Font_Manager*/
 	HRESULT Add_Font(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pFontTag, const _tchar* pFontFilePath);
 	HRESULT Render_Font(const _tchar* pFontTag, const _tchar* pText, const _float2& vPosition, _fvector vColor, _float fRotation = 0.f, const _float2& vRotationOrigin = _float2(0.f, 0.f), const _float2& vScale = _float2(1.f, 1.f));
 
+public: /*For.Frustum*/
+	_bool  Is_In_Frustum(_fvector vPosition, _float fRange = 0.f);
 
 private:
 	CTimer_Manager*			m_pTimer_Manager = { nullptr };
@@ -126,6 +129,7 @@ private:
 	CLight_Manager*			m_pLight_Manager = { nullptr };
 	CCollider_Manager*		m_pCollider_Manager = { nullptr };
 	CFont_Manager*			m_pFont_Manager = { nullptr };
+	CFrustum*				m_pFrustum = { nullptr };
 
 public:
 	static void Release_Engine();

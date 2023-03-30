@@ -26,6 +26,8 @@ HRESULT CCustomFont::Render(const _tchar* pText, const _float2& vPosition, _fvec
 	if (nullptr == m_pFont)
 		return E_FAIL;
 
+	m_pContext->GSSetShader(nullptr, nullptr, 0);
+
 	m_pBatch->Begin();
 
 	m_pFont->DrawString(m_pBatch, pText, vPosition, vColor, fRotation, vRotationOrigin, vScale);

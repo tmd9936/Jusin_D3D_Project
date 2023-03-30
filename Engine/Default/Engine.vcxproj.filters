@@ -160,6 +160,9 @@
     <Filter Include="01. Utility\03. Component\VIBuffer\Instancing\Rect">
       <UniqueIdentifier>{9787b89a-7c13-4813-9069-751a4f10bb93}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\07. Frustum">
+      <UniqueIdentifier>{62f3a908-eba6-4fb8-a73c-7b96d40297bc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Engine_Defines.h">
@@ -327,6 +330,9 @@
     <ClInclude Include="..\Public\VIBuffer_Rect_Instance.h">
       <Filter>01. Utility\03. Component\VIBuffer\Instancing\Rect</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Frustum.h">
+      <Filter>01. Utility\07. Frustum</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -478,6 +484,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_Rect_Instance.cpp">
       <Filter>01. Utility\03. Component\VIBuffer\Instancing\Rect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Frustum.cpp">
+      <Filter>01. Utility\07. Frustum</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

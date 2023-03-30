@@ -53,6 +53,8 @@ HRESULT CCollider::Render()
 
 	m_pContext->IASetInputLayout(m_pInputLayout);
 
+	m_pContext->GSSetShader(nullptr, nullptr, 0);
+
 	m_pEffect->Apply(m_pContext);
 
 	m_pBatch->Begin();
