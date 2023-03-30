@@ -68,7 +68,7 @@ PS_OUT PS_MAIN_ALPHA(PS_IN In)
 	if (Out.vColor.a < 0.1)
 		discard;
 
-	Out.vColor.a = g_vColor.a;
+	Out.vColor = g_vColor;
 
 	return Out;
 }

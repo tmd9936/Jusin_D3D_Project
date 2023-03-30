@@ -24,6 +24,7 @@
                 "m_fSizeX": 180.0,
                 "m_fSizeY": 110.0,
                 "m_eType": 1,
+                "m_ShaderPass": 0,
                 "m_vColor": {
                     "x": 0.7,
                     "y": 0.6,
@@ -40,6 +41,7 @@
                 "m_fSizeX": 140.0,
                 "m_fSizeY": 80.0,
                 "m_eType": 0,
+                "m_ShaderPass": 0,
                 "m_vColor": {
                     "x": 1.0,
                     "y": 1.0,

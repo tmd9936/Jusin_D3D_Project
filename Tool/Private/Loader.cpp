@@ -824,7 +824,7 @@ HRESULT CLoader::Loading_ForStageLevel()
 
 	wsprintf(m_szLoadingText, TEXT("객체원형을 로딩중."));
 
-	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_WORLDMAP))
+	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_STAGE))
 	{
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_PokemonSkillButton"),
 			CPokemonSkillButton::Create(m_pDevice, m_pContext))))

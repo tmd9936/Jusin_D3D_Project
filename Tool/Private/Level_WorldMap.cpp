@@ -240,8 +240,8 @@ HRESULT CLevel_WorldMap::Ready_Layer_Player(const _tchar* pLayerTag)
 		return E_FAIL;
 
 	CMonster::POKEMON_DESC desc{};
-	desc.m_monsterNo = 6;
-	desc.vPos = _float4(25.2f, 0.5f, 22.0f, 1.f);
+	desc.m_monsterNo = 25;
+	desc.vPos = _float4(25.2f, 1.5f, 22.0f, 1.f);
 
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Player"), LEVEL_WORLDMAP, pLayerTag, L"Player", &desc)))
 		return E_FAIL;
