@@ -207,7 +207,7 @@ HRESULT CLevel_Stage::Ready_Layer_Player(const _tchar* pLayerTag)
 		return E_FAIL;
 
 	CMonster::POKEMON_DESC desc{};
-	desc.m_monsterNo = 6;
+	desc.m_monsterNo = 25;
 	desc.vPos = _float4(19.2f, 0.5f, 22.0f, 1.f);
 
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Player"), LEVEL_STAGE, pLayerTag, L"Player", &desc)))
@@ -234,6 +234,18 @@ HRESULT CLevel_Stage::Ready_Layer_UI(const _tchar* pLayerTag)
 
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UI"), LEVEL_STAGE, pLayerTag, L"SkillBase3", "../../Reference/Resources/Data/Scene/Stage/UI/Skill_BackGround_UI3.json", CLONE_FILEPATH)))
 		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UI"), LEVEL_STAGE, pLayerTag, L"PokemonIcon1", "../../Reference/Resources/Data/Scene/Stage/UI/Pokemon_Icon1.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UI"), LEVEL_STAGE, pLayerTag, L"PokemonIcon2", "../../Reference/Resources/Data/Scene/Stage/UI/Pokemon_Icon2.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UI"), LEVEL_STAGE, pLayerTag, L"PokemonIcon3", "../../Reference/Resources/Data/Scene/Stage/UI/Pokemon_Icon3.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+
+	/* ÇÇÄ«Ãò, ÆÄ¸£¼¿, ·Õ½ºÅæ*/
 
 	Safe_Release(pGameInstance);
 

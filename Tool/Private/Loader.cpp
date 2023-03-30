@@ -360,6 +360,19 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Pokemon_State_damageup"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Pokemon_State/UI_ss_p_damageup.png")))))
 			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Pokemon_Icon_M25"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Pokemon_Icon/button_icon_M25.dds")))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Pokemon_Icon_M95"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Pokemon_Icon/button_icon_M95.dds")))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Pokemon_Icon_M91"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Pokemon_Icon/button_icon_M91.dds")))))
+			return E_FAIL;
+
 	}
 	wsprintf(m_szLoadingText, TEXT("텍스쳐를 로딩중입니다."));
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Texture_BaseCamp_GoToWorldMap_Button"),
@@ -438,14 +451,44 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 	//	return E_FAIL;
 
 
-	_tchar modelName[MAX_PATH] = L"Prototype_Component_Model_Pokemon_PM6";
-	if (false == pGameInstance->Check_Prototype(modelName))
+	wstring modelName = L"Prototype_Component_Model_Pokemon_PM6";
+	if (false == pGameInstance->Check_Prototype(modelName.c_str()))
 	{
 		PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f) * XMMatrixRotationY(XMConvertToRadians(180.f));
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, modelName,
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, modelName.c_str(),
 			CModel::Create(m_pDevice, m_pContext, "../../Reference/Resources/Mesh/Animation/Pokemon/PM6.json", CModel::TYPE_MESH_COLOR_ANIM, PivotMatrix))))
 			return E_FAIL;
+
 	}
+
+	modelName = L"Prototype_Component_Model_Pokemon_PM25";
+	if (false == pGameInstance->Check_Prototype(modelName.c_str()))
+	{
+		PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, modelName.c_str(),
+			CModel::Create(m_pDevice, m_pContext, "../../Reference/Resources/Mesh/Animation/Pokemon/PM25.json", CModel::TYPE_MESH_COLOR_ANIM, PivotMatrix))))
+			return E_FAIL;
+	}
+
+	modelName = L"Prototype_Component_Model_Pokemon_PM95";
+	if (false == pGameInstance->Check_Prototype(modelName.c_str()))
+	{
+		PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, modelName.c_str(),
+			CModel::Create(m_pDevice, m_pContext, "../../Reference/Resources/Mesh/Animation/Pokemon/PM95.json", CModel::TYPE_MESH_COLOR_ANIM, PivotMatrix))))
+			return E_FAIL;
+	}
+
+	modelName = L"Prototype_Component_Model_Pokemon_PM91";
+	if (false == pGameInstance->Check_Prototype(modelName.c_str()))
+	{
+		PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, modelName.c_str(),
+			CModel::Create(m_pDevice, m_pContext, "../../Reference/Resources/Mesh/Animation/Pokemon/PM91.json", CModel::TYPE_MESH_COLOR_ANIM, PivotMatrix))))
+			return E_FAIL;
+	}
+
+	
 
 	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Model_Pokemon_PM10"),
 	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Pokemon/PM10.fbx", PivotMatrix))))
@@ -460,7 +503,6 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Shader_VtxNorTex"),
 		CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxNorTex.hlsl"), VTXNORTEX_DECLARATION::Elements, VTXNORTEX_DECLARATION::iNumElements))))
 		return E_FAIL;
-
 
 	/* For.Prototype_Component_Shader_VtxAnimModelColor */
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Shader_VtxAnimModelColor"),
@@ -575,6 +617,7 @@ HRESULT CLoader::Loading_ForWorldMapLevel()
 	_matrix		PivotMatrix = XMMatrixIdentity();
 
 
+
 	/* For.Prototype_Component_Model_BaseCamp_Field */
 	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Model_WorldMap_island"),
@@ -621,6 +664,7 @@ HRESULT CLoader::Loading_ForWorldMapLevel()
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Model_Stage_Point_Standard"),
 		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/WorldMap/W_dpoint_stage_standard.fbx", PivotMatrix))))
 		return E_FAIL;
+	
 
 	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Model_Pokemon_PM1"),
 	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../../Reference/Resources/Mesh/Animation/Pokemon/PM1.fbx", PivotMatrix))))
@@ -709,6 +753,7 @@ HRESULT CLoader::Loading_ForStageLevel()
 
 	_matrix		PivotMatrix = XMMatrixIdentity();
 
+
 	/* For.Prototype_Component_Model_Stage_Map */
 	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_Map1"),
@@ -746,7 +791,6 @@ HRESULT CLoader::Loading_ForStageLevel()
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_Map9"),
 		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Map/C_water1_09.fbx", PivotMatrix))))
 		return E_FAIL;
-
 
 	/* For.Prototype_Component_Model_Stage_LD */
 	//PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
