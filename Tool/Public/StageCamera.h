@@ -74,7 +74,9 @@ private:
 	void					Data_Save_Logic();
 
 private:
-	STAGE_CAMERA_DESC		m_StageCameraDesc = {};
+	STAGE_CAMERA_DESC		m_StageCameraDesc = { };
+
+	_vector					m_vNorVectorFromAt = { };
 
 	CGameObject*			m_pTarget = { nullptr };
 

@@ -107,7 +107,7 @@ void CStageCameraTarget::Formation_State_Tick(const _double& TimeDelta)
 	if (nullptr == pPlayerTransform)
 		return;
 
-	m_pTransformCom->ChaseNoLook(pPlayerTransform->Get_State(CTransform::STATE_POSITION), (_float)TimeDelta);
+	m_pTransformCom->ChaseNoLook(pPlayerTransform->Get_State(CTransform::STATE_POSITION), (_float)TimeDelta, 0.2f);
 }
 
 CTransform* CStageCameraTarget::Get_PlayerTransform()

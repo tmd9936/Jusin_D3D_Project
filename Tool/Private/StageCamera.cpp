@@ -40,19 +40,19 @@ HRESULT CStageCamera::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, con
 		m_strSaveJsonPath = filePath;
 	}
 
-
-	CGameObject* pPlyaer = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Player", L"Player");
-	if (nullptr == pPlyaer)
+	CGameObject* pCameraTarget = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_CameraTarget", L"CameraTarget");
+	if (nullptr == pCameraTarget)
 		return E_FAIL;
+	CTransform* pTransform = pCameraTarget->Get_As<CTransform>();
 
-	CTransform* pTransform =  pPlyaer->Get_As<CTransform>();
+	_float4 targetPos = {};
+	XMStoreFloat4(&targetPos, pTransform->Get_State(CTransform::STATE_POSITION));
 
-	_float4 playerPos = {};
-	XMStoreFloat4(&playerPos, pTransform->Get_State(CTransform::STATE_POSITION));
+	m_StageCameraDesc.CameraDesc.vAt = targetPos;
+	m_StageCameraDesc.CameraDesc.vEye = _float4(targetPos.x + m_StageCameraDesc.m_DistancefromAt.x, targetPos.y +
+		m_StageCameraDesc.m_DistancefromAt.y, targetPos.z + m_StageCameraDesc.m_DistancefromAt.z, 1.f);
 
-	m_StageCameraDesc.CameraDesc.vAt = playerPos;
-	m_StageCameraDesc.CameraDesc.vEye = _float4(playerPos.x + m_StageCameraDesc.m_DistancefromAt.x, playerPos.y + 
-		m_StageCameraDesc.m_DistancefromAt.y, playerPos.z + m_StageCameraDesc.m_DistancefromAt.z, 1.f);
+	m_vNorVectorFromAt = XMVector4Normalize(XMLoadFloat4(&m_StageCameraDesc.CameraDesc.vEye) - XMLoadFloat4(&m_StageCameraDesc.CameraDesc.vAt));
 
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, &m_StageCameraDesc.CameraDesc)))
 		return E_FAIL;
@@ -67,6 +67,18 @@ _uint CStageCamera::Tick(_double TimeDelta)
 	else if (KEY_TAB(KEY::M))
 		m_pTransform->Go_Backward((_float)TimeDelta);
 
+	CGameObject* pCameraTarget = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_CameraTarget", L"CameraTarget");
+	if (nullptr == pCameraTarget)
+		return E_FAIL;
+	CTransform* pTransform = pCameraTarget->Get_As<CTransform>();
+
+
+	_vector movePoint = pTransform->Get_State(CTransform::STATE_POSITION) + (m_vNorVectorFromAt * m_StageCameraDesc.m_distance);
+	/*_float4 targetPos = {};
+	XMStoreFloat4(&targetPos, pTransform->Get_State(CTransform::STATE_POSITION));*/
+
+	m_pTransform->ChaseNoLook(movePoint, (_float)TimeDelta, 0.1f);
+
 	m_StageCameraDesc.CameraDesc = m_CameraDesc;
 
 	return __super::Tick(TimeDelta);
@@ -80,19 +92,18 @@ _uint CStageCamera::LateTick(_double TimeDelta)
 
 void CStageCamera::Data_Save_Logic()
 {
-
-	CGameObject* pPlyaer = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Player", L"Player");
-	if (nullptr == pPlyaer)
+	CGameObject* pCameraTarget = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_CameraTarget", L"CameraTarget");
+	if (nullptr == pCameraTarget)
 		return;
 
-	CTransform* pTransform = pPlyaer->Get_As<CTransform>();
+	CTransform* pTargetTransform = pCameraTarget->Get_As<CTransform>();
 
-	_float4 playerPos = {};
-	XMStoreFloat4(&playerPos, pTransform->Get_State(CTransform::STATE_POSITION));
+	_float4 targetPos = {};
+	XMStoreFloat4(&targetPos, pTargetTransform->Get_State(CTransform::STATE_POSITION));
 
-	m_StageCameraDesc.m_DistancefromAt.x = -playerPos.x + m_StageCameraDesc.CameraDesc.vEye.x;
-	m_StageCameraDesc.m_DistancefromAt.y = -playerPos.y + m_StageCameraDesc.CameraDesc.vEye.y;
-	m_StageCameraDesc.m_DistancefromAt.z = -playerPos.z + m_StageCameraDesc.CameraDesc.vEye.z;
+	m_StageCameraDesc.m_DistancefromAt.x = -targetPos.x + m_StageCameraDesc.CameraDesc.vEye.x;
+	m_StageCameraDesc.m_DistancefromAt.y = -targetPos.y + m_StageCameraDesc.CameraDesc.vEye.y;
+	m_StageCameraDesc.m_DistancefromAt.z = -targetPos.z + m_StageCameraDesc.CameraDesc.vEye.z;
 
 	if (KEY_TAB(KEY::V))
 		Save_By_JsonFile("../../Reference/Resources/Data/Scene/Stage/Stage_Camera.json");
