@@ -29,23 +29,23 @@ public:
 	_uint	Tick();
 
 public:
-	const _float		Get_MaxHpP() const {
+	const _uint		Get_MaxHpP() const {
 		return m_MaxHP;
 	}
 
-	const _float		Get_CurrentHp() const {
+	const _uint		Get_CurrentHp() const {
 		return m_CurrentHP;
 	}
 
-	_bool 	Set_TargetHP(_float targetHP);
+	_bool 	Set_TargetHP(_uint targetHP);
 
 private:
 	HP_DESC		m_Desc = {};
 
-	_uint		m_MaxHP = { 0.f };
-	_uint		m_CurrentHP = { 0.f };
+	_uint		m_MaxHP = { 0 };
+	_uint		m_CurrentHP = { 0 };
 
-	_uint		m_TargetHP = { 0.f };
+	_uint		m_TargetHP = { 0 };
 
 public:
 	static CHP* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

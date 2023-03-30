@@ -19,6 +19,7 @@
 #include "MonFSM.h"
 #include "Billboard.h"
 #include "Navigation.h"
+#include "HP.h"
 #pragma endregion
 
 #pragma region COLLIDER

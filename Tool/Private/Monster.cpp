@@ -374,6 +374,8 @@ HRESULT CMonster::Add_Components_By_File()
 		return E_FAIL;
 
 
+
+
 	return S_OK;
 }
 

@@ -14,6 +14,7 @@ class CMonFSM;
 class CAABB;
 class COBB;
 class CSphere;
+class CHP;
 
 class CNavigation;
 
@@ -105,6 +106,8 @@ protected:
 	CSphere* m_pSphere = { nullptr };
 
 	CNavigation* m_pNavigationCom = { nullptr };
+
+	CHP* m_pHPCom = { nullptr };
 
 protected:
 	POKEMON_DESC		m_PokemonDesc = {};

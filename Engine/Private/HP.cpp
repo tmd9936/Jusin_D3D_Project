@@ -25,6 +25,7 @@ HRESULT CHP::Initialize(void* pArg)
 	else
 	{
 		m_Desc.m_MaxHp = 100;
+		m_Desc.m_HpChangeTick = 1;
 	}
 	m_CurrentHP = m_Desc.m_MaxHp;
 
@@ -33,12 +34,24 @@ HRESULT CHP::Initialize(void* pArg)
 
 _uint CHP::Tick()
 {
+	if (m_TargetHP == m_CurrentHP)
+		return 0;
+
+	if (m_CurrentHP < m_TargetHP)
+	{
+		m_CurrentHP += m_Desc.m_HpChangeTick;
+	}
+	else
+	{
+		m_CurrentHP -= m_Desc.m_HpChangeTick;
+	}
+
 	return _uint();
 }
 
-_bool CHP::Set_TargetHP(_float targetHP)
+_bool CHP::Set_TargetHP(_uint targetHP)
 {
-	if (m_MaxHP > targetHP || 0.f > targetHP)
+	if (m_MaxHP < targetHP || 0 > targetHP)
 		return false;
 
 	m_TargetHP = targetHP;
