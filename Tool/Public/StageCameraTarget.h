@@ -5,6 +5,9 @@
 
 BEGIN(Engine)
 class CTransform;
+class CModel;
+class CRenderer;
+class CShader;
 END
 
 BEGIN(Client)
@@ -41,6 +44,9 @@ private:
 	CTransform*		Get_PlayerTransform();
 private:
 	CTransform* m_pTransformCom = { nullptr };
+	CRenderer* m_pRendererCom = { nullptr };
+	CShader* m_pShaderCom = { nullptr };
+	CModel* m_pModelCom = { nullptr };
 
 	STATE		m_eCurrentState = { STATE_FORMATION };
 	STATE		m_ePreState = { STATE_END };

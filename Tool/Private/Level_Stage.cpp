@@ -278,6 +278,9 @@ HRESULT CLevel_Stage::Ready_Layer_CameraTarget(const _tchar* pLayerTag)
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_STAGE, pLayerTag)))
+		return E_FAIL;
+
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageCameraTarget"), LEVEL_STAGE, pLayerTag, L"CameraTarget")))
 		return E_FAIL;
 

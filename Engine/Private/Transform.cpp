@@ -99,7 +99,7 @@ void CTransform::Go_Straight(_float TimeDelta, CNavigation* pNavigation)
 	if (true == isMove)
 	{
 		if (nullptr != pNavigation)
-			Set_State(CTransform::STATE_POSITION, XMVectorSetY(vPosition, fY));
+			Set_State(CTransform::STATE_POSITION, XMVectorSetY(vPosition, fY + 0.5f));
 		else
 			Set_State(CTransform::STATE_POSITION, vPosition);
 	}
@@ -143,7 +143,7 @@ void CTransform::Go_Backward(_float TimeDelta, CNavigation* pNavigation)
 	if (true == isMove)
 	{
 		if (nullptr != pNavigation)
-			Set_State(CTransform::STATE_POSITION, XMVectorSetY(vPosition, fY));
+			Set_State(CTransform::STATE_POSITION, XMVectorSetY(vPosition, fY + 0.5f));
 		else
 			Set_State(CTransform::STATE_POSITION, vPosition);
 	}

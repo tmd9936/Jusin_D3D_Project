@@ -100,7 +100,7 @@ HRESULT CStove::Add_Components()
 		return E_FAIL;
 
 	/* For.Com_Model */
-	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, LEVEL_BASECAMP, TEXT("Prototype_Component_Model_BaseCamp_Stove"),
+	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Model_BaseCamp_Stove"),
 		(CComponent**)&m_pModelCom, nullptr)))
 		return E_FAIL;
 
