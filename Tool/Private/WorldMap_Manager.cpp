@@ -323,7 +323,7 @@ HRESULT CWorldMap_Manager::Add_Components_By_File()
 		return E_FAIL;
 
 	/* For.Com_Shader */
-	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxTex"),
+	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxTexColor"),
 		(CComponent**)&m_pShaderCom, nullptr)))
 		return E_FAIL;
 

@@ -165,11 +165,9 @@ HRESULT CPartTexture::SetUp_ShaderResources()
 	if (FAILED(m_pTextureCom->Set_ShaderResource(m_pShaderCom, "g_Texture", m_TextureNumber)))
 		return E_FAIL;
 
-	else if (m_UIDesc.m_eType == TYPE_COLOR_TEXTURE)
-	{
-		m_pShaderCom->Set_RawValue("g_vColor", &m_UIDesc.m_vColor, sizeof(_float4));
-	}
 
+	m_pShaderCom->Set_RawValue("g_vColor", &m_UIDesc.m_vColor, sizeof(_float4));
+	
 
 	Safe_Release(pGameInstance);
 
