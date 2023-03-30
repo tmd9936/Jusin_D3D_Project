@@ -1,11 +1,18 @@
 {
     "CameraDesc": {
-        "m_distance": 60.0,
+        "m_distance": 5.0,
         "m_shakeTime": 0.5,
         "m_shakePeriodTime": 0.2,
         "m_shakeDegree": 0.8,
-        "distanceMin": 25.0,
-        "distanceMax": 70.0,
+        "m_distanceMin": 25.0,
+        "m_distanceMax": 70.0,
+        "m_moveSpeed": 10.0,
+        "m_zoomSpeed": 3.0,
+        "m_DistancefromAt": {
+            "x": -0.4, 
+            "y": -0.84,
+            "z": 0.38
+        },
         "vEye": {
             "x": 12.603992462158203,
             "y": 7.390332221984863,

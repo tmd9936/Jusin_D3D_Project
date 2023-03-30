@@ -40,9 +40,22 @@ HRESULT CStageCamera::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, con
 		m_strSaveJsonPath = filePath;
 	}
 
-	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, &m_StageCameraDesc.CameraDesc)))
+
+	CGameObject* pPlyaer = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Player", L"Player");
+	if (nullptr == pPlyaer)
 		return E_FAIL;
 
+	CTransform* pTransform =  pPlyaer->Get_As<CTransform>();
+
+	_float4 playerPos = {};
+	XMStoreFloat4(&playerPos, pTransform->Get_State(CTransform::STATE_POSITION));
+
+	m_StageCameraDesc.CameraDesc.vAt = playerPos;
+	m_StageCameraDesc.CameraDesc.vEye = _float4(playerPos.x + m_StageCameraDesc.m_DistancefromAt.x, playerPos.y + 
+		m_StageCameraDesc.m_DistancefromAt.y, playerPos.z + m_StageCameraDesc.m_DistancefromAt.z, 1.f);
+
+	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, &m_StageCameraDesc.CameraDesc)))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -51,11 +64,18 @@ _uint CStageCamera::Tick(_double TimeDelta)
 {
 	m_StageCameraDesc.CameraDesc = m_CameraDesc;
 
+	m_StageCameraDesc.m_DistancefromAt.x = m_StageCameraDesc.CameraDesc.vAt.x - m_StageCameraDesc.CameraDesc.vEye.x;
+	m_StageCameraDesc.m_DistancefromAt.y = m_StageCameraDesc.CameraDesc.vAt.y - m_StageCameraDesc.CameraDesc.vEye.y;
+	m_StageCameraDesc.m_DistancefromAt.z = m_StageCameraDesc.CameraDesc.vAt.z - m_StageCameraDesc.CameraDesc.vEye.z;
+
 	return __super::Tick(TimeDelta);
 }
 
 _uint CStageCamera::LateTick(_double TimeDelta)
 {
+	if (KEY_TAB(KEY::V))
+		Save_By_JsonFile("../../Reference/Resources/Data/Scene/Stage/Stage_Camera.json");
+
 	return __super::LateTick(TimeDelta);
 }
 
@@ -89,6 +109,14 @@ _bool CStageCamera::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType
 
 		CameraDesc.AddMember("m_moveSpeed", m_StageCameraDesc.m_moveSpeed, allocator);
 		CameraDesc.AddMember("m_zoomSpeed", m_StageCameraDesc.m_zoomSpeed, allocator);
+
+		Value m_DistancefromAt(kObjectType);
+		{
+			m_DistancefromAt.AddMember("x", m_StageCameraDesc.m_DistancefromAt.x, allocator);
+			m_DistancefromAt.AddMember("y", m_StageCameraDesc.m_DistancefromAt.y, allocator);
+			m_DistancefromAt.AddMember("z", m_StageCameraDesc.m_DistancefromAt.z, allocator);
+		}
+		CameraDesc.AddMember("m_DistancefromAt", m_DistancefromAt, allocator);
 
 		Value vEye(kObjectType);
 		{
@@ -149,6 +177,11 @@ _bool CStageCamera::Load_By_JsonFile_Impl(Document& doc)
 
 	m_StageCameraDesc.m_moveSpeed = CameraDesc["m_moveSpeed"].GetFloat();
 	m_StageCameraDesc.m_zoomSpeed = CameraDesc["m_zoomSpeed"].GetFloat();
+
+	const Value& m_DistancefromAt = CameraDesc["m_DistancefromAt"];
+	m_StageCameraDesc.m_DistancefromAt.x = m_DistancefromAt["x"].GetFloat();
+	m_StageCameraDesc.m_DistancefromAt.y = m_DistancefromAt["y"].GetFloat();
+	m_StageCameraDesc.m_DistancefromAt.z = m_DistancefromAt["z"].GetFloat();
 
 	const Value& vEye = CameraDesc["vEye"];
 	m_StageCameraDesc.CameraDesc.vEye.x = vEye["x"].GetFloat();

@@ -38,6 +38,8 @@ public:
 		_float		m_moveSpeed;
 		_float		m_zoomSpeed;
 
+		_float3		m_DistancefromAt;
+
 		CCamera::CAMERADESC		CameraDesc;
 	}STAGE_CAMERA_DESC;
 

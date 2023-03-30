@@ -99,11 +99,11 @@ HRESULT CLevel_Stage::Ready_Layer_Camera(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_Layer(LEVEL_STAGE, pLayerTag)))
 		return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Camera_Dynamic"), LEVEL_STAGE, pLayerTag, L"Main_Camera", "../../Reference/Resources/Data/Scene/Stage/Camera_data.json", CLONE_FILEPATH)))
-		return E_FAIL;
-
-	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Camera_Public"), LEVEL_STAGE, pLayerTag, L"Main_Camera", "../../Reference/Resources/Data/Scene/WorldMap/Camera_Public_data.json", CLONE_FILEPATH)))
+	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Camera_Dynamic"), LEVEL_STAGE, pLayerTag, L"Main_Camera", "../../Reference/Resources/Data/Scene/Stage/Camera_data.json", CLONE_FILEPATH)))
 	//	return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageCamera"), LEVEL_STAGE, pLayerTag, L"Main_Camera", "../../Reference/Resources/Data/Scene/Stage/Stage_Camera.json", CLONE_FILEPATH)))
+		return E_FAIL;
 
 	Safe_Release(pGameInstance);
 	return S_OK;
