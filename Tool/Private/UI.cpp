@@ -121,7 +121,7 @@ HRESULT CUI::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	m_pShaderCom->Begin(0);
+	m_pShaderCom->Begin(m_UIDesc.m_ShaderPass);
 
 	m_pVIBufferCom->Render();
 
@@ -183,6 +183,8 @@ _bool CUI::Load_By_JsonFile_Impl(Document& doc)
 
 	string m_TextureProtoTypeName = UIDesc["m_TextureProtoTypeName"].GetString();
 
+	m_UIDesc.m_ShaderPass = UIDesc["m_ShaderPass"].GetUint();
+
 	lstrcpy(m_UIDesc.m_TextureProtoTypeName, convert.from_bytes(m_TextureProtoTypeName).c_str());
 
 	const Value& TextureParts = UIDesc["m_TextureParts"].GetArray();
@@ -202,6 +204,8 @@ _bool CUI::Load_By_JsonFile_Impl(Document& doc)
 
 		const Value& m_vPartColor = TextureParts[i]["m_vColor"];
 		desc.m_vColor = _float4(m_vPartColor["x"].GetFloat(), m_vPartColor["y"].GetFloat(), m_vPartColor["z"].GetFloat(), m_vPartColor["w"].GetFloat());
+
+		desc.m_ShaderPass = TextureParts[i]["m_ShaderPass"].GetUint();
 
 		string textureProtoTypeName = TextureParts[i]["m_TextureProtoTypeName"].GetString();
 		lstrcpy(desc.m_TextureProtoTypeName, convert.from_bytes(textureProtoTypeName).c_str());

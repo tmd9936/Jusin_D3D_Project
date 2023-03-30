@@ -1,0 +1,39 @@
+{
+    "UIDesc": {
+        "m_fX": 120.0,
+        "m_fY": 350.0,
+        "m_fSizeX": 250.5,
+        "m_fSizeY": 120.0,
+        "m_UIType": 1,
+        "m_ShaderPass": 1,
+        "m_vColor": {
+            "x": 0.73725,
+            "y": 0.28235,
+            "z": 0.129411,
+            "w": 1.0
+        },
+        "m_TextureProtoTypeLevel": 0,
+        "m_TextureProtoTypeName" : "Prototype_Component_Texture_Rectangle_Base",
+        "m_TextureParts": [
+            {
+                "m_fX": 0.0,
+                "m_fY": -20.0,
+                "m_fSizeX": 150.0,
+                "m_fSizeY": 100.0,
+                "m_eType": 1,
+                "m_ShaderPass": 1,
+                "m_vColor": {
+                    "x": 0.81568,
+                    "y": 0.36862745,
+                    "z": 0.223529,
+                    "w": 1.0
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_Rectangle_Base",
+                "LayerTag": "Layer_UI"
+            }
+        ],
+        "m_TextParts": [
+        ]
+    }
+}

@@ -61,6 +61,25 @@ PS_OUT PS_MAIN(PS_IN In)
 	return Out;
 }
 
+/* 픽셀의 색을 결정한다. */
+PS_OUT PS_MAIN_CORNER_ROUND(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	Out.vColor = g_Texture.Sample(PointSampler, In.vTexUV);
+
+	if (Out.vColor.a < 0.1)
+		discard;
+
+	float2 coords = In.vTexUV * 7.f;
+	if (ShouldDiscard(coords, 7.f, 1.f))
+		discard;
+
+	Out.vColor = g_vColor;
+
+	return Out;
+}
+
 technique11		DefaultTechnique
 {
 	pass ColorBase
@@ -74,6 +93,19 @@ technique11		DefaultTechnique
 		HullShader = NULL;
 		DomainShader = NULL;
 		PixelShader = compile ps_5_0 PS_MAIN();
+	}
+
+	pass CornerRound
+	{
+		SetRasterizerState(RS_Default);
+		SetDepthStencilState(DSS_Enable_ZTest_Disable_ZWrite, 0);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		HullShader = NULL;
+		DomainShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_CORNER_ROUND();
 	}
 
 }

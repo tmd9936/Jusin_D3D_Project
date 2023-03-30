@@ -45,7 +45,7 @@ HRESULT CLevel_Stage::Initialize()
 	if (FAILED(Ready_Layer_Effect(TEXT("Layer_Effect"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_State_Info_UI(TEXT("Layer_Stage_Info_UI"))))
+	if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
 		return E_FAIL;
 
 	return S_OK;
@@ -218,12 +218,15 @@ HRESULT CLevel_Stage::Ready_Layer_Player(const _tchar* pLayerTag)
 	return S_OK;
 }
 
-HRESULT CLevel_Stage::Ready_Layer_State_Info_UI(const _tchar* pLayerTag)
+HRESULT CLevel_Stage::Ready_Layer_UI(const _tchar* pLayerTag)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
 	if (FAILED(pGameInstance->Add_Layer(LEVEL_STAGE, pLayerTag)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UI"), LEVEL_STAGE, pLayerTag, L"SkillBase1", "../../Reference/Resources/Data/Scene/Stage/UI/Skill_BackGround_UI1.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
 
