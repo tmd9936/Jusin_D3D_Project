@@ -69,9 +69,21 @@ _uint CStageCamera::Tick(_double TimeDelta)
 
 	m_StageCameraDesc.CameraDesc = m_CameraDesc;
 
+	return __super::Tick(TimeDelta);
+}
+
+_uint CStageCamera::LateTick(_double TimeDelta)
+{
+
+	return __super::LateTick(TimeDelta);
+}
+
+void CStageCamera::Data_Save_Logic()
+{
+
 	CGameObject* pPlyaer = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Player", L"Player");
 	if (nullptr == pPlyaer)
-		return E_FAIL;
+		return;
 
 	CTransform* pTransform = pPlyaer->Get_As<CTransform>();
 
@@ -82,15 +94,8 @@ _uint CStageCamera::Tick(_double TimeDelta)
 	m_StageCameraDesc.m_DistancefromAt.y = -playerPos.y + m_StageCameraDesc.CameraDesc.vEye.y;
 	m_StageCameraDesc.m_DistancefromAt.z = -playerPos.z + m_StageCameraDesc.CameraDesc.vEye.z;
 
-	return __super::Tick(TimeDelta);
-}
-
-_uint CStageCamera::LateTick(_double TimeDelta)
-{
 	if (KEY_TAB(KEY::V))
 		Save_By_JsonFile("../../Reference/Resources/Data/Scene/Stage/Stage_Camera.json");
-
-	return __super::LateTick(TimeDelta);
 }
 
 HRESULT CStageCamera::Render()

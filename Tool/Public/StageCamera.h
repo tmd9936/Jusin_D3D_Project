@@ -71,6 +71,9 @@ private:
 	HRESULT					Add_Components();
 
 private:
+	void					Data_Save_Logic();
+
+private:
 	STAGE_CAMERA_DESC		m_StageCameraDesc = {};
 
 	CGameObject*			m_pTarget = { nullptr };
