@@ -62,11 +62,25 @@ HRESULT CStageCamera::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, con
 
 _uint CStageCamera::Tick(_double TimeDelta)
 {
+	if (KEY_TAB(KEY::K))
+		m_pTransform->Go_Straight((_float)TimeDelta);
+	else if (KEY_TAB(KEY::M))
+		m_pTransform->Go_Backward((_float)TimeDelta);
+
 	m_StageCameraDesc.CameraDesc = m_CameraDesc;
 
-	m_StageCameraDesc.m_DistancefromAt.x = m_StageCameraDesc.CameraDesc.vAt.x - m_StageCameraDesc.CameraDesc.vEye.x;
-	m_StageCameraDesc.m_DistancefromAt.y = m_StageCameraDesc.CameraDesc.vAt.y - m_StageCameraDesc.CameraDesc.vEye.y;
-	m_StageCameraDesc.m_DistancefromAt.z = m_StageCameraDesc.CameraDesc.vAt.z - m_StageCameraDesc.CameraDesc.vEye.z;
+	CGameObject* pPlyaer = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Player", L"Player");
+	if (nullptr == pPlyaer)
+		return E_FAIL;
+
+	CTransform* pTransform = pPlyaer->Get_As<CTransform>();
+
+	_float4 playerPos = {};
+	XMStoreFloat4(&playerPos, pTransform->Get_State(CTransform::STATE_POSITION));
+
+	m_StageCameraDesc.m_DistancefromAt.x = -playerPos.x + m_StageCameraDesc.CameraDesc.vEye.x;
+	m_StageCameraDesc.m_DistancefromAt.y = -playerPos.y + m_StageCameraDesc.CameraDesc.vEye.y;
+	m_StageCameraDesc.m_DistancefromAt.z = -playerPos.z + m_StageCameraDesc.CameraDesc.vEye.z;
 
 	return __super::Tick(TimeDelta);
 }
