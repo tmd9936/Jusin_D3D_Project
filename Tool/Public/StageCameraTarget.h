@@ -32,18 +32,18 @@ public:
 	virtual HRESULT Render() override;
 
 private:
-	void	Change_State();
-	void	Formation_State_Tick(const _double& TimeDelta);
+	HRESULT Add_Components();
+	HRESULT SetUp_ShaderResources();
 
+private:
+	void			Change_State();
+	void			Formation_State_Tick(const _double& TimeDelta);
+	CTransform*		Get_PlayerTransform();
 private:
 	CTransform* m_pTransformCom = { nullptr };
 
 	STATE		m_eCurrentState = { STATE_FORMATION };
 	STATE		m_ePreState = { STATE_END };
-
-private:
-	HRESULT Add_Components();
-	HRESULT SetUp_ShaderResources();
 
 public:
 	/* Prototype */

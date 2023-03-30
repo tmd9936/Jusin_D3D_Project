@@ -196,6 +196,12 @@
     <Filter Include="02. GameObject\Stage\Button">
       <UniqueIdentifier>{3df87546-594e-40c6-9a47-731d61900d88}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\Stage\Stage_Camera">
+      <UniqueIdentifier>{b4ba6893-a05c-4100-a30b-81f1187e07a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Stage\Stage_Camera_Target">
+      <UniqueIdentifier>{656b55ad-546f-4945-bf76-90fabdd5c811}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -383,6 +389,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\PokemonSkillButton.h">
       <Filter>02. GameObject\Stage\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\StageCamera.h">
+      <Filter>02. GameObject\Stage\Stage_Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\StageCameraTarget.h">
+      <Filter>02. GameObject\Stage\Stage_Camera_Target</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -572,6 +584,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\PokemonSkillButton.cpp">
       <Filter>02. GameObject\Stage\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\StageCamera.cpp">
+      <Filter>02. GameObject\Stage\Stage_Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\StageCameraTarget.cpp">
+      <Filter>02. GameObject\Stage\Stage_Camera_Target</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

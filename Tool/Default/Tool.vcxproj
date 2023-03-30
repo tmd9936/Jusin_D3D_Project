@@ -199,6 +199,8 @@
     <ClInclude Include="..\Public\Skill_Manager.h" />
     <ClInclude Include="..\Public\StageInfoUI.h" />
     <ClInclude Include="..\Public\StagePoint.h" />
+    <ClInclude Include="..\Public\StageCamera.h" />
+    <ClInclude Include="..\Public\StageCameraTarget.h" />
     <ClInclude Include="..\Public\Stove.h" />
     <ClInclude Include="..\Public\Terrain.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
@@ -262,6 +264,8 @@
     <ClCompile Include="..\Private\Skill_Manager.cpp" />
     <ClCompile Include="..\Private\StageInfoUI.cpp" />
     <ClCompile Include="..\Private\StagePoint.cpp" />
+    <ClCompile Include="..\Private\StageCamera.cpp" />
+    <ClCompile Include="..\Private\StageCameraTarget.cpp" />
     <ClCompile Include="..\Private\Stove.cpp" />
     <ClCompile Include="..\Private\Terrain.cpp" />
     <ClCompile Include="..\Private\TestModel.cpp" />

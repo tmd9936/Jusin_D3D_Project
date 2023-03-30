@@ -26,6 +26,14 @@ HRESULT CStageCameraTarget::Initialize(const _tchar* pLayerTag, _uint iLevelInde
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
+	CTransform* pPlayerTransform = Get_PlayerTransform();
+	if (nullptr == pPlayerTransform)
+		return E_FAIL;
+
+	_float3 playerPos = {}; 
+	XMStoreFloat3(&playerPos, pPlayerTransform->Get_State(CTransform::STATE_POSITION));
+	m_pTransformCom->Set_Pos(playerPos.x, playerPos.y, playerPos.z);
+
 	return S_OK;
 }
 
@@ -39,6 +47,7 @@ _uint CStageCameraTarget::Tick(_double TimeDelta)
 	case STATE_STOP:
 		break;
 	}
+
 	Change_State();
 	return _uint();
 }
@@ -67,6 +76,8 @@ void CStageCameraTarget::Change_State()
 		case STATE_STOP:
 			break;
 		}
+
+		m_ePreState = m_eCurrentState;
 	}
 }
 
@@ -80,6 +91,15 @@ void CStageCameraTarget::Formation_State_Tick(const _double& TimeDelta)
 		return;
 
 	m_pTransformCom->Chase(pPlayerTransform->Get_State(CTransform::STATE_POSITION), (_float)TimeDelta);
+}
+
+CTransform* CStageCameraTarget::Get_PlayerTransform()
+{
+	CGameObject* pPlyaer = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Player", L"Player");
+	if (nullptr == pPlyaer)
+		return nullptr;
+
+	return pPlyaer->Get_As<CTransform>();
 }
 
 HRESULT CStageCameraTarget::Add_Components()

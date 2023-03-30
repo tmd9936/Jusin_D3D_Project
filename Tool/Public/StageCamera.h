@@ -11,7 +11,7 @@ END
 
 BEGIN(Client)
 
-class  CStage_Camera final : public CCamera
+class  CStageCamera final : public CCamera
 {
 public:
 	enum STATE
@@ -42,9 +42,9 @@ public:
 	}STAGE_CAMERA_DESC;
 
 private:
-	CStage_Camera(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CStage_Camera(const CStage_Camera& rhs);
-	virtual ~CStage_Camera() = default;
+	CStageCamera(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CStageCamera(const CStageCamera& rhs);
+	virtual ~CStageCamera() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override; /* 원형객체의 초기화작업 */
@@ -76,7 +76,7 @@ private:
 public:
 	/* Prototype */
 	/* 원형 객체를 생성한다. */
-	static CStage_Camera* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CStageCamera* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	/* 사본 객체를 생성한다. */
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath = nullptr);
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) override;
