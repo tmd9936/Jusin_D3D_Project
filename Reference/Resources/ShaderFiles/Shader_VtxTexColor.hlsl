@@ -5,6 +5,9 @@ matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 texture2D		g_Texture;
 float4			g_vColor;
 
+float			g_MaxHp;
+float			g_CurrentHp;
+
 struct VS_IN
 {
 	float3		vPosition : POSITION;
@@ -80,6 +83,32 @@ PS_OUT PS_MAIN_CORNER_ROUND(PS_IN In)
 	return Out;
 }
 
+/* 픽셀의 색을 결정한다. */
+PS_OUT PS_MAIN_HP(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	Out.vColor = g_Texture.Sample(LinearSampler, In.vTexUV);
+
+	if (Out.vColor.a > 0.1)
+		Out.vColor = float4(0.f, 0.89f, 1.f, 1.f);
+	else
+	{
+		float _Health = 0.3;
+		float4 healthbarColor = lerp(float4(0.f, 0.89f, 1.f, 1.f), float4(0, 0, 0, 0), _Health);
+		float4 bgColor = float4(0, 0, 0, 0);
+
+		float healthbarMask = In.vTexUV.x < _Health;
+		//float healthbarMask = floor(i.uv.x * 10)/10 < _Health; // health bar split up into 10 chunks
+
+		float4 finalColor = lerp(bgColor, healthbarColor, healthbarMask);
+
+		Out.vColor = finalColor;
+	}
+
+	return Out;
+}
+
 technique11		DefaultTechnique
 {
 	pass ColorBase
@@ -119,6 +148,19 @@ technique11		DefaultTechnique
 		HullShader = NULL;
 		DomainShader = NULL;
 		PixelShader = compile ps_5_0 PS_MAIN();
+	}
+
+	pass Hp
+	{
+		SetRasterizerState(RS_Default);
+		SetDepthStencilState(DSS_Enable_ZTest_Disable_ZWrite, 0);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		HullShader = NULL;
+		DomainShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_HP();
 	}
 
 }

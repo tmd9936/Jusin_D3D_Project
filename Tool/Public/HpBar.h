@@ -47,6 +47,12 @@ public:
 	virtual _uint LateTick(_double TimeDelta) override;
 	virtual HRESULT Render() override;
 
+
+public:
+	void		Set_HpRatio(_float ratio) {
+		m_HpRatio = ratio;
+	}
+
 private:
 	CTransform* m_pTransformCom = { nullptr };
 	CRenderer* m_pRendererCom = { nullptr };
@@ -61,6 +67,8 @@ private:
 
 	_float4x4			m_ViewMatrix = {};
 	_float4x4			m_ProjMatrix = {};
+
+	_float				m_HpRatio = { 0.f };
 
 private:
 	HRESULT Add_Components();
