@@ -28,6 +28,7 @@ public:
 public:
 	_uint	Tick();
 
+
 public:
 	const _uint		Get_MaxHpP() const {
 		return m_MaxHP;
@@ -38,6 +39,11 @@ public:
 	}
 
 	_bool 	Set_TargetHP(_uint targetHP);
+
+public:
+	const _float		Get_HP_Ratio() const {
+		return m_CurrentHP / m_MaxHP;
+	}
 
 private:
 	HP_DESC		m_Desc = {};

@@ -17,20 +17,24 @@ BEGIN(Client)
 class CHpBar final : public CGameObject
 {
 public:
-	typedef struct BuffState_Desc
+	typedef struct HpBar_Desc
 	{
 		CTransform*			pParent = { nullptr };
+		_float4x4			PivotMatrix;
 
+		_float				m_fPositionX;
+		_float				m_fPositinoY;
+		_float				m_fPositinoZ;
+		
 		_float				m_fSizeX;
 		_float				m_fSizeY;
 
 		_tchar				m_TextureProtoTypeName[MAX_PATH];
 		_uint				m_TextureLevelIndex;
 
-		_float				m_vCornerColor;
-		_float				m_vHpColor;
+		_float4				m_vHpColor;
 
-	} BUFFSTATE_DESC;
+	} HPBAR_DESC;
 private:
 	CHpBar(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CHpBar(const CHpBar& rhs);
@@ -51,7 +55,7 @@ private:
 	CTexture* m_pTextureCom = { nullptr };
 
 private:
-	BUFFSTATE_DESC		m_Desc = {};
+	HPBAR_DESC			m_Desc = {};
 
 	_float4x4			m_FinalWorldMatrix; /* 원점기준 (내 월드 * 부모월드) */
 

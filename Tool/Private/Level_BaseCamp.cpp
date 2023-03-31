@@ -30,6 +30,9 @@ HRESULT CLevel_BaseCamp::Initialize()
 	if (FAILED(Ready_Layer_Env(TEXT("Layer_Env"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
 
@@ -39,8 +42,6 @@ HRESULT CLevel_BaseCamp::Initialize()
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
-		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
 		return E_FAIL;

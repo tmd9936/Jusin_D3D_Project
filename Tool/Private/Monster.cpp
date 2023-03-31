@@ -6,6 +6,8 @@
 #include "BuffState.h"
 #include "Weapon.h"
 
+#include "HpBar.h"
+
 /*
 기본공격 2개만
 원거리 근거리
@@ -84,6 +86,11 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* p
 
 	/*if (FAILED(Add_BuffState()))
 		return E_FAIL;*/
+
+	if (FAILED(Add_HpBar()))
+		return E_FAIL;
+
+	//Add_HpBar()
 
 	m_eRenderId = RENDER_NONBLEND;
 
@@ -234,6 +241,45 @@ HRESULT CMonster::Add_BuffState()
 	return S_OK;
 }
 
+HRESULT CMonster::Add_HpBar()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	CGameObject* pGameObject = nullptr;
+
+	CHpBar::HPBAR_DESC		HpDesc{};
+	ZeroMemory(&HpDesc, sizeof HpDesc);
+
+	HpDesc.pParent = m_pTransformCom;
+	Safe_AddRef(m_pTransformCom);
+
+	XMStoreFloat4x4(&HpDesc.PivotMatrix, m_pModelCom->Get_PivotMatrix());
+
+	HpDesc.m_fSizeX = 60.f;
+	HpDesc.m_fSizeY = 15.f;
+
+	HpDesc.m_fPositionX = -15.f;
+	HpDesc.m_fPositinoY = -70.f;
+	HpDesc.m_fPositinoZ = 0.1f;
+
+	HpDesc.m_vHpColor = _float4(0.f, 0.89f, 1.f, 1.f);
+
+	lstrcpy(HpDesc.m_TextureProtoTypeName, L"Prototype_Component_Texture_Window_Plane_Corner_Bar");
+
+	HpDesc.m_TextureLevelIndex = LEVEL_STATIC;
+
+	pGameObject = pGameInstance->Clone_GameObject(L"Layer_UI", m_iLevelindex, TEXT("Prototype_GameObject_HpBar"), &HpDesc);
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	m_Parts.push_back(pGameObject);
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
 HRESULT CMonster::Add_Components()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
@@ -373,7 +419,12 @@ HRESULT CMonster::Add_Components_By_File()
 		(CComponent**)&m_pNavigationCom, &NaviDesc)))
 		return E_FAIL;
 
-
+	CHP::HP_DESC hpDesc = {};
+	hpDesc.m_HpChangeTick = 1;
+	hpDesc.m_MaxHp = m_PokemonDesc.m_hpBasis;
+	if (FAILED(pGameInstance->Add_Component(CHP::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_HP"),
+		(CComponent**)&m_pHPCom, &NaviDesc)))
+		return E_FAIL;
 
 
 	return S_OK;
@@ -604,5 +655,6 @@ void CMonster::Free()
 	Safe_Release(m_pOBB);
 	Safe_Release(m_pSphere);
 	Safe_Release(m_pNavigationCom);
+	Safe_Release(m_pHPCom);
 
 }

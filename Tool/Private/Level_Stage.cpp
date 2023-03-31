@@ -27,6 +27,9 @@ HRESULT CLevel_Stage::Initialize()
 	if (FAILED(Ready_Layer_Env(TEXT("Layer_Env"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
 
@@ -48,8 +51,6 @@ HRESULT CLevel_Stage::Initialize()
 	if (FAILED(Ready_Layer_Effect(TEXT("Layer_Effect"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
-		return E_FAIL;
 
 	return S_OK;
 }

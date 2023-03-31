@@ -20,7 +20,8 @@ HRESULT CHpBar::Initialize_Prototype()
 
 HRESULT CHpBar::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
-	memcpy(&m_Desc, pArg, sizeof m_Desc);
+	if (nullptr != pArg)
+		memcpy(&m_Desc, pArg, sizeof m_Desc);
 
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 		return E_FAIL;
@@ -29,7 +30,7 @@ HRESULT CHpBar::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pAr
 		return E_FAIL;
 
 	m_pTransformCom->Set_Scaled({ m_Desc.m_fSizeX, m_Desc.m_fSizeY, 1.f });
-	m_pTransformCom->Set_Pos(0.f, 10.f, 0.0f);
+	m_pTransformCom->Set_Pos(m_Desc.m_fPositionX, m_Desc.m_fPositinoY, m_Desc.m_fPositinoZ);
 
 	//m_pTransformCom->Set_Scaled({ m_Desc.m_fSizeX, m_Desc.m_fSizeY, 1.f });
 
@@ -50,7 +51,11 @@ _uint CHpBar::Tick(_double TimeDelta)
 
 _uint CHpBar::LateTick(_double TimeDelta)
 {
-	_matrix		ViewPortMatrix = CGameInstance::GetInstance()->Get_ViewPort_Matrix(0, 0, g_iWinSizeX, g_iWinSizeY, 0.f, 1.f);
+	// 부모 기준으로의 자식의 위치를 지정함
+	_float4 vPos{};
+	XMStoreFloat4(&vPos, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
+
+	_matrix		ViewPortMatrix = CGameInstance::GetInstance()->Get_ViewPort_Matrix(vPos.x, vPos.y, g_iWinSizeX, g_iWinSizeY, 0.f, 1.f);
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
 	_matrix viewMatrix = pGameInstance->Get_Transform_Matrix(CPipeLine::D3DTS_VIEW);
@@ -70,7 +75,7 @@ _uint CHpBar::LateTick(_double TimeDelta)
 	_float4 r = { vScale.x, 0.f, 0.f, 0.f };
 	_float4 u = { 0.f, vScale.y, 0.f, 0.f };
 	_float4 l = { 0.f, 0.f, 1.f, 0.f };
-	_float4 p = { ParentMat.m[3][0] / ParentMat.m[3][3], ParentMat.m[3][1] / ParentMat.m[3][3], 0.1f, 1.f };
+	_float4 p = { ParentMat.m[3][0] / ParentMat.m[3][2], ParentMat.m[3][1] / ParentMat.m[3][2], 0.1f, 1.f };
 
 	memcpy(ParentMat.m[0], &r, sizeof _float4);
 	memcpy(ParentMat.m[1], &u, sizeof _float4);
@@ -156,6 +161,8 @@ HRESULT CHpBar::SetUp_ShaderResources()
 
 	if (FAILED(m_pTextureCom->Set_ShaderResource(m_pShaderCom, "g_Texture", 0)))
 		return E_FAIL;
+
+	m_pShaderCom->Set_RawValue("g_vColor", &m_Desc.m_vHpColor, sizeof(_float4));
 
 	Safe_Release(pGameInstance);
 

@@ -21,7 +21,9 @@ HRESULT CHP::Initialize_Prototype()
 HRESULT CHP::Initialize(void* pArg)
 {
 	if (nullptr != pArg)
+	{
 		memcpy(&m_Desc, pArg, sizeof m_Desc);
+	}
 	else
 	{
 		m_Desc.m_MaxHp = 100;

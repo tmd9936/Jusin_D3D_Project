@@ -157,6 +157,16 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Window/window_plane_cornerwaku.dds")))))
 			return E_FAIL;
 
+		/* For.Prototype_Component_Texture_Window_Plane_Corner_Waku */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Window_Plane_Corner_Waku_Mini"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Window/window_plane_cornerwaku_mini.dds")))))
+			return E_FAIL;
+
+		/* For.Prototype_Component_Texture_Window_Plane_Bar */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Window_Plane_Corner_Bar"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Window/window_plane_corner_bar.dds")))))
+			return E_FAIL;
+
 		/* For.Prototype_Component_Texture_Button_Allround_Exit */
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Button_Allround_Exit"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/UI/button_allround_exit.dds")))))

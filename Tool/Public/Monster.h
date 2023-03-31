@@ -87,6 +87,10 @@ protected:
 
 protected:
 	HRESULT Add_BuffState();
+
+protected:
+	HRESULT	Add_HpBar();
+
 private:
 	HRESULT Add_Components();
 	HRESULT Add_Components_By_File();
