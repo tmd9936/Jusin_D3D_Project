@@ -119,7 +119,7 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 
 			pTransform->LookAt(vLook);
 			
-			vPos = vLook * 1.5f;
+			vPos = vLook * 2.f;
 			_float4 pos = {};
 			XMStoreFloat4(&pos, vPos);
 			pEffect->Set_Pos(pos);
@@ -127,7 +127,7 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 			pEffect->Set_Parent(pParentBone, pParentTransform, pivotMatrix);
 
 			pEffect->Set_SmallRotation(smallRotationSpeed);
-			pEffect->Set_BigRotation(bigRotationSpeed, 1.5f);
+			pEffect->Set_BigRotation(bigRotationSpeed, 2.f);
 
 			effects.push_back(pEffect);
 		}

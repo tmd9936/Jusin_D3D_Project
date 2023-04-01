@@ -84,17 +84,21 @@ _uint CEffect::Tick(_double TimeDelta)
 			m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), TimeDelta * m_SmallRotationSpeed);
 		}
 
-		//if (m_BigRotation && m_EffectDesc.pParent)
-		//{
-		//	_vector vLook = m_EffectDesc.pParent->Get_State(CTransform::STATE_LOOK);
-		//	_vector vPos = m_EffectDesc.pParent->Get_State(CTransform::STATE_POSITION);
+		if (m_BigRotation )
+		{
+			// && m_EffectDesc.pParent
+			//_vector vLook = m_EffectDesc.pParent->Get_State(CTransform::STATE_LOOK);
+			//_vector vPos = m_EffectDesc.pParent->Get_State(CTransform::STATE_POSITION);
 
-		//	vLook = XMVector3Rotate(vLook, XMQuaternionRotationAxis(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(m_BigRotationRadius)));
+			_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+			_vector vLook = {0.f, 1.f, 0.f, 0.f};
 
-		//	vPos = vLook * m_BigRotationRadius * TimeDelta * m_BigRotationSpeed;
+			_matrix BigRot = XMMatrixRotationQuaternion(XMQuaternionRotationAxis(vLook, XMConvertToRadians(m_BigRotationSpeed)));
 
-		//	m_pTransformCom->Set_Pos(vPos);
-		//}
+			vPos = XMVector3TransformCoord(vPos, BigRot);
+
+			m_pTransformCom->Set_Pos(vPos);
+		}
 	}
 
 	return _uint();

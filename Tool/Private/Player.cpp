@@ -300,7 +300,7 @@ void CPlayer::Do_Skill()
 		if (nullptr != pSkill_Mananger)
 		{
 			CSkill* pSkill = dynamic_cast<CSkill_Manager*>(pSkill_Mananger)->Create_Skill(L"Layer_PlayerSkill", m_iLevelindex, m_TestSkillindex, 
-				m_pTransformCom->Get_WorldMatrix_Matrix(), XMConvertToRadians(20.f), XMConvertToRadians(30.f), m_pModelCom->Get_BonePtr("effect00"), m_pTransformCom, m_pModelCom->Get_PivotMatrix());
+				m_pTransformCom->Get_WorldMatrix_Matrix(), XMConvertToRadians(20.f), XMConvertToRadians(90.f), m_pModelCom->Get_BonePtr("effect00"), m_pTransformCom, m_pModelCom->Get_PivotMatrix());
 		
 			Safe_Release(pSkill);
 		//	if (nullptr != pSkill)
