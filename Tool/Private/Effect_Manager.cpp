@@ -66,7 +66,7 @@ _uint CEffect_Manager::LateTick(_double TimeDelta)
 	return _uint();
 }
 
-CEffect* CEffect_Manager::Create_Effect(_uint effectType, const _tchar* pLayerTag, _uint iLevelIndex, _float3 vPos)
+CEffect* CEffect_Manager::Create_Effect(_uint effectType, const _tchar* pLayerTag, _uint iLevelIndex, _bool hasCollider,  _float3 vPos)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
@@ -75,6 +75,8 @@ CEffect* CEffect_Manager::Create_Effect(_uint effectType, const _tchar* pLayerTa
 		return nullptr;
 
 	CEffect::EFFECT_DESC effect_Desc = m_Effect_Descs[effectType];
+
+	effect_Desc.m_bCollision = hasCollider;
 
 	wstring	FilePath = m_EffectFilePath + effect_Desc.m_effectPath + L".fbx";
 	effect_Desc.m_ProtoTypeTag = L"Prototype_Component_Model_" + effect_Desc.m_effectPath;
@@ -98,7 +100,7 @@ CEffect* CEffect_Manager::Create_Effect(_uint effectType, const _tchar* pLayerTa
 	//	return nullptr;
 
 	CEffect* pEffect = nullptr;
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Effect"), iLevelIndex, L"Layer_Effect", (CGameObject**)&pEffect, nullptr, &effect_Desc)))
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Effect"), iLevelIndex, pLayerTag, (CGameObject**)&pEffect, nullptr, &effect_Desc)))
 		return nullptr;
 
 	if (0 == effect_Desc.m_effectPath.compare(L"E_EF_Charge"))
@@ -106,6 +108,11 @@ CEffect* CEffect_Manager::Create_Effect(_uint effectType, const _tchar* pLayerTa
 		pEffect->Set_AnimaitonStartTime(19.8);
 		pEffect->Init_LoopCount(3);
 	}
+	//else if (0 == effect_Desc.m_effectPath.compare(L"E_BGB_Denki"))
+	//{
+	//	pEffect->Set_AnimaitonStartTime(0.1);
+	//	pEffect->Init_LoopCount(10);
+	//}
 
 	Safe_Release(pGameInstance);
 

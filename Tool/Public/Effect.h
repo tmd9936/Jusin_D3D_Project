@@ -9,7 +9,7 @@ class CTransform;
 class CRenderer;
 class CShader;
 class CModel;
-class COBB;
+class CCollider;
 class CNavigation;
 class CBone;
 
@@ -108,7 +108,7 @@ private:
 	CRenderer*		m_pRendererCom = { nullptr };
 	CShader*		m_pShaderCom = { nullptr };
 	CModel*			m_pModelCom = { nullptr };
-	COBB*			m_pColliderCom = { nullptr };
+	CCollider*		m_pColliderCom = { nullptr };
 	CNavigation*	m_pNavigationCom = { nullptr };
 
 private:

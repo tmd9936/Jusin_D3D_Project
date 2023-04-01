@@ -84,17 +84,17 @@ _uint CEffect::Tick(_double TimeDelta)
 			m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), TimeDelta * m_SmallRotationSpeed);
 		}
 
-		if (m_BigRotation && m_EffectDesc.pParent)
-		{
-			//_vector vLook = m_EffectDesc.pParent->Get_State(CTransform::STATE_LOOK);
-			//_vector vPos = m_EffectDesc.pParent->Get_State(CTransform::STATE_POSITION);
+		//if (m_BigRotation && m_EffectDesc.pParent)
+		//{
+		//	_vector vLook = m_EffectDesc.pParent->Get_State(CTransform::STATE_LOOK);
+		//	_vector vPos = m_EffectDesc.pParent->Get_State(CTransform::STATE_POSITION);
 
-			//vLook = XMVector3Rotate(vLook, XMQuaternionRotationAxis(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(m_BigRotationRadius)));
+		//	vLook = XMVector3Rotate(vLook, XMQuaternionRotationAxis(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(m_BigRotationRadius)));
 
-			//vPos += vLook * m_BigRotationRadius * TimeDelta * m_BigRotationSpeed;
+		//	vPos = vLook * m_BigRotationRadius * TimeDelta * m_BigRotationSpeed;
 
-			//m_pTransformCom->Set_Pos(vPos);
-		}
+		//	m_pTransformCom->Set_Pos(vPos);
+		//}
 	}
 
 	return _uint();
@@ -113,22 +113,26 @@ _uint CEffect::LateTick(_double TimeDelta)
 
 		if (m_pColliderCom)
 			m_pColliderCom->Tick(XMLoadFloat4x4(&m_FinalWorldMatrix));
+
+		m_pNavigationCom->Set_Index_By_Position({ m_FinalWorldMatrix.m[3][0], m_FinalWorldMatrix.m[3][1], m_FinalWorldMatrix.m[3][2] });
 	}
 	else
 	{
+		_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		m_pNavigationCom->Set_Index_By_Position({ XMVectorGetX(vPos), XMVectorGetY(vPos), XMVectorGetZ(vPos) });
+
 		if (m_pColliderCom)
 			m_pColliderCom->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
 	}
 
-
 	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
+
 
 #ifdef _DEBUG
 	if (m_pColliderCom)
 		m_pColliderCom->Render();
 
-	if (m_pNavigationCom)
-		m_pNavigationCom->Render();
+	m_pNavigationCom->Render();
 
 #endif // _DEBUG
 
@@ -355,9 +359,9 @@ HRESULT CEffect::Add_Components()
 	{
 		CCollider::COLLIDER_DESC		ColliderDesc;
 		ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
-		ColliderDesc.vScale = _float3(1.2f, 2.0f, 1.2f);
+		ColliderDesc.vScale = _float3(2.2f, 2.0f, 2.2f);
 		ColliderDesc.vPosition = _float3(0.0f, ColliderDesc.vScale.y * 0.5f, 0.f);
-		if (FAILED(pGameInstance->Add_Component(FAMILY_ID_COLLISION_OBB, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"),
+		if (FAILED(pGameInstance->Add_Component(CCollider::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"),
 			(CComponent**)&m_pColliderCom, &ColliderDesc)))
 			return E_FAIL;
 	}

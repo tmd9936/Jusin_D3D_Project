@@ -201,7 +201,7 @@ XMVECTOR CCollider_Manager::Get_Max_Vector(CCollider* Col)
 	if (Col->Get_Type() == CCollider::TYPE_OBB)
 	{
 		_float3 coners[8];
-		Col->Get_AABB()->GetCorners(coners);
+		Col->Get_OBB()->GetCorners(coners);
 		for (size_t i = 1; i < Col->Get_OBB()->CORNER_COUNT; ++i)
 		{
 			Max = XMVectorMax(Max, XMLoadFloat3(&coners[i]));

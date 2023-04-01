@@ -83,76 +83,76 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 	_float4x4 pivotMatrix = {};
 	XMStoreFloat4x4(&pivotMatrix, PivotMatrix);
 
-	pEffect = pEffect_Manager->Create_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex);
-	if (skill_desc.m_isEnablePotential_Charge)
-	{
-		pEffect->Set_Parent(pParentBone, pParentTransform, pivotMatrix);
-	}
-	else
-	{
-		_vector vPos = vParentMatrix.r[3];
-
-		_float4 pos = {};
-		XMStoreFloat4(&pos, vPos);
-		pEffect->Set_Pos(pos);
-	}
-	effects.push_back(pEffect);
-
-
-	//if (skill_desc.m_isEnablePotential_Nway)
+	//pEffect = pEffect_Manager->Create_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex);
+	//if (skill_desc.m_isEnablePotential_Charge)
 	//{
-	//	for (size_t i = 1; i <= 3; ++i)
-	//	{
-	//		pEffect = pEffect_Manager->Create_Effect(m_Skill_Depend_Datas[skillType].m_effects[2], pLayerTag, iLevelIndex);
-
-	//		if (nullptr == pEffect)
-	//			return nullptr;
-
-	//		_vector vLook = vParentMatrix.r[2];
-	//		_vector vPos = vParentMatrix.r[3];
-
-	//		vLook = XMVector3Rotate(vLook, XMQuaternionRotationAxis(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(45.f * i )));
-
-	//		CTransform* pTransform = pEffect->Get_As<CTransform>();
-	//		if (nullptr == pTransform)
-	//			return nullptr;
-
-	//		pTransform->LookAt(vLook);
-	//		
-	//		vPos += vLook * 3.f;
-	//		_float4 pos = {};
-	//		XMStoreFloat4(&pos, vPos);
-	//		pEffect->Set_Pos(pos);
-
-	//		pEffect->Set_Parent(pParentBone, pParentTransform, pivotMatrix);
-
-	//		pEffect->Set_SmallRotation(smallRotationSpeed);
-	//		pEffect->Set_BigRotation(bigRotationSpeed, 3.f);
-
-	//		effects.push_back(pEffect);
-	//	}
+	//	pEffect->Set_Parent(pParentBone, pParentTransform, pivotMatrix);
 	//}
 	//else
 	//{
-	//	_vector vLook = vParentMatrix.r[2];
 	//	_vector vPos = vParentMatrix.r[3];
-	//	pEffect = pEffect_Manager->Create_Effect(m_Skill_Depend_Datas[skillType].m_effects[2], pLayerTag, iLevelIndex);
-
-	//	CTransform* pTransform = pEffect->Get_As<CTransform>();
-	//	if (nullptr == pTransform)
-	//		return nullptr;
-
-	//	pTransform->LookAt(vLook);
 
 	//	_float4 pos = {};
 	//	XMStoreFloat4(&pos, vPos);
 	//	pEffect->Set_Pos(pos);
-
-	//	pEffect->Set_SmallRotation(smallRotationSpeed);
-	//	pEffect->Set_BigRotation(bigRotationSpeed, 3.f);
-
-	//	effects.push_back(pEffect);
 	//}
+	//effects.push_back(pEffect);
+
+
+	if (skill_desc.m_isEnablePotential_Nway)
+	{
+		for (size_t i = 1; i <= 3; ++i)
+		{
+			pEffect = pEffect_Manager->Create_Effect(m_Skill_Depend_Datas[skillType].m_effects[1], pLayerTag, iLevelIndex, true);
+			
+			if (nullptr == pEffect)
+				return nullptr;
+
+			_vector vLook = vParentMatrix.r[2];
+			_vector vPos = vParentMatrix.r[3];
+
+			vLook = XMVector3Rotate(vLook, XMQuaternionRotationAxis(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(120.f + 120.f * i )));
+
+			CTransform* pTransform = pEffect->Get_As<CTransform>();
+			if (nullptr == pTransform)
+				return nullptr;
+
+			pTransform->LookAt(vLook);
+			
+			vPos = vLook * 1.5f;
+			_float4 pos = {};
+			XMStoreFloat4(&pos, vPos);
+			pEffect->Set_Pos(pos);
+
+			pEffect->Set_Parent(pParentBone, pParentTransform, pivotMatrix);
+
+			pEffect->Set_SmallRotation(smallRotationSpeed);
+			pEffect->Set_BigRotation(bigRotationSpeed, 1.5f);
+
+			effects.push_back(pEffect);
+		}
+	}
+	else
+	{
+		_vector vLook = vParentMatrix.r[2];
+		_vector vPos = vParentMatrix.r[3];
+		pEffect = pEffect_Manager->Create_Effect(m_Skill_Depend_Datas[skillType].m_effects[1], pLayerTag, iLevelIndex, true);
+
+		CTransform* pTransform = pEffect->Get_As<CTransform>();
+		if (nullptr == pTransform)
+			return nullptr;
+
+		pTransform->LookAt(vLook);
+
+		_float4 pos = {};
+		XMStoreFloat4(&pos, vPos);
+		pEffect->Set_Pos(pos);
+
+		pEffect->Set_SmallRotation(smallRotationSpeed);
+		pEffect->Set_BigRotation(bigRotationSpeed, 1.5f);
+
+		effects.push_back(pEffect);
+	}
 
 	//size_t i = 0;
 	//for (auto& effectIndex : m_Skill_Depend_Datas[skillType].m_effects)

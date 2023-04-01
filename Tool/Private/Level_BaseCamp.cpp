@@ -65,6 +65,8 @@ HRESULT CLevel_BaseCamp::Initialize()
 
 	CGameInstance::GetInstance()->Add_Check_CollisionGroup(L"Layer_Player", L"Layer_Env");
 
+	CGameInstance::GetInstance()->Add_Check_CollisionGroup(L"Layer_PlayerSkill", L"Layer_Monster");
+
 	CClient_Utility::Load_Layer_GameObjects("../../Reference/Resources/Data/Scene/BaseCamp/Stove.json");
 
 	return S_OK;
