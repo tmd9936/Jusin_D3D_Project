@@ -60,6 +60,13 @@ void CBone::SetUp_CombinedTransformationMatrix()
 		XMStoreFloat4x4(&m_CombinedTransformationMatrix,
 			XMLoadFloat4x4(&m_TransformationMatrix));
 
+		if (m_CombinedTransformationMatrix.m[0][0] <= 0.f && m_CombinedTransformationMatrix.m[1][1] <= 0.f && m_CombinedTransformationMatrix.m[2][2] <= 0.f)
+		{
+			m_CombinedTransformationMatrix.m[0][0] = 0.001f;
+			m_CombinedTransformationMatrix.m[1][1] = 0.001f;
+			m_CombinedTransformationMatrix.m[2][2] = 0.001f;
+		}
+
 		return;
 	}
 

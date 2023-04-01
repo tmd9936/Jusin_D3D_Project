@@ -82,21 +82,6 @@ _uint CSkill::Tick(_double TimeDelta)
 		return OBJ_DEAD;
 	}
 
-	//for (auto& iter : m_effects)
-	//{
-	//	if (nullptr != iter)
-	//	{
-	//	}
-	//}
-
-	//for (auto& iter : m_conditions)
-	//{
-	//	if (nullptr != iter)
-	//	{
-	//		iter->Tick(TimeDelta);
-	//	}
-	//}
-
 	if (m_CurrentTestDeadDuration >= m_TestDeadDuration)
 	{
 		m_bDead = true;
