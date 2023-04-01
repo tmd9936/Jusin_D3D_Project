@@ -110,7 +110,7 @@ _uint CEffect::Tick(_double TimeDelta)
 				}
 				break;
 			case HOMMING_IN:
-				vDir = XMVector3Normalize(vParentPos - vParentPos);
+				vDir = XMVector3Normalize(vParentPos - vPos);
 				if (m_pTransformCom->Get_Positin_Length() <= 0.2f)
 				{
 					m_eHommingState = HOMMING_OUT;
