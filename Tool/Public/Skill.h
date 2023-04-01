@@ -83,7 +83,7 @@ private:
 	CTransform* m_pTransformCom = { nullptr };
 	CRenderer* m_pRendererCom = { nullptr };
 
-	_double		m_TestDeadDuration = { 2.f };
+	_double		m_TestDeadDuration = { 10.f };
 
 	_double		m_CurrentTestDeadDuration = { 0.f };
 

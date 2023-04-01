@@ -36,6 +36,7 @@ HRESULT CBone::Initialize(aiNode* pAINode, CModel* pModel, CBone* pParent)
 void CBone::SetUp_TransformationMatrix(_fmatrix Matrix)
 {
 	XMStoreFloat4x4(&m_TransformationMatrix, Matrix);
+
 }
 
 void CBone::SetUp_CombinedTransformationMatrix()
@@ -51,6 +52,13 @@ void CBone::SetUp_CombinedTransformationMatrix()
 	XMStoreFloat4x4(&m_CombinedTransformationMatrix,
 		XMLoadFloat4x4(&m_TransformationMatrix) *
 		XMLoadFloat4x4(&m_pParent->m_CombinedTransformationMatrix));
+
+	if (m_CombinedTransformationMatrix.m[0][0] <= 0.f && m_CombinedTransformationMatrix.m[1][1] <= 0.f && m_CombinedTransformationMatrix.m[2][2] <= 0.f)
+	{
+		m_CombinedTransformationMatrix.m[0][0] = 0.001f;
+		m_CombinedTransformationMatrix.m[1][1] = 0.001f;
+		m_CombinedTransformationMatrix.m[2][2] = 0.001f;
+	}
 }
 
 void CBone::SetUp_OffsetMatrix(_fmatrix Matrix)

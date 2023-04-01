@@ -108,7 +108,7 @@ CEffect* CEffect_Manager::Create_Effect(_uint effectType, const _tchar* pLayerTa
 	if (0 == effect_Desc.m_effectPath.compare(L"E_EF_Charge"))
 	{
 		pEffect->Set_AnimaitonStartTime(19.8);
-		pEffect->Init_LoopCount(2);
+		pEffect->Init_LoopCount(5);
 		pEffect->Set_Animation_Speed(2.0);
 	}
 	else if (0 == effect_Desc.m_effectPath.compare(L"E_BGB_Denki"))

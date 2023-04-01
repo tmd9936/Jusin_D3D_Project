@@ -92,7 +92,7 @@ _uint CEffect::Tick(_double TimeDelta)
 			_vector vParentPos = {};
 			if (!m_EffectDesc.pParent)
 			{
-				vParentPos = m_EffectDesc.pParent->Get_State(CTransform::STATE_POSITION);
+				//vParentPos = m_EffectDesc.pParent->Get_State(CTransform::STATE_POSITION);
 			}
 			else
 			{
@@ -110,7 +110,7 @@ _uint CEffect::Tick(_double TimeDelta)
 				break;
 			case HOMMING_IN:
 				vDir = XMVector3Normalize(vParentPos - vPos);
-				if (m_pTransformCom->Get_Positin_Length() <= 0.2f)
+				if (XMVectorGetX(XMVector3Length(vParentPos - vPos)) <= 0.3f)
 				{
 					m_eHommingState = HOMMING_OUT;
 				}
