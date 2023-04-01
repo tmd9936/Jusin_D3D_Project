@@ -47,7 +47,7 @@ private:
 	void	Jump_Rotate();
 
 private:
-	_uint			m_TestSkillindex = { 0 };
+	_uint			m_TestSkillindex = { 57 };
 
 //private:
 //	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 던진다. */

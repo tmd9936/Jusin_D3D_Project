@@ -98,12 +98,18 @@ public:
 		m_LerpDuration = LerpDuration;
 	}
 
+	void Set_StartTimeAcc(_double TimeAcc) {
+		m_StartTimeAcc = TimeAcc;
+		m_TimeAcc = TimeAcc;
+	}
+
 private:
 	char					m_szName[MAX_PATH] = "";
 	_double					m_Duration = { 0.0 }; /* 이 애니메이션을 재생하는데 걸리는 총 시간. */
 	_double					m_TickPerSecond = { 0.0 }; /* 초당 재생해야하는 속도. */
 	_double					m_TimeAcc = { 0.0 };
 	_double					m_LerpTimeAcc = { 0.0 };
+	_double					m_StartTimeAcc = { 0.0 };
 
 private:  /* 뼈들 */ /* CChannel : 이 뼈가 이 애니메이션을 구동하기위한 전체 시간 안에서 세분화된 시간마다 이 뼈가 표현해야할 행렬정보를 가진다. */
 	_uint			 		m_iNumChannels = { 0 };

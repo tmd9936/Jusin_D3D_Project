@@ -46,6 +46,9 @@ _uint CPlayer::Tick(_double TimeDelta)
 	_float4x4 mat = {};
 	switch (m_pMonFSM->Get_MotionState())
 	{
+	case CMonFSM::IDLE1:
+		m_pModelCom->Play_Animation(TimeDelta);
+		break;
 	case CMonFSM::ATK_NORMAL:
 		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
@@ -83,17 +86,22 @@ _uint CPlayer::Tick(_double TimeDelta)
 			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
 		}
 		break;
+	case CMonFSM::HAPPY:
+		if (m_pModelCom->Play_Animation(TimeDelta))
+		{
+			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
+		}
+		break;
 	default:
 		break;
 	}
-	return _uint();
 
 	_bool move = false;
 	if (KEY_TAB(KEY::DOWN))
 	{
-		if (m_pMonFSM->Get_MotionState() != CMonFSM::IDLE_GROUND)
+		if (m_pMonFSM->Get_MotionState() != CMonFSM::IDLE_FLOAT)
 		{
-			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE_GROUND, m_pModelCom);
+			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE_FLOAT, m_pModelCom);
 		}
 		m_pTransformCom->Go_Backward((_float)TimeDelta, m_pNavigationCom);
 	}
@@ -122,9 +130,9 @@ _uint CPlayer::Tick(_double TimeDelta)
 
 	if (KEY_TAB(KEY::UP))
 	{
-		if (m_pMonFSM->Get_MotionState() != CMonFSM::IDLE_GROUND)
+		if (m_pMonFSM->Get_MotionState() != CMonFSM::IDLE_FLOAT)
 		{
-			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE_GROUND, m_pModelCom);
+			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE_FLOAT, m_pModelCom);
 		}
 
 		m_pTransformCom->Go_Straight((_float)TimeDelta, m_pNavigationCom);
@@ -291,76 +299,36 @@ void CPlayer::Do_Skill()
 		CGameObject* pSkill_Mananger = CGameInstance::GetInstance()->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"Skill_Manager");
 		if (nullptr != pSkill_Mananger)
 		{
-			CSkill* pSkill = dynamic_cast<CSkill_Manager*>(pSkill_Mananger)->Create_Skill(L"Layer_PlayerSkill", m_iLevelindex, m_TestSkillindex);
-			if (nullptr != pSkill)
-			{
-				_float4 vPos{};
-				_float4 vPosLook{};
+			CSkill* pSkill = dynamic_cast<CSkill_Manager*>(pSkill_Mananger)->Create_Skill(L"Layer_PlayerSkill", m_iLevelindex, m_TestSkillindex, 
+				m_pTransformCom->Get_WorldMatrix_Matrix(), XMConvertToRadians(20.f), XMConvertToRadians(30.f), m_pModelCom->Get_BonePtr("effect00"), m_pTransformCom, m_pModelCom->Get_PivotMatrix());
+		
+			Safe_Release(pSkill);
+		//	if (nullptr != pSkill)
+		//	{
+		//		_float4 vPos{};
+		//		_float4 vPosLook{};
 
-				XMStoreFloat4(&vPosLook, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
+		//		XMStoreFloat4(&vPosLook, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
 
-				XMStoreFloat4(&vPos, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_pTransformCom->Get_State(CTransform::STATE_LOOK) * 0.2f);
-				pSkill->Set_Effects_Pos(vPos);
-				pSkill->Set_Conditions_Pos(vPos);
+		//		XMStoreFloat4(&vPos, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_pTransformCom->Get_State(CTransform::STATE_LOOK) * 0.2f);
+		//		pSkill->Set_Effects_Pos(vPos);
+		//		pSkill->Set_Conditions_Pos(vPos);
 
-				pSkill->Set_Effects_Look(vPosLook);
-				pSkill->Set_Conditions_Look(vPosLook);
+		//		pSkill->Set_Effects_Look(vPosLook);
+		//		pSkill->Set_Conditions_Look(vPosLook);
 
-				Safe_Release(pSkill);
-			}
+		//		Safe_Release(pSkill);
+		//	}
 		}
 	}
 }
 
 void CPlayer::Jump_Rotate()
 {
-	m_pMonFSM->Transit_MotionState(CMonFSM::JUMPLANDING_SLE_START, m_pModelCom);
+	m_pMonFSM->Transit_MotionState(CMonFSM::HAPPY, m_pModelCom);
 
 }
 
-//HRESULT CPlayer::SetUp_ShaderResources()
-//{
-//	if (FAILED(m_pTransformCom->Set_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
-//		return E_FAIL;
-//
-//	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-//	Safe_AddRef(pGameInstance);
-//
-//	if (FAILED(m_pShaderCom->Set_Matrix("g_ViewMatrix",
-//		&pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_VIEW))))
-//		return E_FAIL;
-//	if (FAILED(m_pShaderCom->Set_Matrix("g_ProjMatrix",
-//		&pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_PROJ))))
-//		return E_FAIL;
-//
-//	if (FAILED(m_pShaderCom->Set_RawValue("g_vCamPosition",
-//		&pGameInstance->Get_CamPosition(), sizeof(_float4))))
-//		return E_FAIL;
-//
-//	const LIGHTDESC* pLightDesc = pGameInstance->Get_Light(0);
-//	if (nullptr == pLightDesc)
-//		return E_FAIL;
-//
-//	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightDir",
-//		&pLightDesc->vDirection, sizeof(_float4))))
-//		return E_FAIL;
-//
-//	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightDiffuse",
-//		&pLightDesc->vDiffuse, sizeof(_float4))))
-//		return E_FAIL;
-//
-//	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightAmbient",
-//		&pLightDesc->vAmbient, sizeof(_float4))))
-//		return E_FAIL;
-//
-//	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightSpecular",
-//		&pLightDesc->vSpecular, sizeof(_float4))))
-//		return E_FAIL;
-//
-//	Safe_Release(pGameInstance);
-//
-//	return S_OK;
-//}
 
 CPlayer* CPlayer::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {

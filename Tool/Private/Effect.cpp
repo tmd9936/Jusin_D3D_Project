@@ -4,7 +4,7 @@
 #include "GameInstance.h"
 
 #include "Loader.h"
-
+#include "Bone.h"
 
 CEffect::CEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
@@ -56,6 +56,8 @@ HRESULT CEffect::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pA
 
 	m_pNavigationCom->Set_Index_By_Position({ vPos.x, vPos.y, vPos.z });
 
+	m_pModelCom->Set_Animation(0);
+
 	return S_OK;
 }
 
@@ -65,18 +67,61 @@ _uint CEffect::Tick(_double TimeDelta)
 	if (m_bDead)
 		return OBJ_DEAD;
 
-	m_pModelCom->Play_Animation(TimeDelta);
+	if (m_CurrentLoopCount < 0)
+		return OBJ_DEAD;
 
-	if (m_pColliderCom)
-		m_pColliderCom->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
+	if (m_pModelCom->Play_Animation(TimeDelta))
+	{
+		m_pModelCom->Set_Animation_Start_Time(m_AnimationStartAcc);
+
+		--m_CurrentLoopCount;
+	}
+
+	if (m_pTransformCom)
+	{
+		if (m_SmallRotation)
+		{
+			m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), TimeDelta * m_SmallRotationSpeed);
+		}
+
+		if (m_BigRotation && m_EffectDesc.pParent)
+		{
+			//_vector vLook = m_EffectDesc.pParent->Get_State(CTransform::STATE_LOOK);
+			//_vector vPos = m_EffectDesc.pParent->Get_State(CTransform::STATE_POSITION);
+
+			//vLook = XMVector3Rotate(vLook, XMQuaternionRotationAxis(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(m_BigRotationRadius)));
+
+			//vPos += vLook * m_BigRotationRadius * TimeDelta * m_BigRotationSpeed;
+
+			//m_pTransformCom->Set_Pos(vPos);
+		}
+	}
 
 	return _uint();
 }
 
 _uint CEffect::LateTick(_double TimeDelta)
 {
-	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
+	if (nullptr != m_EffectDesc.pBonePtr && nullptr != m_EffectDesc.pParent)
+	{
+		_matrix		ParentMatrix = m_EffectDesc.pBonePtr->Get_OffsetMatrix() *
+			m_EffectDesc.pBonePtr->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_EffectDesc.PivotMatrix);
 
+		REMOVE_SCALE(ParentMatrix)
+
+		XMStoreFloat4x4(&m_FinalWorldMatrix, m_pTransformCom->Get_WorldMatrix_Matrix() * ParentMatrix * m_EffectDesc.pParent->Get_WorldMatrix_Matrix());
+
+		if (m_pColliderCom)
+			m_pColliderCom->Tick(XMLoadFloat4x4(&m_FinalWorldMatrix));
+	}
+	else
+	{
+		if (m_pColliderCom)
+			m_pColliderCom->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
+	}
+
+
+	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
 
 #ifdef _DEBUG
 	if (m_pColliderCom)
@@ -113,6 +158,127 @@ HRESULT CEffect::Render()
 	return S_OK;
 }
 
+void CEffect::On_Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
+{
+	if (m_pColliderCom)
+	{
+		if (fX > fZ)
+		{
+			_vector vDestCenter = m_pColliderCom->Get_Center();
+			_vector vSourCenter = pOther->Get_Center();
+
+			CGameObject* pOtherOwner = pOther->Get_Owner();
+			if (!pOtherOwner)
+				return;
+
+			CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
+			if (!pOtherTransform)
+				return;
+
+			CNavigation* pNavigationCom = pOtherOwner->Get_As<CNavigation>();
+
+			if (XMVectorGetZ(vDestCenter) < XMVectorGetZ(vSourCenter))
+			{
+				pOtherTransform->Move(0.f, 0.f, fZ * 0.0166f, pNavigationCom);
+			}
+			else
+			{
+				pOtherTransform->Move(0.f, 0.f, -fZ * 0.0166f, pNavigationCom);
+			}
+
+		}
+		else if (fX == fZ) {}
+		else
+		{
+			_vector vDestCenter = m_pColliderCom->Get_Center();
+			_vector vSourCenter = pOther->Get_Center();
+
+			CGameObject* pOtherOwner = pOther->Get_Owner();
+			if (!pOtherOwner)
+				return;
+
+			CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
+
+			if (!pOtherTransform)
+				return;
+
+			CNavigation* pNavigationCom = pOtherOwner->Get_As<CNavigation>();
+
+			if (XMVectorGetX(vDestCenter) < XMVectorGetX(vSourCenter))
+			{
+				pOtherTransform->Move(fX * 0.0166f, 0.f, 0.f, pNavigationCom);
+
+			}
+			else
+			{
+				pOtherTransform->Move(-fX * 0.0166f, 0.f, 0.f, pNavigationCom);
+			}
+		}
+	}
+}
+
+void CEffect::On_CollisionEnter(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
+{
+	if (m_pColliderCom)
+	{
+		if (fX > fZ)
+		{
+			_vector vDestCenter = m_pColliderCom->Get_Center();
+			_vector vSourCenter = pOther->Get_Center();
+
+			CGameObject* pOtherOwner = pOther->Get_Owner();
+			if (!pOtherOwner)
+				return;
+
+			CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
+			if (!pOtherTransform)
+				return;
+
+			CNavigation* pNavigationCom = pOtherOwner->Get_As<CNavigation>();
+
+			if (XMVectorGetZ(vDestCenter) < XMVectorGetZ(vSourCenter))
+			{
+				pOtherTransform->Move(0.f, 0.f, fZ * 0.0166f, pNavigationCom);
+
+			}
+			else
+			{
+				pOtherTransform->Move(0.f, 0.f, -fZ * 0.0166f, pNavigationCom);
+			}
+		}
+		else if (fX == fZ) {}
+		else
+		{
+			_vector vDestCenter = m_pColliderCom->Get_Center();
+			_vector vSourCenter = pOther->Get_Center();
+
+			CGameObject* pOtherOwner = pOther->Get_Owner();
+			if (!pOtherOwner)
+				return;
+
+			CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
+			if (!pOtherTransform)
+				return;
+
+			CNavigation* pNavigationCom = pOtherOwner->Get_As<CNavigation>();
+
+			if (XMVectorGetX(vDestCenter) < XMVectorGetX(vSourCenter))
+			{
+				pOtherTransform->Move(fX * 0.0166f, 0.f, 0.f, pNavigationCom);
+
+			}
+			else
+			{
+				pOtherTransform->Move(-fX * 0.0166f, 0.f, 0.f, pNavigationCom);
+			}
+		}
+	}
+}
+
+void CEffect::On_CollisionExit(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
+{
+}
+
 void CEffect::Set_Pos(const _float4& vPos)
 {
 	if (m_pTransformCom)
@@ -129,11 +295,32 @@ void CEffect::Set_Pos(const _float4& vPos)
 	}
 }
 
+void CEffect::Set_Parent(CBone* pBoneParent, CTransform* pTransformParent, _float4x4 PivotMatrix)
+{
+	if (nullptr == pBoneParent || nullptr == pTransformParent)
+		return;
+
+	m_EffectDesc.PivotMatrix = PivotMatrix;
+
+	Set_ParentBone(pBoneParent);
+	Set_ParentTransform(pTransformParent);
+
+	m_IsParts = true;
+}
+
+void CEffect::Set_AnimaitonStartTime(_double time)
+{
+	m_AnimationStartAcc = time;
+	if (m_pModelCom)
+	{
+		m_pModelCom->Set_Animation_Start_Time(m_AnimationStartAcc);
+	}
+}
+
 
 HRESULT CEffect::Add_Components()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-
 
 	/* For.Com_Transform */
 	CTransform::TRANSFORMDESC		TransformDesc = { 10.f, XMConvertToRadians(90.0f) };
@@ -181,8 +368,16 @@ HRESULT CEffect::Add_Components()
 
 HRESULT CEffect::SetUp_ShaderResources()
 {
-	if (FAILED(m_pShaderCom->Set_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
-		return E_FAIL;
+	if (!m_IsParts)
+	{
+		if (FAILED(m_pShaderCom->Set_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
+			return E_FAIL;
+	}
+	else
+	{
+		if (FAILED(m_pShaderCom->Set_Matrix("g_WorldMatrix", &m_FinalWorldMatrix)))
+			return E_FAIL;
+	}
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
@@ -253,6 +448,10 @@ CGameObject* CEffect::Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pA
 void CEffect::Free()
 {
 	__super::Free();
+
+	Safe_Release(m_EffectDesc.pBonePtr);
+
+	Safe_Release(m_EffectDesc.pParent);
 
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pTransformCom);

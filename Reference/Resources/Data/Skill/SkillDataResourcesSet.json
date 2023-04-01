@@ -1216,7 +1216,7 @@
       "m_isEnablePotential_Nway": 1,
       "m_isEnablePotential_Distance": 0,
       "m_isEnablePotential_Extend": 0,
-      "m_isEnablePotential_Homing": 0,
+      "m_isEnablePotential_Homing": 1,
       "m_isEnablePotential_Continue": 1,
       "m_isEnablePotential_Rapid": 0,
       "m_isEnablePotential_Charge": 1,

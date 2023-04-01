@@ -62,7 +62,7 @@ _bool CAnimation::Update(vector<CBone*>& Bones, _double TimeDelta, _bool isLoop)
 
 		if (true == isLoop)
 		{
-			m_TimeAcc = 0.0;
+			m_TimeAcc = m_StartTimeAcc;
 		}
 	}
 

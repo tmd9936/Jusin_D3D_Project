@@ -86,10 +86,9 @@ HRESULT CGameInstance::Tick_Engine(_double TimeDelta)
 
 	m_pFrustum->Update();
 
-	CGameInstance::GetInstance()->Update_CollisionMgr(m_pLevel_Manager->Get_LevelIndex());
-
 	m_pObject_Manager->LateTick(TimeDelta);
 
+	CGameInstance::GetInstance()->Update_CollisionMgr(m_pLevel_Manager->Get_LevelIndex());
 
 	return S_OK;
 }

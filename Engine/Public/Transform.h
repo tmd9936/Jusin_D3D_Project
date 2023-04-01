@@ -95,6 +95,10 @@ public:
 
 	void Move(float x, float y, float z, CNavigation* pNavigation = nullptr);
 
+	void Set_Pos(_fvector vPos) {
+		XMStoreFloat4((_float4*)m_WorldMatrix.m[3], vPos);
+	}
+
 	void Set_Pos(float x, float y, float z) {
 		m_WorldMatrix.m[3][0] = x;
 		m_WorldMatrix.m[3][1] = y;

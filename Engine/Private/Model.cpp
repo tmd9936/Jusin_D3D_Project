@@ -220,6 +220,11 @@ HRESULT CModel::SetUp_BoneMatrices(CShader* pShader, const char* pConstantName, 
 	return pShader->Set_MatrixArray(pConstantName, BoneMatrices, 256);
 }
 
+void CModel::Set_Animation_Start_Time(_double TimeAcc)
+{
+	m_Animations[m_iCurrentAnimationIndex]->Set_StartTimeAcc(TimeAcc);
+}
+
 _bool CModel::Play_Animation(_double TimeDelta, _bool isLoop)
 {
 	/* 실제 파일에 저장되어있었던 뼈의 각각의 시간에 맞는 상태로 뼈들의 상태를 변경하고.

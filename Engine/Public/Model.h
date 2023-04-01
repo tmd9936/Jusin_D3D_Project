@@ -52,6 +52,8 @@ public:
 public:
 	HRESULT SetUp_ShaderResource(CShader* pShader, const char* pConstantName, _uint iMeshIndex, aiTextureType eType);
 	HRESULT SetUp_BoneMatrices(CShader* pShader, const char* pConstantName, _uint iMeshIndex);
+
+	void  Set_Animation_Start_Time(_double TimeAcc);
 	_bool Play_Animation(_double TimeDelta, _bool isLoop = true);
 	HRESULT Render(_uint iMeshIndex);
 

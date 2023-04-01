@@ -336,9 +336,6 @@
     <ClInclude Include="..\Public\Effect.h">
       <Filter>02. GameObject\Static\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Effect_Manager.h">
-      <Filter>02. GameObject\Static\Effect\Effect_Manager</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Skill.h">
       <Filter>02. GameObject\Static\Skill</Filter>
     </ClInclude>
@@ -395,6 +392,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\StageCameraTarget.h">
       <Filter>02. GameObject\Stage\Stage_Camera_Target</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Effect_Manager.h">
+      <Filter>02. GameObject\Static\Effect\Effect_Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
