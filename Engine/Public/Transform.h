@@ -62,6 +62,10 @@ public:
 		return XMMatrixInverse(nullptr, XMLoadFloat4x4(&m_WorldMatrix));
 	}
 
+	_matrix Get_Position_Matrix() const {
+		return  XMMatrixTranslation(m_WorldMatrix.m[3][0], m_WorldMatrix.m[3][1], m_WorldMatrix.m[3][2]);
+	}
+
 	const _float3	Get_Rotate() const { 
 		return m_Rotaion; 
 	}

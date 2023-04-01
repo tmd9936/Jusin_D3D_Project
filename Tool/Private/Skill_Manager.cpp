@@ -72,7 +72,7 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 	CEffect_Manager* pEffect_Manager = dynamic_cast<CEffect_Manager*>(pGameInstance->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"Effect_Manager"));
 
 	if (nullptr == pEffect_Manager)
-		return nullptr;;
+		return nullptr;
 	
 	CEffect* pEffect = nullptr;
 
@@ -83,20 +83,20 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 	_float4x4 pivotMatrix = {};
 	XMStoreFloat4x4(&pivotMatrix, PivotMatrix);
 
-	//pEffect = pEffect_Manager->Create_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex);
-	//if (skill_desc.m_isEnablePotential_Charge)
-	//{
-	//	pEffect->Set_Parent(pParentBone, pParentTransform, pivotMatrix);
-	//}
-	//else
-	//{
-	//	_vector vPos = vParentMatrix.r[3];
+	pEffect = pEffect_Manager->Create_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex);
+	if (skill_desc.m_isEnablePotential_Charge)
+	{
+		pEffect->Set_Parent(pParentBone, pParentTransform, pivotMatrix);
+	}
+	else
+	{
+		_vector vPos = vParentMatrix.r[3];
 
-	//	_float4 pos = {};
-	//	XMStoreFloat4(&pos, vPos);
-	//	pEffect->Set_Pos(pos);
-	//}
-	//effects.push_back(pEffect);
+		_float4 pos = {};
+		XMStoreFloat4(&pos, vPos);
+		pEffect->Set_Pos(pos);
+	}
+	effects.push_back(pEffect);
 
 
 	if (skill_desc.m_isEnablePotential_Nway)

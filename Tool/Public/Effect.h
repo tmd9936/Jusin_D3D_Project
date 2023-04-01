@@ -66,7 +66,7 @@ public:
 public:
 	void	Set_Pos(const _float4& vPos);
 
-	void	Set_Parent(CBone* pBoneParent, CTransform* pTransformParent, _float4x4	PivotMatrix);
+	void	Set_Parent(CBone* pBoneParent, CTransform* pTransformParent, _float4x4	PivotMatrix, _bool bParentRotateApply = true);
 
 	void	Set_SmallRotation(_float speed) {
 		if (speed > 0.f)
@@ -91,6 +91,14 @@ public:
 	}
 
 	void	Set_AnimaitonStartTime(_double time);
+
+	void	Set_Animation_Speed(_double speed) {
+		m_AnimationSpeed = speed;
+	}
+
+	void	Set_ParentRotateApply(_bool parentRotateApply) {
+		m_bParentRotateApply = parentRotateApply;
+	}
 
 private:
 	void	Set_ParentBone(CBone* pParent) {
@@ -120,20 +128,24 @@ private:
 
 	_bool			m_IsParts = { false };
 	_bool			m_IsHomming = { false };
+	_bool			m_bParentRotateApply = { true };
 
 	_bool			m_SmallRotation = { false };
 	_float			m_SmallRotationSpeed = { 0.f };
 
 	_bool			m_BigRotation = { false };
 	_float			m_BigRotationRadius = { 0.f };
+	_float			m_CurBigRotationRadius = { 0.f };
 	_float			m_BigRotationSpeed = { 0.f };
 
 	_float4x4		m_FinalWorldMatrix = {}; /* 원점기준 (내 월드 * 부모월드) */
 
 	_double			m_AnimationStartAcc = { 0 };
 
-	_uint			m_LoopCount = { 0 };
-	_uint			m_CurrentLoopCount = { 0 };
+	_int			m_LoopCount = { 0 };
+	_int			m_CurrentLoopCount = { 0 };
+
+	_double			m_AnimationSpeed = { 1.0 };
 
 private:
 	HRESULT Add_Components();

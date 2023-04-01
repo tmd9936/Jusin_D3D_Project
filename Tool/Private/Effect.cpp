@@ -49,7 +49,7 @@ HRESULT CEffect::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pA
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
-	m_eRenderId = RENDER_NONBLEND;
+	m_eRenderId = RENDER_BLEND;
 
 	_float3 vPos{};
 	XMStoreFloat3(&vPos, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
@@ -67,14 +67,16 @@ _uint CEffect::Tick(_double TimeDelta)
 	if (m_bDead)
 		return OBJ_DEAD;
 
-	if (m_CurrentLoopCount < 0)
-		return OBJ_DEAD;
-
-	if (m_pModelCom->Play_Animation(TimeDelta))
+	if (m_pModelCom->Play_Animation(TimeDelta * m_AnimationSpeed))
 	{
 		m_pModelCom->Set_Animation_Start_Time(m_AnimationStartAcc);
 
 		--m_CurrentLoopCount;
+
+		if (m_CurrentLoopCount < 0)
+		{
+			m_bDead = true;
+		}
 	}
 
 	if (m_pTransformCom)
@@ -84,16 +86,12 @@ _uint CEffect::Tick(_double TimeDelta)
 			m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), TimeDelta * m_SmallRotationSpeed);
 		}
 
-		if (m_BigRotation )
+		if (m_BigRotation)
 		{
-			// && m_EffectDesc.pParent
-			//_vector vLook = m_EffectDesc.pParent->Get_State(CTransform::STATE_LOOK);
-			//_vector vPos = m_EffectDesc.pParent->Get_State(CTransform::STATE_POSITION);
-
 			_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-			_vector vLook = {0.f, 1.f, 0.f, 0.f};
+			_vector vUp = {0.f, 1.f, 0.f, 0.f};
 
-			_matrix BigRot = XMMatrixRotationQuaternion(XMQuaternionRotationAxis(vLook, XMConvertToRadians(m_BigRotationSpeed)));
+			_matrix BigRot = XMMatrixRotationQuaternion(XMQuaternionRotationAxis(vUp, XMConvertToRadians(m_BigRotationSpeed)));
 
 			vPos = XMVector3TransformCoord(vPos, BigRot);
 
@@ -113,7 +111,11 @@ _uint CEffect::LateTick(_double TimeDelta)
 
 		REMOVE_SCALE(ParentMatrix)
 
-		XMStoreFloat4x4(&m_FinalWorldMatrix, m_pTransformCom->Get_WorldMatrix_Matrix() * ParentMatrix * m_EffectDesc.pParent->Get_WorldMatrix_Matrix());
+		if (m_bParentRotateApply)
+			XMStoreFloat4x4(&m_FinalWorldMatrix, m_pTransformCom->Get_WorldMatrix_Matrix() * ParentMatrix * m_EffectDesc.pParent->Get_WorldMatrix_Matrix());
+		else
+			XMStoreFloat4x4(&m_FinalWorldMatrix, m_pTransformCom->Get_WorldMatrix_Matrix() * ParentMatrix * m_EffectDesc.pParent->Get_Position_Matrix());
+
 
 		if (m_pColliderCom)
 			m_pColliderCom->Tick(XMLoadFloat4x4(&m_FinalWorldMatrix));
@@ -303,10 +305,12 @@ void CEffect::Set_Pos(const _float4& vPos)
 	}
 }
 
-void CEffect::Set_Parent(CBone* pBoneParent, CTransform* pTransformParent, _float4x4 PivotMatrix)
+void CEffect::Set_Parent(CBone* pBoneParent, CTransform* pTransformParent, _float4x4 PivotMatrix, _bool bParentRotateApply)
 {
 	if (nullptr == pBoneParent || nullptr == pTransformParent)
 		return;
+
+	m_bParentRotateApply = bParentRotateApply;
 
 	m_EffectDesc.PivotMatrix = PivotMatrix;
 

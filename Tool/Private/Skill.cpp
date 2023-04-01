@@ -82,21 +82,20 @@ _uint CSkill::Tick(_double TimeDelta)
 		return OBJ_DEAD;
 	}
 
-	for (auto& iter : m_effects)
-	{
-		if (nullptr != iter)
-		{
-			iter->Tick(TimeDelta);
-		}
-	}
+	//for (auto& iter : m_effects)
+	//{
+	//	if (nullptr != iter)
+	//	{
+	//	}
+	//}
 
-	for (auto& iter : m_conditions)
-	{
-		if (nullptr != iter)
-		{
-			iter->Tick(TimeDelta);
-		}
-	}
+	//for (auto& iter : m_conditions)
+	//{
+	//	if (nullptr != iter)
+	//	{
+	//		iter->Tick(TimeDelta);
+	//	}
+	//}
 
 	if (m_CurrentTestDeadDuration >= m_TestDeadDuration)
 	{
@@ -117,22 +116,6 @@ HRESULT CSkill::Render()
 {
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
-
-	for (auto& iter : m_effects)
-	{
-		if (nullptr != iter)
-		{
-			iter->Render();
-		}
-	}
-
-	for (auto& iter : m_conditions)
-	{
-		if (nullptr != iter)
-		{
-			iter->Render();
-		}
-	}
 
 	return S_OK;
 }
