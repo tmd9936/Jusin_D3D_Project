@@ -97,8 +97,7 @@ _uint CEffect::Tick(_double TimeDelta)
 			}
 			else
 			{
-				//vParentPos = XVe
-
+				vParentPos = XMVectorSet(0.f, 0.f, 0.f, 1.f);
 			}
 
 			switch (m_eHommingState)
@@ -112,14 +111,14 @@ _uint CEffect::Tick(_double TimeDelta)
 				break;
 			case HOMMING_IN:
 				vDir = XMVector3Normalize(vParentPos - vParentPos);
-				if (m_pTransformCom->Get_Positin_Length() >= 0.2f)
+				if (m_pTransformCom->Get_Positin_Length() <= 0.2f)
 				{
 					m_eHommingState = HOMMING_OUT;
 				}
 				break;
 			}
 
-			vPos += vDir * TimeDelta * 0.3f;
+			vPos += vDir * TimeDelta;
 			m_pTransformCom->Set_Pos(vPos);
 		}
 
