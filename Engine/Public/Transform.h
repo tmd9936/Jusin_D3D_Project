@@ -70,6 +70,10 @@ public:
 		return m_Rotaion; 
 	}
 
+	const _float	Get_Positin_Length() {
+		return XMVectorGetX(XMVector4Length(XMLoadFloat4((_float4*)m_WorldMatrix.m[3])));
+	}
+
 	HRESULT Set_ShaderResource(class CShader* pShader, const char* pContantName);
 
 public:

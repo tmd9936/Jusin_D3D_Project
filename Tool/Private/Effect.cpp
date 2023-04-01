@@ -86,10 +86,47 @@ _uint CEffect::Tick(_double TimeDelta)
 			m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), TimeDelta * m_SmallRotationSpeed);
 		}
 
+		if (m_bHomming)
+		{
+			_vector vDir = {};
+			_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+			_vector vParentPos = {};
+			if (!m_EffectDesc.pParent)
+			{
+				vParentPos = m_EffectDesc.pParent->Get_State(CTransform::STATE_POSITION);
+			}
+			else
+			{
+				//vParentPos = XVe
+
+			}
+
+			switch (m_eHommingState)
+			{
+			case HOMMING_OUT:
+				vDir = XMVector3Normalize(vPos - vParentPos);
+				if (m_pTransformCom->Get_Positin_Length() >= m_BigRotationRadius)
+				{
+					m_eHommingState = HOMMING_IN;
+				}
+				break;
+			case HOMMING_IN:
+				vDir = XMVector3Normalize(vParentPos - vParentPos);
+				if (m_pTransformCom->Get_Positin_Length() >= 0.2f)
+				{
+					m_eHommingState = HOMMING_OUT;
+				}
+				break;
+			}
+
+			vPos += vDir * TimeDelta * 0.3f;
+			m_pTransformCom->Set_Pos(vPos);
+		}
+
 		if (m_BigRotation)
 		{
 			_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-			_vector vUp = {0.f, 1.f, 0.f, 0.f};
+			_vector vUp = { 0.f, 1.f, 0.f, 0.f };
 
 			_matrix BigRot = XMMatrixRotationQuaternion(XMQuaternionRotationAxis(vUp, XMConvertToRadians(m_BigRotationSpeed)));
 

@@ -24,6 +24,13 @@ class CEffect final : public CGameObject
 public:
 	enum ACTION_TYPE { ACTION_ATTACK, ACTION_NONE, ACTION_MIND, ACTION_LOOP, ACTION_END };
 
+	enum HOMMING_STATE
+	{
+		HOMMING_OUT,
+		HOMMING_IN,
+		HOMMING_END
+	};
+
 public:
 	typedef struct Effect_Desc
 	{
@@ -100,6 +107,12 @@ public:
 		m_bParentRotateApply = parentRotateApply;
 	}
 
+	void	Set_Homming(_bool bHomming, _bool bArriveHomeDead, HOMMING_STATE eHommingState) {
+		m_bHomming = bHomming;
+		m_bArriveHomeDead = bArriveHomeDead;
+		m_eHommingState = eHommingState;
+	}
+
 private:
 	void	Set_ParentBone(CBone* pParent) {
 		m_EffectDesc.pBonePtr = pParent;
@@ -120,32 +133,35 @@ private:
 	CNavigation*	m_pNavigationCom = { nullptr };
 
 private:
-	EFFECT_DESC		m_EffectDesc = {};
+	EFFECT_DESC				m_EffectDesc = {};
 
-	_double			m_CurrentAnimationAcc = { 0.0 };
+	_double					m_CurrentAnimationAcc = { 0.0 };
 
-	wstring			m_EffectTypeName = {};
+	wstring					m_EffectTypeName = {};
 
-	_bool			m_IsParts = { false };
-	_bool			m_IsHomming = { false };
-	_bool			m_bParentRotateApply = { true };
+	_bool					m_IsParts = { false };
+	_bool					m_IsHomming = { false };
+	_bool					m_bParentRotateApply = { true };
 
-	_bool			m_SmallRotation = { false };
-	_float			m_SmallRotationSpeed = { 0.f };
+	_bool					m_SmallRotation = { false };
+	_float					m_SmallRotationSpeed = { 0.f };
 
-	_bool			m_BigRotation = { false };
-	_float			m_BigRotationRadius = { 0.f };
-	_float			m_CurBigRotationRadius = { 0.f };
-	_float			m_BigRotationSpeed = { 0.f };
+	_bool					m_BigRotation = { false };
+	_float					m_BigRotationRadius = { 0.f };
+	_float					m_BigRotationSpeed = { 0.f };
 
-	_float4x4		m_FinalWorldMatrix = {}; /* 원점기준 (내 월드 * 부모월드) */
+	_float4x4				m_FinalWorldMatrix = {}; /* 원점기준 (내 월드 * 부모월드) */
 
-	_double			m_AnimationStartAcc = { 0 };
+	_double					m_AnimationStartAcc = { 0 };
 
-	_int			m_LoopCount = { 0 };
-	_int			m_CurrentLoopCount = { 0 };
+	_int					m_LoopCount = { 0 };
+	_int					m_CurrentLoopCount = { 0 };
 
-	_double			m_AnimationSpeed = { 1.0 };
+	_double					m_AnimationSpeed = { 1.0 };
+
+	_bool					m_bHomming = { false };
+	_bool					m_bArriveHomeDead = { false };
+	HOMMING_STATE			m_eHommingState = { HOMMING_END };
 
 private:
 	HRESULT Add_Components();

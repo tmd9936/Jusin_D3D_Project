@@ -113,6 +113,7 @@ CEffect* CEffect_Manager::Create_Effect(_uint effectType, const _tchar* pLayerTa
 	{
 		pEffect->Set_ParentRotateApply(false);
 		pEffect->Init_LoopCount(5);
+		pEffect->Set_Homming(true, false, CEffect::HOMMING_OUT);
 	}
 
 	Safe_Release(pGameInstance);
