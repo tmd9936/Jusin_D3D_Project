@@ -44,6 +44,7 @@ public:
 
 private:
 	void	Do_Skill();
+	void	Jump_Rotate();
 
 private:
 	_uint			m_TestSkillindex = { 0 };

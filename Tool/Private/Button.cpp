@@ -94,6 +94,10 @@ _uint CButton::Tick(_double TimeDelta)
 	if (m_bAction)
 	{
 		Button_Motion(TimeDelta);
+
+		if (m_TickResult == OBJ_SCENE_CHNAGE)
+			return m_TickResult;
+
 		Picking_Button();
 
 		for (auto& part : m_TextureParts)
@@ -532,6 +536,7 @@ HRESULT CButton::Common_Initialize()
 
 void CButton::Free()
 {
+	__super::Free();
 
 	for (auto& part : m_TextureParts)
 	{
@@ -542,7 +547,6 @@ void CButton::Free()
 	{
 		Safe_Release(part);
 	}
-	__super::Free();
 
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pTransformCom);

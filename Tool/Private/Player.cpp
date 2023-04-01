@@ -43,24 +43,57 @@ HRESULT CPlayer::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pA
 
 _uint CPlayer::Tick(_double TimeDelta)
 {
-	if (m_pModelCom->Play_Animation(TimeDelta))
+	_float4x4 mat = {};
+	switch (m_pMonFSM->Get_MotionState())
 	{
-		switch (m_pMonFSM->Get_MotionState())
+	case CMonFSM::ATK_NORMAL:
+		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
-		case CMonFSM::ATK_NORMAL:
-			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE_FLY, m_pModelCom);
-		default:
-			break;
+			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE_GROUND, m_pModelCom);
 		}
-		return _uint();
+		break;
+	case CMonFSM::JUMPLANDING_SLE_START:
+		if (m_pModelCom->Play_Animation(TimeDelta, false))
+		{
+			m_pMonFSM->Transit_MotionState(CMonFSM::JUMPLANDING_SLE_LOOP, m_pModelCom);
+			mat = m_pModelCom->Get_CombinedTransformationMatrix_float4_4(0);
+			m_pTransformCom->Set_PosY(mat.m[3][2]);
+		}
+		break;
+	case CMonFSM::JUMPLANDING_SLE_LOOP:
+		if (m_pModelCom->Play_Animation(TimeDelta, false))
+		{
+			m_pMonFSM->Transit_MotionState(CMonFSM::ROTATE_LOOP, m_pModelCom);
+		}
+		break;
+	case CMonFSM::ROTATE_LOOP:
+		if (m_pModelCom->Play_Animation(TimeDelta, false))
+		{
+			m_pMonFSM->Transit_MotionState(CMonFSM::JUMPLANDING_SLE_END, m_pModelCom);
+		}
+		break;
+	//case CMonFSM::JUMPLANDING_SLE_LOOP:
+	//	m_pMonFSM->Transit_MotionState(CMonFSM::JUMPLANDING_SLE_END, m_pModelCom);
+	//	break;
+	case CMonFSM::JUMPLANDING_SLE_END:
+		if (m_pModelCom->Play_Animation(TimeDelta, false))
+		{
+			mat = m_pModelCom->Get_CombinedTransformationMatrix_float4_4(0);
+			m_pTransformCom->Set_PosY(mat.m[3][2]);
+			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
+		}
+		break;
+	default:
+		break;
 	}
+	return _uint();
 
 	_bool move = false;
 	if (KEY_TAB(KEY::DOWN))
 	{
-		if (m_pMonFSM->Get_MotionState() != CMonFSM::IDLE_FLY)
+		if (m_pMonFSM->Get_MotionState() != CMonFSM::IDLE_GROUND)
 		{
-			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE_FLY, m_pModelCom);
+			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE_GROUND, m_pModelCom);
 		}
 		m_pTransformCom->Go_Backward((_float)TimeDelta, m_pNavigationCom);
 	}
@@ -89,9 +122,9 @@ _uint CPlayer::Tick(_double TimeDelta)
 
 	if (KEY_TAB(KEY::UP))
 	{
-		if (m_pMonFSM->Get_MotionState() != CMonFSM::IDLE_FLY)
+		if (m_pMonFSM->Get_MotionState() != CMonFSM::IDLE_GROUND)
 		{
-			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE_FLY, m_pModelCom);
+			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE_GROUND, m_pModelCom);
 		}
 
 		m_pTransformCom->Go_Straight((_float)TimeDelta, m_pNavigationCom);
@@ -108,6 +141,11 @@ _uint CPlayer::Tick(_double TimeDelta)
 	else  if (KEY_AWAY(KEY::SPACE))
 	{
 		Do_Skill();
+	}
+
+	else  if (KEY_AWAY(KEY::S))
+	{
+		Jump_Rotate();
 	}
 
 	m_pAABB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
@@ -272,6 +310,12 @@ void CPlayer::Do_Skill()
 			}
 		}
 	}
+}
+
+void CPlayer::Jump_Rotate()
+{
+	m_pMonFSM->Transit_MotionState(CMonFSM::JUMPLANDING_SLE_START, m_pModelCom);
+
 }
 
 //HRESULT CPlayer::SetUp_ShaderResources()
