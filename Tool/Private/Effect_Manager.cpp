@@ -103,6 +103,8 @@ CEffect* CEffect_Manager::Create_Effect(_uint effectType, const _tchar* pLayerTa
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Effect"), iLevelIndex, pLayerTag, (CGameObject**)&pEffect, nullptr, &effect_Desc)))
 		return nullptr;
 
+	pEffect->Init_LoopCount(1);
+
 	if (0 == effect_Desc.m_effectPath.compare(L"E_EF_Charge"))
 	{
 		pEffect->Set_AnimaitonStartTime(19.8);

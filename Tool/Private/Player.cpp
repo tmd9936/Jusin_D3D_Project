@@ -52,7 +52,10 @@ _uint CPlayer::Tick(_double TimeDelta)
 	case CMonFSM::ATK_NORMAL:
 		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
-			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE_GROUND, m_pModelCom);
+			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
+			if (m_bAttack)
+				m_bAttack = false;
+
 		}
 		break;
 	case CMonFSM::JUMPLANDING_SLE_START:
@@ -90,13 +93,14 @@ _uint CPlayer::Tick(_double TimeDelta)
 		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
 			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
+			if (m_bAttack)
+				m_bAttack = false;
 		}
 		break;
 	default:
 		break;
 	}
 
-	_bool move = false;
 	if (KEY_TAB(KEY::DOWN))
 	{
 		if (m_pMonFSM->Get_MotionState() != CMonFSM::IDLE_FLOAT)
@@ -117,15 +121,11 @@ _uint CPlayer::Tick(_double TimeDelta)
 	if (GetKeyState(VK_LEFT) & 0x8000)
 	{
 		m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), (_float)TimeDelta * -1.f);
-		//m_pModelCom->Set_Animation(41);
-
 	}
 
 	if (GetKeyState(VK_RIGHT) & 0x8000)
 	{
 		m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), (_float)TimeDelta);
-		//m_pModelCom->Set_Animation(41);
-
 	}
 
 	if (KEY_TAB(KEY::UP))
@@ -146,14 +146,19 @@ _uint CPlayer::Tick(_double TimeDelta)
 		m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
 	}
 
-	else  if (KEY_AWAY(KEY::SPACE))
+	else  if (KEY_TAB(KEY::A))
 	{
-		Do_Skill();
+		Do_Skill(m_PokemonDesc.m_skillIDs[0], CMonFSM::ATK_NORMAL, L"Layer_PlayerSkill");
 	}
 
-	else  if (KEY_AWAY(KEY::S))
+	else  if (KEY_TAB(KEY::S))
 	{
-		Jump_Rotate();
+		Do_Skill(m_PokemonDesc.m_skillIDs[1], CMonFSM::ATK_NORMAL, L"Layer_PlayerSkill");
+	}
+
+	else  if (KEY_TAB(KEY::D))
+	{
+		Do_Skill(m_PokemonDesc.m_skillIDs[2], CMonFSM::HAPPY, L"Layer_PlayerSkill");
 	}
 
 	m_pAABB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
@@ -290,7 +295,7 @@ void CPlayer::On_CollisionExit(CCollider* pOther, const _float& fX, const _float
 {
 }
 
-void CPlayer::Do_Skill()
+void CPlayer::Do_TestSkill()
 {
 	if (m_pMonFSM->Get_MotionState() != CMonFSM::ATK_NORMAL)
 	{
@@ -299,26 +304,26 @@ void CPlayer::Do_Skill()
 		CGameObject* pSkill_Mananger = CGameInstance::GetInstance()->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"Skill_Manager");
 		if (nullptr != pSkill_Mananger)
 		{
-			CSkill* pSkill = dynamic_cast<CSkill_Manager*>(pSkill_Mananger)->Create_Skill(L"Layer_PlayerSkill", m_iLevelindex, m_TestSkillindex, 
+			CSkill* pSkill = dynamic_cast<CSkill_Manager*>(pSkill_Mananger)->Create_Skill(L"Layer_PlayerSkill", m_iLevelindex, m_TestSkillindex,
 				m_pTransformCom->Get_WorldMatrix_Matrix(), XMConvertToRadians(60.f), XMConvertToRadians(180.f), m_pModelCom->Get_BonePtr("effect00"), m_pTransformCom, m_pModelCom->Get_PivotMatrix());
-		
+
 			Safe_Release(pSkill);
-		//	if (nullptr != pSkill)
-		//	{
-		//		_float4 vPos{};
-		//		_float4 vPosLook{};
+			//	if (nullptr != pSkill)
+			//	{
+			//		_float4 vPos{};
+			//		_float4 vPosLook{};
 
-		//		XMStoreFloat4(&vPosLook, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
+			//		XMStoreFloat4(&vPosLook, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
 
-		//		XMStoreFloat4(&vPos, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_pTransformCom->Get_State(CTransform::STATE_LOOK) * 0.2f);
-		//		pSkill->Set_Effects_Pos(vPos);
-		//		pSkill->Set_Conditions_Pos(vPos);
+			//		XMStoreFloat4(&vPos, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_pTransformCom->Get_State(CTransform::STATE_LOOK) * 0.2f);
+			//		pSkill->Set_Effects_Pos(vPos);
+			//		pSkill->Set_Conditions_Pos(vPos);
 
-		//		pSkill->Set_Effects_Look(vPosLook);
-		//		pSkill->Set_Conditions_Look(vPosLook);
+			//		pSkill->Set_Effects_Look(vPosLook);
+			//		pSkill->Set_Conditions_Look(vPosLook);
 
-		//		Safe_Release(pSkill);
-		//	}
+			//		Safe_Release(pSkill);
+			//	}
 		}
 	}
 }

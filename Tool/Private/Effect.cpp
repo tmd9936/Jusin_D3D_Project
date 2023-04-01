@@ -71,12 +71,11 @@ _uint CEffect::Tick(_double TimeDelta)
 	{
 		m_pModelCom->Set_Animation_Start_Time(m_AnimationStartAcc);
 
-		--m_CurrentLoopCount;
-
 		if (m_CurrentLoopCount < 0)
 		{
 			m_bDead = true;
 		}
+		--m_CurrentLoopCount;
 	}
 
 	if (m_pTransformCom)
@@ -150,7 +149,7 @@ _uint CEffect::LateTick(_double TimeDelta)
 		if (m_bParentRotateApply)
 			XMStoreFloat4x4(&m_FinalWorldMatrix, m_pTransformCom->Get_WorldMatrix_Matrix() * ParentMatrix * m_EffectDesc.pParent->Get_WorldMatrix_Matrix());
 		else
-			XMStoreFloat4x4(&m_FinalWorldMatrix, m_pTransformCom->Get_WorldMatrix_Matrix() * ParentMatrix * m_EffectDesc.pParent->Get_Position_Matrix());
+			XMStoreFloat4x4(&m_FinalWorldMatrix, m_pTransformCom->Get_WorldMatrix_Matrix() * m_EffectDesc.pParent->Get_Position_Matrix());
 
 
 		if (m_pColliderCom)
@@ -341,12 +340,10 @@ void CEffect::Set_Pos(const _float4& vPos)
 	}
 }
 
-void CEffect::Set_Parent(CBone* pBoneParent, CTransform* pTransformParent, _float4x4 PivotMatrix, _bool bParentRotateApply)
+void CEffect::Set_Parent(CBone* pBoneParent, CTransform* pTransformParent, _float4x4 PivotMatrix)
 {
 	if (nullptr == pBoneParent || nullptr == pTransformParent)
 		return;
-
-	m_bParentRotateApply = bParentRotateApply;
 
 	m_EffectDesc.PivotMatrix = PivotMatrix;
 

@@ -8,6 +8,9 @@
 
 #include "HpBar.h"
 
+#include "Skill_Manager.h"
+#include "Skill.h"
+
 /*
 기본공격 2개만
 원거리 기본 공격
@@ -291,6 +294,38 @@ HRESULT CMonster::Add_HpBar()
 	Safe_Release(pGameInstance);
 
 	return S_OK;
+}
+
+void CMonster::Do_Skill(_uint skillType, CMonFSM::MONSTER_STATE eMotion, const _tchar* pLayer)
+{
+	if (!m_bAttack)
+	{
+		if (m_pMonFSM->Get_MotionState() != eMotion)
+		{
+			m_pMonFSM->Transit_MotionState(eMotion, m_pModelCom);
+
+			CGameObject* pSkill_Mananger = CGameInstance::GetInstance()->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"Skill_Manager");
+			if (nullptr != pSkill_Mananger)
+			{
+				CSkill* pSkill = nullptr;
+				if (skillType == 57)
+				{
+					pSkill = dynamic_cast<CSkill_Manager*>(pSkill_Mananger)->Create_Skill(pLayer, m_iLevelindex, skillType,
+						m_pTransformCom->Get_WorldMatrix_Matrix(), XMConvertToRadians(60.f), XMConvertToRadians(180.f), m_pModelCom->Get_BonePtr("effect00"), m_pTransformCom, m_pModelCom->Get_PivotMatrix());
+
+					Safe_Release(pSkill);
+				}
+				else
+				{
+					pSkill = dynamic_cast<CSkill_Manager*>(pSkill_Mananger)->Create_Skill(pLayer, m_iLevelindex, skillType, 
+						m_pTransformCom->Get_WorldMatrix_Matrix());
+
+					Safe_Release(pSkill);
+				}
+
+			}
+		}
+	}
 }
 
 HRESULT CMonster::Add_Components()

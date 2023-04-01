@@ -22,6 +22,9 @@ END
 
 BEGIN(Client)
 
+class CSkill_Manager;
+class CSkill;
+
 class CMonster abstract : public CGameObject
 {
 public:
@@ -90,6 +93,7 @@ protected:
 
 protected:
 	HRESULT	Add_HpBar();
+	void	Do_Skill(_uint skillType, CMonFSM::MONSTER_STATE eMotion, const _tchar* pLayer);
 
 private:
 	HRESULT Add_Components();
@@ -116,6 +120,10 @@ protected:
 protected:
 	POKEMON_DESC		m_PokemonDesc = {};
 	_float4				m_MovePosition = { 20.f, 0.f, 20.f, 1.f };
+	
+	_bool				m_bAttack = { false };
+	_float				m_SkillDelayTime = { 0.f };
+
 
 protected:
 	vector<CGameObject*>	m_Parts;

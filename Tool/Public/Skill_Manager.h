@@ -35,9 +35,9 @@ public:
 	virtual _uint LateTick(_double TimeDelta) override;
 
 public:
-	CSkill* Create_Skill(const _tchar * pLayerTag, _uint iLevelIndex, _uint skillindex, 
-		_fmatrix vParentMatrix, _float smallRotationSpeed, _float bigRotationSpeed,
-		CBone* pParentBone, CTransform* pParentTransform, _fmatrix PivotMatrix);
+	CSkill* Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType,
+		_fmatrix vParentMatrix, _float smallRotationSpeed = 0.f, _float bigRotationSpeed = 0.f,
+		CBone* pParentBone = nullptr, CTransform* pParentTransform = nullptr, _fmatrix PivotMatrix = XMMatrixIdentity());
 
 public:
 	HRESULT	Reload_Datas();

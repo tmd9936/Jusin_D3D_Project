@@ -42,7 +42,6 @@ HRESULT CLevel_BaseCamp::Initialize()
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
-
 	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
 		return E_FAIL;
 
@@ -151,8 +150,11 @@ HRESULT CLevel_BaseCamp::Ready_Layer_Player(const _tchar* pLayerTag)
 		return E_FAIL;
 
 	CMonster::POKEMON_DESC desc{};
-	desc.m_monsterNo = 6;
+	desc.m_monsterNo = 25;
 	desc.vPos = _float4(22.f, 0.f, 13.5f, 1.f);
+	desc.m_skillIDs.push_back(24);
+	desc.m_skillIDs.push_back(25);
+	desc.m_skillIDs.push_back(57);
 
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Player"), LEVEL_BASECAMP, pLayerTag, L"Player", &desc)))
 		return E_FAIL;

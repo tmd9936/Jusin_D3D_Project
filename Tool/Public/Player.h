@@ -43,7 +43,7 @@ public:
 	virtual _uint State_Tick(const _double& TimeDelta) override;
 
 private:
-	void	Do_Skill();
+	void	Do_TestSkill();
 	void	Jump_Rotate();
 
 private:

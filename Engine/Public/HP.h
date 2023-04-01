@@ -42,7 +42,7 @@ public:
 
 public:
 	const _float		Get_HP_Ratio() const {
-		return m_CurrentHP / m_MaxHP;
+		return m_CurrentHP / (_float)m_MaxHP;
 	}
 
 private:

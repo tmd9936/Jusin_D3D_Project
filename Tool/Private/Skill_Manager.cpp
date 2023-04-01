@@ -108,18 +108,18 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 			if (nullptr == pEffect)
 				return nullptr;
 
-			_vector vLook = vParentMatrix.r[2];
-			_vector vPos = vParentMatrix.r[3];
+			_vector vParentLook = vParentMatrix.r[2];
+			_vector vParentPos = vParentMatrix.r[3];
 
-			vLook = XMVector3Rotate(vLook, XMQuaternionRotationAxis(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(120.f + 120.f * i )));
+			vParentLook = XMVector3Rotate(vParentLook, XMQuaternionRotationAxis(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(120.f + 120.f * i )));
 
 			CTransform* pTransform = pEffect->Get_As<CTransform>();
 			if (nullptr == pTransform)
 				return nullptr;
 
-			pTransform->LookAt(vLook);
+			//pTransform->LookAt(vParentPos);
 			
-			vPos = vLook;
+			_vector vPos = XMVectorSetW(vParentLook, 1.f);
 			_float4 pos = {};
 			XMStoreFloat4(&pos, vPos);
 			pEffect->Set_Pos(pos);
@@ -144,14 +144,11 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 		if (nullptr == pTransform)
 			return nullptr;
 
-		pTransform->LookAt(vLook);
+		pTransform->LookAt(XMVectorSetW(vLook * -1.f, 1.f));
 
 		_float4 pos = {};
 		XMStoreFloat4(&pos, vPos);
 		pEffect->Set_Pos(pos);
-
-		pEffect->Set_SmallRotation(smallRotationSpeed);
-		pEffect->Set_BigRotation(bigRotationSpeed, 1.5f);
 
 		effects.push_back(pEffect);
 	}
