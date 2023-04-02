@@ -3,6 +3,17 @@
 
 #include "GameInstance.h"
 
+/*
+1 스테이지
+니드킹 독침, 메가톤 펀치
+쥬쥬 얼다바람, 아쿠아링
+니드리나 독침, 메가폰
+
+2스테이지 
+보스 레어코일
+또가스 자폭, 오물폭탄
+가디 불꽃세례
+*/
 
 CStageMonster::CStageMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CMonster(pDevice, pContext)

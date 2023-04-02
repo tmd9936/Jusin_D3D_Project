@@ -28,24 +28,6 @@
     <Filter Include="97. ShaderFiles">
       <UniqueIdentifier>{1169c46f-4a0a-4057-9bdf-6284a9995c54}</UniqueIdentifier>
     </Filter>
-    <Filter Include="96 ImGui">
-      <UniqueIdentifier>{4f3caca1-d572-468c-b1a3-6856de137220}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="96 ImGui\MapToolGUI">
-      <UniqueIdentifier>{7feebb72-cfee-416e-800d-023380095360}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="96 ImGui\imgui">
-      <UniqueIdentifier>{880dc489-0647-4238-86cd-128dd5a4f5dd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="96 ImGui\DataToolGUI">
-      <UniqueIdentifier>{4b68341e-8e0c-4946-a930-0258f43bc12d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="96 ImGui\Utill">
-      <UniqueIdentifier>{2124fcc0-bcc6-4afe-87b3-1b720a27b396}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="96 ImGui\UiToolGUI">
-      <UniqueIdentifier>{42977d6c-63c4-4b92-847f-ad3e2c051569}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\BaseCamp">
       <UniqueIdentifier>{e9b07c8e-9610-4a89-b5c9-82703cc58110}</UniqueIdentifier>
     </Filter>
@@ -205,6 +187,24 @@
     <Filter Include="02. GameObject\Stage\StageMonster">
       <UniqueIdentifier>{ff9b477e-34cc-4702-a41e-1483b87cbde1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="96. ImGui">
+      <UniqueIdentifier>{4f3caca1-d572-468c-b1a3-6856de137220}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96. ImGui\MapToolGUI">
+      <UniqueIdentifier>{7feebb72-cfee-416e-800d-023380095360}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96. ImGui\imgui">
+      <UniqueIdentifier>{880dc489-0647-4238-86cd-128dd5a4f5dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96. ImGui\DataToolGUI">
+      <UniqueIdentifier>{4b68341e-8e0c-4946-a930-0258f43bc12d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96. ImGui\Utill">
+      <UniqueIdentifier>{2124fcc0-bcc6-4afe-87b3-1b720a27b396}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96. ImGui\UiToolGUI">
+      <UniqueIdentifier>{42977d6c-63c4-4b92-847f-ad3e2c051569}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -244,40 +244,40 @@
       <Filter>02. GameObject\Static\Terrain</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\MapToolGUI.h">
-      <Filter>96 ImGui\MapToolGUI</Filter>
+      <Filter>96. ImGui\MapToolGUI</Filter>
     </ClInclude>
     <ClInclude Include="..\imgui\imconfig.h">
-      <Filter>96 ImGui\imgui</Filter>
+      <Filter>96. ImGui\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\imgui\imgui.h">
-      <Filter>96 ImGui\imgui</Filter>
+      <Filter>96. ImGui\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\imgui\imgui_internal.h">
-      <Filter>96 ImGui\imgui</Filter>
+      <Filter>96. ImGui\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\imgui\ImGuiFileBrowser.h">
-      <Filter>96 ImGui\imgui</Filter>
+      <Filter>96. ImGui\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\imgui\imstb_rectpack.h">
-      <Filter>96 ImGui\imgui</Filter>
+      <Filter>96. ImGui\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\imgui\imstb_textedit.h">
-      <Filter>96 ImGui\imgui</Filter>
+      <Filter>96. ImGui\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\imgui\imstb_truetype.h">
-      <Filter>96 ImGui\imgui</Filter>
+      <Filter>96. ImGui\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\imgui\backends\imgui_impl_dx11.h">
-      <Filter>96 ImGui\imgui</Filter>
+      <Filter>96. ImGui\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\imgui\backends\imgui_impl_win32.h">
-      <Filter>96 ImGui\imgui</Filter>
+      <Filter>96. ImGui\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\FlatTerrain.h">
       <Filter>02. GameObject\Static\Terrain\FlatTerrain</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\DataToolGUI.h">
-      <Filter>96 ImGui\DataToolGUI</Filter>
+      <Filter>96. ImGui\DataToolGUI</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\TestModel.h">
       <Filter>02. GameObject\Static\TestModel</Filter>
@@ -286,10 +286,10 @@
       <Filter>02. GameObject\Static\Monster\Player</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\FileDialogUtill.h">
-      <Filter>96 ImGui\Utill</Filter>
+      <Filter>96. ImGui\Utill</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\SkillToolGUI.h">
-      <Filter>96 ImGui\UiToolGUI</Filter>
+      <Filter>96. ImGui\UiToolGUI</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI.h">
       <Filter>02. GameObject\Static\UI</Filter>
@@ -439,37 +439,37 @@
       <Filter>98. Default</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\MapToolGUI.cpp">
-      <Filter>96 ImGui\MapToolGUI</Filter>
+      <Filter>96. ImGui\MapToolGUI</Filter>
     </ClCompile>
     <ClCompile Include="..\imgui\imgui.cpp">
-      <Filter>96 ImGui\imgui</Filter>
+      <Filter>96. ImGui\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\imgui\imgui_demo.cpp">
-      <Filter>96 ImGui\imgui</Filter>
+      <Filter>96. ImGui\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\imgui\imgui_draw.cpp">
-      <Filter>96 ImGui\imgui</Filter>
+      <Filter>96. ImGui\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\imgui\imgui_tables.cpp">
-      <Filter>96 ImGui\imgui</Filter>
+      <Filter>96. ImGui\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\imgui\imgui_widgets.cpp">
-      <Filter>96 ImGui\imgui</Filter>
+      <Filter>96. ImGui\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\imgui\ImGuiFileBrowser.cpp">
-      <Filter>96 ImGui\imgui</Filter>
+      <Filter>96. ImGui\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\imgui\backends\imgui_impl_dx11.cpp">
-      <Filter>96 ImGui\imgui</Filter>
+      <Filter>96. ImGui\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\imgui\backends\imgui_impl_win32.cpp">
-      <Filter>96 ImGui\imgui</Filter>
+      <Filter>96. ImGui\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\FlatTerrain.cpp">
       <Filter>02. GameObject\Static\Terrain\FlatTerrain</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\DataToolGUI.cpp">
-      <Filter>96 ImGui\DataToolGUI</Filter>
+      <Filter>96. ImGui\DataToolGUI</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\TestModel.cpp">
       <Filter>02. GameObject\Static\TestModel</Filter>
@@ -478,10 +478,10 @@
       <Filter>02. GameObject\Static\Monster\Player</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\FileDialogUtill.cpp">
-      <Filter>96 ImGui\Utill</Filter>
+      <Filter>96. ImGui\Utill</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\SkillToolGUI.cpp">
-      <Filter>96 ImGui\UiToolGUI</Filter>
+      <Filter>96. ImGui\UiToolGUI</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI.cpp">
       <Filter>02. GameObject\Static\UI</Filter>
@@ -635,10 +635,10 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\imgui\CMakeLists.txt">
-      <Filter>96 ImGui\imgui</Filter>
+      <Filter>96. ImGui\imgui</Filter>
     </Text>
     <Text Include="..\imgui\LICENSE.txt">
-      <Filter>96 ImGui\imgui</Filter>
+      <Filter>96. ImGui\imgui</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>

@@ -192,7 +192,7 @@ HRESULT CMap::Add_Components()
 		return E_FAIL;
 
 	/* For.Com_Shader */
-	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, (_uint)m_MapDesc.Shader_Level_Index, m_MapDesc.ShaderPrototypeTag.c_str(),
+	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_STATIC, m_MapDesc.ShaderPrototypeTag.c_str(),
 		(CComponent**)&m_pShaderCom, nullptr)))
 		return E_FAIL;
 
@@ -215,7 +215,7 @@ HRESULT CMap::Add_Components_By_File()
 		return E_FAIL;
 
 	/* For.Com_Shader */
-	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, (_uint)m_MapDesc.Shader_Level_Index, m_MapDesc.ShaderPrototypeTag.c_str(),
+	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_STATIC, m_MapDesc.ShaderPrototypeTag.c_str(),
 		(CComponent**)&m_pShaderCom, nullptr)))
 		return E_FAIL;
 

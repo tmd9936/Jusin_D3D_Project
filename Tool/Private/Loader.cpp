@@ -124,7 +124,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	wsprintf(m_szLoadingText, TEXT("텍스쳐를 로딩중입니다."));
 	/* For.Prototype_Component_Texture */
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Texture_Logo"),
-		CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/splash/TitleLogo_Korea.png")))))
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/splash/TitleLogo_Korea.dds")))))
 		return E_FAIL;
 
 	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_LOGO))
@@ -238,10 +238,10 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			return E_FAIL;
 	}
 
-	_matrix PivotMatrix = XMMatrixIdentity();
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Model_Logo_Scene"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../../Reference/Resources/Mesh/Animation/Logo/Logo_Scene.fbx", PivotMatrix))))
-		return E_FAIL;
+	//_matrix PivotMatrix = XMMatrixIdentity();
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Model_Logo_Scene"),
+	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../../Reference/Resources/Mesh/Animation/Logo/Logo_Scene.fbx", PivotMatrix))))
+	//	return E_FAIL;
 #pragma endregion
 
 #pragma region SHADERS
@@ -275,6 +275,11 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		/* For.Prototype_Component_Shader_VtxNorTex_HeightTerrain */
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxNorTex_HeightTerrain"),
 			CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxNorTex_HeightTerrain.hlsl"), VTXNORTEX_DECLARATION::Elements, VTXNORTEX_DECLARATION::iNumElements))))
+			return E_FAIL;
+
+		/* For.Prototype_Component_Shader_VtxNorTex */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxNorTex"),
+			CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxNorTex.hlsl"), VTXNORTEX_DECLARATION::Elements, VTXNORTEX_DECLARATION::iNumElements))))
 			return E_FAIL;
 	}
 #pragma endregion
@@ -388,13 +393,13 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 	wsprintf(m_szLoadingText, TEXT("포켓몬 상태 텍스쳐를 로딩중입니다."));
 	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_BASECAMP))
 	{
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Pokemon_State_doku"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Pokemon_State/UI_ss_n_doku.png")))))
-			return E_FAIL;
+		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Pokemon_State_doku"),
+		//	CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Pokemon_State/UI_ss_n_doku.png")))))
+		//	return E_FAIL;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Pokemon_State_damageup"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Pokemon_State/UI_ss_p_damageup.png")))))
-			return E_FAIL;
+		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Pokemon_State_damageup"),
+		//	CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Pokemon_State/UI_ss_p_damageup.png")))))
+		//	return E_FAIL;
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Pokemon_Icon_M25"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Pokemon_Icon/button_icon_M25.dds")))))
@@ -488,14 +493,14 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 
 
 	wstring modelName = L"Prototype_Component_Model_Pokemon_PM6";
-	if (false == pGameInstance->Check_Prototype(modelName.c_str()))
-	{
-		PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f) * XMMatrixRotationY(XMConvertToRadians(180.f));
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, modelName.c_str(),
-			CModel::Create(m_pDevice, m_pContext, "../../Reference/Resources/Mesh/Animation/Pokemon/PM6.json", CModel::TYPE_MESH_COLOR_ANIM, PivotMatrix))))
-			return E_FAIL;
+	//if (false == pGameInstance->Check_Prototype(modelName.c_str()))
+	//{
+	//	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+	//	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, modelName.c_str(),
+	//		CModel::Create(m_pDevice, m_pContext, "../../Reference/Resources/Mesh/Animation/Pokemon/PM6.json", CModel::TYPE_MESH_COLOR_ANIM, PivotMatrix))))
+	//		return E_FAIL;
 
-	}
+	//}
 
 	modelName = L"Prototype_Component_Model_Pokemon_PM25";
 	if (false == pGameInstance->Check_Prototype(modelName.c_str()))
@@ -535,15 +540,6 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 
 #pragma region SHADERS
 	wsprintf(m_szLoadingText, TEXT("셰이더를 로딩중입니다."));
-	/* For.Prototype_Component_Shader_VtxNorTex */
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Shader_VtxNorTex"),
-		CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxNorTex.hlsl"), VTXNORTEX_DECLARATION::Elements, VTXNORTEX_DECLARATION::iNumElements))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Shader_VtxAnimModelColor */
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Shader_VtxAnimModelColor"),
-		CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxAnimModelColor.hlsl"), VTXCOLORANIMMODEL_DECLARATION::Elements, VTXCOLORANIMMODEL_DECLARATION::iNumElements))))
-		return E_FAIL;
 
 #pragma endregion
 
@@ -714,11 +710,6 @@ HRESULT CLoader::Loading_ForWorldMapLevel()
 	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Shader_VtxNorTex"),
 	//	CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxNorTex.hlsl"), VTXNORTEX_DECLARATION::Elements, VTXNORTEX_DECLARATION::iNumElements))))
 	//	return E_FAIL;
-
-	/* For.Prototype_Component_Shader_VtxAnimModelColor */
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Shader_VtxAnimModelColor"),
-		CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxAnimModelColor.hlsl"), VTXCOLORANIMMODEL_DECLARATION::Elements, VTXCOLORANIMMODEL_DECLARATION::iNumElements))))
-		return E_FAIL;
 
 #pragma endregion
 
