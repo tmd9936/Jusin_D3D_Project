@@ -25,6 +25,7 @@ BEGIN(Client)
 
 class CSkill_Manager;
 class CSkill;
+class CHpBar;
 
 class CMonster abstract : public CGameObject
 {
@@ -127,7 +128,9 @@ protected:
 	_float				m_SkillDelayTime = { 0.f };
 
 protected:
+
 	vector<CGameObject*>	m_Parts;
+	CHpBar* m_pHpBar = { nullptr };
 
 public:
 	//static CMonster* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) ;

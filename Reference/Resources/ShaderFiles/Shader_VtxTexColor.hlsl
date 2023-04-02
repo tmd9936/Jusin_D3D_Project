@@ -5,8 +5,8 @@ matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 texture2D		g_Texture;
 float4			g_vColor;
 
-float			g_HpRatio;
 float2			g_Size;
+float			g_HpRatio = 1.f;
 float			g_Radius;
 
 struct VS_IN
@@ -95,8 +95,13 @@ PS_OUT PS_MAIN_HP(PS_IN In)
 		Out.vColor = g_vColor;
 	else
 	{
-		float _Health = 0.3;
-		float4 healthbarColor = lerp(g_vColor, float4(0, 0, 0, 0), _Health);
+
+		float2 coords = In.vTexUV * 5.f;
+		if (ShouldDiscard(coords, 5.f, 1.f))
+			discard;
+
+		float _Health = g_HpRatio;
+		float4 healthbarColor = lerp(g_vColor, float4(0.3f, 0.3f, 0.3f, 0.3f), _Health);
 		float4 bgColor = float4(0, 0, 0, 0);
 
 		float healthbarMask = In.vTexUV.x < _Health;

@@ -176,6 +176,9 @@ _uint CMonster::Tick(_double TimeDelta)
 	for (auto& pGameObject : m_Parts)
 		pGameObject->Tick(TimeDelta);
 
+	if (m_pHpBar)
+		m_pHpBar->Tick(TimeDelta);
+
 	return State_Tick(TimeDelta);
 }
 
@@ -185,6 +188,9 @@ _uint CMonster::LateTick(_double TimeDelta)
 	{
 		for (auto& pGameObject : m_Parts)
 			pGameObject->LateTick(TimeDelta);
+
+		if (m_pHpBar)
+			m_pHpBar->LateTick(TimeDelta);
 
 		m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
 	}
@@ -265,8 +271,6 @@ HRESULT CMonster::Add_HpBar()
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	CGameObject* pGameObject = nullptr;
-
 	CHpBar::HPBAR_DESC		HpDesc{};
 	ZeroMemory(&HpDesc, sizeof HpDesc);
 
@@ -288,11 +292,9 @@ HRESULT CMonster::Add_HpBar()
 
 	HpDesc.m_TextureLevelIndex = LEVEL_STATIC;
 
-	pGameObject = pGameInstance->Clone_GameObject(L"Layer_UI", m_iLevelindex, TEXT("Prototype_GameObject_HpBar"), &HpDesc);
-	if (nullptr == pGameObject)
+	pGameInstance->Clone_GameObject(L"Layer_UI", m_iLevelindex, TEXT("Prototype_GameObject_HpBar"), (CGameObject**)&m_pHpBar, & HpDesc);
+	if (nullptr == m_pHpBar)
 		return E_FAIL;
-
-	m_Parts.push_back(pGameObject);
 
 	Safe_Release(pGameInstance);
 
@@ -680,6 +682,8 @@ void CMonster::Free()
 
 	m_Parts.clear();
 
+	Safe_Release(m_pHpBar);
+
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pModelCom);
@@ -691,5 +695,6 @@ void CMonster::Free()
 	//Safe_Release(m_pSphere);
 	Safe_Release(m_pNavigationCom);
 	Safe_Release(m_pHPCom);
+	Safe_Release(m_pAttackCom);
 
 }

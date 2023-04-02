@@ -162,18 +162,22 @@ HRESULT CHpBar::SetUp_ShaderResources()
 	if (FAILED(m_pTextureCom->Set_ShaderResource(m_pShaderCom, "g_Texture", 0)))
 		return E_FAIL;
 
-	m_pShaderCom->Set_RawValue("g_vColor", &m_Desc.m_vHpColor, sizeof(_float4));
+	if (FAILED(m_pShaderCom->Set_RawValue("g_HpRatio", &m_HpRatio, sizeof(_float))))
+		return E_FAIL;
+	
+	if (FAILED(m_pShaderCom->Set_RawValue("g_vColor", &m_Desc.m_vHpColor, sizeof(_float4))))
+		return E_FAIL;
 
-	_float2 size = {
-		XMVectorGetX(XMVector3Length(XMLoadFloat4((_float4*)m_FinalWorldMatrix.m[0]))),
-		XMVectorGetX(XMVector3Length(XMLoadFloat4((_float4*)m_FinalWorldMatrix.m[1])))
-	};
 
-	_float radius = { 2.f };
+	//_float radius = { 2.f };
+	//_float2 size = {
+	//	XMVectorGetX(XMVector3Length(XMLoadFloat4((_float4*)m_FinalWorldMatrix.m[0]))),
+	//	XMVectorGetX(XMVector3Length(XMLoadFloat4((_float4*)m_FinalWorldMatrix.m[1])))
+	//};
 
-	m_pShaderCom->Set_RawValue("g_Size", &size, sizeof(_float2));
+	//m_pShaderCom->Set_RawValue("g_Size", &size, sizeof(_float2));
 
-	m_pShaderCom->Set_RawValue("g_Radius", &radius, sizeof(_float));
+	//m_pShaderCom->Set_RawValue("g_Radius", &radius, sizeof(_float));
 
 	Safe_Release(pGameInstance);
 

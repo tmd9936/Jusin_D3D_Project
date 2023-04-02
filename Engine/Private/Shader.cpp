@@ -159,7 +159,21 @@ HRESULT CShader::Set_RawValue(const char* pConstantName, const void* pData, _uin
 	if (nullptr == pVariable)
 		return E_FAIL;
 
+
 	return pVariable->SetRawValue(pData, 0, iLength);
+}
+
+HRESULT CShader::Set_RawValue(const char* pConstantName, const void* pData, _uint offset, _uint iLength)
+{
+	if (nullptr == m_pEffect)
+		return E_FAIL;
+
+	ID3DX11EffectVariable* pVariable = m_pEffect->GetVariableByName(pConstantName);
+	if (nullptr == pVariable)
+		return E_FAIL;
+
+
+	return pVariable->SetRawValue(pData, offset, iLength);
 }
 
 HRESULT CShader::Set_ShaderResourceViewArray(const char* pConstantName, ID3D11ShaderResourceView** ppSRV, _uint iNumTextures)

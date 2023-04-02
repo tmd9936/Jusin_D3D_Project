@@ -68,7 +68,7 @@ private:
 	_float4x4			m_ViewMatrix = {};
 	_float4x4			m_ProjMatrix = {};
 
-	_float				m_HpRatio = { 0.f };
+	_float				m_HpRatio = { 0.7f };
 
 private:
 	HRESULT Add_Components();
