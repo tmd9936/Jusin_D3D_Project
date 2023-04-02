@@ -58,6 +58,8 @@ public:
 		_uint			m_slotTypeWeightAttack;
 		_uint			m_slotTypeWeightMulti;
 
+		_uint			m_normalSkillType;
+
 		vector<_uint>	m_skillIDs;
 
 	} POKEMON_DESC;
@@ -125,7 +127,7 @@ protected:
 	_float4				m_MovePosition = { 20.f, 0.f, 20.f, 1.f };
 	
 	_bool				m_bAttack = { false };
-	_float				m_SkillDelayTime = { 0.f };
+	_double				m_SkillCoolTime = { 0.f };
 
 protected:
 

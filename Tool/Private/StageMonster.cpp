@@ -5,7 +5,7 @@
 
 /*
 1 스테이지
-니드킹 독침, 메가톤 펀치
+니드킹 지진, 메가톤 펀치
 쥬쥬 얼다바람, 아쿠아링
 니드리나 독침, 메가폰
 
@@ -13,6 +13,13 @@
 보스 레어코일
 또가스 자폭, 오물폭탄
 가디 불꽃세례
+
+기본 공격 
+공격 쿨타임
+스킬 쿨타임
+스킬 쿨타임에 따라서 랜덤 공격
+
+
 */
 
 CStageMonster::CStageMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

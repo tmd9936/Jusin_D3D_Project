@@ -11,33 +11,6 @@
 #include "Skill_Manager.h"
 #include "Skill.h"
 
-/*
-기본공격 2개만
-원거리 기본 공격
-- 발사후 몇초후에 사라지는지
-
-근거리 기본 공격 
-1번 발사 후 사라지기
-
-발사스킬 
-
-유지스킬
-
-맞아도 유지 되는거
-
-맞으면 사라지기
-
-부모가 포켓몬인 경우
-
-회전해서 다시 돌아오는 경우
-
-
-
-===
-버프 
-디버프
-
-*/
 
 CMonster::CMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
@@ -85,6 +58,8 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* p
 		m_PokemonDesc.m_slotTypeWeightHp = (*(POKEMON_DESC*)(pArg)).m_slotTypeWeightHp;
 		m_PokemonDesc.m_slotTypeWeightAttack = (*(POKEMON_DESC*)(pArg)).m_slotTypeWeightAttack;
 		m_PokemonDesc.m_slotTypeWeightMulti = (*(POKEMON_DESC*)(pArg)).m_slotTypeWeightMulti;
+
+		m_PokemonDesc.m_normalSkillType = (*(POKEMON_DESC*)(pArg)).m_normalSkillType;
 
 		m_PokemonDesc.m_skillIDs = (*(POKEMON_DESC*)(pArg)).m_skillIDs;
 	}
@@ -603,6 +578,7 @@ _bool CMonster::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& al
 			PokemonDesc.AddMember("m_slotTypeWeightHp", m_PokemonDesc.m_slotTypeWeightHp, allocator);
 			PokemonDesc.AddMember("m_slotTypeWeightAttack", m_PokemonDesc.m_slotTypeWeightAttack, allocator);
 			PokemonDesc.AddMember("m_slotTypeWeightMulti", m_PokemonDesc.m_slotTypeWeightMulti, allocator);
+			PokemonDesc.AddMember("m_normalSkillType", m_PokemonDesc.m_normalSkillType, allocator);
 
 			Value m_skillIDs(kArrayType);
 			{
@@ -657,11 +633,13 @@ _bool CMonster::Load_By_JsonFile_Impl(Document& doc)
 		m_PokemonDesc.m_slotTypeWeightAttack = PokemonDesc["m_slotTypeWeightAttack"].GetUint();
 		m_PokemonDesc.m_slotTypeWeightMulti = PokemonDesc["m_slotTypeWeightMulti"].GetUint();
 
-		//const Value& skillIDs = PokemonDesc["m_skillIDs"];
-		//for (SizeType i = 0; i < skillIDs.Size(); ++i)
-		//{
-		//	m_PokemonDesc.m_skillIDs.push_back(skillIDs[i].GetInt());
-		//}
+		m_PokemonDesc.m_normalSkillType = PokemonDesc["m_normalSkillType"].GetUint();
+
+		const Value& skillIDs = PokemonDesc["m_skillIDs"];
+		for (SizeType i = 0; i < skillIDs.Size(); ++i)
+		{
+			m_PokemonDesc.m_skillIDs.push_back(skillIDs[i].GetInt());
+		}
 	}
 
 	return true;

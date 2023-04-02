@@ -64,12 +64,12 @@ void CBaseCampMonster::Change_State_FSM(_uint eState)
 	case CMonFSM::IDLE1:
 		break;
 
-	case CMonFSM::RUN_GOUND2:
+	case CMonFSM::IDLE_FLOAT:
 		m_bTurn = true;
 		Set_MovePosition();
 		break;
 
-	case CMonFSM::RUN_GOUND4:
+	case CMonFSM::RUN_FLOAT:
 		m_bTurn = true;
 		Set_MovePosition();
 		break;
@@ -119,8 +119,8 @@ void CBaseCampMonster::Init_RandomMotionChangeDelay()
 HRESULT CBaseCampMonster::Add_TransitionRandomState()
 {
 	m_pMonFSM->Add_RandomTransitionState(CMonFSM::IDLE1);
-	m_pMonFSM->Add_RandomTransitionState(CMonFSM::RUN_GOUND2);
-	m_pMonFSM->Add_RandomTransitionState(CMonFSM::RUN_GOUND4);
+	m_pMonFSM->Add_RandomTransitionState(CMonFSM::IDLE_FLOAT);
+	m_pMonFSM->Add_RandomTransitionState(CMonFSM::RUN_FLOAT);
 	m_pMonFSM->Add_RandomTransitionState(CMonFSM::IDLE_GROUND);
 	//m_pMonFSM->Add_RandomTransitionState(CMonFSM::ROTATE_LOOP);
 
@@ -135,11 +135,11 @@ _uint CBaseCampMonster::State_Tick(const _double& TimeDelta)
 		Check_Do_Change_RandomMotion(TimeDelta);
 		break;
 
-	case CMonFSM::RUN_GOUND2:
+	case CMonFSM::IDLE_FLOAT:
 		Go_To_RandomPosition(TimeDelta);
 		break;
 
-	case CMonFSM::RUN_GOUND4:
+	case CMonFSM::RUN_FLOAT:
 		Go_To_RandomPosition(TimeDelta);
 		break;
 
