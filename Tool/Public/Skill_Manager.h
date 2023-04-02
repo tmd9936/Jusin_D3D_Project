@@ -40,6 +40,10 @@ public:
 		CBone* pParentBone = nullptr, CTransform* pParentTransform = nullptr, _fmatrix PivotMatrix = XMMatrixIdentity());
 
 public:
+	CSkill* Create_Test_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType,
+		_fmatrix vParentMatrix);
+
+public:
 	HRESULT	Reload_Datas();
 
 public:

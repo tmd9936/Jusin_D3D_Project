@@ -161,6 +161,11 @@ _uint CPlayer::Tick(_double TimeDelta)
 		Do_Skill(m_PokemonDesc.m_skillIDs[2], CMonFSM::HAPPY, L"Layer_PlayerSkill");
 	}
 
+	else if (KEY_TAB(KEY::SPACE))
+	{
+		Do_TestSkill();
+	}
+
 	m_pAABB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
 	m_pOBB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
 	m_pSphere->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
@@ -304,8 +309,8 @@ void CPlayer::Do_TestSkill()
 		CGameObject* pSkill_Mananger = CGameInstance::GetInstance()->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"Skill_Manager");
 		if (nullptr != pSkill_Mananger)
 		{
-			CSkill* pSkill = dynamic_cast<CSkill_Manager*>(pSkill_Mananger)->Create_Skill(L"Layer_PlayerSkill", m_iLevelindex, m_TestSkillindex,
-				m_pTransformCom->Get_WorldMatrix_Matrix(), XMConvertToRadians(60.f), XMConvertToRadians(180.f), m_pModelCom->Get_BonePtr("effect00"), m_pTransformCom, m_pModelCom->Get_PivotMatrix());
+			CSkill* pSkill = dynamic_cast<CSkill_Manager*>(pSkill_Mananger)->Create_Test_Skill(L"Layer_PlayerSkill", m_iLevelindex, m_TestSkillindex,
+				m_pTransformCom->Get_WorldMatrix_Matrix());
 
 			Safe_Release(pSkill);
 			//	if (nullptr != pSkill)

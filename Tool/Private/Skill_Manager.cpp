@@ -188,6 +188,76 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 	return pSkill;
 }
 
+CSkill* CSkill_Manager::Create_Test_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType, _fmatrix vParentMatrix)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (skillType >= m_Skill_Depend_Datas.size() || nullptr == pLayerTag || iLevelIndex >= LEVEL_END)
+		return nullptr;
+
+	CEffect_Manager* pEffect_Manager = dynamic_cast<CEffect_Manager*>(pGameInstance->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"Effect_Manager"));
+
+	if (nullptr == pEffect_Manager)
+		return nullptr;
+
+	CEffect* pEffect = nullptr;
+
+	vector<CEffect*> effects;
+
+	CSkill::Skill_Desc skill_desc = m_Skill_Desc_Datas[skillType];
+
+	_vector vLook = vParentMatrix.r[2];
+	_vector vPos = vParentMatrix.r[3];
+
+	size_t i = 0;
+	for (auto& effectIndex : m_Skill_Depend_Datas[skillType].m_effects)
+	{
+		pEffect = pEffect_Manager->Create_Effect(effectIndex, pLayerTag, iLevelIndex);
+		if (nullptr != pEffect)
+		{
+			CTransform* pTransform = pEffect->Get_As<CTransform>();
+			if (nullptr == pTransform)
+				continue;
+
+			pTransform->LookAt(XMVectorSetW(vLook * -1.f, 1.f));
+
+			//Safe_Release(pEffect);
+			_float4 pos = {};
+			XMStoreFloat4(&pos, vPos);
+			pEffect->Set_Pos(pos);
+			effects.push_back(pEffect);
+		}
+	}
+
+	vector<CEffect*> conditions;
+	//for (auto& conditionsIndex : m_Skill_Depend_Datas[skillType].m_conditions)
+	//{
+	//	pEffect = pEffect_Manager->Create_Effect(conditionsIndex, pLayerTag, iLevelIndex);
+	//	if (nullptr != pEffect)
+	//	{
+	//		_float4 pos = {};
+	//		XMStoreFloat4(&pos, vPos);
+	//		pEffect->Set_Pos(pos);
+
+	//		//Safe_Release(pEffect);
+	//		conditions.push_back(pEffect);
+	//	}
+	//}
+
+	CSkill* pSkill = nullptr;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Skill"), iLevelIndex, pLayerTag, (CGameObject**)&pSkill, nullptr, &skill_desc)))
+		return nullptr;
+
+	pSkill->Set_Effects(effects);
+	pSkill->Set_Conditions(conditions);
+
+	Safe_Release(pGameInstance);
+
+	return pSkill;
+}
+
 
 HRESULT CSkill_Manager::Reload_Datas()
 {
