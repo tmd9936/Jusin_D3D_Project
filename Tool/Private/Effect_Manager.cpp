@@ -103,20 +103,27 @@ CEffect* CEffect_Manager::Create_Effect(_uint effectType, const _tchar* pLayerTa
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Effect"), iLevelIndex, pLayerTag, (CGameObject**)&pEffect, nullptr, &effect_Desc)))
 		return nullptr;
 
-	pEffect->Init_LoopCount(1);
+	pEffect->Init_LoopCount(0);
 
 	if (0 == effect_Desc.m_effectPath.compare(L"E_EF_Charge"))
 	{
 		pEffect->Set_ParentRotateApply(false);
 		pEffect->Set_AnimaitonStartTime(19.8);
-		pEffect->Init_LoopCount(2);
+		pEffect->Init_LoopCount(4);
 		pEffect->Set_Animation_Speed(2.5);
 	}
 	else if (0 == effect_Desc.m_effectPath.compare(L"E_BGB_Denki"))
 	{
 		pEffect->Set_ParentRotateApply(false);
-		pEffect->Init_LoopCount(5);
+		pEffect->Init_LoopCount(7);
 		pEffect->Set_Homming(true, false, CEffect::HOMMING_OUT);
+	}
+
+	else if (0 == effect_Desc.m_effectPath.compare(L"E_SP_Kaminari_Start"))
+	{
+		//pEffect->Set_ParentRotateApply(false);
+		pEffect->Init_LoopCount(1);
+		//pEffect->Set_Homming(true, false, CEffect::HOMMING_OUT);
 	}
 
 	Safe_Release(pGameInstance);

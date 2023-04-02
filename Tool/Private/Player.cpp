@@ -106,6 +106,7 @@ _uint CPlayer::Tick(_double TimeDelta)
 			if (m_bAttack)
 				m_bAttack = false;
 		}
+		break;
 	case CMonFSM::DASH_SLE_START:
 		m_pTransformCom->Go_Straight(TimeDelta * m_fAccel, m_pNavigationCom);
 		m_fAccel += TimeDelta * 3.f;
@@ -113,6 +114,7 @@ _uint CPlayer::Tick(_double TimeDelta)
 		{
 			m_pMonFSM->Transit_MotionState(CMonFSM::DASH_SLE_LOOP, m_pModelCom);
 		}
+		break;
 	case  CMonFSM::DASH_SLE_LOOP:
 		m_pTransformCom->Go_Straight(TimeDelta * m_fAccel, m_pNavigationCom);
 		m_fAccel += TimeDelta * 3.5f;
@@ -120,6 +122,7 @@ _uint CPlayer::Tick(_double TimeDelta)
 		{
 			m_pMonFSM->Transit_MotionState(CMonFSM::DASH_SLE_END, m_pModelCom);
 		}
+		break;
 	case CMonFSM::DASH_SLE_END:
 		m_fAccel -= TimeDelta * 3.f;
 		m_pTransformCom->Go_Straight(TimeDelta * m_fAccel, m_pNavigationCom);

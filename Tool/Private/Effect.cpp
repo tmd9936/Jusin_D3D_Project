@@ -66,15 +66,17 @@ _uint CEffect::Tick(_double TimeDelta)
 {
 	if (m_bDead)
 		return OBJ_DEAD;
+	if (m_CurrentLoopCount < 0)
+		return OBJ_DEAD;
 
 	if (m_pModelCom->Play_Animation(TimeDelta * m_AnimationSpeed))
 	{
 		m_pModelCom->Set_Animation_Start_Time(m_AnimationStartAcc);
 
-		if (m_CurrentLoopCount < 0)
-		{
-			m_bDead = true;
-		}
+		//if (m_CurrentLoopCount < 0)
+		//{
+		//	m_bDead = true;
+		//}
 		--m_CurrentLoopCount;
 	}
 
