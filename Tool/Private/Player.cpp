@@ -238,6 +238,12 @@ _uint CPlayer::Tick(_double TimeDelta)
 		m_SkillLoopDesc.m_CurskillIndex = 2;
 	}
 
+	else  if (KEY_TAB(KEY::W))
+	{
+		Do_Skill(m_PokemonDesc.m_skillIDs[3], CMonFSM::ATK_NORMAL, L"Layer_PlayerSkill");
+		m_SkillLoopDesc.m_CurskillIndex = 3;
+	}
+
 	else if (KEY_TAB(KEY::SPACE))
 	{
 		Do_TestSkill();

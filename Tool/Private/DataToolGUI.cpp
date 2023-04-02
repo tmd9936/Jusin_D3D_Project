@@ -145,7 +145,7 @@ void CDataToolGUI::View_Control()
 
 void CDataToolGUI::View_Level_Objects()
 {
-	ImGui::Begin("View_Level_Objects");
+	ImGui::Begin("Level_Objects");
 	{
 		if (ImGui::Button("Update Objects"))
 		{

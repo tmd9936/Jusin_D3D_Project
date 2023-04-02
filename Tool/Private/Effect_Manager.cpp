@@ -109,7 +109,7 @@ CEffect* CEffect_Manager::Create_Effect(_uint effectType, const _tchar* pLayerTa
 	{
 		pEffect->Set_ParentRotateApply(false);
 		pEffect->Set_AnimaitonStartTime(19.8);
-		pEffect->Init_LoopCount(4);
+		pEffect->Init_LoopCount(3);
 		pEffect->Set_Animation_Speed(2.5);
 	}
 	else if (0 == effect_Desc.m_effectPath.compare(L"E_BGB_Denki"))

@@ -113,6 +113,12 @@ public:
 		m_eHommingState = eHommingState;
 	}
 
+	void	Set_Rush(_bool bRush, _fvector vRushDirection, _double rushSpeed) {
+		m_bRush = bRush;
+		m_vRushDirection = vRushDirection;
+		m_RushSpeed = rushSpeed;
+	}
+
 private:
 	void	Set_ParentBone(CBone* pParent) {
 		m_EffectDesc.pBonePtr = pParent;
@@ -158,6 +164,10 @@ private:
 	_int					m_CurrentLoopCount = { 0 };
 
 	_double					m_AnimationSpeed = { 1.0 };
+
+	_bool					m_bRush = { false };
+	_vector					m_vRushDirection = {};
+	_double					m_RushSpeed = { 1.0 };
 
 	_bool					m_bHomming = { false };
 	_bool					m_bArriveHomeDead = { false };

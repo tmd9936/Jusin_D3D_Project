@@ -320,6 +320,13 @@ void CMonster::Do_Skill(_uint skillType, CMonFSM::MONSTER_STATE eMotion, const _
 
 				Safe_Release(pSkill);
 			}
+			else if (skillType <= 35 && skillType % 2 == 1)
+			{
+				pSkill = dynamic_cast<CSkill_Manager*>(pSkill_Mananger)->Create_Skill(pLayer, m_iLevelindex, skillType,
+					m_pTransformCom->Get_WorldMatrix_Matrix(), XMConvertToRadians(0.f), XMConvertToRadians(0.f), m_pModelCom->Get_BonePtr("effect00"), m_pTransformCom, m_pModelCom->Get_PivotMatrix(), true, 0.5);
+
+				Safe_Release(pSkill);
+			}
 			else
 			{
 				pSkill = dynamic_cast<CSkill_Manager*>(pSkill_Mananger)->Create_Skill(pLayer, m_iLevelindex, skillType, 

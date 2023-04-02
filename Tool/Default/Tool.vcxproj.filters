@@ -202,6 +202,9 @@
     <Filter Include="02. GameObject\Stage\Stage_Camera_Target">
       <UniqueIdentifier>{656b55ad-546f-4945-bf76-90fabdd5c811}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\Stage\StageMonster">
+      <UniqueIdentifier>{ff9b477e-34cc-4702-a41e-1483b87cbde1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -395,6 +398,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Effect_Manager.h">
       <Filter>02. GameObject\Static\Effect\Effect_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\StageMonster.h">
+      <Filter>02. GameObject\Stage\StageMonster</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -590,6 +596,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\StageCameraTarget.cpp">
       <Filter>02. GameObject\Stage\Stage_Camera_Target</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\StageMonster.cpp">
+      <Filter>02. GameObject\Stage\StageMonster</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

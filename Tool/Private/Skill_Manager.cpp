@@ -61,7 +61,7 @@ _uint CSkill_Manager::LateTick(_double TimeDelta)
 
 CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType,
 	_fmatrix vParentMatrix, _float smallRotationSpeed, _float bigRotationSpeed,
-	CBone* pParentBone, CTransform* pParentTransform, _fmatrix PivotMatrix)
+	CBone* pParentBone, CTransform* pParentTransform, _fmatrix PivotMatrix, _bool bRush, _double rushSpeed)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
@@ -149,19 +149,12 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 		_float4 pos = {};
 		XMStoreFloat4(&pos, vPos);
 		pEffect->Set_Pos(pos);
+		if (bRush)
+		{
+			pEffect->Set_Rush(bRush, vLook, rushSpeed);
+		}
 
 		effects.push_back(pEffect);
-
-		//size_t i = 0;
-		//for (auto& effectIndex : m_Skill_Depend_Datas[skillType].m_effects)
-		//{
-		//		pEffect = pEffect_Manager->Create_Effect(effectIndex, pLayerTag, iLevelIndex);
-		//		if (nullptr != pEffect)
-		//		{
-		//			//Safe_Release(pEffect);
-		//			effects.push_back(pEffect);
-		//		}
-		//}
 
 		for (size_t i = 2; i < m_Skill_Depend_Datas[skillType].m_effects.size() - 1; ++i)
 		{
@@ -178,6 +171,12 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 				_float4 pos = {};
 				XMStoreFloat4(&pos, vPos);
 				pEffect->Set_Pos(pos);
+
+				if (bRush)
+				{
+					pEffect->Set_Rush(bRush, vLook, rushSpeed);
+				}
+
 				effects.push_back(pEffect);
 			}
 		}

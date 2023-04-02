@@ -155,6 +155,7 @@ HRESULT CLevel_BaseCamp::Ready_Layer_Player(const _tchar* pLayerTag)
 	desc.m_skillIDs.push_back(24);
 	desc.m_skillIDs.push_back(58);
 	desc.m_skillIDs.push_back(57);
+	desc.m_skillIDs.push_back(25);
 
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Player"), LEVEL_BASECAMP, pLayerTag, L"Player", &desc)))
 		return E_FAIL;
