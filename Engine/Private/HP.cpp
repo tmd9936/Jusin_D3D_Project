@@ -28,37 +28,27 @@ HRESULT CHP::Initialize(void* pArg)
 	{
 		m_Desc.m_MaxHp = 100;
 		m_Desc.m_HpChangeTick = 1;
+		m_Desc.bDeadAfterOwnerDead = false;
 	}
 	m_CurrentHP = m_Desc.m_MaxHp;
 
 	return S_OK;
 }
 
-_uint CHP::Tick()
+
+void CHP::Get_Damage(_uint damage)
 {
-	if (m_TargetHP == m_CurrentHP)
-		return 0;
+	m_CurrentHP -= damage;
 
-	if (m_CurrentHP < m_TargetHP)
+	if (m_CurrentHP <= 0)
 	{
-		m_CurrentHP += m_Desc.m_HpChangeTick;
+		if (m_Desc.bDeadAfterOwnerDead)
+		{
+			if (m_pOwner)
+				m_pOwner->Set_Dead();
+		}
+		m_CurrentHP = 0;
 	}
-	else
-	{
-		m_CurrentHP -= m_Desc.m_HpChangeTick;
-	}
-
-	return _uint();
-}
-
-_bool CHP::Set_TargetHP(_uint targetHP)
-{
-	if (m_MaxHP < targetHP || 0 > targetHP)
-		return false;
-
-	m_TargetHP = targetHP;
-
-	return true;
 }
 
 CHP* CHP::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

@@ -11,7 +11,8 @@ public:
 	typedef struct hp_Desc
 	{
 		_uint m_MaxHp;
-		_uint m_HpChangeTick;
+		_bool m_HpChangeTick;
+		_bool bDeadAfterOwnerDead;
 	} HP_DESC;
 
 public:
@@ -25,9 +26,6 @@ public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
 
-public:
-	_uint	Tick();
-
 
 public:
 	const _uint		Get_MaxHpP() const {
@@ -38,20 +36,33 @@ public:
 		return m_CurrentHP;
 	}
 
-	_bool 	Set_TargetHP(_uint targetHP);
-
 public:
 	const _float		Get_HP_Ratio() const {
 		return m_CurrentHP / (_float)m_MaxHP;
 	}
 
-private:
+	const _bool	Is_Dead() const {
+		if (m_CurrentHP < 0)
+			return true;
+		else
+			return false;
+	}
+
+public:
+	void	Get_Damage(_uint damage);
+
+	void Heal(_uint healNum) {
+		m_CurrentHP += healNum;
+		if (m_CurrentHP > m_MaxHP)
+			m_CurrentHP = m_MaxHP;
+	}
+
+private:	
 	HP_DESC		m_Desc = {};
 
 	_uint		m_MaxHP = { 0 };
 	_uint		m_CurrentHP = { 0 };
 
-	_uint		m_TargetHP = { 0 };
 
 public:
 	static CHP* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
