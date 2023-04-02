@@ -4,12 +4,12 @@
 #include "Monster.h"
 
 BEGIN(Client)
-class CStageMonster : public CMonster
+class CStageEnemyMonster : public CMonster
 {
 private:
-	CStageMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CStageMonster(const CMonster& rhs);
-	virtual ~CStageMonster() = default;
+	CStageEnemyMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CStageEnemyMonster(const CMonster& rhs);
+	virtual ~CStageEnemyMonster() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override; /* 원형객체의 초기화작업 */
@@ -40,7 +40,7 @@ private:
 	_bool		m_bTurn = { false };
 
 public:
-	static CStageMonster* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CStageEnemyMonster* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) override;
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath) override;
 	virtual void Free() override;

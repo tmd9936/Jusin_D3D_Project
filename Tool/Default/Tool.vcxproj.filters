@@ -184,9 +184,6 @@
     <Filter Include="02. GameObject\Stage\Stage_Camera_Target">
       <UniqueIdentifier>{656b55ad-546f-4945-bf76-90fabdd5c811}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\Stage\StageMonster">
-      <UniqueIdentifier>{ff9b477e-34cc-4702-a41e-1483b87cbde1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="96. ImGui">
       <UniqueIdentifier>{4f3caca1-d572-468c-b1a3-6856de137220}</UniqueIdentifier>
     </Filter>
@@ -204,6 +201,9 @@
     </Filter>
     <Filter Include="96. ImGui\UiToolGUI">
       <UniqueIdentifier>{42977d6c-63c4-4b92-847f-ad3e2c051569}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Stage\StageEnemyMonster">
+      <UniqueIdentifier>{ff9b477e-34cc-4702-a41e-1483b87cbde1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -399,8 +399,8 @@
     <ClInclude Include="..\Public\Effect_Manager.h">
       <Filter>02. GameObject\Static\Effect\Effect_Manager</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\StageMonster.h">
-      <Filter>02. GameObject\Stage\StageMonster</Filter>
+    <ClInclude Include="..\Public\StageEnemyMonster.h">
+      <Filter>02. GameObject\Stage\StageEnemyMonster</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -597,8 +597,8 @@
     <ClCompile Include="..\Private\StageCameraTarget.cpp">
       <Filter>02. GameObject\Stage\Stage_Camera_Target</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\StageMonster.cpp">
-      <Filter>02. GameObject\Stage\StageMonster</Filter>
+    <ClCompile Include="..\Private\StageEnemyMonster.cpp">
+      <Filter>02. GameObject\Stage\StageEnemyMonster</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
