@@ -30,6 +30,10 @@ public:
 		return m_Desc.m_AttackPower;
 	}
 
+	void	Set_AttackPower(_uint attackPower) {
+		m_Desc.m_AttackPower = attackPower;
+	}
+
 private:
 	ATTACK_DESC		m_Desc = {};
 

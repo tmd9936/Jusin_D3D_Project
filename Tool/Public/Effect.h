@@ -12,6 +12,7 @@ class CModel;
 class CCollider;
 class CNavigation;
 class CBone;
+class CAttack;
 
 END
 
@@ -119,6 +120,8 @@ public:
 		m_RushSpeed = rushSpeed;
 	}
 
+	void	Set_AttackPower(_uint attackPower);
+
 private:
 	void	Set_ParentBone(CBone* pParent) {
 		m_EffectDesc.pBonePtr = pParent;
@@ -130,6 +133,7 @@ private:
 		Safe_AddRef(m_EffectDesc.pParent);
 	}
 
+
 private:
 	CTransform*		m_pTransformCom = { nullptr };
 	CRenderer*		m_pRendererCom = { nullptr };
@@ -137,6 +141,7 @@ private:
 	CModel*			m_pModelCom = { nullptr };
 	CCollider*		m_pColliderCom = { nullptr };
 	CNavigation*	m_pNavigationCom = { nullptr };
+	CAttack*		m_pAttackCom = { nullptr };
 
 private:
 	EFFECT_DESC				m_EffectDesc = {};

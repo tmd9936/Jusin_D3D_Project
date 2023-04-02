@@ -59,7 +59,7 @@ _uint CSkill_Manager::LateTick(_double TimeDelta)
 	return _uint();
 }
 
-CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType,
+CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType, _uint damage,
 	_fmatrix vParentMatrix, _float smallRotationSpeed, _float bigRotationSpeed,
 	CBone* pParentBone, CTransform* pParentTransform, _fmatrix PivotMatrix, _bool bRush, _double rushSpeed)
 {
@@ -124,6 +124,8 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 			XMStoreFloat4(&pos, vPos);
 			pEffect->Set_Pos(pos);
 
+			pEffect->Set_AttackPower(damage * skill_desc.m_damagePercent);
+
 			//pEffect->Set_Pos({ 0.f, 0.f, 0.f, 0.f });
 
 			pEffect->Set_Parent(pParentBone, pParentTransform, pivotMatrix);
@@ -145,6 +147,8 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 			return nullptr;
 
 		pTransform->LookAt(XMVectorSetW(vLook * -1.f, 1.f));
+
+		pEffect->Set_AttackPower(damage * skill_desc.m_damagePercent);
 
 		_float4 pos = {};
 		XMStoreFloat4(&pos, vPos);

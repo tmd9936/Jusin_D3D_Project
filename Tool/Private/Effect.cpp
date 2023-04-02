@@ -215,20 +215,30 @@ void CEffect::On_Collision(CCollider* pOther, const _float& fX, const _float& fY
 {
 	if (m_pColliderCom)
 	{
+		_vector vDestCenter = m_pColliderCom->Get_Center();
+		_vector vSourCenter = pOther->Get_Center();
+		CGameObject* pOtherOwner = pOther->Get_Owner();
+		if (!pOtherOwner)
+			return;
+
+		CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
+		if (!pOtherTransform)
+			return;
+		
+		CNavigation* pNavigationCom = pOtherOwner->Get_As<CNavigation>();
+
+		if (m_pAttackCom)
+		{
+			CHP* pOtherHpCom = pOtherOwner->Get_As<CHP>();
+
+			if (nullptr != pOtherHpCom)
+			{
+				pOtherHpCom->Get_Damage(m_pAttackCom->Get_AttackPower());
+			}
+		}
+
 		if (fX > fZ)
 		{
-			_vector vDestCenter = m_pColliderCom->Get_Center();
-			_vector vSourCenter = pOther->Get_Center();
-
-			CGameObject* pOtherOwner = pOther->Get_Owner();
-			if (!pOtherOwner)
-				return;
-
-			CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
-			if (!pOtherTransform)
-				return;
-
-			CNavigation* pNavigationCom = pOtherOwner->Get_As<CNavigation>();
 
 			if (XMVectorGetZ(vDestCenter) < XMVectorGetZ(vSourCenter))
 			{
@@ -243,20 +253,6 @@ void CEffect::On_Collision(CCollider* pOther, const _float& fX, const _float& fY
 		else if (fX == fZ) {}
 		else
 		{
-			_vector vDestCenter = m_pColliderCom->Get_Center();
-			_vector vSourCenter = pOther->Get_Center();
-
-			CGameObject* pOtherOwner = pOther->Get_Owner();
-			if (!pOtherOwner)
-				return;
-
-			CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
-
-			if (!pOtherTransform)
-				return;
-
-			CNavigation* pNavigationCom = pOtherOwner->Get_As<CNavigation>();
-
 			if (XMVectorGetX(vDestCenter) < XMVectorGetX(vSourCenter))
 			{
 				pOtherTransform->Move(fX * 0.0166f, 0.f, 0.f, pNavigationCom);
@@ -274,20 +270,20 @@ void CEffect::On_CollisionEnter(CCollider* pOther, const _float& fX, const _floa
 {
 	if (m_pColliderCom)
 	{
+		_vector vDestCenter = m_pColliderCom->Get_Center();
+		_vector vSourCenter = pOther->Get_Center();
+
+		CGameObject* pOtherOwner = pOther->Get_Owner();
+		if (!pOtherOwner)
+			return;
+
+		CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
+		if (!pOtherTransform)
+			return;
+
+		CNavigation* pNavigationCom = pOtherOwner->Get_As<CNavigation>();
 		if (fX > fZ)
 		{
-			_vector vDestCenter = m_pColliderCom->Get_Center();
-			_vector vSourCenter = pOther->Get_Center();
-
-			CGameObject* pOtherOwner = pOther->Get_Owner();
-			if (!pOtherOwner)
-				return;
-
-			CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
-			if (!pOtherTransform)
-				return;
-
-			CNavigation* pNavigationCom = pOtherOwner->Get_As<CNavigation>();
 
 			if (XMVectorGetZ(vDestCenter) < XMVectorGetZ(vSourCenter))
 			{
@@ -302,19 +298,6 @@ void CEffect::On_CollisionEnter(CCollider* pOther, const _float& fX, const _floa
 		else if (fX == fZ) {}
 		else
 		{
-			_vector vDestCenter = m_pColliderCom->Get_Center();
-			_vector vSourCenter = pOther->Get_Center();
-
-			CGameObject* pOtherOwner = pOther->Get_Owner();
-			if (!pOtherOwner)
-				return;
-
-			CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
-			if (!pOtherTransform)
-				return;
-
-			CNavigation* pNavigationCom = pOtherOwner->Get_As<CNavigation>();
-
 			if (XMVectorGetX(vDestCenter) < XMVectorGetX(vSourCenter))
 			{
 				pOtherTransform->Move(fX * 0.0166f, 0.f, 0.f, pNavigationCom);
@@ -370,6 +353,14 @@ void CEffect::Set_AnimaitonStartTime(_double time)
 	}
 }
 
+void CEffect::Set_AttackPower(_uint attackPower)
+{
+	if (nullptr == m_pAttackCom)
+		return;
+
+	m_pAttackCom->Set_AttackPower(attackPower);
+}
+
 
 HRESULT CEffect::Add_Components()
 {
@@ -412,6 +403,13 @@ HRESULT CEffect::Add_Components()
 		ColliderDesc.vPosition = _float3(0.0f, ColliderDesc.vScale.y * 0.5f, 0.f);
 		if (FAILED(pGameInstance->Add_Component(CCollider::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"),
 			(CComponent**)&m_pColliderCom, &ColliderDesc)))
+			return E_FAIL;
+
+		CAttack::ATTACK_DESC attackDesc = {};
+		attackDesc.m_AttackPower = 0;
+
+		if (FAILED(pGameInstance->Add_Component(CAttack::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Attack"),
+			(CComponent**)&m_pAttackCom, &attackDesc)))
 			return E_FAIL;
 	}
 
@@ -512,4 +510,5 @@ void CEffect::Free()
 	Safe_Release(m_pRendererCom);
 	Safe_Release(m_pColliderCom);
 	Safe_Release(m_pNavigationCom);
+	Safe_Release(m_pAttackCom);
 }

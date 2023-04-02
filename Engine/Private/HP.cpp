@@ -29,6 +29,7 @@ HRESULT CHP::Initialize(void* pArg)
 		m_Desc.m_HpChangeTick = 1;
 		m_Desc.bDeadAfterOwnerDead = false;
 	}
+	m_MaxHP = m_Desc.m_MaxHp;
 	m_CurrentHP = m_Desc.m_MaxHp;
 
 	return S_OK;

@@ -101,7 +101,7 @@ PS_OUT PS_MAIN_HP(PS_IN In)
 			discard;
 
 		float _Health = g_HpRatio;
-		float4 healthbarColor = lerp(g_vColor, float4(0.3f, 0.3f, 0.3f, 0.3f), _Health);
+		float4 healthbarColor = lerp(g_vColor, float4(g_vColor.x, g_vColor.y, g_vColor.z - 0.2f, g_vColor.w), _Health);
 		float4 bgColor = float4(0, 0, 0, 0);
 
 		float healthbarMask = In.vTexUV.x < _Health;

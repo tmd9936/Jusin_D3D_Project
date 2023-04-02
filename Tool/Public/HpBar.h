@@ -10,6 +10,7 @@ class CShader;
 class CTexture;
 class CTransform;
 class CModel;
+class CHP;
 END
 
 BEGIN(Client)
@@ -20,6 +21,8 @@ public:
 	typedef struct HpBar_Desc
 	{
 		CTransform*			pParent = { nullptr };
+		CHP*				pParentHpCom = { nullptr };
+
 		_float4x4			PivotMatrix;
 
 		_float				m_fPositionX;

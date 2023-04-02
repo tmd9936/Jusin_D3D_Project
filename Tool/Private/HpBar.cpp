@@ -162,6 +162,11 @@ HRESULT CHpBar::SetUp_ShaderResources()
 	if (FAILED(m_pTextureCom->Set_ShaderResource(m_pShaderCom, "g_Texture", 0)))
 		return E_FAIL;
 
+	if (m_Desc.pParentHpCom)
+	{
+		m_HpRatio = m_Desc.pParentHpCom->Get_HP_Ratio();
+	}
+
 	if (FAILED(m_pShaderCom->Set_RawValue("g_HpRatio", &m_HpRatio, sizeof(_float))))
 		return E_FAIL;
 	
@@ -226,6 +231,7 @@ void CHpBar::Free()
 	__super::Free();
 
 	Safe_Release(m_Desc.pParent);
+	Safe_Release(m_Desc.pParentHpCom);
 
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pTransformCom);

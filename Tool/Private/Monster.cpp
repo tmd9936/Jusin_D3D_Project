@@ -277,6 +277,9 @@ HRESULT CMonster::Add_HpBar()
 	HpDesc.pParent = m_pTransformCom;
 	Safe_AddRef(m_pTransformCom);
 
+	HpDesc.pParentHpCom = m_pHPCom;
+	Safe_AddRef(m_pHPCom);
+
 	XMStoreFloat4x4(&HpDesc.PivotMatrix, m_pModelCom->Get_PivotMatrix());
 
 	HpDesc.m_fSizeX = 60.f;
@@ -313,28 +316,28 @@ void CMonster::Do_Skill(_uint skillType, CMonFSM::MONSTER_STATE eMotion, const _
 			CSkill* pSkill = nullptr;
 			if (skillType == 57)
 			{
-				pSkill = dynamic_cast<CSkill_Manager*>(pSkill_Mananger)->Create_Skill(pLayer, m_iLevelindex, skillType,
+				pSkill = dynamic_cast<CSkill_Manager*>(pSkill_Mananger)->Create_Skill(pLayer, m_iLevelindex, skillType, m_pAttackCom->Get_AttackPower(),
 					m_pTransformCom->Get_WorldMatrix_Matrix(), XMConvertToRadians(60.f), XMConvertToRadians(180.f), m_pModelCom->Get_BonePtr("effect00"), m_pTransformCom, m_pModelCom->Get_PivotMatrix());
 
 				Safe_Release(pSkill);
 			}
 			else if (skillType == 58)
 			{
-				pSkill = dynamic_cast<CSkill_Manager*>(pSkill_Mananger)->Create_Skill(pLayer, m_iLevelindex, skillType,
+				pSkill = dynamic_cast<CSkill_Manager*>(pSkill_Mananger)->Create_Skill(pLayer, m_iLevelindex, skillType, m_pAttackCom->Get_AttackPower(),
 					m_pTransformCom->Get_WorldMatrix_Matrix(), XMConvertToRadians(0.f), XMConvertToRadians(0.f), m_pModelCom->Get_BonePtr("effect00"), m_pTransformCom, m_pModelCom->Get_PivotMatrix());
 
 				Safe_Release(pSkill);
 			}
 			else if (skillType <= 35 && skillType % 2 == 1)
 			{
-				pSkill = dynamic_cast<CSkill_Manager*>(pSkill_Mananger)->Create_Skill(pLayer, m_iLevelindex, skillType,
+				pSkill = dynamic_cast<CSkill_Manager*>(pSkill_Mananger)->Create_Skill(pLayer, m_iLevelindex, skillType, m_pAttackCom->Get_AttackPower(),
 					m_pTransformCom->Get_WorldMatrix_Matrix(), XMConvertToRadians(0.f), XMConvertToRadians(0.f), m_pModelCom->Get_BonePtr("effect00"), m_pTransformCom, m_pModelCom->Get_PivotMatrix(), true, 0.5);
 
 				Safe_Release(pSkill);
 			}
 			else
 			{
-				pSkill = dynamic_cast<CSkill_Manager*>(pSkill_Mananger)->Create_Skill(pLayer, m_iLevelindex, skillType, 
+				pSkill = dynamic_cast<CSkill_Manager*>(pSkill_Mananger)->Create_Skill(pLayer, m_iLevelindex, skillType, m_pAttackCom->Get_AttackPower(),
 					m_pTransformCom->Get_WorldMatrix_Matrix());
 
 				Safe_Release(pSkill);
@@ -499,7 +502,13 @@ HRESULT CMonster::Add_Components_By_File()
 	hpDesc.m_MaxHp = m_PokemonDesc.m_hpBasis;
 	hpDesc.bDeadAfterOwnerDead = false;
 	if (FAILED(pGameInstance->Add_Component(CHP::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_HP"),
-		(CComponent**)&m_pHPCom, &NaviDesc)))
+		(CComponent**)&m_pHPCom, &hpDesc)))
+		return E_FAIL;
+
+	CAttack::ATTACK_DESC attakDesc = {};
+	attakDesc.m_AttackPower = m_PokemonDesc.m_attackBasis;
+	if (FAILED(pGameInstance->Add_Component(CAttack::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Attack"),
+		(CComponent**)&m_pAttackCom, &attakDesc)))
 		return E_FAIL;
 
 	return S_OK;
