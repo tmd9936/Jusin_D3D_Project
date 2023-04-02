@@ -151,18 +151,40 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 		pEffect->Set_Pos(pos);
 
 		effects.push_back(pEffect);
+
+				//size_t i = 0;
+		//for (auto& effectIndex : m_Skill_Depend_Datas[skillType].m_effects)
+		//{
+		//		pEffect = pEffect_Manager->Create_Effect(effectIndex, pLayerTag, iLevelIndex);
+		//		if (nullptr != pEffect)
+		//		{
+		//			//Safe_Release(pEffect);
+		//			effects.push_back(pEffect);
+		//		}
+		//}
+
+		for (size_t i = 2; i < m_Skill_Depend_Datas[skillType].m_effects.size() - 1; ++i)
+		{
+			pEffect = pEffect_Manager->Create_Effect(m_Skill_Depend_Datas[skillType].m_effects[i], pLayerTag, iLevelIndex);
+			if (nullptr != pEffect)
+			{
+				CTransform* pTransform = pEffect->Get_As<CTransform>();
+				if (nullptr == pTransform)
+					continue;
+
+				pTransform->LookAt(XMVectorSetW(vLook * -1.f, 1.f));
+
+				//Safe_Release(pEffect);
+				_float4 pos = {};
+				XMStoreFloat4(&pos, vPos);
+				pEffect->Set_Pos(pos);
+				effects.push_back(pEffect);
+			}
+		}
+
+
 	}
 
-	//size_t i = 0;
-	//for (auto& effectIndex : m_Skill_Depend_Datas[skillType].m_effects)
-	//{
-	//		pEffect = pEffect_Manager->Create_Effect(effectIndex, pLayerTag, iLevelIndex);
-	//		if (nullptr != pEffect)
-	//		{
-	//			//Safe_Release(pEffect);
-	//			effects.push_back(pEffect);
-	//		}
-	//}
 
 	vector<CEffect*> conditions;
 	//for (auto& conditionsIndex : m_Skill_Depend_Datas[skillType].m_conditions)

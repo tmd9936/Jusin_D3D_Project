@@ -37,6 +37,7 @@ HRESULT CPlayer::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pA
 	m_eRenderId = RENDER_NONBLEND;
 
 	m_pModelCom->Set_Animation(0);
+	m_SkillLoopDesc.m_eLoopState = CMonFSM::END_MOTION;
 
 	return S_OK;
 }
@@ -48,6 +49,15 @@ _uint CPlayer::Tick(_double TimeDelta)
 	{
 	case CMonFSM::IDLE1:
 		m_pModelCom->Play_Animation(TimeDelta);
+		if (m_SkillLoopDesc.m_eLoopState != CMonFSM::END_MOTION)
+		{
+			if (m_SkillLoopDelay < 0.f)
+			{
+				Do_Skill(m_PokemonDesc.m_skillIDs[m_SkillLoopDesc.m_CurskillIndex], m_SkillLoopDesc.m_eLoopState, L"Layer_PlayerSkill");
+				//m_pMonFSM->Transit_MotionState(m_SkillLoopDesc.m_eLoopState, m_pModelCom);
+			}
+			m_SkillLoopDelay -= TimeDelta;
+		}
 		break;
 	case CMonFSM::ATK_NORMAL:
 		if (m_pModelCom->Play_Animation(TimeDelta))
@@ -96,6 +106,45 @@ _uint CPlayer::Tick(_double TimeDelta)
 			if (m_bAttack)
 				m_bAttack = false;
 		}
+	case CMonFSM::DASH_SLE_START:
+		m_pTransformCom->Go_Straight(TimeDelta * m_fAccel, m_pNavigationCom);
+		m_fAccel += TimeDelta * 3.f;
+		if (m_pModelCom->Play_Animation(TimeDelta))
+		{
+			m_pMonFSM->Transit_MotionState(CMonFSM::DASH_SLE_LOOP, m_pModelCom);
+		}
+	case  CMonFSM::DASH_SLE_LOOP:
+		m_pTransformCom->Go_Straight(TimeDelta * m_fAccel, m_pNavigationCom);
+		m_fAccel += TimeDelta * 3.5f;
+		if (m_pModelCom->Play_Animation(TimeDelta))
+		{
+			m_pMonFSM->Transit_MotionState(CMonFSM::DASH_SLE_END, m_pModelCom);
+		}
+	case CMonFSM::DASH_SLE_END:
+		m_fAccel -= TimeDelta * 3.f;
+		m_pTransformCom->Go_Straight(TimeDelta * m_fAccel, m_pNavigationCom);
+		if (m_pModelCom->Play_Animation(TimeDelta))
+		{
+			if (m_SkillLoopCount > 0)
+			{
+				--m_SkillLoopCount;
+				m_SkillLoopDesc.m_eLoopState = CMonFSM::DASH_SLE_START;
+				m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom); 
+				m_SkillLoopDesc.m_CurskillIndex = 1;
+				m_fAccel = 1.5f;
+
+				break;
+			}
+			else
+			{
+				m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
+				m_SkillLoopDesc.m_eLoopState = CMonFSM::END_MOTION;
+
+				if (m_bAttack)
+					m_bAttack = false;
+			}
+			m_fAccel = 1.5f;
+		}
 		break;
 	default:
 		break;
@@ -103,19 +152,28 @@ _uint CPlayer::Tick(_double TimeDelta)
 
 	if (KEY_TAB(KEY::DOWN))
 	{
-		if (m_pMonFSM->Get_MotionState() != CMonFSM::IDLE_FLOAT)
+		if (!m_bAttack)
 		{
-			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE_FLOAT, m_pModelCom);
+			if (m_pMonFSM->Get_MotionState() != CMonFSM::IDLE_FLOAT)
+			{
+				m_pMonFSM->Transit_MotionState(CMonFSM::IDLE_FLOAT, m_pModelCom);
+			}
 		}
 		m_pTransformCom->Go_Backward((_float)TimeDelta, m_pNavigationCom);
 	}
 	else if (KEY_HOLD(KEY::DOWN))
 	{
-		m_pTransformCom->Go_Backward((_float)TimeDelta, m_pNavigationCom);
+		if (!m_bAttack)
+		{
+			m_pTransformCom->Go_Backward((_float)TimeDelta, m_pNavigationCom);
+		}
 	}
 	else  if (KEY_AWAY(KEY::DOWN))
 	{
-		m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
+		if (!m_bAttack)
+		{
+			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
+		}
 	}
 
 	if (GetKeyState(VK_LEFT) & 0x8000)
@@ -130,35 +188,49 @@ _uint CPlayer::Tick(_double TimeDelta)
 
 	if (KEY_TAB(KEY::UP))
 	{
-		if (m_pMonFSM->Get_MotionState() != CMonFSM::IDLE_FLOAT)
+		if (!m_bAttack)
 		{
-			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE_FLOAT, m_pModelCom);
+			if (m_pMonFSM->Get_MotionState() != CMonFSM::IDLE_FLOAT)
+			{
+				m_pMonFSM->Transit_MotionState(CMonFSM::IDLE_FLOAT, m_pModelCom);
+			}
 		}
 
 		m_pTransformCom->Go_Straight((_float)TimeDelta, m_pNavigationCom);
 	}
 	else if (KEY_HOLD(KEY::UP))
 	{
-		m_pTransformCom->Go_Straight((_float)TimeDelta, m_pNavigationCom);
+		if (!m_bAttack)
+		{
+			m_pTransformCom->Go_Straight((_float)TimeDelta, m_pNavigationCom);
+		}
 	}
 	else  if (KEY_AWAY(KEY::UP))
 	{
-		m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
+		if (!m_bAttack)
+		{
+			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
+		}
 	}
 
 	else  if (KEY_TAB(KEY::A))
 	{
 		Do_Skill(m_PokemonDesc.m_skillIDs[0], CMonFSM::ATK_NORMAL, L"Layer_PlayerSkill");
+		m_SkillLoopDesc.m_CurskillIndex = 0;
 	}
 
 	else  if (KEY_TAB(KEY::S))
 	{
-		Do_Skill(m_PokemonDesc.m_skillIDs[1], CMonFSM::ATK_NORMAL, L"Layer_PlayerSkill");
+		Do_Skill(m_PokemonDesc.m_skillIDs[1], CMonFSM::DASH_SLE_START, L"Layer_PlayerSkill");
+		m_SkillLoopCount = 1;
+		m_SkillLoopDelay = 1.f;
+		m_SkillLoopDesc.m_CurskillIndex = 1;
 	}
 
 	else  if (KEY_TAB(KEY::D))
 	{
 		Do_Skill(m_PokemonDesc.m_skillIDs[2], CMonFSM::HAPPY, L"Layer_PlayerSkill");
+		m_SkillLoopDesc.m_CurskillIndex = 2;
 	}
 
 	else if (KEY_TAB(KEY::SPACE))
@@ -313,22 +385,6 @@ void CPlayer::Do_TestSkill()
 				m_pTransformCom->Get_WorldMatrix_Matrix());
 
 			Safe_Release(pSkill);
-			//	if (nullptr != pSkill)
-			//	{
-			//		_float4 vPos{};
-			//		_float4 vPosLook{};
-
-			//		XMStoreFloat4(&vPosLook, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
-
-			//		XMStoreFloat4(&vPos, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_pTransformCom->Get_State(CTransform::STATE_LOOK) * 0.2f);
-			//		pSkill->Set_Effects_Pos(vPos);
-			//		pSkill->Set_Conditions_Pos(vPos);
-
-			//		pSkill->Set_Effects_Look(vPosLook);
-			//		pSkill->Set_Conditions_Look(vPosLook);
-
-			//		Safe_Release(pSkill);
-			//	}
 		}
 	}
 }

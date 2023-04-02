@@ -153,7 +153,7 @@ HRESULT CLevel_BaseCamp::Ready_Layer_Player(const _tchar* pLayerTag)
 	desc.m_monsterNo = 25;
 	desc.vPos = _float4(22.f, 0.f, 13.5f, 1.f);
 	desc.m_skillIDs.push_back(24);
-	desc.m_skillIDs.push_back(25);
+	desc.m_skillIDs.push_back(58);
 	desc.m_skillIDs.push_back(57);
 
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Player"), LEVEL_BASECAMP, pLayerTag, L"Player", &desc)))
