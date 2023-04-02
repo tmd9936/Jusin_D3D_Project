@@ -79,7 +79,7 @@ _uint CPlayer::Tick(_double TimeDelta)
 	case CMonFSM::JUMPLANDING_SLE_LOOP:
 		if (m_pModelCom->Play_Animation(TimeDelta, false))
 		{
-			m_pMonFSM->Transit_MotionState(CMonFSM::ROTATE_LOOP, m_pModelCom);
+			m_pMonFSM->Transit_MotionState(CMonFSM::JUMPLANDING_SLE_END, m_pModelCom);
 		}
 		break;
 	case CMonFSM::ROTATE_LOOP:
@@ -92,7 +92,7 @@ _uint CPlayer::Tick(_double TimeDelta)
 	//	m_pMonFSM->Transit_MotionState(CMonFSM::JUMPLANDING_SLE_END, m_pModelCom);
 	//	break;
 	case CMonFSM::JUMPLANDING_SLE_END:
-		if (m_pModelCom->Play_Animation(TimeDelta, false))
+		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
 			mat = m_pModelCom->Get_CombinedTransformationMatrix_float4_4(0);
 			m_pTransformCom->Set_PosY(mat.m[3][2]);
@@ -139,6 +139,8 @@ _uint CPlayer::Tick(_double TimeDelta)
 			{
 				m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
 				m_SkillLoopDesc.m_eLoopState = CMonFSM::END_MOTION;
+
+				Do_Skill(220, CMonFSM::JUMPLANDING_SLE_LOOP, L"Layer_PlayerSkill");
 
 				if (m_bAttack)
 					m_bAttack = false;

@@ -152,7 +152,7 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 
 		effects.push_back(pEffect);
 
-				//size_t i = 0;
+		//size_t i = 0;
 		//for (auto& effectIndex : m_Skill_Depend_Datas[skillType].m_effects)
 		//{
 		//		pEffect = pEffect_Manager->Create_Effect(effectIndex, pLayerTag, iLevelIndex);
