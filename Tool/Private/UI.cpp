@@ -329,6 +329,11 @@ HRESULT CUI::SetUp_ShaderResources()
 	else if (m_UIDesc.m_UIType == UI_TYPE_COLOR_TEXTURE)
 	{
 		m_pShaderCom->Set_RawValue("g_vColor", &m_UIDesc.m_vColor, sizeof(_float4));
+		_float2	size = { m_UIDesc.m_fSizeX, m_UIDesc.m_fSizeY };
+		m_pShaderCom->Set_RawValue("g_Size", &size, sizeof(_float2));
+		_float	radius = 3.f;
+		m_pShaderCom->Set_RawValue("g_Radius", &radius, sizeof(_float));
+
 	}
 
 	Safe_Release(pGameInstance);

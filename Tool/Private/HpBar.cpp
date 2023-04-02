@@ -164,6 +164,17 @@ HRESULT CHpBar::SetUp_ShaderResources()
 
 	m_pShaderCom->Set_RawValue("g_vColor", &m_Desc.m_vHpColor, sizeof(_float4));
 
+	_float2 size = {
+		XMVectorGetX(XMVector3Length(XMLoadFloat4((_float4*)m_FinalWorldMatrix.m[0]))),
+		XMVectorGetX(XMVector3Length(XMLoadFloat4((_float4*)m_FinalWorldMatrix.m[1])))
+	};
+
+	_float radius = { 2.f };
+
+	m_pShaderCom->Set_RawValue("g_Size", &size, sizeof(_float2));
+
+	m_pShaderCom->Set_RawValue("g_Radius", &radius, sizeof(_float));
+
 	Safe_Release(pGameInstance);
 
 	return S_OK;

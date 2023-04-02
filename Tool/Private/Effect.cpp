@@ -84,13 +84,13 @@ _uint CEffect::Tick(_double TimeDelta)
 	{
 		if (m_SmallRotation)
 		{
-			m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), TimeDelta * m_SmallRotationSpeed);
+			m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), (_float)(TimeDelta * m_SmallRotationSpeed));
 		}
 
 		if (m_bRush)
 		{
 			_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-			m_pTransformCom->Go_Straight(TimeDelta * m_RushSpeed * -1.0, m_pNavigationCom);
+			m_pTransformCom->Go_Straight((_float)(TimeDelta * m_RushSpeed * -1.0), m_pNavigationCom);
 		}
 
 		if (m_bHomming)
@@ -125,7 +125,7 @@ _uint CEffect::Tick(_double TimeDelta)
 				break;
 			}
 
-			vPos += vDir * TimeDelta;
+			vPos += vDir * (_float)TimeDelta;
 			m_pTransformCom->Set_Pos(vPos);
 		}
 

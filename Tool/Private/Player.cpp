@@ -56,7 +56,7 @@ _uint CPlayer::Tick(_double TimeDelta)
 				Do_Skill(m_PokemonDesc.m_skillIDs[m_SkillLoopDesc.m_CurskillIndex], m_SkillLoopDesc.m_eLoopState, L"Layer_PlayerSkill");
 				//m_pMonFSM->Transit_MotionState(m_SkillLoopDesc.m_eLoopState, m_pModelCom);
 			}
-			m_SkillLoopDelay -= TimeDelta;
+			m_SkillLoopDelay -= (_float)TimeDelta;
 		}
 		break;
 	case CMonFSM::ATK_NORMAL:
@@ -108,24 +108,24 @@ _uint CPlayer::Tick(_double TimeDelta)
 		}
 		break;
 	case CMonFSM::DASH_SLE_START:
-		m_pTransformCom->Go_Straight(TimeDelta * m_fAccel, m_pNavigationCom);
-		m_fAccel += TimeDelta * 3.f;
+		m_pTransformCom->Go_Straight(_float(TimeDelta * m_fAccel), m_pNavigationCom);
+		m_fAccel += TimeDelta * 1.75f;
 		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
 			m_pMonFSM->Transit_MotionState(CMonFSM::DASH_SLE_LOOP, m_pModelCom);
 		}
 		break;
 	case  CMonFSM::DASH_SLE_LOOP:
-		m_pTransformCom->Go_Straight(TimeDelta * m_fAccel, m_pNavigationCom);
-		m_fAccel += TimeDelta * 3.5f;
+		m_pTransformCom->Go_Straight(_float(TimeDelta * m_fAccel), m_pNavigationCom);
+		m_fAccel += TimeDelta * 2.25f;
 		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
 			m_pMonFSM->Transit_MotionState(CMonFSM::DASH_SLE_END, m_pModelCom);
 		}
 		break;
 	case CMonFSM::DASH_SLE_END:
-		m_fAccel -= TimeDelta * 3.f;
-		m_pTransformCom->Go_Straight(TimeDelta * m_fAccel, m_pNavigationCom);
+		m_fAccel -= TimeDelta * 2.5f;
+		m_pTransformCom->Go_Straight(_float(TimeDelta * m_fAccel), m_pNavigationCom);
 		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
 			if (m_SkillLoopCount > 0)
@@ -134,7 +134,7 @@ _uint CPlayer::Tick(_double TimeDelta)
 				m_SkillLoopDesc.m_eLoopState = CMonFSM::DASH_SLE_START;
 				m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom); 
 				m_SkillLoopDesc.m_CurskillIndex = 1;
-				m_fAccel = 1.5f;
+				m_fAccel = 1.f;
 
 				break;
 			}
@@ -148,7 +148,7 @@ _uint CPlayer::Tick(_double TimeDelta)
 				if (m_bAttack)
 					m_bAttack = false;
 			}
-			m_fAccel = 1.5f;
+			m_fAccel = 1.f;
 		}
 		break;
 	default:
@@ -229,6 +229,7 @@ _uint CPlayer::Tick(_double TimeDelta)
 		Do_Skill(m_PokemonDesc.m_skillIDs[1], CMonFSM::DASH_SLE_START, L"Layer_PlayerSkill");
 		m_SkillLoopCount = 1;
 		m_SkillLoopDelay = 1.f;
+		m_fAccel = 1.f;
 		m_SkillLoopDesc.m_CurskillIndex = 1;
 	}
 
@@ -250,8 +251,8 @@ _uint CPlayer::Tick(_double TimeDelta)
 	}
 
 	m_pAABB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
-	m_pOBB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
-	m_pSphere->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
+	//m_pOBB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
+	//m_pSphere->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
 
 	return _uint();
 }

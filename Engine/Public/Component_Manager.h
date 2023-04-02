@@ -20,6 +20,7 @@
 #include "Billboard.h"
 #include "Navigation.h"
 #include "HP.h"
+#include "Attack.h"
 #pragma endregion
 
 #pragma region COLLIDER

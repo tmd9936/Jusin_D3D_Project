@@ -1,6 +1,5 @@
 #include "HP.h"
 #include "GameObject.h"
-#include "PipeLine.h"
 
 CHP::CHP(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner)
 	: CComponent(pDevice, pContext, pOwner)

@@ -86,3 +86,12 @@ bool ShouldDiscard(float2 coords, float2 dimensions, float radius)
 	return false;
 
 }
+
+float RoundedRectSDF(float2 centerPosition, float2 size, float radius)
+{
+	return length(max(abs(centerPosition) - (size / 2) + radius, 0)) - radius;
+}
+
+float roundedBoxSDF(float2 CenterPosition, float2 Size, float Radius) {
+	return length(max(abs(CenterPosition) - Size + Radius, 0.0)) - Radius;
+}

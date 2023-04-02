@@ -15,6 +15,7 @@ class CAABB;
 class COBB;
 class CSphere;
 class CHP;
+class CAttack;
 
 class CNavigation;
 
@@ -102,20 +103,21 @@ private:
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 던진다. */
 
 protected:
-	CTransform* m_pTransformCom = { nullptr };
-	CRenderer* m_pRendererCom = { nullptr };
-	CShader* m_pShaderCom = { nullptr };
-	CModel* m_pModelCom = { nullptr };
-	CPickingCube* m_pPickingCube = { nullptr };
-	CMonFSM* m_pMonFSM = { nullptr };
+	CTransform*			m_pTransformCom = { nullptr };
+	CRenderer*			m_pRendererCom = { nullptr };
+	CShader*			m_pShaderCom = { nullptr };
+	CModel*				m_pModelCom = { nullptr };
+	CPickingCube*		m_pPickingCube = { nullptr };
+	CMonFSM*			m_pMonFSM = { nullptr };
 
-	CAABB* m_pAABB = { nullptr };
-	COBB* m_pOBB = { nullptr };
-	CSphere* m_pSphere = { nullptr };
+	CAABB*				m_pAABB = { nullptr };
+	COBB*				m_pOBB = { nullptr };
+	CSphere*			m_pSphere = { nullptr };
 
-	CNavigation* m_pNavigationCom = { nullptr };
+	CNavigation*		m_pNavigationCom = { nullptr };
 
-	CHP* m_pHPCom = { nullptr };
+	CHP*				m_pHPCom = { nullptr };
+	CAttack*			m_pAttackCom = { nullptr };
 
 protected:
 	POKEMON_DESC		m_PokemonDesc = {};
@@ -123,7 +125,6 @@ protected:
 	
 	_bool				m_bAttack = { false };
 	_float				m_SkillDelayTime = { 0.f };
-
 
 protected:
 	vector<CGameObject*>	m_Parts;

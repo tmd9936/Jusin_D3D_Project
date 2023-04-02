@@ -91,6 +91,8 @@ HRESULT CButton::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const ch
 
 _uint CButton::Tick(_double TimeDelta)
 {
+	if (m_TickResult == OBJ_SCENE_CHNAGE)
+		return m_TickResult;
 	if (m_bAction)
 	{
 		Button_Motion(TimeDelta);

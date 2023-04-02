@@ -28,7 +28,7 @@ public:
 
 
 public:
-	const _uint		Get_MaxHpP() const {
+	const _uint		Get_MaxHp() const {
 		return m_MaxHP;
 	}
 

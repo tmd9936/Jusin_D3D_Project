@@ -22,6 +22,7 @@
     <ClInclude Include="..\Private\Font_Manager.h" />
     <ClInclude Include="..\Public\AABB.h" />
     <ClInclude Include="..\Public\Animation.h" />
+    <ClInclude Include="..\Public\Attack.h" />
     <ClInclude Include="..\Public\Base.h" />
     <ClInclude Include="..\Public\Billboard.h" />
     <ClInclude Include="..\Public\Bone.h" />
@@ -80,6 +81,7 @@
   <ItemGroup>
     <ClCompile Include="..\Private\AABB.cpp" />
     <ClCompile Include="..\Private\Animation.cpp" />
+    <ClCompile Include="..\Private\Attack.cpp" />
     <ClCompile Include="..\Private\Base.cpp" />
     <ClCompile Include="..\Private\Billboard.cpp" />
     <ClCompile Include="..\Private\Bone.cpp" />

@@ -48,6 +48,8 @@
 #include "HP.h"
 #include "HpBar.h"
 
+#include "Attack.h"
+
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
@@ -218,6 +220,11 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		/* For.Prototype_Component_HP */
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_HP"),
 			CHP::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		/* For.Prototype_Component_Attack */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Attack"),
+			CAttack::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
 	}

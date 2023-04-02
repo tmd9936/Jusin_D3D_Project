@@ -6,6 +6,8 @@ texture2D		g_Texture;
 float4			g_vColor;
 
 float			g_HpRatio;
+float2			g_Size;
+float			g_Radius;
 
 struct VS_IN
 {

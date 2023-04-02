@@ -166,6 +166,9 @@
     <Filter Include="01. Utility\03. Component\HP">
       <UniqueIdentifier>{d00401c2-ffe8-42db-8bf6-09ab5f2a88a1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\03. Component\Attack">
+      <UniqueIdentifier>{6c923ffe-9289-4397-be8c-63a45f5e3408}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Engine_Defines.h">
@@ -339,6 +342,9 @@
     <ClInclude Include="..\Public\HP.h">
       <Filter>01. Utility\03. Component\HP</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Attack.h">
+      <Filter>01. Utility\03. Component\Attack</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -496,6 +502,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\HP.cpp">
       <Filter>01. Utility\03. Component\HP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Attack.cpp">
+      <Filter>01. Utility\03. Component\Attack</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

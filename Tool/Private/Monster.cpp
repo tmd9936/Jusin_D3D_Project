@@ -151,6 +151,9 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const c
 	/*if (FAILED(Add_BuffState()))
 		return E_FAIL;*/
 
+	if (FAILED(Add_HpBar()))
+		return E_FAIL;
+
 	m_eRenderId = RENDER_NONBLEND;
 
 	m_pNavigationCom->Set_Index_By_Position({ m_PokemonDesc.vPos.x, m_PokemonDesc.vPos.y, m_PokemonDesc.vPos.z });
@@ -167,8 +170,8 @@ _uint CMonster::Tick(_double TimeDelta)
 	m_pMonFSM->Update_Component((_float)TimeDelta, m_pModelCom);
 
 	m_pAABB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
-	m_pOBB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
-	m_pSphere->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
+	//m_pOBB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
+	//m_pSphere->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
 	
 	for (auto& pGameObject : m_Parts)
 		pGameObject->Tick(TimeDelta);
@@ -209,8 +212,8 @@ HRESULT CMonster::Render()
 
 #ifdef _DEBUG
 	m_pAABB->Render();
-	m_pOBB->Render();
-	m_pSphere->Render();
+	//m_pOBB->Render();
+	//m_pSphere->Render();
 
 	if (m_pNavigationCom)
 		m_pNavigationCom->Render();
@@ -386,29 +389,41 @@ HRESULT CMonster::Add_Components()
 		(CComponent**)&m_pAABB, &ColliderDesc)))
 		return E_FAIL;
 
-	/* For.Com_OBB*/
-	ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
-	ColliderDesc.vScale = _float3(1.2f, 2.0f, 1.2f);
-	ColliderDesc.vPosition = _float3(0.0f, ColliderDesc.vScale.y * 0.5f, 0.f);
-	if (FAILED(pGameInstance->Add_Component(FAMILY_ID_COLLISION_OBB, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"),
-		(CComponent**)&m_pOBB, &ColliderDesc)))
-		return E_FAIL;
+	///* For.Com_OBB*/
+	//ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
+	//ColliderDesc.vScale = _float3(1.2f, 2.0f, 1.2f);
+	//ColliderDesc.vPosition = _float3(0.0f, ColliderDesc.vScale.y * 0.5f, 0.f);
+	//if (FAILED(pGameInstance->Add_Component(FAMILY_ID_COLLISION_OBB, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"),
+	//	(CComponent**)&m_pOBB, &ColliderDesc)))
+	//	return E_FAIL;
 
-	/* For.Com_Sphere */
-	ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
-	ColliderDesc.vScale = _float3(1.2f, 1.2f, 1.2f);
-	ColliderDesc.vPosition = _float3(0.0f, ColliderDesc.vScale.y * 0.5f, 0.f);
-	if (FAILED(pGameInstance->Add_Component(FAMILY_ID_COLLISION_SPHERE, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_SPHERE"),
-		(CComponent**)&m_pSphere, &ColliderDesc)))
-		return E_FAIL;
+	///* For.Com_Sphere */
+	//ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
+	//ColliderDesc.vScale = _float3(1.2f, 1.2f, 1.2f);
+	//ColliderDesc.vPosition = _float3(0.0f, ColliderDesc.vScale.y * 0.5f, 0.f);
+	//if (FAILED(pGameInstance->Add_Component(FAMILY_ID_COLLISION_SPHERE, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_SPHERE"),
+	//	(CComponent**)&m_pSphere, &ColliderDesc)))
+	//	return E_FAIL;
 
 	/* For.Com_Navigation */
-
 	CNavigation::NAVIDESC		NaviDesc;
 	ZeroMemory(&NaviDesc, sizeof NaviDesc);
 	NaviDesc.iIndex = 1;
 	if (FAILED(pGameInstance->Add_Component(CNavigation::familyId, this, m_iLevelindex, TEXT("Prototype_Component_Navigation"),
 		(CComponent**)&m_pNavigationCom, &NaviDesc)))
+		return E_FAIL;
+
+	CHP::HP_DESC hpDesc = {};
+	hpDesc.m_MaxHp = m_PokemonDesc.m_hpBasis;
+	hpDesc.bDeadAfterOwnerDead = false;
+	if (FAILED(pGameInstance->Add_Component(CHP::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_HP"),
+		(CComponent**)&m_pHPCom, &hpDesc)))
+		return E_FAIL;
+
+	CAttack::ATTACK_DESC attakDesc = {};
+	attakDesc.m_AttackPower = m_PokemonDesc.m_attackBasis;
+	if (FAILED(pGameInstance->Add_Component(CAttack::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Attack"),
+		(CComponent**)&m_pAttackCom, &attakDesc)))
 		return E_FAIL;
 
 	return S_OK;
@@ -455,21 +470,21 @@ HRESULT CMonster::Add_Components_By_File()
 		(CComponent**)&m_pAABB, &ColliderDesc)))
 		return E_FAIL;
 
-	/* For.Com_OBB*/
-	ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
-	ColliderDesc.vScale = _float3(1.2f, 2.0f, 1.2f);
-	ColliderDesc.vPosition = _float3(0.0f, ColliderDesc.vScale.y * 0.5f, 0.f);
-	if (FAILED(pGameInstance->Add_Component(FAMILY_ID_COLLISION_OBB, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"),
-		(CComponent**)&m_pOBB, &ColliderDesc)))
-		return E_FAIL;
+	///* For.Com_OBB*/
+	//ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
+	//ColliderDesc.vScale = _float3(1.2f, 2.0f, 1.2f);
+	//ColliderDesc.vPosition = _float3(0.0f, ColliderDesc.vScale.y * 0.5f, 0.f);
+	//if (FAILED(pGameInstance->Add_Component(FAMILY_ID_COLLISION_OBB, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"),
+	//	(CComponent**)&m_pOBB, &ColliderDesc)))
+	//	return E_FAIL;
 
-	/* For.Com_Sphere */
-	ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
-	ColliderDesc.vScale = _float3(1.2f, 1.2f, 1.2f);
-	ColliderDesc.vPosition = _float3(0.0f, ColliderDesc.vScale.y * 0.5f, 0.f);
-	if (FAILED(pGameInstance->Add_Component(FAMILY_ID_COLLISION_SPHERE, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_SPHERE"),
-		(CComponent**)&m_pSphere, &ColliderDesc)))
-		return E_FAIL;
+	///* For.Com_Sphere */
+	//ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
+	//ColliderDesc.vScale = _float3(1.2f, 1.2f, 1.2f);
+	//ColliderDesc.vPosition = _float3(0.0f, ColliderDesc.vScale.y * 0.5f, 0.f);
+	//if (FAILED(pGameInstance->Add_Component(FAMILY_ID_COLLISION_SPHERE, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_SPHERE"),
+	//	(CComponent**)&m_pSphere, &ColliderDesc)))
+	//	return E_FAIL;
 
 	CNavigation::NAVIDESC		NaviDesc;
 	ZeroMemory(&NaviDesc, sizeof NaviDesc);
@@ -479,12 +494,11 @@ HRESULT CMonster::Add_Components_By_File()
 		return E_FAIL;
 
 	CHP::HP_DESC hpDesc = {};
-	hpDesc.m_HpChangeTick = 1;
 	hpDesc.m_MaxHp = m_PokemonDesc.m_hpBasis;
+	hpDesc.bDeadAfterOwnerDead = false;
 	if (FAILED(pGameInstance->Add_Component(CHP::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_HP"),
 		(CComponent**)&m_pHPCom, &NaviDesc)))
 		return E_FAIL;
-
 
 	return S_OK;
 }
@@ -655,44 +669,6 @@ HRESULT CMonster::Add_MotionState()
 	return S_OK;
 }
 
-//CMonster* CMonster::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
-//{
-//	CMonster* pInstance = new CMonster(pDevice, pContext);
-//
-//	if (FAILED(pInstance->Initialize_Prototype()))
-//	{
-//		MSG_BOX("Failed to Created CMonster");
-//		Safe_Release(pInstance);
-//	}
-//
-//	return pInstance;
-//}
-//
-//CGameObject* CMonster::Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
-//{
-//	CMonster* pInstance = new CMonster(*this);
-//
-//	if (FAILED(pInstance->Initialize(pLayerTag, iLevelIndex, pArg)))
-//	{
-//		MSG_BOX("Failed to Cloned CMonster");
-//		Safe_Release(pInstance);
-//	}
-//
-//	return pInstance;
-//}
-//
-//CGameObject* CMonster::Clone(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath)
-//{
-//	CMonster* pInstance = new CMonster(*this);
-//
-//	if (FAILED(pInstance->Initialize(pLayerTag, iLevelIndex, filePath)))
-//	{
-//		MSG_BOX("Failed to Cloned CMonster");
-//		Safe_Release(pInstance);
-//	}
-//
-//	return pInstance;
-//}
 
 void CMonster::Free()
 {
@@ -711,8 +687,8 @@ void CMonster::Free()
 	Safe_Release(m_pPickingCube);
 	Safe_Release(m_pMonFSM);
 	Safe_Release(m_pAABB);
-	Safe_Release(m_pOBB);
-	Safe_Release(m_pSphere);
+	//Safe_Release(m_pOBB);
+	//Safe_Release(m_pSphere);
 	Safe_Release(m_pNavigationCom);
 	Safe_Release(m_pHPCom);
 
