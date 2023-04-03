@@ -44,6 +44,19 @@ public:
 	virtual HRESULT Render() override;
 
 public:
+	void	Set_Active(_bool bActive) {
+		m_bActive = bActive;
+	}
+
+	const CGameObject* Get_Target() const {
+		if (m_pTarget)
+		{
+			Safe_AddRef(m_pTarget);
+		}
+		return m_pTarget;
+	}
+
+public:
 	virtual void On_Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ) override;
 	virtual void On_CollisionEnter(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ) override;
 	virtual void On_CollisionExit(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ) override;
@@ -65,6 +78,10 @@ private:
 private:
 	SEARCHER_DESC		m_Desc = {};
 	COLLISION_STATE		m_eCollisionState = { COLLISION_STATE_NO };
+
+	CGameObject*		m_pTarget = { nullptr };
+
+	_bool				m_bActive = { true };
 
 public:
 	static CSearcher* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
