@@ -16,6 +16,7 @@ BEGIN(Client)
 
 class CSearcher final : public CGameObject
 {
+public:
 	typedef struct Searcher_Desc
 	{
 		CTransform* pParentTransformCom = { nullptr };

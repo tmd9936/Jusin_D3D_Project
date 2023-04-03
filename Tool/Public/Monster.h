@@ -26,6 +26,7 @@ BEGIN(Client)
 class CSkill_Manager;
 class CSkill;
 class CHpBar;
+class CSearcher;
 
 class CMonster abstract : public CGameObject
 {
@@ -99,6 +100,8 @@ protected:
 
 protected:
 	HRESULT	Add_HpBar();
+	HRESULT	Add_Searcher();
+
 	void	Do_Skill(_uint skillType, CMonFSM::MONSTER_STATE eMotion, const _tchar* pLayer);
 
 private:
@@ -134,7 +137,8 @@ protected:
 protected:
 
 	vector<CGameObject*>	m_Parts;
-	CHpBar* m_pHpBar = { nullptr };
+	CHpBar*					m_pHpBar = { nullptr };
+	CSearcher*				m_pSearcher = { nullptr };
 
 public:
 	//static CMonster* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) ;

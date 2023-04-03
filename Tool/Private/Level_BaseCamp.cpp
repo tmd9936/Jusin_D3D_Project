@@ -33,6 +33,12 @@ HRESULT CLevel_BaseCamp::Initialize()
 	if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_PlayerSearcher(TEXT("Layer_PlayerSearcher"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_MonsterSearcher(TEXT("Layer_MonsterSearcher"))))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
 
@@ -51,8 +57,12 @@ HRESULT CLevel_BaseCamp::Initialize()
 	if (FAILED(Ready_Layer_PlayerSkill(TEXT("Layer_PlayerSkill"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_MonsterSkill(TEXT("Layer_MonsterSkill"))))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_Effect(TEXT("Layer_Effect"))))
 		return E_FAIL;
+
 
 	//if (FAILED(CGameInstance::GetInstance()->Add_Check_CollisionGroup(L"Layer_Player", L"Layer_Monster")))
 	//	return E_FAIL;
@@ -65,6 +75,12 @@ HRESULT CLevel_BaseCamp::Initialize()
 	CGameInstance::GetInstance()->Add_Check_CollisionGroup(L"Layer_Player", L"Layer_Env");
 
 	CGameInstance::GetInstance()->Add_Check_CollisionGroup(L"Layer_PlayerSkill", L"Layer_Monster");
+
+	CGameInstance::GetInstance()->Add_Check_CollisionGroup(L"Layer_MonsterSkill", L"Layer_Player");
+
+	CGameInstance::GetInstance()->Add_Check_CollisionGroup(L"Layer_PlayerSearcher", L"Layer_Monster");
+
+	CGameInstance::GetInstance()->Add_Check_CollisionGroup(L"Layer_MonsterSearcher", L"Layer_Player");
 
 	CClient_Utility::Load_Layer_GameObjects("../../Reference/Resources/Data/Scene/BaseCamp/Stove.json");
 
@@ -252,6 +268,42 @@ HRESULT CLevel_BaseCamp::Ready_Layer_Effect(const _tchar* pLayerTag)
 }
 
 HRESULT CLevel_BaseCamp::Ready_Layer_PlayerSkill(const _tchar* pLayerTag)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_BASECAMP, pLayerTag)))
+		return E_FAIL;
+
+	Safe_Release(pGameInstance);
+	return S_OK;
+}
+
+HRESULT CLevel_BaseCamp::Ready_Layer_MonsterSkill(const _tchar* pLayerTag)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_BASECAMP, pLayerTag)))
+		return E_FAIL;
+
+	Safe_Release(pGameInstance);
+	return S_OK;
+}
+
+HRESULT CLevel_BaseCamp::Ready_Layer_PlayerSearcher(const _tchar* pLayerTag)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_BASECAMP, pLayerTag)))
+		return E_FAIL;
+
+	Safe_Release(pGameInstance);
+	return S_OK;
+}
+
+HRESULT CLevel_BaseCamp::Ready_Layer_MonsterSearcher(const _tchar* pLayerTag)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);

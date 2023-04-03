@@ -23,6 +23,9 @@ HRESULT CSearcher::Initialize_Prototype()
 
 HRESULT CSearcher::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
+	if (nullptr != pArg)
+		memcpy(&m_Desc.pParentTransformCom, pArg, sizeof m_Desc);
+
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 		return E_FAIL;
 

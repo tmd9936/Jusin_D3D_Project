@@ -214,7 +214,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			return E_FAIL;
 
 		/* For.Prototype_Component_Collider_Sphere */
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Collider_SPHERE"),
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
 			CSphere::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 

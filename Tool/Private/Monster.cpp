@@ -4,9 +4,9 @@
 #include "GameInstance.h"
 
 #include "BuffState.h"
-#include "Weapon.h"
 
 #include "HpBar.h"
+#include "Searcher.h"
 
 #include "Skill_Manager.h"
 #include "Skill.h"
@@ -82,7 +82,8 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* p
 	if (FAILED(Add_HpBar()))
 		return E_FAIL;
 
-	//Add_HpBar()
+	if (FAILED(Add_Searcher()))
+		return E_FAIL;
 
 	m_eRenderId = RENDER_NONBLEND;
 
@@ -128,6 +129,9 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const c
 		return E_FAIL;*/
 
 	if (FAILED(Add_HpBar()))
+		return E_FAIL;
+
+	if (FAILED(Add_Searcher()))
 		return E_FAIL;
 
 	m_eRenderId = RENDER_NONBLEND;
@@ -280,6 +284,38 @@ HRESULT CMonster::Add_HpBar()
 	return S_OK;
 }
 
+HRESULT CMonster::Add_Searcher()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	//Safe_AddRef(pGameInstance);
+
+	CSearcher::SEARCHER_DESC		searcherDesc{};
+	ZeroMemory(&searcherDesc, sizeof searcherDesc);
+
+	searcherDesc.pParentTransformCom = m_pTransformCom;
+	Safe_AddRef(searcherDesc.pParentTransformCom);
+
+	if (0 == Get_LayerTag().compare(L"Layer_Player"))
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Searcher"), Get_Levelindex(), L"Layer_PlayerSearcher",
+			(CGameObject**)&m_pSearcher, nullptr, &searcherDesc)))
+				return E_FAIL;
+	}
+	else if (0 == Get_LayerTag().compare(L"Layer_Monster"))
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Searcher"), Get_Levelindex(), L"Layer_MonsterSearcher", 
+			(CGameObject**)&m_pSearcher, nullptr, &searcherDesc)))
+				return E_FAIL;
+	}
+	else
+	{
+		return E_FAIL;
+	}
+
+	//Safe_Release(pGameInstance);
+	return S_OK;
+}
+
 void CMonster::Do_Skill(_uint skillType, CMonFSM::MONSTER_STATE eMotion, const _tchar* pLayer)
 {
 	if (!m_bAttack)
@@ -382,7 +418,7 @@ HRESULT CMonster::Add_Components()
 	//ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
 	//ColliderDesc.vScale = _float3(1.2f, 1.2f, 1.2f);
 	//ColliderDesc.vPosition = _float3(0.0f, ColliderDesc.vScale.y * 0.5f, 0.f);
-	//if (FAILED(pGameInstance->Add_Component(FAMILY_ID_COLLISION_SPHERE, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_SPHERE"),
+	//if (FAILED(pGameInstance->Add_Component(FAMILY_ID_COLLISION_SPHERE, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
 	//	(CComponent**)&m_pSphere, &ColliderDesc)))
 	//	return E_FAIL;
 
@@ -673,6 +709,7 @@ void CMonster::Free()
 	m_Parts.clear();
 
 	Safe_Release(m_pHpBar);
+	Safe_Release(m_pSearcher);
 
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pShaderCom);
