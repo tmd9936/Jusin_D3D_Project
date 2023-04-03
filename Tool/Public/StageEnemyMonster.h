@@ -43,6 +43,8 @@ private:
 
 	_bool		m_bTurn = { false };
 
+	_vector		m_vTargetPos = {};
+
 public:
 	static CStageEnemyMonster* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) override;

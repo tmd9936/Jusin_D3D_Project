@@ -73,7 +73,7 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 
 	if (nullptr == pEffect_Manager)
 		return nullptr;
-	
+
 	CEffect* pEffect = nullptr;
 
 	vector<CEffect*> effects;
@@ -104,21 +104,21 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 		for (size_t i = 1; i <= 3; ++i)
 		{
 			pEffect = pEffect_Manager->Create_Effect(m_Skill_Depend_Datas[skillType].m_effects[1], pLayerTag, iLevelIndex, true);
-			
+
 			if (nullptr == pEffect)
 				return nullptr;
 
 			_vector vParentLook = vParentMatrix.r[2];
 			_vector vParentPos = vParentMatrix.r[3];
 
-			vParentLook = XMVector3Rotate(vParentLook, XMQuaternionRotationAxis(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(120.f + 120.f * i )));
+			vParentLook = XMVector3Rotate(vParentLook, XMQuaternionRotationAxis(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(120.f + 120.f * i)));
 
 			CTransform* pTransform = pEffect->Get_As<CTransform>();
 			if (nullptr == pTransform)
 				return nullptr;
 
 			//pTransform->LookAt(vParentPos);
-			
+
 			_vector vPos = XMVectorSetW(vParentLook, 1.f);
 			_float4 pos = {};
 			XMStoreFloat4(&pos, vPos);
@@ -132,6 +132,36 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 
 			pEffect->Set_SmallRotation(smallRotationSpeed);
 			pEffect->Set_BigRotation(bigRotationSpeed, 2.f);
+
+			effects.push_back(pEffect);
+		}
+	}
+	else if (skill_desc.m_isEnablePotential_Extend)
+	{
+		for (size_t i = 1; i <= 2; ++i)
+		{
+			pEffect = pEffect_Manager->Create_Effect(m_Skill_Depend_Datas[skillType].m_effects[1], pLayerTag, iLevelIndex, true);
+
+			if (nullptr == pEffect)
+				return nullptr;
+
+			_vector vParentLook = vParentMatrix.r[2];
+			_vector vParentPos = vParentMatrix.r[3];
+
+			CTransform* pTransform = pEffect->Get_As<CTransform>();
+			if (nullptr == pTransform)
+				return nullptr;
+
+			//pTransform->LookAt(vParentPos);
+
+			_vector vPos = XMVectorSetW(vParentPos + vParentLook * i, 1.f);
+			_float4 pos = {};
+			XMStoreFloat4(&pos, vPos);
+			pEffect->Set_Pos(pos);
+
+			pEffect->Set_AttackPower(_uint(damage * skill_desc.m_damagePercent));
+
+			//pEffect->Set_Pos({ 0.f, 0.f, 0.f, 0.f });
 
 			effects.push_back(pEffect);
 		}
@@ -184,8 +214,6 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 				effects.push_back(pEffect);
 			}
 		}
-
-
 	}
 
 

@@ -156,7 +156,7 @@ public:
 
 	_bool TurnAndChase(_fvector vTargetPos, _float TimeDelta, _float limitDitance = 0.2);
 
-	_bool ChaseNoLook(_fvector vTargetPos, _float TimeDelta, _float limitDitance = 0.2);
+	_bool ChaseNoLook(_fvector vTargetPos, _float TimeDelta, _float limitDitance = 0.2, CNavigation* pNavigation = nullptr);
 
 	_bool Chase_No_Y(_fvector vTargetPos, _float TimeDelta, _float limitDitance);
 

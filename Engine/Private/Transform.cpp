@@ -369,8 +369,9 @@ _bool CTransform::TurnAndChase(_fvector vTargetPos, _float TimeDelta, _float lim
 	return true;
 }
 
-_bool CTransform::ChaseNoLook(_fvector vTargetPos, _float TimeDelta, _float limitDitance)
+_bool CTransform::ChaseNoLook(_fvector vTargetPos, _float TimeDelta, _float limitDitance, CNavigation* pNavigation)
 {
+	_bool	isMove = true;
 	//LookAt(vTargetPos);
 
 	_vector vPosition = Get_State(STATE_POSITION);
@@ -384,7 +385,15 @@ _bool CTransform::ChaseNoLook(_fvector vTargetPos, _float TimeDelta, _float limi
 	if (length >= limitDitance)
 	{
 		vPosition += XMVector3Normalize(vDir) * TimeDelta * m_TransformDesc.SpeedPerSec;
-		Set_State(STATE_POSITION, vPosition);
+		if (nullptr != pNavigation)
+		{
+			isMove = pNavigation->Move_OnNavigation(vPosition);
+		}
+
+		if (true == isMove)
+		{
+			Set_State(STATE_POSITION, vPosition);
+		}
 
 		return false;
 	}

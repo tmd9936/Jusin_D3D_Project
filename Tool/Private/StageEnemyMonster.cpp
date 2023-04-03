@@ -113,6 +113,15 @@ void CStageEnemyMonster::Change_State_FSM(_uint eState)
 		break;
 
 	case CMonFSM::BODYBLOW:
+		if (m_pTarget)
+		{
+			CTransform* pTargetTransform = m_pTarget->Get_As<CTransform>();
+
+			if (pTargetTransform)
+			{
+				m_vTargetPos = pTargetTransform->Get_State(CTransform::STATE_POSITION);
+			}
+		}
 		break;
 
 	case CMonFSM::JUMPLANDING_SLE_START:
@@ -182,12 +191,33 @@ HRESULT CStageEnemyMonster::Add_TransitionRandomState()
 
 _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 {
+	CTransform* pTargetTransform = nullptr;
+	if (m_pTarget)
+	{
+		pTargetTransform = m_pTarget->Get_As<CTransform>();
+	}
+
 	switch (m_pMonFSM->Get_MotionState())
 	{
 	case CMonFSM::IDLE1:
 		m_pModelCom->Play_Animation(TimeDelta);
-		if (Search_Target())
+
+		if (m_pTarget)
 		{
+
+			if (pTargetTransform)
+			{
+				m_pTransformCom->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), pTargetTransform->Get_State(CTransform::STATE_POSITION), TimeDelta * 1.5);
+			}
+			if (m_AttackCoolTimeAcc < 2.5)
+			{
+				m_pMonFSM->Transit_MotionState(CMonFSM::RUN_GOUND2);
+			}
+		}
+
+		else if (Search_Target())
+		{
+			Safe_Release(m_pTarget);
 			m_pMonFSM->Transit_MotionState(CMonFSM::RUN_GOUND2);
 			m_pTarget = m_pSearcher->Get_Target();
 			Safe_AddRef(m_pTarget);
@@ -216,11 +246,12 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 			}
 		}
 
-		CTransform* pTargetTransform = m_pTarget->Get_As<CTransform>();
-
 		if (pTargetTransform)
 		{
-			if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), TimeDelta, 0.3f, m_pNavigationCom))
+			m_pTransformCom->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), pTargetTransform->Get_State(CTransform::STATE_POSITION), TimeDelta * 1.5);
+			m_pTransformCom->ChaseNoLook(m_vTargetPos, TimeDelta * 1.5);
+
+			if (m_pTransformCom->ChaseNoLook(pTargetTransform->Get_State(CTransform::STATE_POSITION), TimeDelta * 1.5, 0.3f, m_pNavigationCom))
 			{
 				if (m_bCanAttack)
 				{
@@ -246,8 +277,8 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 			m_pMonFSM->Transit_MotionState(CMonFSM::ATK_SLE_NORMAL_LOOP);
 			m_bCanAttack = false;
 			m_bCanSkillAttack = false;
-			m_AttackCoolTimeAcc = 3.0;
-			m_SkillCoolTimeAcc = 4.0;
+			m_AttackCoolTimeAcc = 3.5;
+			m_SkillCoolTimeAcc = 4.5;
 		}
 		break;
 	case CMonFSM::ATK_SLE_NORMAL_LOOP:
@@ -265,6 +296,9 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 		break;
 
 	case CMonFSM::BODYBLOW:
+		m_pTransformCom->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), m_vTargetPos, TimeDelta * 2.0);
+		m_pTransformCom->ChaseNoLook(m_vTargetPos, TimeDelta * 2.0);
+
 		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
 			m_bCanSkillAttack = false;
@@ -272,7 +306,6 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1);
 			m_AttackCoolTimeAcc = 3.0;
 			m_SkillCoolTimeAcc = 4.0;
-
 		}
 
 		break;
@@ -282,9 +315,22 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 		{
 			m_bCanSkillAttack = false;
 			m_bCanAttack = false;
+			m_pMonFSM->Transit_MotionState(CMonFSM::JUMPLANDING_SLE_LOOP);
+			m_AttackCoolTimeAcc = 3.5;
+			m_SkillCoolTimeAcc = 4.5;
+		}
+		break;
+
+	case CMonFSM::JUMPLANDING_SLE_LOOP:
+		if (m_pModelCom->Play_Animation(TimeDelta))
+		{
+			m_pMonFSM->Transit_MotionState(CMonFSM::JUMPLANDING_SLE_END);
+		}
+		break;
+	case CMonFSM::JUMPLANDING_SLE_END:
+		if (m_pModelCom->Play_Animation(TimeDelta))
+		{
 			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1);
-			m_AttackCoolTimeAcc = 3.0;
-			m_SkillCoolTimeAcc = 4.0;
 		}
 		break;
 	default:

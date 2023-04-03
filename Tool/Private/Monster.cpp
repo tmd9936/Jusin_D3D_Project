@@ -386,6 +386,10 @@ void CMonster::Do_Skill_After_Set_Motion(_uint skillType, const _tchar* pLayer)
 	{
 		m_pMonFSM->Transit_MotionState(CMonFSM::ATK_NORMAL);
 	}
+	else if (skillType == 100) // 지진
+	{
+		m_pMonFSM->Transit_MotionState(CMonFSM::JUMPLANDING_SLE_START);
+	}
 	else if (skillType == 164) // 돌진
 	{
 		m_pMonFSM->Transit_MotionState(CMonFSM::BODYBLOW);
