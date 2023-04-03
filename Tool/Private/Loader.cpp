@@ -46,6 +46,8 @@
 #include "StageCamera.h"
 #include "StageCameraTarget.h"
 
+#include "StageEnemyMonster.h"
+
 #include "HP.h"
 #include "HpBar.h"
 
@@ -345,6 +347,11 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CSearcher::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
+		/* For.Prototype_GameObject_StageEnemyMonster*/
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_StageEnemyMonster"),
+			CStageEnemyMonster::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
 		///* For.Prototype_GameObject_BackGround */
 		//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround"),
 		//	CBackGround::Create(m_pDevice, m_pContext))))
@@ -525,12 +532,12 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 			return E_FAIL;
 	}
 
-	modelName = L"Prototype_Component_Model_Pokemon_PM34";
+	modelName = L"Prototype_Component_Model_Pokemon_PM31";
 	if (false == pGameInstance->Check_Prototype(modelName.c_str()))
 	{
 		PivotMatrix = XMMatrixScaling(0.4f, 0.4f, 0.4f) * XMMatrixRotationY(XMConvertToRadians(180.f));
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, modelName.c_str(),
-			CModel::Create(m_pDevice, m_pContext, "../../Reference/Resources/Mesh/Animation/Pokemon/PM34.json", CModel::TYPE_MESH_COLOR_ANIM, PivotMatrix))))
+			CModel::Create(m_pDevice, m_pContext, "../../Reference/Resources/Mesh/Animation/Pokemon/PM31.json", CModel::TYPE_MESH_COLOR_ANIM, PivotMatrix))))
 			return E_FAIL;
 	}
 

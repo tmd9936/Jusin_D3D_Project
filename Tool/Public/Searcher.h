@@ -49,10 +49,6 @@ public:
 	}
 
 	CGameObject* Get_Target() const {
-		if (m_pTarget)
-		{
-			Safe_AddRef(m_pTarget);
-		}
 		return m_pTarget;
 	}
 

@@ -264,24 +264,31 @@ void CTransform::Turn(_fvector vAxis, _float TimeDelta)
 
 _bool CTransform::TurnToTarget(_fvector vAxis, _fvector vTargetPos, _float TimeDelta)
 {
+
 	_vector		vUp = Get_State(CTransform::STATE_UP);
 	_vector		vLook = Get_State(CTransform::STATE_LOOK);
 	_vector		vPos = Get_State(STATE_POSITION);
 
-	_vector		vLookTarget = XMVector3Normalize(vTargetPos - vPos);
+	_vector		vLookTarget = XMVector3Normalize(XMVectorSetY(vTargetPos, 0.f) - XMVectorSetY(vPos, 0.f));
 
-	_float dot = XMVectorGetX(XMVector3Dot(vLookTarget, vLook));
+	_float dot = XMVectorGetX(XMVector3Dot(XMVector3Normalize(vLook), vLookTarget));
 
 	_float radian = acosf(dot);
 
-	if (dot >= 0.95f)
+	if (dot >= 0.99f)
 		return true;
 	else
 	{
-		if (radian >= XMConvertToRadians(-180.f) && radian < XMConvertToRadians(180.f))
-			Turn(vUp, TimeDelta);
-		else
-			Turn(vUp, TimeDelta * -1.f);
+		_vector vLook = vTargetPos - vPos;
+		_vector vRight = XMVector3Cross(XMVectorSet(0.f, 1.f, 0.f, 0.f), vLook);
+		_vector vUp = XMVector3Cross(vLook, vRight);
+
+		_float3		vScale = Get_Scaled();
+
+		Set_State(STATE_RIGHT, XMVector3Normalize(vRight) * vScale.x);
+		Set_State(STATE_UP, XMVector3Normalize(vUp) * vScale.y);
+		Set_State(STATE_LOOK, XMVector3Normalize(vLook) * vScale.z);
+
 		return false;
 	}
 }

@@ -1,16 +1,16 @@
 {
     "PokemonDesc": {
-        "ModelPrototypeTag": "Prototype_Component_Model_Pokemon_PM34",
+        "ModelPrototypeTag": "Prototype_Component_Model_Pokemon_PM31",
         "ModelPrototypeLevelIndex": 0,
         "vPos": {
-            "x": 18.0,
-            "y": 0.0,
-            "z": 11.0,
+            "x": 20.0,
+            "y": 0.5,
+            "z": 24.0,
             "w": 1.0
         },
         "moveSpeed": 0.5,
         "rotateSpeed": 1.2,
-        "m_monsterNo": 34,
+        "m_monsterNo": 31,
         "m_hpBasis": 1400,
         "m_attackBasis": 325,
         "m_hpGrow": 1,

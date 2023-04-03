@@ -355,6 +355,20 @@ void CMonster::Do_Skill(_uint skillType, const _tchar* pLayer)
 
 				Safe_Release(pSkill);
 			}
+			else if (skillType == 100) // 지진
+			{
+				pSkill = dynamic_cast<CSkill_Manager*>(pSkill_Mananger)->Create_Skill(pLayer, m_iLevelindex, skillType, m_pAttackCom->Get_AttackPower(),
+					m_pTransformCom->Get_WorldMatrix_Matrix(), XMConvertToRadians(0.f), XMConvertToRadians(0.f), m_pModelCom->Get_BonePtr("effect00"), m_pTransformCom, m_pModelCom->Get_PivotMatrix());
+
+				Safe_Release(pSkill);
+			}
+			else if (skillType == 164)
+			{
+				pSkill = dynamic_cast<CSkill_Manager*>(pSkill_Mananger)->Create_Skill(pLayer, m_iLevelindex, skillType, m_pAttackCom->Get_AttackPower(),
+					m_pTransformCom->Get_WorldMatrix_Matrix(), XMConvertToRadians(0.f), XMConvertToRadians(0.f), m_pModelCom->Get_BonePtr("effect00"), m_pTransformCom, m_pModelCom->Get_PivotMatrix());
+
+				Safe_Release(pSkill);
+			}
 			else if (skillType <= 35 && skillType % 2 == 1)
 			{
 				pSkill = dynamic_cast<CSkill_Manager*>(pSkill_Mananger)->Create_Skill(pLayer, m_iLevelindex, skillType, m_pAttackCom->Get_AttackPower(),
@@ -380,23 +394,23 @@ void CMonster::Do_Skill_After_Set_Motion(_uint skillType, const _tchar* pLayer)
 
 	if (skillType <= 35 && skillType % 2 == 1)
 	{
-		m_pMonFSM->Transit_MotionState(CMonFSM::POKING); // 원거리 공격
+		m_pMonFSM->Transit_MotionState(CMonFSM::ATK_NORMAL, m_pModelCom); // 원거리 공격
 	}
 	else if (skillType <= 35 && skillType % 2 == 0) // 근거리 공격
 	{
-		m_pMonFSM->Transit_MotionState(CMonFSM::ATK_NORMAL);
+		m_pMonFSM->Transit_MotionState(CMonFSM::ATK_NORMAL, m_pModelCom);
 	}
 	else if (skillType == 100) // 지진
 	{
-		m_pMonFSM->Transit_MotionState(CMonFSM::JUMPLANDING_SLE_START);
+		m_pMonFSM->Transit_MotionState(CMonFSM::JUMPLANDING_SLE_START, m_pModelCom);
 	}
 	else if (skillType == 164) // 돌진
 	{
-		m_pMonFSM->Transit_MotionState(CMonFSM::BODYBLOW);
+		m_pMonFSM->Transit_MotionState(CMonFSM::BODYBLOW, m_pModelCom);
 	}
 	else if (skillType == 168) //메가톤 펀치
 	{
-		m_pMonFSM->Transit_MotionState(CMonFSM::ATK_SLE_NORMAL_START);
+		m_pMonFSM->Transit_MotionState(CMonFSM::ATK_SLE_NORMAL_START, m_pModelCom);
 	}
 
 }
@@ -571,7 +585,7 @@ HRESULT CMonster::Add_Components_By_File()
 	CNavigation::NAVIDESC		NaviDesc;
 	ZeroMemory(&NaviDesc, sizeof NaviDesc);
 	NaviDesc.iIndex = 15;
-	if (FAILED(pGameInstance->Add_Component(CNavigation::familyId, this, m_PokemonDesc.ModelPrototypeLevelIndex, TEXT("Prototype_Component_Navigation"),
+	if (FAILED(pGameInstance->Add_Component(CNavigation::familyId, this, m_iLevelindex, TEXT("Prototype_Component_Navigation"),
 		(CComponent**)&m_pNavigationCom, &NaviDesc)))
 		return E_FAIL;
 
@@ -775,7 +789,6 @@ void CMonster::Free()
 
 	Safe_Release(m_pHpBar);
 	Safe_Release(m_pSearcher);
-	Safe_Release(m_pTarget);
 
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pShaderCom);

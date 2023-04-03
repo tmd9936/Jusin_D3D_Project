@@ -53,6 +53,7 @@ _uint CSearcher::Tick(_double TimeDelta)
 
 _uint CSearcher::LateTick(_double TimeDelta)
 {
+
 	return _uint();
 }
 
@@ -70,13 +71,7 @@ HRESULT CSearcher::Render()
 
 void CSearcher::On_Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
 {
-	if (m_pTarget)
-	{
-		Safe_Release(m_pTarget);
-		m_pTarget = nullptr;
-	}
 	m_pTarget = pOther->Get_Owner();
-	Safe_AddRef(m_pTarget);
 
 	m_eCollisionState = COLLISION_STATE_ON;
 }
@@ -89,8 +84,6 @@ void CSearcher::On_CollisionEnter(CCollider* pOther, const _float& fX, const _fl
 void CSearcher::On_CollisionExit(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
 {
 	m_eCollisionState = COLLISION_STATE_EXIT;
-
-	Safe_Release(m_pTarget);
 }
 
 
@@ -156,5 +149,4 @@ void CSearcher::Free()
 	Safe_Release(m_Desc.pParentTransformCom);
 	Safe_Release(m_pRendererCom);
 	Safe_Release(m_pSphereCom);
-	Safe_Release(m_pTarget);
 }

@@ -84,6 +84,17 @@ _uint CStageEnemyMonster::Tick(_double TimeDelta)
 
 _uint CStageEnemyMonster::LateTick(_double TimeDelta)
 {
+	switch (m_pMonFSM->Get_MotionState())
+	{
+	case CMonFSM::IDLE1:
+		if (Search_Target())
+		{
+			m_pMonFSM->Transit_MotionState(CMonFSM::RUN_GOUND2);
+			m_pTarget = m_pSearcher->Get_Target();
+		}
+		break;
+	}
+
 	return __super::LateTick(TimeDelta);
 }
 
@@ -105,11 +116,19 @@ void CStageEnemyMonster::Change_State_FSM(_uint eState)
 		// 카메라 보이면 연출
 		break;
 
+	case CMonFSM::RUN_GOUND2:
+		break;
+
 	case CMonFSM::ATK_NORMAL:
 		//Do_Skill(m_PokemonDesc.m_normalSkillType, L"Layer_MonsterSkill");
 		break;
 
 	case CMonFSM::ATK_SLE_NORMAL_START:
+		break;
+
+	case CMonFSM::ATK_SLE_NORMAL_LOOP:
+		break;
+	case CMonFSM::ATK_SLE_NORMAL_END:
 		break;
 
 	case CMonFSM::BODYBLOW:
@@ -163,7 +182,7 @@ _bool CStageEnemyMonster::Search_Target()
 		return true;
 	}
 
-	return true;
+	return false;
 }
 
 void CStageEnemyMonster::Init_RandomMotionChangeDelay()
@@ -208,19 +227,11 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 			if (pTargetTransform)
 			{
 				m_pTransformCom->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), pTargetTransform->Get_State(CTransform::STATE_POSITION), TimeDelta * 1.5);
+				if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), TimeDelta, 3.3f, m_pNavigationCom))
+				{
+					m_pMonFSM->Transit_MotionState(CMonFSM::RUN_GOUND2, m_pModelCom);
+				}
 			}
-			if (m_AttackCoolTimeAcc < 2.5)
-			{
-				m_pMonFSM->Transit_MotionState(CMonFSM::RUN_GOUND2);
-			}
-		}
-
-		else if (Search_Target())
-		{
-			Safe_Release(m_pTarget);
-			m_pMonFSM->Transit_MotionState(CMonFSM::RUN_GOUND2);
-			m_pTarget = m_pSearcher->Get_Target();
-			Safe_AddRef(m_pTarget);
 		}
 		break;
 
@@ -238,10 +249,7 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 		{
 			if (Search_Target())
 			{
-				Safe_Release(m_pTarget);
-				//MotionChange_Random();
 				m_pTarget = m_pSearcher->Get_Target();
-				Safe_AddRef(m_pTarget);
 				break;
 			}
 		}
@@ -249,13 +257,17 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 		if (pTargetTransform)
 		{
 			m_pTransformCom->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), pTargetTransform->Get_State(CTransform::STATE_POSITION), TimeDelta * 1.5);
-			m_pTransformCom->ChaseNoLook(m_vTargetPos, TimeDelta * 1.5);
 
-			if (m_pTransformCom->ChaseNoLook(pTargetTransform->Get_State(CTransform::STATE_POSITION), TimeDelta * 1.5, 0.3f, m_pNavigationCom))
+			if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), TimeDelta, 1.3f, m_pNavigationCom))
 			{
 				if (m_bCanAttack)
 				{
 					Do_RandomSkill();
+				}
+				else 
+				{
+					m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
+
 				}
 			}
 		}
@@ -265,8 +277,8 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
 			m_bCanAttack = false;
-			m_AttackCoolTimeAcc = 3.0;
-			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1);
+			m_AttackCoolTimeAcc = 1.0;
+			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
 		}
 
 		break;
@@ -274,23 +286,17 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 	case CMonFSM::ATK_SLE_NORMAL_START:
 		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
-			m_pMonFSM->Transit_MotionState(CMonFSM::ATK_SLE_NORMAL_LOOP);
+			m_pMonFSM->Transit_MotionState(CMonFSM::ATK_SLE_NORMAL_END, m_pModelCom);
 			m_bCanAttack = false;
 			m_bCanSkillAttack = false;
-			m_AttackCoolTimeAcc = 3.5;
+			m_AttackCoolTimeAcc = 1.0;
 			m_SkillCoolTimeAcc = 4.5;
-		}
-		break;
-	case CMonFSM::ATK_SLE_NORMAL_LOOP:
-		if (m_pModelCom->Play_Animation(TimeDelta))
-		{
-			m_pMonFSM->Transit_MotionState(CMonFSM::ATK_SLE_NORMAL_END);
 		}
 		break;
 	case CMonFSM::ATK_SLE_NORMAL_END:
 		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
-			m_pMonFSM->Transit_MotionState(CMonFSM::ATK_SLE_NORMAL_END);
+			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
 		}
 
 		break;
@@ -303,8 +309,8 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 		{
 			m_bCanSkillAttack = false;
 			m_bCanAttack = false;
-			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1);
-			m_AttackCoolTimeAcc = 3.0;
+			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
+			m_AttackCoolTimeAcc = 1.0;
 			m_SkillCoolTimeAcc = 4.0;
 		}
 
@@ -315,8 +321,8 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 		{
 			m_bCanSkillAttack = false;
 			m_bCanAttack = false;
-			m_pMonFSM->Transit_MotionState(CMonFSM::JUMPLANDING_SLE_LOOP);
-			m_AttackCoolTimeAcc = 3.5;
+			m_pMonFSM->Transit_MotionState(CMonFSM::JUMPLANDING_SLE_LOOP, m_pModelCom);
+			m_AttackCoolTimeAcc = 1.0;
 			m_SkillCoolTimeAcc = 4.5;
 		}
 		break;
@@ -324,13 +330,13 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 	case CMonFSM::JUMPLANDING_SLE_LOOP:
 		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
-			m_pMonFSM->Transit_MotionState(CMonFSM::JUMPLANDING_SLE_END);
+			m_pMonFSM->Transit_MotionState(CMonFSM::JUMPLANDING_SLE_END, m_pModelCom);
 		}
 		break;
 	case CMonFSM::JUMPLANDING_SLE_END:
 		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
-			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1);
+			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
 		}
 		break;
 	default:
@@ -362,7 +368,7 @@ void CStageEnemyMonster::Do_RandomSkill()
 {
 	if (!m_bCanSkillAttack || m_PokemonDesc.m_skillIDs.size() <= 0)
 	{
-		m_pMonFSM->Transit_MotionState(CMonFSM::ATK_NORMAL);
+		m_pMonFSM->Transit_MotionState(CMonFSM::ATK_NORMAL, m_pModelCom);
 	}
 
 	_uint randSKill = rand() % m_PokemonDesc.m_skillIDs.size();
