@@ -134,6 +134,31 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 			pEffect->Set_BigRotation(bigRotationSpeed, 2.f);
 
 			effects.push_back(pEffect);
+
+			for (size_t i = 2; i < m_Skill_Depend_Datas[skillType].m_effects.size() - 1; ++i)
+			{
+				pEffect = pEffect_Manager->Create_Effect(m_Skill_Depend_Datas[skillType].m_effects[i], pLayerTag, iLevelIndex);
+				if (nullptr != pEffect)
+				{
+					CTransform* pTransform = pEffect->Get_As<CTransform>();
+					if (nullptr == pTransform)
+						continue;
+
+					pTransform->LookAt(XMVectorSetW(vParentLook, 1.f));
+
+					//Safe_Release(pEffect);
+					_float4 pos = {};
+					XMStoreFloat4(&pos, vPos);
+					pEffect->Set_Pos(pos);
+
+					if (bRush)
+					{
+						pEffect->Set_Rush(bRush, vParentLook, rushSpeed);
+					}
+
+					effects.push_back(pEffect);
+				}
+			}
 		}
 	}
 	else if (skill_desc.m_isEnablePotential_Extend)

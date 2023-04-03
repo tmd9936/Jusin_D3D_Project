@@ -125,6 +125,24 @@ CEffect* CEffect_Manager::Create_Effect(_uint effectType, const _tchar* pLayerTa
 		pEffect->Init_LoopCount(1);
 		//pEffect->Set_Homming(true, false, CEffect::HOMMING_OUT);
 	}
+	else if (0 == effect_Desc.m_effectPath.compare(L"E_BCB_Normal"))
+	{
+		pEffect->Set_ParentRotateApply(false);
+		pEffect->Init_LoopCount(3);
+		pEffect->Set_Animation_Speed(2.2);
+
+	}
+	else if (0 == effect_Desc.m_effectPath.compare(L"E_BB_Normal"))
+	{
+		pEffect->Set_ParentRotateApply(false);
+		pEffect->Init_LoopCount(2);
+
+	}
+	else if (0 == effect_Desc.m_effectPath.compare(L"E_BD_Jimen"))
+	{
+		pEffect->Set_ParentRotateApply(false);
+		pEffect->Init_LoopCount(2);
+	}
 
 	Safe_Release(pGameInstance);
 
