@@ -57,6 +57,121 @@ HRESULT CBaseCampMonster::Render()
 	return __super::Render();
 }
 
+void CBaseCampMonster::On_Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
+{
+	if (fX > fZ)
+	{
+		_vector vDestCenter = m_pAABB->Get_Center();
+		_vector vSourCenter = pOther->Get_Center();
+
+		CGameObject* pOtherOwner = pOther->Get_Owner();
+		if (!pOtherOwner)
+			return;
+
+		CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
+		if (!pOtherTransform)
+			return;
+
+		CNavigation* pNavigationCom = pOtherOwner->Get_As<CNavigation>();
+
+		if (XMVectorGetZ(vDestCenter) < XMVectorGetZ(vSourCenter))
+		{
+			pOtherTransform->Move(0.f, 0.f, fZ * 0.0166f, pNavigationCom);
+		}
+		else
+		{
+			pOtherTransform->Move(0.f, 0.f, -fZ * 0.0166f, pNavigationCom);
+		}
+
+	}
+	else if (fX == fZ) {}
+	else
+	{
+		_vector vDestCenter = m_pAABB->Get_Center();
+		_vector vSourCenter = pOther->Get_Center();
+
+		CGameObject* pOtherOwner = pOther->Get_Owner();
+		if (!pOtherOwner)
+			return;
+
+		CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
+
+		if (!pOtherTransform)
+			return;
+
+		CNavigation* pNavigationCom = pOtherOwner->Get_As<CNavigation>();
+
+		if (XMVectorGetX(vDestCenter) < XMVectorGetX(vSourCenter))
+		{
+			pOtherTransform->Move(fX * 0.0166f, 0.f, 0.f, pNavigationCom);
+
+		}
+		else
+		{
+			pOtherTransform->Move(-fX * 0.0166f, 0.f, 0.f, pNavigationCom);
+		}
+	}
+}
+
+void CBaseCampMonster::On_CollisionEnter(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
+{
+	if (fX > fZ)
+	{
+		_vector vDestCenter = m_pAABB->Get_Center();
+		_vector vSourCenter = pOther->Get_Center();
+
+		CGameObject* pOtherOwner = pOther->Get_Owner();
+		if (!pOtherOwner)
+			return;
+
+		CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
+		if (!pOtherTransform)
+			return;
+
+		CNavigation* pNavigationCom = pOtherOwner->Get_As<CNavigation>();
+
+		if (XMVectorGetZ(vDestCenter) < XMVectorGetZ(vSourCenter))
+		{
+			pOtherTransform->Move(0.f, 0.f, fZ * 0.0166f, pNavigationCom);
+
+		}
+		else
+		{
+			pOtherTransform->Move(0.f, 0.f, -fZ * 0.0166f, pNavigationCom);
+		}
+	}
+	else if (fX == fZ) {}
+	else
+	{
+		_vector vDestCenter = m_pAABB->Get_Center();
+		_vector vSourCenter = pOther->Get_Center();
+
+		CGameObject* pOtherOwner = pOther->Get_Owner();
+		if (!pOtherOwner)
+			return;
+
+		CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
+		if (!pOtherTransform)
+			return;
+
+		CNavigation* pNavigationCom = pOtherOwner->Get_As<CNavigation>();
+
+		if (XMVectorGetX(vDestCenter) < XMVectorGetX(vSourCenter))
+		{
+			pOtherTransform->Move(fX * 0.0166f, 0.f, 0.f, pNavigationCom);
+
+		}
+		else
+		{
+			pOtherTransform->Move(-fX * 0.0166f, 0.f, 0.f, pNavigationCom);
+		}
+	}
+}
+
+void CBaseCampMonster::On_CollisionExit(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
+{
+}
+
 void CBaseCampMonster::Change_State_FSM(_uint eState)
 {
 	switch (eState)

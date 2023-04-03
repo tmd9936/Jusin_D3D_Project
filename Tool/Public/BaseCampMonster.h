@@ -20,6 +20,12 @@ public:
 	virtual _uint LateTick(_double TimeDelta) override;
 	virtual HRESULT Render() override;
 
+
+public:
+	virtual void On_Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
+	virtual void On_CollisionEnter(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
+	virtual void On_CollisionExit(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
+
 public:
 	virtual void Change_State_FSM(_uint eState) override;
 
