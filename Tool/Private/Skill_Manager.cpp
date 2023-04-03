@@ -146,7 +146,7 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 		if (nullptr == pTransform)
 			return nullptr;
 
-		pTransform->LookAt(XMVectorSetW(vLook * -1.f, 1.f));
+		pTransform->LookAt(XMVectorSetW(vLook, 1.f));
 
 		pEffect->Set_AttackPower(damage * skill_desc.m_damagePercent);
 
@@ -169,7 +169,7 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 				if (nullptr == pTransform)
 					continue;
 
-				pTransform->LookAt(XMVectorSetW(vLook * -1.f, 1.f));
+				pTransform->LookAt(XMVectorSetW(vLook, 1.f));
 
 				//Safe_Release(pEffect);
 				_float4 pos = {};
@@ -245,7 +245,7 @@ CSkill* CSkill_Manager::Create_Test_Skill(const _tchar* pLayerTag, _uint iLevelI
 			if (nullptr == pTransform)
 				continue;
 
-			pTransform->LookAt(XMVectorSetW(vLook * -1.f, 1.f));
+			pTransform->LookAt(XMVectorSetW(vLook, 1.f));
 
 			//Safe_Release(pEffect);
 			_float4 pos = {};

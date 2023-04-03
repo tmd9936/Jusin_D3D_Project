@@ -529,8 +529,6 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 			return E_FAIL;
 	}
 
-	
-
 	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Model_Pokemon_PM10"),
 	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Pokemon/PM10.fbx", PivotMatrix))))
 	//	return E_FAIL;

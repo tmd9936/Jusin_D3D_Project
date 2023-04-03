@@ -60,6 +60,7 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* p
 		m_PokemonDesc.m_slotTypeWeightMulti = (*(POKEMON_DESC*)(pArg)).m_slotTypeWeightMulti;
 
 		m_PokemonDesc.m_normalSkillType = (*(POKEMON_DESC*)(pArg)).m_normalSkillType;
+		m_PokemonDesc.m_AIType = (*(POKEMON_DESC*)(pArg)).m_AIType;
 
 		m_PokemonDesc.m_skillIDs = (*(POKEMON_DESC*)(pArg)).m_skillIDs;
 	}
@@ -579,6 +580,7 @@ _bool CMonster::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& al
 			PokemonDesc.AddMember("m_slotTypeWeightAttack", m_PokemonDesc.m_slotTypeWeightAttack, allocator);
 			PokemonDesc.AddMember("m_slotTypeWeightMulti", m_PokemonDesc.m_slotTypeWeightMulti, allocator);
 			PokemonDesc.AddMember("m_normalSkillType", m_PokemonDesc.m_normalSkillType, allocator);
+			PokemonDesc.AddMember("m_AIType", m_PokemonDesc.m_AIType, allocator);
 
 			Value m_skillIDs(kArrayType);
 			{
@@ -634,6 +636,7 @@ _bool CMonster::Load_By_JsonFile_Impl(Document& doc)
 		m_PokemonDesc.m_slotTypeWeightMulti = PokemonDesc["m_slotTypeWeightMulti"].GetUint();
 
 		m_PokemonDesc.m_normalSkillType = PokemonDesc["m_normalSkillType"].GetUint();
+		m_PokemonDesc.m_AIType = PokemonDesc["m_AIType"].GetUint();
 
 		const Value& skillIDs = PokemonDesc["m_skillIDs"];
 		for (SizeType i = 0; i < skillIDs.Size(); ++i)

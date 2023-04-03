@@ -95,12 +95,13 @@ void CStageEnemyMonster::Change_State_FSM(_uint eState)
 	case CMonFSM::IDLE1:
 		break;
 
-	case CMonFSM::RUN_GOUND2:
-		m_bTurn = true;
-		Set_MovePosition();
+	case CMonFSM::ROAR:
+		//m_bTurn = true;
+		//Set_MovePosition();
+		// 카메라 보이면 연출
 		break;
 
-	case CMonFSM::RUN_GOUND4:
+	case CMonFSM::RUN_GOUND2:
 		m_bTurn = true;
 		Set_MovePosition();
 		break;
@@ -144,9 +145,9 @@ void CStageEnemyMonster::Init_RandomMotionChangeDelay()
 HRESULT CStageEnemyMonster::Add_TransitionRandomState()
 {
 	m_pMonFSM->Add_RandomTransitionState(CMonFSM::IDLE1);
-	m_pMonFSM->Add_RandomTransitionState(CMonFSM::RUN_GOUND2);
-	m_pMonFSM->Add_RandomTransitionState(CMonFSM::RUN_GOUND4);
-	m_pMonFSM->Add_RandomTransitionState(CMonFSM::IDLE_GROUND);
+	//m_pMonFSM->Add_RandomTransitionState(CMonFSM::ROAR);
+	m_pMonFSM->Add_RandomTransitionState(CMonFSM::ATK_NORMAL);
+	//m_pMonFSM->Add_RandomTransitionState(CMonFSM::);
 	//m_pMonFSM->Add_RandomTransitionState(CMonFSM::ROTATE_LOOP);
 
 	
@@ -163,15 +164,15 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 		Check_Do_Change_RandomMotion(TimeDelta);
 		break;
 
+	case CMonFSM::ROAR:
+		Go_To_RandomPosition(TimeDelta);
+		break;
+
+	case CMonFSM::ATK_NORMAL:
+		Go_To_RandomPosition(TimeDelta);
+		break;
+
 	case CMonFSM::RUN_GOUND2:
-		Go_To_RandomPosition(TimeDelta);
-		break;
-
-	case CMonFSM::RUN_GOUND4:
-		Go_To_RandomPosition(TimeDelta);
-		break;
-
-	case CMonFSM::IDLE_GROUND:
 		Go_To_RandomPosition(TimeDelta);
 		break;
 

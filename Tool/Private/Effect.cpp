@@ -90,7 +90,7 @@ _uint CEffect::Tick(_double TimeDelta)
 		if (m_bRush)
 		{
 			_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-			m_pTransformCom->Go_Straight((_float)(TimeDelta * m_RushSpeed * -1.0), m_pNavigationCom);
+			m_pTransformCom->Go_Straight((_float)(TimeDelta * m_RushSpeed), m_pNavigationCom);
 		}
 
 		if (m_bHomming)

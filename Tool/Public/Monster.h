@@ -58,6 +58,8 @@ public:
 		_uint			m_slotTypeWeightAttack;
 		_uint			m_slotTypeWeightMulti;
 
+		_uint			m_AIType;
+
 		_uint			m_normalSkillType;
 
 		vector<_uint>	m_skillIDs;
