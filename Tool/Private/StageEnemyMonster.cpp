@@ -241,6 +241,10 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 		}
 		break;
 
+	case CMonFSM::RUN_NO:
+		m_pModelCom->Play_Animation(TimeDelta))
+		break;
+
 	case CMonFSM::ROAR:
 		m_pModelCom->Play_Animation(TimeDelta);
 		//m_bTurn = true;
@@ -275,6 +279,10 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 					m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
 
 				}
+			}
+			else
+			{
+				m_pMonFSM->Transit_MotionState(CMonFSM::RUN_NO, m_pModelCom);
 			}
 		}
 		break;
@@ -331,8 +339,19 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 		}
 		break;
 
+	case CMonFSM::VERTICAL_JUMP:
+		if (m_pModelCom->Play_Animation(TimeDelta * 0.7))
+		{
+			m_bCanSkillAttack = false;
+			m_bCanAttack = false;
+			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
+			m_AttackCoolTimeAcc = m_AttackCoolTime;
+			m_SkillCoolTimeAcc = m_SkillCoolTime;
+		}
+		break;
+
 	case CMonFSM::JUMPLANDING_SLE_START:
-		if (m_pModelCom->Play_Animation(TimeDelta, false))
+		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
 			m_bCanSkillAttack = false;
 			m_bCanAttack = false;
@@ -351,7 +370,7 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 		}
 		break;
 	case CMonFSM::JUMPLANDING_SLE_END:
-		if (m_pModelCom->Play_Animation(TimeDelta, false))
+		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
 			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
 			mat = m_pModelCom->Get_CombinedTransformationMatrix_float4_4(0);

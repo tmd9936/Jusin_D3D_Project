@@ -150,7 +150,7 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const c
 
 _uint CMonster::Tick(_double TimeDelta)
 {
-	m_pMonFSM->Update_Component((_float)TimeDelta, m_pModelCom);
+	//m_pMonFSM->Update_Component((_float)TimeDelta, m_pModelCom);
 
 	m_pAABB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
 	//m_pOBB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
@@ -402,7 +402,7 @@ void CMonster::Do_Skill_After_Set_Motion(_uint skillType, const _tchar* pLayer)
 	}
 	else if (skillType == 100) // 지진
 	{
-		m_pMonFSM->Transit_MotionState(CMonFSM::JUMPLANDING_SLE_START, m_pModelCom);
+		m_pMonFSM->Transit_MotionState(CMonFSM::VERTICAL_JUMP, m_pModelCom);
 	}
 	else if (skillType == 164) // 돌진
 	{
