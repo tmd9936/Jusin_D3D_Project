@@ -242,7 +242,13 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 		break;
 
 	case CMonFSM::RUN_NO:
-		m_pModelCom->Play_Animation(TimeDelta))
+		m_pModelCom->Play_Animation(TimeDelta);
+
+		if (m_bCanAttack || m_bCanSkillAttack)
+		{
+			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
+		}
+
 		break;
 
 	case CMonFSM::ROAR:
@@ -279,10 +285,6 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 					m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
 
 				}
-			}
-			else
-			{
-				m_pMonFSM->Transit_MotionState(CMonFSM::RUN_NO, m_pModelCom);
 			}
 		}
 		break;
@@ -329,7 +331,7 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 		break;
 
 	case CMonFSM::TREMBLING:
-		if (m_pModelCom->Play_Animation(TimeDelta* 0.7))
+		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
 			m_bCanSkillAttack = false;
 			m_bCanAttack = false;
@@ -340,7 +342,7 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 		break;
 
 	case CMonFSM::VERTICAL_JUMP:
-		if (m_pModelCom->Play_Animation(TimeDelta * 0.7))
+		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
 			m_bCanSkillAttack = false;
 			m_bCanAttack = false;
@@ -355,16 +357,16 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 		{
 			m_bCanSkillAttack = false;
 			m_bCanAttack = false;
-			m_pMonFSM->Transit_MotionState(CMonFSM::JUMPLANDING_SLE_END, m_pModelCom);
+			m_pMonFSM->Transit_MotionState(CMonFSM::JUMPLANDING_SLE_LOOP, m_pModelCom);
 			m_AttackCoolTimeAcc = m_AttackCoolTime;
 			m_SkillCoolTimeAcc = m_SkillCoolTime;
-			mat = m_pModelCom->Get_CombinedTransformationMatrix_float4_4(0);
-			m_pTransformCom->Set_PosY(mat.m[3][2]);
+			//mat = m_pModelCom->Get_CombinedTransformationMatrix_float4_4(0);
+			//m_pTransformCom->Set_PosY(mat.m[3][2]);
 		}
 		break;
 
 	case CMonFSM::JUMPLANDING_SLE_LOOP:
-		if (m_pModelCom->Play_Animation(TimeDelta, false))
+		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
 			m_pMonFSM->Transit_MotionState(CMonFSM::JUMPLANDING_SLE_END, m_pModelCom);
 		}
@@ -373,8 +375,8 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
 			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
-			mat = m_pModelCom->Get_CombinedTransformationMatrix_float4_4(0);
-			m_pTransformCom->Set_PosY(mat.m[3][2]);
+			//mat = m_pModelCom->Get_CombinedTransformationMatrix_float4_4(0);
+			//m_pTransformCom->Set_PosY(mat.m[3][2]);
 		}
 		break;
 	default:
