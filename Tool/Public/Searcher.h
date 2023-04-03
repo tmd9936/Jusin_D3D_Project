@@ -48,7 +48,7 @@ public:
 		m_bActive = bActive;
 	}
 
-	const CGameObject* Get_Target() const {
+	CGameObject* Get_Target() const {
 		if (m_pTarget)
 		{
 			Safe_AddRef(m_pTarget);

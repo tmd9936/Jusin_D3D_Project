@@ -43,6 +43,8 @@ _uint CSearcher::Tick(_double TimeDelta)
 	if (m_bDead)
 		return OBJ_DEAD;
 
+	m_eCollisionState = COLLISION_STATE_NO;
+
 	if (m_Desc.pParentTransformCom)
 		m_pSphereCom->Tick(m_Desc.pParentTransformCom->Get_WorldMatrix_Matrix());
 

@@ -37,10 +37,11 @@
         "m_slotTypeWeightHp": 80,
         "m_slotTypeWeightAttack": 120,
         "m_slotTypeWeightMulti": 20,
-        "m_normalSkillType": 3,
+        "m_normalSkillType": 6,
         "m_AIType": 1,
         "m_skillIDs": [
           100,
+          164,
           168
         ]
     }

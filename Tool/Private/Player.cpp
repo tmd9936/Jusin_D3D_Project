@@ -159,9 +159,9 @@ _uint CPlayer::Tick(_double TimeDelta)
 	{
 		if (!m_bAttack)
 		{
-			if (m_pMonFSM->Get_MotionState() != CMonFSM::IDLE_FLOAT)
+			if (m_pMonFSM->Get_MotionState() != CMonFSM::RUN_GOUND2)
 			{
-				m_pMonFSM->Transit_MotionState(CMonFSM::IDLE_FLOAT, m_pModelCom);
+				m_pMonFSM->Transit_MotionState(CMonFSM::RUN_GOUND2, m_pModelCom);
 			}
 		}
 		m_pTransformCom->Go_Backward((_float)TimeDelta, m_pNavigationCom);
@@ -195,9 +195,9 @@ _uint CPlayer::Tick(_double TimeDelta)
 	{
 		if (!m_bAttack)
 		{
-			if (m_pMonFSM->Get_MotionState() != CMonFSM::IDLE_FLOAT)
+			if (m_pMonFSM->Get_MotionState() != CMonFSM::RUN_GOUND2)
 			{
-				m_pMonFSM->Transit_MotionState(CMonFSM::IDLE_FLOAT, m_pModelCom);
+				m_pMonFSM->Transit_MotionState(CMonFSM::RUN_GOUND2, m_pModelCom);
 			}
 		}
 

@@ -31,7 +31,11 @@ protected:
 	void		Init_RandomMotionChangeDelay();
 	void		Check_Do_Change_RandomMotion(const _double& TimeDelta);
 	void		MotionChange_Random();
+	void		Do_RandomSkill();
 	void		Go_To_RandomPosition(const _double& TimeDelta);
+
+protected:
+	_bool		Search_Target();
 
 private:
 	_float		m_MotionChangeDelay = { 3.f };

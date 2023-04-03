@@ -103,6 +103,13 @@ protected:
 	HRESULT	Add_Searcher();
 
 	void	Do_Skill(_uint skillType, CMonFSM::MONSTER_STATE eMotion, const _tchar* pLayer);
+	void	Do_Skill(_uint skillType, const _tchar* pLayer);
+
+	void	Do_Skill_After_Set_Motion(_uint skillType, const _tchar* pLayer);
+
+
+protected:
+	void	CoolTimeCheck(const _double& TimeDelta);
 
 private:
 	HRESULT Add_Components();
@@ -132,13 +139,23 @@ protected:
 	_float4				m_MovePosition = { 20.f, 0.f, 20.f, 1.f };
 	
 	_bool				m_bAttack = { false };
-	_double				m_SkillCoolTime = { 0.f };
+
+	_double				m_AttackCoolTime = { 0.0 };
+	_double				m_SkillCoolTime = { 0.0 };
+
+	_double				m_AttackCoolTimeAcc = { 0.0 };
+	_double				m_SkillCoolTimeAcc = { 0.0 };
+
+	_bool				m_bCanAttack = { true };
+	_double				m_bCanSkillAttack = { true };
 
 protected:
 
 	vector<CGameObject*>	m_Parts;
 	CHpBar*					m_pHpBar = { nullptr };
 	CSearcher*				m_pSearcher = { nullptr };
+
+	CGameObject*			m_pTarget = { nullptr };
 
 public:
 	//static CMonster* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) ;

@@ -11,6 +11,9 @@
 #include "Skill_Manager.h"
 #include "Skill.h"
 
+#include "Searcher.h"
+
+
 
 CMonster::CMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
@@ -158,6 +161,8 @@ _uint CMonster::Tick(_double TimeDelta)
 
 	if (m_pHpBar)
 		m_pHpBar->Tick(TimeDelta);
+
+	CoolTimeCheck(TimeDelta);
 
 	return State_Tick(TimeDelta);
 }
@@ -322,6 +327,16 @@ void CMonster::Do_Skill(_uint skillType, CMonFSM::MONSTER_STATE eMotion, const _
 	{
 		m_pMonFSM->Transit_MotionState(eMotion, m_pModelCom);
 
+		Do_Skill(skillType, pLayer);
+	}
+
+}
+
+void CMonster::Do_Skill(_uint skillType, const _tchar* pLayer)
+{
+	if (!m_bAttack)
+	{
+
 		CGameObject* pSkill_Mananger = CGameInstance::GetInstance()->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"Skill_Manager");
 		if (nullptr != pSkill_Mananger)
 		{
@@ -354,7 +369,53 @@ void CMonster::Do_Skill(_uint skillType, CMonFSM::MONSTER_STATE eMotion, const _
 
 				Safe_Release(pSkill);
 			}
-			
+
+		}
+	}
+}
+
+void CMonster::Do_Skill_After_Set_Motion(_uint skillType, const _tchar* pLayer)
+{
+	Do_Skill(skillType, pLayer);
+
+	if (skillType <= 35 && skillType % 2 == 1)
+	{
+		m_pMonFSM->Transit_MotionState(CMonFSM::POKING); // 원거리 공격
+	}
+	else if (skillType <= 35 && skillType % 2 == 0) // 근거리 공격
+	{
+		m_pMonFSM->Transit_MotionState(CMonFSM::ATK_NORMAL);
+	}
+	else if (skillType == 164) // 돌진
+	{
+		m_pMonFSM->Transit_MotionState(CMonFSM::BODYBLOW);
+	}
+	else if (skillType == 168) //메가톤 펀치
+	{
+		m_pMonFSM->Transit_MotionState(CMonFSM::ATK_SLE_NORMAL_START);
+	}
+
+}
+
+void CMonster::CoolTimeCheck(const _double& TimeDelta)
+{
+	if (m_SkillCoolTimeAcc > 0.0)
+	{
+		m_SkillCoolTimeAcc -= TimeDelta;
+		if (m_SkillCoolTimeAcc <= 0.0)
+		{
+			m_SkillCoolTimeAcc = 0.0;
+			m_bCanSkillAttack = true;
+		}
+	}
+
+	if (m_AttackCoolTimeAcc > 0.0)
+	{
+		m_AttackCoolTimeAcc -= TimeDelta;
+		if (m_AttackCoolTimeAcc <= 0.0)
+		{
+			m_AttackCoolTimeAcc = 0.0;
+			m_bCanAttack = true;
 		}
 	}
 }
@@ -710,6 +771,7 @@ void CMonster::Free()
 
 	Safe_Release(m_pHpBar);
 	Safe_Release(m_pSearcher);
+	Safe_Release(m_pTarget);
 
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pShaderCom);
