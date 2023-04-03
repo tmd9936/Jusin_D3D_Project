@@ -205,6 +205,9 @@
     <Filter Include="02. GameObject\Stage\StageEnemyMonster">
       <UniqueIdentifier>{ff9b477e-34cc-4702-a41e-1483b87cbde1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\Static\Searcher">
+      <UniqueIdentifier>{ed3ef229-cfa7-4b86-87b8-186b71a37f0b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -401,6 +404,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\StageEnemyMonster.h">
       <Filter>02. GameObject\Stage\StageEnemyMonster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Searcher.h">
+      <Filter>02. GameObject\Static\Searcher</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -599,6 +605,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\StageEnemyMonster.cpp">
       <Filter>02. GameObject\Stage\StageEnemyMonster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Searcher.cpp">
+      <Filter>02. GameObject\Static\Searcher</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

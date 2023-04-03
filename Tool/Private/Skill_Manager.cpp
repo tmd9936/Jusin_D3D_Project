@@ -124,7 +124,7 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 			XMStoreFloat4(&pos, vPos);
 			pEffect->Set_Pos(pos);
 
-			pEffect->Set_AttackPower(damage * skill_desc.m_damagePercent);
+			pEffect->Set_AttackPower(_uint(damage * skill_desc.m_damagePercent));
 
 			//pEffect->Set_Pos({ 0.f, 0.f, 0.f, 0.f });
 
@@ -148,7 +148,7 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 
 		pTransform->LookAt(XMVectorSetW(vLook, 1.f));
 
-		pEffect->Set_AttackPower(damage * skill_desc.m_damagePercent);
+		pEffect->Set_AttackPower(_uint(damage * skill_desc.m_damagePercent));
 
 		_float4 pos = {};
 		XMStoreFloat4(&pos, vPos);

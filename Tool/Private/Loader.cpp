@@ -8,6 +8,7 @@
 #include "Camera_Dynamic.h"
 #include "Camera_Public.h"
 
+#include "Searcher.h"
 #include "Mouse.h"
 
 #include "ModelUI.h"
@@ -339,6 +340,10 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CHpBar::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
+		/* For.Prototype_GameObject_Searcher*/
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Searcher"),
+			CSearcher::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
 
 		///* For.Prototype_GameObject_BackGround */
 		//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround"),

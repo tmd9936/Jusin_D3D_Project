@@ -29,6 +29,8 @@
 멀어지면 추적
 of
 가까워지면 빠지기
+가까운 타겟 검색
+공격
 
 적 보스 만들고 아군 몬스터 및 카메라 만들기
 
@@ -93,6 +95,7 @@ void CStageEnemyMonster::Change_State_FSM(_uint eState)
 	switch (eState)
 	{
 	case CMonFSM::IDLE1:
+		
 		break;
 
 	case CMonFSM::ROAR:
@@ -102,8 +105,7 @@ void CStageEnemyMonster::Change_State_FSM(_uint eState)
 		break;
 
 	case CMonFSM::RUN_GOUND2:
-		m_bTurn = true;
-		Set_MovePosition();
+		
 		break;
 
 	case CMonFSM::IDLE_GROUND:
