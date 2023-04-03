@@ -402,7 +402,7 @@ void CMonster::Do_Skill_After_Set_Motion(_uint skillType, const _tchar* pLayer)
 	}
 	else if (skillType == 100) // 지진
 	{
-		m_pMonFSM->Transit_MotionState(CMonFSM::TREMBLING, m_pModelCom);
+		m_pMonFSM->Transit_MotionState(CMonFSM::JUMPLANDING_SLE_START, m_pModelCom);
 	}
 	else if (skillType == 164) // 돌진
 	{

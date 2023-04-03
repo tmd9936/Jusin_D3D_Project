@@ -215,6 +215,8 @@ HRESULT CStageEnemyMonster::Add_TransitionRandomState()
 _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 {
 	CTransform* pTargetTransform = nullptr;
+	_float4x4 mat = {};
+
 	if (m_pTarget)
 	{
 		pTargetTransform = m_pTarget->Get_As<CTransform>();
@@ -278,14 +280,12 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 		break;
 
 	case CMonFSM::ATK_NORMAL:
-		if (m_pModelCom->Play_Animation(TimeDelta * 1.5))
+		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
 			m_bCanAttack = false;
 			m_AttackCoolTimeAcc = m_AttackCoolTime;
 			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
 		}
-
-		break;
 
 	case CMonFSM::ATK_SLE_NORMAL_START:
 		if (m_pModelCom->Play_Animation(TimeDelta))
@@ -332,26 +332,30 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 		break;
 
 	case CMonFSM::JUMPLANDING_SLE_START:
-		if (m_pModelCom->Play_Animation(TimeDelta))
+		if (m_pModelCom->Play_Animation(TimeDelta, false))
 		{
 			m_bCanSkillAttack = false;
 			m_bCanAttack = false;
-			m_pMonFSM->Transit_MotionState(CMonFSM::JUMPLANDING_SLE_LOOP, m_pModelCom);
+			m_pMonFSM->Transit_MotionState(CMonFSM::JUMPLANDING_SLE_END, m_pModelCom);
 			m_AttackCoolTimeAcc = m_AttackCoolTime;
 			m_SkillCoolTimeAcc = m_SkillCoolTime;
+			mat = m_pModelCom->Get_CombinedTransformationMatrix_float4_4(0);
+			m_pTransformCom->Set_PosY(mat.m[3][2]);
 		}
 		break;
 
 	case CMonFSM::JUMPLANDING_SLE_LOOP:
-		if (m_pModelCom->Play_Animation(TimeDelta))
+		if (m_pModelCom->Play_Animation(TimeDelta, false))
 		{
 			m_pMonFSM->Transit_MotionState(CMonFSM::JUMPLANDING_SLE_END, m_pModelCom);
 		}
 		break;
 	case CMonFSM::JUMPLANDING_SLE_END:
-		if (m_pModelCom->Play_Animation(TimeDelta))
+		if (m_pModelCom->Play_Animation(TimeDelta, false))
 		{
 			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
+			mat = m_pModelCom->Get_CombinedTransformationMatrix_float4_4(0);
+			m_pTransformCom->Set_PosY(mat.m[3][2]);
 		}
 		break;
 	default:
@@ -381,7 +385,14 @@ void CStageEnemyMonster::MotionChange_Random()
 
 void CStageEnemyMonster::Do_RandomSkill()
 {
-	if (!m_bCanSkillAttack || m_PokemonDesc.m_skillIDs.size() <= 0)
+	if (!m_bCanAttack)
+	{
+		m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
+		return;
+
+	}
+
+	if ( !m_bCanSkillAttack || m_PokemonDesc.m_skillIDs.size() <= 0)
 	{
 		//m_pMonFSM->Transit_MotionState(CMonFSM::ATK_NORMAL, m_pModelCom);
 		Do_Skill_After_Set_Motion(m_PokemonDesc.m_normalSkillType, L"Layer_MonsterSkill");
