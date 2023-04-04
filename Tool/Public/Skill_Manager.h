@@ -38,7 +38,7 @@ public:
 	CSkill* Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType, _uint damage,
 		_fmatrix vParentMatrix, _float smallRotationSpeed = 0.f, _float bigRotationSpeed = 0.f,
 		CBone* pParentBone = nullptr, CTransform* pParentTransform = nullptr, _fmatrix PivotMatrix = XMMatrixIdentity(),
-		_bool bRush = false, _double rushSpeed = 1.0);
+		_bool bRush = false, _double rushSpeed = 1.0, _uint extendNum = 1);
 
 public:
 	CSkill* Create_Test_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType,

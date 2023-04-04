@@ -61,7 +61,7 @@ _uint CSkill_Manager::LateTick(_double TimeDelta)
 
 CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType, _uint damage,
 	_fmatrix vParentMatrix, _float smallRotationSpeed, _float bigRotationSpeed,
-	CBone* pParentBone, CTransform* pParentTransform, _fmatrix PivotMatrix, _bool bRush, _double rushSpeed)
+	CBone* pParentBone, CTransform* pParentTransform, _fmatrix PivotMatrix, _bool bRush, _double rushSpeed, _uint extendNum)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
@@ -82,6 +82,7 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 
 	_float4x4 pivotMatrix = {};
 	XMStoreFloat4x4(&pivotMatrix, PivotMatrix);
+
 
 	pEffect = pEffect_Manager->Create_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex);
 	if (skill_desc.m_isEnablePotential_Charge)
@@ -171,7 +172,7 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 		if (nullptr == pTransform)
 			return nullptr;
 
-		for (size_t i = 1; i <= 2; ++i)
+		for (size_t i = 1; i <= extendNum; ++i)
 		{
 			pEffect = pEffect_Manager->Create_Effect(m_Skill_Depend_Datas[skillType].m_effects[1], pLayerTag, iLevelIndex, true);
 
@@ -186,6 +187,9 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 			_float4 pos = {};
 			XMStoreFloat4(&pos, vPos);
 			pEffect->Set_Pos(pos);
+
+			pEffect->Set_SmallRotation(smallRotationSpeed);
+			pEffect->Set_BigRotation(bigRotationSpeed, 2.f);
 
 			pEffect->Set_AttackPower(_uint(damage* skill_desc.m_damagePercent* ((rand() % 10 + 95) / 100.f)));
 
@@ -268,7 +272,6 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 			}
 		}
 	}
-
 
 	vector<CEffect*> conditions;
 	//for (auto& conditionsIndex : m_Skill_Depend_Datas[skillType].m_conditions)

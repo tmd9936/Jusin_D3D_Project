@@ -144,6 +144,11 @@ CEffect* CEffect_Manager::Create_Effect(_uint effectType, const _tchar* pLayerTa
 		pEffect->Set_ParentRotateApply(false);
 		pEffect->Init_LoopCount(2);
 	}
+	else if (0 == effect_Desc.m_effectPath.compare(L"E_BPB_Normal_Start"))
+	{
+		pEffect->Set_ParentRotateApply(false);
+		pEffect->Init_LoopCount(5); 
+	}
 
 	Safe_Release(pGameInstance);
 

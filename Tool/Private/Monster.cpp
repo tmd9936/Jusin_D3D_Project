@@ -393,14 +393,14 @@ void CMonster::Do_Skill(_uint skillType, const _tchar* pLayer)
 		if (nullptr != pSkill_Mananger)
 		{
 			CSkill* pSkill = nullptr;
-			if (skillType == 57)
+			if (skillType == 57) // 10만 볼트
 			{
 				pSkill = dynamic_cast<CSkill_Manager*>(pSkill_Mananger)->Create_Skill(pLayer, m_iLevelindex, skillType, m_pAttackCom->Get_AttackPower(),
 					m_pTransformCom->Get_WorldMatrix_Matrix(), XMConvertToRadians(60.f), XMConvertToRadians(180.f), m_pModelCom->Get_BonePtr("effect00"), m_pTransformCom, m_pModelCom->Get_PivotMatrix());
 
 				Safe_Release(pSkill);
 			}
-			else if (skillType == 58)
+			else if (skillType == 58) // 볼테커
 			{
 				pSkill = dynamic_cast<CSkill_Manager*>(pSkill_Mananger)->Create_Skill(pLayer, m_iLevelindex, skillType, m_pAttackCom->Get_AttackPower(),
 					m_pTransformCom->Get_WorldMatrix_Matrix(), XMConvertToRadians(0.f), XMConvertToRadians(0.f), m_pModelCom->Get_BonePtr("effect00"), m_pTransformCom, m_pModelCom->Get_PivotMatrix());
@@ -414,17 +414,38 @@ void CMonster::Do_Skill(_uint skillType, const _tchar* pLayer)
 
 				Safe_Release(pSkill);
 			}
-			else if (skillType == 164)
+			else if (skillType == 164) // 돌진
 			{
 				pSkill = dynamic_cast<CSkill_Manager*>(pSkill_Mananger)->Create_Skill(pLayer, m_iLevelindex, skillType, m_pAttackCom->Get_AttackPower(),
 					m_pTransformCom->Get_WorldMatrix_Matrix(), XMConvertToRadians(0.f), XMConvertToRadians(0.f), m_pModelCom->Get_BonePtr("effect00"), m_pTransformCom, m_pModelCom->Get_PivotMatrix());
 
 				Safe_Release(pSkill);
 			}
-			else if (skillType <= 35 && skillType % 2 == 1)
+			else if (skillType <= 35 && skillType % 2 == 1) // 원거리 공격
 			{
 				pSkill = dynamic_cast<CSkill_Manager*>(pSkill_Mananger)->Create_Skill(pLayer, m_iLevelindex, skillType, m_pAttackCom->Get_AttackPower(),
 					m_pTransformCom->Get_WorldMatrix_Matrix(), XMConvertToRadians(0.f), XMConvertToRadians(0.f), m_pModelCom->Get_BonePtr("effect00"), m_pTransformCom, m_pModelCom->Get_PivotMatrix(), true, 0.5);
+
+				Safe_Release(pSkill);
+			}
+			else if (skillType == 79) // 얼다 바람
+			{
+				pSkill = dynamic_cast<CSkill_Manager*>(pSkill_Mananger)->Create_Skill(pLayer, m_iLevelindex, skillType, m_pAttackCom->Get_AttackPower(),
+					m_pTransformCom->Get_WorldMatrix_Matrix(), XMConvertToRadians(0.f), XMConvertToRadians(0.f), m_pModelCom->Get_BonePtr("effect00"), m_pTransformCom, m_pModelCom->Get_PivotMatrix(), true, 2.5);
+
+				Safe_Release(pSkill);
+			}
+			else if (skillType == 50) // 하이드럼 펌프
+			{
+				pSkill = dynamic_cast<CSkill_Manager*>(pSkill_Mananger)->Create_Skill(pLayer, m_iLevelindex, skillType, m_pAttackCom->Get_AttackPower(),
+					m_pTransformCom->Get_WorldMatrix_Matrix(), XMConvertToRadians(0.f), XMConvertToRadians(30.f), m_pModelCom->Get_BonePtr("effect00"), m_pTransformCom, m_pModelCom->Get_PivotMatrix(), true, 2.5, 3);
+
+				Safe_Release(pSkill);
+			}
+			else if (skillType == 79) // 메가톤 펀치
+			{
+				pSkill = dynamic_cast<CSkill_Manager*>(pSkill_Mananger)->Create_Skill(pLayer, m_iLevelindex, skillType, m_pAttackCom->Get_AttackPower(),
+					m_pTransformCom->Get_WorldMatrix_Matrix(), XMConvertToRadians(0.f), XMConvertToRadians(0.f), m_pModelCom->Get_BonePtr("effect00"), m_pTransformCom, m_pModelCom->Get_PivotMatrix(), false, 0.0, 2);
 
 				Safe_Release(pSkill);
 			}
@@ -465,14 +486,14 @@ void CMonster::Do_Skill_After_Set_Motion(_uint skillType, const _tchar* pLayer)
 		m_pMonFSM->Transit_MotionState(CMonFSM::ATK_SLE_NORMAL_START, m_pModelCom);
 	}
 	// 스킬 및 원거리 몬스터 작업 ㄱㄱ
-	//else if (skillType == 50) // 하이드럼 펌프
-	//{
-	//	m_pMonFSM->Transit_MotionState(CMonFSM::ATK_SLE_NORMAL_START, m_pModelCom);
-	//}
-	//else if (skillType == 79) // 얼다바람
-	//{
-	//	m_pMonFSM->Transit_MotionState(CMonFSM::ATK_SLE_NORMAL_START, m_pModelCom);
-	//}
+	else if (skillType == 50) // 하이드럼 펌프
+	{
+		m_pMonFSM->Transit_MotionState(CMonFSM::POKING, m_pModelCom);
+	}
+	else if (skillType == 79) // 얼다바람
+	{
+		m_pMonFSM->Transit_MotionState(CMonFSM::POKING, m_pModelCom);
+	}
 
 
 }
