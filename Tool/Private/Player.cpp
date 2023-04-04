@@ -271,124 +271,122 @@ HRESULT CPlayer::Render()
 
 void CPlayer::On_Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
 {
-	if (fX > fZ)
+	CGameObject* pOtherOwner = pOther->Get_Owner();
+	if (!pOtherOwner)
+		return;
+
+	if (pOtherOwner->Get_LayerTag().compare(L"Layer_Monster") == 0)
 	{
-		_vector vDestCenter = m_pAABB->Get_Center();
-		_vector vSourCenter = pOther->Get_Center();
-
-		CGameObject* pOtherOwner = pOther->Get_Owner();
-		if (!pOtherOwner)
-			return;
-
-		CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
-		if (!pOtherTransform)
-			return;
-
-		CNavigation* pNavigationCom = pOtherOwner->Get_As<CNavigation>();
-
-		if (XMVectorGetZ(vDestCenter) < XMVectorGetZ(vSourCenter))
+		if (fX > fZ)
 		{
-			pOtherTransform->Move(0.f, 0.f, fZ * 0.0166f, pNavigationCom);
-			m_pTransformCom->Move(0.f, 0.f, -fZ * 0.0166f, m_pNavigationCom);
+			_vector vDestCenter = m_pAABB->Get_Center();
+			_vector vSourCenter = pOther->Get_Center();
+
+			CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
+			if (!pOtherTransform)
+				return;
+
+			CNavigation* pNavigationCom = pOtherOwner->Get_As<CNavigation>();
+
+			if (XMVectorGetZ(vDestCenter) < XMVectorGetZ(vSourCenter))
+			{
+				pOtherTransform->Move(0.f, 0.f, fZ * 0.0166f, pNavigationCom);
+				m_pTransformCom->Move(0.f, 0.f, -fZ * 0.0166f, m_pNavigationCom);
+			}
+			else
+			{
+				pOtherTransform->Move(0.f, 0.f, -fZ * 0.0166f, pNavigationCom);
+				m_pTransformCom->Move(0.f, 0.f, fZ * 0.0166f, m_pNavigationCom);
+
+			}
+
 		}
+		else if (fX == fZ) {}
 		else
 		{
-			pOtherTransform->Move(0.f, 0.f, -fZ * 0.0166f, pNavigationCom);
-			m_pTransformCom->Move(0.f, 0.f, fZ * 0.0166f, m_pNavigationCom);
+			_vector vDestCenter = m_pAABB->Get_Center();
+			_vector vSourCenter = pOther->Get_Center();
 
-		}
-		
-	}
-	else if (fX == fZ) {}
-	else
-	{
-		_vector vDestCenter = m_pAABB->Get_Center();
-		_vector vSourCenter = pOther->Get_Center();
+			CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
 
-		CGameObject* pOtherOwner = pOther->Get_Owner();
-		if (!pOtherOwner)
-			return;
+			if (!pOtherTransform)
+				return;
 
-		CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
+			CNavigation* pNavigationCom = pOtherOwner->Get_As<CNavigation>();
 
-		if (!pOtherTransform)
-			return;
-		
-		CNavigation* pNavigationCom = pOtherOwner->Get_As<CNavigation>();
-
-		if (XMVectorGetX(vDestCenter) < XMVectorGetX(vSourCenter))
-		{
-			pOtherTransform->Move(fX * 0.0166f, 0.f, 0.f, pNavigationCom);
-			m_pTransformCom->Move(-fX * 0.0166f, 0.f, 0.f, m_pNavigationCom);
+			if (XMVectorGetX(vDestCenter) < XMVectorGetX(vSourCenter))
+			{
+				pOtherTransform->Move(fX * 0.0166f, 0.f, 0.f, pNavigationCom);
+				m_pTransformCom->Move(-fX * 0.0166f, 0.f, 0.f, m_pNavigationCom);
 
 
-		}
-		else
-		{
-			pOtherTransform->Move(-fX * 0.0166f, 0.f, 0.f, pNavigationCom);
-			m_pTransformCom->Move(fX * 0.0166f, 0.f, 0.f, m_pNavigationCom);
+			}
+			else
+			{
+				pOtherTransform->Move(-fX * 0.0166f, 0.f, 0.f, pNavigationCom);
+				m_pTransformCom->Move(fX * 0.0166f, 0.f, 0.f, m_pNavigationCom);
 
+			}
 		}
 	}
 }
 
 void CPlayer::On_CollisionEnter(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
 {
-	if (fX > fZ)
+	CGameObject* pOtherOwner = pOther->Get_Owner();
+	if (!pOtherOwner)
+		return;
+
+	if (pOtherOwner->Get_LayerTag().compare(L"Layer_Monster") == 0)
 	{
-		_vector vDestCenter = m_pAABB->Get_Center();
-		_vector vSourCenter = pOther->Get_Center();
-
-		CGameObject* pOtherOwner = pOther->Get_Owner();
-		if (!pOtherOwner)
-			return;
-
-		CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
-		if (!pOtherTransform)
-			return;
-
-		CNavigation* pNavigationCom = pOtherOwner->Get_As<CNavigation>();
-
-		if (XMVectorGetZ(vDestCenter) < XMVectorGetZ(vSourCenter))
+		if (fX > fZ)
 		{
-			pOtherTransform->Move(0.f, 0.f, fZ * 0.0166f, pNavigationCom);
-			m_pTransformCom->Move(0.f, 0.f, -fZ * 0.0166f, m_pNavigationCom);
+			_vector vDestCenter = m_pAABB->Get_Center();
+			_vector vSourCenter = pOther->Get_Center();
+
+			CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
+			if (!pOtherTransform)
+				return;
+
+			CNavigation* pNavigationCom = pOtherOwner->Get_As<CNavigation>();
+
+			if (XMVectorGetZ(vDestCenter) < XMVectorGetZ(vSourCenter))
+			{
+				pOtherTransform->Move(0.f, 0.f, fZ * 0.0166f, pNavigationCom);
+				m_pTransformCom->Move(0.f, 0.f, -fZ * 0.0166f, m_pNavigationCom);
+			}
+			else
+			{
+				pOtherTransform->Move(0.f, 0.f, -fZ * 0.0166f, pNavigationCom);
+				m_pTransformCom->Move(0.f, 0.f, fZ * 0.0166f, m_pNavigationCom);
+
+			}
 		}
+		else if (fX == fZ) {}
 		else
 		{
-			pOtherTransform->Move(0.f, 0.f, -fZ * 0.0166f, pNavigationCom);
-			m_pTransformCom->Move(0.f, 0.f, fZ * 0.0166f, m_pNavigationCom);
+			_vector vDestCenter = m_pAABB->Get_Center();
+			_vector vSourCenter = pOther->Get_Center();
 
-		}
-	}
-	else if (fX == fZ) {}
-	else
-	{
-		_vector vDestCenter = m_pAABB->Get_Center();
-		_vector vSourCenter = pOther->Get_Center();
+			CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
+			if (!pOtherTransform)
+				return;
 
-		CGameObject* pOtherOwner = pOther->Get_Owner();
-		if (!pOtherOwner)
-			return;
+			CNavigation* pNavigationCom = pOtherOwner->Get_As<CNavigation>();
 
-		CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
-		if (!pOtherTransform)
-			return;
-
-		CNavigation* pNavigationCom = pOtherOwner->Get_As<CNavigation>();
-
-		if (XMVectorGetX(vDestCenter) < XMVectorGetX(vSourCenter))
-		{
-			pOtherTransform->Move(fX * 0.0166f, 0.f, 0.f, pNavigationCom);
-			m_pTransformCom->Move(-fX * 0.0166f, 0.f, 0.f, m_pNavigationCom);
+			if (XMVectorGetX(vDestCenter) < XMVectorGetX(vSourCenter))
+			{
+				pOtherTransform->Move(fX * 0.0166f, 0.f, 0.f, pNavigationCom);
+				m_pTransformCom->Move(-fX * 0.0166f, 0.f, 0.f, m_pNavigationCom);
 
 
-		}
-		else
-		{
-			pOtherTransform->Move(-fX * 0.0166f, 0.f, 0.f, pNavigationCom);
-			m_pTransformCom->Move(fX * 0.0166f, 0.f, 0.f, m_pNavigationCom);
+			}
+			else
+			{
+				pOtherTransform->Move(-fX * 0.0166f, 0.f, 0.f, pNavigationCom);
+				m_pTransformCom->Move(fX * 0.0166f, 0.f, 0.f, m_pNavigationCom);
 
+			}
 		}
 	}
 }
