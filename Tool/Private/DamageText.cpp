@@ -75,7 +75,7 @@ _uint CDamageText::LateTick(_double TimeDelta)
 		_float4 vPos{};
 		XMStoreFloat4(&vPos, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
 
-		_matrix		ViewPortMatrix = CGameInstance::GetInstance()->Get_ViewPort_Matrix(vPos.x, vPos.y, g_iWinSizeX, g_iWinSizeY, 0.f, 1.f);
+		_matrix		ViewPortMatrix = CGameInstance::GetInstance()->Get_ViewPort_Matrix(vPos.x + m_RandSumPos.x, vPos.y + m_RandSumPos.y, g_iWinSizeX, g_iWinSizeY, 0.f, 1.f);
 		CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
 		_matrix viewMatrix = pGameInstance->Get_Transform_Matrix(CPipeLine::D3DTS_VIEW);
@@ -151,6 +151,7 @@ void CDamageText::Show_TimeCheck(const _double& TimeDelta)
 		{
 			m_ShowTImeAcc = 0.0;
 			m_eRenderId = RENDER_END;
+			m_RandSumPos = { _float(rand() % 30 - 15),  _float(rand() % 30 - 15) };
 		}
 	}
 }		

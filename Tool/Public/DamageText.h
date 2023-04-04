@@ -68,6 +68,8 @@ private:
 	_double					m_ShowTImeAcc = { 0.0 };
 	_double					m_ShowTime = { 1.5 };
 
+	_float2					m_RandSumPos = {};
+
 private:
 	HRESULT Add_Components();
 	HRESULT SetUp_ShaderResources();

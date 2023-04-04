@@ -245,11 +245,11 @@ void CEffect::On_Collision(CCollider* pOther, const _float& fX, const _float& fY
 
 				if (XMVectorGetZ(vDestCenter) < XMVectorGetZ(vSourCenter))
 				{
-					pOtherTransform->Move(0.f, 0.f, fZ * 0.0166f, pNavigationCom);
+					pOtherTransform->Move(0.f, 0.f, fZ, pNavigationCom);
 				}
 				else
 				{
-					pOtherTransform->Move(0.f, 0.f, -fZ * 0.0166f, pNavigationCom);
+					pOtherTransform->Move(0.f, 0.f, -fZ, pNavigationCom);
 				}
 
 			}
@@ -258,12 +258,12 @@ void CEffect::On_Collision(CCollider* pOther, const _float& fX, const _float& fY
 			{
 				if (XMVectorGetX(vDestCenter) < XMVectorGetX(vSourCenter))
 				{
-					pOtherTransform->Move(fX * 0.0166f, 0.f, 0.f, pNavigationCom);
+					pOtherTransform->Move(fX, 0.f, 0.f, pNavigationCom);
 
 				}
 				else
 				{
-					pOtherTransform->Move(-fX * 0.0166f, 0.f, 0.f, pNavigationCom);
+					pOtherTransform->Move(-fX, 0.f, 0.f, pNavigationCom);
 				}
 			}
 		}
