@@ -179,7 +179,7 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 
 			//pTransform->LookAt(vParentPos);
 
-			_vector vPos = XMVectorSetW(vParentPos + vParentLook * i, 1.f);
+			_vector vPos = XMVectorSetW(vParentPos + vParentLook * (_float))i, 1.f);
 			_float4 pos = {};
 			XMStoreFloat4(&pos, vPos);
 			pEffect->Set_Pos(pos);

@@ -176,19 +176,6 @@ void CStageEnemyMonster::Go_To_RandomPosition(const _double& TimeDelta)
 
 }
 
-_bool CStageEnemyMonster::Search_Target()
-{
-	if (nullptr == m_pSearcher)
-		return false;
-
-	if (CSearcher::COLLISION_STATE_ENTER == m_pSearcher->Get_Collision_State() || CSearcher::COLLISION_STATE_ON == m_pSearcher->Get_Collision_State())
-	{
-		return true;
-	}
-
-	return false;
-}
-
 void CStageEnemyMonster::Init_RandomMotionChangeDelay()
 {
 	m_MotionChangeDelay = _float(rand() % 3 + 2);
@@ -202,20 +189,13 @@ HRESULT CStageEnemyMonster::Add_TransitionRandomState()
 	m_pMonFSM->Add_RandomTransitionState(CMonFSM::BODYBLOW);
 	m_pMonFSM->Add_RandomTransitionState(CMonFSM::JUMPLANDING_SLE_START);
 
-	//m_pMonFSM->Add_RandomTransitionState(CMonFSM::ROAR);
-	//m_pMonFSM->Add_RandomTransitionState(CMonFSM::);
-	//m_pMonFSM->Add_RandomTransitionState(CMonFSM::ROTATE_LOOP);
-
-	
-	// m_pMonFSM->Add_MotionState(CMonFSM::MONSTER_STATE(i), i);
-
 	return S_OK;
 }
 
 _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 {
 	CTransform* pTargetTransform = nullptr;
-	_float4x4 mat = {};
+	//_float4x4 mat = {};
 
 	if (m_pTarget)
 	{
@@ -232,8 +212,8 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 
 			if (pTargetTransform)
 			{
-				m_pTransformCom->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), pTargetTransform->Get_State(CTransform::STATE_POSITION), TimeDelta * 1.5);
-				if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), TimeDelta, 3.3f, m_pNavigationCom))
+				m_pTransformCom->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta * 1.5));
+				if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta), 3.3f, m_pNavigationCom))
 				{
 					m_pMonFSM->Transit_MotionState(CMonFSM::IDLE_GROUND, m_pModelCom);
 				}
@@ -272,9 +252,9 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 
 		if (pTargetTransform)
 		{
-			m_pTransformCom->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), pTargetTransform->Get_State(CTransform::STATE_POSITION), TimeDelta * 1.5);
+			m_pTransformCom->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta * 1.5));
 
-			if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), TimeDelta, 1.3f, m_pNavigationCom))
+			if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta), 1.3f, m_pNavigationCom))
 			{
 				if (m_bCanAttack)
 				{
@@ -317,7 +297,7 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 
 	case CMonFSM::BODYBLOW:
 		//m_pTransformCom->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), m_vTargetPos, TimeDelta * 2.0);
-		m_pTransformCom->ChaseNoLook(m_vTargetPos, TimeDelta * 2.0);
+		m_pTransformCom->ChaseNoLook(m_vTargetPos, _float(TimeDelta * 2.0));
 
 		if (m_pModelCom->Play_Animation(TimeDelta * 1.5))
 		{

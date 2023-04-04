@@ -111,6 +111,9 @@ protected:
 protected:
 	void	CoolTimeCheck(const _double& TimeDelta);
 
+protected:
+	_bool		Search_Target();
+
 private:
 	HRESULT Add_Components();
 	HRESULT Add_Components_By_File();
