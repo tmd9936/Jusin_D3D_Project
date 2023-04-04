@@ -32,6 +32,14 @@ class CDamageText;
 class CMonster abstract : public CGameObject
 {
 public:
+	enum AI_TYPE {
+		AI_TYPE_LONG_DISTACE,
+		AI_TYPE_SHORT_DISTACE,
+		AI_TYPE_END
+
+	};
+
+public:
 	typedef	struct PokeMon_Desc
 	{
 		wstring			ModelPrototypeTag;

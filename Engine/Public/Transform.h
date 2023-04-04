@@ -168,6 +168,8 @@ public:
 
 	_bool Go_BackWard_Look_Target(_fvector vLookPos, _fvector vArrivePos, _float TimeDelta, _float limitDitance = 0.2);
 
+	_bool Go_BackWard_Look_Pos(_fvector vLookPos, _fvector vArrivePos, _float TimeDelta, _float limitDitance = 0.2, CNavigation* pNavigation = nullptr);
+
 	void Set_Rotation(const _float3& rotaion);
 
 	void	Set_Matrix(_fmatrix matrix) {
