@@ -126,6 +126,8 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 
 			pEffect->Set_AttackPower(_uint(damage * skill_desc.m_damagePercent));
 
+			if (skill_desc.m_isEnablePotential_Knockback)
+				pEffect->Set_KnockBack(true);
 			//pEffect->Set_Pos({ 0.f, 0.f, 0.f, 0.f });
 
 			pEffect->Set_Parent(pParentBone, pParentTransform, pivotMatrix);
@@ -229,7 +231,7 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 		pEffect->Set_AttackPower(_uint(damage * skill_desc.m_damagePercent));
 
 		_float4 pos = {};
-		XMStoreFloat4(&pos, vPos);
+		XMStoreFloat4(&pos, vPos + vLook * 0.5f);
 		pEffect->Set_Pos(pos);
 		if (bRush)
 		{

@@ -117,6 +117,7 @@ CEffect* CEffect_Manager::Create_Effect(_uint effectType, const _tchar* pLayerTa
 		pEffect->Set_ParentRotateApply(false);
 		pEffect->Init_LoopCount(7);
 		pEffect->Set_Homming(true, false, CEffect::HOMMING_OUT);
+		pEffect->Set_KnockBack(true);
 	}
 
 	else if (0 == effect_Desc.m_effectPath.compare(L"E_SP_Kaminari_Start"))

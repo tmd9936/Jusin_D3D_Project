@@ -122,6 +122,10 @@ public:
 
 	void	Set_AttackPower(_uint attackPower);
 
+	void	Set_KnockBack(_bool knockBack) {
+		m_bKnockBack = knockBack;
+	}
+
 private:
 	void	Set_ParentBone(CBone* pParent) {
 		m_EffectDesc.pBonePtr = pParent;
@@ -177,6 +181,8 @@ private:
 	_bool					m_bHomming = { false };
 	_bool					m_bArriveHomeDead = { false };
 	HOMMING_STATE			m_eHommingState = { HOMMING_END };
+
+	_bool					m_bKnockBack = { false };
 
 private:
 	HRESULT Add_Components();
