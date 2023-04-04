@@ -98,24 +98,27 @@ bool CCollider_Manager::Is_Collision(CCollider* pLeftCol, CCollider* pRightCol, 
 {
 	_bool result = pLeftCol->Collision(pRightCol);
 
-	// 1차 충돌 검사 - AABB
-	_vector vLeftMin = Get_Min_Vector(pLeftCol);
-	_vector vRightMin = Get_Min_Vector(pRightCol);
-
-	_vector vLeftMax = Get_Max_Vector(pLeftCol);
-	_vector vRightMax = Get_Max_Vector(pRightCol);
-
-	//if (Get_Max(XMVectorGetX(vLeftMin), XMVectorGetX(vRightMin)) > Get_Min(XMVectorGetX(vLeftMax), XMVectorGetX(vRightMax)))
-	//	return false;
-
-	//if (Get_Max(XMVectorGetY(vLeftMin), XMVectorGetY(vRightMin)) > Get_Min(XMVectorGetY(vLeftMax), XMVectorGetY(vRightMax)))
-	//	return false;
-
-	//if (Get_Max(XMVectorGetZ(vLeftMin), XMVectorGetZ(vRightMin)) > Get_Min(XMVectorGetZ(vLeftMax), XMVectorGetZ(vRightMax)))
-	//	return false;
+	//if (pLeftCol->Get_Type() == CCollider::TYPE_SPHERE || pRightCol->Get_Type() == CCollider::TYPE_SPHERE)
+	//	return result;
 
 	if (result && (pLeftCol->Get_Type() == CCollider::TYPE_AABB || pLeftCol->Get_Type() == CCollider::TYPE_OBB || pRightCol->Get_Type() == CCollider::TYPE_AABB || pRightCol->Get_Type() == CCollider::TYPE_OBB))
 	{
+		// 1차 충돌 검사 - AABB
+		_vector vLeftMin = Get_Min_Vector(pLeftCol);
+		_vector vRightMin = Get_Min_Vector(pRightCol);
+
+		_vector vLeftMax = Get_Max_Vector(pLeftCol);
+		_vector vRightMax = Get_Max_Vector(pRightCol);
+
+		//if (Get_Max(XMVectorGetX(vLeftMin), XMVectorGetX(vRightMin)) > Get_Min(XMVectorGetX(vLeftMax), XMVectorGetX(vRightMax)))
+		//	return false;
+
+		//if (Get_Max(XMVectorGetY(vLeftMin), XMVectorGetY(vRightMin)) > Get_Min(XMVectorGetY(vLeftMax), XMVectorGetY(vRightMax)))
+		//	return false;
+
+		//if (Get_Max(XMVectorGetZ(vLeftMin), XMVectorGetZ(vRightMin)) > Get_Min(XMVectorGetZ(vLeftMax), XMVectorGetZ(vRightMax)))
+		//	return false;
+
 		// 밀어낼 정도를 계산하여 반환
 		*fX = Get_Min(XMVectorGetX(vLeftMax), XMVectorGetX(vRightMax) - Get_Max(XMVectorGetX(vLeftMin), XMVectorGetX(vRightMin)));
 		*fY = Get_Min(XMVectorGetY(vLeftMax), XMVectorGetY(vRightMax) - Get_Max(XMVectorGetY(vLeftMin), XMVectorGetY(vRightMin)));
@@ -153,7 +156,7 @@ void CCollider_Manager::Get_Min_Max(CCollider* Col, _vector& vMin, _vector& vMax
 
 XMVECTOR CCollider_Manager::Get_Min_Vector(CCollider* Col)
 {
-	XMVECTOR Min{}, Corner{};
+	XMVECTOR Min = {500.f, 500.f, 500.f, 500.f}, Corner{};
 
 	if (nullptr == Col)
 		return Min;

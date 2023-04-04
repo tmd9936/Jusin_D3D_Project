@@ -275,30 +275,41 @@ void CPlayer::On_Collision(CCollider* pOther, const _float& fX, const _float& fY
 	if (!pOtherOwner)
 		return;
 
+	_float4 myPos = {};
+	XMStoreFloat4(&myPos, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
+
+	CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
+
 	if (pOtherOwner->Get_LayerTag().compare(L"Layer_Monster") == 0)
 	{
+		pOtherTransform = pOtherOwner->Get_As<CTransform>();
+		if (!pOtherTransform)
+			return;
+
+		//_float4	otherPos = {};
+
+		//XMStoreFloat4(&otherPos, pOtherTransform->Get_State(CTransform::STATE_POSITION));
+
 		if (fX > fZ)
 		{
 			_vector vDestCenter = m_pAABB->Get_Center();
 			_vector vSourCenter = pOther->Get_Center();
 
-			CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
-			if (!pOtherTransform)
-				return;
 
 			CNavigation* pNavigationCom = pOtherOwner->Get_As<CNavigation>();
 
 			if (XMVectorGetZ(vDestCenter) < XMVectorGetZ(vSourCenter))
 			{
-				pOtherTransform->Move(0.f, 0.f, fZ * 0.0166f, pNavigationCom);
-				m_pTransformCom->Move(0.f, 0.f, -fZ * 0.0166f, m_pNavigationCom);
+				//pOtherTransform->Move(0.f, 0.f, fZ * 0.0166f, pNavigationCom);
+				m_pTransformCom->Move(0.f, 0.f, -fZ , m_pNavigationCom);
 			}
 			else
 			{
-				pOtherTransform->Move(0.f, 0.f, -fZ * 0.0166f, pNavigationCom);
-				m_pTransformCom->Move(0.f, 0.f, fZ * 0.0166f, m_pNavigationCom);
+				//pOtherTransform->Move(0.f, 0.f, -fZ * 0.0166f, pNavigationCom);
+				m_pTransformCom->Move(0.f, 0.f, fZ , m_pNavigationCom);
 
 			}
+			m_pAABB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
 
 		}
 		else if (fX == fZ) {}
@@ -307,7 +318,7 @@ void CPlayer::On_Collision(CCollider* pOther, const _float& fX, const _float& fY
 			_vector vDestCenter = m_pAABB->Get_Center();
 			_vector vSourCenter = pOther->Get_Center();
 
-			CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
+			pOtherTransform = pOtherOwner->Get_As<CTransform>();
 
 			if (!pOtherTransform)
 				return;
@@ -316,17 +327,16 @@ void CPlayer::On_Collision(CCollider* pOther, const _float& fX, const _float& fY
 
 			if (XMVectorGetX(vDestCenter) < XMVectorGetX(vSourCenter))
 			{
-				pOtherTransform->Move(fX * 0.0166f, 0.f, 0.f, pNavigationCom);
-				m_pTransformCom->Move(-fX * 0.0166f, 0.f, 0.f, m_pNavigationCom);
-
-
+				//pOtherTransform->Move(fX , 0.f, 0.f, pNavigationCom);
+				m_pTransformCom->Move(-fX, 0.f, 0.f, m_pNavigationCom);
 			}
 			else
 			{
-				pOtherTransform->Move(-fX * 0.0166f, 0.f, 0.f, pNavigationCom);
-				m_pTransformCom->Move(fX * 0.0166f, 0.f, 0.f, m_pNavigationCom);
-
+				//pOtherTransform->Move(-fX * 0.0166f, 0.f, 0.f, pNavigationCom);
+				m_pTransformCom->Move(fX, 0.f, 0.f, m_pNavigationCom);
 			}
+
+			m_pAABB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
 		}
 	}
 }
@@ -337,6 +347,11 @@ void CPlayer::On_CollisionEnter(CCollider* pOther, const _float& fX, const _floa
 	if (!pOtherOwner)
 		return;
 
+	CTransform*		pOtherTransform = pOtherOwner->Get_As<CTransform>();
+
+	_float4 myPos = {};
+	XMStoreFloat4(&myPos, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
+
 	if (pOtherOwner->Get_LayerTag().compare(L"Layer_Monster") == 0)
 	{
 		if (fX > fZ)
@@ -344,7 +359,7 @@ void CPlayer::On_CollisionEnter(CCollider* pOther, const _float& fX, const _floa
 			_vector vDestCenter = m_pAABB->Get_Center();
 			_vector vSourCenter = pOther->Get_Center();
 
-			CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
+			pOtherTransform = pOtherOwner->Get_As<CTransform>();
 			if (!pOtherTransform)
 				return;
 
@@ -352,15 +367,15 @@ void CPlayer::On_CollisionEnter(CCollider* pOther, const _float& fX, const _floa
 
 			if (XMVectorGetZ(vDestCenter) < XMVectorGetZ(vSourCenter))
 			{
-				pOtherTransform->Move(0.f, 0.f, fZ * 0.0166f, pNavigationCom);
-				m_pTransformCom->Move(0.f, 0.f, -fZ * 0.0166f, m_pNavigationCom);
+				//pOtherTransform->Move(0.f, 0.f, fZ * 0.0166f, pNavigationCom);
+				m_pTransformCom->Move(0.f, 0.f, fZ, m_pNavigationCom);
 			}
 			else
 			{
-				pOtherTransform->Move(0.f, 0.f, -fZ * 0.0166f, pNavigationCom);
-				m_pTransformCom->Move(0.f, 0.f, fZ * 0.0166f, m_pNavigationCom);
-
+				//pOtherTransform->Move(0.f, 0.f, -fZ * 0.0166f, pNavigationCom);
+				m_pTransformCom->Move(0.f, 0.f, -fZ, m_pNavigationCom);
 			}
+			m_pAABB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
 		}
 		else if (fX == fZ) {}
 		else
@@ -368,7 +383,7 @@ void CPlayer::On_CollisionEnter(CCollider* pOther, const _float& fX, const _floa
 			_vector vDestCenter = m_pAABB->Get_Center();
 			_vector vSourCenter = pOther->Get_Center();
 
-			CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
+			pOtherTransform = pOtherOwner->Get_As<CTransform>();
 			if (!pOtherTransform)
 				return;
 
@@ -376,17 +391,19 @@ void CPlayer::On_CollisionEnter(CCollider* pOther, const _float& fX, const _floa
 
 			if (XMVectorGetX(vDestCenter) < XMVectorGetX(vSourCenter))
 			{
-				pOtherTransform->Move(fX * 0.0166f, 0.f, 0.f, pNavigationCom);
-				m_pTransformCom->Move(-fX * 0.0166f, 0.f, 0.f, m_pNavigationCom);
+				//pOtherTransform->Move(fX * 0.0166f, 0.f, 0.f, pNavigationCom);
+				m_pTransformCom->Move(-fX, 0.f, 0.f, m_pNavigationCom);
 
 
 			}
 			else
 			{
-				pOtherTransform->Move(-fX * 0.0166f, 0.f, 0.f, pNavigationCom);
-				m_pTransformCom->Move(fX * 0.0166f, 0.f, 0.f, m_pNavigationCom);
+				//pOtherTransform->Move(-fX * 0.0166f, 0.f, 0.f, pNavigationCom);
+				m_pTransformCom->Move(fX, 0.f, 0.f, m_pNavigationCom);
 
 			}
+
+			m_pAABB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
 		}
 	}
 }

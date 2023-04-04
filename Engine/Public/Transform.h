@@ -125,6 +125,12 @@ public:
 		m_WorldMatrix.m[3][2] = z;
 	}
 
+	void Set_PositinoX(float x, CNavigation* pNavigation = nullptr);
+	
+	void Set_PositionY(float y, CNavigation* pNavigation = nullptr);
+
+	void Set_PositionZ(float z, CNavigation* pNavigation = nullptr);
+
 public:
 
 	void Go_Straight(_float TimeDelta, CNavigation* pNavigation = nullptr);

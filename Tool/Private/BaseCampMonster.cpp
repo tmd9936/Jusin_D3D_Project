@@ -248,7 +248,7 @@ _uint CBaseCampMonster::State_Tick(const _double& TimeDelta)
 	switch (m_pMonFSM->Get_MotionState())
 	{
 	case CMonFSM::IDLE1:
-		Check_Do_Change_RandomMotion(TimeDelta);
+		//Check_Do_Change_RandomMotion(TimeDelta);
 		break;
 
 	case CMonFSM::IDLE_FLOAT:

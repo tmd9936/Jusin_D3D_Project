@@ -104,6 +104,78 @@ void CTransform::Move(float x, float y, float z, CNavigation* pNavigation)
 	}
 }
 
+void CTransform::Set_PositinoX(float x, CNavigation* pNavigation)
+{
+	_bool isMove = true;
+
+	_vector vPosition = Get_State(STATE_POSITION);
+
+	vPosition = XMVectorSetX(vPosition, x);
+
+	_float fY = XMVectorGetY(vPosition);
+
+	if (nullptr != pNavigation)
+	{
+		isMove = pNavigation->Move_OnNavigation_Set_Y(vPosition, fY);
+	}
+
+	if (true == isMove)
+	{
+		if (nullptr != pNavigation)
+			Set_State(CTransform::STATE_POSITION, XMVectorSetY(vPosition, fY + 0.5f));
+		else
+			Set_State(CTransform::STATE_POSITION, vPosition);
+	}
+}
+
+void CTransform::Set_PositionY(float y, CNavigation* pNavigation)
+{
+	_bool isMove = true;
+
+	_vector vPosition = Get_State(STATE_POSITION);
+
+	vPosition = XMVectorSetY(vPosition, y);
+
+	_float fY = XMVectorGetY(vPosition);
+
+	if (nullptr != pNavigation)
+	{
+		isMove = pNavigation->Move_OnNavigation_Set_Y(vPosition, fY);
+	}
+
+	if (true == isMove)
+	{
+		if (nullptr != pNavigation)
+			Set_State(CTransform::STATE_POSITION, XMVectorSetY(vPosition, fY + 0.5f));
+		else
+			Set_State(CTransform::STATE_POSITION, vPosition);
+	}
+}
+
+void CTransform::Set_PositionZ(float z, CNavigation* pNavigation)
+{
+	_bool isMove = true;
+
+	_vector vPosition = Get_State(STATE_POSITION);
+
+	vPosition = XMVectorSetZ(vPosition, z);
+
+	_float fY = XMVectorGetY(vPosition);
+
+	if (nullptr != pNavigation)
+	{
+		isMove = pNavigation->Move_OnNavigation_Set_Y(vPosition, fY);
+	}
+
+	if (true == isMove)
+	{
+		if (nullptr != pNavigation)
+			Set_State(CTransform::STATE_POSITION, XMVectorSetY(vPosition, fY + 0.5f));
+		else
+			Set_State(CTransform::STATE_POSITION, vPosition);
+	}
+}
+
 void CTransform::Go_Straight(_float TimeDelta, CNavigation* pNavigation)
 {
 	_bool	isMove = true;
