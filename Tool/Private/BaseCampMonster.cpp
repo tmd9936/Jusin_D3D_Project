@@ -3,6 +3,8 @@
 
 #include "GameInstance.h"
 
+#include "Utility.h"
+
 
 CBaseCampMonster::CBaseCampMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CMonster(pDevice, pContext)
@@ -60,112 +62,25 @@ HRESULT CBaseCampMonster::Render()
 
 void CBaseCampMonster::On_Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
 {
-	//if (fX > fZ)
+	//CGameObject* pOtherOwner = pOther->Get_Owner();
+	//if (!pOtherOwner)
+	//	return;
+
+	//if (pOtherOwner->Get_LayerTag().compare(L"Layer_Player") == 0)
 	//{
-	//	_vector vDestCenter = m_pAABB->Get_Center();
-	//	_vector vSourCenter = pOther->Get_Center();
-
-	//	CGameObject* pOtherOwner = pOther->Get_Owner();
-	//	if (!pOtherOwner)
-	//		return;
-
-	//	CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
-	//	if (!pOtherTransform)
-	//		return;
-
-	//	CNavigation* pNavigationCom = pOtherOwner->Get_As<CNavigation>();
-
-	//	if (XMVectorGetZ(vDestCenter) < XMVectorGetZ(vSourCenter))
-	//	{
-	//		pOtherTransform->Move(0.f, 0.f, fZ * 0.0166f, pNavigationCom);
-	//	}
-	//	else
-	//	{
-	//		pOtherTransform->Move(0.f, 0.f, -fZ * 0.0166f, pNavigationCom);
-	//	}
-
-	//}
-	//else if (fX == fZ) {}
-	//else
-	//{
-	//	_vector vDestCenter = m_pAABB->Get_Center();
-	//	_vector vSourCenter = pOther->Get_Center();
-
-	//	CGameObject* pOtherOwner = pOther->Get_Owner();
-	//	if (!pOtherOwner)
-	//		return;
-
-	//	CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
-
-	//	if (!pOtherTransform)
-	//		return;
-
-	//	CNavigation* pNavigationCom = pOtherOwner->Get_As<CNavigation>();
-
-	//	if (XMVectorGetX(vDestCenter) < XMVectorGetX(vSourCenter))
-	//	{
-	//		pOtherTransform->Move(fX * 0.0166f, 0.f, 0.f, pNavigationCom);
-
-	//	}
-	//	else
-	//	{
-	//		pOtherTransform->Move(-fX * 0.0166f, 0.f, 0.f, pNavigationCom);
-	//	}
+	//	Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
 	//}
 }
 
 void CBaseCampMonster::On_CollisionEnter(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
 {
-	//if (fX > fZ)
+	//CGameObject* pOtherOwner = pOther->Get_Owner();
+	//if (!pOtherOwner)
+	//	return;
+
+	//if (pOtherOwner->Get_LayerTag().compare(L"Layer_Player") == 0)
 	//{
-	//	_vector vDestCenter = m_pAABB->Get_Center();
-	//	_vector vSourCenter = pOther->Get_Center();
-
-	//	CGameObject* pOtherOwner = pOther->Get_Owner();
-	//	if (!pOtherOwner)
-	//		return;
-
-	//	CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
-	//	if (!pOtherTransform)
-	//		return;
-
-	//	CNavigation* pNavigationCom = pOtherOwner->Get_As<CNavigation>();
-
-	//	if (XMVectorGetZ(vDestCenter) < XMVectorGetZ(vSourCenter))
-	//	{
-	//		pOtherTransform->Move(0.f, 0.f, fZ * 0.0166f, pNavigationCom);
-
-	//	}
-	//	else
-	//	{
-	//		pOtherTransform->Move(0.f, 0.f, -fZ * 0.0166f, pNavigationCom);
-	//	}
-	//}
-	//else if (fX == fZ) {}
-	//else
-	//{
-	//	_vector vDestCenter = m_pAABB->Get_Center();
-	//	_vector vSourCenter = pOther->Get_Center();
-
-	//	CGameObject* pOtherOwner = pOther->Get_Owner();
-	//	if (!pOtherOwner)
-	//		return;
-
-	//	CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
-	//	if (!pOtherTransform)
-	//		return;
-
-	//	CNavigation* pNavigationCom = pOtherOwner->Get_As<CNavigation>();
-
-	//	if (XMVectorGetX(vDestCenter) < XMVectorGetX(vSourCenter))
-	//	{
-	//		pOtherTransform->Move(fX * 0.0166f, 0.f, 0.f, pNavigationCom);
-
-	//	}
-	//	else
-	//	{
-	//		pOtherTransform->Move(-fX * 0.0166f, 0.f, 0.f, pNavigationCom);
-	//	}
+	//	Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
 	//}
 }
 

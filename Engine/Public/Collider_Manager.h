@@ -45,6 +45,8 @@ public:
 		m_ColLayers.clear();
 	}
 
+	bool Intersects(CCollider* pLeftCol, CCollider* pRightCol, _float* fX, _float* fY, _float* fZ);
+
 	vector<pair<const _tchar*, const _tchar*>> m_ColLayers;
 
 	map<ULONGLONG, _bool> m_mapColInfo;

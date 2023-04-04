@@ -3,9 +3,9 @@
         "ModelPrototypeTag": "Prototype_Component_Model_Pokemon_PM91",
         "ModelPrototypeLevelIndex": 3,
         "vPos": {
-            "x": 15.0,
+            "x": 17.0,
             "y": 0.0,
-            "z": 22.0,
+            "z": 18.0,
             "w": 1.0
         },
         "moveSpeed": 0.5,

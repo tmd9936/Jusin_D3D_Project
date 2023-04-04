@@ -6,6 +6,8 @@
 #include "Skill_Manager.h"
 #include "Skill.h"
 
+#include "Utility.h"
+
 CPlayer::CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CMonster(pDevice, pContext)
 {
@@ -275,69 +277,9 @@ void CPlayer::On_Collision(CCollider* pOther, const _float& fX, const _float& fY
 	if (!pOtherOwner)
 		return;
 
-	_float4 myPos = {};
-	XMStoreFloat4(&myPos, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
-
-	CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
-
 	if (pOtherOwner->Get_LayerTag().compare(L"Layer_Monster") == 0)
 	{
-		pOtherTransform = pOtherOwner->Get_As<CTransform>();
-		if (!pOtherTransform)
-			return;
-
-		//_float4	otherPos = {};
-
-		//XMStoreFloat4(&otherPos, pOtherTransform->Get_State(CTransform::STATE_POSITION));
-
-		if (fX > fZ)
-		{
-			_vector vDestCenter = m_pAABB->Get_Center();
-			_vector vSourCenter = pOther->Get_Center();
-
-
-			CNavigation* pNavigationCom = pOtherOwner->Get_As<CNavigation>();
-
-			if (XMVectorGetZ(vDestCenter) < XMVectorGetZ(vSourCenter))
-			{
-				//pOtherTransform->Move(0.f, 0.f, fZ * 0.0166f, pNavigationCom);
-				m_pTransformCom->Move(0.f, 0.f, -fZ , m_pNavigationCom);
-			}
-			else
-			{
-				//pOtherTransform->Move(0.f, 0.f, -fZ * 0.0166f, pNavigationCom);
-				m_pTransformCom->Move(0.f, 0.f, fZ , m_pNavigationCom);
-
-			}
-			m_pAABB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
-
-		}
-		else if (fX == fZ) {}
-		else
-		{
-			_vector vDestCenter = m_pAABB->Get_Center();
-			_vector vSourCenter = pOther->Get_Center();
-
-			pOtherTransform = pOtherOwner->Get_As<CTransform>();
-
-			if (!pOtherTransform)
-				return;
-
-			CNavigation* pNavigationCom = pOtherOwner->Get_As<CNavigation>();
-
-			if (XMVectorGetX(vDestCenter) < XMVectorGetX(vSourCenter))
-			{
-				//pOtherTransform->Move(fX , 0.f, 0.f, pNavigationCom);
-				m_pTransformCom->Move(-fX, 0.f, 0.f, m_pNavigationCom);
-			}
-			else
-			{
-				//pOtherTransform->Move(-fX * 0.0166f, 0.f, 0.f, pNavigationCom);
-				m_pTransformCom->Move(fX, 0.f, 0.f, m_pNavigationCom);
-			}
-
-			m_pAABB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
-		}
+		Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
 	}
 }
 
@@ -347,64 +289,9 @@ void CPlayer::On_CollisionEnter(CCollider* pOther, const _float& fX, const _floa
 	if (!pOtherOwner)
 		return;
 
-	CTransform*		pOtherTransform = pOtherOwner->Get_As<CTransform>();
-
-	_float4 myPos = {};
-	XMStoreFloat4(&myPos, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
-
 	if (pOtherOwner->Get_LayerTag().compare(L"Layer_Monster") == 0)
 	{
-		if (fX > fZ)
-		{
-			_vector vDestCenter = m_pAABB->Get_Center();
-			_vector vSourCenter = pOther->Get_Center();
-
-			pOtherTransform = pOtherOwner->Get_As<CTransform>();
-			if (!pOtherTransform)
-				return;
-
-			CNavigation* pNavigationCom = pOtherOwner->Get_As<CNavigation>();
-
-			if (XMVectorGetZ(vDestCenter) < XMVectorGetZ(vSourCenter))
-			{
-				//pOtherTransform->Move(0.f, 0.f, fZ * 0.0166f, pNavigationCom);
-				m_pTransformCom->Move(0.f, 0.f, fZ, m_pNavigationCom);
-			}
-			else
-			{
-				//pOtherTransform->Move(0.f, 0.f, -fZ * 0.0166f, pNavigationCom);
-				m_pTransformCom->Move(0.f, 0.f, -fZ, m_pNavigationCom);
-			}
-			m_pAABB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
-		}
-		else if (fX == fZ) {}
-		else
-		{
-			_vector vDestCenter = m_pAABB->Get_Center();
-			_vector vSourCenter = pOther->Get_Center();
-
-			pOtherTransform = pOtherOwner->Get_As<CTransform>();
-			if (!pOtherTransform)
-				return;
-
-			CNavigation* pNavigationCom = pOtherOwner->Get_As<CNavigation>();
-
-			if (XMVectorGetX(vDestCenter) < XMVectorGetX(vSourCenter))
-			{
-				//pOtherTransform->Move(fX * 0.0166f, 0.f, 0.f, pNavigationCom);
-				m_pTransformCom->Move(-fX, 0.f, 0.f, m_pNavigationCom);
-
-
-			}
-			else
-			{
-				//pOtherTransform->Move(-fX * 0.0166f, 0.f, 0.f, pNavigationCom);
-				m_pTransformCom->Move(fX, 0.f, 0.f, m_pNavigationCom);
-
-			}
-
-			m_pAABB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
-		}
+		Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
 	}
 }
 

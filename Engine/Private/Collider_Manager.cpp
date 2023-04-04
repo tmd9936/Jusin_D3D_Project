@@ -110,6 +110,9 @@ bool CCollider_Manager::Is_Collision(CCollider* pLeftCol, CCollider* pRightCol, 
 		_vector vLeftMax = Get_Max_Vector(pLeftCol);
 		_vector vRightMax = Get_Max_Vector(pRightCol);
 
+		if (result)
+			Intersects(pLeftCol, pRightCol, fX, fY, fZ);
+
 		//if (Get_Max(XMVectorGetX(vLeftMin), XMVectorGetX(vRightMin)) > Get_Min(XMVectorGetX(vLeftMax), XMVectorGetX(vRightMax)))
 		//	return false;
 
@@ -120,9 +123,9 @@ bool CCollider_Manager::Is_Collision(CCollider* pLeftCol, CCollider* pRightCol, 
 		//	return false;
 
 		// 밀어낼 정도를 계산하여 반환
-		*fX = Get_Min(XMVectorGetX(vLeftMax), XMVectorGetX(vRightMax) - Get_Max(XMVectorGetX(vLeftMin), XMVectorGetX(vRightMin)));
+		/*fX = Get_Min(XMVectorGetX(vLeftMax), XMVectorGetX(vRightMax) - Get_Max(XMVectorGetX(vLeftMin), XMVectorGetX(vRightMin)));
 		*fY = Get_Min(XMVectorGetY(vLeftMax), XMVectorGetY(vRightMax) - Get_Max(XMVectorGetY(vLeftMin), XMVectorGetY(vRightMin)));
-		*fZ = Get_Min(XMVectorGetZ(vLeftMax), XMVectorGetZ(vRightMax) - Get_Max(XMVectorGetZ(vLeftMin), XMVectorGetZ(vRightMin)));
+		*fZ = Get_Min(XMVectorGetZ(vLeftMax), XMVectorGetZ(vRightMax) - Get_Max(XMVectorGetZ(vLeftMin), XMVectorGetZ(vRightMin)));*/
 	}
 
 	return result;
@@ -156,7 +159,7 @@ void CCollider_Manager::Get_Min_Max(CCollider* Col, _vector& vMin, _vector& vMax
 
 XMVECTOR CCollider_Manager::Get_Min_Vector(CCollider* Col)
 {
-	XMVECTOR Min = {500.f, 500.f, 500.f, 500.f}, Corner{};
+	XMVECTOR Min = {  };
 
 	if (nullptr == Col)
 		return Min;
@@ -165,17 +168,17 @@ XMVECTOR CCollider_Manager::Get_Min_Vector(CCollider* Col)
 	{
 		_float3 coners[8];
 		Col->Get_AABB()->GetCorners(coners);
-		for (size_t i = 1; i < Col->Get_AABB()->CORNER_COUNT; ++i)
+		for (size_t i = 0; i < Col->Get_AABB()->CORNER_COUNT; ++i)
 		{
 			Min = XMVectorMin(Min, XMLoadFloat3(&coners[i]));
 		}
 	}
 
-	if (Col->Get_Type() == CCollider::TYPE_OBB)
+	else if (Col->Get_Type() == CCollider::TYPE_OBB)
 	{
 		_float3 coners[8];
 		Col->Get_OBB()->GetCorners(coners);
-		for (size_t i = 1; i < Col->Get_OBB()->CORNER_COUNT; ++i)
+		for (size_t i = 0; i < Col->Get_OBB()->CORNER_COUNT; ++i)
 		{
 			Min = XMVectorMin(Min, XMLoadFloat3(&coners[i]));
 		}
@@ -186,7 +189,7 @@ XMVECTOR CCollider_Manager::Get_Min_Vector(CCollider* Col)
 
 XMVECTOR CCollider_Manager::Get_Max_Vector(CCollider* Col)
 {
-	XMVECTOR Max{}, Corner{};
+	XMVECTOR Max = {  };
 
 	if (nullptr == Col)
 		return Max;
@@ -195,17 +198,17 @@ XMVECTOR CCollider_Manager::Get_Max_Vector(CCollider* Col)
 	{
 		_float3 coners[8];
 		Col->Get_AABB()->GetCorners(coners);
-		for (size_t i = 1; i < Col->Get_AABB()->CORNER_COUNT; ++i)
+		for (size_t i = 0; i < Col->Get_AABB()->CORNER_COUNT; ++i)
 		{
 			Max = XMVectorMax(Max, XMLoadFloat3(&coners[i]));
 		}
 	}
 
-	if (Col->Get_Type() == CCollider::TYPE_OBB)
+	else if (Col->Get_Type() == CCollider::TYPE_OBB)
 	{
 		_float3 coners[8];
 		Col->Get_OBB()->GetCorners(coners);
-		for (size_t i = 1; i < Col->Get_OBB()->CORNER_COUNT; ++i)
+		for (size_t i = 0; i < Col->Get_OBB()->CORNER_COUNT; ++i)
 		{
 			Max = XMVectorMax(Max, XMLoadFloat3(&coners[i]));
 		}
@@ -226,6 +229,61 @@ _float CCollider_Manager::Get_Max(_float fSour, _float fDest)
 	_float fMax = fSour > fDest ? fSour : fDest;
 
 	return fMax;
+}
+
+bool CCollider_Manager::Intersects(CCollider* pLeftCol, CCollider* pRightCol, _float* fX, _float* fY, _float* fZ)
+{
+	XMVECTOR CenterA = {};
+	XMVECTOR ExtentsA = {};
+	XMVECTOR CenterB = {};
+	XMVECTOR ExtentsB = {};
+	if (pLeftCol->Get_Type() == CCollider::TYPE_AABB && pRightCol->Get_Type() == CCollider::TYPE_AABB)
+	{
+		CenterA = XMLoadFloat3(&pLeftCol->Get_AABB()->Center);
+		ExtentsA = XMLoadFloat3(&pLeftCol->Get_AABB()->Extents);
+
+		CenterB = XMLoadFloat3(&pRightCol->Get_AABB()->Center);
+		ExtentsB = XMLoadFloat3(&pRightCol->Get_AABB()->Extents);
+	}
+
+	else if (pLeftCol->Get_Type() == CCollider::TYPE_AABB && pRightCol->Get_Type() == CCollider::TYPE_OBB)
+	{
+		CenterA = XMLoadFloat3(&pLeftCol->Get_AABB()->Center);
+		ExtentsA = XMLoadFloat3(&pLeftCol->Get_AABB()->Extents);
+
+		CenterB = XMLoadFloat3(&pRightCol->Get_OBB()->Center);
+		ExtentsB = XMLoadFloat3(&pRightCol->Get_OBB()->Extents);
+	}
+
+	else if (pLeftCol->Get_Type() == CCollider::TYPE_OBB && pRightCol->Get_Type() == CCollider::TYPE_AABB)
+	{
+		CenterA = XMLoadFloat3(&pLeftCol->Get_OBB()->Center);
+		ExtentsA = XMLoadFloat3(&pLeftCol->Get_OBB()->Extents);
+
+		CenterB = XMLoadFloat3(&pRightCol->Get_AABB()->Center);
+		ExtentsB = XMLoadFloat3(&pRightCol->Get_AABB()->Extents);
+	}
+
+	else if (pLeftCol->Get_Type() == CCollider::TYPE_OBB && pRightCol->Get_Type() == CCollider::TYPE_OBB)
+	{
+		CenterA = XMLoadFloat3(&pLeftCol->Get_OBB()->Center);
+		ExtentsA = XMLoadFloat3(&pLeftCol->Get_OBB()->Extents);
+
+		CenterB = XMLoadFloat3(&pRightCol->Get_OBB()->Center);
+		ExtentsB = XMLoadFloat3(&pRightCol->Get_OBB()->Extents);
+	}
+
+	XMVECTOR MinA = XMVectorSubtract(CenterA, ExtentsA);
+	XMVECTOR MaxA = XMVectorAdd(CenterA, ExtentsA);
+
+	XMVECTOR MinB = XMVectorSubtract(CenterB, ExtentsB);
+	XMVECTOR MaxB = XMVectorAdd(CenterB, ExtentsB);
+
+	*fX = Get_Min(XMVectorGetX(MaxA), XMVectorGetX(MaxB)) - Get_Max(XMVectorGetX(MinA), XMVectorGetX(MinB));
+	*fY = Get_Min(XMVectorGetY(MaxA), XMVectorGetY(MaxB)) - Get_Max(XMVectorGetY(MinA), XMVectorGetY(MinB));
+	*fZ = Get_Min(XMVectorGetZ(MaxA), XMVectorGetZ(MaxB)) - Get_Max(XMVectorGetZ(MinA), XMVectorGetZ(MinB));
+
+	return true;
 }
 
 
