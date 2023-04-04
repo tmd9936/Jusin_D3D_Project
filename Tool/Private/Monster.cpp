@@ -193,7 +193,7 @@ _uint CMonster::LateTick(_double TimeDelta)
 		{ 
 			if (m_pHPCom->Is_DamageEvent())
 			{
-				m_pDamageText->Show_Damage(m_pHPCom->Get_DamageRecieved(), { 1.f, 1.f, 1.f, 1.f }, { 15.f, 15.f }, 0.f, { 0.f, 0.f });
+				m_pDamageText->Show_Damage(m_pHPCom->Get_DamageRecieved(), { 1.f, 1.f, 1.f, 1.f }, { 0.5f, 0.5f }, 0.f, { 0.f, 0.f });
 				
 			}
 		}
@@ -360,7 +360,7 @@ HRESULT CMonster::Add_DamageText()
 	DamageDesc.m_vScale = { 20.f, 20.f };
 
 	DamageDesc.m_fPositionX = 0.f;
-	DamageDesc.m_fPositinoY = -10.f;
+	DamageDesc.m_fPositinoY = -20.f;
 	DamageDesc.m_fPositinoZ = 0.1f;
 
 	DamageDesc.m_vColor = _float4(1.f, 1.f, 1.f, 1.f);

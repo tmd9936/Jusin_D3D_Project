@@ -289,10 +289,13 @@ void CPlayer::On_Collision(CCollider* pOther, const _float& fX, const _float& fY
 		if (XMVectorGetZ(vDestCenter) < XMVectorGetZ(vSourCenter))
 		{
 			pOtherTransform->Move(0.f, 0.f, fZ * 0.0166f, pNavigationCom);
+			m_pTransformCom->Move(0.f, 0.f, -fZ * 0.0166f, m_pNavigationCom);
 		}
 		else
 		{
 			pOtherTransform->Move(0.f, 0.f, -fZ * 0.0166f, pNavigationCom);
+			m_pTransformCom->Move(0.f, 0.f, fZ * 0.0166f, m_pNavigationCom);
+
 		}
 		
 	}
@@ -316,11 +319,15 @@ void CPlayer::On_Collision(CCollider* pOther, const _float& fX, const _float& fY
 		if (XMVectorGetX(vDestCenter) < XMVectorGetX(vSourCenter))
 		{
 			pOtherTransform->Move(fX * 0.0166f, 0.f, 0.f, pNavigationCom);
+			m_pTransformCom->Move(-fX * 0.0166f, 0.f, 0.f, m_pNavigationCom);
+
 
 		}
 		else
 		{
 			pOtherTransform->Move(-fX * 0.0166f, 0.f, 0.f, pNavigationCom);
+			m_pTransformCom->Move(fX * 0.0166f, 0.f, 0.f, m_pNavigationCom);
+
 		}
 	}
 }
@@ -345,11 +352,13 @@ void CPlayer::On_CollisionEnter(CCollider* pOther, const _float& fX, const _floa
 		if (XMVectorGetZ(vDestCenter) < XMVectorGetZ(vSourCenter))
 		{
 			pOtherTransform->Move(0.f, 0.f, fZ * 0.0166f, pNavigationCom);
-
+			m_pTransformCom->Move(0.f, 0.f, -fZ * 0.0166f, m_pNavigationCom);
 		}
 		else
 		{
 			pOtherTransform->Move(0.f, 0.f, -fZ * 0.0166f, pNavigationCom);
+			m_pTransformCom->Move(0.f, 0.f, fZ * 0.0166f, m_pNavigationCom);
+
 		}
 	}
 	else if (fX == fZ) {}
@@ -371,11 +380,15 @@ void CPlayer::On_CollisionEnter(CCollider* pOther, const _float& fX, const _floa
 		if (XMVectorGetX(vDestCenter) < XMVectorGetX(vSourCenter))
 		{
 			pOtherTransform->Move(fX * 0.0166f, 0.f, 0.f, pNavigationCom);
+			m_pTransformCom->Move(-fX * 0.0166f, 0.f, 0.f, m_pNavigationCom);
+
 
 		}
 		else
 		{
 			pOtherTransform->Move(-fX * 0.0166f, 0.f, 0.f, pNavigationCom);
+			m_pTransformCom->Move(fX * 0.0166f, 0.f, 0.f, m_pNavigationCom);
+
 		}
 	}
 }

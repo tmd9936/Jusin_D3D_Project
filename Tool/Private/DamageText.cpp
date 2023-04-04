@@ -89,7 +89,7 @@ _uint CDamageText::LateTick(_double TimeDelta)
 		_float4 r = { vScale.x, 0.f, 0.f, 0.f };
 		_float4 u = { 0.f, vScale.y, 0.f, 0.f };
 		_float4 l = { 0.f, 0.f, 1.f, 0.f };
-		_float4 p = { ParentMat.m[3][0], ParentMat.m[3][1], 0.1f, 1.f };
+		_float4 p = { ParentMat.m[3][0]/ ParentMat.m[3][2], ParentMat.m[3][1] / ParentMat.m[3][2], 0.1f, 1.f };
 
 		memcpy(ParentMat.m[0], &r, sizeof _float4);
 		memcpy(ParentMat.m[1], &u, sizeof _float4);
@@ -98,8 +98,8 @@ _uint CDamageText::LateTick(_double TimeDelta)
 
 		m_FinalWorldMatrix = ParentMat;
 
-		m_FinalWorldMatrix.m[3][0] = m_FinalWorldMatrix.m[3][0] + g_iWinSizeX * 0.5f;
-		m_FinalWorldMatrix.m[3][1] = -m_FinalWorldMatrix.m[3][1] + g_iWinSizeY * 0.5f;
+		m_FinalWorldMatrix.m[3][0] = m_FinalWorldMatrix.m[3][0] ;
+		m_FinalWorldMatrix.m[3][1] = m_FinalWorldMatrix.m[3][1];
 		//m_FinalWorldMatrix.m[3][1] *= -1.f;
 		//m_FinalWorldMatrix.m[3][2] = 0.1f;
 

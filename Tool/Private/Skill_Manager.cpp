@@ -126,8 +126,7 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 
 			pEffect->Set_AttackPower(_uint(damage * skill_desc.m_damagePercent));
 
-			if (skill_desc.m_isEnablePotential_Knockback)
-				pEffect->Set_KnockBack(true);
+			pEffect->Set_KnockBack(skill_desc.m_isEnablePotential_Knockback);
 			//pEffect->Set_Pos({ 0.f, 0.f, 0.f, 0.f });
 
 			pEffect->Set_Parent(pParentBone, pParentTransform, pivotMatrix);
@@ -181,6 +180,8 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 
 			//pTransform->LookAt(vParentPos);
 
+			pEffect->Set_KnockBack(skill_desc.m_isEnablePotential_Knockback);
+
 			_vector vPos = XMVectorSetW(vParentPos + vParentLook * (_float)i, 1.f);
 			_float4 pos = {};
 			XMStoreFloat4(&pos, vPos);
@@ -229,6 +230,8 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 		pTransform->LookAt(XMVectorSetW(vLook, 1.f));
 
 		pEffect->Set_AttackPower(_uint(damage * skill_desc.m_damagePercent));
+
+		pEffect->Set_KnockBack(skill_desc.m_isEnablePotential_Knockback);
 
 		_float4 pos = {};
 		XMStoreFloat4(&pos, vPos + vLook * 0.5f);
