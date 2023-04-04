@@ -460,10 +460,20 @@ void CMonster::Do_Skill_After_Set_Motion(_uint skillType, const _tchar* pLayer)
 	{
 		m_pMonFSM->Transit_MotionState(CMonFSM::BODYBLOW, m_pModelCom);
 	}
-	else if (skillType == 168) //메가톤 펀치
+	else if (skillType == 168) // 메가톤 펀치
 	{
 		m_pMonFSM->Transit_MotionState(CMonFSM::ATK_SLE_NORMAL_START, m_pModelCom);
 	}
+	// 스킬 및 원거리 몬스터 작업 ㄱㄱ
+	//else if (skillType == 50) // 하이드럼 펌프
+	//{
+	//	m_pMonFSM->Transit_MotionState(CMonFSM::ATK_SLE_NORMAL_START, m_pModelCom);
+	//}
+	//else if (skillType == 79) // 얼다바람
+	//{
+	//	m_pMonFSM->Transit_MotionState(CMonFSM::ATK_SLE_NORMAL_START, m_pModelCom);
+	//}
+
 
 }
 
