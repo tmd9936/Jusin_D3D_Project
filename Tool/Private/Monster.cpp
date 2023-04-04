@@ -193,7 +193,7 @@ _uint CMonster::LateTick(_double TimeDelta)
 		{ 
 			if (m_pHPCom->Is_DamageEvent())
 			{
-				m_pDamageText->Show_Damage(m_pHPCom->Get_DamageRecieved(), { 1.f, 0.5f, 0.1f, 1.f }, { 0.8f, 0.8f }, 0.f, { 0.f, 0.f });
+				m_pDamageText->Show_Damage(m_pHPCom->Get_DamageRecieved(), { 0.76f, 0.24f, 0.0f, 1.f }, { 0.5f, 0.5f }, 0.f, { 0.f, 0.f });
 				
 			}
 		}
@@ -257,7 +257,7 @@ HRESULT CMonster::Add_BuffState()
 	BuffStateDesc.m_fSizeY = 20.f;
 
 	BuffStateDesc.m_fPositionX = -10.f;
-	BuffStateDesc.m_fPositinoY = -70.f;
+	BuffStateDesc.m_fPositinoY = -40.f;
 	BuffStateDesc.m_fPositinoZ = 0.1f;
 
 	lstrcpy(BuffStateDesc.m_TextureProtoTypeName, L"Prototype_Component_Texture_Pokemon_State_doku");
@@ -360,12 +360,12 @@ HRESULT CMonster::Add_DamageText()
 	DamageDesc.m_vScale = { 20.f, 20.f };
 
 	DamageDesc.m_fPositionX = -30.f;
-	DamageDesc.m_fPositinoY = -50.f;
+	DamageDesc.m_fPositinoY = -80.f;
 	DamageDesc.m_fPositinoZ = 0.1f;
 
 	DamageDesc.m_vColor = _float4(1.f, 1.f, 1.f, 1.f);
 
-	lstrcpy(DamageDesc.m_FontTag, L"Font_NanumBarunGothic");
+	lstrcpy(DamageDesc.m_FontTag, L"Font_NanumBarunGothicBold");
 
 	pGameInstance->Clone_GameObject(L"Layer_UI", m_iLevelindex, TEXT("Prototype_GameObject_DamageText"), (CGameObject**)&m_pDamageText, &DamageDesc);
 	if (nullptr == m_pDamageText)
