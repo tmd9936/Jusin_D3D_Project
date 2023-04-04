@@ -276,6 +276,63 @@ _uint APIENTRY LoadingNormalEffect(void* pArg)
 		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Effect/E_BS_Jimen.fbx", PivotMatrix))))
 		return	E_FAIL;
 
+	PivotMatrix = XMMatrixScaling(0.3f, 0.3f, 0.3f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_E_BPB_Normal_Start",
+		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Effect/E_BPB_Normal_Start.fbx", PivotMatrix))))
+		return	E_FAIL;
+
+	if (FAILED(hr))
+	{
+		LeaveCriticalSection(CThreadPool::GetInstance()->Get_CriticalSection(workerID));
+		return 1;
+	}
+
+	LeaveCriticalSection(CThreadPool::GetInstance()->Get_CriticalSection(workerID));
+
+	return 0;
+}
+
+_uint APIENTRY LoadingKooriEffect(void* pArg)
+{
+	if (FAILED(CoInitializeEx(nullptr, 0)))
+		return E_FAIL;
+
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	EnterCriticalSection(CThreadPool::GetInstance()->Get_CurrentCriticalSection());
+
+	DWORD  workerID = CThreadPool::GetInstance()->Get_WorkerThreadId();
+
+	HRESULT			hr = { 0 };
+
+	_matrix PivotMatrix = XMMatrixIdentity();
+
+	PivotMatrix = XMMatrixScaling(0.3f, 0.3f, 0.3f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_E_BS_koori",
+		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Effect/E_BS_koori.fbx", PivotMatrix))))
+		return	E_FAIL;
+
+	PivotMatrix = XMMatrixScaling(0.3f, 0.3f, 0.3f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_E_BD_Koori",
+		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Effect/E_BD_Koori.fbx", PivotMatrix))))
+		return	E_FAIL;
+
+	PivotMatrix = XMMatrixScaling(0.3f, 0.3f, 0.3f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_E_BC_Mizu",
+		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Effect/E_BC_Mizu.fbx", PivotMatrix))))
+		return	E_FAIL;
+
+	PivotMatrix = XMMatrixScaling(0.3f, 0.3f, 0.3f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_E_BP_Mizu_Start",
+		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Effect/E_BP_Mizu_Start.fbx", PivotMatrix))))
+		return	E_FAIL;
+
+	PivotMatrix = XMMatrixScaling(0.3f, 0.3f, 0.3f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_E_BD_Mizu",
+		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Effect/E_BD_Mizu.fbx", PivotMatrix))))
+		return	E_FAIL;
+
+
 	if (FAILED(hr))
 	{
 		LeaveCriticalSection(CThreadPool::GetInstance()->Get_CriticalSection(workerID));
@@ -297,6 +354,7 @@ HRESULT CLoader::Initialize(LEVEL eNextLevelID)
 		CThreadPool::GetInstance()->Add_Work(LoadingDenkiEffect);
 		CThreadPool::GetInstance()->Add_Work(LoadingNormalEffect);
 		CThreadPool::GetInstance()->Add_Work(LoadingDokuEffect);
+		CThreadPool::GetInstance()->Add_Work(LoadingKooriEffect);
 	}
 
 	InitializeCriticalSection(m_CriticalSection);
