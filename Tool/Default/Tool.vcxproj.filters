@@ -208,6 +208,9 @@
     <Filter Include="02. GameObject\Static\Searcher">
       <UniqueIdentifier>{ed3ef229-cfa7-4b86-87b8-186b71a37f0b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\Static\Monster\UI\DamageText">
+      <UniqueIdentifier>{d956911c-d832-4168-bfb1-596e484ffd04}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -407,6 +410,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Searcher.h">
       <Filter>02. GameObject\Static\Searcher</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\DamageText.h">
+      <Filter>02. GameObject\Static\Monster\UI\DamageText</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -608,6 +614,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Searcher.cpp">
       <Filter>02. GameObject\Static\Searcher</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\DamageText.cpp">
+      <Filter>02. GameObject\Static\Monster\UI\DamageText</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

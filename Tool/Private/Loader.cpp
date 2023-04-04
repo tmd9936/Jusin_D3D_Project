@@ -51,6 +51,8 @@
 #include "HP.h"
 #include "HpBar.h"
 
+#include "DamageText.h"
+
 #include "Attack.h"
 
 
@@ -352,6 +354,11 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CStageEnemyMonster::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
+		/* For.Prototype_GameObject_DamageText*/
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_DamageText"),
+			CDamageText::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
 		///* For.Prototype_GameObject_BackGround */
 		//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround"),
 		//	CBackGround::Create(m_pDevice, m_pContext))))
@@ -532,12 +539,21 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 			return E_FAIL;
 	}
 
-	modelName = L"Prototype_Component_Model_Pokemon_PM31";
+	//modelName = L"Prototype_Component_Model_Pokemon_PM31";
+	//if (false == pGameInstance->Check_Prototype(modelName.c_str()))
+	//{
+	//	PivotMatrix = XMMatrixScaling(0.4f, 0.4f, 0.4f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+	//	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, modelName.c_str(),
+	//		CModel::Create(m_pDevice, m_pContext, "../../Reference/Resources/Mesh/Animation/Pokemon/PM31.json", CModel::TYPE_MESH_COLOR_ANIM, PivotMatrix))))
+	//		return E_FAIL;
+	//}
+
+	modelName = L"Prototype_Component_Model_Pokemon_PM87";
 	if (false == pGameInstance->Check_Prototype(modelName.c_str()))
 	{
-		PivotMatrix = XMMatrixScaling(0.4f, 0.4f, 0.4f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+		PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f) * XMMatrixRotationY(XMConvertToRadians(180.f));
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, modelName.c_str(),
-			CModel::Create(m_pDevice, m_pContext, "../../Reference/Resources/Mesh/Animation/Pokemon/PM31.json", CModel::TYPE_MESH_COLOR_ANIM, PivotMatrix))))
+			CModel::Create(m_pDevice, m_pContext, "../../Reference/Resources/Mesh/Animation/Pokemon/PM87.json", CModel::TYPE_MESH_COLOR_ANIM, PivotMatrix))))
 			return E_FAIL;
 	}
 

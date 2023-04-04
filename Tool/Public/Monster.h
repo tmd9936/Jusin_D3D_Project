@@ -27,6 +27,7 @@ class CSkill_Manager;
 class CSkill;
 class CHpBar;
 class CSearcher;
+class CDamageText;
 
 class CMonster abstract : public CGameObject
 {
@@ -101,18 +102,18 @@ protected:
 protected:
 	HRESULT	Add_HpBar();
 	HRESULT	Add_Searcher();
+	HRESULT Add_DamageText();
 
 	void	Do_Skill(_uint skillType, CMonFSM::MONSTER_STATE eMotion, const _tchar* pLayer);
 	void	Do_Skill(_uint skillType, const _tchar* pLayer);
 
 	void	Do_Skill_After_Set_Motion(_uint skillType, const _tchar* pLayer);
 
-
 protected:
 	void	CoolTimeCheck(const _double& TimeDelta);
 
 protected:
-	_bool		Search_Target();
+	_bool	Search_Target();
 
 private:
 	HRESULT Add_Components();
@@ -157,6 +158,7 @@ protected:
 	vector<CGameObject*>	m_Parts;
 	CHpBar*					m_pHpBar = { nullptr };
 	CSearcher*				m_pSearcher = { nullptr };
+	CDamageText*			m_pDamageText = { nullptr };
 
 	CGameObject*			m_pTarget = { nullptr };
 

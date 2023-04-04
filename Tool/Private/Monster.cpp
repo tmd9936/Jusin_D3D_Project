@@ -12,7 +12,7 @@
 #include "Skill.h"
 
 #include "Searcher.h"
-
+#include "DamageText.h"
 
 
 CMonster::CMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -79,6 +79,9 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* p
 	if (FAILED(Add_MotionState()))
 		return E_FAIL;
 
+	if (FAILED(Add_DamageText()))
+		return E_FAIL;
+
 	/*if (FAILED(Add_BuffState()))
 		return E_FAIL;*/
 
@@ -131,6 +134,9 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const c
 	/*if (FAILED(Add_BuffState()))
 		return E_FAIL;*/
 
+	if (FAILED(Add_DamageText()))
+		return E_FAIL;
+
 	if (FAILED(Add_HpBar()))
 		return E_FAIL;
 
@@ -162,6 +168,12 @@ _uint CMonster::Tick(_double TimeDelta)
 	if (m_pHpBar)
 		m_pHpBar->Tick(TimeDelta);
 
+	if (m_pHPCom)
+		m_pHPCom->Tick(TimeDelta);
+
+	if (m_pDamageText)
+		m_pDamageText->Tick(TimeDelta);
+
 	CoolTimeCheck(TimeDelta);
 
 	return State_Tick(TimeDelta);
@@ -176,6 +188,18 @@ _uint CMonster::LateTick(_double TimeDelta)
 
 		if (m_pHpBar)
 			m_pHpBar->LateTick(TimeDelta);
+
+		if (m_pHPCom)
+		{ 
+			if (m_pHPCom->Is_DamageEvent())
+			{
+				m_pDamageText->Show_Damage(m_pHPCom->Get_DamageRecieved(), { 1.f, 1.f, 1.f, 1.f }, { 15.f, 15.f }, 0.f, { 0.f, 0.f });
+				
+			}
+		}
+
+		if (m_pDamageText)
+			m_pDamageText->LateTick(TimeDelta);
 
 		m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
 	}
@@ -321,6 +345,35 @@ HRESULT CMonster::Add_Searcher()
 	return S_OK;
 }
 
+HRESULT CMonster::Add_DamageText()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	CDamageText::DAMAGETEXT_DESC		DamageDesc{};
+	ZeroMemory(&DamageDesc, sizeof DamageDesc);
+
+	DamageDesc.pParent = m_pTransformCom;
+	Safe_AddRef(m_pTransformCom);
+
+	XMStoreFloat4x4(&DamageDesc.PivotMatrix, m_pModelCom->Get_PivotMatrix());
+
+	DamageDesc.m_vScale = { 20.f, 20.f };
+
+	DamageDesc.m_fPositionX = 0.f;
+	DamageDesc.m_fPositinoY = -10.f;
+	DamageDesc.m_fPositinoZ = 0.1f;
+
+	DamageDesc.m_vColor = _float4(1.f, 1.f, 1.f, 1.f);
+
+	lstrcpy(DamageDesc.m_FontTag, L"Font_NanumBarunGothic");
+
+	pGameInstance->Clone_GameObject(L"Layer_UI", m_iLevelindex, TEXT("Prototype_GameObject_DamageText"), (CGameObject**)&m_pDamageText, &DamageDesc);
+	if (nullptr == m_pDamageText)
+		return E_FAIL;
+
+	return S_OK;
+}
+
 void CMonster::Do_Skill(_uint skillType, CMonFSM::MONSTER_STATE eMotion, const _tchar* pLayer)
 {
 	if (!m_bAttack)
@@ -329,7 +382,6 @@ void CMonster::Do_Skill(_uint skillType, CMonFSM::MONSTER_STATE eMotion, const _
 
 		Do_Skill(skillType, pLayer);
 	}
-
 }
 
 void CMonster::Do_Skill(_uint skillType, const _tchar* pLayer)
@@ -437,6 +489,18 @@ void CMonster::CoolTimeCheck(const _double& TimeDelta)
 		}
 	}
 }
+
+_bool CMonster::Search_Target()
+{
+	if (nullptr == m_pSearcher)
+		return false;
+	if (CSearcher::COLLISION_STATE_ENTER == m_pSearcher->Get_Collision_State() || CSearcher::COLLISION_STATE_ON == m_pSearcher->Get_Collision_State())
+	{
+		return true;
+	}
+	return false;
+}
+
 
 HRESULT CMonster::Add_Components()
 {
@@ -789,6 +853,7 @@ void CMonster::Free()
 
 	Safe_Release(m_pHpBar);
 	Safe_Release(m_pSearcher);
+	Safe_Release(m_pDamageText);
 
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pShaderCom);

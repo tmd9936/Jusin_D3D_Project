@@ -4,10 +4,7 @@
 #include "GameObject.h"
 
 BEGIN(Engine)
-class CVIBuffer_Rect;
 class CRenderer;
-class CShader;
-class CTexture;
 class CTransform;
 class CModel;
 END
@@ -67,9 +64,6 @@ public:
 private:
 	CTransform* m_pTransformCom = { nullptr };
 	CRenderer* m_pRendererCom = { nullptr };
-	CShader* m_pShaderCom = { nullptr };
-	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
-	CTexture* m_pTextureCom = { nullptr };
 
 private:
 	TEXT_DESC	m_Text_Desc = {};

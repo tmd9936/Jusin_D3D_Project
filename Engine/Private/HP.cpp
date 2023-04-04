@@ -35,10 +35,22 @@ HRESULT CHP::Initialize(void* pArg)
 	return S_OK;
 }
 
+_uint CHP::Tick(const _double& Timedelta)
+{
+	m_GetDamageEvent = false;
+	m_DamageReceived = 0;
+
+	return _uint();
+}
+
 
 void CHP::Get_Damage(_uint damage)
 {
 	m_CurrentHP -= damage;
+
+	m_GetDamageEvent = true;
+
+	m_DamageReceived = damage;
 
 	if (m_CurrentHP <= 0)
 	{

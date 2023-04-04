@@ -26,6 +26,8 @@ public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
 
+public:
+	_uint		Tick(const _double& Timedelta);
 
 public:
 	const _uint		Get_MaxHp() const {
@@ -39,6 +41,14 @@ public:
 public:
 	const _float		Get_HP_Ratio() const {
 		return m_CurrentHP / (_float)m_MaxHP;
+	}
+
+	const _bool Is_DamageEvent() const {
+		return m_GetDamageEvent;
+	}
+
+	const _uint	Get_DamageRecieved() const {
+		return m_DamageReceived;
 	}
 
 	const _bool	Is_Dead() const {
@@ -63,7 +73,8 @@ private:
 	_uint		m_MaxHP = { 0 };
 	_uint		m_CurrentHP = { 0 };
 
-
+	_uint		m_DamageReceived = { 0 };
+	_bool		m_GetDamageEvent = { false };
 public:
 	static CHP* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CComponent* Clone(CGameObject* pOwner, void* pArg = nullptr) override;

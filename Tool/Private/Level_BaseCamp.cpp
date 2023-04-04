@@ -191,21 +191,6 @@ HRESULT CLevel_BaseCamp::Ready_Layer_UI(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_Layer(LEVEL_BASECAMP, pLayerTag)))
 		return E_FAIL;
 
-	//CButton::BUTTON_DESC desc = {};
-	//desc.m_fSizeX = 80.5f;
-	//desc.m_fSizeY = 30.f;
-	//desc.m_fX = g_iWinSizeX - 100.f;
-	//desc.m_fY = g_iWinSizeY - 25.f;
-	//desc.m_ShaderLevelIndex = LEVEL_BASECAMP;
-	//desc.m_ModelPrototypLevel = LEVEL_BASECAMP;
-
-	//strcpy(desc.m_DiffuseTexturePath, "./BaseCamp_worldmapL_button.png");
-	//lstrcpy(desc.m_MaskPrototypeTag, TEXT("Prototype_Component_Button_Color_Mask"));
-	//lstrcpy(desc.m_ButtonName, TEXT("GO_TO_WORLDMAP_BUTTON"));
-
-	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GoToWorldMapButton"), LEVEL_BASECAMP, pLayerTag, desc.m_ButtonName, &desc)))
-	//	return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GoToWorldMapButton"), LEVEL_BASECAMP, pLayerTag, L"GoToWorldMapButton", "../../Reference/Resources/Data/Scene/BaseCamp/Button/GoToMap_Button_data.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
@@ -222,20 +207,11 @@ HRESULT CLevel_BaseCamp::Ready_Layer_Monster(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_Layer(LEVEL_BASECAMP, pLayerTag)))
 		return E_FAIL;
 
-	//for (size_t i = 0; i < 5; i++)
-	//{
-	//	char protoTag[MAX_PATH];
-	//	sprintf(protoTag, "../../Reference/Resources/Data/Scene/BaseCamp/FieldPokemon/FieldPokemon_data%d.json", i);
-
-	//	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BaseCampMonster"), LEVEL_BASECAMP, pLayerTag, nullptr, protoTag, CLONE_FILEPATH)))
-	//		return E_FAIL;
-	//}
-
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BaseCampMonster"), LEVEL_BASECAMP, pLayerTag, nullptr, "../../Reference/Resources/Data/Scene/BaseCamp/FieldPokemon/FieldPokemon_data0.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageEnemyMonster"), LEVEL_BASECAMP, pLayerTag, nullptr, "../../Reference/Resources/Data/Scene/Stage/MonsterData/EnemyData_031_boss.json", CLONE_FILEPATH)))
-		return E_FAIL;
+	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageEnemyMonster"), LEVEL_BASECAMP, pLayerTag, nullptr, "../../Reference/Resources/Data/Scene/Stage/MonsterData/EnemyData_031_boss.json", CLONE_FILEPATH)))
+	//	return E_FAIL;
 
 
 	Safe_Release(pGameInstance);
