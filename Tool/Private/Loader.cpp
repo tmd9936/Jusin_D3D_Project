@@ -55,6 +55,8 @@
 
 #include "Attack.h"
 
+#include "ThreadPool.h"
+
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
@@ -102,9 +104,48 @@ _uint APIENTRY LoadingMain(void* pArg)
 	return 0;
 }
 
+_uint APIENTRY LoadingEffect(void* pArg)
+{
+	if (FAILED(CoInitializeEx(nullptr, 0)))
+		return E_FAIL;
+
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	EnterCriticalSection(CThreadPool::GetInstance()->Get_CurrentCriticalSection());
+
+	DWORD  workerID = CThreadPool::GetInstance()->Get_WorkerThreadId();
+
+	HRESULT			hr = { 0 };
+
+	wstring modelName = L"Prototype_Component_Model_Pokemon_PM31";
+	if (false == pGameInstance->Check_Prototype(modelName.c_str()))
+	{
+		_matrix PivotMatrix = XMMatrixScaling(0.4f, 0.4f, 0.4f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, modelName.c_str(),
+			CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), "../../Reference/Resources/Mesh/Animation/Pokemon/PM31.json", CModel::TYPE_MESH_COLOR_ANIM, PivotMatrix))))
+			return E_FAIL;
+	}
+
+	if (FAILED(hr))
+	{
+		LeaveCriticalSection(CThreadPool::GetInstance()->Get_CriticalSection(workerID));
+		return 1;
+	}
+
+	LeaveCriticalSection(CThreadPool::GetInstance()->Get_CriticalSection(workerID));
+
+	return 0;
+}
+
+
 HRESULT CLoader::Initialize(LEVEL eNextLevelID)
 {
 	m_eNextLevelID = eNextLevelID;
+
+	if (eNextLevelID == LEVEL_LOGO)
+	{
+		CThreadPool::GetInstance()->Add_Work(LoadingEffect);
+	}
 
 	InitializeCriticalSection(m_CriticalSection);
 
@@ -539,14 +580,14 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 			return E_FAIL;
 	}
 
-	modelName = L"Prototype_Component_Model_Pokemon_PM31";
-	if (false == pGameInstance->Check_Prototype(modelName.c_str()))
-	{
-		PivotMatrix = XMMatrixScaling(0.4f, 0.4f, 0.4f) * XMMatrixRotationY(XMConvertToRadians(180.f));
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, modelName.c_str(),
-			CModel::Create(m_pDevice, m_pContext, "../../Reference/Resources/Mesh/Animation/Pokemon/PM31.json", CModel::TYPE_MESH_COLOR_ANIM, PivotMatrix))))
-			return E_FAIL;
-	}
+	//modelName = L"Prototype_Component_Model_Pokemon_PM31";
+	//if (false == pGameInstance->Check_Prototype(modelName.c_str()))
+	//{
+	//	PivotMatrix = XMMatrixScaling(0.4f, 0.4f, 0.4f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+	//	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, modelName.c_str(),
+	//		CModel::Create(m_pDevice, m_pContext, "../../Reference/Resources/Mesh/Animation/Pokemon/PM31.json", CModel::TYPE_MESH_COLOR_ANIM, PivotMatrix))))
+	//		return E_FAIL;
+	//}
 
 	modelName = L"Prototype_Component_Model_Pokemon_PM87";
 	if (false == pGameInstance->Check_Prototype(modelName.c_str()))

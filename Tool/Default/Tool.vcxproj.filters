@@ -211,6 +211,9 @@
     <Filter Include="02. GameObject\Static\Monster\UI\DamageText">
       <UniqueIdentifier>{d956911c-d832-4168-bfb1-596e484ffd04}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Levels\Loading\ThreadPool">
+      <UniqueIdentifier>{5a888ec3-0cf6-486b-b72e-b6f7d3a8a3e5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -413,6 +416,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\DamageText.h">
       <Filter>02. GameObject\Static\Monster\UI\DamageText</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ThreadPool.h">
+      <Filter>01. Levels\Loading\ThreadPool</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -617,6 +623,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\DamageText.cpp">
       <Filter>02. GameObject\Static\Monster\UI\DamageText</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ThreadPool.cpp">
+      <Filter>01. Levels\Loading\ThreadPool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

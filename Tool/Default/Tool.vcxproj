@@ -209,6 +209,7 @@
     <ClInclude Include="..\Public\Client_Defines.h" />
     <ClInclude Include="..\Public\TestModel.h" />
     <ClInclude Include="..\Public\TextureUI.h" />
+    <ClInclude Include="..\Public\ThreadPool.h" />
     <ClInclude Include="..\Public\UI.h" />
     <ClInclude Include="..\Public\SkillToolGUI.h" />
     <ClInclude Include="..\Public\Weapon.h" />
@@ -279,6 +280,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\Private\ThreadPool.cpp" />
     <ClCompile Include="..\Private\UI.cpp" />
     <ClCompile Include="..\Private\SkillToolGUI.cpp" />
     <ClCompile Include="..\Private\Weapon.cpp" />

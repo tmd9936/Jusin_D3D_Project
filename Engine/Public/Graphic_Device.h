@@ -32,6 +32,9 @@ public:
 	ID3D11Device* Get_Device() const { 
 		return m_pDevice; }
 
+	ID3D11DeviceContext* Get_ContextDevice() const {
+		return m_pDeviceContext;
+	}
 	IDXGISwapChain* Get_SwapChain() const {
 		return m_pSwapChain; }
 

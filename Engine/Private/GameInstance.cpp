@@ -165,6 +165,13 @@ ID3D11Device* CGameInstance::Get_Device()
 	return m_pGraphic_Device->Get_Device();
 }
 
+ID3D11DeviceContext* CGameInstance::Get_ContextDevice()
+{
+	if (nullptr == m_pGraphic_Device)
+		return nullptr;
+	return m_pGraphic_Device->Get_ContextDevice();
+}
+
 IDXGISwapChain* CGameInstance::Get_SwapChain()
 {
 	if (nullptr == m_pGraphic_Device)

@@ -18,6 +18,8 @@
 
 #include "Client_Utility.h"
 
+#include "ThreadPool.h"
+
 
 CMainApp::CMainApp()
 	: m_pGameInstance(CGameInstance::GetInstance())
@@ -64,6 +66,9 @@ HRESULT CMainApp::Initialize()
 	// Setup Dear ImGui style
 	ImGui::StyleColorsDark();
 	//ImGui::StyleColorsClassic();
+
+
+	CThreadPool::GetInstance();
 
 	// When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
 	ImGuiStyle& style = ImGui::GetStyle();
@@ -293,6 +298,8 @@ void CMainApp::Free()
 	ImGui_ImplDX11_Shutdown();
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
+
+	CThreadPool::GetInstance()->DestroyInstance();
 
 	CGameInstance::Release_Engine();
 }

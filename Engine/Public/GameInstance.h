@@ -42,6 +42,8 @@ public: /* For.Graphic_Device */
 	HRESULT Present(UINT interval, UINT flags);
 	HRESULT SetRenderTargets(_bool bDepthSet = true);
 	ID3D11Device* Get_Device();
+	ID3D11DeviceContext* Get_ContextDevice();
+
 	IDXGISwapChain* Get_SwapChain();
 	ID3D11RenderTargetView* Get_RTV();
 
