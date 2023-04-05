@@ -30,6 +30,12 @@ HRESULT CLevel_Stage::Initialize()
 	if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_PlayerSearcher(TEXT("Layer_PlayerSearcher"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_MonsterSearcher(TEXT("Layer_MonsterSearcher"))))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
 
@@ -42,10 +48,16 @@ HRESULT CLevel_Stage::Initialize()
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_Manager(TEXT("Layer_Manager"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_PlayerSkill(TEXT("Layer_PlayerSkill"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_MonsterSkill(TEXT("Layer_MonsterSkill"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Effect(TEXT("Layer_Effect"))))
@@ -202,6 +214,61 @@ HRESULT CLevel_Stage::Ready_Layer_PlayerSkill(const _tchar* pLayerTag)
 	return S_OK;
 }
 
+HRESULT CLevel_Stage::Ready_Layer_PlayerSearcher(const _tchar* pLayerTag)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_STAGE, pLayerTag)))
+		return E_FAIL;
+
+	Safe_Release(pGameInstance);
+	return S_OK;
+}
+
+HRESULT CLevel_Stage::Ready_Layer_MonsterSearcher(const _tchar* pLayerTag)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_STAGE, pLayerTag)))
+		return E_FAIL;
+
+	Safe_Release(pGameInstance);
+	return S_OK;
+}
+
+HRESULT CLevel_Stage::Ready_Layer_Monster(const _tchar* pLayerTag)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_STAGE, pLayerTag)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageEnemyMonster"), LEVEL_STAGE, pLayerTag, nullptr, "../../Reference/Resources/Data/Scene/Stage/MonsterData/EnemyData_031_boss.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageEnemyMonster"), LEVEL_STAGE, pLayerTag, nullptr, "../../Reference/Resources/Data/Scene/Stage/MonsterData/EnemyData_087_warter01.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CLevel_Stage::Ready_Layer_MonsterSkill(const _tchar* pLayerTag)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_STAGE, pLayerTag)))
+		return E_FAIL;
+
+	Safe_Release(pGameInstance);
+	return S_OK;
+}
+
 HRESULT CLevel_Stage::Ready_Layer_Player(const _tchar* pLayerTag)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
@@ -213,6 +280,12 @@ HRESULT CLevel_Stage::Ready_Layer_Player(const _tchar* pLayerTag)
 	CMonster::POKEMON_DESC desc{};
 	desc.m_monsterNo = 25;
 	desc.vPos = _float4(19.2f, 0.5f, 22.0f, 1.f);
+	desc.m_skillIDs.push_back(24);
+	desc.m_skillIDs.push_back(58);
+	desc.m_skillIDs.push_back(57);
+	desc.m_skillIDs.push_back(25);
+	desc.m_attackBasis = 50;
+	desc.m_hpBasis = 2500;
 
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Player"), LEVEL_STAGE, pLayerTag, L"Player", &desc)))
 		return E_FAIL;

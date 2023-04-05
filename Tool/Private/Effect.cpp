@@ -69,6 +69,9 @@ _uint CEffect::Tick(_double TimeDelta)
 	if (m_CurrentLoopCount < 0)
 		return OBJ_DEAD;
 
+	if (m_AttackTimeAcc > 0.0)
+		m_AttackTimeAcc -= TimeDelta;
+
 	if (m_pModelCom->Play_Animation(TimeDelta * m_AnimationSpeed))
 	{
 		m_pModelCom->Set_Animation_Start_Time(m_AnimationStartAcc);
@@ -227,7 +230,11 @@ void CEffect::On_Collision(CCollider* pOther, const _float& fX, const _float& fY
 
 			if (nullptr != pOtherHpCom)
 			{
-				pOtherHpCom->Get_Damage(m_pAttackCom->Get_AttackPower());
+				if (m_AttackTimeAcc <= 0.0)
+				{
+					pOtherHpCom->Get_Damage(m_pAttackCom->Get_AttackPower());
+					m_AttackTimeAcc = m_AttackTime;
+				}
 			}
 		}
 
@@ -274,18 +281,28 @@ void CEffect::On_CollisionEnter(CCollider* pOther, const _float& fX, const _floa
 {
 	if (m_pColliderCom)
 	{
+		CGameObject* pOtherOwner = pOther->Get_Owner();
+		if (!pOtherOwner)
+			return;
+
+		CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
+		if (!pOtherTransform)
+			return;
+
+		if (m_pAttackCom)
+		{
+			CHP* pOtherHpCom = pOtherOwner->Get_As<CHP>();
+
+			if (nullptr != pOtherHpCom)
+			{
+				pOtherHpCom->Get_Damage(m_pAttackCom->Get_AttackPower());
+			}
+		}
+
 		if (m_bKnockBack)
 		{
 			_vector vDestCenter = m_pColliderCom->Get_Center();
 			_vector vSourCenter = pOther->Get_Center();
-
-			CGameObject* pOtherOwner = pOther->Get_Owner();
-			if (!pOtherOwner)
-				return;
-
-			CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
-			if (!pOtherTransform)
-				return;
 
 			CNavigation* pNavigationCom = pOtherOwner->Get_As<CNavigation>();
 			if (fX > fZ)

@@ -22,7 +22,7 @@
 스킬 쿨타임에 따라서 랜덤 공격
 
 대기
-기본공격
+기본 공격
 공격 쿨타임 시
 쿨타임 끝나고 공격
 추적 타입 or 거리 조절 타입?
@@ -108,8 +108,8 @@ void CStageEnemyMonster::Change_State_FSM(_uint eState)
 	switch (eState)
 	{
 	case CMonFSM::IDLE1:
-
-
+		//m_pNavigationCom->Set_Index_By_Position({ m_PokemonDesc.vPos.x, m_PokemonDesc.vPos.y, m_PokemonDesc.vPos.z });
+		break;
 	case CMonFSM::ROAR:
 		//m_bTurn = true;
 		//Set_MovePosition();
@@ -217,7 +217,7 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 				
 				if (m_PokemonDesc.m_AIType == AI_TYPE_SHORT_DISTACE)
 				{
-					if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta), 3.3f, m_pNavigationCom))
+					if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta), 3.3f))
 					{
 						m_pMonFSM->Transit_MotionState(CMonFSM::IDLE_GROUND, m_pModelCom);
 					}
@@ -275,7 +275,7 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 		{
 			m_pTransformCom->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta * 1.5));
 
-			if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta), 1.3f, m_pNavigationCom))
+			if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta), 1.3f))
 			{
 				if (m_bCanAttack)
 				{
@@ -297,7 +297,7 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 			m_AttackCoolTimeAcc = m_AttackCoolTime;
 			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
 		}
-
+		break;
 	case CMonFSM::ATK_SLE_NORMAL_START:
 		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
@@ -331,7 +331,7 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 
 	case CMonFSM::BODYBLOW:
 		//m_pTransformCom->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), m_vTargetPos, TimeDelta * 2.0);
-		m_pTransformCom->ChaseNoLook(m_vTargetPos, _float(TimeDelta * 2.0));
+		m_pTransformCom->ChaseNoLook(m_vTargetPos, _float(TimeDelta * 3.0));
 
 		if (m_pModelCom->Play_Animation(TimeDelta * 0.7))
 		{
@@ -396,8 +396,6 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 	default:
 		break;
 	}
-
-
 
 	return 0;
 }

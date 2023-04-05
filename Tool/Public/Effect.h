@@ -184,6 +184,9 @@ private:
 
 	_bool					m_bKnockBack = { false };
 
+	_double					m_AttackTime = { 1.0 };
+	_double					m_AttackTimeAcc = { 0.0 };
+
 private:
 	HRESULT Add_Components();
 
