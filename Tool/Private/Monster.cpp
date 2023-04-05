@@ -431,14 +431,14 @@ void CMonster::Do_Skill(_uint skillType, const _tchar* pLayer)
 			else if (skillType == 79) // 얼다 바람
 			{
 				pSkill = dynamic_cast<CSkill_Manager*>(pSkill_Mananger)->Create_Skill(pLayer, m_iLevelindex, skillType, m_pAttackCom->Get_AttackPower(),
-					m_pTransformCom->Get_WorldMatrix_Matrix(), XMConvertToRadians(0.f), XMConvertToRadians(0.f), m_pModelCom->Get_BonePtr("effect00"), m_pTransformCom, m_pModelCom->Get_PivotMatrix(), true, 1.5);
+					m_pTransformCom->Get_WorldMatrix_Matrix(), XMConvertToRadians(0.f), XMConvertToRadians(0.f), m_pModelCom->Get_BonePtr("effect00"), m_pTransformCom, m_pModelCom->Get_PivotMatrix(), true, 1.0);
 
 				Safe_Release(pSkill);
 			}
 			else if (skillType == 50) // 하이드럼 펌프
 			{
 				pSkill = dynamic_cast<CSkill_Manager*>(pSkill_Mananger)->Create_Skill(pLayer, m_iLevelindex, skillType, m_pAttackCom->Get_AttackPower(),
-					m_pTransformCom->Get_WorldMatrix_Matrix(), XMConvertToRadians(60.f), XMConvertToRadians(180.f), m_pModelCom->Get_BonePtr("effect00"), m_pTransformCom, m_pModelCom->Get_PivotMatrix(), true, 1.5, 3);
+					m_pTransformCom->Get_WorldMatrix_Matrix(), XMConvertToRadians(0.f), XMConvertToRadians(8.f), m_pModelCom->Get_BonePtr("effect00"), m_pTransformCom, m_pModelCom->Get_PivotMatrix(), true, 0.4, 3);
 
 				Safe_Release(pSkill);
 			}
@@ -485,7 +485,6 @@ void CMonster::Do_Skill_After_Set_Motion(_uint skillType, const _tchar* pLayer)
 	{
 		m_pMonFSM->Transit_MotionState(CMonFSM::ATK_SLE_NORMAL_START, m_pModelCom);
 	}
-	// 스킬 및 원거리 몬스터 작업 ㄱㄱ
 	else if (skillType == 50) // 하이드럼 펌프
 	{
 		m_pMonFSM->Transit_MotionState(CMonFSM::POKING, m_pModelCom);

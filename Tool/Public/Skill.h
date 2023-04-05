@@ -72,12 +72,34 @@ public:
 		m_conditions = move(conditions);
 	}
 
+//
+	void	Set_ChargeEffectTypesTypes(vector<_uint>& effects) {
+		m_ChargeEffectTypes = effects;
+	}
+
+	void	Set_AttackEffecTypes(vector<_uint>& effects) {
+		m_AttackEffectTypes = effects;
+	}
+
+	void	Set_CollisionEffectTypes(vector<_uint>& effects) {
+		m_CollisionEffectTypes = effects;
+	}
+
+	void	Set_ConditionTypes(vector<_uint>& effects) {
+		m_ConditionTypes = effects;
+	}
+
+public:
 	void	Set_Effects_Pos(const _float4& vPos);
 	void	Set_Conditions_Pos(const _float4& vPos);
 
-
 	void	Set_Effects_Look(const _float4& vLook);
 	void	Set_Conditions_Look(const _float4& vLook);
+
+public:
+	void	Set_Charge_Time(_double chargeTime) {
+		m_ChargeTime = chargeTime;
+	}
 
 private:
 	CTransform* m_pTransformCom = { nullptr };
@@ -92,6 +114,14 @@ private:
 
 	vector<CEffect*> m_effects;
 	vector<CEffect*> m_conditions;
+
+	vector<_uint> m_ChargeEffectTypes;
+	vector<_uint> m_AttackEffectTypes;
+	vector<_uint> m_CollisionEffectTypes;
+	vector<_uint> m_ConditionTypes;
+
+	_double		m_ChargeTime = { 0.0 };
+	_double		m_ChargeTimeAcc = { 0.0 };
 
 private:
 	HRESULT Add_Components();

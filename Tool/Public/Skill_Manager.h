@@ -41,9 +41,10 @@ public:
 		_bool bRush = false, _double rushSpeed = 1.0, _uint extendNum = 1);
 
 public:
+	CSkill* Create_Monster_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType, _uint damage, _fmatrix vParentMatrix, _float smallRotationSpeed, _float bigRotationSpeed, CBone* pParentBone, CTransform* pParentTransform, _fmatrix PivotMatrix, _bool bRush, _double rushSpeed, _uint extendNum);
 	CSkill* Create_Test_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType,
 		_fmatrix vParentMatrix);
-
+	
 public:
 	HRESULT	Reload_Datas();
 

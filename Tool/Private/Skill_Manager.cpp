@@ -7,6 +7,12 @@
 
 #include "Effect.h"
 
+/*
+
+스킬이 가지고 있다가 공격 하게 하기
+
+*/
+
 CSkill_Manager::CSkill_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
 {
@@ -97,7 +103,8 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 		XMStoreFloat4(&pos, vPos);
 		pEffect->Set_Pos(pos);
 	}
-	effects.push_back(pEffect);
+	Safe_Release(pEffect);
+	//effects.push_back(pEffect);
 
 
 	if (skill_desc.m_isEnablePotential_Nway)
@@ -135,7 +142,8 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 			pEffect->Set_SmallRotation(smallRotationSpeed);
 			pEffect->Set_BigRotation(bigRotationSpeed, 2.f);
 
-			effects.push_back(pEffect);
+			Safe_Release(pEffect);
+			//effects.push_back(pEffect);
 
 			for (size_t i = 2; i < m_Skill_Depend_Datas[skillType].m_effects.size() - 1; ++i)
 			{
@@ -158,7 +166,8 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 						pEffect->Set_Rush(bRush, vParentLook, rushSpeed);
 					}
 
-					effects.push_back(pEffect);
+					Safe_Release(pEffect);
+					//effects.push_back(pEffect);
 				}
 			}
 		}
@@ -202,7 +211,8 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 
 			pEffect->Set_AttackPower(_uint(damage* skill_desc.m_damagePercent* ((rand() % 10 + 95) / 100.f)));
 
-			effects.push_back(pEffect);
+			Safe_Release(pEffect);
+			//effects.push_back(pEffect);
 		}
 
 		for (size_t i = 2; i < m_Skill_Depend_Datas[skillType].m_effects.size() - 1; ++i)
@@ -226,7 +236,8 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 					pEffect->Set_Rush(bRush, vParentLook, rushSpeed);
 				}
 
-				effects.push_back(pEffect);
+				Safe_Release(pEffect);
+				//effects.push_back(pEffect);
 			}
 		}
 	}
@@ -254,7 +265,8 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 			pEffect->Set_Rush(bRush, vLook, rushSpeed);
 		}
 
-		effects.push_back(pEffect);
+		Safe_Release(pEffect);
+		//effects.push_back(pEffect);
 
 		for (size_t i = 2; i < m_Skill_Depend_Datas[skillType].m_effects.size() - 1; ++i)
 		{
@@ -277,7 +289,8 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 					pEffect->Set_Rush(bRush, vLook, rushSpeed);
 				}
 
-				effects.push_back(pEffect);
+				Safe_Release(pEffect);
+				//effects.push_back(pEffect);
 			}
 		}
 	}
@@ -298,12 +311,60 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Skill"), iLevelIndex, pLayerTag, (CGameObject**)&pSkill, nullptr, &skill_desc)))
 		return nullptr;
 
-	pSkill->Set_Effects(effects);
-	pSkill->Set_Conditions(conditions);
+	//pSkill->Set_Effects(effects);
+	//pSkill->Set_Conditions(conditions);
 
 	Safe_Release(pGameInstance);
 
 	return pSkill;
+}
+
+
+CSkill* CSkill_Manager::Create_Monster_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType, _uint damage,
+	_fmatrix vParentMatrix, _float smallRotationSpeed, _float bigRotationSpeed,
+	CBone* pParentBone, CTransform* pParentTransform, _fmatrix PivotMatrix, _bool bRush, _double rushSpeed, _uint extendNum)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (skillType >= m_Skill_Depend_Datas.size() || nullptr == pLayerTag || iLevelIndex >= LEVEL_END)
+		return nullptr;
+
+	CEffect_Manager* pEffect_Manager = dynamic_cast<CEffect_Manager*>(pGameInstance->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"Effect_Manager"));
+
+	if (nullptr == pEffect_Manager)
+		return nullptr;
+
+	CSkill::Skill_Desc skill_desc = m_Skill_Desc_Datas[skillType];
+
+	_float4x4 pivotMatrix = {};
+	XMStoreFloat4x4(&pivotMatrix, PivotMatrix);
+
+	CSkill* pSkill = nullptr;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Skill"), iLevelIndex, pLayerTag, (CGameObject**)&pSkill, nullptr, &skill_desc)))
+		return nullptr;
+
+	vector<_uint> chargeEffects;
+	vector<_uint> attackEffects;
+	vector<_uint> collisionEffects;
+	vector<_uint> conditionEffects;
+
+	chargeEffects.push_back(m_Skill_Depend_Datas[skillType].m_effects[0]);
+
+	if (m_Skill_Depend_Datas[skillType].m_effects.size() == 2)
+	{
+		attackEffects.push_back(m_Skill_Depend_Datas[skillType].m_effects[1]);
+	}
+
+	if (m_Skill_Depend_Datas[skillType].m_effects.size() == 3)
+	{
+		collisionEffects.push_back(m_Skill_Depend_Datas[skillType].m_effects[2]);
+	}
+
+	//pSkill->Set_ChargeEffectTypes(m_Skill_Depend_Datas[skillType].m_effects[0]);
+
+
 }
 
 CSkill* CSkill_Manager::Create_Test_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType, _fmatrix vParentMatrix)
