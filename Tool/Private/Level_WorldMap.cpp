@@ -26,7 +26,6 @@ HRESULT CLevel_WorldMap::Initialize()
 	if (FAILED(Ready_LightDesc()))
 		return E_FAIL;
 
-
 	if (FAILED(Ready_Layer_Terrain(TEXT("Layer_Terrain"))))
 		return E_FAIL;
 
@@ -34,6 +33,12 @@ HRESULT CLevel_WorldMap::Initialize()
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_PlayerSearcher(TEXT("Layer_PlayerSearcher"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_MonsterSearcher(TEXT("Layer_MonsterSearcher"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
@@ -201,6 +206,30 @@ HRESULT CLevel_WorldMap::Ready_Layer_Stage_Point(const _tchar* pLayerTag)
 		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Stage_Point"), LEVEL_WORLDMAP, pLayerTag, L"Stage_Point4", "../../Reference/Resources/Data/Scene/WorldMap/StagePoint/StagePoint4.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	Safe_Release(pGameInstance);
+	return S_OK;
+}
+
+HRESULT CLevel_WorldMap::Ready_Layer_PlayerSearcher(const _tchar* pLayerTag)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_WORLDMAP, pLayerTag)))
+		return E_FAIL;
+
+	Safe_Release(pGameInstance);
+	return S_OK;
+}
+
+HRESULT CLevel_WorldMap::Ready_Layer_MonsterSearcher(const _tchar* pLayerTag)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_WORLDMAP, pLayerTag)))
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);
