@@ -215,6 +215,22 @@ _uint APIENTRY LoadingDokuEffect(void* pArg)
 		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Effect/E_BD_Doku.fbx", PivotMatrix))))
 		return	E_FAIL;
 
+	PivotMatrix = XMMatrixScaling(0.3f, 0.3f, 0.3f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_E_BS_Iwa",
+		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Effect/E_BS_Iwa.fbx", PivotMatrix))))
+		return	E_FAIL;
+
+	PivotMatrix = XMMatrixScaling(0.3f, 0.3f, 0.3f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_E_BG_Iwa",
+		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Effect/E_BG_Iwa.fbx", PivotMatrix))))
+		return	E_FAIL;
+
+	PivotMatrix = XMMatrixScaling(0.3f, 0.3f, 0.3f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_E_BD_Iwa",
+		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Effect/E_BD_Iwa.fbx", PivotMatrix))))
+		return	E_FAIL;
+
+
 	if (FAILED(hr))
 	{
 		LeaveCriticalSection(CThreadPool::GetInstance()->Get_CriticalSection(workerID));
@@ -313,6 +329,16 @@ _uint APIENTRY LoadingKooriEffect(void* pArg)
 		return	E_FAIL;
 
 	PivotMatrix = XMMatrixScaling(0.3f, 0.3f, 0.3f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_E_BL_Koori_Reserve",
+		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Effect/E_BL_Koori_Reserve.fbx", PivotMatrix))))
+		return	E_FAIL;
+
+	PivotMatrix = XMMatrixScaling(0.3f, 0.3f, 0.3f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_E_BL_Koori",
+		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Effect/E_BL_Koori.fbx", PivotMatrix))))
+		return	E_FAIL;
+
+	PivotMatrix = XMMatrixScaling(0.3f, 0.3f, 0.3f) * XMMatrixRotationY(XMConvertToRadians(180.f));
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_E_BD_Koori",
 		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Effect/E_BD_Koori.fbx", PivotMatrix))))
 		return	E_FAIL;
@@ -356,6 +382,7 @@ HRESULT CLoader::Initialize(LEVEL eNextLevelID)
 		CThreadPool::GetInstance()->Add_Work(LoadingDokuEffect);
 		CThreadPool::GetInstance()->Add_Work(LoadingKooriEffect);
 	}
+	
 
 	InitializeCriticalSection(m_CriticalSection);
 
@@ -379,8 +406,12 @@ HRESULT CLoader::Loading_ForLogoLevel()
 #pragma region TEXTURES	
 	wsprintf(m_szLoadingText, TEXT("텍스쳐를 로딩중입니다."));
 	/* For.Prototype_Component_Texture */
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Texture_Logo"),
+	//	CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/splash/TitleLogo_Korea.dds")))))
+	//	return E_FAIL;
+
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Texture_Logo"),
-		CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/splash/TitleLogo_Korea.dds")))))
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/splash/title/title%d.dds"), 31))))
 		return E_FAIL;
 
 	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_LOGO))
@@ -610,10 +641,10 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CDamageText::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
-		///* For.Prototype_GameObject_BackGround */
-		//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround"),
-		//	CBackGround::Create(m_pDevice, m_pContext))))
-		//	return E_FAIL;
+		/* For.Prototype_GameObject_BackGround */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround"),
+			CBackGround::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
 	}
 
 #pragma endregion

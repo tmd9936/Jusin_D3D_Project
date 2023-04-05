@@ -331,7 +331,7 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 	case CMonFSM::BODYBLOW:
 		//m_pTransformCom->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), m_vTargetPos, TimeDelta * 2.0);
 		//m_pTransformCom->ChaseNoLook(m_vTargetPos, _float(TimeDelta * 3.0));
-		m_pTransformCom->Go_Straight(_float(TimeDelta * 2.2), m_pNavigationCom);
+		m_pTransformCom->Go_Straight(_float(TimeDelta * 2.5), m_pNavigationCom);
 		if (m_pModelCom->Play_Animation(TimeDelta * 0.7))
 		{
 			m_bCanSkillAttack = false;

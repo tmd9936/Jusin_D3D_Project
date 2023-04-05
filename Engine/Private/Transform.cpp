@@ -581,6 +581,12 @@ void CTransform::Set_Rotation(const _float3& rotaion)
 	Set_State(CTransform::STATE_LOOK, XMVector3TransformNormal(vLook, RotationMatrix));
 }
 
+_bool CTransform::Bezier_Curve(_fvector vPos1, _fvector vPos2, _fvector vPos3, _gvector output, _float TimeDelta, _float limitDitance)
+{
+	return _bool();
+}
+
+
 CTransform* CTransform::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 	CTransform* pInstance = new CTransform(pDevice, pContext, nullptr);

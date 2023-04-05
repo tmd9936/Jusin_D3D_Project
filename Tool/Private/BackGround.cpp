@@ -26,7 +26,7 @@ HRESULT CBackGround::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
-	m_fSizeX = g_iWinSizeX;
+	m_fSizeX = g_iWinSizeX + 110.f;
 	m_fSizeY = g_iWinSizeY;
 	m_fX = g_iWinSizeX >> 1;
 	m_fY = g_iWinSizeY >> 1;
@@ -53,8 +53,16 @@ _uint CBackGround::Tick(_double TimeDelta)
 
 _uint CBackGround::LateTick(_double TimeDelta)
 {
+	if (m_fTextureNum < 30.0)
+	{
+		m_fTextureNum += TimeDelta * 10.0;
+	}
+	else if (m_fTextureNum >= 30.0)
+	{
+		m_fTextureNum = 28.0;
+	}
 
-	m_pRendererCom->Add_RenderGroup(RENDER_PRIORITY, this);
+	m_pRendererCom->Add_RenderGroup(RENDER_UI, this);
 
 	return _uint();
 }
@@ -108,7 +116,7 @@ HRESULT CBackGround::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
 
-	if (FAILED(m_pTextureCom->Set_ShaderResource(m_pShaderCom, "g_Texture", 0)))
+	if (FAILED(m_pTextureCom->Set_ShaderResource(m_pShaderCom, "g_Texture", (_uint)m_fTextureNum)))
 		return E_FAIL;
 
 	return S_OK;

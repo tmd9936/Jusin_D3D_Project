@@ -55,15 +55,7 @@ HRESULT CLevel_Logo::Ready_Layer_BackGround(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_Layer(LEVEL_LOGO, pLayerTag)))
 		return E_FAIL;
 
-	CUI::UI_DESC desc = {};
-	desc.m_fSizeX = g_iWinSizeX >> 1;
-	desc.m_fSizeY = g_iWinSizeY >> 1;
-	desc.m_fX = g_iWinSizeX >> 1;
-	desc.m_fY = g_iWinSizeY >> 1;
-	desc.m_TextureProtoTypeLevel = LEVEL_LOGO;
-	lstrcpy(desc.m_TextureProtoTypeName, L"Prototype_Component_Texture_Logo");
-
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UI"), LEVEL_LOGO, pLayerTag, nullptr, &desc)))
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BackGround"), LEVEL_LOGO, pLayerTag)))
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);
