@@ -29,8 +29,19 @@ HRESULT CLevel_Logo::Initialize()
 
 void CLevel_Logo::Tick(_double TimeDelta)
 {
-	/* 로고레벨다음은 게임플레이야. */
+	// 씬이동
 	if (GetKeyState(VK_SPACE) & 0x8000)
+	{
+		CGameInstance* pGameInstance = CGameInstance::GetInstance();
+		Safe_AddRef(pGameInstance);
+
+		if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_BASECAMP))))
+			return;
+
+		Safe_Release(pGameInstance);
+	}
+
+	else if (MOUSE_TAB(MOUSE::LBTN))
 	{
 		CGameInstance* pGameInstance = CGameInstance::GetInstance();
 		Safe_AddRef(pGameInstance);

@@ -243,8 +243,8 @@ void CCamera_Public::Key_Input(const _double TimeDelta)
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	if (KEY_TAB(KEY::V))
-		Save_By_JsonFile(m_strSaveJsonPath.c_str());
+	//if (KEY_TAB(KEY::V))
+	//	Save_By_JsonFile(m_strSaveJsonPath.c_str());
 
 	if (m_bControl)
 	{
@@ -299,7 +299,7 @@ void CCamera_Public::Key_Input(const _double TimeDelta)
 		}
 
 
-		if (KEY_TAB(KEY::LSHIFT))
+		if (KEY_TAB(KEY::LSHIFT) || MOUSE_TAB(MOUSE::RBTN))
 		{
 			m_bMouseMove = !m_bMouseMove;
 		}
