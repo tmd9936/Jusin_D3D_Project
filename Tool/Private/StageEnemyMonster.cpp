@@ -319,9 +319,11 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 	case CMonFSM::POKING:
 		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
+			m_bCanAttack = false;
+			m_bCanSkillAttack = false;
 			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
-			m_AttackCoolTimeAcc = m_AttackCoolTime * 2.f;
-			m_SkillCoolTimeAcc = m_SkillCoolTime * 2.f;
+			m_AttackCoolTimeAcc = m_AttackCoolTime * 1.5f;
+			m_SkillCoolTimeAcc = m_SkillCoolTime * 1.5f;
 		}
 
 		break;

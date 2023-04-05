@@ -292,10 +292,10 @@ HRESULT CMonster::Add_HpBar()
 	XMStoreFloat4x4(&HpDesc.PivotMatrix, m_pModelCom->Get_PivotMatrix());
 
 	HpDesc.m_fSizeX = 60.f;
-	HpDesc.m_fSizeY = 15.f;
+	HpDesc.m_fSizeY = 10.f;
 
 	HpDesc.m_fPositionX = -15.f;
-	HpDesc.m_fPositinoY = -70.f;
+	HpDesc.m_fPositinoY = -60.f;
 	HpDesc.m_fPositinoZ = 0.1f;
 
 	HpDesc.m_vHpColor = _float4(0.f, 0.89f, 1.f, 1.f);

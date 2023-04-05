@@ -348,9 +348,6 @@
     <ClInclude Include="..\Public\Effect.h">
       <Filter>02. GameObject\Static\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Skill.h">
-      <Filter>02. GameObject\Static\Skill</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Skill_Manager.h">
       <Filter>02. GameObject\Static\Skill\Skill_Manager</Filter>
     </ClInclude>
@@ -419,6 +416,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\ThreadPool.h">
       <Filter>01. Levels\Loading\ThreadPool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill.h">
+      <Filter>02. GameObject\Static\Skill</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
