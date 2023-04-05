@@ -55,7 +55,7 @@ private:
 
     DWORD   idOfLastAddedWork = { 0 };
 
-    DWORD   threadIdx = { 0 };
+    _uint   threadIdx = { 0 };
 
 public:
     virtual void Free(void) override;

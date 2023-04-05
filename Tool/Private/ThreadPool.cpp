@@ -70,6 +70,7 @@ HRESULT CThreadPool::Add_Work(WORK work)
 	workerThreadList.push_back(workThread);
 
 	workThread.hTread = (HANDLE)_beginthreadex(nullptr, 0, work, this, 0, nullptr);
+	//	workThread.hTread = (HANDLE)_beginthreadex(nullptr, 0, work, this, 0, &threadIdx);
 
 	if (0 == workThread.hTread)
 		return E_FAIL;
