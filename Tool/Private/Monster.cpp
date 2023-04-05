@@ -95,7 +95,7 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* p
 
 	m_pTransformCom->Set_Pos(m_PokemonDesc.vPos.x, m_PokemonDesc.vPos.y, m_PokemonDesc.vPos.z);
 
-	m_pNavigationCom->Move_OnNavigation({ m_PokemonDesc.vPos.x, m_PokemonDesc.vPos.y, m_PokemonDesc.vPos.z });
+	m_pNavigationCom->Set_Index_By_Position({ m_PokemonDesc.vPos.x, m_PokemonDesc.vPos.y, m_PokemonDesc.vPos.z });
 
 	Add_TransitionRandomState();
 
@@ -145,7 +145,9 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const c
 
 	m_eRenderId = RENDER_NONBLEND;
 
-	m_pNavigationCom->Move_OnNavigation({ m_PokemonDesc.vPos.x, m_PokemonDesc.vPos.y, m_PokemonDesc.vPos.z });
+	m_pTransformCom->Set_Pos(m_PokemonDesc.vPos.x, m_PokemonDesc.vPos.y, m_PokemonDesc.vPos.z);
+
+	m_pNavigationCom->Set_Index_By_Position({ m_PokemonDesc.vPos.x, m_PokemonDesc.vPos.y, m_PokemonDesc.vPos.z });
 	
 	Add_TransitionRandomState();
 
@@ -822,6 +824,10 @@ _bool CMonster::Load_By_JsonFile_Impl(Document& doc)
 
 		const Value& vPos = PokemonDesc["vPos"];
 		m_pTransformCom->Set_Pos(vPos["x"].GetFloat(), vPos["y"].GetFloat(), vPos["z"].GetFloat());
+		m_PokemonDesc.vPos.x = vPos["x"].GetFloat();
+		m_PokemonDesc.vPos.y = vPos["y"].GetFloat();
+		m_PokemonDesc.vPos.z = vPos["z"].GetFloat();
+		m_PokemonDesc.vPos.w = vPos["w"].GetFloat();
 
 		m_PokemonDesc.moveSpeed = PokemonDesc["moveSpeed"].GetFloat();
 		m_PokemonDesc.rotateSpeed = PokemonDesc["rotateSpeed"].GetFloat();

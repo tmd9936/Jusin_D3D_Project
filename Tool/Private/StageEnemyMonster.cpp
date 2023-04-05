@@ -217,7 +217,7 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 				
 				if (m_PokemonDesc.m_AIType == AI_TYPE_SHORT_DISTACE)
 				{
-					if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta), 3.3f))
+					if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta), 2.8f, m_pNavigationCom))
 					{
 						m_pMonFSM->Transit_MotionState(CMonFSM::IDLE_GROUND, m_pModelCom);
 					}
@@ -275,7 +275,7 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 		{
 			m_pTransformCom->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta * 1.5));
 
-			if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta * 1.5f), 1.3f))
+			if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta * 1.5f), 1.5f, m_pNavigationCom))
 			{
 				if (m_bCanAttack)
 				{
@@ -332,7 +332,7 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 	case CMonFSM::BODYBLOW:
 		//m_pTransformCom->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), m_vTargetPos, TimeDelta * 2.0);
 		//m_pTransformCom->ChaseNoLook(m_vTargetPos, _float(TimeDelta * 3.0));
-		m_pTransformCom->Go_Straight(_float(TimeDelta * 3.0));
+		m_pTransformCom->Go_Straight(_float(TimeDelta * 2.2), m_pNavigationCom);
 		if (m_pModelCom->Play_Animation(TimeDelta * 0.7))
 		{
 			m_bCanSkillAttack = false;
