@@ -147,7 +147,17 @@ CEffect* CEffect_Manager::Create_Effect(_uint effectType, const _tchar* pLayerTa
 	else if (0 == effect_Desc.m_effectPath.compare(L"E_BPB_Normal_Start"))
 	{
 		pEffect->Set_ParentRotateApply(false);
-		pEffect->Init_LoopCount(5); 
+		pEffect->Init_LoopCount(3);
+		//pEffect->Set_Homming(true, false, CEffect::HOMMING_OUT);
+		pEffect->Set_KnockBack(true);
+	}
+
+	else if (0 == effect_Desc.m_effectPath.compare(L"E_BP_Mizu_Start"))
+	{
+		pEffect->Set_ParentRotateApply(false);
+		pEffect->Set_AnimaitonStartTime(0.7);
+		pEffect->Init_LoopCount(4);
+		//pEffect->Set_Animation_Speed(2.2);
 	}
 
 	Safe_Release(pGameInstance);

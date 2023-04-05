@@ -316,6 +316,17 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 
 		break;
 
+	case CMonFSM::POKING:
+		if (m_pModelCom->Play_Animation(TimeDelta))
+		{
+			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
+			m_AttackCoolTimeAcc = m_AttackCoolTime * 2.f;
+			m_SkillCoolTimeAcc = m_SkillCoolTime * 2.f;
+		}
+
+		break;
+
+
 	case CMonFSM::BODYBLOW:
 		//m_pTransformCom->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), m_vTargetPos, TimeDelta * 2.0);
 		m_pTransformCom->ChaseNoLook(m_vTargetPos, _float(TimeDelta * 2.0));

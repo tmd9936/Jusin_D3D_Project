@@ -31,11 +31,18 @@ HRESULT CBone::Initialize(aiNode* pAINode, CModel* pModel, CBone* pParent)
 
 	if (m_TransformationMatrix.m[0][0] <= 0.f && m_TransformationMatrix.m[1][1] <= 0.f && m_TransformationMatrix.m[2][2] <= 0.f)
 	{
-		m_TransformationMatrix.m[0][0] = 0.001f;
-		m_TransformationMatrix.m[1][1] = 0.001f;
-		m_TransformationMatrix.m[2][2] = 0.001f;
+		XMStoreFloat4x4(&m_TransformationMatrix, XMMatrixIdentity());
+		//m_TransformationMatrix.m[0][0] = 0.001f;
+		//m_TransformationMatrix.m[1][1] = 0.001f;
+		//m_TransformationMatrix.m[2][2] = 0.001f;
 	}
 
+	if (fabs(m_TransformationMatrix.m[0][0]) >= m_NoKeyFrameTransfomationMatirixFixValue 
+		|| fabs(m_TransformationMatrix.m[1][1]) >= m_NoKeyFrameTransfomationMatirixFixValue 
+		|| fabs(m_TransformationMatrix.m[2][2]) >= m_NoKeyFrameTransfomationMatirixFixValue)
+	{
+		XMStoreFloat4x4(&m_TransformationMatrix, XMMatrixIdentity());
+	}
 
 	return S_OK;
 }
@@ -49,6 +56,14 @@ void CBone::SetUp_TransformationMatrix(_fmatrix Matrix)
 		XMStoreFloat4x4(&m_TransformationMatrix, XMMatrixIdentity());
 	}
 
+
+	if (fabs(m_TransformationMatrix.m[0][0]) >= m_NoKeyFrameTransfomationMatirixFixValue
+		|| fabs(m_TransformationMatrix.m[1][1]) >= m_NoKeyFrameTransfomationMatirixFixValue
+		|| fabs(m_TransformationMatrix.m[2][2]) >= m_NoKeyFrameTransfomationMatirixFixValue)
+	{
+		XMStoreFloat4x4(&m_TransformationMatrix, XMMatrixIdentity());
+	}
+
 }
 
 void CBone::SetUp_CombinedTransformationMatrix()
@@ -58,11 +73,10 @@ void CBone::SetUp_CombinedTransformationMatrix()
 		XMStoreFloat4x4(&m_CombinedTransformationMatrix,
 			XMLoadFloat4x4(&m_TransformationMatrix));
 
-		if (m_CombinedTransformationMatrix.m[0][0] <= 0.f && m_CombinedTransformationMatrix.m[1][1] <= 0.f && m_CombinedTransformationMatrix.m[2][2] <= 0.f)
-		{
-			XMStoreFloat4x4(&m_CombinedTransformationMatrix, XMMatrixIdentity());
-
-		}
+		//if (m_CombinedTransformationMatrix.m[0][0] <= 0.f && m_CombinedTransformationMatrix.m[1][1] <= 0.f && m_CombinedTransformationMatrix.m[2][2] <= 0.f)
+		//{
+		//	XMStoreFloat4x4(&m_CombinedTransformationMatrix, XMMatrixIdentity());
+		//}
 
 		return;
 	}
@@ -70,12 +84,6 @@ void CBone::SetUp_CombinedTransformationMatrix()
 	XMStoreFloat4x4(&m_CombinedTransformationMatrix,
 		XMLoadFloat4x4(&m_TransformationMatrix) *
 		XMLoadFloat4x4(&m_pParent->m_CombinedTransformationMatrix));
-
-	if (m_CombinedTransformationMatrix.m[0][0] <= 0.f && m_CombinedTransformationMatrix.m[1][1] <= 0.f && m_CombinedTransformationMatrix.m[2][2] <= 0.f)
-	{
-		XMStoreFloat4x4(&m_CombinedTransformationMatrix, XMMatrixIdentity());
-
-	}
 }
 
 void CBone::SetUp_OffsetMatrix(_fmatrix Matrix)

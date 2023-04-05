@@ -127,7 +127,7 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 
 			pEffect->Set_AttackPower(_uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) / 100.f)));
 
-			pEffect->Set_KnockBack(true);
+			pEffect->Set_KnockBack(skill_desc.m_isEnablePotential_Knockback);
 			//pEffect->Set_Pos({ 0.f, 0.f, 0.f, 0.f });
 
 			pEffect->Set_Parent(pParentBone, pParentTransform, pivotMatrix);
@@ -168,9 +168,6 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 		_vector vParentLook = vParentMatrix.r[2];
 		_vector vParentPos = vParentMatrix.r[3];
 
-		CTransform* pTransform = pEffect->Get_As<CTransform>();
-		if (nullptr == pTransform)
-			return nullptr;
 
 		for (size_t i = 1; i <= extendNum; ++i)
 		{
@@ -181,6 +178,12 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 
 			//pTransform->LookAt(vParentPos);
 
+			CTransform* pTransform = pEffect->Get_As<CTransform>();
+			if (nullptr == pTransform)
+				return nullptr;
+
+			pTransform->LookAt(XMVectorSetW(vParentLook, 1.f));
+
 			pEffect->Set_KnockBack(skill_desc.m_isEnablePotential_Knockback);
 
 			_vector vPos = XMVectorSetW(vParentPos + vParentLook * (_float)i, 1.f);
@@ -190,6 +193,12 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 
 			pEffect->Set_SmallRotation(smallRotationSpeed);
 			pEffect->Set_BigRotation(bigRotationSpeed, 2.f);
+
+			if (bRush)
+			{
+				pEffect->Set_Rush(bRush, vParentLook, rushSpeed);
+			}
+
 
 			pEffect->Set_AttackPower(_uint(damage* skill_desc.m_damagePercent* ((rand() % 10 + 95) / 100.f)));
 

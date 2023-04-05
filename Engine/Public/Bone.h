@@ -83,6 +83,11 @@ private:
 	_float4x4		m_TransformationMatrix = {}; /* 뼈의 상태행렬 : 부모기준으로 표현된 이 뼈만의 상태변환행렬. */
 	_float4x4		m_CombinedTransformationMatrix = {}; /* 뼈의 상태행렬 : m_TransformationMatrix * 부모`s  m_CombinedTransformationMatrix*/
 
+
+private:
+
+	const		_float		m_NoKeyFrameTransfomationMatirixFixValue = { 8.f };
+
 public:
 	static CBone* Create(aiNode* pAINode, CModel* pModel, CBone* pParent);
 	static CBone* Create();

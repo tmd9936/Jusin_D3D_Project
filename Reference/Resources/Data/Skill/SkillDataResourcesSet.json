@@ -1225,7 +1225,7 @@
       "m_isEnablePotential_DebuffProbUp": 0,
       "m_isEnablePotential_BuffTimeUp": 1,
       "m_isEnablePotential_BuffShare": 0,
-      "m_isEnablePotential_Knockback": 0,
+      "m_isEnablePotential_Knockback": 1,
       "m_isEnablePotential_Damage": 0
     },
     {
@@ -1675,7 +1675,7 @@
       "m_damagePercent": 1.26,
       "m_chargeSecond": 7.0,
       "m_rapidDelay": 0.1,
-      "m_isEnablePotential_Nway": 1,
+      "m_isEnablePotential_Nway": 0,
       "m_isEnablePotential_Distance": 0,
       "m_isEnablePotential_Extend": 1,
       "m_isEnablePotential_Homing": 0,
@@ -1687,7 +1687,7 @@
       "m_isEnablePotential_DebuffProbUp": 0,
       "m_isEnablePotential_BuffTimeUp": 1,
       "m_isEnablePotential_BuffShare": 0,
-      "m_isEnablePotential_Knockback": 0,
+      "m_isEnablePotential_Knockback": 1,
       "m_isEnablePotential_Damage": 0
     },
     {
