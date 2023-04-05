@@ -5,6 +5,10 @@
 
 #include "Effect.h"
 
+/*
+이펙트 글로우 셰이딩 해야함.. 
+*/
+
 BEGIN(Engine)
 END
 
