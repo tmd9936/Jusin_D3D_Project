@@ -55,7 +55,7 @@ _uint CBackGround::LateTick(_double TimeDelta)
 {
 	if (m_fTextureNum < 30.0)
 	{
-		m_fTextureNum += TimeDelta * 13.5;
+		m_fTextureNum += TimeDelta * 11.5;
 	}
 	else if (m_fTextureNum >= 30.0)
 	{
