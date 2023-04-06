@@ -101,7 +101,7 @@ protected:
 	/// <summary>
 	/// 여기에서 이펙트의 애니메이션을 재생하고 정해진 루프 카운터를 감소시킴
 	/// </summary>
-	/// <param name="TimeDelta"></param>
+	/// <param name="TimeDelta">프레임 틱</param>
 	void		Loop_Count_Check(const _double& TimeDelta);
 
 protected:

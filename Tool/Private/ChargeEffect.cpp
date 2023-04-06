@@ -26,13 +26,16 @@ HRESULT CChargeEffect::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, vo
 {
 	if (nullptr != pArg)
 	{
-		m_ChargeEffectDesc.m_NextAttackEffectType = (*(Charge_Effect_Desc*)(pArg)).m_NextAttackEffectType;
+		m_ChargeEffectDesc.m_NextAttackEffectPrototypeTag = (*(Charge_Effect_Desc*)(pArg)).m_NextAttackEffectPrototypeTag;
 		m_ChargeEffectDesc.m_NextAttackEffectPower = (*(Charge_Effect_Desc*)(pArg)).m_NextAttackEffectPower;
 		m_ChargeEffectDesc.m_ChargeTime = (*(Charge_Effect_Desc*)(pArg)).m_ChargeTime;
 
-		m_ChargeEffectDesc.m_HommingAttacEffectDesc = (*(Charge_Effect_Desc*)(pArg)).m_HommingAttacEffectDesc;
-		m_ChargeEffectDesc.m_RushAttacEffectDesc = (*(Charge_Effect_Desc*)(pArg)).m_RushAttacEffectDesc;
-		m_ChargeEffectDesc.m_NormalAtackDesc = (*(Charge_Effect_Desc*)(pArg)).m_NormalAtackDesc;
+		m_ChargeEffectDesc.m_NextAttackEffectNum = (*(Charge_Effect_Desc*)(pArg)).m_NextAttackEffectNum;
+		m_ChargeEffectDesc.m_NextAttackEffectAngles = (*(Charge_Effect_Desc*)(pArg)).m_NextAttackEffectAngles;
+
+		//m_ChargeEffectDesc.m_HommingAttackEffectDesc = (*(Charge_Effect_Desc*)(pArg)).m_HommingAttackEffectDesc;
+		//m_ChargeEffectDesc.m_RushAttackEffectDesc = (*(Charge_Effect_Desc*)(pArg)).m_RushAttackEffectDesc;
+		//m_ChargeEffectDesc.m_NormalAttackDesc = (*(Charge_Effect_Desc*)(pArg)).m_NormalAttackDesc;
 
 		if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, &(*(Charge_Effect_Desc*)(pArg)).effectDesc)))
 			return E_FAIL;
@@ -85,15 +88,15 @@ void CChargeEffect::Charge_Time_Check(const _double& TimeDelta)
 		CSkill_Manager* pSkill_Mananger = dynamic_cast<CSkill_Manager*>(CGameInstance::GetInstance()->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"Skill_Manager"));
 		if (nullptr != pSkill_Mananger)
 		{
-			switch (m_ChargeEffectDesc.m_NextAttackEffectType)
-			{
-			case	ATTACK_NORMAL:
-				break;
-			case	ATTACK_HOMMING:
-				break;
-			case	ATTACK_RUSH:
-				break;
-			}
+			//switch (m_ChargeEffectDesc.m_NextAttackEffectType)
+			//{
+			//case	ATTACK_NORMAL:
+			//	break;
+			//case	ATTACK_HOMMING:
+			//	break;
+			//case	ATTACK_RUSH:
+			//	break;
+			//}
 
 			/*pSkill_Mananger->Do_Skill(Get_LayerTag().c_str(), m_iLevelindex, m_ChargeEffectDesc.nextAttackEffect,
 				m_ChargeEffectDesc.nextAttackEffectPower, m_pTransformCom->Get_WorldMatrix_Matrix(), m_pModelCom, "RootNode", m_pTransformCom);*/

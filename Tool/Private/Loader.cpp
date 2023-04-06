@@ -655,10 +655,19 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CChargeEffect::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
-		///* For.Prototype_GameObject_BackGround */
-		//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SP_Denki_Zyuumanboruto"),
-		//	CHommingAttackEffect::Create(m_pDevice, m_pContext))))
-		//	return E_FAIL;
+		/* For.Prototype_GameObject_BackGround */
+		CHommingAttackEffect::HOMMING_ATTACK_EFFECT_DESC ZyuumanborutoDesc = {};
+		//ZyuumanborutoDesc.attackEffectDesc.m_bKnockBack = true;
+		ZyuumanborutoDesc.m_bArriveHomeDead = false;
+		ZyuumanborutoDesc.m_SmallRotationSpeed = XMConvertToRadians(60.f);
+		ZyuumanborutoDesc.m_BigRotationSpeed = XMConvertToRadians(180.f);
+		ZyuumanborutoDesc.m_BigRotationRadius = 2.f;
+		ZyuumanborutoDesc.m_eHommingState = CHommingAttackEffect::HOMMING_OUT;
+		ZyuumanborutoDesc.attackEffectDesc.effectDesc.m_bParentRotateApply = false;
+		ZyuumanborutoDesc.attackEffectDesc.effectDesc.m_LoopCount = 7;
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SP_Denki_Zyuumanboruto"),
+			CHommingAttackEffect::Create(m_pDevice, m_pContext, ZyuumanborutoDesc))))
+			return E_FAIL;
 	}
 
 #pragma endregion

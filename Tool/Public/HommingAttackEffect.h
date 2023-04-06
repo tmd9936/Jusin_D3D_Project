@@ -28,10 +28,10 @@ public:
 		_bool					m_bParentRotateApply = { true };
 		HOMMING_STATE			m_eHommingState = { HOMMING_END };
 
-		_bool					m_SmallRotation = { false };
+		_bool					m_SmallRotation = { true };
 		_float					m_SmallRotationSpeed = { 0.f };
 
-		_bool					m_BigRotation = { false };
+		_bool					m_BigRotation = { true };
 		_float					m_BigRotationRadius = { 0.f };
 		_float					m_BigRotationSpeed = { 0.f };
 
@@ -45,7 +45,7 @@ private:
 	virtual ~CHommingAttackEffect() = default;
 
 public:
-	virtual HRESULT Initialize_Prototype() override; /* 원형객체의 초기화작업 */
+	virtual HRESULT Initialize_Prototype(Homming_Attack_Effect_Desc& desc); /* 원형객체의 초기화작업 */
 	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override; /* 사본객체의 초기화작업 */
 
 	virtual _uint Tick(_double TimeDelta) override;
@@ -79,7 +79,7 @@ protected:
 
 public:
 	friend CLoader;
-	static CHommingAttackEffect* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CHommingAttackEffect* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, Homming_Attack_Effect_Desc& desc);
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) override;
 	virtual void Free() override;
 

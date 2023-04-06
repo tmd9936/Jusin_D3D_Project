@@ -196,10 +196,11 @@ HRESULT CEffect_Manager::Create_Charge_Effect(_uint effectType, const _tchar* pL
 
 	}
 
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ChargeEffect"),
-		CChargeEffect::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
+	chargeEffectDesc.effectDesc = m_Skill_Effect_Descs[effectType];
 
+	CSkillEffect* pSkillEffect = nullptr;
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ChargeEffect"), iLevelIndex, pLayerTag, (CGameObject**)&pSkillEffect, nullptr, &chargeEffectDesc)))
+		return E_FAIL;
 
 	Safe_Release(pGameInstance);
 
@@ -237,6 +238,7 @@ _bool CEffect_Manager::Load_By_JsonFile_Impl(Document& doc)
 	for (SizeType i = 0; i < m_datas.Size(); ++i)
 	{
 		CEffect::EFFECT_DESC m_desc{};
+		CSkillEffect::EFFECT_DESC SkillEffectDesc{};
 
 		m_desc.m_effectType = m_datas[i]["m_effectType"].GetUint();
 		m_desc.m_actionType = m_datas[i]["m_actionType"].GetUint();
@@ -248,6 +250,18 @@ _bool CEffect_Manager::Load_By_JsonFile_Impl(Document& doc)
 		m_desc.m_underFlag = m_datas[i]["m_underFlag"].GetUint();
 
 		m_Effect_Descs.push_back(m_desc);
+
+		//==============================
+		SkillEffectDesc.m_effectType = m_datas[i]["m_effectType"].GetUint();
+		SkillEffectDesc.m_actionType = m_datas[i]["m_actionType"].GetUint();
+		SkillEffectDesc.m_effectPath = convert.from_bytes(m_datas[i]["m_effectPath"].GetString());
+		SkillEffectDesc.m_exPath1 = convert.from_bytes(m_datas[i]["m_exPath1"].GetString());
+		SkillEffectDesc.m_exPath2 = convert.from_bytes(m_datas[i]["m_exPath2"].GetString());
+		SkillEffectDesc.m_soundEventID = m_datas[i]["m_soundEventID"].GetUint();
+		//m_desc.m_soundEventTag = convert.from_bytes(m_datas[i]["m_soundEventTag"].GetString());
+		SkillEffectDesc.m_underFlag = m_datas[i]["m_underFlag"].GetUint();
+
+		m_Skill_Effect_Descs.push_back(SkillEffectDesc);
 	}
 
 	return true;

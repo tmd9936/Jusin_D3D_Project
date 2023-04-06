@@ -59,6 +59,8 @@ private:
 
 private:
 	vector<CEffect::EFFECT_DESC> m_Effect_Descs;
+	vector<CSkillEffect::EFFECT_DESC> m_Skill_Effect_Descs;
+
 
 	const wstring m_EffectFilePath = { L"../../Reference/Resources/Mesh/Animation/Effect/" };
 

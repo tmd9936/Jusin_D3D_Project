@@ -11,11 +11,14 @@ CHommingAttackEffect::CHommingAttackEffect(ID3D11Device* pDevice, ID3D11DeviceCo
 
 CHommingAttackEffect::CHommingAttackEffect(const CHommingAttackEffect& rhs)
 	: CAttackEffect(rhs)
+	, m_HommingAttackEffectDesc(rhs.m_HommingAttackEffectDesc)
 {
 }
 
-HRESULT CHommingAttackEffect::Initialize_Prototype()
+HRESULT CHommingAttackEffect::Initialize_Prototype(Homming_Attack_Effect_Desc& desc)
 {
+	m_HommingAttackEffectDesc = desc;
+
 	if (FAILED(__super::Initialize_Prototype()))
 		return E_FAIL;
 
@@ -129,11 +132,11 @@ void CHommingAttackEffect::Big_Rotation(const _double& TimeDelta)
 	}
 }
 
-CHommingAttackEffect* CHommingAttackEffect::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CHommingAttackEffect* CHommingAttackEffect::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, Homming_Attack_Effect_Desc& desc)
 {
 	CHommingAttackEffect* pInstance = new CHommingAttackEffect(pDevice, pContext);
 
-	if (FAILED(pInstance->Initialize_Prototype()))
+	if (FAILED(pInstance->Initialize_Prototype(desc)))
 	{
 		MSG_BOX("Failed to Created CHommingAttackEffect");
 		Safe_Release(pInstance);

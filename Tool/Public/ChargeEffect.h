@@ -16,14 +16,16 @@ class CChargeEffect :
 public:
     typedef struct Charge_Effect_Desc
     {
-		ATTACK_TYPE	m_NextAttackEffectType = { ATTACK_END };
-		_uint       m_NextAttackEffect = { 0 };
-		_uint       m_NextAttackEffectPower = { 0 };
-		_double     m_ChargeTime = { 0.0 };
+		wstring			m_NextAttackEffectPrototypeTag;
+		_uint			m_NextAttackEffect = { 0 };
+		_uint			m_NextAttackEffectPower = { 0 };
+		_double			m_ChargeTime = { 0.0 };
+		_uint			m_NextAttackEffectNum = { 0 };
+		vector<_float>	m_NextAttackEffectAngles;
 
-		CHommingAttackEffect::HOMMING_ATTACK_EFFECT_DESC  m_HommingAttacEffectDesc = {};
-		CRushAttackEffect::RUSH_ATTACK_EFFECT_DESC  m_RushAttacEffectDesc = {};
-		CAttackEffect::ATTACK_EFFECT_DESC m_NormalAtackDesc = {};
+		//CHommingAttackEffect::HOMMING_ATTACK_EFFECT_DESC  m_HommingAttackEffectDesc = {};
+		//CRushAttackEffect::RUSH_ATTACK_EFFECT_DESC  m_RushAttackEffectDesc = {};
+		//CAttackEffect::ATTACK_EFFECT_DESC m_NormalAttackDesc = {};
 
 		EFFECT_DESC	effectDesc;
 
