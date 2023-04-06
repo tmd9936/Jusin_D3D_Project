@@ -1,0 +1,65 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 316
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 253
+  },
+  "m_Name": "",
+  "animator": {
+    "m_FileID": 0,
+    "m_PathID": 363
+  },
+  "iconColorImage": {
+    "m_FileID": 0,
+    "m_PathID": 365
+  },
+  "stageNumberText": {
+    "m_FileID": 0,
+    "m_PathID": 371
+  },
+  "bossText": {
+    "m_FileID": 0,
+    "m_PathID": 369
+  },
+  "stageNumberPlate": {
+    "m_FileID": 0,
+    "m_PathID": 377
+  },
+  "levelTitleText": {
+    "m_FileID": 0,
+    "m_PathID": 364
+  },
+  "levelValueText": {
+    "m_FileID": 0,
+    "m_PathID": 357
+  },
+  "clearImage": {
+    "m_FileID": 0,
+    "m_PathID": 356
+  },
+  "clearText": {
+    "m_FileID": 0,
+    "m_PathID": 360
+  },
+  "offImage": {
+    "m_FileID": 0,
+    "m_PathID": 375
+  },
+  "bossColor": {
+    "r": 1.0,
+    "g": 0.0,
+    "b": 0.0,
+    "a": 1.0
+  },
+  "defaultColor": {
+    "r": 1.0,
+    "g": 1.0,
+    "b": 1.0,
+    "a": 1.0
+  },
+  "numberColor": 0.8
+}

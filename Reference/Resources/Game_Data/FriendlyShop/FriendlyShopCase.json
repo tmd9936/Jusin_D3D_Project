@@ -1,0 +1,68 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 8
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 1,
+    "m_PathID": 83
+  },
+  "m_Name": "",
+  "m_buyBallButton": {
+    "m_FileID": 0,
+    "m_PathID": 640
+  },
+  "m_buyBallText": {
+    "m_FileID": 0,
+    "m_PathID": 521
+  },
+  "m_buyBallCountText": {
+    "m_FileID": 0,
+    "m_PathID": 518
+  },
+  "m_buyBallCountOffText": {
+    "m_FileID": 0,
+    "m_PathID": 506
+  },
+  "m_buyBallButtonOff": {
+    "m_FileID": 0,
+    "m_PathID": 138
+  },
+  "m_buyBallButtonOffText": {
+    "m_FileID": 0,
+    "m_PathID": 513
+  },
+  "m_ballImage": {
+    "m_FileID": 0,
+    "m_PathID": 651
+  },
+  "m_buyStoneButton": {
+    "m_FileID": 0,
+    "m_PathID": 622
+  },
+  "m_buyStoneText": {
+    "m_FileID": 0,
+    "m_PathID": 524
+  },
+  "m_buyStoneCountText": {
+    "m_FileID": 0,
+    "m_PathID": 525
+  },
+  "m_buyStoneCountOffText": {
+    "m_FileID": 0,
+    "m_PathID": 516
+  },
+  "m_buyStoneButtonOff": {
+    "m_FileID": 0,
+    "m_PathID": 84
+  },
+  "m_buyStoneButtonOffText": {
+    "m_FileID": 0,
+    "m_PathID": 507
+  },
+  "m_stoneImage": {
+    "m_FileID": 0,
+    "m_PathID": 581
+  }
+}

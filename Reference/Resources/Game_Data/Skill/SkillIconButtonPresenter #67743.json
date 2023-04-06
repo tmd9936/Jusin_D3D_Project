@@ -1,0 +1,31 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 262
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 1,
+    "m_PathID": 124
+  },
+  "m_Name": "",
+  "m_skillIconButton": {
+    "m_FileID": 0,
+    "m_PathID": 1842
+  },
+  "m_skillButtons": [
+    {
+      "m_FileID": 0,
+      "m_PathID": 1827
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 1849
+    }
+  ],
+  "m_guideTargets": [],
+  "m_cursorTransform": {
+    "m_FileID": 0,
+    "m_PathID": 1271
+  }
+}

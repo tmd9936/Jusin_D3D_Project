@@ -1,0 +1,32 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": -5224375917021171920
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": -8871838095462155403
+  },
+  "m_Name": "",
+  "iconImage": {
+    "m_FileID": 0,
+    "m_PathID": 8503153615815409896
+  },
+  "shadowSquareImage": {
+    "m_FileID": 0,
+    "m_PathID": 3420535881223924364
+  },
+  "shadowDiamondImage": {
+    "m_FileID": 0,
+    "m_PathID": 1693964064140750515
+  },
+  "pokemonIcon": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "iconCollider": {
+    "m_FileID": 0,
+    "m_PathID": -4859924523099855917
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": -2719965465555209944
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 9106588647445566378
+  },
+  "m_Name": "",
+  "finishCookingParam": {
+    "window": {
+      "m_FileID": 0,
+      "m_PathID": -6808467377855334255
+    },
+    "button": {
+      "m_FileID": 0,
+      "m_PathID": -288225367150568870
+    },
+    "buttonText": {
+      "m_FileID": 0,
+      "m_PathID": 3999945172003374813
+    },
+    "buttonShadowText": {
+      "m_FileID": 0,
+      "m_PathID": 1610062981446559276
+    },
+    "recipeNameText": {
+      "m_FileID": 0,
+      "m_PathID": 2532941603797432645
+    },
+    "recipeRarityText": {
+      "m_FileID": 0,
+      "m_PathID": 5945635818120629832
+    },
+    "recipeVolumeText": {
+      "m_FileID": 0,
+      "m_PathID": 8863986832375473121
+    },
+    "itemTitleText": {
+      "m_FileID": 0,
+      "m_PathID": 4001942796523389741
+    },
+    "itemDescText": {
+      "m_FileID": 0,
+      "m_PathID": 5581286474169209926
+    },
+    "pokemonTitleText": {
+      "m_FileID": 0,
+      "m_PathID": -2671334744812565259
+    },
+    "pokemonDescText": {
+      "m_FileID": 0,
+      "m_PathID": 4138580217552424549
+    },
+    "newRecipeObj": {
+      "m_FileID": 0,
+      "m_PathID": -9148430313816599960
+    },
+    "newRecipeText": {
+      "m_FileID": 0,
+      "m_PathID": -2657155817005638029
+    }
+  }
+}

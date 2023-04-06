@@ -1,0 +1,137 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 51
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 1,
+    "m_PathID": 60
+  },
+  "m_Name": "",
+  "moveRate": 1.0,
+  "cameraTarget": {
+    "m_FileID": 0,
+    "m_PathID": 293
+  },
+  "zoomSpeed": 0.3,
+  "moveSpeed": 0.3,
+  "characterParent": {
+    "m_FileID": 0,
+    "m_PathID": 176
+  },
+  "fieldCamera": {
+    "m_FileID": 0,
+    "m_PathID": 719
+  },
+  "groupActionGroups": [
+    {
+      "points": [
+        {
+          "m_FileID": 0,
+          "m_PathID": 193
+        },
+        {
+          "m_FileID": 0,
+          "m_PathID": 240
+        },
+        {
+          "m_FileID": 0,
+          "m_PathID": 245
+        }
+      ]
+    },
+    {
+      "points": [
+        {
+          "m_FileID": 0,
+          "m_PathID": 235
+        },
+        {
+          "m_FileID": 0,
+          "m_PathID": 196
+        },
+        {
+          "m_FileID": 0,
+          "m_PathID": 227
+        }
+      ]
+    },
+    {
+      "points": [
+        {
+          "m_FileID": 0,
+          "m_PathID": 251
+        },
+        {
+          "m_FileID": 0,
+          "m_PathID": 247
+        },
+        {
+          "m_FileID": 0,
+          "m_PathID": 200
+        }
+      ]
+    },
+    {
+      "points": [
+        {
+          "m_FileID": 0,
+          "m_PathID": 202
+        },
+        {
+          "m_FileID": 0,
+          "m_PathID": 234
+        },
+        {
+          "m_FileID": 0,
+          "m_PathID": 194
+        }
+      ]
+    }
+  ],
+  "freeMovePoints": [
+    {
+      "m_FileID": 0,
+      "m_PathID": 192
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 246
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 188
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 236
+    }
+  ],
+  "visitEffectParent": {
+    "m_FileID": 0,
+    "m_PathID": 130
+  },
+  "startPoint": {
+    "m_FileID": 0,
+    "m_PathID": 230
+  },
+  "goalPoint": {
+    "m_FileID": 0,
+    "m_PathID": 190
+  },
+  "visitInterval": 0.3,
+  "createMax": 15,
+  "pokemonFocusOffset": {
+    "x": -4.0,
+    "y": -1.0,
+    "z": 0.0
+  },
+  "lookTime": 1.0,
+  "hideCommonUiTime": 10.0,
+  "operationTime": 3.0,
+  "freeZoomDistance": 40.0,
+  "freeZoomInTime": 0.3,
+  "freeZoomOutTime": 0.3,
+  "freeZoomWait": 2.2
+}

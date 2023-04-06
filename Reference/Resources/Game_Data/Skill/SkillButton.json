@@ -1,0 +1,50 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 202
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 1,
+    "m_PathID": 98
+  },
+  "m_Name": "",
+  "m_skillNameText": {
+    "m_FileID": 0,
+    "m_PathID": 1618
+  },
+  "m_uiAnimator": {
+    "m_FileID": 0,
+    "m_PathID": 1755
+  },
+  "m_skillIcons": [
+    {
+      "m_FileID": 0,
+      "m_PathID": 1921
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 2161
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 1698
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 1691
+    }
+  ],
+  "m_offIcon": {
+    "m_FileID": 0,
+    "m_PathID": 1868
+  },
+  "m_intructEffect": {
+    "m_FileID": 0,
+    "m_PathID": 573
+  },
+  "m_conditionIcon": {
+    "m_FileID": 0,
+    "m_PathID": 1667
+  }
+}

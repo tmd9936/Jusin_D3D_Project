@@ -1,0 +1,438 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": -7453978828820688178
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": -6073820980849158142
+  },
+  "m_Name": "",
+  "leftCookingPotParam": {
+    "window": {
+      "m_FileID": 0,
+      "m_PathID": 2572832267779038371
+    },
+    "backGround": {
+      "m_FileID": 0,
+      "m_PathID": 6310838293341584097
+    },
+    "basePot": [
+      {
+        "basePotObj": {
+          "m_FileID": 0,
+          "m_PathID": 1518936015381161207
+        },
+        "basePotItemParams": [
+          {
+            "m_FileID": 0,
+            "m_PathID": -3593557579468507597
+          },
+          {
+            "m_FileID": 0,
+            "m_PathID": -34950632517756595
+          },
+          {
+            "m_FileID": 0,
+            "m_PathID": 8863650904199403387
+          },
+          {
+            "m_FileID": 0,
+            "m_PathID": -3123176336346357889
+          },
+          {
+            "m_FileID": 0,
+            "m_PathID": -1626926810035215617
+          }
+        ]
+      },
+      {
+        "basePotObj": {
+          "m_FileID": 0,
+          "m_PathID": 5700666620068777901
+        },
+        "basePotItemParams": [
+          {
+            "m_FileID": 0,
+            "m_PathID": 3924281699829945002
+          },
+          {
+            "m_FileID": 0,
+            "m_PathID": 4991556134392871928
+          },
+          {
+            "m_FileID": 0,
+            "m_PathID": -5828573004422222051
+          },
+          {
+            "m_FileID": 0,
+            "m_PathID": -3480467868762729073
+          },
+          {
+            "m_FileID": 0,
+            "m_PathID": -5398916497401670501
+          }
+        ]
+      },
+      {
+        "basePotObj": {
+          "m_FileID": 0,
+          "m_PathID": -7518804244458592727
+        },
+        "basePotItemParams": [
+          {
+            "m_FileID": 0,
+            "m_PathID": 8388251820514743452
+          },
+          {
+            "m_FileID": 0,
+            "m_PathID": -906797755676737041
+          },
+          {
+            "m_FileID": 0,
+            "m_PathID": -2922451422324642673
+          },
+          {
+            "m_FileID": 0,
+            "m_PathID": -7694281820429061571
+          },
+          {
+            "m_FileID": 0,
+            "m_PathID": -2429562398326763369
+          }
+        ]
+      },
+      {
+        "basePotObj": {
+          "m_FileID": 0,
+          "m_PathID": -2999687603621332507
+        },
+        "basePotItemParams": [
+          {
+            "m_FileID": 0,
+            "m_PathID": 8540235148310757042
+          },
+          {
+            "m_FileID": 0,
+            "m_PathID": -2353404948792919397
+          },
+          {
+            "m_FileID": 0,
+            "m_PathID": -3149798164373107006
+          },
+          {
+            "m_FileID": 0,
+            "m_PathID": -906621673444386990
+          },
+          {
+            "m_FileID": 0,
+            "m_PathID": 2261780729427028170
+          }
+        ]
+      }
+    ],
+    "potCover": [
+      {
+        "potCoverObj": {
+          "m_FileID": 0,
+          "m_PathID": 5974746278223912534
+        },
+        "potCoverTitleText": {
+          "m_FileID": 0,
+          "m_PathID": -425860566752630674
+        },
+        "potCoverItemImage": {
+          "m_FileID": 0,
+          "m_PathID": 2575367279844953991
+        },
+        "potCoverItemCount": {
+          "m_FileID": 0,
+          "m_PathID": 5376335862929536021
+        }
+      },
+      {
+        "potCoverObj": {
+          "m_FileID": 0,
+          "m_PathID": 3175781595522849091
+        },
+        "potCoverTitleText": {
+          "m_FileID": 0,
+          "m_PathID": 2713829990439484118
+        },
+        "potCoverItemImage": {
+          "m_FileID": 0,
+          "m_PathID": 3825752623393405183
+        },
+        "potCoverItemCount": {
+          "m_FileID": 0,
+          "m_PathID": 6754229198896665160
+        }
+      },
+      {
+        "potCoverObj": {
+          "m_FileID": 0,
+          "m_PathID": 2269056168071762241
+        },
+        "potCoverTitleText": {
+          "m_FileID": 0,
+          "m_PathID": -286841284152063876
+        },
+        "potCoverItemImage": {
+          "m_FileID": 0,
+          "m_PathID": -2258414561903464173
+        },
+        "potCoverItemCount": {
+          "m_FileID": 0,
+          "m_PathID": -6430032200550201351
+        }
+      },
+      {
+        "potCoverObj": {
+          "m_FileID": 0,
+          "m_PathID": 535235488031149313
+        },
+        "potCoverTitleText": {
+          "m_FileID": 0,
+          "m_PathID": -155894318697637371
+        },
+        "potCoverItemImage": {
+          "m_FileID": 0,
+          "m_PathID": -2966600946045555458
+        },
+        "potCoverItemCount": {
+          "m_FileID": 0,
+          "m_PathID": -773677177417114836
+        }
+      }
+    ],
+    "potCoverFix": [
+      {
+        "m_FileID": 0,
+        "m_PathID": -8356583053573433407
+      },
+      {
+        "m_FileID": 0,
+        "m_PathID": 6327822286342901515
+      },
+      {
+        "m_FileID": 0,
+        "m_PathID": -3264982598502148046
+      },
+      {
+        "m_FileID": 0,
+        "m_PathID": -7541287159240025412
+      }
+    ],
+    "changePotButton": {
+      "m_FileID": 0,
+      "m_PathID": -6449295469143539044
+    },
+    "changePotImage": {
+      "m_FileID": 0,
+      "m_PathID": 6203832533658386871
+    },
+    "cookingButtonParam": {
+      "button": {
+        "m_FileID": 0,
+        "m_PathID": 4070422663644578224
+      },
+      "offImage": {
+        "m_FileID": 0,
+        "m_PathID": 3955777938087639571
+      },
+      "titleText": {
+        "m_FileID": 0,
+        "m_PathID": 8079321175044437871
+      },
+      "shadowText": {
+        "m_FileID": 0,
+        "m_PathID": 3134374993503405539
+      }
+    },
+    "resetButton": {
+      "m_FileID": 0,
+      "m_PathID": 1725315054965016049
+    },
+    "autoSetButton": {
+      "m_FileID": 0,
+      "m_PathID": 2948535607531390776
+    },
+    "autoSetText": {
+      "m_FileID": 0,
+      "m_PathID": -4577361533397034842
+    }
+  },
+  "rightItemButtonParam": {
+    "window": {
+      "m_FileID": 0,
+      "m_PathID": -6874059108772565881
+    },
+    "itemButtons": [
+      {
+        "m_FileID": 0,
+        "m_PathID": 7177656588398428961
+      },
+      {
+        "m_FileID": 0,
+        "m_PathID": -3432089271420104895
+      },
+      {
+        "m_FileID": 0,
+        "m_PathID": 3810162036823521015
+      },
+      {
+        "m_FileID": 0,
+        "m_PathID": -2355408521889150192
+      },
+      {
+        "m_FileID": 0,
+        "m_PathID": -8915272346333676915
+      },
+      {
+        "m_FileID": 0,
+        "m_PathID": 6937902318231440673
+      },
+      {
+        "m_FileID": 0,
+        "m_PathID": 8321925667780970376
+      },
+      {
+        "m_FileID": 0,
+        "m_PathID": 6643993996244053298
+      },
+      {
+        "m_FileID": 0,
+        "m_PathID": -1524611738229044809
+      },
+      {
+        "m_FileID": 0,
+        "m_PathID": 1901887678072788440
+      }
+    ]
+  },
+  "rightItemDescriptionParam": {
+    "window": {
+      "m_FileID": 0,
+      "m_PathID": 7713102344874890080
+    },
+    "titleText": {
+      "m_FileID": 0,
+      "m_PathID": 1210146733675563623
+    },
+    "descText": {
+      "m_FileID": 0,
+      "m_PathID": 93319644227700744
+    }
+  },
+  "rightRecipeParam": {
+    "window": {
+      "m_FileID": 0,
+      "m_PathID": -2814550430971096431
+    },
+    "baseRecipeCell": {
+      "obj": {
+        "m_FileID": 0,
+        "m_PathID": 3092881650477794530
+      },
+      "recipeIcon": {
+        "m_FileID": 0,
+        "m_PathID": -1336705988094245644
+      },
+      "recipeNoText": {
+        "m_FileID": 0,
+        "m_PathID": -4176644557929059600
+      },
+      "recipeTitleText": {
+        "m_FileID": 0,
+        "m_PathID": 7307801454855535774
+      },
+      "itenTitleText": {
+        "m_FileID": 0,
+        "m_PathID": -6149504151617862112
+      },
+      "itenDescText": {
+        "m_FileID": 0,
+        "m_PathID": -2997037266456874047
+      },
+      "pokemonTitleText": {
+        "m_FileID": 0,
+        "m_PathID": -6705938674657492216
+      },
+      "pokemonDescText": {
+        "m_FileID": 0,
+        "m_PathID": 806876788168502084
+      },
+      "noOpenRecipeObj": {
+        "m_FileID": 0,
+        "m_PathID": 1208819287910491324
+      },
+      "noOpenRrecipeNoText": {
+        "m_FileID": 0,
+        "m_PathID": -5074022318450902603
+      }
+    },
+    "leftArrowButton": {
+      "m_FileID": 0,
+      "m_PathID": -7427371427426953054
+    },
+    "rightArrowButton": {
+      "m_FileID": 0,
+      "m_PathID": -3729133528619695265
+    }
+  },
+  "exitButton": {
+    "m_FileID": 0,
+    "m_PathID": 2101395162674023586
+  },
+  "operationField": {
+    "m_FileID": 0,
+    "m_PathID": 6267738470806760940
+  },
+  "tutorialParam": {
+    "cookingItemGuideMarker_Red": {
+      "m_FileID": 0,
+      "m_PathID": 1702908547424017188
+    },
+    "cookingItemGuideMarker_Blue": {
+      "m_FileID": 0,
+      "m_PathID": -6693256704731670359
+    },
+    "cookingItemGuideMarker_Yellow": {
+      "m_FileID": 0,
+      "m_PathID": -5303719616946872895
+    },
+    "cookingItemGuideMarker_1": {
+      "m_FileID": 0,
+      "m_PathID": 362838986258208215
+    },
+    "cookingItemGuideMarker_2": {
+      "m_FileID": 0,
+      "m_PathID": -8049974123700015326
+    },
+    "cookingItemGuideMarker_3": {
+      "m_FileID": 0,
+      "m_PathID": 3270612106967505977
+    },
+    "cookingItemGuideMarker_4": {
+      "m_FileID": 0,
+      "m_PathID": -8117236658605760425
+    },
+    "cookingItemGuideMarker_5": {
+      "m_FileID": 0,
+      "m_PathID": -3949978967480014344
+    },
+    "startCookingGuideMarker": {
+      "m_FileID": 0,
+      "m_PathID": 5046657904871761105
+    },
+    "visitPokemonGuideMarker": {
+      "m_FileID": 0,
+      "m_PathID": -3674951781210944713
+    },
+    "autoSetGuideMarker": {
+      "m_FileID": 0,
+      "m_PathID": 6058432232378974903
+    }
+  }
+}

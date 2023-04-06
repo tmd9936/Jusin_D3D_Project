@@ -1,0 +1,80 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": -3202598388721905561
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": -3585516122331963972
+  },
+  "m_Name": "",
+  "uiAnimator": {
+    "m_FileID": 0,
+    "m_PathID": 1722501843284926359
+  },
+  "pokemonIconImage": {
+    "m_FileID": 0,
+    "m_PathID": -6271860164871561122
+  },
+  "staticNameObj": {
+    "m_FileID": 0,
+    "m_PathID": 2831657129597778391
+  },
+  "nameText": {
+    "m_FileID": 0,
+    "m_PathID": -8047496580155367462
+  },
+  "publicNameObj": {
+    "m_FileID": 0,
+    "m_PathID": 28671946634625815
+  },
+  "inputFieldController": {
+    "m_FileID": 0,
+    "m_PathID": -7659851039131731028
+  },
+  "levelTitleText": {
+    "m_FileID": 0,
+    "m_PathID": 8083870157102052690
+  },
+  "levelValueText": {
+    "m_FileID": 0,
+    "m_PathID": -3256756484898364190
+  },
+  "expSlider": {
+    "m_FileID": 0,
+    "m_PathID": 4924053628275154176
+  },
+  "firstTypeImage": {
+    "m_FileID": 0,
+    "m_PathID": -7506755584640233718
+  },
+  "secondTypeImage": {
+    "m_FileID": 0,
+    "m_PathID": 1711817971643791825
+  },
+  "normalAtkIconImage": {
+    "m_FileID": 0,
+    "m_PathID": -6182617626423743136
+  },
+  "hpTitleText": {
+    "m_FileID": 0,
+    "m_PathID": -4159500137723776185
+  },
+  "hpValueText": {
+    "m_FileID": 0,
+    "m_PathID": -3906340864086120947
+  },
+  "atkTitleText": {
+    "m_FileID": 0,
+    "m_PathID": -5123089100787771882
+  },
+  "atkValueText": {
+    "m_FileID": 0,
+    "m_PathID": 7849130150674060056
+  },
+  "rareIcon": {
+    "m_FileID": 0,
+    "m_PathID": -7710186657295539690
+  }
+}

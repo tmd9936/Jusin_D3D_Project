@@ -1,0 +1,521 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 6445673810394149375
+  },
+  "m_Name": "GoodsDataSet",
+  "m_datas": [
+    {
+      "m_id": 100,
+      "m_mstxtID": 0,
+      "m_category": 0,
+      "m_modelPath": "G_makeover_arch_1",
+      "m_iconPath": "G_tex_makeover_arch_1",
+      "m_effectID": 2,
+      "m_effectValue": [
+        1.0,
+        0.0
+      ],
+      "m_direction": 2
+    },
+    {
+      "m_id": 101,
+      "m_mstxtID": 1,
+      "m_category": 0,
+      "m_modelPath": "G_makeover_arch_2",
+      "m_iconPath": "G_tex_makeover_arch_2",
+      "m_effectID": 2,
+      "m_effectValue": [
+        1.0,
+        0.0
+      ],
+      "m_direction": 2
+    },
+    {
+      "m_id": 102,
+      "m_mstxtID": 2,
+      "m_category": 0,
+      "m_modelPath": "G_makeover_arch_3",
+      "m_iconPath": "G_tex_makeover_arch_3",
+      "m_effectID": 2,
+      "m_effectValue": [
+        1.0,
+        0.0
+      ],
+      "m_direction": 2
+    },
+    {
+      "m_id": 103,
+      "m_mstxtID": 3,
+      "m_category": 0,
+      "m_modelPath": "G_makeover_arch_4",
+      "m_iconPath": "G_tex_makeover_arch_4",
+      "m_effectID": 2,
+      "m_effectValue": [
+        1.0,
+        0.0
+      ],
+      "m_direction": 2
+    },
+    {
+      "m_id": 200,
+      "m_mstxtID": 4,
+      "m_category": 1,
+      "m_modelPath": "G_makeover_L_1",
+      "m_iconPath": "G_tex_makeover_L_1",
+      "m_effectID": 4,
+      "m_effectValue": [
+        2.0,
+        1.0
+      ],
+      "m_direction": 2
+    },
+    {
+      "m_id": 201,
+      "m_mstxtID": 5,
+      "m_category": 1,
+      "m_modelPath": "G_makeover_L_2",
+      "m_iconPath": "G_tex_makeover_L_2",
+      "m_effectID": 3,
+      "m_effectValue": [
+        2.0,
+        0.0
+      ],
+      "m_direction": 2
+    },
+    {
+      "m_id": 202,
+      "m_mstxtID": 6,
+      "m_category": 1,
+      "m_modelPath": "G_makeover_L_3",
+      "m_iconPath": "G_tex_makeover_L_3",
+      "m_effectID": 4,
+      "m_effectValue": [
+        2.0,
+        3.0
+      ],
+      "m_direction": 2
+    },
+    {
+      "m_id": 203,
+      "m_mstxtID": 7,
+      "m_category": 1,
+      "m_modelPath": "G_makeover_L_4",
+      "m_iconPath": "G_tex_makeover_L_4",
+      "m_effectID": 4,
+      "m_effectValue": [
+        1.5,
+        4.0
+      ],
+      "m_direction": 2
+    },
+    {
+      "m_id": 204,
+      "m_mstxtID": 8,
+      "m_category": 1,
+      "m_modelPath": "G_makeover_L_5",
+      "m_iconPath": "G_tex_makeover_L_5",
+      "m_effectID": 4,
+      "m_effectValue": [
+        2.0,
+        2.0
+      ],
+      "m_direction": 2
+    },
+    {
+      "m_id": 205,
+      "m_mstxtID": 9,
+      "m_category": 1,
+      "m_modelPath": "G_makeover_L_6",
+      "m_iconPath": "G_tex_makeover_L_6",
+      "m_effectID": 4,
+      "m_effectValue": [
+        2.0,
+        4.0
+      ],
+      "m_direction": 2
+    },
+    {
+      "m_id": 206,
+      "m_mstxtID": 10,
+      "m_category": 1,
+      "m_modelPath": "G_makeover_L_7",
+      "m_iconPath": "G_tex_makeover_L_7",
+      "m_effectID": 1,
+      "m_effectValue": [
+        2.0,
+        0.0
+      ],
+      "m_direction": 2
+    },
+    {
+      "m_id": 207,
+      "m_mstxtID": 11,
+      "m_category": 1,
+      "m_modelPath": "G_makeover_L_8",
+      "m_iconPath": "G_tex_makeover_L_8",
+      "m_effectID": 8,
+      "m_effectValue": [
+        2.0,
+        0.0
+      ],
+      "m_direction": 2
+    },
+    {
+      "m_id": 300,
+      "m_mstxtID": 12,
+      "m_category": 2,
+      "m_modelPath": "G_makeover_S_1",
+      "m_iconPath": "G_tex_makeover_S_1",
+      "m_effectID": 3,
+      "m_effectValue": [
+        1.5,
+        0.0
+      ],
+      "m_direction": 2
+    },
+    {
+      "m_id": 301,
+      "m_mstxtID": 13,
+      "m_category": 2,
+      "m_modelPath": "G_makeover_S_2",
+      "m_iconPath": "G_tex_makeover_S_2",
+      "m_effectID": 8,
+      "m_effectValue": [
+        1.5,
+        0.0
+      ],
+      "m_direction": 0
+    },
+    {
+      "m_id": 302,
+      "m_mstxtID": 14,
+      "m_category": 2,
+      "m_modelPath": "G_makeover_S_3",
+      "m_iconPath": "G_tex_makeover_S_3",
+      "m_effectID": 5,
+      "m_effectValue": [
+        2.0,
+        0.0
+      ],
+      "m_direction": 3
+    },
+    {
+      "m_id": 303,
+      "m_mstxtID": 15,
+      "m_category": 2,
+      "m_modelPath": "G_makeover_S_4",
+      "m_iconPath": "G_tex_makeover_S_4",
+      "m_effectID": 7,
+      "m_effectValue": [
+        2.0,
+        0.0
+      ],
+      "m_direction": 1
+    },
+    {
+      "m_id": 304,
+      "m_mstxtID": 16,
+      "m_category": 2,
+      "m_modelPath": "G_makeover_S_5",
+      "m_iconPath": "G_tex_makeover_S_5",
+      "m_effectID": 6,
+      "m_effectValue": [
+        2.0,
+        0.0
+      ],
+      "m_direction": 2
+    },
+    {
+      "m_id": 305,
+      "m_mstxtID": 17,
+      "m_category": 2,
+      "m_modelPath": "G_makeover_S_6",
+      "m_iconPath": "G_tex_makeover_S_6",
+      "m_effectID": 4,
+      "m_effectValue": [
+        2.0,
+        0.0
+      ],
+      "m_direction": 0
+    },
+    {
+      "m_id": 306,
+      "m_mstxtID": 18,
+      "m_category": 2,
+      "m_modelPath": "G_makeover_S_7",
+      "m_iconPath": "G_tex_makeover_S_7",
+      "m_effectID": 5,
+      "m_effectValue": [
+        1.5,
+        0.0
+      ],
+      "m_direction": 3
+    },
+    {
+      "m_id": 307,
+      "m_mstxtID": 19,
+      "m_category": 2,
+      "m_modelPath": "G_makeover_S_8",
+      "m_iconPath": "G_tex_makeover_S_8",
+      "m_effectID": 6,
+      "m_effectValue": [
+        1.5,
+        0.0
+      ],
+      "m_direction": 1
+    },
+    {
+      "m_id": 308,
+      "m_mstxtID": 20,
+      "m_category": 2,
+      "m_modelPath": "G_makeover_S_9",
+      "m_iconPath": "G_tex_makeover_S_9",
+      "m_effectID": 7,
+      "m_effectValue": [
+        1.5,
+        0.0
+      ],
+      "m_direction": 2
+    },
+    {
+      "m_id": 309,
+      "m_mstxtID": 21,
+      "m_category": 2,
+      "m_modelPath": "G_makeover_S_10",
+      "m_iconPath": "G_tex_makeover_S_10",
+      "m_effectID": 4,
+      "m_effectValue": [
+        1.5,
+        1.0
+      ],
+      "m_direction": 0
+    },
+    {
+      "m_id": 310,
+      "m_mstxtID": 22,
+      "m_category": 2,
+      "m_modelPath": "G_makeover_S_11",
+      "m_iconPath": "G_tex_makeover_S_11",
+      "m_effectID": 4,
+      "m_effectValue": [
+        1.5,
+        2.0
+      ],
+      "m_direction": 3
+    },
+    {
+      "m_id": 311,
+      "m_mstxtID": 23,
+      "m_category": 2,
+      "m_modelPath": "G_makeover_S_12",
+      "m_iconPath": "G_tex_makeover_S_12",
+      "m_effectID": 4,
+      "m_effectValue": [
+        1.5,
+        3.0
+      ],
+      "m_direction": 1
+    },
+    {
+      "m_id": 312,
+      "m_mstxtID": 24,
+      "m_category": 2,
+      "m_modelPath": "G_statue_koratta",
+      "m_iconPath": "G_tex_statue_koratta",
+      "m_effectID": 9,
+      "m_effectValue": [
+        1.5,
+        5.0
+      ],
+      "m_direction": 2
+    },
+    {
+      "m_id": 313,
+      "m_mstxtID": 25,
+      "m_category": 2,
+      "m_modelPath": "G_statue_nyoromo",
+      "m_iconPath": "G_tex_statue_nyoromo",
+      "m_effectID": 9,
+      "m_effectValue": [
+        1.5,
+        10.0
+      ],
+      "m_direction": 0
+    },
+    {
+      "m_id": 314,
+      "m_mstxtID": 26,
+      "m_category": 2,
+      "m_modelPath": "G_statue_dodo",
+      "m_iconPath": "G_tex_statue_dodo",
+      "m_effectID": 9,
+      "m_effectValue": [
+        1.5,
+        15.0
+      ],
+      "m_direction": 3
+    },
+    {
+      "m_id": 315,
+      "m_mstxtID": 27,
+      "m_category": 2,
+      "m_modelPath": "G_statue_karakara",
+      "m_iconPath": "G_tex_statue_karakara",
+      "m_effectID": 9,
+      "m_effectValue": [
+        1.5,
+        20.0
+      ],
+      "m_direction": 1
+    },
+    {
+      "m_id": 316,
+      "m_mstxtID": 28,
+      "m_category": 2,
+      "m_modelPath": "G_statue_pigeon",
+      "m_iconPath": "G_tex_statue_pigeon",
+      "m_effectID": 9,
+      "m_effectValue": [
+        1.5,
+        25.0
+      ],
+      "m_direction": 2
+    },
+    {
+      "m_id": 317,
+      "m_mstxtID": 29,
+      "m_category": 2,
+      "m_modelPath": "G_statue_monjara",
+      "m_iconPath": "G_tex_statue_monjara",
+      "m_effectID": 9,
+      "m_effectValue": [
+        1.5,
+        30.0
+      ],
+      "m_direction": 0
+    },
+    {
+      "m_id": 318,
+      "m_mstxtID": 30,
+      "m_category": 2,
+      "m_modelPath": "G_statue_golbat",
+      "m_iconPath": "G_tex_statue_golbat",
+      "m_effectID": 9,
+      "m_effectValue": [
+        1.5,
+        35.0
+      ],
+      "m_direction": 3
+    },
+    {
+      "m_id": 319,
+      "m_mstxtID": 31,
+      "m_category": 2,
+      "m_modelPath": "G_statue_gallop",
+      "m_iconPath": "G_tex_statue_gallop",
+      "m_effectID": 9,
+      "m_effectValue": [
+        1.5,
+        40.0
+      ],
+      "m_direction": 1
+    },
+    {
+      "m_id": 320,
+      "m_mstxtID": 32,
+      "m_category": 2,
+      "m_modelPath": "G_statue_arbok",
+      "m_iconPath": "G_tex_statue_arbok",
+      "m_effectID": 9,
+      "m_effectValue": [
+        1.5,
+        50.0
+      ],
+      "m_direction": 2
+    },
+    {
+      "m_id": 321,
+      "m_mstxtID": 33,
+      "m_category": 2,
+      "m_modelPath": "G_statue_gyarados",
+      "m_iconPath": "G_tex_statue_gyarados",
+      "m_effectID": 9,
+      "m_effectValue": [
+        1.5,
+        60.0
+      ],
+      "m_direction": 3
+    },
+    {
+      "m_id": 400,
+      "m_mstxtID": 34,
+      "m_category": 2,
+      "m_modelPath": "G_ball_monster",
+      "m_iconPath": "G_tex_ball_monster",
+      "m_effectID": 10,
+      "m_effectValue": [
+        20.0,
+        0.0
+      ],
+      "m_direction": 1
+    },
+    {
+      "m_id": 401,
+      "m_mstxtID": 35,
+      "m_category": 2,
+      "m_modelPath": "G_ball_super",
+      "m_iconPath": "G_tex_ball_super",
+      "m_effectID": 10,
+      "m_effectValue": [
+        30.0,
+        0.0
+      ],
+      "m_direction": 2
+    },
+    {
+      "m_id": 402,
+      "m_mstxtID": 36,
+      "m_category": 2,
+      "m_modelPath": "G_ball_hyper",
+      "m_iconPath": "G_tex_ball_hyper",
+      "m_effectID": 10,
+      "m_effectValue": [
+        40.0,
+        0.0
+      ],
+      "m_direction": 0
+    },
+    {
+      "m_id": 403,
+      "m_mstxtID": 37,
+      "m_category": 2,
+      "m_modelPath": "G_ball_premier",
+      "m_iconPath": "G_tex_ball_premier",
+      "m_effectID": 10,
+      "m_effectValue": [
+        10.0,
+        0.0
+      ],
+      "m_direction": 3
+    },
+    {
+      "m_id": 404,
+      "m_mstxtID": 38,
+      "m_category": 2,
+      "m_modelPath": "G_ball_master",
+      "m_iconPath": "G_tex_ball_master",
+      "m_effectID": 10,
+      "m_effectValue": [
+        50.0,
+        0.0
+      ],
+      "m_direction": 1
+    }
+  ]
+}

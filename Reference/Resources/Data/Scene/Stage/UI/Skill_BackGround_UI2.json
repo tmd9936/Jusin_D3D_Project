@@ -1,0 +1,83 @@
+{
+    "UIDesc": {
+        "m_fX": 465.0,
+        "m_fY": 390.0,
+        "m_fSizeX": 280.5,
+        "m_fSizeY": 80.0,
+        "m_UIType": 1,
+        "m_ShaderPass": 1,
+        "m_vColor": {
+            "x": 0.352941,
+            "y": 0.709803,
+            "z": 0.1215686,
+            "w": 1.0
+        },
+        "m_TextureProtoTypeLevel": 0,
+        "m_TextureProtoTypeName" : "Prototype_Component_Texture_Rectangle_Base",
+        "m_TextureParts": [
+            {
+                "m_fX": 0.0,
+                "m_fY": -6.0,
+                "m_fSizeX": 240.0,
+                "m_fSizeY": 50.0,
+                "m_eType": 1,
+                "m_ShaderPass": 1,
+                "m_vColor": {
+                    "x": 0.470588,
+                    "y": 0.823529,
+                    "z": 0.23529411,
+                    "w": 1.0
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_Rectangle_Base",
+                "LayerTag": "Layer_UI"
+            }
+        ],
+        "m_TextParts": [
+            {
+                "m_fX": 40.0,
+                "m_fY": 63.0,
+                "m_vColor": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "m_Rotation": 0.0,
+                "m_vRotationOrigin": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "m_vScale": {
+                    "x": 0.32,
+                    "y": 0.28
+                },
+                "m_FontTag": "Font_NanumBarunGothic", 
+                "m_Text": "볼테커",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": 195.0,
+                "m_fY": 63.0,
+                "m_vColor": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "m_Rotation": 0.0,
+                "m_vRotationOrigin": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "m_vScale": {
+                    "x": 0.32,
+                    "y": 0.28
+                },
+                "m_FontTag": "Font_NanumBarunGothic", 
+                "m_Text": "10만볼트",
+                "LayerTag": "Layer_UI"
+            }
+        ]
+    }
+}

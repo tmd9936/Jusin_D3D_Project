@@ -1,0 +1,79 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 873939701320293319
+  },
+  "m_Name": "DamageFluctuationData",
+  "m_datas": [
+    {
+      "m_min": 0.15,
+      "m_max": -0.15,
+      "m_targets": [
+        4,
+        24,
+        19,
+        11,
+        8
+      ],
+      "m_normalSkillProb": 75,
+      "m_ikakuProb": 80
+    },
+    {
+      "m_min": 0.1,
+      "m_max": -0.1,
+      "m_targets": [
+        13,
+        22,
+        14,
+        5,
+        3
+      ],
+      "m_normalSkillProb": 60,
+      "m_ikakuProb": 60
+    },
+    {
+      "m_min": 0.07,
+      "m_max": -0.07,
+      "m_targets": [
+        7,
+        0,
+        2,
+        9,
+        12
+      ],
+      "m_normalSkillProb": 45,
+      "m_ikakuProb": 40
+    },
+    {
+      "m_min": 0.05,
+      "m_max": -0.05,
+      "m_targets": [
+        1,
+        6,
+        18,
+        20,
+        17
+      ],
+      "m_normalSkillProb": 30,
+      "m_ikakuProb": 20
+    },
+    {
+      "m_min": 0.03,
+      "m_max": -0.03,
+      "m_targets": [
+        15,
+        16,
+        21,
+        23,
+        10
+      ],
+      "m_normalSkillProb": 15,
+      "m_ikakuProb": 0
+    }
+  ]
+}

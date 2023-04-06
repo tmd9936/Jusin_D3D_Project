@@ -1,0 +1,85 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 184
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 1,
+    "m_PathID": 81
+  },
+  "m_Name": "",
+  "iconImage": {
+    "m_FileID": 0,
+    "m_PathID": 1036
+  },
+  "buttonImage": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "buttonRecycleImage": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "mainPropValue": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "setPokemonIcon": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "passiveOffIcon": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "skillOffIcon": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "blankIcon": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "blankRecycleIcon": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "newIcon": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "iconController": {
+    "m_FileID": 0,
+    "m_PathID": 923
+  },
+  "buttonAnimator": {
+    "m_FileID": 0,
+    "m_PathID": 922
+  },
+  "recycleCheckBox": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "recycleCheckMark": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "passiveShadow": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "skillShadow": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "passiveSelectMarker": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "skillSelectMarker": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "dragingScale": 1.5
+}

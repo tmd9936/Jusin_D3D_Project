@@ -1,0 +1,83 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": -6260728323127545935
+  },
+  "m_Name": "MapData_extra1_015",
+  "m_mapChipSet": {
+    "m_FileID": 0,
+    "m_PathID": -4350770844109522984
+  },
+  "m_mapChips": [
+    {
+      "mapChip": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "rotation": 4
+    },
+    {
+      "mapChip": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "rotation": 4
+    },
+    {
+      "mapChip": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "rotation": 4
+    },
+    {
+      "mapChip": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "rotation": 4
+    },
+    {
+      "mapChip": {
+        "m_FileID": 5,
+        "m_PathID": -9204478736706982633
+      },
+      "rotation": 4
+    },
+    {
+      "mapChip": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "rotation": 4
+    },
+    {
+      "mapChip": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "rotation": 4
+    },
+    {
+      "mapChip": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "rotation": 4
+    },
+    {
+      "mapChip": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "rotation": 4
+    }
+  ],
+  "m_bossMapChipIndex": 4,
+  "m_playerMapChipIndex": -1
+}

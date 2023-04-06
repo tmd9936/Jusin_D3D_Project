@@ -1,0 +1,135 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": -5257064344958597999
+  },
+  "m_Name": "ItemDataSet",
+  "m_datas": [
+    {
+      "m_id": 0,
+      "m_rank": 0,
+      "m_price": 0.0,
+      "m_isRelease": 0,
+      "m_isConsume": 0,
+      "m_group": 6,
+      "m_iconPath": "",
+      "m_color": 0,
+      "m_hardness": 0
+    },
+    {
+      "m_id": 1,
+      "m_rank": 0,
+      "m_price": 1.0,
+      "m_isRelease": 1,
+      "m_isConsume": 1,
+      "m_group": 1,
+      "m_iconPath": "Item_Red_C",
+      "m_color": 1,
+      "m_hardness": 1
+    },
+    {
+      "m_id": 2,
+      "m_rank": 1,
+      "m_price": 3.0,
+      "m_isRelease": 1,
+      "m_isConsume": 1,
+      "m_group": 2,
+      "m_iconPath": "Item_Red_UC",
+      "m_color": 1,
+      "m_hardness": 1
+    },
+    {
+      "m_id": 3,
+      "m_rank": 0,
+      "m_price": 1.0,
+      "m_isRelease": 1,
+      "m_isConsume": 1,
+      "m_group": 3,
+      "m_iconPath": "Item_Blue_C",
+      "m_color": 2,
+      "m_hardness": 1
+    },
+    {
+      "m_id": 4,
+      "m_rank": 1,
+      "m_price": 3.0,
+      "m_isRelease": 1,
+      "m_isConsume": 1,
+      "m_group": 4,
+      "m_iconPath": "Item_Blue_UC",
+      "m_color": 2,
+      "m_hardness": 2
+    },
+    {
+      "m_id": 5,
+      "m_rank": 0,
+      "m_price": 1.0,
+      "m_isRelease": 1,
+      "m_isConsume": 1,
+      "m_group": 2,
+      "m_iconPath": "Item_Yellow_C",
+      "m_color": 3,
+      "m_hardness": 2
+    },
+    {
+      "m_id": 6,
+      "m_rank": 1,
+      "m_price": 3.0,
+      "m_isRelease": 1,
+      "m_isConsume": 1,
+      "m_group": 3,
+      "m_iconPath": "Item_Yellow_UC",
+      "m_color": 3,
+      "m_hardness": 1
+    },
+    {
+      "m_id": 7,
+      "m_rank": 0,
+      "m_price": 1.0,
+      "m_isRelease": 1,
+      "m_isConsume": 1,
+      "m_group": 4,
+      "m_iconPath": "Item_Grey_C",
+      "m_color": 4,
+      "m_hardness": 2
+    },
+    {
+      "m_id": 8,
+      "m_rank": 1,
+      "m_price": 3.0,
+      "m_isRelease": 1,
+      "m_isConsume": 1,
+      "m_group": 1,
+      "m_iconPath": "Item_Grey_UC",
+      "m_color": 4,
+      "m_hardness": 1
+    },
+    {
+      "m_id": 9,
+      "m_rank": 2,
+      "m_price": 5.0,
+      "m_isRelease": 1,
+      "m_isConsume": 1,
+      "m_group": 0,
+      "m_iconPath": "Item_Rainbow_R",
+      "m_color": 0,
+      "m_hardness": 0
+    },
+    {
+      "m_id": 10,
+      "m_rank": 1,
+      "m_price": 3.0,
+      "m_isRelease": 1,
+      "m_isConsume": 1,
+      "m_group": 5,
+      "m_iconPath": "Item_Mystic_R",
+      "m_color": 5,
+      "m_hardness": 3
+    }
+  ]
+}

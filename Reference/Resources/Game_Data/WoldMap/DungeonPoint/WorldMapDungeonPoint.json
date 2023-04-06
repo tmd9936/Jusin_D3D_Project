@@ -1,0 +1,77 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 123
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 1,
+    "m_PathID": 259
+  },
+  "m_Name": "",
+  "dungeonPointAppearNormalEffect": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "dungeonPointAppearBossEffect": {
+    "m_FileID": 0,
+    "m_PathID": 7130
+  },
+  "dungeonPointClearEffect": {
+    "m_FileID": 0,
+    "m_PathID": 7100
+  },
+  "dungeonPointBossButton": {
+    "m_FileID": 0,
+    "m_PathID": 7079
+  },
+  "dungeonPointClearButton": {
+    "m_FileID": 0,
+    "m_PathID": 7079
+  },
+  "dungeonPointNormalButton": {
+    "m_FileID": 0,
+    "m_PathID": 7079
+  },
+  "dungeonPoint": {
+    "m_FileID": 0,
+    "m_PathID": 157
+  },
+  "dungeonPointCanvas": {
+    "m_FileID": 0,
+    "m_PathID": 7143
+  },
+  "iconColorImage": {
+    "m_FileID": 0,
+    "m_PathID": 7098
+  },
+  "stageNumberText": {
+    "m_FileID": 0,
+    "m_PathID": 6939
+  },
+  "stageBossText": {
+    "m_FileID": 0,
+    "m_PathID": 6949
+  },
+  "stageNumberPlate": {
+    "m_FileID": 0,
+    "m_PathID": 7111
+  },
+  "levelTitleText": {
+    "m_FileID": 0,
+    "m_PathID": 6946
+  },
+  "levelValueText": {
+    "m_FileID": 0,
+    "m_PathID": 6952
+  },
+  "workObject": {
+    "m_FileID": 0,
+    "m_PathID": 7059
+  },
+  "stageObject": {
+    "m_FileID": 0,
+    "m_PathID": 7060
+  },
+  "plusPosY": 7.0
+}

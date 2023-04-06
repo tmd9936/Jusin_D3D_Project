@@ -1,0 +1,18 @@
+{
+    "StagePointDesc": {
+        "vPos": {
+            "x": 18.0,
+            "y": 1.4,
+            "z": 18.4
+        },
+        "vColor": {
+            "x": 0.7137255,
+            "y": 0.7137255,
+            "z": 0.941176534,
+            "w": 1.0
+        },
+        "eState": 1,
+        "stageNumber" : 3,
+        "levelTitleText": "배꼽동굴"
+    }
+}

@@ -1,0 +1,84 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 19
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 1,
+    "m_PathID": 97
+  },
+  "m_Name": "",
+  "m_formationManager": {
+    "m_FileID": 0,
+    "m_PathID": 1632
+  },
+  "m_skillTeamPresenter": {
+    "m_FileID": 0,
+    "m_PathID": 1700
+  },
+  "m_skillIconButtonPresenters": [
+    {
+      "m_FileID": 0,
+      "m_PathID": 1696
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 1856
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 2092
+    }
+  ],
+  "m_battleBag": {
+    "m_FileID": 0,
+    "m_PathID": 1641
+  },
+  "m_dropManager": {
+    "m_FileID": 0,
+    "m_PathID": 1634
+  },
+  "m_battleButtonRootAnimator": {
+    "m_FileID": 0,
+    "m_PathID": 1967
+  },
+  "m_bagAnimator": {
+    "m_FileID": 0,
+    "m_PathID": 1970
+  },
+  "m_pauseAnimator": {
+    "m_FileID": 0,
+    "m_PathID": 1936
+  },
+  "m_timerAnimator": {
+    "m_FileID": 0,
+    "m_PathID": 2061
+  },
+  "m_battlePause": {
+    "m_FileID": 0,
+    "m_PathID": 1975
+  },
+  "m_backBlack": {
+    "m_FileID": 0,
+    "m_PathID": 2085
+  },
+  "m_stageWallObjects": [
+    {
+      "m_FileID": 0,
+      "m_PathID": 6
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 3
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 10
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 7
+    }
+  ]
+}

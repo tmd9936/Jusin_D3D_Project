@@ -1,0 +1,46 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": -8100492234840185414
+  },
+  "m_Name": "PotentialStoneGraphicDataSet",
+  "m_datas": [
+    {
+      "m_stoneGrahpicType": 0,
+      "m_iconPath": "UI_Pstone_attack_{0}_{1}"
+    },
+    {
+      "m_stoneGrahpicType": 1,
+      "m_iconPath": "UI_Pstone_defense_{0}_{1}"
+    },
+    {
+      "m_stoneGrahpicType": 2,
+      "m_iconPath": "UI_Pstone_skill_charge"
+    },
+    {
+      "m_stoneGrahpicType": 3,
+      "m_iconPath": "UI_Pstone_skill_continue"
+    },
+    {
+      "m_stoneGrahpicType": 4,
+      "m_iconPath": "UI_Pstone_skill_extend"
+    },
+    {
+      "m_stoneGrahpicType": 5,
+      "m_iconPath": "UI_Pstone_skill_nway"
+    },
+    {
+      "m_stoneGrahpicType": 6,
+      "m_iconPath": "UI_Pstone_skill_addteambuff"
+    },
+    {
+      "m_stoneGrahpicType": 7,
+      "m_iconPath": "UI_Pstone_skill_buffprobup"
+    }
+  ]
+}

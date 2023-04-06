@@ -1,0 +1,18 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 489
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 1,
+    "m_PathID": 256
+  },
+  "m_Name": "",
+  "useWriteText": 0,
+  "writeTextDataPath": -891410206,
+  "writeTextLabel": 0,
+  "isCentering": 1,
+  "materialType": 0,
+  "forceDefaultLanguage": 0
+}

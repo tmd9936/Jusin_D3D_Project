@@ -1,0 +1,20 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 21
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 1,
+    "m_PathID": 63
+  },
+  "m_Name": "",
+  "zoomDistance": 50.0,
+  "cookingPotFocusTime": 0.3,
+  "pokemonFocusTime": 1.0,
+  "cookingPotFocusOffset": {
+    "x": 0.0,
+    "y": -2.0,
+    "z": 0.0
+  }
+}

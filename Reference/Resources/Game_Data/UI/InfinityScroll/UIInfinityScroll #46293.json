@@ -1,0 +1,25 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": -149142706345329896
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 291366552088344557
+  },
+  "m_Name": "",
+  "instantateItemCount": 7,
+  "splitCount": 1,
+  "intervalX": 30,
+  "intervalY": 27,
+  "direction": 0,
+  "rectTransform": {
+    "m_FileID": 0,
+    "m_PathID": 716715816825472536
+  },
+  "scrollRect": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  }
+}

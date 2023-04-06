@@ -1,0 +1,202 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": -5453272390430372218
+  },
+  "m_Name": "PotentialParameterRangeData",
+  "m_hpValue": {
+    "m_min": 0.0,
+    "m_max": 9999.0
+  },
+  "m_attackValue": {
+    "m_min": 0.0,
+    "m_max": 9999.0
+  },
+  "m_hpPercent": {
+    "m_min": 0.0,
+    "m_max": 0.0
+  },
+  "m_attackPercent": {
+    "m_min": 0.0,
+    "m_max": 0.0
+  },
+  "m_criticalChancePercent": {
+    "m_min": 0.0,
+    "m_max": 1.0
+  },
+  "m_criticalDamagePercent": {
+    "m_min": 0.0,
+    "m_max": 1.0
+  },
+  "m_criticalChanceBlockPercent": {
+    "m_min": -1.0,
+    "m_max": 0.0
+  },
+  "m_chargeSecond": {
+    "m_min": 0.0,
+    "m_max": 0.0
+  },
+  "m_chargeSecondPercent": {
+    "m_min": -0.9,
+    "m_max": 2.0
+  },
+  "m_chargeSecondPercentNormalSkill": {
+    "m_min": -0.9,
+    "m_max": 0.0
+  },
+  "m_distance": {
+    "m_min": 0.0,
+    "m_max": 3.0
+  },
+  "m_distancePercent": {
+    "m_min": 0.0,
+    "m_max": 1.0
+  },
+  "m_skillObjectExtendNum": {
+    "m_min": 0.0,
+    "m_max": 3.0
+  },
+  "m_skillLoopNum": {
+    "m_min": 0.0,
+    "m_max": 3.0
+  },
+  "m_skillAttackValue": {
+    "m_min": 0.0,
+    "m_max": 0.0
+  },
+  "m_skillAttackPercent": {
+    "m_min": -0.5,
+    "m_max": 9.0
+  },
+  "m_nwayNum": {
+    "m_min": 0.0,
+    "m_max": 3.0
+  },
+  "m_regenerationValue": {
+    "m_min": 0.0,
+    "m_max": 0.0
+  },
+  "m_regenerationPercent": {
+    "m_min": 0.0,
+    "m_max": 3.0
+  },
+  "m_lifeGainOnHitValue": {
+    "m_min": 0.0,
+    "m_max": 0.0
+  },
+  "m_lifeGainOnHitPercent": {
+    "m_min": 0.0,
+    "m_max": 0.1
+  },
+  "m_lifeGainOnKillValue": {
+    "m_min": 0.0,
+    "m_max": 0.0
+  },
+  "m_lifeGainOnKillPercent": {
+    "m_min": 0.0,
+    "m_max": 0.1
+  },
+  "m_moveSpeedPercent": {
+    "m_min": -1.0,
+    "m_max": 2.0
+  },
+  "m_buffProbPercent": {
+    "m_min": -1.0,
+    "m_max": 1.0
+  },
+  "m_buffTimePercent": {
+    "m_min": -0.9,
+    "m_max": 1.0
+  },
+  "m_debuffProbPercent": {
+    "m_min": -1.0,
+    "m_max": 1.0
+  },
+  "m_debuffTimePercent": {
+    "m_min": -1.0,
+    "m_max": 1.0
+  },
+  "m_homingValue": {
+    "m_min": 0.0,
+    "m_max": 3.0
+  },
+  "m_revivalTimePercent": {
+    "m_min": -0.5,
+    "m_max": 0.0
+  },
+  "m_revivalRecoverPercent": {
+    "m_min": 0.0,
+    "m_max": 0.5
+  },
+  "m_modelScalePercent": {
+    "m_min": -0.5,
+    "m_max": 0.5
+  },
+  "m_knockBackDistancePercent": {
+    "m_min": -1.0,
+    "m_max": 0.0
+  },
+  "m_knockBackOtherDistancePercent": {
+    "m_min": 0.0,
+    "m_max": 2.0
+  },
+  "m_healPercent": {
+    "m_min": 0.0,
+    "m_max": 2.0
+  },
+  "m_buffSharePercent": {
+    "m_min": 0.0,
+    "m_max": 1.0
+  },
+  "m_waveRecoverPercent": {
+    "m_min": 0.0,
+    "m_max": 1.0
+  },
+  "m_conditionPercent": {
+    "m_min": -1.0,
+    "m_max": 0.0
+  },
+  "m_pokeTypeValues": {
+    "m_attakValue": {
+      "m_min": 0.0,
+      "m_max": 0.0
+    },
+    "m_attackPercent": {
+      "m_min": 0.0,
+      "m_max": 0.0
+    },
+    "m_hpValue": {
+      "m_min": 0.0,
+      "m_max": 0.0
+    },
+    "m_hpPercent": {
+      "m_min": 0.0,
+      "m_max": 0.0
+    },
+    "m_chargeSecond": {
+      "m_min": 0.0,
+      "m_max": 0.0
+    },
+    "m_chargeSecondPercent": {
+      "m_min": 0.0,
+      "m_max": 0.0
+    },
+    "m_chargeSecondPercentSkillType": {
+      "m_min": -0.5,
+      "m_max": 0.0
+    },
+    "m_daamgeBlockPercentSkillType": {
+      "m_min": -0.9,
+      "m_max": 0.0
+    },
+    "m_skillAttackPercentSkillType": {
+      "m_min": 0.0,
+      "m_max": 1.0
+    }
+  }
+}

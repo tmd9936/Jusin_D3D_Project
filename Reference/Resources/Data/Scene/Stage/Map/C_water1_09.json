@@ -1,0 +1,15 @@
+{
+    "MapDesc": {
+        "vPos": {
+            "x": 9.0012064933776855,
+            "y": 0.1,
+            "z": 31.0101988315582275,
+            "w": 1.0
+        },
+        "isAnim" : true,
+        "ModelPrototypeTag": "Prototype_Component_Model_Stage_Map4",
+        "Model_Level_Index": 5,
+        "ShaderPrototypeTag": "Prototype_Component_Shader_VtxAnimModelColor",
+        "Shader_Level_Index": 0
+    }
+}

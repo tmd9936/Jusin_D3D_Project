@@ -1,0 +1,202 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 8684756127652158357
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 5737606488370827650
+  },
+  "m_Name": "",
+  "m_uiAnimator": {
+    "m_FileID": 0,
+    "m_PathID": 141119848863267299
+  },
+  "m_graphic": {
+    "image": {
+      "m_FileID": 0,
+      "m_PathID": -2932439112539700273
+    },
+    "valueText": {
+      "m_FileID": 0,
+      "m_PathID": 786571606109992164
+    },
+    "passiveWindow": {
+      "frame": {
+        "m_FileID": 0,
+        "m_PathID": 6068635360094079415
+      },
+      "main": {
+        "m_FileID": 0,
+        "m_PathID": -3234504958432400223
+      }
+    },
+    "skillWindow": {
+      "frame": {
+        "m_FileID": 0,
+        "m_PathID": -8444807861064481357
+      },
+      "main": {
+        "m_FileID": 0,
+        "m_PathID": 8158651927487861076
+      }
+    }
+  },
+  "m_passiveRoot": {
+    "m_FileID": 0,
+    "m_PathID": -2025990143314266050
+  },
+  "m_skillRoot": {
+    "m_FileID": 0,
+    "m_PathID": -3202442885190767923
+  },
+  "m_passivePropertys": [
+    {
+      "root": {
+        "m_FileID": 0,
+        "m_PathID": -7718297538732488814
+      },
+      "titleText": {
+        "m_FileID": 0,
+        "m_PathID": -871624690562700311
+      },
+      "valueText": {
+        "m_FileID": 0,
+        "m_PathID": 690528763218922257
+      },
+      "typeText": {
+        "m_FileID": 0,
+        "m_PathID": 1401135301577039024
+      }
+    },
+    {
+      "root": {
+        "m_FileID": 0,
+        "m_PathID": -711428995618490284
+      },
+      "titleText": {
+        "m_FileID": 0,
+        "m_PathID": 358453014172930370
+      },
+      "valueText": {
+        "m_FileID": 0,
+        "m_PathID": -5521515294042876611
+      },
+      "typeText": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      }
+    },
+    {
+      "root": {
+        "m_FileID": 0,
+        "m_PathID": 3736661939810679325
+      },
+      "titleText": {
+        "m_FileID": 0,
+        "m_PathID": -1209963318334496788
+      },
+      "valueText": {
+        "m_FileID": 0,
+        "m_PathID": -1969801632347108830
+      },
+      "typeText": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      }
+    },
+    {
+      "root": {
+        "m_FileID": 0,
+        "m_PathID": -3615209732968496005
+      },
+      "titleText": {
+        "m_FileID": 0,
+        "m_PathID": 1267997055497889471
+      },
+      "valueText": {
+        "m_FileID": 0,
+        "m_PathID": -8189775751357399828
+      },
+      "typeText": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      }
+    }
+  ],
+  "m_skillPropertys": [
+    {
+      "root": {
+        "m_FileID": 0,
+        "m_PathID": -1527613378348075757
+      },
+      "titleText": {
+        "m_FileID": 0,
+        "m_PathID": -3206705948625554786
+      },
+      "valueText": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "typeText": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      }
+    },
+    {
+      "root": {
+        "m_FileID": 0,
+        "m_PathID": 9117424595116019458
+      },
+      "titleText": {
+        "m_FileID": 0,
+        "m_PathID": -4919493942876288898
+      },
+      "valueText": {
+        "m_FileID": 0,
+        "m_PathID": 6896964213000861680
+      },
+      "typeText": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      }
+    },
+    {
+      "root": {
+        "m_FileID": 0,
+        "m_PathID": 7269656978972566928
+      },
+      "titleText": {
+        "m_FileID": 0,
+        "m_PathID": 7138312029638105420
+      },
+      "valueText": {
+        "m_FileID": 0,
+        "m_PathID": -9118394892831607388
+      },
+      "typeText": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      }
+    },
+    {
+      "root": {
+        "m_FileID": 0,
+        "m_PathID": 5454873377778047192
+      },
+      "titleText": {
+        "m_FileID": 0,
+        "m_PathID": -2729563311769983502
+      },
+      "valueText": {
+        "m_FileID": 0,
+        "m_PathID": -612386308489803950
+      },
+      "typeText": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 298618767184036052
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": -2537570755715572182
+  },
+  "m_Name": "",
+  "pageListParent": {
+    "m_FileID": 0,
+    "m_PathID": -8544644542586179798
+  },
+  "pageListParentLayoutGroup": {
+    "m_FileID": 0,
+    "m_PathID": 2355989970653146001
+  },
+  "pageParent": {
+    "m_FileID": 0,
+    "m_PathID": 8708734815816848663
+  },
+  "pageParentLayoutGroup": {
+    "m_FileID": 0,
+    "m_PathID": -8898402115406953873
+  },
+  "pageSlideTime": 0.2,
+  "direction": 1,
+  "leftButton": {
+    "m_FileID": 0,
+    "m_PathID": -3284379802927086897
+  },
+  "rightButton": {
+    "m_FileID": 0,
+    "m_PathID": -8454846600214086542
+  },
+  "horizontalCount": 5,
+  "verticalCount": 3,
+  "itemSpaceX": 20.0,
+  "itemSpaceY": 0.0,
+  "pageSpace": 50.0,
+  "pageDotParam": {
+    "main": {
+      "m_FileID": 0,
+      "m_PathID": 3733475652448678834
+    },
+    "mark": {
+      "m_FileID": 0,
+      "m_PathID": -3892044235336780138
+    }
+  },
+  "pageDotParent": {
+    "m_FileID": 0,
+    "m_PathID": -5502833449701610313
+  },
+  "longPressSecond": 0.6,
+  "changeSecond": 0.6,
+  "useEstimatedTime": 1
+}

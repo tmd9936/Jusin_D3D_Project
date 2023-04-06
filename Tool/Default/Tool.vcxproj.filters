@@ -1,0 +1,685 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="98. Default">
+      <UniqueIdentifier>{98503198-1105-4adb-8798-6b0d25a9fee9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99. Defines">
+      <UniqueIdentifier>{64fd7a11-4f6d-464d-b7dc-07e720f1d17f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. MainApp">
+      <UniqueIdentifier>{72d80296-5ddf-45ee-8dff-fd463e2d3d65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels">
+      <UniqueIdentifier>{84ac9c3a-8bd5-4439-b52a-6e4d33783a57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject">
+      <UniqueIdentifier>{aca78bca-ada4-4502-ac17-223df2033f23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\Loading">
+      <UniqueIdentifier>{0e26d599-68c7-4471-b9ae-3caeb7749600}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\Logo">
+      <UniqueIdentifier>{da009060-4bf9-4fcc-9117-95c3e52a729f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\Loading\Loader">
+      <UniqueIdentifier>{879cfb9b-fd15-4e1c-b93c-0b1c2177aa76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97. ShaderFiles">
+      <UniqueIdentifier>{1169c46f-4a0a-4057-9bdf-6284a9995c54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\BaseCamp">
+      <UniqueIdentifier>{e9b07c8e-9610-4a89-b5c9-82703cc58110}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\BaseCamp">
+      <UniqueIdentifier>{904cf744-ac4b-4777-8420-7603b08c6275}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\WorldMap">
+      <UniqueIdentifier>{3f7f32b7-b611-4636-a314-0af8e969ceec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\WorldMap">
+      <UniqueIdentifier>{c22b070c-2ee9-4911-a960-18b46263c1e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Client_Utility">
+      <UniqueIdentifier>{90363512-9d02-46ba-a50c-d5e5a1df79ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\BaseCamp\BaseCamp_Manager">
+      <UniqueIdentifier>{c0ffc40b-ce40-4f7b-b011-36bbb94db644}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\WorldMap\StagePoint">
+      <UniqueIdentifier>{f51bf141-ba85-4d31-953e-064f92798024}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\WorldMap\WorldMap_Manager">
+      <UniqueIdentifier>{472308f7-d71d-4e2b-a2c0-c022ddf72aee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\BaseCamp\BaseCampMonster">
+      <UniqueIdentifier>{22071bd7-dd02-4e8d-9104-33797aa1607d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\WorldMap\Env">
+      <UniqueIdentifier>{b51e2319-9e51-4c41-84ca-55554c1f0e75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\WorldMap\Env\WorldMapCloud">
+      <UniqueIdentifier>{c31b0b04-5785-4eaf-b05a-60e7b988c4bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\WorldMap\Env\WorldMapFlower">
+      <UniqueIdentifier>{e96a7879-5a88-43d1-86cc-dbcae64e3896}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\WorldMap\Env\WorldMapGrass">
+      <UniqueIdentifier>{5286b04b-599b-414b-8c53-e39f7b9b1e59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\WorldMap\Env\WorldMapAnimEnv">
+      <UniqueIdentifier>{833878a7-dd96-44eb-82b6-7c9c70bb66c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\WorldMap\Button">
+      <UniqueIdentifier>{c0105f66-0ef3-43ce-9cd3-2ab86d543c18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\WorldMap\Button\WorldMapBackToIdel">
+      <UniqueIdentifier>{b35511cb-1759-40ff-871f-121a1932f65f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\WorldMap\UI">
+      <UniqueIdentifier>{28f2c253-9f5d-4416-a052-0b7546d4e1eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\WorldMap\UI\StageInfoUI">
+      <UniqueIdentifier>{22562c75-c985-437a-b457-8273b019764a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\Stage">
+      <UniqueIdentifier>{462dc141-b935-47dc-b4f2-e616d01cc96e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\WorldMap\Button\GoToStageButton">
+      <UniqueIdentifier>{5f7bc79b-fa2a-4b32-b032-624295726326}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static">
+      <UniqueIdentifier>{6c9ebd10-a1b6-4444-9c0a-3972c67e2dc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Skill">
+      <UniqueIdentifier>{7f876eed-6c42-4f03-b288-ece67e4d7aaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Skill\Skill_Manager">
+      <UniqueIdentifier>{3f632fe4-71ce-4b1c-9de0-bf40fbeda2bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Terrain">
+      <UniqueIdentifier>{e6d9082e-df02-4579-a3ac-3ae46d42b422}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Terrain\FlatTerrain">
+      <UniqueIdentifier>{0c109fd4-e705-4af0-9aac-48c2dbc7ae06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\TestModel">
+      <UniqueIdentifier>{d0983206-d520-4cb0-a2ce-f921a2558e65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\TestModel\Weapon">
+      <UniqueIdentifier>{f793c2f5-1112-4711-9364-0f5bb9ff8a3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Mouse">
+      <UniqueIdentifier>{8a2c3441-f0b3-48ea-a613-c9ff1f859d27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Effect">
+      <UniqueIdentifier>{be9f8978-f02c-438a-a2f4-fc6971dd938a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Effect\Effect_Manager">
+      <UniqueIdentifier>{e994c659-68b1-471e-bbe4-f1aabd47ff64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Camera">
+      <UniqueIdentifier>{d0cd6129-d1d0-4c79-a307-aac1f29c9e76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Camera\Public">
+      <UniqueIdentifier>{ade22b3d-5e2c-4d64-a46c-594cdf5ebf08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Map">
+      <UniqueIdentifier>{8e605126-9621-4e87-9a52-105cad4ffca5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\UI">
+      <UniqueIdentifier>{57346e36-1bc9-4e61-a482-51ada3529dbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\UI\ModelUI">
+      <UniqueIdentifier>{ae585fe3-8c7f-4404-bc37-4ef318b9503c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\UI\TextureUI">
+      <UniqueIdentifier>{fd3276a0-7b60-40c6-b554-423274bf23f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\UI\Button">
+      <UniqueIdentifier>{486196df-508d-4ae8-ae3b-9071d41cdf7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\UI\PartTexture">
+      <UniqueIdentifier>{5164ee61-0808-4512-bcdc-c52ecc7ec679}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\UI\PartText">
+      <UniqueIdentifier>{463966ca-b31b-4191-bc63-74e0d46c11a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\BaseCamp\Button">
+      <UniqueIdentifier>{b8927ac3-46cd-4a52-9397-663b9c9a77a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\BaseCamp\Button\GoToWorldMapButton">
+      <UniqueIdentifier>{05d2d0bd-73c3-4600-9abe-ce3a11ec84cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\BaseCamp\Stove">
+      <UniqueIdentifier>{7d493592-211a-48bd-9fdb-9b85e8bdd155}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Background">
+      <UniqueIdentifier>{f03ceea5-0c2c-4691-82b1-383262c4bfa4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Monster">
+      <UniqueIdentifier>{54be1a60-304a-4f70-ad89-77a4ecc855d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Monster\Player">
+      <UniqueIdentifier>{7132cc79-bd6b-439e-b4b1-ae5ec88af567}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Monster\UI">
+      <UniqueIdentifier>{1494270a-84a3-40af-87e4-1def095f40ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Monster\UI\BuffState">
+      <UniqueIdentifier>{774a5ff9-7f28-4297-bad2-5965d1976156}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Monster\UI\HpBar">
+      <UniqueIdentifier>{a12b8741-0500-446a-9d84-2c3537cde0a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Stage">
+      <UniqueIdentifier>{7f264967-ec5e-4599-baa9-3a0bc04935b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Stage\Button">
+      <UniqueIdentifier>{3df87546-594e-40c6-9a47-731d61900d88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Stage\Stage_Camera">
+      <UniqueIdentifier>{b4ba6893-a05c-4100-a30b-81f1187e07a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Stage\Stage_Camera_Target">
+      <UniqueIdentifier>{656b55ad-546f-4945-bf76-90fabdd5c811}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96. ImGui">
+      <UniqueIdentifier>{4f3caca1-d572-468c-b1a3-6856de137220}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96. ImGui\MapToolGUI">
+      <UniqueIdentifier>{7feebb72-cfee-416e-800d-023380095360}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96. ImGui\imgui">
+      <UniqueIdentifier>{880dc489-0647-4238-86cd-128dd5a4f5dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96. ImGui\DataToolGUI">
+      <UniqueIdentifier>{4b68341e-8e0c-4946-a930-0258f43bc12d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96. ImGui\Utill">
+      <UniqueIdentifier>{2124fcc0-bcc6-4afe-87b3-1b720a27b396}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96. ImGui\UiToolGUI">
+      <UniqueIdentifier>{42977d6c-63c4-4b92-847f-ad3e2c051569}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Stage\StageEnemyMonster">
+      <UniqueIdentifier>{ff9b477e-34cc-4702-a41e-1483b87cbde1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Searcher">
+      <UniqueIdentifier>{ed3ef229-cfa7-4b86-87b8-186b71a37f0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Monster\UI\DamageText">
+      <UniqueIdentifier>{d956911c-d832-4168-bfb1-596e484ffd04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\Loading\ThreadPool">
+      <UniqueIdentifier>{5a888ec3-0cf6-486b-b72e-b6f7d3a8a3e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Effect\ChargeEffect">
+      <UniqueIdentifier>{ce025559-1bd1-4e4c-8c79-e3f743dbe1ce}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Tool.h">
+      <Filter>98. Default</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>98. Default</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>98. Default</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>98. Default</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Client_Defines.h">
+      <Filter>99. Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MainApp.h">
+      <Filter>00. MainApp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_BaseCamp.h">
+      <Filter>01. Levels\BaseCamp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Loader.h">
+      <Filter>01. Levels\Loading\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Loading.h">
+      <Filter>01. Levels\Loading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Logo.h">
+      <Filter>01. Levels\Logo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BackGround.h">
+      <Filter>02. GameObject\Static\Background</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Terrain.h">
+      <Filter>02. GameObject\Static\Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MapToolGUI.h">
+      <Filter>96. ImGui\MapToolGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\imgui\imconfig.h">
+      <Filter>96. ImGui\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\imgui\imgui.h">
+      <Filter>96. ImGui\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\imgui\imgui_internal.h">
+      <Filter>96. ImGui\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\imgui\ImGuiFileBrowser.h">
+      <Filter>96. ImGui\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\imgui\imstb_rectpack.h">
+      <Filter>96. ImGui\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\imgui\imstb_textedit.h">
+      <Filter>96. ImGui\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\imgui\imstb_truetype.h">
+      <Filter>96. ImGui\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\imgui\backends\imgui_impl_dx11.h">
+      <Filter>96. ImGui\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\imgui\backends\imgui_impl_win32.h">
+      <Filter>96. ImGui\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\FlatTerrain.h">
+      <Filter>02. GameObject\Static\Terrain\FlatTerrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\DataToolGUI.h">
+      <Filter>96. ImGui\DataToolGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TestModel.h">
+      <Filter>02. GameObject\Static\TestModel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player.h">
+      <Filter>02. GameObject\Static\Monster\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\FileDialogUtill.h">
+      <Filter>96. ImGui\Utill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SkillToolGUI.h">
+      <Filter>96. ImGui\UiToolGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI.h">
+      <Filter>02. GameObject\Static\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ModelUI.h">
+      <Filter>02. GameObject\Static\UI\ModelUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TextureUI.h">
+      <Filter>02. GameObject\Static\UI\TextureUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Map.h">
+      <Filter>02. GameObject\Static\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Camera_Public.h">
+      <Filter>02. GameObject\Static\Camera\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Button.h">
+      <Filter>02. GameObject\Static\UI\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_WorldMap.h">
+      <Filter>01. Levels\WorldMap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Monster.h">
+      <Filter>02. GameObject\Static\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Client_Utility.h">
+      <Filter>Client_Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\GoToWorldMapButton.h">
+      <Filter>02. GameObject\BaseCamp\Button\GoToWorldMapButton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BaseCamp_Manager.h">
+      <Filter>02. GameObject\BaseCamp\BaseCamp_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BaseCampMonster.h">
+      <Filter>02. GameObject\BaseCamp\BaseCampMonster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BuffState.h">
+      <Filter>02. GameObject\Static\Monster\UI\BuffState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Weapon.h">
+      <Filter>02. GameObject\Static\TestModel\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\HpBar.h">
+      <Filter>02. GameObject\Static\Monster\UI\HpBar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Effect.h">
+      <Filter>02. GameObject\Static\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_Manager.h">
+      <Filter>02. GameObject\Static\Skill\Skill_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\WorldMapCloud.h">
+      <Filter>02. GameObject\WorldMap\Env\WorldMapCloud</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\WorldMapFlower.h">
+      <Filter>02. GameObject\WorldMap\Env\WorldMapFlower</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\WorldMapGrass.h">
+      <Filter>02. GameObject\WorldMap\Env\WorldMapGrass</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\WorldMapAnimEnv.h">
+      <Filter>02. GameObject\WorldMap\Env\WorldMapAnimEnv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\StagePoint.h">
+      <Filter>02. GameObject\WorldMap\StagePoint</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\WorldMap_Manager.h">
+      <Filter>02. GameObject\WorldMap\WorldMap_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PartTexture.h">
+      <Filter>02. GameObject\Static\UI\PartTexture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PartText.h">
+      <Filter>02. GameObject\Static\UI\PartText</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\WorldMapBackToIdel.h">
+      <Filter>02. GameObject\WorldMap\Button\WorldMapBackToIdel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\StageInfoUI.h">
+      <Filter>02. GameObject\WorldMap\UI\StageInfoUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Stage.h">
+      <Filter>01. Levels\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Mouse.h">
+      <Filter>02. GameObject\Static\Mouse</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\GoToStageButton.h">
+      <Filter>02. GameObject\WorldMap\Button\GoToStageButton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Stove.h">
+      <Filter>02. GameObject\BaseCamp\Stove</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PokemonSkillButton.h">
+      <Filter>02. GameObject\Stage\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\StageCamera.h">
+      <Filter>02. GameObject\Stage\Stage_Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\StageCameraTarget.h">
+      <Filter>02. GameObject\Stage\Stage_Camera_Target</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Effect_Manager.h">
+      <Filter>02. GameObject\Static\Effect\Effect_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\StageEnemyMonster.h">
+      <Filter>02. GameObject\Stage\StageEnemyMonster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Searcher.h">
+      <Filter>02. GameObject\Static\Searcher</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\DamageText.h">
+      <Filter>02. GameObject\Static\Monster\UI\DamageText</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ThreadPool.h">
+      <Filter>01. Levels\Loading\ThreadPool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill.h">
+      <Filter>02. GameObject\Static\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ChargeEffect.h">
+      <Filter>02. GameObject\Static\Effect\ChargeEffect</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>98. Default</Filter>
+    </Image>
+    <Image Include="Tool.ico">
+      <Filter>98. Default</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Tool.rc">
+      <Filter>98. Default</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Tool.cpp">
+      <Filter>98. Default</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MainApp.cpp">
+      <Filter>00. MainApp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Loading.cpp">
+      <Filter>01. Levels\Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Loader.cpp">
+      <Filter>01. Levels\Loading\Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BackGround.cpp">
+      <Filter>02. GameObject\Static\Background</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Terrain.cpp">
+      <Filter>02. GameObject\Static\Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>98. Default</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MapToolGUI.cpp">
+      <Filter>96. ImGui\MapToolGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\imgui\imgui.cpp">
+      <Filter>96. ImGui\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\imgui\imgui_demo.cpp">
+      <Filter>96. ImGui\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\imgui\imgui_draw.cpp">
+      <Filter>96. ImGui\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\imgui\imgui_tables.cpp">
+      <Filter>96. ImGui\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\imgui\imgui_widgets.cpp">
+      <Filter>96. ImGui\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\imgui\ImGuiFileBrowser.cpp">
+      <Filter>96. ImGui\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\imgui\backends\imgui_impl_dx11.cpp">
+      <Filter>96. ImGui\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\imgui\backends\imgui_impl_win32.cpp">
+      <Filter>96. ImGui\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\FlatTerrain.cpp">
+      <Filter>02. GameObject\Static\Terrain\FlatTerrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\DataToolGUI.cpp">
+      <Filter>96. ImGui\DataToolGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TestModel.cpp">
+      <Filter>02. GameObject\Static\TestModel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player.cpp">
+      <Filter>02. GameObject\Static\Monster\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\FileDialogUtill.cpp">
+      <Filter>96. ImGui\Utill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SkillToolGUI.cpp">
+      <Filter>96. ImGui\UiToolGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI.cpp">
+      <Filter>02. GameObject\Static\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ModelUI.cpp">
+      <Filter>02. GameObject\Static\UI\ModelUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TextureUI.cpp">
+      <Filter>02. GameObject\Static\UI\TextureUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_BaseCamp.cpp">
+      <Filter>01. Levels\BaseCamp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Map.cpp">
+      <Filter>02. GameObject\Static\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Camera_Public.cpp">
+      <Filter>02. GameObject\Static\Camera\Public</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Logo.cpp">
+      <Filter>01. Levels\Logo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Button.cpp">
+      <Filter>02. GameObject\Static\UI\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_WorldMap.cpp">
+      <Filter>01. Levels\WorldMap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Monster.cpp">
+      <Filter>02. GameObject\Static\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Client_Utility.cpp">
+      <Filter>Client_Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\GoToWorldMapButton.cpp">
+      <Filter>02. GameObject\BaseCamp\Button\GoToWorldMapButton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BaseCamp_Manager.cpp">
+      <Filter>02. GameObject\BaseCamp\BaseCamp_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BaseCampMonster.cpp">
+      <Filter>02. GameObject\BaseCamp\BaseCampMonster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BuffState.cpp">
+      <Filter>02. GameObject\Static\Monster\UI\BuffState</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Weapon.cpp">
+      <Filter>02. GameObject\Static\TestModel\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\HpBar.cpp">
+      <Filter>02. GameObject\Static\Monster\UI\HpBar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect.cpp">
+      <Filter>02. GameObject\Static\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect_Manager.cpp">
+      <Filter>02. GameObject\Static\Effect\Effect_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill.cpp">
+      <Filter>02. GameObject\Static\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_Manager.cpp">
+      <Filter>02. GameObject\Static\Skill\Skill_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\WorldMapCloud.cpp">
+      <Filter>02. GameObject\WorldMap\Env\WorldMapCloud</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\WorldMapFlower.cpp">
+      <Filter>02. GameObject\WorldMap\Env\WorldMapFlower</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\WorldMapGrass.cpp">
+      <Filter>02. GameObject\WorldMap\Env\WorldMapGrass</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\WorldMapAnimEnv.cpp">
+      <Filter>02. GameObject\WorldMap\Env\WorldMapAnimEnv</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\StagePoint.cpp">
+      <Filter>02. GameObject\WorldMap\StagePoint</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\WorldMap_Manager.cpp">
+      <Filter>02. GameObject\WorldMap\WorldMap_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PartTexture.cpp">
+      <Filter>02. GameObject\Static\UI\PartTexture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PartText.cpp">
+      <Filter>02. GameObject\Static\UI\PartText</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\WorldMapBackToIdel.cpp">
+      <Filter>02. GameObject\WorldMap\Button\WorldMapBackToIdel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\StageInfoUI.cpp">
+      <Filter>02. GameObject\WorldMap\UI\StageInfoUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Stage.cpp">
+      <Filter>01. Levels\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Mouse.cpp">
+      <Filter>02. GameObject\Static\Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\GoToStageButton.cpp">
+      <Filter>02. GameObject\WorldMap\Button\GoToStageButton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Stove.cpp">
+      <Filter>02. GameObject\BaseCamp\Stove</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PokemonSkillButton.cpp">
+      <Filter>02. GameObject\Stage\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\StageCamera.cpp">
+      <Filter>02. GameObject\Stage\Stage_Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\StageCameraTarget.cpp">
+      <Filter>02. GameObject\Stage\Stage_Camera_Target</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\StageEnemyMonster.cpp">
+      <Filter>02. GameObject\Stage\StageEnemyMonster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Searcher.cpp">
+      <Filter>02. GameObject\Static\Searcher</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\DamageText.cpp">
+      <Filter>02. GameObject\Static\Monster\UI\DamageText</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ThreadPool.cpp">
+      <Filter>01. Levels\Loading\ThreadPool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ChargeEffect.cpp">
+      <Filter>02. GameObject\Static\Effect\ChargeEffect</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_VtxNorTex.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_Vtxtex.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_VtxNorTex_HeightTerrain.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_VtxModel.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_VtxModelColor.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_VtxAnimModel.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_VtxAnimModelColor.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_Vtxtex_Button.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_Cell.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_VtxTexColor.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\imgui\CMakeLists.txt">
+      <Filter>96. ImGui\imgui</Filter>
+    </Text>
+    <Text Include="..\imgui\LICENSE.txt">
+      <Filter>96. ImGui\imgui</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Reference\Resources\ShaderFiles\Shader_Defines.hlsli">
+      <Filter>97. ShaderFiles</Filter>
+    </None>
+  </ItemGroup>
+</Project>

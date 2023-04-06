@@ -1,0 +1,83 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": -6260728323127545935
+  },
+  "m_Name": "MapData_mountain2_004",
+  "m_mapChipSet": {
+    "m_FileID": 0,
+    "m_PathID": 7377271928039316132
+  },
+  "m_mapChips": [
+    {
+      "mapChip": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "rotation": 4
+    },
+    {
+      "mapChip": {
+        "m_FileID": 1,
+        "m_PathID": -5533551522282579726
+      },
+      "rotation": 4
+    },
+    {
+      "mapChip": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "rotation": 4
+    },
+    {
+      "mapChip": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "rotation": 4
+    },
+    {
+      "mapChip": {
+        "m_FileID": 0,
+        "m_PathID": -1802384392760331892
+      },
+      "rotation": 1
+    },
+    {
+      "mapChip": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "rotation": 4
+    },
+    {
+      "mapChip": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "rotation": 4
+    },
+    {
+      "mapChip": {
+        "m_FileID": 1,
+        "m_PathID": -9079797665628565000
+      },
+      "rotation": 4
+    },
+    {
+      "mapChip": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "rotation": 4
+    }
+  ],
+  "m_bossMapChipIndex": 4,
+  "m_playerMapChipIndex": -1
+}

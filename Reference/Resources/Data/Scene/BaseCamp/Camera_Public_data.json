@@ -1,0 +1,48 @@
+{
+    "CameraDesc": {
+        "leftMaxMove": 0.4,
+        "rightMaxMove": 0.4,
+        "upMaxMove": 0.4,
+        "downMaxMove": 0.4,
+        "leftMoveStart_MousePos": 250,
+        "rightMoveStart_MousePos": 550,
+        "upMoveStart_MousePos": 100,
+        "downMoveStart_MousePos": 300,
+        "moveSpeed": 0.5,
+        "zoomSpeed": 0.5,
+        "pokemonFocusOffset": {
+            "x": -4.0,
+            "y": -1.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "lookTime": 1.0,
+        "freeZoomDistance": 0.0,
+        "vEye": {
+            "x": 20.345996856689453,
+            "y": 6.580441951751709,
+            "z": 23.804706573486328,
+            "w": 1.0
+        },
+        "vAt": {
+            "x": 20.51726722717285,
+            "y": 5.654022693634033,
+            "z": 23.469425201416016,
+            "w": 1.0
+        },
+        "vAxisY": {
+            "x": 0.0,
+            "y": 1.0,
+            "z": 0.0,
+            "w": 0.0
+        },
+        "fAspect": 1.9322034120559692,
+        "fFovy": 1.0471975803375244,
+        "fNear": 0.20000000298023224,
+        "fFar": 300.0,
+        "TransformDesc": {
+            "RotationPerSec": 3.1415927410125732,
+            "SpeedPerSec": 20.0
+        }
+    }
+}

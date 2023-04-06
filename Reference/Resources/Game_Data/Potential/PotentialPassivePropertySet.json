@@ -1,0 +1,246 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": -3580304362406620589
+  },
+  "m_Name": "PotentialPassivePropertySet",
+  "m_datas": [
+    {
+      "m_commandID": 0,
+      "m_rankMin": 50.0,
+      "m_rankMax": 999.0,
+      "m_increment": 1.0,
+      "m_propertyType": 1,
+      "m_rarity": 0
+    },
+    {
+      "m_commandID": 1,
+      "m_rankMin": 0.01,
+      "m_rankMax": 0.1,
+      "m_increment": 0.005,
+      "m_propertyType": 1,
+      "m_rarity": 0
+    },
+    {
+      "m_commandID": 15,
+      "m_rankMin": 50.0,
+      "m_rankMax": 999.0,
+      "m_increment": 1.0,
+      "m_propertyType": 1,
+      "m_rarity": 0
+    },
+    {
+      "m_commandID": 16,
+      "m_rankMin": 0.01,
+      "m_rankMax": 0.1,
+      "m_increment": 0.005,
+      "m_propertyType": 1,
+      "m_rarity": 0
+    },
+    {
+      "m_commandID": 2,
+      "m_rankMin": 50.0,
+      "m_rankMax": 999.0,
+      "m_increment": 1.0,
+      "m_propertyType": 2,
+      "m_rarity": 0
+    },
+    {
+      "m_commandID": 3,
+      "m_rankMin": 0.01,
+      "m_rankMax": 0.1,
+      "m_increment": 0.005,
+      "m_propertyType": 2,
+      "m_rarity": 0
+    },
+    {
+      "m_commandID": 17,
+      "m_rankMin": 50.0,
+      "m_rankMax": 999.0,
+      "m_increment": 1.0,
+      "m_propertyType": 2,
+      "m_rarity": 0
+    },
+    {
+      "m_commandID": 18,
+      "m_rankMin": 0.01,
+      "m_rankMax": 0.1,
+      "m_increment": 0.005,
+      "m_propertyType": 2,
+      "m_rarity": 0
+    },
+    {
+      "m_commandID": 13,
+      "m_rankMin": 5.0,
+      "m_rankMax": 100.0,
+      "m_increment": 1.0,
+      "m_propertyType": 4,
+      "m_rarity": 20
+    },
+    {
+      "m_commandID": 14,
+      "m_rankMin": 0.15,
+      "m_rankMax": 0.75,
+      "m_increment": 0.001,
+      "m_propertyType": 4,
+      "m_rarity": 10
+    },
+    {
+      "m_commandID": 21,
+      "m_rankMin": 1.0,
+      "m_rankMax": 500.0,
+      "m_increment": 1.0,
+      "m_propertyType": 4,
+      "m_rarity": 20
+    },
+    {
+      "m_commandID": 22,
+      "m_rankMin": 10.0,
+      "m_rankMax": 500.0,
+      "m_increment": 1.0,
+      "m_propertyType": 4,
+      "m_rarity": 20
+    },
+    {
+      "m_commandID": 23,
+      "m_rankMin": 0.15,
+      "m_rankMax": 0.7,
+      "m_increment": 0.01,
+      "m_propertyType": 3,
+      "m_rarity": 10
+    },
+    {
+      "m_commandID": 19,
+      "m_rankMin": -0.1,
+      "m_rankMax": -3.0,
+      "m_increment": -0.1,
+      "m_propertyType": 3,
+      "m_rarity": 10
+    },
+    {
+      "m_commandID": 20,
+      "m_rankMin": -0.01,
+      "m_rankMax": -0.05,
+      "m_increment": -0.001,
+      "m_propertyType": 3,
+      "m_rarity": 10
+    },
+    {
+      "m_commandID": 26,
+      "m_rankMin": 0.05,
+      "m_rankMax": 0.3,
+      "m_increment": 0.001,
+      "m_propertyType": 1,
+      "m_rarity": 10
+    },
+    {
+      "m_commandID": 27,
+      "m_rankMin": 0.05,
+      "m_rankMax": 0.3,
+      "m_increment": 0.001,
+      "m_propertyType": 1,
+      "m_rarity": 10
+    },
+    {
+      "m_commandID": 28,
+      "m_rankMin": -0.1,
+      "m_rankMax": -0.2,
+      "m_increment": -0.001,
+      "m_propertyType": 3,
+      "m_rarity": 10
+    },
+    {
+      "m_commandID": 29,
+      "m_rankMin": 0.05,
+      "m_rankMax": 0.2,
+      "m_increment": 0.001,
+      "m_propertyType": 4,
+      "m_rarity": 10
+    },
+    {
+      "m_commandID": 36,
+      "m_rankMin": -0.1,
+      "m_rankMax": -0.35,
+      "m_increment": -0.001,
+      "m_propertyType": 2,
+      "m_rarity": 10
+    },
+    {
+      "m_commandID": 40,
+      "m_rankMin": 0.01,
+      "m_rankMax": 0.03,
+      "m_increment": 0.001,
+      "m_propertyType": 1,
+      "m_rarity": 10
+    },
+    {
+      "m_commandID": 41,
+      "m_rankMin": 0.01,
+      "m_rankMax": 0.03,
+      "m_increment": 0.001,
+      "m_propertyType": 1,
+      "m_rarity": 10
+    },
+    {
+      "m_commandID": 42,
+      "m_rankMin": 0.01,
+      "m_rankMax": 0.35,
+      "m_increment": 0.001,
+      "m_propertyType": 1,
+      "m_rarity": 10
+    },
+    {
+      "m_commandID": 43,
+      "m_rankMin": -0.01,
+      "m_rankMax": -0.35,
+      "m_increment": -0.001,
+      "m_propertyType": 1,
+      "m_rarity": 10
+    },
+    {
+      "m_commandID": 44,
+      "m_rankMin": -0.01,
+      "m_rankMax": -0.3,
+      "m_increment": -0.001,
+      "m_propertyType": 2,
+      "m_rarity": 10
+    },
+    {
+      "m_commandID": 45,
+      "m_rankMin": -0.01,
+      "m_rankMax": -0.35,
+      "m_increment": -0.001,
+      "m_propertyType": 2,
+      "m_rarity": 10
+    },
+    {
+      "m_commandID": 46,
+      "m_rankMin": 0.1,
+      "m_rankMax": 0.35,
+      "m_increment": 0.001,
+      "m_propertyType": 4,
+      "m_rarity": 10
+    },
+    {
+      "m_commandID": 48,
+      "m_rankMin": -0.05,
+      "m_rankMax": -0.3,
+      "m_increment": 0.001,
+      "m_propertyType": 2,
+      "m_rarity": 10
+    },
+    {
+      "m_commandID": 49,
+      "m_rankMin": -0.05,
+      "m_rankMax": -0.3,
+      "m_increment": 0.001,
+      "m_propertyType": 2,
+      "m_rarity": 10
+    }
+  ]
+}

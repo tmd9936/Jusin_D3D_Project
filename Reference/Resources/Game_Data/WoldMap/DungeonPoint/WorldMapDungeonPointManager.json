@@ -1,0 +1,72 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 102
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 1,
+    "m_PathID": 279
+  },
+  "m_Name": "",
+  "cameraIntervalTime": 0.7,
+  "dungeonPoints": [
+    {
+      "m_FileID": 0,
+      "m_PathID": 7300
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 7293
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 7299
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 7298
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 7294
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 7292
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 7301
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 7297
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 7296
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 7295
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 7104
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 7058
+    }
+  ],
+  "showTreasureTime": 1.5,
+  "legendDeadEnd": {
+    "m_FileID": 0,
+    "m_PathID": 136
+  },
+  "kouroDeadEnd": {
+    "m_FileID": 0,
+    "m_PathID": 29
+  }
+}

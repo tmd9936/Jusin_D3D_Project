@@ -1,0 +1,38 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 7508823954726310389
+  },
+  "m_Name": "PotentialPropertyNumSet",
+  "m_datas": [
+    {
+      "m_num": 1,
+      "m_weightMin": 100,
+      "m_weightMedian": 100,
+      "m_weightMax": 100
+    },
+    {
+      "m_num": 2,
+      "m_weightMin": 40,
+      "m_weightMedian": 45,
+      "m_weightMax": 50
+    },
+    {
+      "m_num": 3,
+      "m_weightMin": 10,
+      "m_weightMedian": 12,
+      "m_weightMax": 15
+    },
+    {
+      "m_num": 4,
+      "m_weightMin": 5,
+      "m_weightMedian": 6,
+      "m_weightMax": 7
+    }
+  ]
+}

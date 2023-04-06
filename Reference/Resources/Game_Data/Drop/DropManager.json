@@ -1,0 +1,24 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 31
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 1,
+    "m_PathID": 53
+  },
+  "m_Name": "",
+  "m_dropTargetItem": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_dropTargetStone": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_dropObjectPrefab": {
+    "m_FileID": 1,
+    "m_PathID": 68
+  }
+}

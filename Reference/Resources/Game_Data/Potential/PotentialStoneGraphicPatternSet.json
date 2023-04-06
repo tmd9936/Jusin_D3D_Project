@@ -1,0 +1,22 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": -234143615277842781
+  },
+  "m_Name": "PotentialStoneGraphicPatternSet",
+  "m_datas": [
+    {
+      "m_stoneGraphicType": 0,
+      "m_targetType": 1
+    },
+    {
+      "m_stoneGraphicType": 1,
+      "m_targetType": 2
+    }
+  ]
+}
