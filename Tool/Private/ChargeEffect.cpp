@@ -1,12 +1,16 @@
 #include "ChargeEffect.h"
 
+#include "Skill_Manager.h";
+
+#include "GameInstance.h"
+
 CChargeEffect::CChargeEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
-	: CEffect(pDevice, pContext)
+	: CSkillEffect(pDevice, pContext)
 {
 }
 
 CChargeEffect::CChargeEffect(const CChargeEffect& rhs)
-	: CEffect(rhs)
+	: CSkillEffect(rhs)
 {
 }
 
@@ -24,6 +28,7 @@ HRESULT CChargeEffect::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, vo
 	{
 		m_ChargeEffectDesc.chargeTime = (*(Charge_Effect_Desc*)(pArg)).chargeTime;
 		m_ChargeEffectDesc.nextAttackEffect = (*(Charge_Effect_Desc*)(pArg)).nextAttackEffect;
+		m_ChargeEffectDesc.nextAttackEffectPower = (*(Charge_Effect_Desc*)(pArg)).nextAttackEffectPower;
 
 		if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, &(*(Charge_Effect_Desc*)(pArg)).effectDesc)))
 			return E_FAIL;
@@ -65,12 +70,18 @@ CChargeEffect* CChargeEffect::Create(ID3D11Device* pDevice, ID3D11DeviceContext*
 
 void CChargeEffect::Charge_Time_Check(const _double& TimeDelta)
 {
-	if (m_ChargeTImeAcc > 0.0)
+	if (m_ChargeTimeAcc > 0.0)
 	{
-		m_ChargeTImeAcc -= TimeDelta;
+		m_ChargeTimeAcc -= TimeDelta;
 	}
 	else
 	{
+		CSkill_Manager* pSkill_Mananger = dynamic_cast<CSkill_Manager*>(CGameInstance::GetInstance()->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"Skill_Manager"));
+		if (nullptr != pSkill_Mananger)
+		{
+			/*pSkill_Mananger->Do_Skill(Get_LayerTag().c_str(), m_iLevelindex, m_ChargeEffectDesc.nextAttackEffect,
+				m_ChargeEffectDesc.nextAttackEffectPower, m_pTransformCom->Get_WorldMatrix_Matrix(), m_pModelCom, "RootNode", m_pTransformCom);*/
+		}
 
 		Set_Dead();
 	}

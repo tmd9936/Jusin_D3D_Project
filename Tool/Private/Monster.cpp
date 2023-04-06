@@ -390,12 +390,11 @@ void CMonster::Do_Skill(_uint skillType, const _tchar* pLayer)
 {
 	if (!m_bAttack)
 	{
-		CGameObject* pSkill_Mananger = CGameInstance::GetInstance()->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"Skill_Manager");
+		CSkill_Manager* pSkill_Mananger = dynamic_cast<CSkill_Manager*>(CGameInstance::GetInstance()->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"Skill_Manager"));
 		if (nullptr != pSkill_Mananger)
 		{	
-			dynamic_cast<CSkill_Manager*>(pSkill_Mananger)->Do_Skill(pLayer, m_iLevelindex, skillType,
-				m_pAttackCom->Get_AttackPower(), m_pTransformCom->Get_WorldMatrix_Matrix(), m_pModelCom, m_pTransformCom);
-
+			pSkill_Mananger->Do_Skill(pLayer, m_iLevelindex, skillType,
+				m_pAttackCom->Get_AttackPower(), m_pTransformCom->Get_WorldMatrix_Matrix(), m_pModelCom, "effect00", m_pTransformCom);
 		}
 	}
 }

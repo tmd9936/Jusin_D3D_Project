@@ -42,7 +42,7 @@ public:
 
 public:
 	CSkill* Do_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType, _uint damage,
-		_fmatrix vParentMatrix, CModel* pModel, CTransform* pParentTransform);
+		_fmatrix vParentMatrix, CModel* pModel, const char* boneTag, CTransform* pParentTransform);
 
 public:
 	CSkill* Create_Monster_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType, _uint damage, _fmatrix vParentMatrix, _float smallRotationSpeed, _float bigRotationSpeed, CBone* pParentBone, CTransform* pParentTransform, _fmatrix PivotMatrix, _bool bRush, _double rushSpeed, _uint extendNum);

@@ -35,21 +35,51 @@ public:
 public:
 	typedef struct Effect_Desc
 	{
-		wstring	m_effectPath;
-		wstring	m_ProtoTypeTag;
-		wstring	m_exPath1;
-		wstring	m_exPath2;
-		_uint	m_effectType;
-		_uint	m_actionType;
-		_uint	m_soundEventID;
-		wstring	m_soundEventTag;
-		_uint	m_underFlag;
-		_uint	m_bCollision;
-		_double	m_AnimationLoopTime;
+		wstring					m_effectPath;
+		wstring					m_ProtoTypeTag;
+		wstring					m_exPath1;
+		wstring					m_exPath2;
+		_uint					m_effectType;
+		_uint					m_actionType;
+		_uint					m_soundEventID;
+		wstring					m_soundEventTag;
+		_uint					m_underFlag;
+		_uint					m_bCollision;
+		_double					m_AnimationLoopTime;
 
-		CBone*		pBonePtr = { nullptr };
-		CTransform* pParent = { nullptr };
-		_float4x4	PivotMatrix;
+		_bool					m_IsParts = { false };
+		_bool					m_IsHomming = { false };
+		_bool					m_bParentRotateApply = { true };
+
+		_bool					m_SmallRotation = { false };
+		_float					m_SmallRotationSpeed = { 0.f };
+
+		_bool					m_BigRotation = { false };
+		_float					m_BigRotationRadius = { 0.f };
+		_float					m_BigRotationSpeed = { 0.f };
+
+		_float4x4				m_FinalWorldMatrix = {}; /* 원점기준 (내 월드 * 부모월드) */
+
+		_double					m_AnimationStartAcc = { 0.0 };
+
+		_int					m_LoopCount = { 0 };
+		_int					m_CurrentLoopCount = { 0 };
+
+		_double					m_AnimationSpeed = { 1.0 };
+
+		_bool					m_bRush = { false };
+		_vector					m_vRushDirection = {};
+		_double					m_RushSpeed = { 1.0 };
+
+		_bool					m_bHomming = { false };
+		_bool					m_bArriveHomeDead = { false };
+		HOMMING_STATE			m_eHommingState = { HOMMING_END };
+
+		_bool					m_bKnockBack = { false };
+
+		CBone*					pBonePtr = { nullptr };
+		CTransform*				pParent = { nullptr };
+		_float4x4				PivotMatrix;
 
 	} EFFECT_DESC;
 
@@ -79,51 +109,51 @@ public:
 	void	Set_SmallRotation(_float speed) {
 		if (speed > 0.f)
 		{
-			m_SmallRotation = true;
-			m_SmallRotationSpeed = speed;
+			m_EffectDesc.m_SmallRotation = true;
+			m_EffectDesc.m_SmallRotationSpeed = speed;
 		}
 	}
 
 	void	Set_BigRotation(_float speed, _float radius) {
 		if (speed > 0.f)
 		{
-			m_BigRotation = true;
-			m_BigRotationSpeed = speed;
-			m_BigRotationRadius = radius;
+			m_EffectDesc.m_BigRotation = true;
+			m_EffectDesc.m_BigRotationSpeed = speed;
+			m_EffectDesc.m_BigRotationRadius = radius;
 		}
 	}
 
 	void	Init_LoopCount(_uint loopCount) {
-		m_LoopCount = loopCount;
-		m_CurrentLoopCount = loopCount;
+		m_EffectDesc.m_LoopCount = loopCount;
+		m_EffectDesc.m_CurrentLoopCount = loopCount;
 	}
 
 	void	Set_AnimaitonStartTime(_double time);
 
 	void	Set_Animation_Speed(_double speed) {
-		m_AnimationSpeed = speed;
+		m_EffectDesc.m_AnimationSpeed = speed;
 	}
 
 	void	Set_ParentRotateApply(_bool parentRotateApply) {
-		m_bParentRotateApply = parentRotateApply;
+		m_EffectDesc.m_bParentRotateApply = parentRotateApply;
 	}
 
 	void	Set_Homming(_bool bHomming, _bool bArriveHomeDead, HOMMING_STATE eHommingState) {
-		m_bHomming = bHomming;
-		m_bArriveHomeDead = bArriveHomeDead;
-		m_eHommingState = eHommingState;
+		m_EffectDesc.m_bHomming = bHomming;
+		m_EffectDesc.m_bArriveHomeDead = bArriveHomeDead;
+		m_EffectDesc.m_eHommingState = eHommingState;
 	}
 
 	void	Set_Rush(_bool bRush, _fvector vRushDirection, _double rushSpeed) {
-		m_bRush = bRush;
-		m_vRushDirection = vRushDirection;
-		m_RushSpeed = rushSpeed;
+		m_EffectDesc.m_bRush = bRush;
+		m_EffectDesc.m_vRushDirection = vRushDirection;
+		m_EffectDesc.m_RushSpeed = rushSpeed;
 	}
 
 	void	Set_AttackPower(_uint attackPower);
 
 	void	Set_KnockBack(_bool knockBack) {
-		m_bKnockBack = knockBack;
+		m_EffectDesc.m_bKnockBack = knockBack;
 	}
 
 protected:
@@ -138,58 +168,26 @@ protected:
 	}
 
 protected:
-	void		Attack_Time_Check(const _double& TimeDelta);
 	void		Loop_Count_Check(const _double& TimeDelta);
+	void		Attack_Time_Check(const _double& TimeDelta);
 	void		Small_Rotation(const _double& TimeDelta);
 	void		Rush(const _double& TimeDelta);
 	void		Homming(const _double& TimeDelta);
 	void		Big_Rotation(const _double& TimeDelta);
 
 protected:
-	CTransform*		m_pTransformCom = { nullptr };
-	CRenderer*		m_pRendererCom = { nullptr };
-	CShader*		m_pShaderCom = { nullptr };
-	CModel*			m_pModelCom = { nullptr };
-	CCollider*		m_pColliderCom = { nullptr };
-	CNavigation*	m_pNavigationCom = { nullptr };
-	CAttack*		m_pAttackCom = { nullptr };
+	CTransform*				m_pTransformCom = { nullptr };
+	CRenderer*				m_pRendererCom = { nullptr };
+	CShader*				m_pShaderCom = { nullptr };
+	CModel*					m_pModelCom = { nullptr };
+	CCollider*				m_pColliderCom = { nullptr };
+	CNavigation*			m_pNavigationCom = { nullptr };
+	CAttack*				m_pAttackCom = { nullptr };
 
 protected:
 	EFFECT_DESC				m_EffectDesc = {};
 
 	_double					m_CurrentAnimationAcc = { 0.0 };
-
-	wstring					m_EffectTypeName = {};
-
-	_bool					m_IsParts = { false };
-	_bool					m_IsHomming = { false };
-	_bool					m_bParentRotateApply = { true };
-
-	_bool					m_SmallRotation = { false };
-	_float					m_SmallRotationSpeed = { 0.f };
-
-	_bool					m_BigRotation = { false };
-	_float					m_BigRotationRadius = { 0.f };
-	_float					m_BigRotationSpeed = { 0.f };
-
-	_float4x4				m_FinalWorldMatrix = {}; /* 원점기준 (내 월드 * 부모월드) */
-
-	_double					m_AnimationStartAcc = { 0.0 };
-
-	_int					m_LoopCount = { 0 };
-	_int					m_CurrentLoopCount = { 0 };
-
-	_double					m_AnimationSpeed = { 1.0 };
-
-	_bool					m_bRush = { false };
-	_vector					m_vRushDirection = {};
-	_double					m_RushSpeed = { 1.0 };
-
-	_bool					m_bHomming = { false };
-	_bool					m_bArriveHomeDead = { false };
-	HOMMING_STATE			m_eHommingState = { HOMMING_END };
-
-	_bool					m_bKnockBack = { false };
 
 	_double					m_AttackTime = { 1.0 };
 	_double					m_AttackTimeAcc = { 0.0 };

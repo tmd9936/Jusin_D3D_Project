@@ -108,9 +108,9 @@ CEffect* CEffect_Manager::Create_Effect(_uint effectType, const _tchar* pLayerTa
 	if (0 == effect_Desc.m_effectPath.compare(L"E_EF_Charge"))
 	{
 		pEffect->Set_ParentRotateApply(false);
-		pEffect->Set_AnimaitonStartTime(19.7);
-		pEffect->Init_LoopCount(3);
-		pEffect->Set_Animation_Speed(2.2);
+		pEffect->Set_AnimaitonStartTime(0);
+		pEffect->Init_LoopCount(1);
+		pEffect->Set_Animation_Speed(1.2);
 	}
 	else if (0 == effect_Desc.m_effectPath.compare(L"E_BGB_Denki"))
 	{

@@ -66,7 +66,7 @@ _uint CEffect::Tick(_double TimeDelta)
 {
 	if (m_bDead)
 		return OBJ_DEAD;
-	if (m_CurrentLoopCount < 0)
+	if (m_EffectDesc.m_CurrentLoopCount < 0)
 		return OBJ_DEAD;
 
 	Attack_Time_Check(TimeDelta);
@@ -92,16 +92,17 @@ _uint CEffect::LateTick(_double TimeDelta)
 
 		REMOVE_SCALE(ParentMatrix)
 
-		if (m_bParentRotateApply)
-			XMStoreFloat4x4(&m_FinalWorldMatrix, m_pTransformCom->Get_WorldMatrix_Matrix() * ParentMatrix * m_EffectDesc.pParent->Get_WorldMatrix_Matrix());
+		if (m_EffectDesc.m_bParentRotateApply)
+			XMStoreFloat4x4(&m_EffectDesc.m_FinalWorldMatrix, m_pTransformCom->Get_WorldMatrix_Matrix() * ParentMatrix * m_EffectDesc.pParent->Get_WorldMatrix_Matrix());
 		else
-			XMStoreFloat4x4(&m_FinalWorldMatrix, m_pTransformCom->Get_WorldMatrix_Matrix() * m_EffectDesc.pParent->Get_Position_Matrix());
+			XMStoreFloat4x4(&m_EffectDesc.m_FinalWorldMatrix, m_pTransformCom->Get_WorldMatrix_Matrix() * m_EffectDesc.pParent->Get_Position_Matrix());
 
 
 		if (m_pColliderCom)
-			m_pColliderCom->Tick(XMLoadFloat4x4(&m_FinalWorldMatrix));
+			m_pColliderCom->Tick(XMLoadFloat4x4(&m_EffectDesc.m_FinalWorldMatrix));
 
-		m_pNavigationCom->Set_Index_By_Position({ m_FinalWorldMatrix.m[3][0], m_FinalWorldMatrix.m[3][1], m_FinalWorldMatrix.m[3][2] });
+		m_pNavigationCom->Set_Index_By_Position({ m_EffectDesc.m_FinalWorldMatrix.m[3][0], 
+			m_EffectDesc.m_FinalWorldMatrix.m[3][1], m_EffectDesc.m_FinalWorldMatrix.m[3][2] });
 	}
 	else
 	{
@@ -173,7 +174,7 @@ void CEffect::On_Collision(CCollider* pOther, const _float& fX, const _float& fY
 			}
 		}
 
-		if (m_bKnockBack)
+		if (m_EffectDesc.m_bKnockBack)
 		{
 			CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
 			if (!pOtherTransform)
@@ -234,7 +235,7 @@ void CEffect::On_CollisionEnter(CCollider* pOther, const _float& fX, const _floa
 			}
 		}
 
-		if (m_bKnockBack)
+		if (m_EffectDesc.m_bKnockBack)
 		{
 			_vector vDestCenter = m_pColliderCom->Get_Center();
 			_vector vSourCenter = pOther->Get_Center();
@@ -300,15 +301,15 @@ void CEffect::Set_Parent(CBone* pBoneParent, CTransform* pTransformParent, _floa
 	Set_ParentBone(pBoneParent);
 	Set_ParentTransform(pTransformParent);
 
-	m_IsParts = true;
+	m_EffectDesc.m_IsParts = true;
 }
 
 void CEffect::Set_AnimaitonStartTime(_double time)
 {
-	m_AnimationStartAcc = time;
+	m_EffectDesc.m_AnimationStartAcc = time;
 	if (m_pModelCom)
 	{
-		m_pModelCom->Set_Animation_Start_Time(m_AnimationStartAcc);
+		m_pModelCom->Set_Animation_Start_Time(m_EffectDesc.m_AnimationStartAcc);
 	}
 }
 
@@ -328,34 +329,34 @@ void CEffect::Attack_Time_Check(const _double& TimeDelta)
 
 void CEffect::Loop_Count_Check(const _double& TimeDelta)
 {
-	if (m_pModelCom->Play_Animation(TimeDelta * m_AnimationSpeed))
+	if (m_pModelCom->Play_Animation(TimeDelta * m_EffectDesc.m_AnimationSpeed))
 	{
-		m_pModelCom->Set_Animation_Start_Time(m_AnimationStartAcc);
+		m_pModelCom->Set_Animation_Start_Time(m_EffectDesc.m_AnimationStartAcc);
 
-		--m_CurrentLoopCount;
+		--m_EffectDesc.m_CurrentLoopCount;
 	}
 }
 
 void CEffect::Small_Rotation(const _double& TimeDelta)
 {
-	if (m_SmallRotation)
+	if (m_EffectDesc.m_SmallRotation)
 	{
-		m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), (_float)(TimeDelta * m_SmallRotationSpeed));
+		m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), (_float)(TimeDelta * m_EffectDesc.m_SmallRotationSpeed));
 	}
 }
 
 void CEffect::Rush(const _double& TimeDelta)
 {
-	if (m_bRush)
+	if (m_EffectDesc.m_bRush)
 	{
 		_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-		m_pTransformCom->Go_Straight((_float)(TimeDelta * m_RushSpeed), m_pNavigationCom);
+		m_pTransformCom->Go_Straight((_float)(TimeDelta * m_EffectDesc.m_RushSpeed));
 	}
 }
 
 void CEffect::Homming(const _double& TimeDelta)
 {
-	if (m_bHomming)
+	if (m_EffectDesc.m_bHomming)
 	{
 		_vector vDir = {};
 		_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -369,20 +370,20 @@ void CEffect::Homming(const _double& TimeDelta)
 			vParentPos = XMVectorSet(0.f, 0.f, 0.f, 1.f);
 		}
 
-		switch (m_eHommingState)
+		switch (m_EffectDesc.m_eHommingState)
 		{
 		case HOMMING_OUT:
 			vDir = XMVector3Normalize(vPos - vParentPos);
-			if (m_pTransformCom->Get_Positin_Length() >= m_BigRotationRadius)
+			if (m_pTransformCom->Get_Positin_Length() >= m_EffectDesc.m_BigRotationRadius)
 			{
-				m_eHommingState = HOMMING_IN;
+				m_EffectDesc.m_eHommingState = HOMMING_IN;
 			}
 			break;
 		case HOMMING_IN:
 			vDir = XMVector3Normalize(vParentPos - vPos);
 			if (XMVectorGetX(XMVector3Length(vParentPos - vPos)) <= 0.3f)
 			{
-				m_eHommingState = HOMMING_OUT;
+				m_EffectDesc.m_eHommingState = HOMMING_OUT;
 			}
 			break;
 		}
@@ -394,12 +395,12 @@ void CEffect::Homming(const _double& TimeDelta)
 
 void CEffect::Big_Rotation(const _double& TimeDelta)
 {
-	if (m_BigRotation)
+	if (m_EffectDesc.m_BigRotation)
 	{
 		_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		_vector vUp = { 0.f, 1.f, 0.f, 0.f };
 
-		_matrix BigRot = XMMatrixRotationQuaternion(XMQuaternionRotationAxis(vUp, XMConvertToRadians(m_BigRotationSpeed)));
+		_matrix BigRot = XMMatrixRotationQuaternion(XMQuaternionRotationAxis(vUp, XMConvertToRadians(m_EffectDesc.m_BigRotationSpeed)));
 
 		vPos = XMVector3TransformCoord(vPos, BigRot);
 
@@ -465,14 +466,14 @@ HRESULT CEffect::Add_Components()
 
 HRESULT CEffect::SetUp_ShaderResources()
 {
-	if (!m_IsParts)
+	if (!m_EffectDesc.m_IsParts)
 	{
 		if (FAILED(m_pShaderCom->Set_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
 			return E_FAIL;
 	}
 	else
 	{
-		if (FAILED(m_pShaderCom->Set_Matrix("g_WorldMatrix", &m_FinalWorldMatrix)))
+		if (FAILED(m_pShaderCom->Set_Matrix("g_WorldMatrix", &m_EffectDesc.m_FinalWorldMatrix)))
 			return E_FAIL;
 	}
 

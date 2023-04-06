@@ -1,17 +1,24 @@
 #pragma once
-#include "Effect.h"
+
+#include "SkillEffect.h"
+
+BEGIN(Client)
+
+class CSkill_Manager;
+
 class CChargeEffect :
-    public CEffect
+    public CSkillEffect
 {
 public:
     typedef struct Charge_Effect_Desc
     {
-        _uint       nextAttackEffect;
-        _double     chargeTime;
+		_uint       nextAttackEffect = { 0 };
+		_uint       nextAttackEffectPower = { 0 };
+		_double     chargeTime = { 0.0 };
 
 		EFFECT_DESC	effectDesc;
 
-    }CHARGE_EFFECT_DESC;
+    } CHARGE_EFFECT_DESC;
 
 private:
 	CChargeEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -25,21 +32,19 @@ public:
 	virtual _uint Tick(_double TimeDelta) override;
 	virtual _uint LateTick(_double TimeDelta) override;
 
-	friend CLoader;
-	static CChargeEffect* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-
 protected:
 	void		Charge_Time_Check(const _double& TimeDelta);
 
 protected:
-	_double		m_ChargeTImeAcc = { 0.0 };
-
-protected:
 	CHARGE_EFFECT_DESC	m_ChargeEffectDesc = {};
+	_double				m_ChargeTimeAcc = { 0.0 };
 
 public:
+	friend CLoader;
+	static CChargeEffect* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) override;
 	virtual void Free() override;
 
 };
 
+END
