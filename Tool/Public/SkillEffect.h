@@ -22,13 +22,6 @@ class CSkillEffect : public CGameObject
 public:
 	enum ACTION_TYPE { ACTION_ATTACK, ACTION_NONE, ACTION_MIND, ACTION_LOOP, ACTION_END };
 
-	enum HOMMING_STATE
-	{
-		HOMMING_OUT,
-		HOMMING_IN,
-		HOMMING_END
-	};
-
 public:
 	typedef struct Effect_Desc
 	{
@@ -41,7 +34,6 @@ public:
 		_uint					m_soundEventID;
 		wstring					m_soundEventTag;
 		_uint					m_underFlag;
-
 
 		_bool					m_IsParts = { false };
 		_bool					m_bParentRotateApply = { true };
@@ -106,6 +98,10 @@ protected:
 	}
 
 protected:
+	/// <summary>
+	/// 여기에서 이펙트의 애니메이션을 재생하고 정해진 루프 카운터를 감소시킴
+	/// </summary>
+	/// <param name="TimeDelta"></param>
 	void		Loop_Count_Check(const _double& TimeDelta);
 
 protected:

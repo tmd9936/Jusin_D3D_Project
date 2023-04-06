@@ -12,9 +12,9 @@ class CChargeEffect :
 public:
     typedef struct Charge_Effect_Desc
     {
-		_uint       nextAttackEffect = { 0 };
-		_uint       nextAttackEffectPower = { 0 };
-		_double     chargeTime = { 0.0 };
+		_uint       m_NextAttackEffectType = { 0 };
+		_uint       m_NextAttackEffectPower = { 0 };
+		_double     m_ChargeTime = { 0.0 };
 
 		EFFECT_DESC	effectDesc;
 

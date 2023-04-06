@@ -66,6 +66,7 @@ _uint CEffect::Tick(_double TimeDelta)
 {
 	if (m_bDead)
 		return OBJ_DEAD;
+
 	if (m_EffectDesc.m_CurrentLoopCount < 0)
 		return OBJ_DEAD;
 

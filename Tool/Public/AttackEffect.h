@@ -46,7 +46,7 @@ public:
 
 	} ATTACK_EFFECT_DESC;
 
-private:
+protected:
 	CAttackEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CAttackEffect(const CAttackEffect& rhs);
 	virtual ~CAttackEffect() = default;
@@ -64,7 +64,11 @@ public:
 	virtual void On_CollisionExit(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
 
 protected:
+	virtual HRESULT Add_Components();
+
+protected:
 	void		Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
+	void		Attack_Time_Check(const _double& TimeDelta);
 
 protected:
 	ATTACK_EFFECT_DESC	m_AttackEffectDesc = {};

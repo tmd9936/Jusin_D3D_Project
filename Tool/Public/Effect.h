@@ -170,8 +170,8 @@ protected:
 protected:
 	void		Loop_Count_Check(const _double& TimeDelta);
 	void		Attack_Time_Check(const _double& TimeDelta);
-	void		Small_Rotation(const _double& TimeDelta);
 	void		Rush(const _double& TimeDelta);
+	void		Small_Rotation(const _double& TimeDelta);
 	void		Homming(const _double& TimeDelta);
 	void		Big_Rotation(const _double& TimeDelta);
 

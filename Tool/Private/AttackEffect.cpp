@@ -27,6 +27,9 @@ HRESULT CAttackEffect::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, vo
 	if (nullptr != pArg)
 	{
 		m_AttackEffectDesc.m_bKnockBack = (*(ATTACK_EFFECT_DESC*)(pArg)).m_bKnockBack;
+		m_AttackEffectDesc.m_AttackTime = (*(ATTACK_EFFECT_DESC*)(pArg)).m_AttackTime;
+		m_AttackEffectDesc.m_bContinue = (*(ATTACK_EFFECT_DESC*)(pArg)).m_bContinue;
+		m_AttackEffectDesc.m_CollisionEffectNum = (*(ATTACK_EFFECT_DESC*)(pArg)).m_CollisionEffectNum;
 
 		if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, &(*(ATTACK_EFFECT_DESC*)(pArg)).effectDesc)))
 			return E_FAIL;
@@ -42,14 +45,36 @@ HRESULT CAttackEffect::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, vo
 
 _uint CAttackEffect::Tick(_double TimeDelta)
 {
-	if (m_bDead)
-		return OBJ_DEAD;
+	__super::Tick(TimeDelta);
+
+	Attack_Time_Check(TimeDelta);
 
 	return _uint();
 }
 
 _uint CAttackEffect::LateTick(_double TimeDelta)
 {
+	__super::LateTick(TimeDelta);
+
+	if (nullptr != m_EffectDesc.pBonePtr && nullptr != m_EffectDesc.pParent)
+	{
+		if (m_pColliderCom)
+			m_pColliderCom->Tick(XMLoadFloat4x4(&m_EffectDesc.m_FinalWorldMatrix));
+	}
+	else
+	{
+		if (m_pColliderCom)
+			m_pColliderCom->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
+	}
+
+#ifdef _DEBUG
+	if (m_pColliderCom)
+		m_pColliderCom->Render();
+
+	m_pNavigationCom->Render();
+
+#endif // _DEBUG
+
 	return _uint();
 }
 
@@ -66,6 +91,30 @@ void CAttackEffect::On_Collision(CCollider* pOther, const _float& fX, const _flo
 
 void CAttackEffect::On_CollisionExit(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
 {
+}
+
+HRESULT CAttackEffect::Add_Components()
+{
+	__super::Add_Components();
+
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	CCollider::COLLIDER_DESC		ColliderDesc;
+	ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
+	ColliderDesc.vScale = _float3(2.2f, 2.0f, 2.2f);
+	ColliderDesc.vPosition = _float3(0.0f, ColliderDesc.vScale.y * 0.5f, 0.f);
+	if (FAILED(pGameInstance->Add_Component(CCollider::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"),
+		(CComponent**)&m_pColliderCom, &ColliderDesc)))
+		return E_FAIL;
+
+	CAttack::ATTACK_DESC attackDesc = {};
+	attackDesc.m_AttackPower = 0;
+
+	if (FAILED(pGameInstance->Add_Component(CAttack::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Attack"),
+		(CComponent**)&m_pAttackCom, &attackDesc)))
+		return E_FAIL;
+
+	return S_OK;
 }
 
 void CAttackEffect::Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
@@ -93,6 +142,8 @@ void CAttackEffect::Collision(CCollider* pOther, const _float& fX, const _float&
 						Set_Dead();
 					}
 
+					// TODO:: 콜리전 이펙트 생성
+
 					m_AttackTimeAcc = m_AttackEffectDesc.m_AttackTime;
 				}
 			}
@@ -105,7 +156,6 @@ void CAttackEffect::Collision(CCollider* pOther, const _float& fX, const _float&
 				return;
 
 			CNavigation* pNavigationCom = pOtherOwner->Get_As<CNavigation>();
-
 
 			if (fX > fZ)
 			{
@@ -135,6 +185,12 @@ void CAttackEffect::Collision(CCollider* pOther, const _float& fX, const _float&
 			}
 		}
 	}
+}
+
+void CAttackEffect::Attack_Time_Check(const _double& TimeDelta)
+{
+	if (m_AttackTimeAcc > 0.0)
+		m_AttackTimeAcc -= TimeDelta;
 }
 
 CAttackEffect* CAttackEffect::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

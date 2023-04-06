@@ -26,9 +26,9 @@ HRESULT CChargeEffect::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, vo
 {
 	if (nullptr != pArg)
 	{
-		m_ChargeEffectDesc.chargeTime = (*(Charge_Effect_Desc*)(pArg)).chargeTime;
-		m_ChargeEffectDesc.nextAttackEffect = (*(Charge_Effect_Desc*)(pArg)).nextAttackEffect;
-		m_ChargeEffectDesc.nextAttackEffectPower = (*(Charge_Effect_Desc*)(pArg)).nextAttackEffectPower;
+		m_ChargeEffectDesc.m_NextAttackEffectType = (*(Charge_Effect_Desc*)(pArg)).m_NextAttackEffectType;
+		m_ChargeEffectDesc.m_NextAttackEffectPower = (*(Charge_Effect_Desc*)(pArg)).m_NextAttackEffectPower;
+		m_ChargeEffectDesc.m_ChargeTime = (*(Charge_Effect_Desc*)(pArg)).m_ChargeTime;
 
 		if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, &(*(Charge_Effect_Desc*)(pArg)).effectDesc)))
 			return E_FAIL;
@@ -70,9 +70,9 @@ CChargeEffect* CChargeEffect::Create(ID3D11Device* pDevice, ID3D11DeviceContext*
 
 void CChargeEffect::Charge_Time_Check(const _double& TimeDelta)
 {
-	if (m_ChargeTimeAcc > 0.0)
+	if (m_ChargeTimeAcc < m_ChargeEffectDesc.m_ChargeTime)
 	{
-		m_ChargeTimeAcc -= TimeDelta;
+		m_ChargeTimeAcc += TimeDelta;
 	}
 	else
 	{
