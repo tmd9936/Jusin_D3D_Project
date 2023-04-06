@@ -65,24 +65,14 @@ _uint CHpBar::LateTick(_double TimeDelta)
 	XMStoreFloat4x4(&ParentMat, m_Desc.pParent->Get_WorldMatrix_Matrix());
 	XMStoreFloat4x4(&ParentMat, XMLoadFloat4x4(&ParentMat) * viewMatrix * projMatrix * ViewPortMatrix);
 
-	//_float ParentScaleXRatio = XMVectorGetX(XMVector3Length((XMLoadFloat4x4(&ParentMat).r[0]))) / g_iWinSizeX;
-	//_float ParentScaleYRatio = XMVectorGetX(XMVector3Length((XMLoadFloat4x4(&ParentMat).r[1]))) / g_iWinSizeY;
-	//_float ParentScaleZRatio = XMVectorGetX(XMVector3Length((XMLoadFloat4x4(&ParentMat).r[2])));
-
-	//_float ScaleRatio = ParentMat.m[3][3] / ParentMat.m[3][2];
-
 	_float3 vScale = m_pTransformCom->Get_Scaled();
-	_float4 r = { vScale.x, 0.f, 0.f, 0.f };
-	_float4 u = { 0.f, vScale.y, 0.f, 0.f };
-	_float4 l = { 0.f, 0.f, 1.f, 0.f };
-	_float4 p = { ParentMat.m[3][0] / ParentMat.m[3][2], ParentMat.m[3][1] / ParentMat.m[3][2], 0.1f, 1.f };
 
-	memcpy(ParentMat.m[0], &r, sizeof _float4);
-	memcpy(ParentMat.m[1], &u, sizeof _float4);
-	memcpy(ParentMat.m[2], &l, sizeof _float4);
-	memcpy(ParentMat.m[3], &p, sizeof _float4);
-
-	m_FinalWorldMatrix = ParentMat;
+	XMStoreFloat4x4(&m_FinalWorldMatrix, XMMatrixSet(
+		vScale.x, 0.f, 0.f, 0.f,
+		0.f, vScale.y, 0.f, 0.f,
+		0.f, 0.f, 1.f, 0.f,
+		(ParentMat.m[3][0]) / ParentMat.m[3][2], (ParentMat.m[3][1]) / ParentMat.m[3][2], 0.f, 1.f
+	));
 
 	m_FinalWorldMatrix.m[3][0] = m_FinalWorldMatrix.m[3][0] - g_iWinSizeX * 0.5f;
 	m_FinalWorldMatrix.m[3][1] = -m_FinalWorldMatrix.m[3][1] + g_iWinSizeY * 0.5f;
