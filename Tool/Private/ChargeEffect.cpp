@@ -30,6 +30,10 @@ HRESULT CChargeEffect::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, vo
 		m_ChargeEffectDesc.m_NextAttackEffectPower = (*(Charge_Effect_Desc*)(pArg)).m_NextAttackEffectPower;
 		m_ChargeEffectDesc.m_ChargeTime = (*(Charge_Effect_Desc*)(pArg)).m_ChargeTime;
 
+		m_ChargeEffectDesc.m_HommingAttacEffectDesc = (*(Charge_Effect_Desc*)(pArg)).m_HommingAttacEffectDesc;
+		m_ChargeEffectDesc.m_RushAttacEffectDesc = (*(Charge_Effect_Desc*)(pArg)).m_RushAttacEffectDesc;
+		m_ChargeEffectDesc.m_NormalAtackDesc = (*(Charge_Effect_Desc*)(pArg)).m_NormalAtackDesc;
+
 		if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, &(*(Charge_Effect_Desc*)(pArg)).effectDesc)))
 			return E_FAIL;
 	}

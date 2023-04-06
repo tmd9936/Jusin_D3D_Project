@@ -12,21 +12,18 @@ class CSkill_Manager;
 class CChargeEffect :
     public CSkillEffect
 {
-	enum NEXT_ATTACK_TYPE
-	{
-		ATTACK_NORMAL,
-		ATTACK_HOMMING,
-		ATTACK_RUSH,
-		ATTACK_END
-	};
 
 public:
     typedef struct Charge_Effect_Desc
     {
-		NEXT_ATTACK_TYPE	m_NextAttackEffectType = { ATTACK_END };
+		ATTACK_TYPE	m_NextAttackEffectType = { ATTACK_END };
 		_uint       m_NextAttackEffect = { 0 };
 		_uint       m_NextAttackEffectPower = { 0 };
 		_double     m_ChargeTime = { 0.0 };
+
+		CHommingAttackEffect::HOMMING_ATTACK_EFFECT_DESC  m_HommingAttacEffectDesc = {};
+		CRushAttackEffect::RUSH_ATTACK_EFFECT_DESC  m_RushAttacEffectDesc = {};
+		CAttackEffect::ATTACK_EFFECT_DESC m_NormalAtackDesc = {};
 
 		EFFECT_DESC	effectDesc;
 
@@ -44,15 +41,13 @@ public:
 	virtual _uint Tick(_double TimeDelta) override;
 	virtual _uint LateTick(_double TimeDelta) override;
 
+public:
+
 protected:
 	void		Charge_Time_Check(const _double& TimeDelta);
 
 protected:
 	CHARGE_EFFECT_DESC	m_ChargeEffectDesc = {};
-
-	CHommingAttackEffect::HOMMING_ATTACK_EFFECT_DESC  m_HommingAttacEffectDesc = {};
-	CRushAttackEffect::RUSH_ATTACK_EFFECT_DESC  m_RushAttacEffectDesc = {};
-	CAttackEffect::ATTACK_EFFECT_DESC m_NormalAtackDesc = {};
 
 	_double				m_ChargeTimeAcc = { 0.0 };
 

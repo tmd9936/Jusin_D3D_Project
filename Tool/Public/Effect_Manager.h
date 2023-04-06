@@ -38,6 +38,8 @@ public:
 
 	HRESULT	Create_Charge_Effect(_uint effectType, const _tchar* pLayerTag, _uint iLevelIndex, CChargeEffect::CHARGE_EFFECT_DESC& chargeEffectDesc);
 
+	//HRESULT	Create_Attack_Effect(_uint effectType, const _tchar* pLayerTag, _uint iLevelIndex, ATTACK_TYPE attackType);
+
 public:
 	void	Get_Effect_Desces(vector<CEffect::EFFECT_DESC>& Effect_Descs);
 
