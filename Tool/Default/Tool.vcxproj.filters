@@ -112,12 +112,6 @@
     <Filter Include="02. GameObject\Static\Mouse">
       <UniqueIdentifier>{8a2c3441-f0b3-48ea-a613-c9ff1f859d27}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\Static\Effect">
-      <UniqueIdentifier>{be9f8978-f02c-438a-a2f4-fc6971dd938a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\Static\Effect\Effect_Manager">
-      <UniqueIdentifier>{e994c659-68b1-471e-bbe4-f1aabd47ff64}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\Static\Camera">
       <UniqueIdentifier>{d0cd6129-d1d0-4c79-a307-aac1f29c9e76}</UniqueIdentifier>
     </Filter>
@@ -214,8 +208,26 @@
     <Filter Include="01. Levels\Loading\ThreadPool">
       <UniqueIdentifier>{5a888ec3-0cf6-486b-b72e-b6f7d3a8a3e5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\Static\Effect\ChargeEffect">
+    <Filter Include="02. GameObject\Static\SkillEffect">
+      <UniqueIdentifier>{28867231-d01b-4a79-815e-5bb12a37acab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\SkillEffect\ChargeEffect">
       <UniqueIdentifier>{ce025559-1bd1-4e4c-8c79-e3f743dbe1ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\SkillEffect\AttackEffect">
+      <UniqueIdentifier>{b3621bb1-cd9e-44e1-b362-95b751748e72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Effect">
+      <UniqueIdentifier>{be9f8978-f02c-438a-a2f4-fc6971dd938a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Effect\Effect_Manager">
+      <UniqueIdentifier>{e994c659-68b1-471e-bbe4-f1aabd47ff64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\SkillEffect\AttackEffect\HommingAttackEffect">
+      <UniqueIdentifier>{b3f1bc40-4efc-452f-af0a-a73ed4071f0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\SkillEffect\AttackEffect\RushAttackEffect">
+      <UniqueIdentifier>{ac646f25-573a-429d-844e-d509bf164562}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -420,11 +432,23 @@
     <ClInclude Include="..\Public\ThreadPool.h">
       <Filter>01. Levels\Loading\ThreadPool</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\ChargeEffect.h">
+      <Filter>02. GameObject\Static\SkillEffect\ChargeEffect</Filter>
+    </ClInclude>
     <ClInclude Include="..\Public\Skill.h">
       <Filter>02. GameObject\Static\Skill</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\ChargeEffect.h">
-      <Filter>02. GameObject\Static\Effect\ChargeEffect</Filter>
+    <ClInclude Include="..\Public\SkillEffect.h">
+      <Filter>02. GameObject\Static\SkillEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AttackEffect.h">
+      <Filter>02. GameObject\Static\SkillEffect\AttackEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\HommingAttackEffect.h">
+      <Filter>02. GameObject\Static\SkillEffect\AttackEffect\HommingAttackEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RushAttackEffect.h">
+      <Filter>02. GameObject\Static\SkillEffect\AttackEffect\RushAttackEffect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -564,9 +588,6 @@
     <ClCompile Include="..\Private\Effect_Manager.cpp">
       <Filter>02. GameObject\Static\Effect\Effect_Manager</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Skill.cpp">
-      <Filter>02. GameObject\Static\Skill</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Skill_Manager.cpp">
       <Filter>02. GameObject\Static\Skill\Skill_Manager</Filter>
     </ClCompile>
@@ -634,7 +655,22 @@
       <Filter>01. Levels\Loading\ThreadPool</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\ChargeEffect.cpp">
-      <Filter>02. GameObject\Static\Effect\ChargeEffect</Filter>
+      <Filter>02. GameObject\Static\SkillEffect\ChargeEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill.cpp">
+      <Filter>02. GameObject\Static\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SkillEffect.cpp">
+      <Filter>02. GameObject\Static\SkillEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AttackEffect.cpp">
+      <Filter>02. GameObject\Static\SkillEffect\AttackEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\HommingAttackEffect.cpp">
+      <Filter>02. GameObject\Static\SkillEffect\AttackEffect\HommingAttackEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RushAttackEffect.cpp">
+      <Filter>02. GameObject\Static\SkillEffect\AttackEffect\RushAttackEffect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
