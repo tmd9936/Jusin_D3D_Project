@@ -55,6 +55,10 @@
 
 #include "Attack.h"
 
+#include "SkillEffect.h"
+#include "HommingAttackEffect.h"
+#include "ChargeEffect.h"
+
 #include "ThreadPool.h"
 
 
@@ -645,6 +649,16 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround"),
 			CBackGround::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
+
+		/* For.Prototype_GameObject_ChargeEffect */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ChargeEffect"),
+			CChargeEffect::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		///* For.Prototype_GameObject_BackGround */
+		//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SP_Denki_Zyuumanboruto"),
+		//	CHommingAttackEffect::Create(m_pDevice, m_pContext))))
+		//	return E_FAIL;
 	}
 
 #pragma endregion

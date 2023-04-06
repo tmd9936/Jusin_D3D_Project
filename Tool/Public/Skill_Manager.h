@@ -40,12 +40,15 @@ public:
 		CBone* pParentBone = nullptr, CTransform* pParentTransform = nullptr, _fmatrix PivotMatrix = XMMatrixIdentity(),
 		_bool bRush = false, _double rushSpeed = 1.0, _uint extendNum = 1);
 
+public: 
+	HRESULT CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType, _uint damage, _fmatrix vParentMatrix,
+		CBone* pBone, CTransform* pParentTransform, _fmatrix PivotMatrix);
+
 public:
 	CSkill* Do_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType, _uint damage,
 		_fmatrix vParentMatrix, CModel* pModel, const char* boneTag, CTransform* pParentTransform);
 
 public:
-	CSkill* Create_Monster_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType, _uint damage, _fmatrix vParentMatrix, _float smallRotationSpeed, _float bigRotationSpeed, CBone* pParentBone, CTransform* pParentTransform, _fmatrix PivotMatrix, _bool bRush, _double rushSpeed, _uint extendNum);
 	CSkill* Create_Test_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType,
 		_fmatrix vParentMatrix);
 	

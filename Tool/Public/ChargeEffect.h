@@ -2,6 +2,9 @@
 
 #include "SkillEffect.h"
 
+#include "HommingAttackEffect.h"
+#include "RushAttackEffect.h"
+
 BEGIN(Client)
 
 class CSkill_Manager;
@@ -9,10 +12,19 @@ class CSkill_Manager;
 class CChargeEffect :
     public CSkillEffect
 {
+	enum NEXT_ATTACK_TYPE
+	{
+		ATTACK_NORMAL,
+		ATTACK_HOMMING,
+		ATTACK_RUSH,
+		ATTACK_END
+	};
+
 public:
     typedef struct Charge_Effect_Desc
     {
-		_uint       m_NextAttackEffectType = { 0 };
+		NEXT_ATTACK_TYPE	m_NextAttackEffectType = { ATTACK_END };
+		_uint       m_NextAttackEffect = { 0 };
 		_uint       m_NextAttackEffectPower = { 0 };
 		_double     m_ChargeTime = { 0.0 };
 
@@ -37,6 +49,11 @@ protected:
 
 protected:
 	CHARGE_EFFECT_DESC	m_ChargeEffectDesc = {};
+
+	CHommingAttackEffect::HOMMING_ATTACK_EFFECT_DESC  m_HommingAttacEffectDesc = {};
+	CRushAttackEffect::RUSH_ATTACK_EFFECT_DESC  m_RushAttacEffectDesc = {};
+	CAttackEffect::ATTACK_EFFECT_DESC m_NormalAtackDesc = {};
+
 	_double				m_ChargeTimeAcc = { 0.0 };
 
 public:

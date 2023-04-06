@@ -7,6 +7,10 @@
 
 #include "Effect.h"
 
+#include "RushAttackEffect.h"
+#include "HommingAttackEffect.h"
+#include "ChargeEffect.h"
+
 /*
 	프로토 타입에 공격 스킬의 특성 미리 저장 해놓고 
 	그냥 그 프로토 타입을 Clone해서 가져오기
@@ -330,6 +334,35 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 	return pSkill;
 }
 
+HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex, 
+	_uint skillType, _uint damage, _fmatrix vParentMatrix, CBone* pBone, CTransform* pParentTransform, _fmatrix PivotMatrix)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (skillType >= m_Skill_Depend_Datas.size() || nullptr == pLayerTag || iLevelIndex >= LEVEL_END)
+		return E_FAIL;
+
+	CEffect_Manager* pEffect_Manager = dynamic_cast<CEffect_Manager*>(pGameInstance->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"Effect_Manager"));
+
+	if (nullptr == pEffect_Manager)
+		return E_FAIL;
+
+	if (skillType == 57) // 10만 볼트
+	{
+
+
+	}
+
+
+	CSkill::Skill_Desc skill_desc = m_Skill_Desc_Datas[skillType];
+
+	_float4x4 pivotMatrix = {};
+	XMStoreFloat4x4(&pivotMatrix, PivotMatrix);
+
+	return S_OK;
+}
+
 CSkill* CSkill_Manager::Do_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType, _uint damage,
 	_fmatrix vParentMatrix, CModel* pModel, const char* boneTag, CTransform* pParentTransform)
 {
@@ -417,55 +450,6 @@ CSkill* CSkill_Manager::Do_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _ui
 	return pSkill;
 }
 
-
-CSkill* CSkill_Manager::Create_Monster_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType, _uint damage,
-	_fmatrix vParentMatrix, _float smallRotationSpeed, _float bigRotationSpeed,
-	CBone* pParentBone, CTransform* pParentTransform, _fmatrix PivotMatrix, _bool bRush, _double rushSpeed, _uint extendNum)
-{
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
-
-	if (skillType >= m_Skill_Depend_Datas.size() || nullptr == pLayerTag || iLevelIndex >= LEVEL_END)
-		return nullptr;
-
-	CEffect_Manager* pEffect_Manager = dynamic_cast<CEffect_Manager*>(pGameInstance->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"Effect_Manager"));
-
-	if (nullptr == pEffect_Manager)
-		return nullptr;
-
-	CSkill::Skill_Desc skill_desc = m_Skill_Desc_Datas[skillType];
-
-	_float4x4 pivotMatrix = {};
-	XMStoreFloat4x4(&pivotMatrix, PivotMatrix);
-
-	CSkill* pSkill = nullptr;
-
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Skill"), iLevelIndex, pLayerTag, (CGameObject**)&pSkill, nullptr, &skill_desc)))
-		return nullptr;
-
-	vector<_uint> chargeEffects;
-	vector<_uint> attackEffects;
-	vector<_uint> collisionEffects;
-	vector<_uint> conditionEffects;
-
-	chargeEffects.push_back(m_Skill_Depend_Datas[skillType].m_effects[0]);
-
-	//if (m_Skill_Depend_Datas[skillType].m_effects.size() == 2)
-	//{
-	//	attackEffects.push_back(m_Skill_Depend_Datas[skillType].m_effects[1]);
-	//}
-
-	//if (m_Skill_Depend_Datas[skillType].m_effects.size() == 3)
-	//{
-	//	collisionEffects.push_back(m_Skill_Depend_Datas[skillType].m_effects[2]);
-	//}
-
-	
-
-	//pSkill->Set_ChargeEffectTypes(m_Skill_Depend_Datas[skillType].m_effects[0]);
-
-	return pSkill;
-}
 
 CSkill* CSkill_Manager::Create_Test_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType, _fmatrix vParentMatrix)
 {

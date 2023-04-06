@@ -18,29 +18,10 @@ class CAttackEffect :
 public:
 	typedef struct Attack_Effect_Desc
 	{
-		//_bool					m_bRush = { false };
-		//_vector					m_vRushDirection = {};
-		//_double					m_RushSpeed = { 1.0 };
-
-		//_bool					m_bHomming = { false };
-		//_bool					m_bArriveHomeDead = { false };
-		//HOMMING_STATE			m_eHommingState = { HOMMING_END };
-
-		//_bool					m_IsParts = { false };
-		//_bool					m_IsHomming = { false };
-		//_bool					m_bParentRotateApply = { true };
-
-		//_bool					m_SmallRotation = { false };
-		//_float					m_SmallRotationSpeed = { 0.f };
-
-		//_bool					m_BigRotation = { false };
-		//_float					m_BigRotationRadius = { 0.f };
-		//_float					m_BigRotationSpeed = { 0.f };
-
 		_double					m_AttackTime = { 1.0 };
 		_bool					m_bKnockBack = { false };
 		_bool					m_bContinue = { false };
-		_uint					m_CollisionEffectNum = { 0 };
+		_uint					m_CollisionEffectType = { 0 };
 
 		EFFECT_DESC	effectDesc;
 

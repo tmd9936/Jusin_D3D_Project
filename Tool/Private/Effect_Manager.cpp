@@ -173,6 +173,39 @@ CEffect* CEffect_Manager::Create_Effect(_uint effectType, const _tchar* pLayerTa
 	return pEffect;
 }
 
+HRESULT CEffect_Manager::Create_Charge_Effect(_uint effectType, const _tchar* pLayerTag, _uint iLevelIndex, CChargeEffect::CHARGE_EFFECT_DESC& chargeEffectDesc)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (effectType >= m_Effect_Descs.size() || nullptr == pLayerTag || iLevelIndex >= LEVEL_END)
+		return E_FAIL;
+
+	CEffect::EFFECT_DESC effect_Desc = m_Effect_Descs[effectType];
+
+	wstring	FilePath = m_EffectFilePath + effect_Desc.m_effectPath + L".fbx";
+
+	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
+	if (false == pGameInstance->Check_Prototype(effect_Desc.m_ProtoTypeTag))
+	{
+		_matrix	PivotMatrix = XMMatrixScaling(0.3f, 0.3f, 0.3f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+		string effectPath = convert.to_bytes(FilePath);
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, effect_Desc.m_ProtoTypeTag.c_str(),
+			CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, effectPath.c_str(), PivotMatrix))))
+			return	E_FAIL;
+
+	}
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ChargeEffect"),
+		CChargeEffect::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
 void CEffect_Manager::Get_Effect_Desces(vector<CEffect::EFFECT_DESC>& Effect_Descs)
 {
 	Effect_Descs = m_Effect_Descs;

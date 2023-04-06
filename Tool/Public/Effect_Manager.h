@@ -5,6 +5,10 @@
 
 #include "Effect.h"
 
+#include "ChargeEffect.h"
+#include "HommingAttackEffect.h"
+#include "RushAttackEffect.h"
+
 /*
 이펙트 -> 글로우 셰이딩 해야함
 */
@@ -31,6 +35,8 @@ public:
 	virtual _uint LateTick(_double TimeDelta) override;
 
 	CEffect* Create_Effect(_uint effectType, const _tchar* pLayerTag, _uint iLevelIndex, _bool hasCollider = false, _float3 vPos = { 0.f, 0.f, 0.f });
+
+	HRESULT	Create_Charge_Effect(_uint effectType, const _tchar* pLayerTag, _uint iLevelIndex, CChargeEffect::CHARGE_EFFECT_DESC& chargeEffectDesc);
 
 public:
 	void	Get_Effect_Desces(vector<CEffect::EFFECT_DESC>& Effect_Descs);

@@ -47,6 +47,8 @@ _uint CChargeEffect::Tick(_double TimeDelta)
 	if (m_bDead)
 		return OBJ_DEAD;
 
+	Charge_Time_Check(TimeDelta);
+
 	return _uint();
 }
 
@@ -79,6 +81,16 @@ void CChargeEffect::Charge_Time_Check(const _double& TimeDelta)
 		CSkill_Manager* pSkill_Mananger = dynamic_cast<CSkill_Manager*>(CGameInstance::GetInstance()->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"Skill_Manager"));
 		if (nullptr != pSkill_Mananger)
 		{
+			switch (m_ChargeEffectDesc.m_NextAttackEffectType)
+			{
+			case	ATTACK_NORMAL:
+				break;
+			case	ATTACK_HOMMING:
+				break;
+			case	ATTACK_RUSH:
+				break;
+			}
+
 			/*pSkill_Mananger->Do_Skill(Get_LayerTag().c_str(), m_iLevelindex, m_ChargeEffectDesc.nextAttackEffect,
 				m_ChargeEffectDesc.nextAttackEffectPower, m_pTransformCom->Get_WorldMatrix_Matrix(), m_pModelCom, "RootNode", m_pTransformCom);*/
 		}

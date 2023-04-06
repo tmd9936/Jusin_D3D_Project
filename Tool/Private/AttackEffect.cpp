@@ -29,7 +29,7 @@ HRESULT CAttackEffect::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, vo
 		m_AttackEffectDesc.m_bKnockBack = (*(ATTACK_EFFECT_DESC*)(pArg)).m_bKnockBack;
 		m_AttackEffectDesc.m_AttackTime = (*(ATTACK_EFFECT_DESC*)(pArg)).m_AttackTime;
 		m_AttackEffectDesc.m_bContinue = (*(ATTACK_EFFECT_DESC*)(pArg)).m_bContinue;
-		m_AttackEffectDesc.m_CollisionEffectNum = (*(ATTACK_EFFECT_DESC*)(pArg)).m_CollisionEffectNum;
+		m_AttackEffectDesc.m_CollisionEffectType = (*(ATTACK_EFFECT_DESC*)(pArg)).m_CollisionEffectType;
 
 		if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, &(*(ATTACK_EFFECT_DESC*)(pArg)).effectDesc)))
 			return E_FAIL;
