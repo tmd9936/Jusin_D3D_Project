@@ -821,6 +821,15 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 			return E_FAIL;
 	}
 
+	modelName = L"Prototype_Component_Model_Pokemon_PM95";
+	if (false == pGameInstance->Check_Prototype(modelName.c_str()))
+	{
+		PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, modelName.c_str(),
+			CModel::Create(m_pDevice, m_pContext, "../../Reference/Resources/Mesh/Animation/Pokemon/PM95.json", CModel::TYPE_MESH_COLOR_ANIM, PivotMatrix))))
+			return E_FAIL;
+	}
+
 	//modelName = L"Prototype_Component_Model_Pokemon_PM31";
 	//if (false == pGameInstance->Check_Prototype(modelName.c_str()))
 	//{

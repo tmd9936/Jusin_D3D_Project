@@ -31,7 +31,7 @@ public:
 public:
     HRESULT Add_Work(WORK work);
 
-    const DWORD   Get_WorkerThreadId() const {
+    const _uint   Get_WorkerThreadId() const {
         return workerThreadList.size() - 1;
     }
 

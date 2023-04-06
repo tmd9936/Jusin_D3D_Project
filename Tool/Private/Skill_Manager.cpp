@@ -89,7 +89,6 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 	_float4x4 pivotMatrix = {};
 	XMStoreFloat4x4(&pivotMatrix, PivotMatrix);
 
-
 	pEffect = pEffect_Manager->Create_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex);
 	if (skill_desc.m_isEnablePotential_Charge)
 	{
@@ -104,12 +103,10 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 		pEffect->Set_Pos(pos);
 	}
 	Safe_Release(pEffect);
-	//effects.push_back(pEffect);
-
 
 	if (skill_desc.m_isEnablePotential_Nway)
 	{
-		for (size_t i = 1; i <= 3; ++i)
+		for (size_t i = 0; i < 3; ++i)
 		{
 			pEffect = pEffect_Manager->Create_Effect(m_Skill_Depend_Datas[skillType].m_effects[1], pLayerTag, iLevelIndex, true);
 
@@ -127,7 +124,13 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 
 			//pTransform->LookAt(vParentPos);
 
-			_vector vPos = XMVectorSetW(vParentLook, 1.f);
+			_vector vPos = {};
+
+			if (pParentBone)
+				vPos = XMVectorSetW(vParentLook, 1.f);
+			else
+				vPos = XMVectorSetW(vParentPos, 1.f);
+
 			_float4 pos = {};
 			XMStoreFloat4(&pos, vPos);
 			pEffect->Set_Pos(pos);
@@ -136,8 +139,8 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 
 			pEffect->Set_KnockBack(skill_desc.m_isEnablePotential_Knockback);
 			//pEffect->Set_Pos({ 0.f, 0.f, 0.f, 0.f });
-
-			pEffect->Set_Parent(pParentBone, pParentTransform, pivotMatrix);
+			if (pParentBone)
+				pEffect->Set_Parent(pParentBone, pParentTransform, pivotMatrix);
 
 			pEffect->Set_SmallRotation(smallRotationSpeed);
 			pEffect->Set_BigRotation(bigRotationSpeed, 2.f);
@@ -319,6 +322,93 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 	return pSkill;
 }
 
+CSkill* CSkill_Manager::Do_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType, _uint damage,
+	_fmatrix vParentMatrix, CModel* pModel, CTransform* pParentTransform)
+{
+	if (nullptr == pLayerTag || nullptr == pModel || nullptr == pParentTransform)
+		return nullptr;
+
+	//pSkill = dynamic_cast<CSkill_Manager*>(pSkill_Mananger)->Create_Skill(pLayer, m_iLevelindex, skillType, m_pAttackCom->Get_AttackPower(),
+	//	m_pTransformCom->Get_WorldMatrix_Matrix(), XMConvertToRadians(0.f), XMConvertToRadians(0.f), m_pModelCom->Get_BonePtr("effect00"), m_pTransformCom, m_pModelCom->Get_PivotMatrix(), false, 0.0, 2);
+
+	CSkill* pSkill = nullptr;
+	if (skillType == 57) // 10만 볼트
+	{
+		pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, XMConvertToRadians(60.f), XMConvertToRadians(180.f), pModel->Get_BonePtr("effect00"), pParentTransform, pModel->Get_PivotMatrix());
+
+		Safe_Release(pSkill);
+	}
+	else if (skillType == 58) // 볼테커
+	{
+		pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, XMConvertToRadians(0.f), XMConvertToRadians(0.f), pModel->Get_BonePtr("effect00"), pParentTransform, pModel->Get_PivotMatrix());
+
+		Safe_Release(pSkill);
+	}
+	else if (skillType == 100) // 지진
+	{
+		pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, XMConvertToRadians(0.f), XMConvertToRadians(0.f), pModel->Get_BonePtr("effect00"), pParentTransform, pModel->Get_PivotMatrix());
+
+		Safe_Release(pSkill);
+	}
+	else if (skillType == 164) // 돌진
+	{
+		pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, XMConvertToRadians(0.f), XMConvertToRadians(0.f), pModel->Get_BonePtr("effect00"), pParentTransform, pModel->Get_PivotMatrix());
+
+		Safe_Release(pSkill);
+	}
+	else if (skillType <= 35 && skillType % 2 == 1) // 원거리 공격
+	{
+		pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, XMConvertToRadians(0.f), XMConvertToRadians(0.f), pModel->Get_BonePtr("effect00"), pParentTransform, pModel->Get_PivotMatrix(), true, 0.5);
+
+		Safe_Release(pSkill);
+	}
+	else if (skillType == 79) // 얼다 바람
+	{
+		pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, XMConvertToRadians(0.f), XMConvertToRadians(0.f), pModel->Get_BonePtr("effect00"), pParentTransform, pModel->Get_PivotMatrix(), true, 1.0);
+
+		Safe_Release(pSkill);
+	}
+	else if (skillType == 50) // 하이드럼 펌프
+	{
+		pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, XMConvertToRadians(0.f), XMConvertToRadians(0.f), pModel->Get_BonePtr("effect00"), pParentTransform, pModel->Get_PivotMatrix(), true, 0.4, 3);
+
+		Safe_Release(pSkill);
+	}
+
+	else if (skillType == 168) // 메가톤 펀치
+	{
+		pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, XMConvertToRadians(0.f), XMConvertToRadians(0.f), pModel->Get_BonePtr("effect00"), pParentTransform, pModel->Get_PivotMatrix(), true, 0.0, 2);
+
+		Safe_Release(pSkill);
+	}
+
+	else if (skillType == 188) // 돌떨구기
+	{
+		pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, XMConvertToRadians(60.f), XMConvertToRadians(60.f), pModel->Get_BonePtr("effect00"), pParentTransform, pModel->Get_PivotMatrix(), false, 0.4, 2);
+
+		Safe_Release(pSkill);
+	}
+
+	else
+	{
+		pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix);
+
+		Safe_Release(pSkill);
+	}
+
+	return pSkill;
+}
+
 
 CSkill* CSkill_Manager::Create_Monster_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType, _uint damage,
 	_fmatrix vParentMatrix, _float smallRotationSpeed, _float bigRotationSpeed,
@@ -352,19 +442,21 @@ CSkill* CSkill_Manager::Create_Monster_Skill(const _tchar* pLayerTag, _uint iLev
 
 	chargeEffects.push_back(m_Skill_Depend_Datas[skillType].m_effects[0]);
 
-	if (m_Skill_Depend_Datas[skillType].m_effects.size() == 2)
-	{
-		attackEffects.push_back(m_Skill_Depend_Datas[skillType].m_effects[1]);
-	}
+	//if (m_Skill_Depend_Datas[skillType].m_effects.size() == 2)
+	//{
+	//	attackEffects.push_back(m_Skill_Depend_Datas[skillType].m_effects[1]);
+	//}
 
-	if (m_Skill_Depend_Datas[skillType].m_effects.size() == 3)
-	{
-		collisionEffects.push_back(m_Skill_Depend_Datas[skillType].m_effects[2]);
-	}
+	//if (m_Skill_Depend_Datas[skillType].m_effects.size() == 3)
+	//{
+	//	collisionEffects.push_back(m_Skill_Depend_Datas[skillType].m_effects[2]);
+	//}
+
+	
 
 	//pSkill->Set_ChargeEffectTypes(m_Skill_Depend_Datas[skillType].m_effects[0]);
 
-
+	return pSkill;
 }
 
 CSkill* CSkill_Manager::Create_Test_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType, _fmatrix vParentMatrix)

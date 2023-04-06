@@ -69,80 +69,15 @@ _uint CEffect::Tick(_double TimeDelta)
 	if (m_CurrentLoopCount < 0)
 		return OBJ_DEAD;
 
-	if (m_AttackTimeAcc > 0.0)
-		m_AttackTimeAcc -= TimeDelta;
-
-	if (m_pModelCom->Play_Animation(TimeDelta * m_AnimationSpeed))
-	{
-		m_pModelCom->Set_Animation_Start_Time(m_AnimationStartAcc);
-
-		//if (m_CurrentLoopCount < 0)
-		//{
-		//	m_bDead = true;
-		//}
-		--m_CurrentLoopCount;
-	}
+	Attack_Time_Check(TimeDelta);
+	Loop_Count_Check(TimeDelta);
 
 	if (m_pTransformCom)
 	{
-		if (m_SmallRotation)
-		{
-			m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), (_float)(TimeDelta * m_SmallRotationSpeed));
-		}
-
-		if (m_bRush)
-		{
-			_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-			m_pTransformCom->Go_Straight((_float)(TimeDelta * m_RushSpeed), m_pNavigationCom);
-		}
-
-		if (m_bHomming)
-		{
-			_vector vDir = {};
-			_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-			_vector vParentPos = {};
-			if (!m_EffectDesc.pParent)
-			{
-				//vParentPos = m_EffectDesc.pParent->Get_State(CTransform::STATE_POSITION);
-			}
-			else
-			{
-				vParentPos = XMVectorSet(0.f, 0.f, 0.f, 1.f);
-			}
-
-			switch (m_eHommingState)
-			{
-			case HOMMING_OUT:
-				vDir = XMVector3Normalize(vPos - vParentPos);
-				if (m_pTransformCom->Get_Positin_Length() >= m_BigRotationRadius)
-				{
-					m_eHommingState = HOMMING_IN;
-				}
-				break;
-			case HOMMING_IN:
-				vDir = XMVector3Normalize(vParentPos - vPos);
-				if (XMVectorGetX(XMVector3Length(vParentPos - vPos)) <= 0.3f)
-				{
-					m_eHommingState = HOMMING_OUT;
-				}
-				break;
-			}
-
-			vPos += vDir * (_float)TimeDelta;
-			m_pTransformCom->Set_Pos(vPos);
-		}
-
-		if (m_BigRotation)
-		{
-			_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-			_vector vUp = { 0.f, 1.f, 0.f, 0.f };
-
-			_matrix BigRot = XMMatrixRotationQuaternion(XMQuaternionRotationAxis(vUp, XMConvertToRadians(m_BigRotationSpeed)));
-
-			vPos = XMVector3TransformCoord(vPos, BigRot);
-
-			m_pTransformCom->Set_Pos(vPos);
-		}
+		Small_Rotation(TimeDelta);
+		Rush(TimeDelta);
+		Homming(TimeDelta);
+		Big_Rotation(TimeDelta);
 	}
 
 	return _uint();
@@ -383,6 +318,93 @@ void CEffect::Set_AttackPower(_uint attackPower)
 		return;
 
 	m_pAttackCom->Set_AttackPower(attackPower);
+}
+
+void CEffect::Attack_Time_Check(const _double& TimeDelta)
+{
+	if (m_AttackTimeAcc > 0.0)
+		m_AttackTimeAcc -= TimeDelta;
+}
+
+void CEffect::Loop_Count_Check(const _double& TimeDelta)
+{
+	if (m_pModelCom->Play_Animation(TimeDelta * m_AnimationSpeed))
+	{
+		m_pModelCom->Set_Animation_Start_Time(m_AnimationStartAcc);
+
+		--m_CurrentLoopCount;
+	}
+}
+
+void CEffect::Small_Rotation(const _double& TimeDelta)
+{
+	if (m_SmallRotation)
+	{
+		m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), (_float)(TimeDelta * m_SmallRotationSpeed));
+	}
+}
+
+void CEffect::Rush(const _double& TimeDelta)
+{
+	if (m_bRush)
+	{
+		_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		m_pTransformCom->Go_Straight((_float)(TimeDelta * m_RushSpeed), m_pNavigationCom);
+	}
+}
+
+void CEffect::Homming(const _double& TimeDelta)
+{
+	if (m_bHomming)
+	{
+		_vector vDir = {};
+		_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		_vector vParentPos = {};
+		if (!m_EffectDesc.pParent)
+		{
+			//vParentPos = m_EffectDesc.pParent->Get_State(CTransform::STATE_POSITION);
+		}
+		else
+		{
+			vParentPos = XMVectorSet(0.f, 0.f, 0.f, 1.f);
+		}
+
+		switch (m_eHommingState)
+		{
+		case HOMMING_OUT:
+			vDir = XMVector3Normalize(vPos - vParentPos);
+			if (m_pTransformCom->Get_Positin_Length() >= m_BigRotationRadius)
+			{
+				m_eHommingState = HOMMING_IN;
+			}
+			break;
+		case HOMMING_IN:
+			vDir = XMVector3Normalize(vParentPos - vPos);
+			if (XMVectorGetX(XMVector3Length(vParentPos - vPos)) <= 0.3f)
+			{
+				m_eHommingState = HOMMING_OUT;
+			}
+			break;
+		}
+
+		vPos += vDir * (_float)TimeDelta;
+		m_pTransformCom->Set_Pos(vPos);
+	}
+}
+
+void CEffect::Big_Rotation(const _double& TimeDelta)
+{
+	if (m_BigRotation)
+	{
+		_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		_vector vUp = { 0.f, 1.f, 0.f, 0.f };
+
+		_matrix BigRot = XMMatrixRotationQuaternion(XMQuaternionRotationAxis(vUp, XMConvertToRadians(m_BigRotationSpeed)));
+
+		vPos = XMVector3TransformCoord(vPos, BigRot);
+
+		m_pTransformCom->Set_Pos(vPos);
+	}
 }
 
 

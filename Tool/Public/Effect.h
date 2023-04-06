@@ -20,7 +20,7 @@ BEGIN(Client)
 
 class CLoader;
 
-class CEffect final : public CGameObject
+class CEffect : public CGameObject
 {
 public:
 	enum ACTION_TYPE { ACTION_ATTACK, ACTION_NONE, ACTION_MIND, ACTION_LOOP, ACTION_END };
@@ -53,7 +53,7 @@ public:
 
 	} EFFECT_DESC;
 
-private:
+protected:
 	CEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CEffect(const CEffect& rhs);
 	virtual ~CEffect() = default;
@@ -126,7 +126,7 @@ public:
 		m_bKnockBack = knockBack;
 	}
 
-private:
+protected:
 	void	Set_ParentBone(CBone* pParent) {
 		m_EffectDesc.pBonePtr = pParent;
 		Safe_AddRef(m_EffectDesc.pBonePtr);
@@ -137,8 +137,15 @@ private:
 		Safe_AddRef(m_EffectDesc.pParent);
 	}
 
+protected:
+	void		Attack_Time_Check(const _double& TimeDelta);
+	void		Loop_Count_Check(const _double& TimeDelta);
+	void		Small_Rotation(const _double& TimeDelta);
+	void		Rush(const _double& TimeDelta);
+	void		Homming(const _double& TimeDelta);
+	void		Big_Rotation(const _double& TimeDelta);
 
-private:
+protected:
 	CTransform*		m_pTransformCom = { nullptr };
 	CRenderer*		m_pRendererCom = { nullptr };
 	CShader*		m_pShaderCom = { nullptr };
@@ -147,7 +154,7 @@ private:
 	CNavigation*	m_pNavigationCom = { nullptr };
 	CAttack*		m_pAttackCom = { nullptr };
 
-private:
+protected:
 	EFFECT_DESC				m_EffectDesc = {};
 
 	_double					m_CurrentAnimationAcc = { 0.0 };
@@ -187,7 +194,7 @@ private:
 	_double					m_AttackTime = { 1.0 };
 	_double					m_AttackTimeAcc = { 0.0 };
 
-private:
+protected:
 	HRESULT Add_Components();
 
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 던진다. */

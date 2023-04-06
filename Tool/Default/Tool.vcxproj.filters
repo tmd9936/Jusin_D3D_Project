@@ -214,6 +214,9 @@
     <Filter Include="01. Levels\Loading\ThreadPool">
       <UniqueIdentifier>{5a888ec3-0cf6-486b-b72e-b6f7d3a8a3e5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\Static\Effect\ChargeEffect">
+      <UniqueIdentifier>{ce025559-1bd1-4e4c-8c79-e3f743dbe1ce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -419,6 +422,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Skill.h">
       <Filter>02. GameObject\Static\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ChargeEffect.h">
+      <Filter>02. GameObject\Static\Effect\ChargeEffect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -626,6 +632,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\ThreadPool.cpp">
       <Filter>01. Levels\Loading\ThreadPool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ChargeEffect.cpp">
+      <Filter>02. GameObject\Static\Effect\ChargeEffect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
