@@ -715,51 +715,26 @@ CSkill* CSkill_Manager::Do_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _ui
 	if (nullptr == pLayerTag || nullptr == pModel || nullptr == pParentTransform)
 		return nullptr;
 
-	//pSkill = dynamic_cast<CSkill_Manager*>(pSkill_Mananger)->Create_Skill(pLayer, m_iLevelindex, skillType, m_pAttackCom->Get_AttackPower(),
-	//	m_pTransformCom->Get_WorldMatrix_Matrix(), XMConvertToRadians(0.f), XMConvertToRadians(0.f), m_pModelCom->Get_BonePtr("effect00"), m_pTransformCom, m_pModelCom->Get_PivotMatrix(), false, 0.0, 2);
-
 	CSkill* pSkill = nullptr;
 	if (skillType == 57) // 10만 볼트
 	{
-		/*pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
-			vParentMatrix, XMConvertToRadians(60.f), XMConvertToRadians(180.f), pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
-		Safe_Release(pSkill);*/
-
 		CreateSkill(pLayerTag, iLevelIndex, skillType, damage, vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
 	}
 	else if (skillType == 58) // 볼테커
 	{
-		//pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
-		//	vParentMatrix, XMConvertToRadians(0.f), XMConvertToRadians(0.f), pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
-		//Safe_Release(pSkill);
-
 		CreateSkill(pLayerTag, iLevelIndex, skillType, damage, vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
 	}
 	else if (skillType <= 35 && skillType % 2 == 1) // 원거리 공격
 	{
-		//pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
-		//	vParentMatrix, XMConvertToRadians(0.f), XMConvertToRadians(0.f), pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), true, 0.5);
-
-		//Safe_Release(pSkill);
-
 		CreateSkill(pLayerTag, iLevelIndex, skillType, damage, vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
 
 	}
 	else if (skillType == 100) // 지진
 	{
-		//pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
-		//	vParentMatrix, XMConvertToRadians(0.f), XMConvertToRadians(0.f), pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
-
-		//Safe_Release(pSkill);
 		CreateSkill(pLayerTag, iLevelIndex, skillType, damage, vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
 	}
 	else if (skillType == 164) // 돌진
 	{
-		//pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
-		//	vParentMatrix, XMConvertToRadians(0.f), XMConvertToRadians(0.f), pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
-
-		//Safe_Release(pSkill);
-
 		CreateSkill(pLayerTag, iLevelIndex, skillType, damage, vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
 	}
 	else if (skillType == 72) // 냉동빔
@@ -769,19 +744,10 @@ CSkill* CSkill_Manager::Do_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _ui
 
 	else if (skillType == 79) // 얼다 바람
 	{
-		//pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
-		//	vParentMatrix, XMConvertToRadians(0.f), XMConvertToRadians(0.f), pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), true, 1.0);
-
-		//Safe_Release(pSkill);
 		CreateSkill(pLayerTag, iLevelIndex, skillType, damage, vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
-
 	}
 	else if (skillType == 50) // 하이드럼 펌프
 	{
-		//pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
-		//	vParentMatrix, XMConvertToRadians(0.f), XMConvertToRadians(0.f), pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), true, 0.4, 3);
-
-		//Safe_Release(pSkill);
 		CreateSkill(pLayerTag, iLevelIndex, skillType, damage, vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
 	}
 
@@ -792,11 +758,6 @@ CSkill* CSkill_Manager::Do_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _ui
 
 	else if (skillType == 188) // 돌떨구기
 	{
-		//pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
-		//	vParentMatrix, XMConvertToRadians(60.f), XMConvertToRadians(60.f), pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), false, 0.4, 2);
-
-		//Safe_Release(pSkill);
-
 		CreateSkill(pLayerTag, iLevelIndex, skillType, damage, vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
 	}
 

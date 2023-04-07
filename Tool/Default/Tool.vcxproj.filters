@@ -232,6 +232,9 @@
     <Filter Include="02. GameObject\Static\SkillEffect\AttackEffect\BezierAttackEffect">
       <UniqueIdentifier>{e5624ce5-1b64-4ec4-9e7a-b4142b54416f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\Stage\StageSupportMonster">
+      <UniqueIdentifier>{b53d2df0-4763-46b9-a252-2156cbed9a38}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -455,6 +458,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\BezierAttackEffect.h">
       <Filter>02. GameObject\Static\SkillEffect\AttackEffect\BezierAttackEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\StageSupportMonster.h">
+      <Filter>02. GameObject\Stage\StageSupportMonster</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -680,6 +686,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\BezierAttackEffect.cpp">
       <Filter>02. GameObject\Static\SkillEffect\AttackEffect\BezierAttackEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\StageSupportMonster.cpp">
+      <Filter>02. GameObject\Stage\StageSupportMonster</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

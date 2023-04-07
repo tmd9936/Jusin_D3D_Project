@@ -808,10 +808,13 @@ HRESULT CMonster::Add_MotionState()
 	if (nullptr == m_pMonFSM)
 		return E_FAIL;
 
-	for (_uint i = 0; i < CMonFSM::END_MOTION; ++i)
+	for (_uint i = 0; i < CMonFSM::FORMATION_NORMAL; ++i)
 	{
 		m_pMonFSM->Add_MotionState(CMonFSM::MONSTER_STATE(i), i);
 	}
+
+	m_pMonFSM->Add_MotionState(CMonFSM::MONSTER_STATE::FORMATION_NORMAL, CMonFSM::MONSTER_STATE::IDLE_GROUND);
+	m_pMonFSM->Add_MotionState(CMonFSM::MONSTER_STATE::FORMATION_RUN, CMonFSM::MONSTER_STATE::RUN_GOUND2);
 
 	return S_OK;
 }
