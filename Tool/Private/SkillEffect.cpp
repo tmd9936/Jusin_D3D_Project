@@ -192,10 +192,12 @@ void CSkillEffect::Set_Parent(CBone* pBoneParent, CTransform* pTransformParent)
 	m_EffectDesc.m_IsParts = true;
 }
 
-void CSkillEffect::Set_ParentNoParts(CBone* pBoneParent, CTransform* pTransformParent)
+void CSkillEffect::Set_ParentNoParts(CBone* pBoneParent, CTransform* pTransformParent, _matrix PivotMatrix)
 {
 	if (nullptr == pBoneParent || nullptr == pTransformParent)
 		return;
+
+	XMStoreFloat4x4(&m_EffectDesc.PivotMatrix, PivotMatrix);
 
 	Set_ParentBone(pBoneParent);
 	Set_ParentTransform(pTransformParent);

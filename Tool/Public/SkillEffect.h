@@ -73,7 +73,7 @@ public:
 
 	void	Set_Parent(CBone* pBoneParent, CTransform* pTransformParent);
 
-	void	Set_ParentNoParts(CBone* pBoneParent, CTransform* pTransformParent);
+	void	Set_ParentNoParts(CBone* pBoneParent, CTransform* pTransformParent, _matrix PivotMatrix);
 
 	void	Init_LoopCount(_uint loopCount) {
 		m_EffectDesc.m_CurrentLoopCount = loopCount;

@@ -397,7 +397,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 
 			pSkillEffect = pEffect_Manager->Create_Charge_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex, desc);
 			if (nullptr != pSkillEffect)
-				pSkillEffect->Set_ParentNoParts(pBone, pParentTransform);
+				pSkillEffect->Set_ParentNoParts(pBone, pParentTransform, PivotMatrix);
 
 			CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
 			if (nullptr == pTransform)
@@ -527,11 +527,11 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 		desc.m_AttackDesc.m_bContinue = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Continue;
 		desc.m_AttackDesc.m_CollisionEffectType = m_Skill_Depend_Datas[skillType].m_effects[2];
 		desc.m_AttackDesc.m_bKnockBack = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Knockback;
-		desc.m_AttackDesc.effectDesc.m_IsParts = false;
+		desc.m_AttackDesc.effectDesc.m_IsParts = true;
 
 		pSkillEffect = pEffect_Manager->Create_Charge_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex, desc);
 		if (nullptr != pSkillEffect)
-			pSkillEffect->Set_ParentNoParts(pBone, pParentTransform);
+			pSkillEffect->Set_ParentNoParts(pBone, pParentTransform, PivotMatrix);
 
 		CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
 		if (nullptr == pTransform)
