@@ -653,7 +653,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 			if (nullptr == pTransform)
 				return E_FAIL;
 			pTransform->LookAt(XMVectorSetW(vLook, 1.f));
-
+			pTransform->Set_TransforDesc({ XMConvertToRadians(10.f), XMConvertToRadians(350.f) });
 			pTransform->Set_Scaled({ 2.2f, 2.2f, 2.2f });
 
 			_float4 pos1 = {};

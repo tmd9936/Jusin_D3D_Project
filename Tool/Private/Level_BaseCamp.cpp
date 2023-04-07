@@ -168,7 +168,7 @@ HRESULT CLevel_BaseCamp::Ready_Layer_Player(const _tchar* pLayerTag)
 	CMonster::POKEMON_DESC desc{};
 	desc.m_monsterNo = 25;
 	desc.vPos = _float4(22.f, 0.f, 13.5f, 1.f);
-	desc.m_skillIDs.push_back(72);
+	desc.m_skillIDs.push_back(188);
 	desc.m_skillIDs.push_back(58);
 	desc.m_skillIDs.push_back(57);
 	desc.m_skillIDs.push_back(25);
