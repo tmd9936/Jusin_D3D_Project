@@ -29,6 +29,8 @@ public:
 
 		_uint			m_NextEffectTypeIndex = { 0 };
 		EFFECT_TYPE		m_NextEffectType = { EFFECT_TYPE_END };
+
+		_float3			m_vScale = { 1.f, 1.f, 1.f };
 		
 		//_uint			m_CollisionEffectType = { 0 };
 

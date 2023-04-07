@@ -37,6 +37,7 @@ HRESULT CChargeEffect::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, vo
 		m_ChargeEffectDesc.m_NextEffectType = (*(Charge_Effect_Desc*)(pArg)).m_NextEffectType;
 
 		m_ChargeEffectDesc.m_AttackDesc = (*(Charge_Effect_Desc*)(pArg)).m_AttackDesc;
+		m_ChargeEffectDesc.m_vScale = (*(Charge_Effect_Desc*)(pArg)).m_vScale;
 
 		if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, &(*(Charge_Effect_Desc*)(pArg)).effectDesc)))
 			return E_FAIL;
@@ -129,6 +130,12 @@ void CChargeEffect::Attack_Effect_Add()
 
 			vParentLook = XMVector3Rotate(vParentLook, XMQuaternionRotationAxis(XMVectorSet(0.f, 1.f, 0.f, 0.f), m_ChargeEffectDesc.m_NextEffectAngles[i]));
 
+			CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
+			if (nullptr != pTransform)
+			{
+				pTransform->Set_Scaled(m_ChargeEffectDesc.m_vScale);
+			}
+
 			_float4 pos = {};
 			if (m_ChargeEffectDesc.m_AttackDesc.effectDesc.m_IsParts)
 			{
@@ -175,6 +182,7 @@ void CChargeEffect::Attack_Effect_Add()
 		if (nullptr != pTransform)
 		{
 			pTransform->LookAt(XMVectorSetW(vParentLook, 1.f));
+			pTransform->Set_Scaled(m_ChargeEffectDesc.m_vScale);
 		}
 
 		_float4 pos = {};

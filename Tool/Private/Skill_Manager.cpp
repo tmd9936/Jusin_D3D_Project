@@ -524,6 +524,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 		desc.m_NextEffectNum = 4;
 		desc.m_NextEffectAngles = { XMConvertToRadians(45.f), XMConvertToRadians(135.f), XMConvertToRadians(225.f), XMConvertToRadians(315.f) };
 		desc.m_NextEffectPower = _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f));
+		desc.m_vScale = _float3(2.f, 2.f, 2.f);
 		desc.m_AttackDesc.m_bContinue = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Continue;
 		desc.m_AttackDesc.m_CollisionEffectType = m_Skill_Depend_Datas[skillType].m_effects[2];
 		desc.m_AttackDesc.m_bKnockBack = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Knockback;
@@ -565,6 +566,33 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 		Set_AttackPower(pSkillEffect, _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f)));
 
 		Safe_Release(pSkillEffect);
+	}
+	else if (skillType == 168) // ¸Þ°¡Åæ ÆÝÄ¡
+	{
+		for (size_t i = 1; i <= 2; ++i)
+		{
+			Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[0], vLook, vPos, pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
+
+			pSkillEffect = pEffect_Manager->CreateEffect(m_Skill_Depend_Datas[skillType].m_effects[1], L"Prototype_GameObject_AttackEffect", pLayerTag, iLevelIndex);
+
+			CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
+			if (nullptr == pTransform)
+				return E_FAIL;
+			pTransform->LookAt(XMVectorSetW(vLook, 1.f));
+
+			CAttackEffect::ATTACK_EFFECT_DESC desc{};
+			Set_NormalAttackDesc(desc, skillType, pSkillEffect);
+
+			_float4 pos = {};
+			XMStoreFloat4(&pos, vPos + (vLook * 0.75f * i));
+			pSkillEffect->Set_Pos(pos);
+
+			pTransform->Set_Scaled({ 2.5f, 2.5f, 2.5f });
+
+			Set_AttackPower(pSkillEffect, _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f)));
+
+			Safe_Release(pSkillEffect);
+		}
 	}
 	else
 	{
@@ -667,10 +695,7 @@ CSkill* CSkill_Manager::Do_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _ui
 
 	else if (skillType == 168) // ¸Þ°¡Åæ ÆÝÄ¡
 	{
-		pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
-			vParentMatrix, XMConvertToRadians(0.f), XMConvertToRadians(0.f), pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), true, 0.0, 2);
-
-		Safe_Release(pSkill);
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage, vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
 	}
 
 	else if (skillType == 188) // µ¹¶³±¸±â
