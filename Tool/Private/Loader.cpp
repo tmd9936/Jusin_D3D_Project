@@ -725,7 +725,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		KogoerukazeDesc.attackEffectDesc.effectDesc.m_IsParts = false;
 		KogoerukazeDesc.attackEffectDesc.effectDesc.m_AnimationSpeed = 1.0;
 		KogoerukazeDesc.attackEffectDesc.effectDesc.m_AnimationStartAcc = 0.0;
-		KogoerukazeDesc.m_RushSpeed = 0.8;
+		KogoerukazeDesc.m_RushSpeed = 0.6;
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SP_Koori_Kogoerukaze"),
 			CRushAttackEffect::Create(m_pDevice, m_pContext, KogoerukazeDesc))))
 			return E_FAIL;
@@ -738,9 +738,21 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		HaidoroponpuDesc.attackEffectDesc.effectDesc.m_IsParts = false;
 		HaidoroponpuDesc.attackEffectDesc.effectDesc.m_AnimationSpeed = 1.0;
 		HaidoroponpuDesc.attackEffectDesc.effectDesc.m_AnimationStartAcc = 0.0;
-		HaidoroponpuDesc.m_RushSpeed = 0.6;
+		HaidoroponpuDesc.m_RushSpeed = 0.5;
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SP_Mizu_Haidoroponpu"),
 			CRushAttackEffect::Create(m_pDevice, m_pContext, HaidoroponpuDesc))))
+			return E_FAIL;
+
+		/* For.Prototype_GameObject_SP_Koori_Reitoubiimu */
+		CRushAttackEffect::RUSH_ATTACK_EFFECT_DESC ReitoubiimuDesc{};
+		ReitoubiimuDesc.attackEffectDesc.effectDesc.m_bParentRotateApply = false;
+		ReitoubiimuDesc.attackEffectDesc.effectDesc.m_CurrentLoopCount = 4;
+		ReitoubiimuDesc.attackEffectDesc.effectDesc.m_IsParts = false;
+		ReitoubiimuDesc.attackEffectDesc.effectDesc.m_AnimationSpeed = 1.0;
+		ReitoubiimuDesc.attackEffectDesc.effectDesc.m_AnimationStartAcc = 0.0;
+		ReitoubiimuDesc.m_RushSpeed = 1.0;
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SP_Koori_Reitoubiimu"),
+			CRushAttackEffect::Create(m_pDevice, m_pContext, ReitoubiimuDesc))))
 			return E_FAIL;
 
 		/* For.Prototype_GameObject_SP_Jimen_Jisin */

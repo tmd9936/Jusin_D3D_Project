@@ -24,8 +24,6 @@
 */
 
 
-
-
 CSkill_Manager::CSkill_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
 {
@@ -461,6 +459,54 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 
 		Safe_Release(pSkillEffect);
 	}
+	else if (skillType == 72) // ³Ãµ¿ºö
+	{
+		CChargeEffect::CHARGE_EFFECT_DESC desc{};
+		desc.m_ChargeTime = skill_desc.m_chargeSecond * 0.1f;
+		desc.m_NextEffectPrototypeTag = L"Prototype_GameObject_" + skill_desc.m_skillPath;
+		desc.m_NextEffectTypeIndex = m_Skill_Depend_Datas[skillType].m_effects[2];
+		desc.m_NextEffectType = EFFECT_TYPE_ATTACK;
+		desc.m_NextEffectPower = _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f));
+		desc.m_AttackDesc.m_bContinue = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Continue;
+		desc.m_AttackDesc.m_CollisionEffectType = m_Skill_Depend_Datas[skillType].m_effects[3];
+		desc.m_AttackDesc.m_bKnockBack = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Knockback;
+		desc.m_AttackDesc.effectDesc.m_IsParts = false;
+
+		pSkillEffect = pEffect_Manager->Create_Charge_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex, desc);
+		if (nullptr != pSkillEffect)
+			pSkillEffect->Set_Parent(pBone, pParentTransform, PivotMatrix);
+
+		CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
+		if (nullptr == pTransform)
+			return E_FAIL;
+		pTransform->LookAt(XMVectorSetW(vLook, 1.f));
+
+
+		Safe_Release(pSkillEffect);
+		//===============================================
+		desc.m_ChargeTime = skill_desc.m_chargeSecond * 0.11f;
+		desc.m_NextEffectPrototypeTag = L"Prototype_GameObject_" + skill_desc.m_skillPath;
+		desc.m_NextEffectTypeIndex = m_Skill_Depend_Datas[skillType].m_effects[2];
+		desc.m_NextEffectType = EFFECT_TYPE_ATTACK;
+		desc.m_NextEffectPower = _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f));
+		desc.m_AttackDesc.m_bContinue = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Continue;
+		desc.m_AttackDesc.m_CollisionEffectType = m_Skill_Depend_Datas[skillType].m_effects[3];
+		desc.m_AttackDesc.m_bKnockBack = false;
+		desc.m_AttackDesc.effectDesc.m_IsParts = false;
+
+		pSkillEffect = pEffect_Manager->Create_Charge_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex, desc);
+		if (nullptr != pSkillEffect)
+			pSkillEffect->Set_Parent(pBone, pParentTransform, PivotMatrix);
+
+		pTransform = pSkillEffect->Get_As<CTransform>();
+		if (nullptr == pTransform)
+			return E_FAIL;
+		pTransform->LookAt(XMVectorSetW(vLook, 1.f));
+
+
+		Safe_Release(pSkillEffect);
+	}
+
 	else if (skillType == 79) // ¾ó´Ù ¹Ù¶÷
 	{
 		CChargeEffect::CHARGE_EFFECT_DESC desc{};
@@ -623,7 +669,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 			CAttackEffect::ATTACK_EFFECT_DESC desc{};
 			Set_NormalAttackDesc(desc, skillType, pSkillEffect, 3);
 
-			dynamic_cast<CBezierAttackEffect*>(pSkillEffect)->Set_BezierPoints(
+			static_cast<CBezierAttackEffect*>(pSkillEffect)->Set_BezierPoints(
 				{ pos1.x, pos1.y, pos1.z },
 				{ pos2.x, pos2.y + 2.5f, pos2.z },
 				{ pos3.x, 0.f, pos3.z }
@@ -716,6 +762,11 @@ CSkill* CSkill_Manager::Do_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _ui
 
 		CreateSkill(pLayerTag, iLevelIndex, skillType, damage, vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
 	}
+	else if (skillType == 72) // ³Ãµ¿ºö
+	{
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage, vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
+	}
+
 	else if (skillType == 79) // ¾ó´Ù ¹Ù¶÷
 	{
 		//pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
