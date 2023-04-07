@@ -233,7 +233,7 @@ CSkillEffect* CEffect_Manager::Create_Charge_Effect(_uint effectType, const _tch
 	}
 
 	chargeEffectDesc.effectDesc = effect_Desc;
-	chargeEffectDesc.effectDesc.m_AnimationStartAcc = 19.8;
+	chargeEffectDesc.effectDesc.m_AnimationStartAcc = 0.0;
 	chargeEffectDesc.effectDesc.m_AnimationSpeed = 2.5;
 	chargeEffectDesc.effectDesc.m_CurrentLoopCount = 50;
 

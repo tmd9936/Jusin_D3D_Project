@@ -365,14 +365,32 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 		desc.m_AttackDesc.m_bContinue = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Continue;
 		desc.m_AttackDesc.m_CollisionEffectType = m_Skill_Depend_Datas[skillType].m_effects[2];
 		desc.m_AttackDesc.m_bKnockBack = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Knockback;
-		// 공격스킬의 부모를 차지의 Transform이랑 본으로 넣어줘야함
-		//desc.effectDesc.pParent = pParentTransform;
-		//desc.effectDesc.pBonePtr = pBone;
-		//Safe_AddRef(pParentTransform);
-		//Safe_AddRef(pBone);
+
 		pSkillEffect = pEffect_Manager->Create_Charge_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex, desc);
 		if (nullptr != pSkillEffect)
 			pSkillEffect->Set_Parent(pBone, pParentTransform, PivotMatrix);
+
+		Safe_Release(pSkillEffect);
+	}
+
+	else if (skillType == 58) // 볼태커
+	{
+		CAttackEffect::ATTACK_EFFECT_DESC desc{};
+		desc.m_bContinue = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Continue;
+		desc.m_CollisionEffectType = m_Skill_Depend_Datas[skillType].m_effects[2];
+		desc.m_bKnockBack = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Knockback;
+
+		pSkillEffect = pEffect_Manager->CreateEffect(m_Skill_Depend_Datas[skillType].m_effects[0], L"Prototype_GameObject_AttackEffect", pLayerTag, iLevelIndex);
+		if (nullptr != pSkillEffect)
+			pSkillEffect->Set_Parent(pBone, pParentTransform, PivotMatrix);
+
+		static_cast<CAttackEffect*>(pSkillEffect)->Set_AttackDesc(desc);
+
+		CAttack* pAttack = pSkillEffect->Get_As<CAttack>();
+		if (nullptr != pAttack)
+		{
+			pAttack->Set_AttackPower(_uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f)));
+		}
 
 		Safe_Release(pSkillEffect);
 	}
@@ -396,17 +414,17 @@ CSkill* CSkill_Manager::Do_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _ui
 	{
 		/*pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
 			vParentMatrix, XMConvertToRadians(60.f), XMConvertToRadians(180.f), pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
-
 		Safe_Release(pSkill);*/
 
 		CreateSkill(pLayerTag, iLevelIndex, skillType, damage, vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
 	}
 	else if (skillType == 58) // 볼테커
 	{
-		pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
-			vParentMatrix, XMConvertToRadians(0.f), XMConvertToRadians(0.f), pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
+		//pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
+		//	vParentMatrix, XMConvertToRadians(0.f), XMConvertToRadians(0.f), pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
+		//Safe_Release(pSkill);
 
-		Safe_Release(pSkill);
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage, vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
 	}
 	else if (skillType == 100) // 지진
 	{

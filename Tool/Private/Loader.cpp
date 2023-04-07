@@ -672,13 +672,24 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CBackGround::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
+
+		/* For.Prototype_GameObject_SkillEffect */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SkillEffect"),
+			CSkillEffect::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
 		/* For.Prototype_GameObject_ChargeEffect */
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ChargeEffect"),
 			CChargeEffect::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
-		/* For.Prototype_GameObject_BackGround */
-		CHommingAttackEffect::HOMMING_ATTACK_EFFECT_DESC ZyuumanborutoDesc = {};
+		/* For.Prototype_GameObject_AttackEffect */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_AttackEffect"),
+			CAttackEffect::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		/* For.Prototype_GameObject_SP_Denki_Zyuumanboruto */
+		CHommingAttackEffect::HOMMING_ATTACK_EFFECT_DESC ZyuumanborutoDesc{};
 		//ZyuumanborutoDesc.attackEffectDesc.m_bKnockBack = true;
 		ZyuumanborutoDesc.m_bArriveHomeDead = false;
 		ZyuumanborutoDesc.m_SmallRotationSpeed = XMConvertToRadians(60.f);

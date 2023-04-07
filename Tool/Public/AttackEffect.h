@@ -11,6 +11,7 @@ END
 BEGIN(Client)
 
 class CSkill_Manager;
+class CEffect_Manager;
 
 class CAttackEffect :
 	public CSkillEffect
@@ -58,6 +59,7 @@ protected:
 protected:
 	void		Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
 	void		Attack_Time_Check(const _double& TimeDelta);
+	void		Create_Collision_Effect(CTransform* hitObjectTransform);
 
 protected:
 	ATTACK_EFFECT_DESC	m_AttackEffectDesc = {};

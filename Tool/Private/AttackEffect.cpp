@@ -1,6 +1,7 @@
 #include "AttackEffect.h"
 
 #include "Skill_Manager.h"
+#include "Effect_Manager.h"
 
 #include "GameInstance.h"
 
@@ -126,6 +127,10 @@ void CAttackEffect::Collision(CCollider* pOther, const _float& fX, const _float&
 		if (!pOtherOwner)
 			return;
 
+		CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
+		if (!pOtherTransform)
+			return;
+
 		if (m_pAttackCom)
 		{
 			CHP* pOtherHpCom = pOtherOwner->Get_As<CHP>();
@@ -136,12 +141,14 @@ void CAttackEffect::Collision(CCollider* pOther, const _float& fX, const _float&
 				{
 					pOtherHpCom->Get_Damage(m_pAttackCom->Get_AttackPower());
 
+					// TODO:: 콜리전 이펙트 생성
+					Create_Collision_Effect(pOtherTransform);
+
 					if (false == m_AttackEffectDesc.m_bContinue)
 					{
 						Set_Dead();
 					}
 
-					// TODO:: 콜리전 이펙트 생성
 
 					m_AttackTimeAcc = m_AttackEffectDesc.m_AttackTime;
 				}
@@ -150,9 +157,6 @@ void CAttackEffect::Collision(CCollider* pOther, const _float& fX, const _float&
 
 		if (m_AttackEffectDesc.m_bKnockBack)
 		{
-			CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
-			if (!pOtherTransform)
-				return;
 
 			CNavigation* pNavigationCom = pOtherOwner->Get_As<CNavigation>();
 
@@ -190,6 +194,31 @@ void CAttackEffect::Attack_Time_Check(const _double& TimeDelta)
 {
 	if (m_AttackTimeAcc > 0.0)
 		m_AttackTimeAcc -= TimeDelta;
+}
+
+void CAttackEffect::Create_Collision_Effect(CTransform* hitObjectTransform)
+{
+	if (nullptr == hitObjectTransform)
+		return;
+
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	CEffect_Manager* pEffect_Manager = dynamic_cast<CEffect_Manager*>(pGameInstance->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"Effect_Manager"));
+	if (nullptr == pEffect_Manager)
+		return;
+
+	CSkillEffect* pSkillEffect = nullptr;
+	pSkillEffect = pEffect_Manager->CreateEffect(m_AttackEffectDesc.m_CollisionEffectType, L"Prototype_GameObject_SkillEffect", Get_LayerTag().c_str(), Get_Levelindex());
+
+	if (nullptr != pSkillEffect)
+	{
+		_float4 vPos{};
+		XMStoreFloat4(&vPos, hitObjectTransform->Get_State(CTransform::STATE_POSITION));
+		pSkillEffect->Set_Pos(vPos);
+	}
+
+	Safe_Release(pSkillEffect);
+
 }
 
 CAttackEffect* CAttackEffect::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
