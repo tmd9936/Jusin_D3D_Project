@@ -160,7 +160,11 @@ void CChargeEffect::Attack_Effect_Add()
 		}
 
 		_vector vParentLook = m_EffectDesc.pParent->Get_State(CTransform::STATE_LOOK);
-		_vector vParentPos = XMLoadFloat4((_float4*)m_EffectDesc.m_FinalWorldMatrix.m[3]);
+		_vector vParentPos = {};
+		if (m_EffectDesc.m_IsParts)
+			vParentPos = XMLoadFloat4((_float4*)m_EffectDesc.m_FinalWorldMatrix.m[3]);
+		else
+			vParentPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
 		CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
 		if (nullptr != pTransform)

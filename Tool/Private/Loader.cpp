@@ -724,6 +724,19 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SP_Koori_Kogoerukaze"),
 			CRushAttackEffect::Create(m_pDevice, m_pContext, KogoerukazeDesc))))
 			return E_FAIL;
+
+
+		/* For.Prototype_GameObject_SP_Mizu_Haidoroponpu */
+		CRushAttackEffect::RUSH_ATTACK_EFFECT_DESC Haidoroponpu{};
+		KogoerukazeDesc.attackEffectDesc.effectDesc.m_bParentRotateApply = false;
+		KogoerukazeDesc.attackEffectDesc.effectDesc.m_CurrentLoopCount = 2;
+		ZyuumanborutoDesc.attackEffectDesc.effectDesc.m_IsParts = false;
+		KogoerukazeDesc.attackEffectDesc.effectDesc.m_AnimationSpeed = 1.0;
+		KogoerukazeDesc.attackEffectDesc.effectDesc.m_AnimationStartAcc = 0.0;
+		KogoerukazeDesc.m_RushSpeed = 0.6;
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SP_Mizu_Haidoroponpu"),
+			CRushAttackEffect::Create(m_pDevice, m_pContext, Haidoroponpu))))
+			return E_FAIL;
 	}
 
 #pragma endregion

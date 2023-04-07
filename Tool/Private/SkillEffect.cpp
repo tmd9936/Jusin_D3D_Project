@@ -192,6 +192,15 @@ void CSkillEffect::Set_Parent(CBone* pBoneParent, CTransform* pTransformParent)
 	m_EffectDesc.m_IsParts = true;
 }
 
+void CSkillEffect::Set_ParentNoParts(CBone* pBoneParent, CTransform* pTransformParent)
+{
+	if (nullptr == pBoneParent || nullptr == pTransformParent)
+		return;
+
+	Set_ParentBone(pBoneParent);
+	Set_ParentTransform(pTransformParent);
+}
+
 void CSkillEffect::Set_AnimaitonStartTime(_double time)
 {
 	m_EffectDesc.m_AnimationStartAcc = time;
