@@ -505,9 +505,9 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 			pTransform->LookAt(XMVectorSetW(vLook, 1.f));
 
 			_float4 pos = {};
-			XMStoreFloat4(&pos, vPos + vLook * (rand() % 4 + 1) * 0.4f);
+			XMStoreFloat4(&pos, vPos + vLook * (rand() % 5 + 1) * 0.4f);
 
-			pos.z += (rand() % 10 - 5) * 0.6f;
+			pos.x += (rand() % 10 - 5) * 0.6f;
 
 			pSkillEffect->Set_Pos(pos);
 
