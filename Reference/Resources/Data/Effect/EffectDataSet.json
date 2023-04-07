@@ -2637,6 +2637,15 @@
       "m_exPath2": "",
       "m_soundEventID": 0,
       "m_underFlag": 0
+    },
+    {
+      "m_effectType": 292,
+      "m_actionType": 0,
+      "m_effectPath": "E_BPB_Normal_Loop",
+      "m_exPath1": "",
+      "m_exPath2": "",
+      "m_soundEventID": 0,
+      "m_underFlag": 0
     }
   ]
 }

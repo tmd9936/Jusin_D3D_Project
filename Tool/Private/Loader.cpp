@@ -302,6 +302,11 @@ _uint APIENTRY LoadingNormalEffect(void* pArg)
 		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Effect/E_BPB_Normal_Start.fbx", PivotMatrix))))
 		return	E_FAIL;
 
+	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_E_BPB_Normal_Loop",
+		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Effect/E_BPB_Normal_Loop.fbx", PivotMatrix))))
+		return	E_FAIL;
+
 	if (FAILED(hr))
 	{
 		LeaveCriticalSection(CThreadPool::GetInstance()->Get_CriticalSection(workerID));
@@ -696,7 +701,6 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 		/* For.Prototype_GameObject_SP_Denki_Zyuumanboruto */
 		CHommingAttackEffect::HOMMING_ATTACK_EFFECT_DESC ZyuumanborutoDesc{};
-		//ZyuumanborutoDesc.attackEffectDesc.m_bKnockBack = true;
 		ZyuumanborutoDesc.m_bArriveHomeDead = false;
 		ZyuumanborutoDesc.m_SmallRotationSpeed = XMConvertToRadians(60.f);
 		ZyuumanborutoDesc.m_BigRotationSpeed = XMConvertToRadians(180.f);
@@ -706,6 +710,19 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		ZyuumanborutoDesc.attackEffectDesc.effectDesc.m_CurrentLoopCount = 7;
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SP_Denki_Zyuumanboruto"),
 			CHommingAttackEffect::Create(m_pDevice, m_pContext, ZyuumanborutoDesc))))
+			return E_FAIL;
+
+
+		/* For.Prototype_GameObject_SP_Koori_Kogoerukaze */
+		CRushAttackEffect::RUSH_ATTACK_EFFECT_DESC KogoerukazeDesc{};
+		KogoerukazeDesc.attackEffectDesc.effectDesc.m_bParentRotateApply = false;
+		KogoerukazeDesc.attackEffectDesc.effectDesc.m_CurrentLoopCount = 1;
+		ZyuumanborutoDesc.attackEffectDesc.effectDesc.m_IsParts = false;
+		KogoerukazeDesc.attackEffectDesc.effectDesc.m_AnimationSpeed = 1.0;
+		KogoerukazeDesc.attackEffectDesc.effectDesc.m_AnimationStartAcc = 0.0;
+		KogoerukazeDesc.m_RushSpeed = 0.8;
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SP_Koori_Kogoerukaze"),
+			CRushAttackEffect::Create(m_pDevice, m_pContext, KogoerukazeDesc))))
 			return E_FAIL;
 	}
 

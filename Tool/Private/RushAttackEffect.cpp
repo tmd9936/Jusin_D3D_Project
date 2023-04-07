@@ -11,11 +11,24 @@ CRushAttackEffect::CRushAttackEffect(ID3D11Device* pDevice, ID3D11DeviceContext*
 
 CRushAttackEffect::CRushAttackEffect(const CRushAttackEffect& rhs)
 	: CAttackEffect(rhs)
+	, m_RushAttackEffectDesc(rhs.m_RushAttackEffectDesc)
 {
 }
 
 HRESULT CRushAttackEffect::Initialize_Prototype()
 {
+	if (FAILED(__super::Initialize_Prototype()))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CRushAttackEffect::Initialize_Prototype(RUSH_ATTACK_EFFECT_DESC& desc)
+{
+	m_RushAttackEffectDesc = desc;
+
+	m_AttackEffectDesc = m_RushAttackEffectDesc.attackEffectDesc;
+
 	if (FAILED(__super::Initialize_Prototype()))
 		return E_FAIL;
 
@@ -32,6 +45,9 @@ HRESULT CRushAttackEffect::Initialize(const _tchar* pLayerTag, _uint iLevelIndex
 
 	m_EffectDesc.m_bParentRotateApply = m_RushAttackEffectDesc.attackEffectDesc.effectDesc.m_bParentRotateApply;
 	m_EffectDesc.m_CurrentLoopCount = m_RushAttackEffectDesc.attackEffectDesc.effectDesc.m_CurrentLoopCount;
+
+	m_EffectDesc.m_AnimationSpeed = m_RushAttackEffectDesc.attackEffectDesc.effectDesc.m_AnimationSpeed;
+	m_EffectDesc.m_AnimationStartAcc = m_RushAttackEffectDesc.attackEffectDesc.effectDesc.m_AnimationStartAcc;
 
 	return S_OK;
 }
@@ -68,6 +84,19 @@ CRushAttackEffect* CRushAttackEffect::Create(ID3D11Device* pDevice, ID3D11Device
 	CRushAttackEffect* pInstance = new CRushAttackEffect(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
+	{
+		MSG_BOX("Failed to Created CRushAttackEffect");
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
+}
+
+CRushAttackEffect* CRushAttackEffect::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, RUSH_ATTACK_EFFECT_DESC& desc)
+{
+	CRushAttackEffect* pInstance = new CRushAttackEffect(pDevice, pContext);
+
+	if (FAILED(pInstance->Initialize_Prototype(desc)))
 	{
 		MSG_BOX("Failed to Created CRushAttackEffect");
 		Safe_Release(pInstance);

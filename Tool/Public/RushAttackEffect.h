@@ -32,6 +32,8 @@ private:
 
 public:
 	virtual HRESULT Initialize_Prototype() override; /* 원형객체의 초기화작업 */
+	virtual HRESULT Initialize_Prototype(RUSH_ATTACK_EFFECT_DESC& desc);
+
 	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override; /* 사본객체의 초기화작업 */
 
 	virtual _uint Tick(_double TimeDelta) override;
@@ -51,6 +53,8 @@ protected:
 public:
 	friend CLoader;
 	static CRushAttackEffect* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CRushAttackEffect* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, RUSH_ATTACK_EFFECT_DESC& desc);
+
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) override;
 	virtual void Free() override;
 

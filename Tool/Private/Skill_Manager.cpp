@@ -352,6 +352,9 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 
 	CSkill::Skill_Desc skill_desc = m_Skill_Desc_Datas[skillType];
 
+	_vector vLook = vParentMatrix.r[2];
+	_vector vPos = vParentMatrix.r[3];
+
 	if (skillType == 57) // 10만 볼트
 	{
 		CChargeEffect::CHARGE_EFFECT_DESC desc{};
@@ -365,24 +368,22 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 		desc.m_AttackDesc.m_bContinue = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Continue;
 		desc.m_AttackDesc.m_CollisionEffectType = m_Skill_Depend_Datas[skillType].m_effects[2];
 		desc.m_AttackDesc.m_bKnockBack = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Knockback;
+		desc.m_AttackDesc.effectDesc.m_IsParts = true;
 
 		pSkillEffect = pEffect_Manager->Create_Charge_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex, desc);
 		if (nullptr != pSkillEffect)
 			pSkillEffect->Set_Parent(pBone, pParentTransform, PivotMatrix);
+
+		CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
+		if (nullptr == pTransform)
+			return E_FAIL;
+		pTransform->LookAt(XMVectorSetW(vLook, 1.f));
 
 		Safe_Release(pSkillEffect);
 	}
 
 	else if (skillType == 58) // 볼태커
 	{
-		_vector vLook = vParentMatrix.r[2];
-		_vector vPos = vParentMatrix.r[3];
-
-		CAttackEffect::ATTACK_EFFECT_DESC desc{};
-		desc.m_bContinue = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Continue;
-		desc.m_CollisionEffectType = m_Skill_Depend_Datas[skillType].m_effects[2];
-		desc.m_bKnockBack = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Knockback;
-
 		Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[1], vLook, vPos, pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
 
 		pSkillEffect = pEffect_Manager->CreateEffect(m_Skill_Depend_Datas[skillType].m_effects[0], L"Prototype_GameObject_AttackEffect", pLayerTag, iLevelIndex);
@@ -393,26 +394,16 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 		if (nullptr == pTransform)
 			return E_FAIL;
 		pTransform->LookAt(XMVectorSetW(vLook, 1.f));
-		static_cast<CAttackEffect*>(pSkillEffect)->Set_AttackDesc(desc);
+	
+		CAttackEffect::ATTACK_EFFECT_DESC desc{};
+		Set_NormalAttackDesc(desc, skillType, pSkillEffect);
 
-		CAttack* pAttack = pSkillEffect->Get_As<CAttack>();
-		if (nullptr != pAttack)
-		{
-			pAttack->Set_AttackPower(_uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f)));
-		}
+		Set_AttackPower(pSkillEffect, _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f)));
 
 		Safe_Release(pSkillEffect);
 	}
 	else if (skillType <= 35 && skillType % 2 == 1) // 원거리 공격
 	{
-		_vector vLook = vParentMatrix.r[2];
-		_vector vPos = vParentMatrix.r[3];
-
-		CAttackEffect::ATTACK_EFFECT_DESC desc{};
-		desc.m_bContinue = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Continue;
-		desc.m_CollisionEffectType = m_Skill_Depend_Datas[skillType].m_effects[2];
-		desc.m_bKnockBack = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Knockback;
-
 		Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[0], vLook, vPos, pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
 
 		pSkillEffect = pEffect_Manager->CreateEffect(m_Skill_Depend_Datas[skillType].m_effects[1], L"Prototype_GameObject_RushAttackEffect", pLayerTag, iLevelIndex);
@@ -420,34 +411,77 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 		CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
 		if (nullptr == pTransform)
 			return E_FAIL;
-
 		pTransform->LookAt(XMVectorSetW(vLook, 1.f));
+
 		_float4 pos = {};
 		XMStoreFloat4(&pos, vPos + vLook * 0.5f);
 		pSkillEffect->Set_Pos(pos);
 
-		dynamic_cast<CAttackEffect*>(pSkillEffect)->Set_AttackDesc(desc);
-		dynamic_cast<CRushAttackEffect*>(pSkillEffect)->Set_RushSpeed(0.5);
-		pSkillEffect->Init_LoopCount(5);
+		CAttackEffect::ATTACK_EFFECT_DESC desc{};
+		Set_NormalAttackDesc(desc, skillType, pSkillEffect);
 
-		CAttack* pAttack = pSkillEffect->Get_As<CAttack>();
-		if (nullptr != pAttack)
-		{
-			pAttack->Set_AttackPower(_uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f)));
-		}
+		dynamic_cast<CRushAttackEffect*>(pSkillEffect)->Set_RushSpeed(0.5);
+		pSkillEffect->Init_LoopCount(2);
+
+		Set_AttackPower(pSkillEffect, _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f)));
+
+		Safe_Release(pSkillEffect);
+	}
+	else if (skillType == 79) // 얼다 바람
+	{
+		CChargeEffect::CHARGE_EFFECT_DESC desc{};
+		desc.m_ChargeTime = skill_desc.m_chargeSecond * 0.2f;
+		desc.m_NextEffectPrototypeTag = L"Prototype_GameObject_" + skill_desc.m_skillPath;
+		desc.m_NextEffectTypeIndex = m_Skill_Depend_Datas[skillType].m_effects[1];
+		desc.m_NextEffectType = EFFECT_TYPE_ATTACK;
+		desc.m_NextEffectPower = _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f));
+		desc.m_AttackDesc.m_bContinue = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Continue;
+		desc.m_AttackDesc.m_CollisionEffectType = m_Skill_Depend_Datas[skillType].m_effects[3];
+		desc.m_AttackDesc.m_bKnockBack = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Knockback;
+		desc.m_AttackDesc.effectDesc.m_IsParts = false;
+
+		pSkillEffect = pEffect_Manager->Create_Charge_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex, desc);
+		if (nullptr != pSkillEffect)
+			pSkillEffect->Set_Parent(pBone, pParentTransform, PivotMatrix);
+
+		CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
+		if (nullptr == pTransform)
+			return E_FAIL;
+		pTransform->LookAt(XMVectorSetW(vLook, 1.f));
+
+		_float4 pos = {};
+		XMStoreFloat4(&pos, vLook * 0.5f);
+		pSkillEffect->Set_Pos(pos);
+
+		Safe_Release(pSkillEffect);
+		//===============================================
+		desc.m_ChargeTime = skill_desc.m_chargeSecond * 0.2f;
+		desc.m_NextEffectPrototypeTag = L"Prototype_GameObject_" + skill_desc.m_skillPath;
+		desc.m_NextEffectTypeIndex = m_Skill_Depend_Datas[skillType].m_effects[2];
+		desc.m_NextEffectType = EFFECT_TYPE_ATTACK;
+		desc.m_NextEffectPower = _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 40) * 0.01f));
+		desc.m_AttackDesc.m_bContinue = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Continue;
+		desc.m_AttackDesc.m_CollisionEffectType = m_Skill_Depend_Datas[skillType].m_effects[3];
+		desc.m_AttackDesc.m_bKnockBack = false;
+		desc.m_AttackDesc.effectDesc.m_IsParts = false;
+
+		pSkillEffect = pEffect_Manager->Create_Charge_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex, desc);
+		if (nullptr != pSkillEffect)
+			pSkillEffect->Set_Parent(pBone, pParentTransform, PivotMatrix);
+
+		pTransform = pSkillEffect->Get_As<CTransform>();
+		if (nullptr == pTransform)
+			return E_FAIL;
+		pTransform->LookAt(XMVectorSetW(vLook, 1.f));
+
+		pos = {};
+		XMStoreFloat4(&pos, vLook * 0.5f);
+		pSkillEffect->Set_Pos(pos);
 
 		Safe_Release(pSkillEffect);
 	}
 	else
 	{
-		_vector vLook = vParentMatrix.r[2];
-		_vector vPos = vParentMatrix.r[3];
-
-		CAttackEffect::ATTACK_EFFECT_DESC desc{};
-		desc.m_bContinue = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Continue;
-		desc.m_CollisionEffectType = m_Skill_Depend_Datas[skillType].m_effects[2];
-		desc.m_bKnockBack = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Knockback;
-
 		Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[1], vLook, vPos, pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
 
 		pSkillEffect = pEffect_Manager->CreateEffect(m_Skill_Depend_Datas[skillType].m_effects[0], L"Prototype_GameObject_AttackEffect", pLayerTag, iLevelIndex);
@@ -456,17 +490,15 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 		if (nullptr == pTransform)
 			return E_FAIL;
 		pTransform->LookAt(XMVectorSetW(vLook, 1.f));
-		static_cast<CAttackEffect*>(pSkillEffect)->Set_AttackDesc(desc);
+
+		CAttackEffect::ATTACK_EFFECT_DESC desc{};
+		Set_NormalAttackDesc(desc, skillType, pSkillEffect);
 
 		_float4 pos = {};
 		XMStoreFloat4(&pos, vPos + vLook * 0.5f);
 		pSkillEffect->Set_Pos(pos);
 
-		CAttack* pAttack = pSkillEffect->Get_As<CAttack>();
-		if (nullptr != pAttack)
-		{
-			pAttack->Set_AttackPower(_uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f)));
-		}
+		Set_AttackPower(pSkillEffect, _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f)));
 
 		Safe_Release(pSkillEffect);
 	}
@@ -521,17 +553,21 @@ CSkill* CSkill_Manager::Do_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _ui
 	}
 	else if (skillType == 164) // 돌진
 	{
-		pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
-			vParentMatrix, XMConvertToRadians(0.f), XMConvertToRadians(0.f), pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
+		//pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
+		//	vParentMatrix, XMConvertToRadians(0.f), XMConvertToRadians(0.f), pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
 
-		Safe_Release(pSkill);
+		//Safe_Release(pSkill);
+
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage, vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
 	}
 	else if (skillType == 79) // 얼다 바람
 	{
-		pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
-			vParentMatrix, XMConvertToRadians(0.f), XMConvertToRadians(0.f), pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), true, 1.0);
+		//pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
+		//	vParentMatrix, XMConvertToRadians(0.f), XMConvertToRadians(0.f), pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), true, 1.0);
 
-		Safe_Release(pSkill);
+		//Safe_Release(pSkill);
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage, vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
+
 	}
 	else if (skillType == 50) // 하이드럼 펌프
 	{
@@ -787,6 +823,23 @@ void CSkill_Manager::Create_No_ChargeEffect(_uint skillType, _vector vLook, _vec
 	Safe_Release(pSkillEffect);
 }
 
+void CSkill_Manager::Set_NormalAttackDesc(CAttackEffect::ATTACK_EFFECT_DESC& desc, const _uint& skillType, CSkillEffect* pSkillEffect)
+{
+	desc.m_bContinue = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Continue;
+	desc.m_CollisionEffectType = m_Skill_Depend_Datas[skillType].m_effects[2];
+	desc.m_bKnockBack = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Knockback;
+
+	static_cast<CAttackEffect*>(pSkillEffect)->Set_AttackDesc(desc);
+}
+
+void CSkill_Manager::Set_AttackPower(CSkillEffect* pSkillEffect, const _uint& damage)
+{
+	CAttack* pAttack = pSkillEffect->Get_As<CAttack>();
+	if (nullptr != pAttack)
+	{
+		pAttack->Set_AttackPower(damage);
+	}
+}
 
 HRESULT CSkill_Manager::Add_Components()
 {

@@ -43,6 +43,7 @@ HRESULT CSkillEffect::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, voi
 
 		m_EffectDesc.m_AnimationSpeed = (*(EFFECT_DESC*)(pArg)).m_AnimationSpeed;
 		m_EffectDesc.m_CurrentLoopCount = (*(EFFECT_DESC*)(pArg)).m_CurrentLoopCount;
+		m_EffectDesc.m_IsParts = (*(EFFECT_DESC*)(pArg)).m_IsParts;
 
 	}
 

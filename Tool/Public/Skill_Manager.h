@@ -74,6 +74,9 @@ private:
 	void Create_No_ChargeEffect(_uint skillType, _vector vLook, _vector vPos, const _tchar* pLayerTag, _uint iLevelIndex,
 		CBone* pBone, CTransform* pParentTransform, _fmatrix PivotMatrix);
 
+	void	Set_NormalAttackDesc(CAttackEffect::ATTACK_EFFECT_DESC& desc, const _uint& skillType, CSkillEffect* pSkillEffect);
+	void	Set_AttackPower(CSkillEffect* pSkillEffect, const _uint& damage);
+
 private:
 	HRESULT Add_Components();
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 던진다. */
