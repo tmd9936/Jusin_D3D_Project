@@ -1,6 +1,6 @@
 #include "AttackEffect.h"
 
-#include "Skill_Manager.h";
+#include "Skill_Manager.h"
 
 #include "GameInstance.h"
 
@@ -26,16 +26,6 @@ HRESULT CAttackEffect::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, vo
 {
 	if (nullptr != pArg)
 	{
-		m_AttackEffectDesc.m_bKnockBack = (*(ATTACK_EFFECT_DESC*)(pArg)).m_bKnockBack;
-		m_AttackEffectDesc.m_AttackTime = (*(ATTACK_EFFECT_DESC*)(pArg)).m_AttackTime;
-		m_AttackEffectDesc.m_bContinue = (*(ATTACK_EFFECT_DESC*)(pArg)).m_bContinue;
-		m_AttackEffectDesc.m_CollisionEffectType = (*(ATTACK_EFFECT_DESC*)(pArg)).m_CollisionEffectType;
-
-		if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, &(*(ATTACK_EFFECT_DESC*)(pArg)).effectDesc)))
-			return E_FAIL;
-	}
-	else
-	{
 		if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 			return E_FAIL;
 	}
@@ -45,7 +35,13 @@ HRESULT CAttackEffect::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, vo
 
 _uint CAttackEffect::Tick(_double TimeDelta)
 {
-	__super::Tick(TimeDelta);
+	if (m_bDead)
+		return OBJ_DEAD;
+
+	if (m_EffectDesc.m_CurrentLoopCount < 0)
+		return OBJ_DEAD;
+
+	Loop_Count_Check(TimeDelta);
 
 	Attack_Time_Check(TimeDelta);
 

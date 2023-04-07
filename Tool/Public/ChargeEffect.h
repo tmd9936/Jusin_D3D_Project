@@ -5,9 +5,14 @@
 #include "HommingAttackEffect.h"
 #include "RushAttackEffect.h"
 
+BEGIN(Engine)
+class CAttack;
+END
+
 BEGIN(Client)
 
 class CSkill_Manager;
+class CEffect_Manager;
 
 class CChargeEffect :
     public CSkillEffect
@@ -16,12 +21,14 @@ class CChargeEffect :
 public:
     typedef struct Charge_Effect_Desc
     {
-		wstring			m_NextAttackEffectPrototypeTag;
-		_uint			m_NextAttackEffect = { 0 };
-		_uint			m_NextAttackEffectPower = { 0 };
+		wstring			m_NextEffectPrototypeTag;
+		_uint			m_NextEffectPower = { 0 };
 		_double			m_ChargeTime = { 0.0 };
-		_uint			m_NextAttackEffectNum = { 0 };
-		vector<_float>	m_NextAttackEffectAngles;
+		_uint			m_NextEffectNum = { 1 };
+		vector<_float>	m_NextEffectAngles;
+
+		_uint			m_NextEffectType = { 0 };
+		_uint			m_CollisionEffectType = { 0 };
 
 		//CHommingAttackEffect::HOMMING_ATTACK_EFFECT_DESC  m_HommingAttackEffectDesc = {};
 		//CRushAttackEffect::RUSH_ATTACK_EFFECT_DESC  m_RushAttackEffectDesc = {};
@@ -42,8 +49,6 @@ public:
 
 	virtual _uint Tick(_double TimeDelta) override;
 	virtual _uint LateTick(_double TimeDelta) override;
-
-public:
 
 protected:
 	void		Charge_Time_Check(const _double& TimeDelta);

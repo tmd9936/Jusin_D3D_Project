@@ -34,9 +34,13 @@ public:
 	virtual _uint Tick(_double TimeDelta) override;
 	virtual _uint LateTick(_double TimeDelta) override;
 
-	CEffect* Create_Effect(_uint effectType, const _tchar* pLayerTag, _uint iLevelIndex, _bool hasCollider = false, _float3 vPos = { 0.f, 0.f, 0.f });
+	CEffect* Create_Effect(_uint effectType, const _tchar* pLayerTag, _uint iLevelIndex, _bool hasCollider = false, 
+		_float3 vPos = { 0.f, 0.f, 0.f });
 
-	HRESULT	Create_Charge_Effect(_uint effectType, const _tchar* pLayerTag, _uint iLevelIndex, CChargeEffect::CHARGE_EFFECT_DESC& chargeEffectDesc);
+	CSkillEffect* CreateEffect(_uint effectType, const _tchar* pEffectProtoTypeTag, const _tchar* pLayerTag, _uint iLevelIndex);
+
+	CSkillEffect* Create_Charge_Effect(_uint effectType, const _tchar* pLayerTag, _uint iLevelIndex, 
+		CChargeEffect::CHARGE_EFFECT_DESC& chargeEffectDesc);
 
 	//HRESULT	Create_Attack_Effect(_uint effectType, const _tchar* pLayerTag, _uint iLevelIndex, ATTACK_TYPE attackType);
 

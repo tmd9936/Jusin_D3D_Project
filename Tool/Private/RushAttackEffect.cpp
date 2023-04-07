@@ -1,6 +1,6 @@
 #include "RushAttackEffect.h"
 
-#include "Skill_Manager.h";
+#include "Skill_Manager.h"
 
 #include "GameInstance.h"
 
@@ -25,14 +25,6 @@ HRESULT CRushAttackEffect::Initialize_Prototype()
 HRESULT CRushAttackEffect::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
 	if (nullptr != pArg)
-	{
-		m_RushAttackEffectDesc.m_vRushDirection = (*(RUSH_ATTACK_EFFECT_DESC*)(pArg)).m_vRushDirection;
-		m_RushAttackEffectDesc.m_RushSpeed = (*(RUSH_ATTACK_EFFECT_DESC*)(pArg)).m_RushSpeed;
-
-		if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, &(*(RUSH_ATTACK_EFFECT_DESC*)(pArg)).attackEffectDesc)))
-			return E_FAIL;
-	}
-	else
 	{
 		if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 			return E_FAIL;

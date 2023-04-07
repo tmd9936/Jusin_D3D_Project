@@ -1,6 +1,6 @@
 #include "HommingAttackEffect.h"
 
-#include "Skill_Manager.h";
+#include "Skill_Manager.h"
 
 #include "GameInstance.h"
 
@@ -28,22 +28,6 @@ HRESULT CHommingAttackEffect::Initialize_Prototype(Homming_Attack_Effect_Desc& d
 HRESULT CHommingAttackEffect::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
 	if (nullptr != pArg)
-	{
-		m_HommingAttackEffectDesc.m_bArriveHomeDead = (*(HOMMING_ATTACK_EFFECT_DESC*)(pArg)).m_bArriveHomeDead;
-		m_HommingAttackEffectDesc.m_bParentRotateApply = (*(HOMMING_ATTACK_EFFECT_DESC*)(pArg)).m_bParentRotateApply;
-		m_HommingAttackEffectDesc.m_eHommingState = (*(HOMMING_ATTACK_EFFECT_DESC*)(pArg)).m_eHommingState;
-	
-		m_HommingAttackEffectDesc.m_SmallRotation = (*(HOMMING_ATTACK_EFFECT_DESC*)(pArg)).m_SmallRotation;
-		m_HommingAttackEffectDesc.m_SmallRotationSpeed = (*(HOMMING_ATTACK_EFFECT_DESC*)(pArg)).m_SmallRotationSpeed;
-
-		m_HommingAttackEffectDesc.m_BigRotation = (*(HOMMING_ATTACK_EFFECT_DESC*)(pArg)).m_BigRotation;
-		m_HommingAttackEffectDesc.m_BigRotationRadius = (*(HOMMING_ATTACK_EFFECT_DESC*)(pArg)).m_BigRotationRadius;
-		m_HommingAttackEffectDesc.m_BigRotationSpeed = (*(HOMMING_ATTACK_EFFECT_DESC*)(pArg)).m_BigRotationSpeed;
-
-		if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, &(*(HOMMING_ATTACK_EFFECT_DESC*)(pArg)).attackEffectDesc)))
-			return E_FAIL;
-	}
-	else
 	{
 		if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 			return E_FAIL;

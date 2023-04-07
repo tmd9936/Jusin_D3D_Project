@@ -1,6 +1,7 @@
 #include "ChargeEffect.h"
 
-#include "Skill_Manager.h";
+#include "Skill_Manager.h"
+#include "Effect_Manager.h"
 
 #include "GameInstance.h"
 
@@ -26,12 +27,14 @@ HRESULT CChargeEffect::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, vo
 {
 	if (nullptr != pArg)
 	{
-		m_ChargeEffectDesc.m_NextAttackEffectPrototypeTag = (*(Charge_Effect_Desc*)(pArg)).m_NextAttackEffectPrototypeTag;
-		m_ChargeEffectDesc.m_NextAttackEffectPower = (*(Charge_Effect_Desc*)(pArg)).m_NextAttackEffectPower;
+		m_ChargeEffectDesc.m_NextEffectPrototypeTag = (*(Charge_Effect_Desc*)(pArg)).m_NextEffectPrototypeTag;
+		m_ChargeEffectDesc.m_NextEffectPower = (*(Charge_Effect_Desc*)(pArg)).m_NextEffectPower;
 		m_ChargeEffectDesc.m_ChargeTime = (*(Charge_Effect_Desc*)(pArg)).m_ChargeTime;
 
-		m_ChargeEffectDesc.m_NextAttackEffectNum = (*(Charge_Effect_Desc*)(pArg)).m_NextAttackEffectNum;
-		m_ChargeEffectDesc.m_NextAttackEffectAngles = (*(Charge_Effect_Desc*)(pArg)).m_NextAttackEffectAngles;
+		m_ChargeEffectDesc.m_NextEffectNum = (*(Charge_Effect_Desc*)(pArg)).m_NextEffectNum;
+		m_ChargeEffectDesc.m_NextEffectAngles = (*(Charge_Effect_Desc*)(pArg)).m_NextEffectAngles;
+		m_ChargeEffectDesc.m_NextEffectType = (*(Charge_Effect_Desc*)(pArg)).m_NextEffectType;
+		m_ChargeEffectDesc.m_CollisionEffectType = (*(Charge_Effect_Desc*)(pArg)).m_CollisionEffectType;
 
 		//m_ChargeEffectDesc.m_HommingAttackEffectDesc = (*(Charge_Effect_Desc*)(pArg)).m_HommingAttackEffectDesc;
 		//m_ChargeEffectDesc.m_RushAttackEffectDesc = (*(Charge_Effect_Desc*)(pArg)).m_RushAttackEffectDesc;
@@ -54,6 +57,11 @@ _uint CChargeEffect::Tick(_double TimeDelta)
 	if (m_bDead)
 		return OBJ_DEAD;
 
+	if (m_EffectDesc.m_CurrentLoopCount < 0)
+		return OBJ_DEAD;
+
+	Loop_Count_Check(TimeDelta);
+
 	Charge_Time_Check(TimeDelta);
 
 	return _uint();
@@ -61,7 +69,7 @@ _uint CChargeEffect::Tick(_double TimeDelta)
 
 _uint CChargeEffect::LateTick(_double TimeDelta)
 {
-	return _uint();
+	return __super::LateTick(TimeDelta);
 }
 
 CChargeEffect* CChargeEffect::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -79,27 +87,67 @@ CChargeEffect* CChargeEffect::Create(ID3D11Device* pDevice, ID3D11DeviceContext*
 
 void CChargeEffect::Charge_Time_Check(const _double& TimeDelta)
 {
+	/*pSkill_Mananger->Do_Skill(Get_LayerTag().c_str(), m_iLevelindex, m_ChargeEffectDesc.nextAttackEffect,
+				m_ChargeEffectDesc.nextAttackEffectPower, m_pTransformCom->Get_WorldMatrix_Matrix(), m_pModelCom, "RootNode", m_pTransformCom);*/
+
 	if (m_ChargeTimeAcc < m_ChargeEffectDesc.m_ChargeTime)
 	{
 		m_ChargeTimeAcc += TimeDelta;
 	}
 	else
 	{
-		CSkill_Manager* pSkill_Mananger = dynamic_cast<CSkill_Manager*>(CGameInstance::GetInstance()->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"Skill_Manager"));
-		if (nullptr != pSkill_Mananger)
-		{
-			//switch (m_ChargeEffectDesc.m_NextAttackEffectType)
-			//{
-			//case	ATTACK_NORMAL:
-			//	break;
-			//case	ATTACK_HOMMING:
-			//	break;
-			//case	ATTACK_RUSH:
-			//	break;
-			//}
+		CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
-			/*pSkill_Mananger->Do_Skill(Get_LayerTag().c_str(), m_iLevelindex, m_ChargeEffectDesc.nextAttackEffect,
-				m_ChargeEffectDesc.nextAttackEffectPower, m_pTransformCom->Get_WorldMatrix_Matrix(), m_pModelCom, "RootNode", m_pTransformCom);*/
+		CEffect_Manager* pEffect_Manager = dynamic_cast<CEffect_Manager*>(pGameInstance->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"Effect_Manager"));
+		if (nullptr == pEffect_Manager)
+			return ;
+
+		CSkillEffect* pSkillEffect = nullptr;
+		if (m_ChargeEffectDesc.m_NextEffectNum > 1)
+		{
+			for (size_t i = 0; i < m_ChargeEffectDesc.m_NextEffectNum; ++i)
+			{
+				pSkillEffect = pEffect_Manager->CreateEffect(m_ChargeEffectDesc.m_NextEffectType, m_ChargeEffectDesc.m_NextEffectPrototypeTag.c_str(),
+					Get_LayerTag().c_str(), Get_Levelindex());
+
+				pSkillEffect->Set_Parent(m_EffectDesc.pBonePtr, m_EffectDesc.pParent, m_EffectDesc.PivotMatrix);
+				_vector vParentLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+
+				vParentLook = XMVector3Rotate(vParentLook, XMQuaternionRotationAxis(XMVectorSet(0.f, 1.f, 0.f, 0.f), m_ChargeEffectDesc.m_NextEffectAngles[i]));
+
+				_float4 pos = {};
+				XMStoreFloat4(&pos, vParentLook);
+				pSkillEffect->Set_Pos(pos);
+
+				CAttack* pAttack = pSkillEffect->Get_As<CAttack>();
+				if (nullptr != pAttack)
+				{
+					pAttack->Set_AttackPower(m_ChargeEffectDesc.m_NextEffectPower);
+				}
+
+				Safe_Release(pSkillEffect);
+			}
+		}
+		else
+		{
+			pSkillEffect = pEffect_Manager->CreateEffect(m_ChargeEffectDesc.m_NextEffectType, m_ChargeEffectDesc.m_NextEffectPrototypeTag.c_str(),
+				Get_LayerTag().c_str(), Get_Levelindex());
+
+			pSkillEffect->Set_Parent(m_EffectDesc.pBonePtr, m_EffectDesc.pParent, m_EffectDesc.PivotMatrix);
+			CAttack* pAttack = pSkillEffect->Get_As<CAttack>();
+			if (nullptr != pAttack)
+			{
+				pAttack->Set_AttackPower(m_ChargeEffectDesc.m_NextEffectPower);
+			}
+
+			_vector vParentLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+			_vector vParentPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+			_float4 pos = {};
+			XMStoreFloat4(&pos, vParentPos);
+			pSkillEffect->Set_Pos(pos);
+
+			Safe_Release(pSkillEffect);
 		}
 
 		Set_Dead();

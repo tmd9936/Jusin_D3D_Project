@@ -70,6 +70,9 @@ public:
 	void	Set_Pos(const _float4& vPos);
 
 	void	Set_Parent(CBone* pBoneParent, CTransform* pTransformParent, _float4x4	PivotMatrix);
+	void	Set_Parent(CBone* pBoneParent, CTransform* pTransformParent, _matrix PivotMatrix);
+
+	void	Set_Parent(CBone* pBoneParent, CTransform* pTransformParent);
 
 	void	Init_LoopCount(_uint loopCount) {
 		m_EffectDesc.m_LoopCount = loopCount;

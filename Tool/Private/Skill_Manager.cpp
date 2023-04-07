@@ -348,17 +348,33 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 	if (nullptr == pEffect_Manager)
 		return E_FAIL;
 
-	if (skillType == 57) // 10만 볼트
-	{
-
-
-	}
-
+	CSkillEffect* pSkillEffect = nullptr;
 
 	CSkill::Skill_Desc skill_desc = m_Skill_Desc_Datas[skillType];
 
-	_float4x4 pivotMatrix = {};
-	XMStoreFloat4x4(&pivotMatrix, PivotMatrix);
+	if (skillType == 57) // 10만 볼트
+	{
+		CChargeEffect::CHARGE_EFFECT_DESC desc{};
+		desc.m_ChargeTime = skill_desc.m_chargeSecond * 0.3f;
+		desc.m_NextEffectPrototypeTag = L"Prototype_GameObject_" + skill_desc.m_skillPath;
+		desc.m_NextEffectType = m_Skill_Depend_Datas[skillType].m_effects[1];
+		desc.m_NextEffectNum = 3;
+		desc.m_NextEffectAngles = { XMConvertToRadians(0.f), XMConvertToRadians(120.f), XMConvertToRadians(240.f) };
+		desc.m_NextEffectPower = _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f));
+		desc.m_CollisionEffectType = m_Skill_Depend_Datas[skillType].m_effects[2];
+		// 공격스킬의 부모를 차지의 Transform이랑 본으로 넣어줘야함
+		//desc.effectDesc.pParent = pParentTransform;
+		//desc.effectDesc.pBonePtr = pBone;
+		//Safe_AddRef(pParentTransform);
+		//Safe_AddRef(pBone);
+		pSkillEffect = pEffect_Manager->Create_Charge_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex, desc);
+		if (nullptr != pSkillEffect)
+			pSkillEffect->Set_Parent(pBone, pParentTransform, PivotMatrix);
+
+		Safe_Release(pSkillEffect);
+	}
+
+	Safe_Release(pGameInstance);
 
 	return S_OK;
 }
@@ -375,10 +391,12 @@ CSkill* CSkill_Manager::Do_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _ui
 	CSkill* pSkill = nullptr;
 	if (skillType == 57) // 10만 볼트
 	{
-		pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
+		/*pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
 			vParentMatrix, XMConvertToRadians(60.f), XMConvertToRadians(180.f), pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
 
-		Safe_Release(pSkill);
+		Safe_Release(pSkill);*/
+
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage, vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
 	}
 	else if (skillType == 58) // 볼테커
 	{

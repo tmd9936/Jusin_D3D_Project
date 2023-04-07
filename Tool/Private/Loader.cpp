@@ -576,15 +576,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 #pragma endregion
 
 #pragma region GAMEOBJECTS
-	wsprintf(m_szLoadingText, TEXT("객체원형을 로딩중."));
-
+	wsprintf(m_szLoadingText, TEXT("LEVEL_STATIC 객체원형을 로딩중."));
 	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_LOGO))
 	{
-		/* For.Prototype_GameObject_UI */
-		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI"),
-			CUI::Create(m_pDevice, m_pContext))))
-			return E_FAIL;
-
 		/* For.Prototype_GameObject_Effect */
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect"),
 			CEffect::Create(m_pDevice, m_pContext))))
@@ -605,6 +599,39 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CSkill_Manager::Create(m_pDevice, m_pContext, "../../Reference/Resources/Data/Skill/SkillDependDataSet.json", "../../Reference/Resources/Data/Skill/SkillDataResourcesSet.json"))))
 			return E_FAIL;
 
+		/* For.Prototype_GameObject_Mouse*/
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Mouse"),
+			CMouse::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+	}
+#pragma endregion
+
+#pragma region STATIC_GAMEOBJECTS
+	wsprintf(m_szLoadingText, TEXT("LEVEL_STATIC 객체 로딩중."));
+	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_LOGO))
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Effect_Manager"), LEVEL_STATIC, L"Layer_Manager", L"Effect_Manager")))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Skill_Manager"), LEVEL_STATIC, L"Layer_Manager", L"Skill_Manager")))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_Mouse", LEVEL_STATIC, L"Layer_Mouse", L"Mouse")))
+			return E_FAIL;
+	}
+#pragma endregion
+
+
+#pragma region GAMEOBJECTS
+	wsprintf(m_szLoadingText, TEXT("객체원형을 로딩중."));
+
+	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_LOGO))
+	{
+		/* For.Prototype_GameObject_UI */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI"),
+			CUI::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
 		/* For.Prototype_GameObject_BuffState*/
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BuffState"),
 			CBuffState::Create(m_pDevice, m_pContext))))
@@ -618,11 +645,6 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		/* For.Prototype_GameObject_PartText*/
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_PartText"),
 			CPartText::Create(m_pDevice, m_pContext))))
-			return E_FAIL;
-
-		/* For.Prototype_GameObject_Mouse*/
-		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Mouse"),
-			CMouse::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
 		/* For.Prototype_GameObject_HpBar*/
@@ -672,21 +694,6 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 #pragma endregion
 
-#pragma region STATIC_GAMEOBJECTS
-	wsprintf(m_szLoadingText, TEXT("LEVEL_STATIC 객체 로딩중."));
-	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_LOGO))
-	{
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Effect_Manager"), LEVEL_STATIC, L"Layer_Manager", L"Effect_Manager")))
-			return E_FAIL;
-
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Skill_Manager"), LEVEL_STATIC, L"Layer_Manager", L"Skill_Manager")))
-			return E_FAIL;
-
-		if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_Mouse", LEVEL_STATIC, L"Layer_Mouse", L"Mouse")))
-			return E_FAIL;
-	}
-
-#pragma endregion
 	wsprintf(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 	m_isFinished = true;
 
