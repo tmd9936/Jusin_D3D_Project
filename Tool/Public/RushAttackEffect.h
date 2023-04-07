@@ -19,7 +19,6 @@ public:
 public:
 	typedef struct Homming_Attack_Effect_Desc
 	{
-		_vector					m_vRushDirection = {};
 		_double					m_RushSpeed = { 1.0 };
 
 		ATTACK_EFFECT_DESC		attackEffectDesc;
@@ -39,10 +38,15 @@ public:
 	virtual _uint LateTick(_double TimeDelta) override;
 
 public:
-
+	void		Set_RushSpeed(_double	rushSpeed) {
+		m_RushAttackEffectDesc.m_RushSpeed = rushSpeed;
+	}
 
 protected:
-	RUSH_ATTACK_EFFECT_DESC	m_RushAttackEffectDesc = {};
+	void		Rush(const _double& TimeDelta);
+
+protected:
+	RUSH_ATTACK_EFFECT_DESC		m_RushAttackEffectDesc = {};
 
 public:
 	friend CLoader;

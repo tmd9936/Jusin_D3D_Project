@@ -57,6 +57,7 @@
 
 #include "SkillEffect.h"
 #include "HommingAttackEffect.h"
+#include "RushAttackEffect.h"
 #include "ChargeEffect.h"
 
 #include "ThreadPool.h"
@@ -686,6 +687,11 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		/* For.Prototype_GameObject_AttackEffect */
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_AttackEffect"),
 			CAttackEffect::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		/* For.Prototype_GameObject_RushAttackEffect */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_RushAttackEffect"),
+			CRushAttackEffect::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
 		/* For.Prototype_GameObject_SP_Denki_Zyuumanboruto */

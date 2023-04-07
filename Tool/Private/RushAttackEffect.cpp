@@ -30,6 +30,9 @@ HRESULT CRushAttackEffect::Initialize(const _tchar* pLayerTag, _uint iLevelIndex
 			return E_FAIL;
 	}
 
+	m_EffectDesc.m_bParentRotateApply = m_RushAttackEffectDesc.attackEffectDesc.effectDesc.m_bParentRotateApply;
+	m_EffectDesc.m_CurrentLoopCount = m_RushAttackEffectDesc.attackEffectDesc.effectDesc.m_CurrentLoopCount;
+
 	return S_OK;
 }
 
@@ -38,12 +41,26 @@ _uint CRushAttackEffect::Tick(_double TimeDelta)
 	if (m_bDead)
 		return OBJ_DEAD;
 
+	if (m_EffectDesc.m_CurrentLoopCount < 0)
+		return OBJ_DEAD;
+
+	Rush(TimeDelta);
+
+	Loop_Count_Check(TimeDelta);
+
+	Attack_Time_Check(TimeDelta);
+
 	return _uint();
 }
 
 _uint CRushAttackEffect::LateTick(_double TimeDelta)
 {
-	return _uint();
+	return __super::LateTick(TimeDelta);
+}
+
+void CRushAttackEffect::Rush(const _double& TimeDelta)
+{
+	m_pTransformCom->Go_Straight((_float)(TimeDelta * m_RushAttackEffectDesc.m_RushSpeed));
 }
 
 CRushAttackEffect* CRushAttackEffect::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
