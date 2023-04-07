@@ -35,6 +35,8 @@ protected:
 
 public:
 	virtual HRESULT Initialize_Prototype() override; /* 원형객체의 초기화작업 */
+	virtual HRESULT Initialize_Prototype(ATTACK_EFFECT_DESC& attackEffectDesc); /* 원형객체의 초기화작업 */
+
 	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override; /* 사본객체의 초기화작업 */
 
 	virtual _uint Tick(_double TimeDelta) override;
@@ -74,6 +76,7 @@ protected:
 public:
 	friend CLoader;
 	static CAttackEffect* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CAttackEffect* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, ATTACK_EFFECT_DESC& m_AttackEffectDesc);
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) override;
 	virtual void Free() override;
 

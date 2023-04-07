@@ -119,8 +119,13 @@ void CChargeEffect::Attack_Effect_Add()
 				Get_LayerTag().c_str(), Get_Levelindex());
 
 			static_cast<CAttackEffect*>(pSkillEffect)->Set_AttackDesc(m_ChargeEffectDesc.m_AttackDesc);
-			_vector vParentLook = XMLoadFloat4((_float4*)m_EffectDesc.m_FinalWorldMatrix.m[2]);
-			_vector vParentPos = XMLoadFloat4((_float4*)m_EffectDesc.m_FinalWorldMatrix.m[3]);
+			_vector vParentLook = m_EffectDesc.pParent->Get_State(CTransform::STATE_LOOK);
+			_vector vParentPos = {};
+
+			if(m_EffectDesc.m_IsParts)
+				vParentPos = XMLoadFloat4((_float4*)m_EffectDesc.m_FinalWorldMatrix.m[3]);
+			else
+				vParentPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
 			vParentLook = XMVector3Rotate(vParentLook, XMQuaternionRotationAxis(XMVectorSet(0.f, 1.f, 0.f, 0.f), m_ChargeEffectDesc.m_NextEffectAngles[i]));
 
@@ -169,7 +174,7 @@ void CChargeEffect::Attack_Effect_Add()
 		CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
 		if (nullptr != pTransform)
 		{
-			pTransform->Set_State(CTransform::STATE_LOOK, vParentLook);
+			pTransform->LookAt(XMVectorSetW(vParentLook, 1.f));
 		}
 
 		_float4 pos = {};

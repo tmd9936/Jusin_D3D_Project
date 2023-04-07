@@ -717,7 +717,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		CRushAttackEffect::RUSH_ATTACK_EFFECT_DESC KogoerukazeDesc{};
 		KogoerukazeDesc.attackEffectDesc.effectDesc.m_bParentRotateApply = false;
 		KogoerukazeDesc.attackEffectDesc.effectDesc.m_CurrentLoopCount = 2;
-		ZyuumanborutoDesc.attackEffectDesc.effectDesc.m_IsParts = false;
+		KogoerukazeDesc.attackEffectDesc.effectDesc.m_IsParts = false;
 		KogoerukazeDesc.attackEffectDesc.effectDesc.m_AnimationSpeed = 1.0;
 		KogoerukazeDesc.attackEffectDesc.effectDesc.m_AnimationStartAcc = 0.0;
 		KogoerukazeDesc.m_RushSpeed = 0.8;
@@ -727,15 +727,26 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 
 		/* For.Prototype_GameObject_SP_Mizu_Haidoroponpu */
-		CRushAttackEffect::RUSH_ATTACK_EFFECT_DESC Haidoroponpu{};
-		KogoerukazeDesc.attackEffectDesc.effectDesc.m_bParentRotateApply = false;
-		KogoerukazeDesc.attackEffectDesc.effectDesc.m_CurrentLoopCount = 2;
-		ZyuumanborutoDesc.attackEffectDesc.effectDesc.m_IsParts = false;
-		KogoerukazeDesc.attackEffectDesc.effectDesc.m_AnimationSpeed = 1.0;
-		KogoerukazeDesc.attackEffectDesc.effectDesc.m_AnimationStartAcc = 0.0;
-		KogoerukazeDesc.m_RushSpeed = 0.6;
+		CRushAttackEffect::RUSH_ATTACK_EFFECT_DESC HaidoroponpuDesc{};
+		HaidoroponpuDesc.attackEffectDesc.effectDesc.m_bParentRotateApply = false;
+		HaidoroponpuDesc.attackEffectDesc.effectDesc.m_CurrentLoopCount = 2;
+		HaidoroponpuDesc.attackEffectDesc.effectDesc.m_IsParts = false;
+		HaidoroponpuDesc.attackEffectDesc.effectDesc.m_AnimationSpeed = 1.0;
+		HaidoroponpuDesc.attackEffectDesc.effectDesc.m_AnimationStartAcc = 0.0;
+		HaidoroponpuDesc.m_RushSpeed = 0.6;
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SP_Mizu_Haidoroponpu"),
-			CRushAttackEffect::Create(m_pDevice, m_pContext, Haidoroponpu))))
+			CRushAttackEffect::Create(m_pDevice, m_pContext, HaidoroponpuDesc))))
+			return E_FAIL;
+
+		/* For.Prototype_GameObject_SP_Jimen_Jisin */
+		CAttackEffect::ATTACK_EFFECT_DESC JisinDesc{};
+		JisinDesc.effectDesc.m_bParentRotateApply = false;
+		JisinDesc.effectDesc.m_CurrentLoopCount = 0;
+		JisinDesc.effectDesc.m_IsParts = true;
+		JisinDesc.effectDesc.m_AnimationSpeed = 1.0;
+		JisinDesc.effectDesc.m_AnimationStartAcc = 0.0;
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SP_Jimen_Jisin"),
+			CAttackEffect::Create(m_pDevice, m_pContext, JisinDesc))))
 			return E_FAIL;
 	}
 

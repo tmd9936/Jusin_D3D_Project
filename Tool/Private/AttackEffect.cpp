@@ -12,11 +12,22 @@ CAttackEffect::CAttackEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContex
 
 CAttackEffect::CAttackEffect(const CAttackEffect& rhs)
 	: CSkillEffect(rhs)
+	, m_AttackEffectDesc(rhs.m_AttackEffectDesc)
 {
 }
 
 HRESULT CAttackEffect::Initialize_Prototype()
 {
+	if (FAILED(__super::Initialize_Prototype()))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CAttackEffect::Initialize_Prototype(ATTACK_EFFECT_DESC& attackEffectDesc)
+{
+	m_AttackEffectDesc = attackEffectDesc;
+
 	if (FAILED(__super::Initialize_Prototype()))
 		return E_FAIL;
 
@@ -33,6 +44,9 @@ HRESULT CAttackEffect::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, vo
 	}
 	m_EffectDesc.m_bParentRotateApply = m_AttackEffectDesc.effectDesc.m_bParentRotateApply;
 	m_EffectDesc.m_CurrentLoopCount = m_AttackEffectDesc.effectDesc.m_CurrentLoopCount;
+
+	m_EffectDesc.m_AnimationSpeed = m_AttackEffectDesc.effectDesc.m_AnimationSpeed;
+	m_EffectDesc.m_AnimationStartAcc = m_AttackEffectDesc.effectDesc.m_AnimationStartAcc;
 
 	return S_OK;
 }
@@ -226,6 +240,19 @@ CAttackEffect* CAttackEffect::Create(ID3D11Device* pDevice, ID3D11DeviceContext*
 	CAttackEffect* pInstance = new CAttackEffect(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
+	{
+		MSG_BOX("Failed to Created CAttackEffect");
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
+}
+
+CAttackEffect* CAttackEffect::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, ATTACK_EFFECT_DESC& m_AttackEffectDesc)
+{
+	CAttackEffect* pInstance = new CAttackEffect(pDevice, pContext);
+
+	if (FAILED(pInstance->Initialize_Prototype(m_AttackEffectDesc)))
 	{
 		MSG_BOX("Failed to Created CAttackEffect");
 		Safe_Release(pInstance);

@@ -38,6 +38,9 @@ HRESULT CHommingAttackEffect::Initialize(const _tchar* pLayerTag, _uint iLevelIn
 	m_EffectDesc.m_bParentRotateApply = m_HommingAttackEffectDesc.attackEffectDesc.effectDesc.m_bParentRotateApply;
 	m_EffectDesc.m_CurrentLoopCount = m_HommingAttackEffectDesc.attackEffectDesc.effectDesc.m_CurrentLoopCount;
 
+	m_EffectDesc.m_AnimationSpeed = m_HommingAttackEffectDesc.attackEffectDesc.effectDesc.m_AnimationSpeed;
+	m_EffectDesc.m_AnimationStartAcc = m_HommingAttackEffectDesc.attackEffectDesc.effectDesc.m_AnimationStartAcc;
+
 	return S_OK;
 }
 

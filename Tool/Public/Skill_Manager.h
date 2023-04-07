@@ -74,7 +74,7 @@ private:
 	void Create_No_ChargeEffect(_uint skillType, _vector vLook, _vector vPos, const _tchar* pLayerTag, _uint iLevelIndex,
 		CBone* pBone, CTransform* pParentTransform, _fmatrix PivotMatrix);
 
-	void	Set_NormalAttackDesc(CAttackEffect::ATTACK_EFFECT_DESC& desc, const _uint& skillType, CSkillEffect* pSkillEffect);
+	void	Set_NormalAttackDesc(CAttackEffect::ATTACK_EFFECT_DESC& desc, const _uint& skillType, CSkillEffect* pSkillEffect, _uint collisionEffectType = 2);
 	void	Set_AttackPower(CSkillEffect* pSkillEffect, const _uint& damage);
 
 private:
