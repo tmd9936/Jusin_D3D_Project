@@ -430,7 +430,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 	else if (skillType == 79) // 얼다 바람
 	{
 		CChargeEffect::CHARGE_EFFECT_DESC desc{};
-		desc.m_ChargeTime = skill_desc.m_chargeSecond * 0.2f;
+		desc.m_ChargeTime = skill_desc.m_chargeSecond * 0.1f;
 		desc.m_NextEffectPrototypeTag = L"Prototype_GameObject_" + skill_desc.m_skillPath;
 		desc.m_NextEffectTypeIndex = m_Skill_Depend_Datas[skillType].m_effects[1];
 		desc.m_NextEffectType = EFFECT_TYPE_ATTACK;
@@ -455,7 +455,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 
 		Safe_Release(pSkillEffect);
 		//===============================================
-		desc.m_ChargeTime = skill_desc.m_chargeSecond * 0.2f;
+		desc.m_ChargeTime = skill_desc.m_chargeSecond * 0.1f;
 		desc.m_NextEffectPrototypeTag = L"Prototype_GameObject_" + skill_desc.m_skillPath;
 		desc.m_NextEffectTypeIndex = m_Skill_Depend_Datas[skillType].m_effects[2];
 		desc.m_NextEffectType = EFFECT_TYPE_ATTACK;
@@ -479,6 +479,10 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 		pSkillEffect->Set_Pos(pos);
 
 		Safe_Release(pSkillEffect);
+	}
+	else if (skillType == 50) // 하이드럼펌프
+	{
+
 	}
 	else
 	{

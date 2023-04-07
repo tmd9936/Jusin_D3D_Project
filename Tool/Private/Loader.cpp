@@ -716,7 +716,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		/* For.Prototype_GameObject_SP_Koori_Kogoerukaze */
 		CRushAttackEffect::RUSH_ATTACK_EFFECT_DESC KogoerukazeDesc{};
 		KogoerukazeDesc.attackEffectDesc.effectDesc.m_bParentRotateApply = false;
-		KogoerukazeDesc.attackEffectDesc.effectDesc.m_CurrentLoopCount = 1;
+		KogoerukazeDesc.attackEffectDesc.effectDesc.m_CurrentLoopCount = 2;
 		ZyuumanborutoDesc.attackEffectDesc.effectDesc.m_IsParts = false;
 		KogoerukazeDesc.attackEffectDesc.effectDesc.m_AnimationSpeed = 1.0;
 		KogoerukazeDesc.attackEffectDesc.effectDesc.m_AnimationStartAcc = 0.0;

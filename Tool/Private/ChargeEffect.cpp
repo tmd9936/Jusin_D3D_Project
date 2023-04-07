@@ -119,18 +119,23 @@ void CChargeEffect::Attack_Effect_Add()
 				Get_LayerTag().c_str(), Get_Levelindex());
 
 			static_cast<CAttackEffect*>(pSkillEffect)->Set_AttackDesc(m_ChargeEffectDesc.m_AttackDesc);
-
-			if (m_ChargeEffectDesc.m_AttackDesc.effectDesc.m_IsParts)
-			{
-				pSkillEffect->Set_Parent(m_EffectDesc.pBonePtr, m_EffectDesc.pParent, m_EffectDesc.PivotMatrix);
-			}
-			_vector vParentLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+			_vector vParentLook = XMLoadFloat4((_float4*)m_EffectDesc.m_FinalWorldMatrix.m[2]);
+			_vector vParentPos = XMLoadFloat4((_float4*)m_EffectDesc.m_FinalWorldMatrix.m[3]);
 
 			vParentLook = XMVector3Rotate(vParentLook, XMQuaternionRotationAxis(XMVectorSet(0.f, 1.f, 0.f, 0.f), m_ChargeEffectDesc.m_NextEffectAngles[i]));
 
 			_float4 pos = {};
-			XMStoreFloat4(&pos, vParentLook);
-			pSkillEffect->Set_Pos(pos);
+			if (m_ChargeEffectDesc.m_AttackDesc.effectDesc.m_IsParts)
+			{
+				XMStoreFloat4(&pos, vParentLook);
+				pSkillEffect->Set_Pos(pos);
+				pSkillEffect->Set_Parent(m_EffectDesc.pBonePtr, m_EffectDesc.pParent, m_EffectDesc.PivotMatrix);
+			}
+			else
+			{
+				XMStoreFloat4(&pos, vParentPos);
+				pSkillEffect->Set_Pos(pos);
+			}
 
 			CAttack* pAttack = pSkillEffect->Get_As<CAttack>();
 			if (nullptr != pAttack)
@@ -148,10 +153,6 @@ void CChargeEffect::Attack_Effect_Add()
 
 		static_cast<CAttackEffect*>(pSkillEffect)->Set_AttackDesc(m_ChargeEffectDesc.m_AttackDesc);
 
-		if (m_ChargeEffectDesc.m_AttackDesc.effectDesc.m_IsParts)
-		{
-			pSkillEffect->Set_Parent(m_EffectDesc.pBonePtr, m_EffectDesc.pParent, m_EffectDesc.PivotMatrix);
-		}
 		CAttack* pAttack = pSkillEffect->Get_As<CAttack>();
 		if (nullptr != pAttack)
 		{
@@ -159,15 +160,27 @@ void CChargeEffect::Attack_Effect_Add()
 		}
 
 		_vector vParentLook = m_EffectDesc.pParent->Get_State(CTransform::STATE_LOOK);
-		_vector vParentPos = m_EffectDesc.pParent->Get_State(CTransform::STATE_POSITION);
+		_vector vParentPos = XMLoadFloat4((_float4*)m_EffectDesc.m_FinalWorldMatrix.m[3]);
 
 		CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
 		if (nullptr != pTransform)
 		{
 			pTransform->Set_State(CTransform::STATE_LOOK, vParentLook);
-			pTransform->Set_State(CTransform::STATE_POSITION, vParentPos);
-
 		}
+
+		_float4 pos = {};
+		if (m_ChargeEffectDesc.m_AttackDesc.effectDesc.m_IsParts)
+		{
+			XMStoreFloat4(&pos, vParentLook);
+			pSkillEffect->Set_Pos(pos);
+			pSkillEffect->Set_Parent(m_EffectDesc.pBonePtr, m_EffectDesc.pParent, m_EffectDesc.PivotMatrix);
+		}
+		else
+		{
+			XMStoreFloat4(&pos, vParentPos);
+			pSkillEffect->Set_Pos(pos);
+		}
+
 
 		Safe_Release(pSkillEffect);
 	}
