@@ -50,6 +50,8 @@ private:
 	_bool			m_bBattle = { false };
 
 	CGameObject*	m_pMainPlayer = { nullptr };
+	CTransform*		m_pMainPlayerTransform = { nullptr };
+
 
 	_vector			m_relativePosition = {};
 

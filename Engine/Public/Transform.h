@@ -154,6 +154,7 @@ public:
 
 	void BackAt(_fvector vTargetPos);
 
+	_float	Get_DistanceFromTarget(_fvector vTargetPos);
 
 	/**
 	@return False 움직이는 중, True 도착

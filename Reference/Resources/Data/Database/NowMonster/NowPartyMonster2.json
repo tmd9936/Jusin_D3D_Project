@@ -40,10 +40,10 @@
         "m_normalSkillType": 10,
         "m_AIType": 1,
         "m_relativePosition": {
-          "x": -2.0,
+          "x": -1.0,
           "y": 0.0,
-          "z": -2.0,
-          "w": 1.0
+          "z": -1.0,
+          "w": 0.0
         },
         "m_skillIDs": [
           188

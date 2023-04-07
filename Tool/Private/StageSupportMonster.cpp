@@ -7,7 +7,7 @@
 
 /*
 파티몬스터 포메이션 테스트하기
-이후 버프 테스트 하기
+이후 버프 디버프 테스트 하기
 */
 
 CStageSupportMonster::CStageSupportMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -38,6 +38,9 @@ HRESULT CStageSupportMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIn
 	if (FAILED(Init_MainPlayer()))
 		return E_FAIL;
 
+	m_bBattle = false;
+	m_pMonFSM->Transit_MotionState(CMonFSM::FORMATION_NORMAL, m_pModelCom);
+
 	return S_OK;
 }
 
@@ -50,6 +53,9 @@ HRESULT CStageSupportMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIn
 
 	if (FAILED(Init_MainPlayer()))
 		return E_FAIL;
+
+	m_bBattle = false;
+	m_pMonFSM->Transit_MotionState(CMonFSM::FORMATION_NORMAL, m_pModelCom);
 
 	return S_OK;
 }
@@ -160,9 +166,13 @@ HRESULT CStageSupportMonster::Init_MainPlayer()
 	CGameInstance* pGameInstance =  CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	CGameObject* m_pMainPlayer = pGameInstance->Get_Object(Get_Levelindex(), Get_LayerTag().c_str(), L"Player");
+	m_pMainPlayer = pGameInstance->Get_Object(Get_Levelindex(), Get_LayerTag().c_str(), L"Player");
 	if (nullptr == m_pMainPlayer)
 		return E_FAIL;
+	Safe_AddRef(m_pMainPlayer);
+
+	m_pMainPlayerTransform = m_pMainPlayer->Get_As<CTransform>();
+	Safe_AddRef(m_pMainPlayerTransform);
 
 	Safe_Release(pGameInstance);
 	return S_OK;
@@ -202,17 +212,29 @@ _uint CStageSupportMonster::State_Tick(const _double& TimeDelta)
 		if (m_bBattle)
 		{
 			m_pMonFSM->Transit_MotionState(CMonFSM::FORMATION_NORMAL, m_pModelCom);
-			m_bBattle = true;
+			m_bBattle = false;
 		}
 	}
 
 	switch (m_pMonFSM->Get_MotionState())
 	{
 	case CMonFSM::FORMATION_NORMAL:
+		m_pModelCom->Play_Animation(TimeDelta);
+		if (2.0f <= m_pTransformCom->Get_DistanceFromTarget(m_pMainPlayerTransform->Get_State(CTransform::STATE_POSITION) + m_relativePosition))
+		{
+			m_pMonFSM->Transit_MotionState(CMonFSM::FORMATION_RUN, m_pModelCom);
+			break;
+		}
 
+		m_pTransformCom->Chase(m_pMainPlayerTransform->Get_State(CTransform::STATE_POSITION) + m_relativePosition, _float(TimeDelta), 0.4f, m_pNavigationCom);
 		break;
 
 	case CMonFSM::FORMATION_RUN:
+		m_pModelCom->Play_Animation(TimeDelta);
+		if (m_pTransformCom->Chase(m_pMainPlayerTransform->Get_State(CTransform::STATE_POSITION) + m_relativePosition, _float(TimeDelta), 1.0f, m_pNavigationCom))
+		{
+			m_pMonFSM->Transit_MotionState(CMonFSM::FORMATION_NORMAL, m_pModelCom);
+		}
 		break;
 
 	case CMonFSM::IDLE1:
@@ -619,4 +641,8 @@ CGameObject* CStageSupportMonster::Clone(const _tchar* pLayerTag, _uint iLevelIn
 void CStageSupportMonster::Free()
 {
 	__super::Free();
+
+	Safe_Release(m_pMainPlayer);
+	Safe_Release(m_pMainPlayerTransform);
+
 }

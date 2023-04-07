@@ -168,14 +168,21 @@ HRESULT CLevel_BaseCamp::Ready_Layer_Player(const _tchar* pLayerTag)
 	CMonster::POKEMON_DESC desc{};
 	desc.m_monsterNo = 25;
 	desc.vPos = _float4(22.f, 0.5f, 13.5f, 1.f);
-	desc.m_skillIDs.push_back(24);
+	desc.m_skillIDs.push_back(72);
 	desc.m_skillIDs.push_back(58);
 	desc.m_skillIDs.push_back(57);
-	desc.m_skillIDs.push_back(25);
+	desc.m_skillIDs.push_back(188);
 	desc.m_attackBasis = 50;
 	desc.m_hpBasis = 2500;
 
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Player"), LEVEL_BASECAMP, pLayerTag, L"Player", &desc)))
+		return E_FAIL;
+
+	//Prototype_GameObject_StageSupportMonster
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageSupportMonster"), LEVEL_BASECAMP, pLayerTag, L"Player2", "../../Reference/Resources/Data/Database/NowMonster/NowPartyMonster2.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageSupportMonster"), LEVEL_BASECAMP, pLayerTag, L"Player3", "../../Reference/Resources/Data/Database/NowMonster/NowPartyMonster3.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);

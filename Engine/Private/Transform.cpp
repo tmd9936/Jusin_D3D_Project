@@ -395,6 +395,17 @@ void CTransform::BackAt(_fvector vTargetPos)
 
 }
 
+_float CTransform::Get_DistanceFromTarget(_fvector vTargetPos)
+{
+	_vector vPosition = Get_State(STATE_POSITION);
+
+	_vector vDir = vTargetPos - vPosition;
+
+	_float length = XMVectorGetX(XMVector3Length(vDir));
+
+	return length;
+}
+
 _bool CTransform::Chase(_fvector vTargetPos, _float TimeDelta, _float limitDitance, CNavigation* pNavigation)
 {
 	LookAt(vTargetPos);

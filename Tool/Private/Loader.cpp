@@ -47,6 +47,7 @@
 #include "StageCameraTarget.h"
 
 #include "StageEnemyMonster.h"
+#include "StageSupportMonster.h"
 
 #include "HP.h"
 #include "HpBar.h"
@@ -667,6 +668,11 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		/* For.Prototype_GameObject_StageEnemyMonster*/
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_StageEnemyMonster"),
 			CStageEnemyMonster::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		/* For.Prototype_GameObject_StageSupportMonster*/
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_StageSupportMonster"),
+			CStageSupportMonster::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
 		/* For.Prototype_GameObject_DamageText*/
