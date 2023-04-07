@@ -60,7 +60,7 @@ _uint CBezierAttackEffect::Tick(_double TimeDelta)
 	if (m_EffectDesc.m_CurrentLoopCount < 0)
 		return OBJ_DEAD;
 
-	m_pTransformCom->Turn(XMVectorSet(1.f, 0.f, 0.f, 0.f), TimeDelta);
+	m_pTransformCom->Turn(XMVectorSet(1.f, 0.f, 0.f, 0.f), (_float)TimeDelta);
 
 	Bezier(TimeDelta);
 

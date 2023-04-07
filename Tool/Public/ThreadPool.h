@@ -32,7 +32,7 @@ public:
     HRESULT Add_Work(WORK work);
 
     const _uint   Get_WorkerThreadId() const {
-        return workerThreadList.size() - 1;
+        return _uint(workerThreadList.size() - 1);
     }
 
 public:

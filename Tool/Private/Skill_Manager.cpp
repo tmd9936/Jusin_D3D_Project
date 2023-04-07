@@ -404,7 +404,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 			pTransform->LookAt(XMVectorSetW(vLook, 1.f));
 
 			_float4 pos = {};
-			XMStoreFloat4(&pos, vPos + vLook * (rand() % 5 + 2) * 0.4f);
+			XMStoreFloat4(&pos, vPos + vLook * _float(rand() % 5 + 2) * 0.4f);
 
 			pos.x += (rand() % 10 - 5) * 0.6f;
 
@@ -631,7 +631,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 			Set_NormalAttackDesc(desc, skillType, pSkillEffect);
 
 			_float4 pos = {};
-			XMStoreFloat4(&pos, vPos + (vLook * 0.75f * i));
+			XMStoreFloat4(&pos, vPos + (vLook * 0.75f * _float(i)));
 			pSkillEffect->Set_Pos(pos);
 
 			pTransform->Set_Scaled({ 2.2f, 2.2f, 2.2f });
