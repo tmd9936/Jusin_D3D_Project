@@ -49,7 +49,7 @@ public:
 	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override; /* 사본객체의 초기화작업 */
 
 	virtual _uint Tick(_double TimeDelta) override;
-	//virtual _uint LateTick(_double TimeDelta) override;
+	virtual _uint LateTick(_double TimeDelta) override;
 
 public:
 	void	Set_SmallRotation(_float speed) {

@@ -44,7 +44,6 @@ public:
 		_double					m_AnimationStartAcc = { 0.0 };
 		_double					m_AnimationSpeed = { 1.0 };
 
-		_int					m_LoopCount = { 0 };
 		_int					m_CurrentLoopCount = { 0 };
 
 		CBone*					pBonePtr = { nullptr };
@@ -75,7 +74,6 @@ public:
 	void	Set_Parent(CBone* pBoneParent, CTransform* pTransformParent);
 
 	void	Init_LoopCount(_uint loopCount) {
-		m_EffectDesc.m_LoopCount = loopCount;
 		m_EffectDesc.m_CurrentLoopCount = loopCount;
 	}
 

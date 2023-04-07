@@ -19,6 +19,8 @@ HRESULT CHommingAttackEffect::Initialize_Prototype(Homming_Attack_Effect_Desc& d
 {
 	m_HommingAttackEffectDesc = desc;
 
+	m_AttackEffectDesc = m_HommingAttackEffectDesc.attackEffectDesc;
+
 	if (FAILED(__super::Initialize_Prototype()))
 		return E_FAIL;
 
@@ -33,12 +35,23 @@ HRESULT CHommingAttackEffect::Initialize(const _tchar* pLayerTag, _uint iLevelIn
 			return E_FAIL;
 	}
 
+	m_EffectDesc.m_bParentRotateApply = m_HommingAttackEffectDesc.attackEffectDesc.effectDesc.m_bParentRotateApply;
+	m_EffectDesc.m_CurrentLoopCount = m_HommingAttackEffectDesc.attackEffectDesc.effectDesc.m_CurrentLoopCount;
+
 	return S_OK;
 }
 
 _uint CHommingAttackEffect::Tick(_double TimeDelta)
 {
-	__super::Tick(TimeDelta);
+	if (m_bDead)
+		return OBJ_DEAD;
+
+	if (m_EffectDesc.m_CurrentLoopCount < 0)
+		return OBJ_DEAD;
+
+	Loop_Count_Check(TimeDelta);
+
+	Attack_Time_Check(TimeDelta);
 
 	Small_Rotation(TimeDelta);
 	Homming(TimeDelta);
@@ -47,12 +60,12 @@ _uint CHommingAttackEffect::Tick(_double TimeDelta)
 	return _uint();
 }
 
-//_uint CHommingAttackEffect::LateTick(_double TimeDelta)
-//{
-//	__super::LateTick(TimeDelta);
-//
-//	return _uint();
-//}
+_uint CHommingAttackEffect::LateTick(_double TimeDelta)
+{
+	__super::LateTick(TimeDelta);
+
+	return _uint();
+}
 
 
 void CHommingAttackEffect::Small_Rotation(const _double& TimeDelta)
@@ -145,8 +158,5 @@ CGameObject* CHommingAttackEffect::Clone(const _tchar* pLayerTag, _uint iLevelIn
 void CHommingAttackEffect::Free()
 {
 	__super::Free();
-
-	Safe_Release(m_pAttackCom);
-	Safe_Release(m_pColliderCom);
 
 }

@@ -686,7 +686,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		ZyuumanborutoDesc.m_BigRotationRadius = 2.f;
 		ZyuumanborutoDesc.m_eHommingState = CHommingAttackEffect::HOMMING_OUT;
 		ZyuumanborutoDesc.attackEffectDesc.effectDesc.m_bParentRotateApply = false;
-		ZyuumanborutoDesc.attackEffectDesc.effectDesc.m_LoopCount = 7;
+		ZyuumanborutoDesc.attackEffectDesc.effectDesc.m_CurrentLoopCount = 7;
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SP_Denki_Zyuumanboruto"),
 			CHommingAttackEffect::Create(m_pDevice, m_pContext, ZyuumanborutoDesc))))
 			return E_FAIL;

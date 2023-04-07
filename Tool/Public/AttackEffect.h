@@ -44,6 +44,14 @@ public:
 	virtual void On_CollisionEnter(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
 	virtual void On_CollisionExit(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
 
+public:
+	void	Set_AttackDesc(ATTACK_EFFECT_DESC& attackEffectDesc) {
+		m_AttackEffectDesc.m_AttackTime = attackEffectDesc.m_AttackTime;
+		m_AttackEffectDesc.m_bKnockBack = attackEffectDesc.m_bKnockBack;
+		m_AttackEffectDesc.m_bContinue = attackEffectDesc.m_bContinue;
+		m_AttackEffectDesc.m_CollisionEffectType = attackEffectDesc.m_CollisionEffectType;
+	}
+
 protected:
 	virtual HRESULT Add_Components();
 

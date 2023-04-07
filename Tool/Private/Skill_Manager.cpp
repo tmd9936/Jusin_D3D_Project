@@ -357,11 +357,14 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 		CChargeEffect::CHARGE_EFFECT_DESC desc{};
 		desc.m_ChargeTime = skill_desc.m_chargeSecond * 0.3f;
 		desc.m_NextEffectPrototypeTag = L"Prototype_GameObject_" + skill_desc.m_skillPath;
-		desc.m_NextEffectType = m_Skill_Depend_Datas[skillType].m_effects[1];
+		desc.m_NextEffectTypeIndex = m_Skill_Depend_Datas[skillType].m_effects[1];
+		desc.m_NextEffectType = EFFECT_TYPE_ATTACK;
 		desc.m_NextEffectNum = 3;
 		desc.m_NextEffectAngles = { XMConvertToRadians(0.f), XMConvertToRadians(120.f), XMConvertToRadians(240.f) };
 		desc.m_NextEffectPower = _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f));
-		desc.m_CollisionEffectType = m_Skill_Depend_Datas[skillType].m_effects[2];
+		desc.m_AttackDesc.m_bContinue = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Continue;
+		desc.m_AttackDesc.m_CollisionEffectType = m_Skill_Depend_Datas[skillType].m_effects[2];
+		desc.m_AttackDesc.m_bKnockBack = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Knockback;
 		// 공격스킬의 부모를 차지의 Transform이랑 본으로 넣어줘야함
 		//desc.effectDesc.pParent = pParentTransform;
 		//desc.effectDesc.pBonePtr = pBone;

@@ -33,12 +33,10 @@ HRESULT CChargeEffect::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, vo
 
 		m_ChargeEffectDesc.m_NextEffectNum = (*(Charge_Effect_Desc*)(pArg)).m_NextEffectNum;
 		m_ChargeEffectDesc.m_NextEffectAngles = (*(Charge_Effect_Desc*)(pArg)).m_NextEffectAngles;
+		m_ChargeEffectDesc.m_NextEffectTypeIndex = (*(Charge_Effect_Desc*)(pArg)).m_NextEffectTypeIndex;
 		m_ChargeEffectDesc.m_NextEffectType = (*(Charge_Effect_Desc*)(pArg)).m_NextEffectType;
-		m_ChargeEffectDesc.m_CollisionEffectType = (*(Charge_Effect_Desc*)(pArg)).m_CollisionEffectType;
 
-		//m_ChargeEffectDesc.m_HommingAttackEffectDesc = (*(Charge_Effect_Desc*)(pArg)).m_HommingAttackEffectDesc;
-		//m_ChargeEffectDesc.m_RushAttackEffectDesc = (*(Charge_Effect_Desc*)(pArg)).m_RushAttackEffectDesc;
-		//m_ChargeEffectDesc.m_NormalAttackDesc = (*(Charge_Effect_Desc*)(pArg)).m_NormalAttackDesc;
+		m_ChargeEffectDesc.m_AttackDesc = (*(Charge_Effect_Desc*)(pArg)).m_AttackDesc;
 
 		if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, &(*(Charge_Effect_Desc*)(pArg)).effectDesc)))
 			return E_FAIL;
@@ -60,7 +58,7 @@ _uint CChargeEffect::Tick(_double TimeDelta)
 	if (m_EffectDesc.m_CurrentLoopCount < 0)
 		return OBJ_DEAD;
 
-	Loop_Count_Check(TimeDelta);
+	Loop_Count_Check(TimeDelta * 0.5);
 
 	Charge_Time_Check(TimeDelta);
 
@@ -96,63 +94,76 @@ void CChargeEffect::Charge_Time_Check(const _double& TimeDelta)
 	}
 	else
 	{
-		CGameInstance* pGameInstance = CGameInstance::GetInstance();
-
-		CEffect_Manager* pEffect_Manager = dynamic_cast<CEffect_Manager*>(pGameInstance->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"Effect_Manager"));
-		if (nullptr == pEffect_Manager)
-			return ;
-
-		CSkillEffect* pSkillEffect = nullptr;
-		if (m_ChargeEffectDesc.m_NextEffectNum > 1)
+		if (m_ChargeEffectDesc.m_NextEffectType == EFFECT_TYPE_ATTACK)
 		{
-			for (size_t i = 0; i < m_ChargeEffectDesc.m_NextEffectNum; ++i)
-			{
-				pSkillEffect = pEffect_Manager->CreateEffect(m_ChargeEffectDesc.m_NextEffectType, m_ChargeEffectDesc.m_NextEffectPrototypeTag.c_str(),
-					Get_LayerTag().c_str(), Get_Levelindex());
-
-				pSkillEffect->Set_Parent(m_EffectDesc.pBonePtr, m_EffectDesc.pParent, m_EffectDesc.PivotMatrix);
-				_vector vParentLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-
-				vParentLook = XMVector3Rotate(vParentLook, XMQuaternionRotationAxis(XMVectorSet(0.f, 1.f, 0.f, 0.f), m_ChargeEffectDesc.m_NextEffectAngles[i]));
-
-				_float4 pos = {};
-				XMStoreFloat4(&pos, vParentLook);
-				pSkillEffect->Set_Pos(pos);
-
-				CAttack* pAttack = pSkillEffect->Get_As<CAttack>();
-				if (nullptr != pAttack)
-				{
-					pAttack->Set_AttackPower(m_ChargeEffectDesc.m_NextEffectPower);
-				}
-
-				Safe_Release(pSkillEffect);
-			}
+			Attack_Effect_Add();
 		}
-		else
+	}
+}
+
+void CChargeEffect::Attack_Effect_Add()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	CEffect_Manager* pEffect_Manager = dynamic_cast<CEffect_Manager*>(pGameInstance->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"Effect_Manager"));
+	if (nullptr == pEffect_Manager)
+		return;
+
+	CSkillEffect* pSkillEffect = nullptr;
+	if (m_ChargeEffectDesc.m_NextEffectNum > 1)
+	{
+		for (size_t i = 0; i < m_ChargeEffectDesc.m_NextEffectNum; ++i)
 		{
-			pSkillEffect = pEffect_Manager->CreateEffect(m_ChargeEffectDesc.m_NextEffectType, m_ChargeEffectDesc.m_NextEffectPrototypeTag.c_str(),
+			pSkillEffect = pEffect_Manager->CreateEffect(m_ChargeEffectDesc.m_NextEffectTypeIndex, m_ChargeEffectDesc.m_NextEffectPrototypeTag.c_str(),
 				Get_LayerTag().c_str(), Get_Levelindex());
 
+			static_cast<CAttackEffect*>(pSkillEffect)->Set_AttackDesc(m_ChargeEffectDesc.m_AttackDesc);
+
 			pSkillEffect->Set_Parent(m_EffectDesc.pBonePtr, m_EffectDesc.pParent, m_EffectDesc.PivotMatrix);
+			_vector vParentLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+
+			vParentLook = XMVector3Rotate(vParentLook, XMQuaternionRotationAxis(XMVectorSet(0.f, 1.f, 0.f, 0.f), m_ChargeEffectDesc.m_NextEffectAngles[i]));
+
+			_float4 pos = {};
+			XMStoreFloat4(&pos, vParentLook);
+			pSkillEffect->Set_Pos(pos);
+
 			CAttack* pAttack = pSkillEffect->Get_As<CAttack>();
 			if (nullptr != pAttack)
 			{
 				pAttack->Set_AttackPower(m_ChargeEffectDesc.m_NextEffectPower);
 			}
 
-			_vector vParentLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-			_vector vParentPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-			_float4 pos = {};
-			XMStoreFloat4(&pos, vParentPos);
-			pSkillEffect->Set_Pos(pos);
-
 			Safe_Release(pSkillEffect);
 		}
-
-		Set_Dead();
 	}
+	else
+	{
+		pSkillEffect = pEffect_Manager->CreateEffect(m_ChargeEffectDesc.m_NextEffectTypeIndex, m_ChargeEffectDesc.m_NextEffectPrototypeTag.c_str(),
+			Get_LayerTag().c_str(), Get_Levelindex());
+
+		static_cast<CAttackEffect*>(pSkillEffect)->Set_AttackDesc(m_ChargeEffectDesc.m_AttackDesc);
+
+		pSkillEffect->Set_Parent(m_EffectDesc.pBonePtr, m_EffectDesc.pParent, m_EffectDesc.PivotMatrix);
+		CAttack* pAttack = pSkillEffect->Get_As<CAttack>();
+		if (nullptr != pAttack)
+		{
+			pAttack->Set_AttackPower(m_ChargeEffectDesc.m_NextEffectPower);
+		}
+
+		_vector vParentLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+		_vector vParentPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+		_float4 pos = {};
+		XMStoreFloat4(&pos, vParentPos);
+		pSkillEffect->Set_Pos(pos);
+
+		Safe_Release(pSkillEffect);
+	}
+
+	Set_Dead();
 }
+
 
 CGameObject* CChargeEffect::Clone(const _tchar * pLayerTag, _uint iLevelIndex, void* pArg)
 {

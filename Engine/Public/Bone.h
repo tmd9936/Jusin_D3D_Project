@@ -85,7 +85,7 @@ private:
 
 
 private:
-	const		_float		m_NoKeyFrameTransfomationMatirixFixValue = { 4.f };
+	const		_float		m_NoKeyFrameTransfomationMatirixFixValue = { 3.5f };
 
 public:
 	static CBone* Create(aiNode* pAINode, CModel* pModel, CBone* pParent);

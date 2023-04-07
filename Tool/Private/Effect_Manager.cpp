@@ -233,6 +233,7 @@ CSkillEffect* CEffect_Manager::Create_Charge_Effect(_uint effectType, const _tch
 	}
 
 	chargeEffectDesc.effectDesc = m_Skill_Effect_Descs[effectType];
+	chargeEffectDesc.effectDesc.m_CurrentLoopCount = 2;
 
 	CSkillEffect* pSkillEffect = nullptr;
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ChargeEffect"), iLevelIndex, pLayerTag, (CGameObject**)&pSkillEffect, nullptr, &chargeEffectDesc)))

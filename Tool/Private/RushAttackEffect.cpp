@@ -76,7 +76,4 @@ void CRushAttackEffect::Free()
 {
 	__super::Free();
 
-	Safe_Release(m_pAttackCom);
-	Safe_Release(m_pColliderCom);
-
 }

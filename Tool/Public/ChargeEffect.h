@@ -27,12 +27,14 @@ public:
 		_uint			m_NextEffectNum = { 1 };
 		vector<_float>	m_NextEffectAngles;
 
-		_uint			m_NextEffectType = { 0 };
-		_uint			m_CollisionEffectType = { 0 };
+		_uint			m_NextEffectTypeIndex = { 0 };
+		EFFECT_TYPE		m_NextEffectType = { EFFECT_TYPE_END };
+		
+		//_uint			m_CollisionEffectType = { 0 };
 
 		//CHommingAttackEffect::HOMMING_ATTACK_EFFECT_DESC  m_HommingAttackEffectDesc = {};
 		//CRushAttackEffect::RUSH_ATTACK_EFFECT_DESC  m_RushAttackEffectDesc = {};
-		//CAttackEffect::ATTACK_EFFECT_DESC m_NormalAttackDesc = {};
+		CAttackEffect::ATTACK_EFFECT_DESC m_AttackDesc = {};
 
 		EFFECT_DESC	effectDesc;
 
@@ -52,6 +54,7 @@ public:
 
 protected:
 	void		Charge_Time_Check(const _double& TimeDelta);
+	void		Attack_Effect_Add();
 
 protected:
 	CHARGE_EFFECT_DESC	m_ChargeEffectDesc = {};

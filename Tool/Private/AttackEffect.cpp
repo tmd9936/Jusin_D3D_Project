@@ -28,7 +28,10 @@ HRESULT CAttackEffect::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, vo
 	{
 		if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 			return E_FAIL;
+
 	}
+	m_EffectDesc.m_bParentRotateApply = m_AttackEffectDesc.effectDesc.m_bParentRotateApply;
+	m_EffectDesc.m_CurrentLoopCount = m_AttackEffectDesc.effectDesc.m_CurrentLoopCount;
 
 	return S_OK;
 }
