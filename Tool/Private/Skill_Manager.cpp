@@ -9,6 +9,7 @@
 
 #include "RushAttackEffect.h"
 #include "HommingAttackEffect.h"
+#include "BezierAttackEffect.h"
 #include "ChargeEffect.h"
 
 /*
@@ -334,7 +335,7 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 	return pSkill;
 }
 
-HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex, 
+HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 	_uint skillType, _uint damage, _fmatrix vParentMatrix, CBone* pBone, CTransform* pParentTransform, _fmatrix PivotMatrix)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
@@ -452,7 +453,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 		if (nullptr == pTransform)
 			return E_FAIL;
 		pTransform->LookAt(XMVectorSetW(vLook, 1.f));
-	
+
 		CAttackEffect::ATTACK_EFFECT_DESC desc{};
 		Set_NormalAttackDesc(desc, skillType, pSkillEffect);
 
@@ -587,7 +588,47 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 			XMStoreFloat4(&pos, vPos + (vLook * 0.75f * i));
 			pSkillEffect->Set_Pos(pos);
 
-			pTransform->Set_Scaled({ 2.5f, 2.5f, 2.5f });
+			pTransform->Set_Scaled({ 2.2f, 2.2f, 2.2f });
+
+			Set_AttackPower(pSkillEffect, _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f)));
+
+			Safe_Release(pSkillEffect);
+		}
+	}
+	else if (skillType == 188) // µ¹¶³±¸±â
+	{
+		for (size_t i = 1; i <= 2; ++i)
+		{
+			Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[0], vLook, vPos, pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
+
+			pSkillEffect = pEffect_Manager->CreateEffect(m_Skill_Depend_Datas[skillType].m_effects[1], L"Prototype_GameObject_BezierAttackEffect", pLayerTag, iLevelIndex);
+
+			CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
+			if (nullptr == pTransform)
+				return E_FAIL;
+			pTransform->LookAt(XMVectorSetW(vLook, 1.f));
+
+			pTransform->Set_Scaled({ 2.2f, 2.2f, 2.2f });
+
+			_float4 pos1 = {};
+			XMStoreFloat4(&pos1, vPos + (vLook * 0.25f * (_float)i));
+			pSkillEffect->Set_Pos(pos1);
+
+			_float4 pos2 = {};
+			XMStoreFloat4(&pos2, vPos + (vLook * 0.75f * (_float)i));
+
+			_float4 pos3 = {};
+			XMStoreFloat4(&pos3, vPos + (vLook * 1.5f * (_float)i));
+
+			CAttackEffect::ATTACK_EFFECT_DESC desc{};
+			Set_NormalAttackDesc(desc, skillType, pSkillEffect, 3);
+
+			dynamic_cast<CBezierAttackEffect*>(pSkillEffect)->Set_BezierPoints(
+				{ pos1.x, pos1.y, pos1.z },
+				{ pos2.x, pos2.y + 2.5f, pos2.z },
+				{ pos3.x, 0.f, pos3.z }
+			);
+			pSkillEffect->Init_LoopCount(5);
 
 			Set_AttackPower(pSkillEffect, _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f)));
 
@@ -700,10 +741,12 @@ CSkill* CSkill_Manager::Do_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _ui
 
 	else if (skillType == 188) // µ¹¶³±¸±â
 	{
-		pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
-			vParentMatrix, XMConvertToRadians(60.f), XMConvertToRadians(60.f), pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), false, 0.4, 2);
+		//pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
+		//	vParentMatrix, XMConvertToRadians(60.f), XMConvertToRadians(60.f), pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), false, 0.4, 2);
 
-		Safe_Release(pSkill);
+		//Safe_Release(pSkill);
+
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage, vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
 	}
 
 	else

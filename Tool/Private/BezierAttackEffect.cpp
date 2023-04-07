@@ -60,6 +60,8 @@ _uint CBezierAttackEffect::Tick(_double TimeDelta)
 	if (m_EffectDesc.m_CurrentLoopCount < 0)
 		return OBJ_DEAD;
 
+	m_pTransformCom->Turn(XMVectorSet(1.f, 0.f, 0.f, 0.f), TimeDelta);
+
 	Bezier(TimeDelta);
 
 	Loop_Count_Check(TimeDelta);
@@ -96,6 +98,7 @@ void CBezierAttackEffect::Bezier(const _double& TimeDelta)
 	}
 	else 
 	{
+		Create_Collision_Effect(m_pTransformCom);
 		Set_Dead();
 	}
 }

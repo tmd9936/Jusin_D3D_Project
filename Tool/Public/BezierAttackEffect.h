@@ -41,6 +41,13 @@ public:
 	virtual _uint Tick(_double TimeDelta) override;
 	virtual _uint LateTick(_double TimeDelta) override;
 
+public:
+	void Set_BezierPoints(_float3 vPoint1, _float3 vPoint2, _float3 vPoint3) {
+		m_BezierAttackEffectDesc.m_vPoint1 = vPoint1;
+		m_BezierAttackEffectDesc.m_vPoint2 = vPoint2;
+		m_BezierAttackEffectDesc.m_vPoint3 = vPoint3;
+	}
+
 protected:
 	void		Bezier(const _double& TimeDelta);
 

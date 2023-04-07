@@ -59,6 +59,7 @@
 #include "HommingAttackEffect.h"
 #include "RushAttackEffect.h"
 #include "ChargeEffect.h"
+#include "BezierAttackEffect.h"
 
 #include "ThreadPool.h"
 
@@ -678,7 +679,6 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CBackGround::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
-
 		/* For.Prototype_GameObject_SkillEffect */
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SkillEffect"),
 			CSkillEffect::Create(m_pDevice, m_pContext))))
@@ -697,6 +697,11 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		/* For.Prototype_GameObject_RushAttackEffect */
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_RushAttackEffect"),
 			CRushAttackEffect::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		/* For.Prototype_GameObject_BezierAttackEffect */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BezierAttackEffect"),
+			CBezierAttackEffect::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
 		/* For.Prototype_GameObject_SP_Denki_Zyuumanboruto */
@@ -748,6 +753,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SP_Jimen_Jisin"),
 			CAttackEffect::Create(m_pDevice, m_pContext, JisinDesc))))
 			return E_FAIL;
+
 	}
 
 #pragma endregion
