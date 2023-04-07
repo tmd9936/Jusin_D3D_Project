@@ -39,6 +39,11 @@ HRESULT CSkillEffect::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, voi
 		m_EffectDesc.m_underFlag = (*(EFFECT_DESC*)(pArg)).m_underFlag;
 
 		m_EffectDesc.m_AnimationLoopTime = (*(EFFECT_DESC*)(pArg)).m_AnimationLoopTime;
+		m_EffectDesc.m_AnimationStartAcc = (*(EFFECT_DESC*)(pArg)).m_AnimationStartAcc;
+
+		m_EffectDesc.m_AnimationSpeed = (*(EFFECT_DESC*)(pArg)).m_AnimationSpeed;
+		m_EffectDesc.m_CurrentLoopCount = (*(EFFECT_DESC*)(pArg)).m_CurrentLoopCount;
+
 	}
 
 

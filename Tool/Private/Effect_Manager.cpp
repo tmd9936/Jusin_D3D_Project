@@ -214,10 +214,10 @@ CSkillEffect* CEffect_Manager::Create_Charge_Effect(_uint effectType, const _tch
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	if (effectType >= m_Effect_Descs.size() || nullptr == pLayerTag || iLevelIndex >= LEVEL_END)
+	if (effectType >= m_Skill_Effect_Descs.size() || nullptr == pLayerTag || iLevelIndex >= LEVEL_END)
 		return nullptr;
 
-	CEffect::EFFECT_DESC effect_Desc = m_Effect_Descs[effectType];
+	CSkillEffect::EFFECT_DESC effect_Desc = m_Skill_Effect_Descs[effectType];
 
 	wstring	FilePath = m_EffectFilePath + effect_Desc.m_effectPath + L".fbx";
 
@@ -232,8 +232,10 @@ CSkillEffect* CEffect_Manager::Create_Charge_Effect(_uint effectType, const _tch
 
 	}
 
-	chargeEffectDesc.effectDesc = m_Skill_Effect_Descs[effectType];
-	chargeEffectDesc.effectDesc.m_CurrentLoopCount = 2;
+	chargeEffectDesc.effectDesc = effect_Desc;
+	chargeEffectDesc.effectDesc.m_AnimationStartAcc = 19.8;
+	chargeEffectDesc.effectDesc.m_AnimationSpeed = 2.5;
+	chargeEffectDesc.effectDesc.m_CurrentLoopCount = 50;
 
 	CSkillEffect* pSkillEffect = nullptr;
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ChargeEffect"), iLevelIndex, pLayerTag, (CGameObject**)&pSkillEffect, nullptr, &chargeEffectDesc)))

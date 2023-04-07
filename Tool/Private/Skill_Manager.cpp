@@ -355,7 +355,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 	if (skillType == 57) // 10¸¸ º¼Æ®
 	{
 		CChargeEffect::CHARGE_EFFECT_DESC desc{};
-		desc.m_ChargeTime = skill_desc.m_chargeSecond * 0.3f;
+		desc.m_ChargeTime = skill_desc.m_chargeSecond * 0.2f;
 		desc.m_NextEffectPrototypeTag = L"Prototype_GameObject_" + skill_desc.m_skillPath;
 		desc.m_NextEffectTypeIndex = m_Skill_Depend_Datas[skillType].m_effects[1];
 		desc.m_NextEffectType = EFFECT_TYPE_ATTACK;

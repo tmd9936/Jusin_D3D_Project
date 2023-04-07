@@ -47,6 +47,7 @@ HRESULT CChargeEffect::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, vo
 			return E_FAIL;
 	}
 
+
 	return S_OK;
 }
 
@@ -58,7 +59,7 @@ _uint CChargeEffect::Tick(_double TimeDelta)
 	if (m_EffectDesc.m_CurrentLoopCount < 0)
 		return OBJ_DEAD;
 
-	Loop_Count_Check(TimeDelta * 0.5);
+	Loop_Count_Check(TimeDelta);
 
 	Charge_Time_Check(TimeDelta);
 
