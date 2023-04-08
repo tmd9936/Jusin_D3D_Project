@@ -439,6 +439,16 @@ HRESULT CObject_Manager::Store_Component(const _tchar* pLayerTag, class CGameObj
 	return hr;
 }
 
+_bool CObject_Manager::Is_Layer(_uint iLevelIndex, const wstring& layerTag)
+{
+	auto	iter = m_pLayers[iLevelIndex].find(layerTag);
+
+	if (iter == m_pLayers[iLevelIndex].end())
+		return false;
+
+	return true;
+}
+
 CGameObject* CObject_Manager::Find_Prototype(const _tchar* pPrototypeTag) const
 {
 	auto	iter = find_if(m_Prototypes.begin(), m_Prototypes.end(), CTag_Finder(pPrototypeTag));

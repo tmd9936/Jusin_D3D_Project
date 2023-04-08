@@ -31,13 +31,8 @@ public:
 	virtual HRESULT Initialize_Prototype() override; /* 원형객체의 초기화작업 */
 	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override; /* 사본객체의 초기화작업 */
 	virtual _uint Tick(_double TimeDelta) override;
-	virtual _uint LateTick(_double TimeDelta) override;
-	virtual HRESULT Render() override;
-
-public:
-	virtual void On_Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
-	virtual void On_CollisionEnter(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
-	virtual void On_CollisionExit(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
+	//virtual _uint LateTick(_double TimeDelta) override;
+	//virtual HRESULT Render() override;
 
 public:
 	void	Set_TestSkillindex(_uint testSkillindex) {

@@ -72,6 +72,10 @@ HRESULT CLevel_BaseCamp::Initialize()
 
 	CGameInstance::GetInstance()->Add_Check_CollisionGroup(L"Layer_Player", L"Layer_Monster");
 
+	CGameInstance::GetInstance()->Add_Check_CollisionGroup(L"Layer_Monster", L"Layer_Monster");
+
+	CGameInstance::GetInstance()->Add_Check_CollisionGroup(L"Layer_Player", L"Layer_Player");
+
 	CGameInstance::GetInstance()->Add_Check_CollisionGroup(L"Layer_Player", L"Layer_Env");
 
 	CGameInstance::GetInstance()->Add_Check_CollisionGroup(L"Layer_PlayerSkill", L"Layer_Monster");

@@ -331,13 +331,20 @@ CGameObject* CGameInstance::Clone_GameObject(const _tchar* pLayerTag, _uint iLev
 	return m_pObject_Manager->Clone_GameObject(pLayerTag, iLevelIndex, pPrototypeTag, ppOut, pArg);
 }
 
-
 HRESULT CGameInstance::Layer_Tick_State_Change(const _tchar* pLayerTag, _uint iLevelIndex, _bool bTick)
 {
 	if (nullptr == m_pObject_Manager)
 		return E_FAIL;
 
 	return m_pObject_Manager->Layer_Tick_State_Change(pLayerTag, iLevelIndex, bTick);
+}
+
+_bool CGameInstance::Is_Layer(_uint iLevelIndex, const wstring& layerTag)
+{
+	if (nullptr == m_pObject_Manager)
+		return false;
+
+	return m_pObject_Manager->Is_Layer(iLevelIndex, layerTag);
 }
 
 HRESULT CGameInstance::Add_Prototype(_uint iLevelIndex, const _tchar* pPrototypeTag, CComponent* pPrototype)

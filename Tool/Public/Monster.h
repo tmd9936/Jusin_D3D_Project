@@ -91,6 +91,11 @@ public:
 	virtual HRESULT Render() override;
 
 public:
+	virtual void On_Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
+	virtual void On_CollisionEnter(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
+	virtual void On_CollisionExit(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
+
+public:
 	void Set_MovePosition() {
 		m_MovePosition = { rand() % 10 + 12.f, 0.f, rand() % 10 + 15.f, 1.f };
 	}
