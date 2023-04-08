@@ -21,6 +21,7 @@
 #include "Navigation.h"
 #include "HP.h"
 #include "Attack.h"
+#include "Formation.h"
 #pragma endregion
 
 #pragma region COLLIDER

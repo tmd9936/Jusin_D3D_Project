@@ -128,9 +128,9 @@ protected:
 protected:
 	_bool	Search_Target();
 
-private:
-	HRESULT Add_Components();
-	HRESULT Add_Components_By_File();
+protected:
+	virtual HRESULT Add_Components();
+	virtual HRESULT Add_Components_By_File();
 
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 던진다. */
 

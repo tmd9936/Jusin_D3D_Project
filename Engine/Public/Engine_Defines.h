@@ -114,7 +114,7 @@ using namespace DirectX;
 
 #define FAMILY_ID_HP						27
 #define FAMILY_ID_ATTACK					28
-
+#define FAMILY_ID_FORMATION					29
 
 #define FAMILY_ID_SHADER					30
 #define FAMILY_ID_VIBUFFER					31

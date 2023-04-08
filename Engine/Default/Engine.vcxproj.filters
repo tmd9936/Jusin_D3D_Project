@@ -46,9 +46,6 @@
     <Filter Include="01. Utility\03. Component">
       <UniqueIdentifier>{82abbd5c-08d1-4924-b50a-595c3c86a8ca}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Utility\03. Component\Manager">
-      <UniqueIdentifier>{6897c2d6-664a-499d-9f89-32db78c40e26}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01. Utility\03. Component\Renderer">
       <UniqueIdentifier>{840e63dd-9aa7-40aa-a6f1-b4ee70a58f72}</UniqueIdentifier>
     </Filter>
@@ -168,6 +165,12 @@
     </Filter>
     <Filter Include="01. Utility\03. Component\Attack">
       <UniqueIdentifier>{6c923ffe-9289-4397-be8c-63a45f5e3408}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\03. Component\Manager">
+      <UniqueIdentifier>{6897c2d6-664a-499d-9f89-32db78c40e26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\03. Component\Formation">
+      <UniqueIdentifier>{4e866037-00b4-4675-a100-57781b82f73a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -345,6 +348,9 @@
     <ClInclude Include="..\Public\Attack.h">
       <Filter>01. Utility\03. Component\Attack</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Formation.h">
+      <Filter>01. Utility\03. Component\Formation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -505,6 +511,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Attack.cpp">
       <Filter>01. Utility\03. Component\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Formation.cpp">
+      <Filter>01. Utility\03. Component\Formation</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

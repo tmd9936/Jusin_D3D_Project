@@ -4,6 +4,9 @@
 #include "Monster.h"
 
 BEGIN(Client)
+
+class CFormationCom;
+
 class CStageSupportMonster : public CMonster
 {
 private:
@@ -41,6 +44,13 @@ protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
 	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
 
+protected:
+	virtual HRESULT Add_Components() override;
+	virtual HRESULT Add_Components_By_File() override;
+
+private:
+	CFormationCom*		m_pFormationCom = { nullptr };
+
 private:
 	_float			m_MotionChangeDelay = { 3.f };
 	_float			m_CurMotionChangeDelayTime = { 0.f };
@@ -51,7 +61,6 @@ private:
 
 	CGameObject*	m_pMainPlayer = { nullptr };
 	CTransform*		m_pMainPlayerTransform = { nullptr };
-
 
 	_vector			m_relativePosition = {};
 

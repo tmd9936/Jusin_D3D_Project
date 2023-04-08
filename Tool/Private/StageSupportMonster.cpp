@@ -5,6 +5,7 @@
 
 #include "Searcher.h"
 
+
 /*
 파티몬스터 포메이션 테스트하기
 이후 버프 디버프 테스트 하기
@@ -596,6 +597,36 @@ _bool CStageSupportMonster::Load_By_JsonFile_Impl(Document& doc)
 	}
 
 	return true;
+}
+
+HRESULT CStageSupportMonster::Add_Components()
+{
+	if (FAILED(__super::Add_Components()))
+		return E_FAIL;
+
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	///* For.Com_Formation */
+	//if (FAILED(pGameInstance->Add_Component(CFormation::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Formation"),
+	//	(CComponent**)&m_pFormationCom, nullptr)))
+	//	return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CStageSupportMonster::Add_Components_By_File()
+{
+	if (FAILED(__super::Add_Components_By_File()))
+		return E_FAIL;
+
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	///* For.Com_Formation */
+	//if (FAILED(pGameInstance->Add_Component(CFormation::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Formation"),
+	//	(CComponent**)&m_pFormationCom, nullptr)))
+	//	return E_FAIL;
+
+	return S_OK;
 }
 
 
