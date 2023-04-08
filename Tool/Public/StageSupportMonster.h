@@ -3,9 +3,13 @@
 #include "Client_Defines.h"
 #include "Monster.h"
 
+BEGIN(Engine)
+class CFormation;
+
+END
+
 BEGIN(Client)
 
-//class CRelativeFormation;
 
 class CStageSupportMonster : public CMonster
 {
@@ -22,6 +26,11 @@ public:
 	virtual _uint			Tick(_double TimeDelta) override;
 	virtual _uint			LateTick(_double TimeDelta) override;
 	virtual HRESULT			Render() override;
+
+public:
+	virtual void On_CollisionEnter(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
+	virtual void On_Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
+	virtual void On_CollisionExit(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
 
 public:
 	virtual void			Change_State_FSM(_uint eState) override;
@@ -44,12 +53,15 @@ protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
 	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
 
+protected:
+	virtual		HRESULT		Load_By_Json_PreAddComponents() override;
+
 //protected:
 //	virtual HRESULT			Add_Components() override;
 //	virtual HRESULT			Add_Components_By_File() override;
 
-//private:
-//	CRelativeFormation*			m_pRelativFormationCom = { nullptr };
+private:
+	CFormation*			m_pFormationCom = { nullptr };
 
 private:
 	_float				m_MotionChangeDelay = { 3.f };
@@ -62,7 +74,9 @@ private:
 	CGameObject*		m_pMainPlayer = { nullptr };
 	CTransform*			m_pMainPlayerTransform = { nullptr };
 
-	_vector				m_relativePosition = {};
+	_double				m_FormationFightTime = { 1.5 };
+	_double				m_FormationFightTimeAcc = { 0.0 };
+	_bool				m_FormationChanger = { false };
 
 public:
 	static CStageSupportMonster* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

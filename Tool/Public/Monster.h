@@ -91,8 +91,8 @@ public:
 	virtual HRESULT Render() override;
 
 public:
-	virtual void On_Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
 	virtual void On_CollisionEnter(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
+	virtual void On_Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
 	virtual void On_CollisionExit(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
 
 public:
@@ -103,6 +103,9 @@ public:
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
 	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
+
+protected:
+	virtual		HRESULT		Load_By_Json_PreAddComponents();
 
 protected:
 	virtual HRESULT Add_MotionState();

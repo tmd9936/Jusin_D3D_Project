@@ -36,7 +36,9 @@ public:
 public:
 	_int			Update_Component(const _float& fTimeDelta, CModel* pModel = nullptr);
 
-	MONSTER_STATE	Get_MotionState(void) const { return m_eCurrentMotion; }
+	MONSTER_STATE	Get_MotionState(void) const { 
+		return m_eCurrentMotion; 
+	}
 	HRESULT			Add_MotionState(MONSTER_STATE eState, _uint index);
 	HRESULT			Transit_MotionState(MONSTER_STATE eState, CModel* pModel = nullptr);
 	HRESULT			Add_RandomTransitionState(MONSTER_STATE eState);

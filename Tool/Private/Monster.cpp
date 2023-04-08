@@ -110,12 +110,7 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const c
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, filePath)))
 		return E_FAIL;
 
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-
-	/* For.Com_Transform */
-	CTransform::TRANSFORMDESC		TransformDesc = { 10.f, XMConvertToRadians(90.0f) };
-	if (FAILED(pGameInstance->Add_Component(CTransform::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
-		(CComponent**)&m_pTransformCom, &TransformDesc)))
+	if (FAILED(Load_By_Json_PreAddComponents()))
 		return E_FAIL;
 
 	if (filePath)
@@ -176,6 +171,8 @@ _uint CMonster::Tick(_double TimeDelta)
 
 	if (m_pDamageText)
 		m_pDamageText->Tick(TimeDelta);
+
+	m_pSearcher->Tick(TimeDelta);
 
 	CoolTimeCheck(TimeDelta);
 
@@ -241,10 +238,9 @@ HRESULT CMonster::Render()
 	return S_OK;
 }
 
-void CMonster::On_Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
+void CMonster::On_CollisionEnter(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
 {
 	CGameObject* pOtherOwner = pOther->Get_Owner();
-
 	if (!pOtherOwner)
 		return;
 
@@ -259,9 +255,10 @@ void CMonster::On_Collision(CCollider* pOther, const _float& fX, const _float& f
 	}
 }
 
-void CMonster::On_CollisionEnter(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
+void CMonster::On_Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
 {
 	CGameObject* pOtherOwner = pOther->Get_Owner();
+
 	if (!pOtherOwner)
 		return;
 
@@ -841,6 +838,19 @@ _bool CMonster::Load_By_JsonFile_Impl(Document& doc)
 	}
 
 	return true;
+}
+
+HRESULT CMonster::Load_By_Json_PreAddComponents()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	/* For.Com_Transform */
+	CTransform::TRANSFORMDESC		TransformDesc = { 10.f, XMConvertToRadians(90.0f) };
+	if (FAILED(pGameInstance->Add_Component(CTransform::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+		(CComponent**)&m_pTransformCom, &TransformDesc)))
+		return E_FAIL;
+
+	return S_OK;
 }
 
 HRESULT CMonster::Add_MotionState()

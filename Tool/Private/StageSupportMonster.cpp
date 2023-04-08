@@ -4,6 +4,7 @@
 #include "GameInstance.h"
 
 #include "Searcher.h"
+#include "Utility.h"
 
 /*
 파티몬스터 포메이션 테스트하기
@@ -31,12 +32,13 @@ HRESULT CStageSupportMonster::Initialize_Prototype()
 HRESULT CStageSupportMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	///* For.Com_Formation */
-	//if (FAILED(pGameInstance->Add_Component(Engine::CRelativeFormation::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_RelativeFormation"),
-	//	(CComponent**)&m_pRelativFormationCom, nullptr)))
-	//	return E_FAIL;
 
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
+		return E_FAIL;
+
+	/* For.Com_Formation */
+	if (FAILED(pGameInstance->Add_Component(CFormation::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Formation"),
+		(CComponent**)&m_pFormationCom, nullptr)))
 		return E_FAIL;
 
 	Init_RandomMotionChangeDelay();
@@ -52,6 +54,8 @@ HRESULT CStageSupportMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIn
 
 HRESULT CStageSupportMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath)
 {
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, filePath)))
 		return E_FAIL;
 
@@ -73,12 +77,23 @@ _uint CStageSupportMonster::Tick(_double TimeDelta)
 
 _uint CStageSupportMonster::LateTick(_double TimeDelta)
 {
-	switch (m_pMonFSM->Get_MotionState())
+ 	switch (m_pMonFSM->Get_MotionState())
 	{
+	case CMonFSM::FORMATION_NORMAL:
+		if (Search_Target())
+		{
+			m_pTarget = m_pSearcher->Get_Target();
+		}
+		break;
+	case CMonFSM::FORMATION_RUN:
+		if (Search_Target())
+		{
+			m_pTarget = m_pSearcher->Get_Target();
+		}
+		break;
 	case CMonFSM::IDLE1:
 		if (Search_Target())
 		{
-			//m_pMonFSM->Transit_MotionState(CMonFSM::IDLE_GROUND);
 			m_pTarget = m_pSearcher->Get_Target();
 		}
 		break;
@@ -90,6 +105,61 @@ _uint CStageSupportMonster::LateTick(_double TimeDelta)
 HRESULT CStageSupportMonster::Render()
 {
 	return __super::Render();
+}
+
+void CStageSupportMonster::On_CollisionEnter(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
+{
+	CGameObject* pOtherOwner = pOther->Get_Owner();
+
+	if (!pOtherOwner)
+		return;
+
+	if (pOtherOwner->Get_LayerTag().compare(L"Layer_Monster") == 0)
+	{
+		Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
+	}
+
+	if (pOtherOwner->Get_LayerTag().compare(L"Layer_Player") == 0)
+	{
+		Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
+	}
+}
+
+void CStageSupportMonster::On_Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
+{
+	CGameObject* pOtherOwner = pOther->Get_Owner();
+
+	if (!pOtherOwner)
+		return;
+
+	if (pOtherOwner->Get_LayerTag().compare(L"Layer_Monster") == 0)
+	{
+		Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
+	}
+
+	if (pOtherOwner->Get_LayerTag().compare(L"Layer_Player") == 0)
+	{
+		Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
+
+		if (m_FormationChanger)
+		{
+			if (m_FormationFightTimeAcc >= m_FormationFightTime)
+			{
+				CFormation* pOtherOwnerFormation = pOtherOwner->Get_As<CFormation>();
+				if (pOtherOwnerFormation)
+				{
+					m_pFormationCom->Swap_RelativePos(pOtherOwnerFormation);
+					m_FormationFightTimeAcc = 0.0;
+				}
+			}
+			m_FormationFightTimeAcc += 0.01666;
+		}
+	}
+}
+
+void CStageSupportMonster::On_CollisionExit(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
+{
+	m_FormationFightTimeAcc = 0.0;
 }
 
 void CStageSupportMonster::Change_State_FSM(_uint eState)
@@ -226,18 +296,18 @@ _uint CStageSupportMonster::State_Tick(const _double& TimeDelta)
 	{
 	case CMonFSM::FORMATION_NORMAL:
 		m_pModelCom->Play_Animation(TimeDelta);
-		if (2.0f <= m_pTransformCom->Get_DistanceFromTarget(m_pMainPlayerTransform->Get_State(CTransform::STATE_POSITION) + m_relativePosition))
+		if (2.0f <= m_pTransformCom->Get_DistanceFromTarget(m_pMainPlayerTransform->Get_State(CTransform::STATE_POSITION) + m_pFormationCom->Get_RelativePos()))
 		{
 			m_pMonFSM->Transit_MotionState(CMonFSM::FORMATION_RUN, m_pModelCom);
 			break;
 		}
 
-		m_pTransformCom->Chase(m_pMainPlayerTransform->Get_State(CTransform::STATE_POSITION) + m_relativePosition, _float(TimeDelta), 0.4f, m_pNavigationCom);
+		m_pTransformCom->Chase(m_pMainPlayerTransform->Get_State(CTransform::STATE_POSITION) + m_pFormationCom->Get_RelativePos(), _float(TimeDelta), 0.4f, m_pNavigationCom);
 		break;
 
 	case CMonFSM::FORMATION_RUN:
 		m_pModelCom->Play_Animation(TimeDelta);
-		if (m_pTransformCom->Chase(m_pMainPlayerTransform->Get_State(CTransform::STATE_POSITION) + m_relativePosition, _float(TimeDelta), 1.0f, m_pNavigationCom))
+		if (m_pTransformCom->Chase(m_pMainPlayerTransform->Get_State(CTransform::STATE_POSITION) + m_pFormationCom->Get_RelativePos(), _float(TimeDelta), 1.0f, m_pNavigationCom))
 		{
 			m_pMonFSM->Transit_MotionState(CMonFSM::FORMATION_NORMAL, m_pModelCom);
 		}
@@ -518,7 +588,7 @@ _bool CStageSupportMonster::Save_By_JsonFile_Impl(Document& doc, Document::Alloc
 			Value relativePosition(kObjectType);
 			{
 				_float4 pos = {};
-				XMStoreFloat4(&pos, m_relativePosition);
+				XMStoreFloat4(&pos, m_pFormationCom->Get_RelativePos());
 
 				relativePosition.AddMember("x", pos.x, allocator);
 				relativePosition.AddMember("y", pos.y, allocator);
@@ -526,6 +596,8 @@ _bool CStageSupportMonster::Save_By_JsonFile_Impl(Document& doc, Document::Alloc
 				relativePosition.AddMember("w", pos.w, allocator);
 			}
 			PokemonDesc.AddMember("m_relativePosition", relativePosition, allocator);
+
+			PokemonDesc.AddMember("m_FormationChanger", m_FormationChanger, allocator);
 
 			Value m_skillIDs(kArrayType);
 			{
@@ -588,11 +660,14 @@ _bool CStageSupportMonster::Load_By_JsonFile_Impl(Document& doc)
 		m_PokemonDesc.m_AIType = PokemonDesc["m_AIType"].GetUint();
 
 		const Value& relativePosition = PokemonDesc["m_relativePosition"];
-		m_relativePosition = XMVectorSet(relativePosition["x"].GetFloat(),
+		_vector vRelativePos = XMVectorSet(relativePosition["x"].GetFloat(),
 			relativePosition["y"].GetFloat(),
 			relativePosition["z"].GetFloat(),
 			relativePosition["w"].GetFloat()
 		);
+		m_pFormationCom->Set_RelativePos(vRelativePos);
+
+		m_FormationChanger = PokemonDesc["m_FormationChanger"].GetBool();
 
 		const Value& skillIDs = PokemonDesc["m_skillIDs"];
 		for (SizeType i = 0; i < skillIDs.Size(); ++i)
@@ -604,35 +679,20 @@ _bool CStageSupportMonster::Load_By_JsonFile_Impl(Document& doc)
 	return true;
 }
 
-//HRESULT CStageSupportMonster::Add_Components()
-//{
-//	if (FAILED(__super::Add_Components()))
-//		return E_FAIL;
-//
-//	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-//
-//	///* For.Com_Formation */
-//	//if (FAILED(pGameInstance->Add_Component(CFormation::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Formation"),
-//	//	(CComponent**)&m_pFormationCom, nullptr)))
-//	//	return E_FAIL;
-//
-//	return S_OK;
-//}
-//
-//HRESULT CStageSupportMonster::Add_Components_By_File()
-//{
-//	if (FAILED(__super::Add_Components_By_File()))
-//		return E_FAIL;
-//
-//	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-//
-//	///* For.Com_Formation */
-//	//if (FAILED(pGameInstance->Add_Component(CFormation::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Formation"),
-//	//	(CComponent**)&m_pFormationCom, nullptr)))
-//	//	return E_FAIL;
-//
-//	return S_OK;
-//}
+HRESULT CStageSupportMonster::Load_By_Json_PreAddComponents()
+{
+	if (FAILED(__super::Load_By_Json_PreAddComponents()))
+		return E_FAIL;
+
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	/* For.Com_Formation */
+	if (FAILED(pGameInstance->Add_Component(CFormation::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Formation"),
+		(CComponent**)&m_pFormationCom, nullptr)))
+		return E_FAIL;
+
+	return S_OK;
+}
 
 
 CStageSupportMonster* CStageSupportMonster::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -680,6 +740,6 @@ void CStageSupportMonster::Free()
 
 	Safe_Release(m_pMainPlayer);
 	Safe_Release(m_pMainPlayerTransform);
-	//Safe_Release(m_pRelativFormationCom);
+	Safe_Release(m_pFormationCom);
 
 }
