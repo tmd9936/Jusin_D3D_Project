@@ -296,6 +296,10 @@ _uint CStageSupportMonster::State_Tick(const _double& TimeDelta)
 		}
 	}
 
+	/*
+		적 발견하면 공격을 쿨타임 없이 끊임없이 하는데 이거 해결해야함
+	*/
+
 	switch (m_pMonFSM->Get_MotionState())
 	{
 	case CMonFSM::FORMATION_NORMAL:
