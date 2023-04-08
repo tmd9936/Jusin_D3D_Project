@@ -3,8 +3,6 @@
 
 BEGIN(Engine)
 
-class CGameObject;
-
 class ENGINE_DLL CFormation : public CComponent
 {
 public:
@@ -14,7 +12,7 @@ public:
 	} FORMATION_DESC;
 
 public:
-	static const FamilyId familyId = FAMILY_ID_ATTACK;
+	static const FamilyId familyId = FAMILY_ID_FORMATION;
 protected:
 	explicit CFormation(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner);
 	explicit CFormation(const CFormation& rhs, CGameObject* pOwner);
@@ -24,17 +22,16 @@ public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
 
-
 public:
-	const _vector		Get_RelativePos() const {
+	const _vector	Get_RelativePos() const {
 		return m_Desc.m_RelativePos;
 	}
 
-	void	Set_RelativePos(_fvector relativePos) {
+	void	Set_RelativePos(_vector relativePos) {
 		m_Desc.m_RelativePos = relativePos;
 	}
 
-	void	Swap_RelativePos(CFormation& target);
+	void	Swap_RelativePos(CFormation* pTarget);
 
 private:
 	FORMATION_DESC		m_Desc = {};

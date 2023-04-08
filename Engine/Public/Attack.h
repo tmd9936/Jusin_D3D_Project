@@ -3,8 +3,6 @@
 
 BEGIN(Engine)
 
-class CGameObject;
-
 class ENGINE_DLL CAttack : public CComponent
 {
 public:

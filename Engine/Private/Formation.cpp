@@ -27,11 +27,11 @@ HRESULT CFormation::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CFormation::Swap_RelativePos(CFormation& target)
+void CFormation::Swap_RelativePos(CFormation* pTarget)
 {
 	_vector tempPos = m_Desc.m_RelativePos;
-	m_Desc.m_RelativePos = target.Get_RelativePos();
-	target.Set_RelativePos(tempPos);
+	m_Desc.m_RelativePos = pTarget->Get_RelativePos();
+	pTarget->Set_RelativePos(tempPos);
 }
 
 CFormation* CFormation::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

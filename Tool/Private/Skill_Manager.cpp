@@ -12,18 +12,6 @@
 #include "BezierAttackEffect.h"
 #include "ChargeEffect.h"
 
-/*
-	프로토 타입에 공격 스킬의 특성 미리 저장 해놓고 
-	그냥 그 프로토 타입을 Clone해서 가져오기
-
-	비슷한 특성의 공격스킬은 같은 프로토 타입으로 하고 상태이상이나 모델등만 다르게
-
-	인덱스로 스킬 사용-> 인덱스에 맞는 프로토 타입 생성 및 부모의 값 전달
-	->스킬 사용
-
-*/
-
-
 CSkill_Manager::CSkill_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
 {
@@ -727,7 +715,6 @@ CSkill* CSkill_Manager::Do_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _ui
 	else if (skillType <= 35 && skillType % 2 == 1) // 원거리 공격
 	{
 		CreateSkill(pLayerTag, iLevelIndex, skillType, damage, vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
-
 	}
 	else if (skillType == 100) // 지진
 	{
@@ -741,7 +728,6 @@ CSkill* CSkill_Manager::Do_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _ui
 	{
 		CreateSkill(pLayerTag, iLevelIndex, skillType, damage, vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
 	}
-
 	else if (skillType == 79) // 얼다 바람
 	{
 		CreateSkill(pLayerTag, iLevelIndex, skillType, damage, vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
@@ -750,12 +736,10 @@ CSkill* CSkill_Manager::Do_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _ui
 	{
 		CreateSkill(pLayerTag, iLevelIndex, skillType, damage, vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
 	}
-
 	else if (skillType == 168) // 메가톤 펀치
 	{
 		CreateSkill(pLayerTag, iLevelIndex, skillType, damage, vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
 	}
-
 	else if (skillType == 188) // 돌떨구기
 	{
 		CreateSkill(pLayerTag, iLevelIndex, skillType, damage, vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());

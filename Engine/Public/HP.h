@@ -3,8 +3,6 @@
 
 BEGIN(Engine)
 
-class CGameObject;
-
 class ENGINE_DLL CHP : public CComponent
 {
 public:
