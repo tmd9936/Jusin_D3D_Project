@@ -3,6 +3,8 @@
 #include "Client_Defines.h"
 #include "Monster.h"
 
+#include "Utility.h"
+
 BEGIN(Client)
 class CStageEnemyMonster : public CMonster
 {
@@ -22,6 +24,11 @@ public:
 
 public:
 	virtual void Change_State_FSM(_uint eState) override;
+
+public:
+	virtual void On_CollisionEnter(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
+	virtual void On_Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
+	virtual void On_CollisionExit(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
 
 protected:
 	virtual HRESULT Add_TransitionRandomState() override;
