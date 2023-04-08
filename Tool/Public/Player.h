@@ -35,6 +35,11 @@ public:
 	//virtual HRESULT Render() override;
 
 public:
+	void On_CollisionEnter(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
+	void On_Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
+	void On_CollisionExit(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
+
+public:
 	void	Set_TestSkillindex(_uint testSkillindex) {
 		m_TestSkillindex = testSkillindex;
 	}

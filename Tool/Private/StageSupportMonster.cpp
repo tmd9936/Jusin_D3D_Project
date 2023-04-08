@@ -122,6 +122,10 @@ void CStageSupportMonster::On_CollisionEnter(CCollider* pOther, const _float& fX
 	if (pOtherOwner->Get_LayerTag().compare(L"Layer_Player") == 0)
 	{
 		Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
+		if (m_FormationChanger)
+		{
+			m_FormationFightTimeAcc += 0.01666;
+		}
 	}
 }
 

@@ -60,33 +60,6 @@ HRESULT CBaseCampMonster::Render()
 	return __super::Render();
 }
 
-void CBaseCampMonster::On_Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
-{
-	//CGameObject* pOtherOwner = pOther->Get_Owner();
-	//if (!pOtherOwner)
-	//	return;
-
-	//if (pOtherOwner->Get_LayerTag().compare(L"Layer_Player") == 0)
-	//{
-	//	Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
-	//}
-}
-
-void CBaseCampMonster::On_CollisionEnter(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
-{
-	//CGameObject* pOtherOwner = pOther->Get_Owner();
-	//if (!pOtherOwner)
-	//	return;
-
-	//if (pOtherOwner->Get_LayerTag().compare(L"Layer_Player") == 0)
-	//{
-	//	Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
-	//}
-}
-
-void CBaseCampMonster::On_CollisionExit(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
-{
-}
 
 void CBaseCampMonster::Change_State_FSM(_uint eState)
 {

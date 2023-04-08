@@ -238,44 +238,6 @@ HRESULT CMonster::Render()
 	return S_OK;
 }
 
-void CMonster::On_CollisionEnter(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
-{
-	CGameObject* pOtherOwner = pOther->Get_Owner();
-	if (!pOtherOwner)
-		return;
-
-	if (pOtherOwner->Get_LayerTag().compare(L"Layer_Monster") == 0)
-	{
-		Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
-	}
-
-	if (pOtherOwner->Get_LayerTag().compare(L"Layer_Player") == 0)
-	{
-		Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
-	}
-}
-
-void CMonster::On_Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
-{
-	CGameObject* pOtherOwner = pOther->Get_Owner();
-
-	if (!pOtherOwner)
-		return;
-
-	if (pOtherOwner->Get_LayerTag().compare(L"Layer_Monster") == 0)
-	{
-		Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
-	}
-
-	if (pOtherOwner->Get_LayerTag().compare(L"Layer_Player") == 0)
-	{
-		Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
-	}
-}
-
-void CMonster::On_CollisionExit(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
-{
-}
 
 HRESULT CMonster::Add_BuffState()
 {
@@ -552,7 +514,7 @@ HRESULT CMonster::Add_Components()
 	CCollider::COLLIDER_DESC		ColliderDesc;
 
 	ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
-	ColliderDesc.vScale = _float3(0.5f, 0.5f, 0.5f);
+	ColliderDesc.vScale = _float3(0.8f, 0.8f, 0.8f);
 	ColliderDesc.vPosition = _float3(0.0f, 0.f, 0.f);
 	if (FAILED(pGameInstance->Add_Component(CCollider::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB"),
 		(CComponent**)&m_pAABB, &ColliderDesc)))
@@ -633,7 +595,7 @@ HRESULT CMonster::Add_Components_By_File()
 	CCollider::COLLIDER_DESC		ColliderDesc;
 
 	ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
-	ColliderDesc.vScale = _float3(0.5f, 0.5f, 0.5f);
+	ColliderDesc.vScale = _float3(0.8f, 0.8f, 0.8f);
 	ColliderDesc.vPosition = _float3(0.0f, 0.f, 0.f);
 	if (FAILED(pGameInstance->Add_Component(CCollider::familyId	, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB"),
 		(CComponent**)&m_pAABB, &ColliderDesc)))
