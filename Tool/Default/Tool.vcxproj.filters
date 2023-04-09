@@ -241,6 +241,9 @@
     <Filter Include="02. GameObject\Stage\Stage_Manager">
       <UniqueIdentifier>{f9181186-3e40-444d-844c-59f79f2504a3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\BaseCamp\Effect">
+      <UniqueIdentifier>{bb4e3f47-2239-4e6e-a6b8-0d3cc108fad7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -473,6 +476,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Stage_Manager.h">
       <Filter>02. GameObject\Stage\Stage_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Effect_Sakura.h">
+      <Filter>02. GameObject\BaseCamp\Effect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -708,6 +714,9 @@
     <ClCompile Include="..\Private\Stage_Manager.cpp">
       <Filter>02. GameObject\Stage\Stage_Manager</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Effect_Sakura.cpp">
+      <Filter>02. GameObject\BaseCamp\Effect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_VtxNorTex.hlsl">
@@ -738,6 +747,9 @@
       <Filter>97. ShaderFiles</Filter>
     </FxCompile>
     <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_VtxTexColor.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_VtxInstance.hlsl">
       <Filter>97. ShaderFiles</Filter>
     </FxCompile>
   </ItemGroup>

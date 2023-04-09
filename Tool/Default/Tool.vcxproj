@@ -179,6 +179,7 @@
     <ClInclude Include="..\Public\MiscData.h" />
     <ClInclude Include="..\Public\Mouse.h" />
     <ClInclude Include="..\Public\RushAttackEffect.h" />
+    <ClInclude Include="..\Public\Effect_Sakura.h" />
     <ClInclude Include="..\Public\SkillEffect.h" />
     <ClInclude Include="..\Public\PartText.h" />
     <ClInclude Include="..\Public\PartTexture.h" />
@@ -257,6 +258,7 @@
     <ClCompile Include="..\Private\MiscData.cpp" />
     <ClCompile Include="..\Private\Mouse.cpp" />
     <ClCompile Include="..\Private\RushAttackEffect.cpp" />
+    <ClCompile Include="..\Private\Effect_Sakura.cpp" />
     <ClCompile Include="..\Private\SkillEffect.cpp" />
     <ClCompile Include="..\Private\PartText.cpp" />
     <ClCompile Include="..\Private\PartTexture.cpp" />
@@ -322,6 +324,7 @@
     <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_Cell.hlsl" />
     <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_VtxAnimModel.hlsl" />
     <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_VtxAnimModelColor.hlsl" />
+    <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_VtxInstance.hlsl" />
     <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_VtxTexColor.hlsl" />
     <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_VtxModel.hlsl" />
     <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_VtxModelColor.hlsl" />

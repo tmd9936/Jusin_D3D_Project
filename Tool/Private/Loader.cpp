@@ -480,6 +480,10 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Window/Rectangle_Base.dds")))))
 			return E_FAIL;
 
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_Sakura"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Effect/sakura.dds")))))
+			return E_FAIL;
+
 	}
 
 #pragma endregion
@@ -534,6 +538,11 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CFormation::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
+		/* For.Prototype_Component_VIBuffer_Rect_Instance */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect_Instance"),
+			CVIBuffer_Rect_Instance::Create(m_pDevice, m_pContext, 100))))
+			return E_FAIL;
+
 	}
 
 	wsprintf(m_szLoadingText, TEXT("모델을 로딩중입니다."));
@@ -583,6 +592,11 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		/* For.Prototype_Component_Shader_VtxNorTex */
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxNorTex"),
 			CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxNorTex.hlsl"), VTXNORTEX_DECLARATION::Elements, VTXNORTEX_DECLARATION::iNumElements))))
+			return E_FAIL;
+
+		/* For.Prototype_Component_Shader_VtxInstance */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxInstance"),
+			CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxInstance.hlsl"), VTXINSTANCE_DECLARATION::Elements, VTXINSTANCE_DECLARATION::iNumElements))))
 			return E_FAIL;
 	}
 #pragma endregion
