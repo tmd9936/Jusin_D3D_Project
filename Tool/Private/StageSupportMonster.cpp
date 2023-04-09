@@ -293,8 +293,6 @@ _uint CStageSupportMonster::State_Tick(const _double& TimeDelta)
 			m_pMonFSM->Transit_MotionState(CMonFSM::FORMATION_RUN, m_pModelCom);
 			break;
 		}
-		//_pMainPlayerTransform->look * relativePos.z + m_pMainPlayerTransform->right * relativePosX
-		//XMVector3TransformNormal(m_pFormationCom->Get_RelativePos(),);
 		m_pMainPlayerTransform->Get_NoScaleState(CTransform::STATE_LOOK) * XMVectorGetZ(m_pFormationCom->Get_RelativePos());
 		m_pTransformCom->Chase(m_pMainPlayerTransform->Get_State(CTransform::STATE_POSITION) + 
 			m_pMainPlayerTransform->Get_NoScaleState(CTransform::STATE_LOOK) * XMVectorGetZ(m_pFormationCom->Get_RelativePos()) +
@@ -409,8 +407,8 @@ _uint CStageSupportMonster::State_Tick(const _double& TimeDelta)
 			m_bCanAttack = false;
 			m_bCanSkillAttack = false;
 			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
-			m_AttackCoolTimeAcc = m_AttackCoolTime * 1.5f;
-			m_SkillCoolTimeAcc = m_SkillCoolTime * 1.5f;
+			m_AttackCoolTimeAcc = m_AttackCoolTime;
+			m_SkillCoolTimeAcc = m_SkillCoolTime;
 		}
 
 		break;
