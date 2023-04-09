@@ -1,0 +1,17 @@
+{
+    "ManagerDesc": {
+        "m_FadeInStartColor": {
+            "x": 0.2,
+            "y": 0.2,
+            "z": 0.2,
+            "w": 1.0
+          },
+          "m_FadeInEndColor": {
+            "x": 0.2,
+            "y": 0.2,
+            "z": 0.2,
+            "w": 0.0
+          },
+          "m_FadeSecond": 1.0
+    }
+}

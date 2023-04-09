@@ -238,6 +238,9 @@
     <Filter Include="02. GameObject\Static\MiscData">
       <UniqueIdentifier>{1dd28761-faca-4931-98be-98e5e18aa2f3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\Stage\Stage_Manager">
+      <UniqueIdentifier>{f9181186-3e40-444d-844c-59f79f2504a3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -467,6 +470,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\MiscData.h">
       <Filter>02. GameObject\Static\MiscData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Stage_Manager.h">
+      <Filter>02. GameObject\Stage\Stage_Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -698,6 +704,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\MiscData.cpp">
       <Filter>02. GameObject\Static\MiscData</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Stage_Manager.cpp">
+      <Filter>02. GameObject\Stage\Stage_Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
