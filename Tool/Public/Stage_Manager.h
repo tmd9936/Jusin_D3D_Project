@@ -56,11 +56,15 @@ public:
 		m_eCurState = MANAGER_IDLE;
 	}
 
-public:
-	void	Skill_UI_CoolTimeStart();
+//public:
+//	void	Skill_UI_CoolTimeStart();
+
+
 
 private:
 	HRESULT Init_ManagerInfo();
+	void	Init_PlayersPos();
+
 
 private:
 	void Fade_In(const _double& TimeDelta);

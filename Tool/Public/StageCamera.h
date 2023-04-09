@@ -17,6 +17,7 @@ public:
 	enum STATE
 	{
 		STATE_FADE_IN,
+		STATE_FORMATION,
 		STATE_BATTLE,
 		STATE_MOVE_TO_BOSS,
 		STATE_LOOK_AT_BOSS,
@@ -74,11 +75,21 @@ private:
 	void					Data_Save_Logic();
 
 private:
+	_uint					State_LateTick(const _double& TimeDelta);
+	void					State_Change();
+
+	HRESULT					Init_CameraPos();
+	_uint					Chase_CameraAt(const _double& TimeDelta);
+	_uint					FadeIn_Chase_CameraAt(const _double& TimeDelta);
+
+
+private:
 	STAGE_CAMERA_DESC		m_StageCameraDesc = { };
-
-	_vector					m_vNorVectorFromAt = { };
-
+	_vector					m_vDistanceVectorFromAt = { };
 	CGameObject*			m_pTarget = { nullptr };
+
+	STATE					m_eCurState = { STATE_FADE_IN };
+	STATE					m_ePreState = { STATE_END };
 
 public:
 	/* Prototype */

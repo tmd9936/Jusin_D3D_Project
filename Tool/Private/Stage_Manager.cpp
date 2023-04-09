@@ -114,7 +114,42 @@ HRESULT CStage_Manager::Init_ManagerInfo()
 
 	Safe_AddRef(p_MainCamera);
 
+	Init_PlayersPos();
+
 	return S_OK;
+}
+
+void CStage_Manager::Init_PlayersPos()
+{
+	CTransform* pTransform = nullptr;
+
+	CGameObject* pPlayer1 = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Player", L"Player1");
+	if (pPlayer1)
+	{
+		pTransform = pPlayer1->Get_As<CTransform>();
+		pTransform->Set_Pos(30.54f, 0.5f, 19.28f);
+	}
+
+	CGameObject* pPlayer2 = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Player", L"Player2");
+	if (pPlayer2)
+	{
+		pTransform = pPlayer2->Get_As<CTransform>();
+		pTransform->Set_Pos(29.f, 0.5f, 18.5f);
+	}
+
+	CGameObject* pPlayer3 = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Player", L"Player3");
+	if (pPlayer3)
+	{
+		pTransform = pPlayer3->Get_As<CTransform>();
+		pTransform->Set_Pos(31.f, 0.5f, 18.5f);
+	}
+
+	CGameObject* pCameraTarget = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_CameraTarget", L"CameraTarget");
+	if (pCameraTarget)
+	{
+		pTransform = pCameraTarget->Get_As<CTransform>();
+		pTransform->Set_Pos(30.54f, 0.5f, 19.28f);
+	}
 }
 
 void CStage_Manager::Fade_In(const _double& TimeDelta)
