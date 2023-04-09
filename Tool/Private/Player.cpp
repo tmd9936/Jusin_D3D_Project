@@ -33,8 +33,18 @@ HRESULT CPlayer::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pA
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 		return E_FAIL;
 
+	m_eRenderId = RENDER_NONBLEND;
 
-	//m_pTransformCom->Set_Pos(22.f, 0.f, 13.5f);
+	m_pModelCom->Set_Animation(0);
+	m_SkillLoopDesc.m_eLoopState = CMonFSM::END_MOTION;
+
+	return S_OK;
+}
+
+HRESULT CPlayer::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath)
+{
+	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, filePath)))
+		return E_FAIL;
 
 	m_eRenderId = RENDER_NONBLEND;
 
@@ -135,7 +145,7 @@ _uint CPlayer::Tick(_double TimeDelta)
 				--m_SkillLoopCount;
 				m_SkillLoopDesc.m_eLoopState = CMonFSM::DASH_SLE_START;
 				m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom); 
-				m_SkillLoopDesc.m_CurskillIndex = 1;
+				m_SkillLoopDesc.m_CurskillIndex = 0;
 				m_fAccel = 1.f;
 
 				break;
@@ -222,29 +232,28 @@ _uint CPlayer::Tick(_double TimeDelta)
 
 	else  if (KEY_TAB(KEY::A))
 	{
-		Do_Skill(m_PokemonDesc.m_skillIDs[0], CMonFSM::ATK_NORMAL, L"Layer_PlayerSkill");
-		m_SkillLoopDesc.m_CurskillIndex = 0;
-	}
-
-	else  if (KEY_TAB(KEY::S))
-	{
-		Do_Skill(m_PokemonDesc.m_skillIDs[1], CMonFSM::DASH_SLE_START, L"Layer_PlayerSkill");
-		m_SkillLoopCount = 1;
-		m_SkillLoopDelay = 1.f;
-		m_fAccel = 1.f;
-		m_SkillLoopDesc.m_CurskillIndex = 1;
-	}
-
-	else  if (KEY_TAB(KEY::D))
-	{
-		Do_Skill(m_PokemonDesc.m_skillIDs[2], CMonFSM::HAPPY, L"Layer_PlayerSkill");
-		m_SkillLoopDesc.m_CurskillIndex = 2;
+		Do_Skill(m_normalSkillType2, CMonFSM::ATK_NORMAL, L"Layer_PlayerSkill");
+		//m_SkillLoopDesc.m_CurskillIndex = 0;
 	}
 
 	else  if (KEY_TAB(KEY::W))
 	{
-		Do_Skill(m_PokemonDesc.m_skillIDs[3], CMonFSM::ATK_NORMAL, L"Layer_PlayerSkill");
-		m_SkillLoopDesc.m_CurskillIndex = 3;
+		Do_Skill(m_PokemonDesc.m_normalSkillType, CMonFSM::ATK_NORMAL, L"Layer_PlayerSkill");
+	}
+
+	else  if (KEY_TAB(KEY::S))
+	{
+		Do_Skill(m_PokemonDesc.m_skillIDs[0], CMonFSM::DASH_SLE_START, L"Layer_PlayerSkill");
+		m_SkillLoopCount = 1;
+		m_SkillLoopDelay = 1.f;
+		m_fAccel = 1.f;
+		m_SkillLoopDesc.m_CurskillIndex = 0;
+	}
+
+	else  if (KEY_TAB(KEY::D))
+	{
+		Do_Skill(m_PokemonDesc.m_skillIDs[1], CMonFSM::HAPPY, L"Layer_PlayerSkill");
+		m_SkillLoopDesc.m_CurskillIndex = 1;
 	}
 
 	else if (KEY_TAB(KEY::SPACE))
@@ -253,8 +262,6 @@ _uint CPlayer::Tick(_double TimeDelta)
 	}
 
 	m_pAABB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
-	//m_pOBB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
-	//m_pSphere->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
 
 	return _uint();
 }
@@ -331,6 +338,123 @@ void CPlayer::On_CollisionExit(CCollider* pOther, const _float& fX, const _float
 {
 }
 
+_bool CPlayer::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator)
+{
+	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
+	if (m_pTransformCom)
+	{
+		Value PokemonDesc(kObjectType);
+		{
+			Value ModelPrototypeTag;
+			string tag = convert.to_bytes(m_PokemonDesc.ModelPrototypeTag.c_str());
+			ModelPrototypeTag.SetString(tag.c_str(), (SizeType)tag.size(), allocator);
+			PokemonDesc.AddMember("ModelPrototypeTag", ModelPrototypeTag, allocator);
+
+			PokemonDesc.AddMember("ModelPrototypeLevelIndex", m_PokemonDesc.ModelPrototypeLevelIndex, allocator);
+
+			Value vPos(kObjectType);
+			{
+				_float4 pos = {};
+				XMStoreFloat4(&pos, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
+
+				vPos.AddMember("x", pos.x, allocator);
+				vPos.AddMember("y", pos.y, allocator);
+				vPos.AddMember("z", pos.z, allocator);
+				vPos.AddMember("w", pos.w, allocator);
+			}
+			PokemonDesc.AddMember("vPos", vPos, allocator);
+
+			PokemonDesc.AddMember("moveSpeed", m_PokemonDesc.moveSpeed, allocator);
+			PokemonDesc.AddMember("rotateSpeed", m_PokemonDesc.rotateSpeed, allocator);
+
+			PokemonDesc.AddMember("m_monsterNo", m_PokemonDesc.m_monsterNo, allocator);
+			PokemonDesc.AddMember("m_attackBasis", m_PokemonDesc.m_attackBasis, allocator);
+			PokemonDesc.AddMember("m_hpGrow", m_PokemonDesc.m_hpGrow, allocator);
+			PokemonDesc.AddMember("m_attackGrow", m_PokemonDesc.m_attackGrow, allocator);
+			PokemonDesc.AddMember("m_type1", m_PokemonDesc.m_type1, allocator);
+			PokemonDesc.AddMember("m_type2", m_PokemonDesc.m_type2, allocator);
+			PokemonDesc.AddMember("m_visitWeightDefault", m_PokemonDesc.m_visitWeightDefault, allocator);
+			PokemonDesc.AddMember("m_visitWeight", m_PokemonDesc.m_visitWeight, allocator);
+			PokemonDesc.AddMember("m_cookTableID", m_PokemonDesc.m_cookTableID, allocator);
+			PokemonDesc.AddMember("m_color", m_PokemonDesc.m_color, allocator);
+			PokemonDesc.AddMember("m_Rate", m_PokemonDesc.m_Rate, allocator);
+			PokemonDesc.AddMember("m_isLayer", m_PokemonDesc.m_isLayer, allocator);
+			PokemonDesc.AddMember("m_meleePercent", m_PokemonDesc.m_meleePercent, allocator);
+			PokemonDesc.AddMember("m_slotTypeWeightHp", m_PokemonDesc.m_slotTypeWeightHp, allocator);
+			PokemonDesc.AddMember("m_slotTypeWeightAttack", m_PokemonDesc.m_slotTypeWeightAttack, allocator);
+			PokemonDesc.AddMember("m_slotTypeWeightMulti", m_PokemonDesc.m_slotTypeWeightMulti, allocator);
+			PokemonDesc.AddMember("m_normalSkillType", m_PokemonDesc.m_normalSkillType, allocator);
+			PokemonDesc.AddMember("m_normalSkillType2", m_normalSkillType2, allocator);
+
+			Value m_skillIDs(kArrayType);
+			{
+				for (size_t i = 0; i < m_PokemonDesc.m_skillIDs.size(); ++i)
+				{
+					m_skillIDs.PushBack(m_PokemonDesc.m_skillIDs[i], allocator);
+				}
+			}
+			PokemonDesc.AddMember("m_skillIDs", m_skillIDs, allocator);
+
+		}
+		doc.AddMember("PokemonDesc", PokemonDesc, allocator);
+	}
+
+	return true;
+}
+
+_bool CPlayer::Load_By_JsonFile_Impl(Document& doc)
+{
+	if (m_pTransformCom)
+	{
+		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
+
+		const Value& PokemonDesc = doc["PokemonDesc"];
+
+		string ModelPrototypeTag = PokemonDesc["ModelPrototypeTag"].GetString();
+		m_PokemonDesc.ModelPrototypeTag = convert.from_bytes(ModelPrototypeTag);
+
+		m_PokemonDesc.ModelPrototypeLevelIndex = PokemonDesc["ModelPrototypeLevelIndex"].GetUint();
+
+		const Value& vPos = PokemonDesc["vPos"];
+		m_pTransformCom->Set_Pos(vPos["x"].GetFloat(), vPos["y"].GetFloat(), vPos["z"].GetFloat());
+		m_PokemonDesc.vPos.x = vPos["x"].GetFloat();
+		m_PokemonDesc.vPos.y = vPos["y"].GetFloat();
+		m_PokemonDesc.vPos.z = vPos["z"].GetFloat();
+		m_PokemonDesc.vPos.w = vPos["w"].GetFloat();
+
+		m_PokemonDesc.moveSpeed = PokemonDesc["moveSpeed"].GetFloat();
+		m_PokemonDesc.rotateSpeed = PokemonDesc["rotateSpeed"].GetFloat();
+
+		m_PokemonDesc.m_monsterNo = PokemonDesc["m_monsterNo"].GetUint();
+		m_PokemonDesc.m_hpBasis = PokemonDesc["m_hpBasis"].GetUint();
+		m_PokemonDesc.m_attackBasis = PokemonDesc["m_attackBasis"].GetUint();
+		m_PokemonDesc.m_hpGrow = PokemonDesc["m_hpGrow"].GetUint();
+		m_PokemonDesc.m_attackGrow = PokemonDesc["m_attackGrow"].GetUint();
+		m_PokemonDesc.m_type1 = PokemonDesc["m_type1"].GetUint();
+		m_PokemonDesc.m_type2 = PokemonDesc["m_type2"].GetUint();
+		m_PokemonDesc.m_visitWeightDefault = PokemonDesc["m_visitWeightDefault"].GetUint();
+		m_PokemonDesc.m_visitWeight = PokemonDesc["m_visitWeight"].GetUint();
+		m_PokemonDesc.m_cookTableID = PokemonDesc["m_cookTableID"].GetUint();
+		m_PokemonDesc.m_color = PokemonDesc["m_color"].GetUint();
+		m_PokemonDesc.m_Rate = PokemonDesc["m_Rate"].GetUint();
+		m_PokemonDesc.m_isLayer = PokemonDesc["m_isLayer"].GetUint();
+		m_PokemonDesc.m_meleePercent = PokemonDesc["m_meleePercent"].GetUint();
+		m_PokemonDesc.m_slotTypeWeightHp = PokemonDesc["m_slotTypeWeightHp"].GetUint();
+		m_PokemonDesc.m_slotTypeWeightAttack = PokemonDesc["m_slotTypeWeightAttack"].GetUint();
+		m_PokemonDesc.m_slotTypeWeightMulti = PokemonDesc["m_slotTypeWeightMulti"].GetUint();
+
+		m_PokemonDesc.m_normalSkillType = PokemonDesc["m_normalSkillType"].GetUint();
+		m_normalSkillType2 = PokemonDesc["m_normalSkillType2"].GetUint();
+
+		const Value& skillIDs = PokemonDesc["m_skillIDs"];
+		for (SizeType i = 0; i < skillIDs.Size(); ++i)
+		{
+			m_PokemonDesc.m_skillIDs.push_back(skillIDs[i].GetInt());
+		}
+	}
+
+	return true;
+}
 
 CPlayer* CPlayer::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
@@ -358,6 +482,19 @@ CGameObject* CPlayer::Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pA
 	return pInstance;
 }
 
+CGameObject* CPlayer::Clone(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath)
+{
+	CPlayer* pInstance = new CPlayer(*this);
+
+	if (FAILED(pInstance->Initialize(pLayerTag, iLevelIndex, filePath)))
+	{
+		MSG_BOX("Failed to Cloned CPlayer");
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
+}
+
 void CPlayer::Free()
 {
 	__super::Free();
@@ -374,7 +511,3 @@ _uint CPlayer::State_Tick(const _double& TimeDelta)
 	return _uint();
 }
 
-CGameObject* CPlayer::Clone(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath)
-{
-	return nullptr;
-}
