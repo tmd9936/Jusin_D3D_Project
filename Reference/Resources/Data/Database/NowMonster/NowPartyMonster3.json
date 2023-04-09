@@ -8,7 +8,7 @@
             "z": 24.0,
             "w": 1.0
         },
-        "moveSpeed": 2.5,
+        "moveSpeed": 1.5,
         "rotateSpeed": 1.2,
         "m_monsterNo": 91,
         "m_hpBasis": 600,
