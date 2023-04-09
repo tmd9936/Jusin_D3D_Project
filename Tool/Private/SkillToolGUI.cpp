@@ -57,8 +57,7 @@ HRESULT CSkillToolGUI::Render()
 	//View_Skill_Depend_Layer();
 	View_Effect_Layer();
 
-	Reload_Skill_Data(); ImGui::SameLine();
-	Reload_Effect_Data();
+	View_Debug();
 
 	return S_OK;
 }
@@ -104,6 +103,17 @@ void CSkillToolGUI::View_Effect_Layer()
 			ListBox_Effect_List();
 			Effect_Info();
 		}
+	}
+	ImGui::End();
+}
+
+void CSkillToolGUI::View_Debug()
+{
+	ImGui::Begin("Debug");
+	{
+		Reload_Skill_Data(); ImGui::SameLine();
+		Reload_Effect_Data();
+		View_PlayerPos();
 	}
 	ImGui::End();
 }
@@ -384,6 +394,23 @@ void CSkillToolGUI::After_Init()
 
 		m_ManagerInit = true;
 	}
+}
+
+void CSkillToolGUI::View_PlayerPos()
+{
+	const _uint iLevelindex = CDataToolGUI::GetInstance()->Get_Current_Levelindex();
+
+	CGameObject* pPlayer = CGameInstance::GetInstance()->Get_Object(iLevelindex, L"Layer_Player", L"Player1");
+	if (pPlayer == nullptr)
+		return;
+
+	CTransform* pPlayerTransform =  pPlayer->Get_As<CTransform>();
+
+	if (pPlayerTransform == nullptr)
+		return;
+	
+	XMStoreFloat4(&m_PlayerPos, pPlayerTransform->Get_State(CTransform::STATE_POSITION));
+	ImGui::Text("PlayerPos \nX: %.2f \nY: %.2f \nZ: %.2f", m_PlayerPos.x, m_PlayerPos.y, m_PlayerPos.z);
 }
 
 void CSkillToolGUI::Free(void)

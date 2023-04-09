@@ -138,9 +138,8 @@ HRESULT CMapToolGUI::Render()
 
 			ImGui::Text("vEye: X %.2f, Y %.2f, Z %.2f", camera_desc.vEye.x, camera_desc.vEye.y, camera_desc.vEye.z);
 			ImGui::Text("vAt: X %.2f, Y %.2f, Z %.2f", camera_desc.vAt.x, camera_desc.vAt.y, camera_desc.vAt.z);
-			ImGui::Text("vAxisY: %.2f", camera_desc.vAxisY);
-			ImGui::Text("fFovy: %.2f, fAspect: %.2f, fNear: %.2f, fFar: %.2f", camera_desc.fFovy, camera_desc.fAspect, camera_desc.fNear, camera_desc.fFar);
-
+			ImGui::Text("vAxisY: X %.2f, Y %.2f, Z %.2f", camera_desc.vAxisY.x, camera_desc.vAxisY.y, camera_desc.vAxisY.z);
+			ImGui::Text("fFovy: %.2f, fAspect: %.2f, \nfNear: %.2f, fFar: %.2f", camera_desc.fFovy, camera_desc.fAspect, camera_desc.fNear, camera_desc.fFar);
 
 		}
 

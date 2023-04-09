@@ -40,6 +40,13 @@ HRESULT CBaseCamp_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex
 
 	Safe_AddRef(p_MainCamera);
 
+	CGameObject* pPlayer1 = CGameInstance::GetInstance()->Get_Object(LEVEL_BASECAMP, L"Layer_Player", L"Player1");
+	if (pPlayer1)
+	{
+		CTransform* pTransform = pPlayer1->Get_As<CTransform>();
+		pTransform->Set_Pos(22.f, 0.5f, 13.5f);
+	}
+
 	return S_OK;
 }
 
@@ -60,12 +67,9 @@ HRESULT CBaseCamp_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex
 	p_MainCamera = (CCamera_Public*)CGameInstance::GetInstance()->Get_Object(LEVEL_BASECAMP, L"Layer_Camera", L"Main_Camera");
 	if (nullptr == p_MainCamera)
 		return E_FAIL;
-
 	Safe_AddRef(p_MainCamera);
 
-
 	CGameObject* pPlayer1 = CGameInstance::GetInstance()->Get_Object(LEVEL_BASECAMP, L"Layer_Player", L"Player1");
-
 	if (pPlayer1)
 	{
 		CTransform* pTransform = pPlayer1->Get_As<CTransform>();
