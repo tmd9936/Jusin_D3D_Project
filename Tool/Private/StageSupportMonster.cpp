@@ -343,6 +343,10 @@ _uint CStageSupportMonster::State_Tick(const _double& TimeDelta)
 				}
 			}
 		}
+		else
+		{
+			m_pMonFSM->Transit_MotionState(CMonFSM::FORMATION_NORMAL, m_pModelCom);
+		}
 		break;
 
 	case CMonFSM::RUN_NO:

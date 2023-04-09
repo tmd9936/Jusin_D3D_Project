@@ -56,12 +56,15 @@ public:
 
 	virtual _uint Tick(_double TimeDelta) override;
 	virtual _uint LateTick(_double TimeDelta) override;
-	virtual HRESULT Render() override;
 
 public:
-	/**
-	@return False 움직이는 중, True 도착
-	*/
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="vPosition"> </param>
+	/// <param name="TImeDelta"></param>
+	/// <param name="limitDistance"></param>
+	/// <returns> False 움직이는 중, True 도착</returns>
 	_bool	Focus_To_Object(const _float4& vPosition, const _float& TImeDelta, const _float& limitDistance);
 
 protected:
@@ -69,6 +72,7 @@ protected:
 	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
 
 private:
+
 	HRESULT					Add_Components();
 
 private:
@@ -85,6 +89,9 @@ private:
 
 private:
 	STAGE_CAMERA_DESC		m_StageCameraDesc = { };
+	/// <summary>
+	/// 카메라와 At간 유지할 거리
+	/// </summary>
 	_vector					m_vDistanceVectorFromAt = { };
 	CGameObject*			m_pTarget = { nullptr };
 
