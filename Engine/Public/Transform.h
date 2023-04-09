@@ -67,7 +67,7 @@ public:
 	}
 
 	const _float3	Get_Rotate() const { 
-		return m_Rotaion; 
+		return m_Rotation;
 	}
 
 	const _float	Get_Positin_Length() {
@@ -75,6 +75,12 @@ public:
 	}
 
 	HRESULT Set_ShaderResource(class CShader* pShader, const char* pContantName);
+
+	_vector	Get_NoScaleState(STATE eState) const {
+		return XMVector3Normalize(XMLoadFloat4x4(&m_WorldMatrix).r[eState]);
+	}
+	
+	_float Get_NoScaleRotateValue(STATE eState) const;
 
 public:
 	void	Set_State(STATE eState, _fvector vState) {
@@ -183,7 +189,7 @@ private:
 	_float4x4	m_WorldMatrix = { };
 	TRANSFORMDESC m_TransformDesc = { };
 
-	_float3		m_Rotaion = {};
+	_float3		m_Rotation = {};
 
 public:
 	// CComponent을(를) 통해 상속됨

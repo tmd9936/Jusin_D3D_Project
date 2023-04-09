@@ -35,6 +35,30 @@ HRESULT CTransform::Set_ShaderResource(CShader* pShader, const char* pContantNam
 	return pShader->Set_Matrix(pContantName, &m_WorldMatrix);
 }
 
+_float CTransform::Get_NoScaleRotateValue(STATE eState) const
+{
+	_vector stateVector = XMLoadFloat4x4(&m_WorldMatrix).r[eState];
+	_vector originalVector = {};
+	if (eState == STATE_RIGHT)
+	{
+		originalVector = { 1.f, 0.f, 0.f, 0.f };
+	}
+	else if (eState == STATE_UP)
+	{
+		originalVector = { 0.f, 1.f, 0.f, 0.f };
+	}
+	else if (eState == STATE_LOOK)
+	{
+		originalVector = { 0.f, 0.f, 1.f, 0.f };
+	}
+
+	_float dot = XMVectorGetX(XMVector3Dot(stateVector, originalVector));
+
+	_float radian = acosf(dot);
+
+	return radian;
+}
+
 void CTransform::Set_Scaled(const _float3& vScale)
 {
 	Set_State(STATE_RIGHT, XMVector3Normalize(Get_State(STATE_RIGHT)) * vScale.x);
@@ -575,7 +599,7 @@ _bool CTransform::Go_BackWard_Look_Target(_fvector vLookPos, _fvector vArrivePos
 
 void CTransform::Set_Rotation(const _float3& rotaion)
 {
-	m_Rotaion = rotaion;
+	m_Rotation = rotaion;
 
 	_float3 vScale = Get_Scaled();
 
@@ -584,7 +608,7 @@ void CTransform::Set_Rotation(const _float3& rotaion)
 	_vector vLook = XMVectorSet(0.f, 0.f, 1.f, 0.f) * vScale.z;
 
 	_matrix		RotationMatrix = XMMatrixRotationRollPitchYawFromVector(XMVectorSet(
-		m_Rotaion.x, m_Rotaion.y, m_Rotaion.z, 0.f
+		m_Rotation.x, m_Rotation.y, m_Rotation.z, 0.f
 	));
 
 	Set_State(CTransform::STATE_RIGHT, XMVector3TransformNormal(vRight, RotationMatrix));
