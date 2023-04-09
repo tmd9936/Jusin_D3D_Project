@@ -265,6 +265,44 @@ _bool CNavigation::Move_OnNavigation(_fvector vPosition)
 	}
 }
 
+_bool CNavigation::Move_OnNavigation_Sliding(_fvector vPosition, _fvector vLook, _vector& vOutSlidLook)
+{
+	if (m_NaviDesc.iIndex >= m_Cells.size())
+		return false;
+
+	_int		iNeighborIndex = { 0 };
+
+	if (true == m_Cells[m_NaviDesc.iIndex]->isIn(vPosition, iNeighborIndex))
+	{
+		return true;
+	}
+	else /* 쎌 밖으로 움직였어. */
+	{
+		/* 나간 방향에 이웃이 있다면?*/
+		if (0 <= iNeighborIndex)
+		{
+			while (true)
+			{
+				if (-1 == iNeighborIndex)
+					return false;
+
+				if (true == m_Cells[iNeighborIndex]->isIn(vPosition, iNeighborIndex))
+				{
+					m_NaviDesc.iIndex = iNeighborIndex;
+					break;
+				}
+			}
+
+			return true;
+		}
+
+		vOutSlidLook = m_Cells[m_NaviDesc.iIndex]->Get_SlidePower(vPosition, vLook);
+
+		/* 나간 방향에 이웃이 없다면?*/
+		return false;
+	}
+}
+
 _bool CNavigation::Move_OnNavigation_Set_Y(_fvector vPosition, _float& fY)
 {
 	if (m_NaviDesc.iIndex >= m_Cells.size())

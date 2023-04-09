@@ -437,6 +437,7 @@ _bool CTransform::Chase(_fvector vTargetPos, _float TimeDelta, _float limitDitan
 	_bool	isMove = true;
 
 	_vector vPosition = Get_State(STATE_POSITION);
+	_vector vLook = Get_State(STATE_LOOK);
 
 	_vector vDir = vTargetPos - vPosition;
 
@@ -446,17 +447,32 @@ _bool CTransform::Chase(_fvector vTargetPos, _float TimeDelta, _float limitDitan
 	{
 		vPosition += XMVector3Normalize(vDir) * TimeDelta * m_TransformDesc.SpeedPerSec;
 
+		_vector vSlideLook = {};
+
 		if (nullptr != pNavigation)
 		{
-			isMove = pNavigation->Move_OnNavigation(vPosition);
+			isMove = pNavigation->Move_OnNavigation_Sliding(vPosition, vLook, vSlideLook);
 		}
 
 		if (true == isMove)
 		{
 			Set_State(STATE_POSITION, vPosition);
 		}
+		else
+		{
+			//vSlidePosition;
+			_vector vSlidePosition = Get_State(STATE_POSITION);
+			vSlidePosition += XMVector3Normalize(vSlideLook) * TimeDelta * m_TransformDesc.SpeedPerSec;
 
+			isMove = pNavigation->Move_OnNavigation(vSlidePosition);
+			if (true == isMove)
+			{
+				Set_State(STATE_POSITION, vSlidePosition);
+			}
+			//Set_State(STATE_POSITION, vSlidePosition);
+		}
 		return false;
+		
 	}
 
 	return true;
@@ -535,8 +551,6 @@ _bool	CTransform::Chase_No_Y(_fvector vTargetPos, _float TimeDelta, _float limit
 
 	return true;
 }
-
-
 
 _bool CTransform::Go_BackWard_Look_Pos(_fvector vLookPos, _fvector vArrivePos, _float TimeDelta, _float limitDitance, CNavigation* pNavigation)
 {

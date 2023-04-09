@@ -42,6 +42,8 @@ public:
 public:
 	_bool Move_OnNavigation(_fvector vPosition);
 
+	_bool Move_OnNavigation_Sliding(_fvector vPosition, _fvector vLook, _vector& vOutSlidLook);
+
 	_bool Move_OnNavigation_Set_Y(_fvector vPosition, _float& fY);
 
 private:
