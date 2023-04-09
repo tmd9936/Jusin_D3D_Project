@@ -220,6 +220,7 @@ CSkillEffect* CEffect_Manager::Create_Charge_Effect(_uint effectType, const _tch
 	CSkillEffect::EFFECT_DESC effect_Desc = m_Skill_Effect_Descs[effectType];
 
 	wstring	FilePath = m_EffectFilePath + effect_Desc.m_effectPath + L".fbx";
+	effect_Desc.m_ProtoTypeTag = L"Prototype_Component_Model_" + effect_Desc.m_effectPath;
 
 	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
 	if (false == pGameInstance->Check_Prototype(effect_Desc.m_ProtoTypeTag))

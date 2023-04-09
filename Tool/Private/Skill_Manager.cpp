@@ -391,12 +391,12 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 				return E_FAIL;
 			pTransform->LookAt(XMVectorSetW(vLook, 1.f));
 			
-			pTransform->Set_Scaled({ 0.5f, 0.5f, 0.5f });
+			//pTransform->Set_Scaled({ 0.5f, 0.5f, 0.5f });
 
 			_float4 pos = {};
 			XMStoreFloat4(&pos, vPos + vLook * _float(rand() % 5 + 2) * 0.4f);
 
-			pos.y = 0.5f;
+			//pos.y = 1.5f;
 			pos.x += (rand() % 10 - 5) * 0.6f;
 
 			pSkillEffect->Set_Pos(pos);
@@ -578,7 +578,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 		pTransform->LookAt(XMVectorSetW(vLook, 1.f));
 
 		_float4 pos = {};
-		pos.y = 0.5f;
+		pos.y = 1.5f;
 		XMStoreFloat4(&pos, vPos);
 
 		pSkillEffect->Set_Pos(pos);
