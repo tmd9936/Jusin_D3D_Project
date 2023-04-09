@@ -150,22 +150,22 @@ _bool CMap::Load_By_JsonFile_Impl(Document& doc)
 	{
 		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
 
-		const Value& CameraDesc = doc["MapDesc"];
+		const Value& MapDesc = doc["MapDesc"];
 
-		const Value& vPos = CameraDesc["vPos"];
+		const Value& vPos = MapDesc["vPos"];
 		m_pTransformCom->Set_Pos(vPos["x"].GetFloat(), vPos["y"].GetFloat(), vPos["z"].GetFloat());
 
-		m_MapDesc.isAnim = CameraDesc["isAnim"].GetBool();
+		m_MapDesc.isAnim = MapDesc["isAnim"].GetBool();
 
-		string ModelPrototypeTag = CameraDesc["ModelPrototypeTag"].GetString();
+		string ModelPrototypeTag = MapDesc["ModelPrototypeTag"].GetString();
 		m_MapDesc.ModelPrototypeTag = convert.from_bytes(ModelPrototypeTag);
 
-		m_MapDesc.Model_Level_Index = CameraDesc["Model_Level_Index"].GetInt();
+		m_MapDesc.Model_Level_Index = MapDesc["Model_Level_Index"].GetInt();
 
-		string ShaderPrototypeTag = CameraDesc["ShaderPrototypeTag"].GetString();
+		string ShaderPrototypeTag = MapDesc["ShaderPrototypeTag"].GetString();
 		m_MapDesc.ShaderPrototypeTag = convert.from_bytes(ShaderPrototypeTag);
 
-		m_MapDesc.Shader_Level_Index = CameraDesc["Shader_Level_Index"].GetInt();
+		m_MapDesc.Shader_Level_Index = MapDesc["Shader_Level_Index"].GetInt();
 	}
 
 	return true;

@@ -1,0 +1,23 @@
+{
+    "MiscDesc": {
+        "hpBarMiscDesc": {
+            "SizeX": 60.0,
+            "SizeY": 10.0,
+            "PositionX": -15.0,
+            "PositionY": -60.0,
+            "PositionZ": 0.1,
+            "playerColor": {
+                "x": 0.0,
+                "y": 0.89,
+                "z": 1.0,
+                "w": 1.0
+            },
+            "enemyColor": {
+                "x": 1.0,
+                "y": 0.25,
+                "z": 0.0,
+                "w": 1.0
+            }
+        }
+    }
+}

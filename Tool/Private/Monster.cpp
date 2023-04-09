@@ -14,6 +14,8 @@
 #include "Searcher.h"
 #include "DamageText.h"
 
+#include "MiscData.h"
+
 #include "Utility.h"
 
 CMonster::CMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -279,7 +281,16 @@ HRESULT CMonster::Add_BuffState()
 HRESULT CMonster::Add_HpBar()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
+
+	CGameObject* pObject =  pGameInstance->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"MiscData");
+	if (nullptr == pObject)
+		return E_FAIL;
+
+	CMiscData* pMiscData = dynamic_cast<CMiscData*>(pObject);
+	if (nullptr == pMiscData)
+		return E_FAIL;
+
+	CMiscData::HPBARMISC_DESC hpBarMisc_Desc = pMiscData->Get_HpBarMisc_Desc();
 
 	CHpBar::HPBAR_DESC		HpDesc{};
 	ZeroMemory(&HpDesc, sizeof HpDesc);
@@ -292,17 +303,17 @@ HRESULT CMonster::Add_HpBar()
 
 	XMStoreFloat4x4(&HpDesc.PivotMatrix, m_pModelCom->Get_PivotMatrix());
 
-	HpDesc.m_fSizeX = 60.f;
-	HpDesc.m_fSizeY = 10.f;
+	HpDesc.m_fSizeX = hpBarMisc_Desc.SizeX;
+	HpDesc.m_fSizeY = hpBarMisc_Desc.SizeY;
 
-	HpDesc.m_fPositionX = -15.f;
-	HpDesc.m_fPositinoY = -60.f;
-	HpDesc.m_fPositinoZ = 0.1f;
+	HpDesc.m_fPositionX = hpBarMisc_Desc.PositionX;
+	HpDesc.m_fPositinoY = hpBarMisc_Desc.PositionY;
+	HpDesc.m_fPositinoZ = hpBarMisc_Desc.PositionZ;
 
 	if (0 == Get_LayerTag().compare(L"Layer_Player"))
-		HpDesc.m_vHpColor = _float4(0.f, 0.89f, 1.f, 1.f);
+		HpDesc.m_vHpColor = hpBarMisc_Desc.playerColor;
 	else
-		HpDesc.m_vHpColor = _float4(1.f, 0.25f, 0.f, 1.f);
+		HpDesc.m_vHpColor = hpBarMisc_Desc.enemyColor;
 
 	lstrcpy(HpDesc.m_TextureProtoTypeName, L"Prototype_Component_Texture_Window_Plane_Corner_Bar");
 
@@ -311,8 +322,6 @@ HRESULT CMonster::Add_HpBar()
 	pGameInstance->Clone_GameObject(L"Layer_UI", m_iLevelindex, TEXT("Prototype_GameObject_HpBar"), (CGameObject**)&m_pHpBar, & HpDesc);
 	if (nullptr == m_pHpBar)
 		return E_FAIL;
-
-	Safe_Release(pGameInstance);
 
 	return S_OK;
 }

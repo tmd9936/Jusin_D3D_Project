@@ -235,6 +235,9 @@
     <Filter Include="02. GameObject\Stage\StageSupportMonster">
       <UniqueIdentifier>{b53d2df0-4763-46b9-a252-2156cbed9a38}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\Static\MiscData">
+      <UniqueIdentifier>{1dd28761-faca-4931-98be-98e5e18aa2f3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -461,6 +464,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\StageSupportMonster.h">
       <Filter>02. GameObject\Stage\StageSupportMonster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MiscData.h">
+      <Filter>02. GameObject\Static\MiscData</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -689,6 +695,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\StageSupportMonster.cpp">
       <Filter>02. GameObject\Stage\StageSupportMonster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MiscData.cpp">
+      <Filter>02. GameObject\Static\MiscData</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
