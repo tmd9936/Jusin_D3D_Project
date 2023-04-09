@@ -24,6 +24,12 @@ RasterizerState RS_Wireframe
 	FillMode = wireframe;
 };
 
+RasterizerState RS_CullMode
+{
+	FillMode = wireframe;
+	CullMode = none;
+};
+
 /* For.DepthStencil State  */
 DepthStencilState DSS_Default
 {

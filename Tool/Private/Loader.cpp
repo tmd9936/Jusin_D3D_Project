@@ -662,6 +662,13 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_LOGO))
 	{
+		//Prototype_GameObject_Effect_Sakura
+
+		/* For.Prototype_GameObject_UI */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Sakura"),
+			CEffect_Sakura::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
 		/* For.Prototype_GameObject_UI */
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI"),
 			CUI::Create(m_pDevice, m_pContext))))

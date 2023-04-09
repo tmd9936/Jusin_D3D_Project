@@ -22,6 +22,9 @@ HRESULT CEffect_Sakura::Initialize_Prototype()
 
 HRESULT CEffect_Sakura::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
+	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
+		return E_FAIL;
+
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
@@ -75,15 +78,15 @@ HRESULT CEffect_Sakura::Add_Components()
 	/* For.Com_VIBuffer */
 	CVIBuffer_Rect_Instance::RECT_INSTANCE_DESC		BufferDesc;
 
-	BufferDesc.vPosition = _float3(0.f, 10.f, 0.f);
-	BufferDesc.vSize = _float2(200.f, 200.f);
+	BufferDesc.vPosition = _float3(15.f, 5.f, 15.f);
+	BufferDesc.vSize = _float2(30.f, 30.f);
 	BufferDesc.fLifeTime = 5.f;
 	BufferDesc.fMinSpeed = 3.f;
 	BufferDesc.fMaxSpeed = 10.f;
 
 	/* For.Com_VIBuffer */
 	if (FAILED(pGameInstance->Add_Component(CVIBuffer_Rect::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect_Instance"),
-		(CComponent**)&m_pVIBufferCom, nullptr)))
+		(CComponent**)&m_pVIBufferCom, &BufferDesc)))
 		return E_FAIL;
 
 	/* For.Com_Shader */

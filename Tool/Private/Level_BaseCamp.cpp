@@ -63,6 +63,9 @@ HRESULT CLevel_BaseCamp::Initialize()
 	if (FAILED(Ready_Layer_Effect(TEXT("Layer_Effect"))))
 		return E_FAIL;
 
+	//if (FAILED(Ready_Layer_InstanceEffect(TEXT("Layer_InstanceEffect"))))
+	//	return E_FAIL;
+
 
 	//if (FAILED(CGameInstance::GetInstance()->Add_Check_CollisionGroup(L"Layer_Player", L"Layer_Monster")))
 	//	return E_FAIL;
@@ -319,8 +322,8 @@ HRESULT CLevel_BaseCamp::Ready_Layer_InstanceEffect(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_Layer(LEVEL_BASECAMP, pLayerTag)))
 		return E_FAIL;
 
-	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Effect_Sakura"), LEVEL_BASECAMP, pLayerTag)))
-	//	return E_FAIL;
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Effect_Sakura"), LEVEL_BASECAMP, pLayerTag)))
+		return E_FAIL;
 
 	Safe_Release(pGameInstance);
 	return S_OK;
