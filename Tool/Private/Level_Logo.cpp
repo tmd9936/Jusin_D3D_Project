@@ -17,7 +17,7 @@ HRESULT CLevel_Logo::Initialize()
 	g_BackBufferColor = m_LogoBackBufferColor;
 
 	CGameInstance::GetInstance()->PlayBGM(TEXT("BGM_BASE.ogg"));
-	/* 검색시에 어떤 레벨에 있는 특정 태그에 있는 몇번째 녀석. */
+
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 		return E_FAIL;
 

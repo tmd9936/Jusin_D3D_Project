@@ -544,10 +544,6 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			return E_FAIL;
 	}
 
-	//_matrix PivotMatrix = XMMatrixIdentity();
-	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Model_Logo_Scene"),
-	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../../Reference/Resources/Mesh/Animation/Logo/Logo_Scene.fbx", PivotMatrix))))
-	//	return E_FAIL;
 #pragma endregion
 
 #pragma region SHADERS
@@ -885,13 +881,6 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Calculator"),
 		CCalculator::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
-
-	/* For.Prototype_Component_Model_Fiona */
-	//PivotMatrix = XMMatrixRotationY(XMConvertToRadians(180.f));
-	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Model_Fiona"),
-	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Models/Fiona/Fiona.fbx", PivotMatrix))))
-	//	return E_FAIL;
 
 	/* For.Prototype_Component_Model_BaseCamp_Field */
 	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
@@ -1264,25 +1253,21 @@ HRESULT CLoader::Loading_ForStageLevel()
 		return E_FAIL;
 
 	/* For.Prototype_Component_Model_Stage_LD */
-	//PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_LD"),
 		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/Map/C_water1_out_LD.fbx", PivotMatrix))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Model_Stage_LU */
-	//PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_LU"),
 		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/Map/C_water1_out_LU.fbx", PivotMatrix))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Model_Stage_RD */
-	//PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_RD"),
 		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/Map/C_water1_out_RD.fbx", PivotMatrix))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Model_Stage_RU */
-	//PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_RU"),
 		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/Map/C_water1_out_RU.fbx", PivotMatrix))))
 		return E_FAIL;
