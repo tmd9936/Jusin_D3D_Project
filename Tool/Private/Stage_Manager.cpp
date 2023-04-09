@@ -35,7 +35,7 @@ HRESULT CStage_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, v
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
-	m_eRenderId = RENDER_BACK_UI;
+	m_eRenderId = RENDER_BLEND_UI;
 
 	m_fSizeX = (_float)g_iWinSizeX * 1.5f;
 	m_fSizeY = (_float)g_iWinSizeY * 1.5f;
@@ -73,7 +73,7 @@ HRESULT CStage_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, c
 	if (FAILED(Add_Components_By_File()))
 		return E_FAIL;
 
-	m_eRenderId = RENDER_BACK_UI;
+	m_eRenderId = RENDER_BLEND_UI;
 
 	m_vCurrentFadeColor = m_Desc.m_FadeInStartColor;
 
@@ -128,11 +128,17 @@ HRESULT CStage_Manager::Render()
 
 void CStage_Manager::Fade_In(const _double& TimeDelta)
 {
-	m_vCurrentFadeColor.x += (_float)TimeDelta;
-	m_vCurrentFadeColor.y += (_float)TimeDelta;
-	m_vCurrentFadeColor.z += (_float)TimeDelta;
-	m_vCurrentFadeColor.w += (_float)TimeDelta;
-	m_fCurrentFadeTIme += TimeDelta;
+	if (m_Desc.m_FadeSecond <= m_fCurrentFadeTime)
+	{
+		m_eCurState = MANAGER_IDLE;
+		return;
+	}
+	m_vCurrentFadeColor.x -= (_float)TimeDelta;
+	m_vCurrentFadeColor.y -= (_float)TimeDelta;
+	m_vCurrentFadeColor.z -= (_float)TimeDelta;
+	m_vCurrentFadeColor.w -= (_float)TimeDelta;
+
+	m_fCurrentFadeTime += TimeDelta;
 }
 
 
@@ -171,7 +177,6 @@ _bool CStage_Manager::Load_By_JsonFile_Impl(Document& doc)
 {
 	const Value& ManagerDesc = doc["ManagerDesc"];
 
-	m_Desc.m_FadeSecond = ManagerDesc["m_FadeSecond"].GetFloat();
 
 	const Value& m_FadeInStartColor = ManagerDesc["m_FadeInStartColor"];
 	m_Desc.m_FadeInStartColor = _float4(m_FadeInStartColor["x"].GetFloat(), m_FadeInStartColor["y"].GetFloat(), 
@@ -181,6 +186,7 @@ _bool CStage_Manager::Load_By_JsonFile_Impl(Document& doc)
 	m_Desc.m_FadeInEndColor = _float4(m_FadeInEndColor["x"].GetFloat(), m_FadeInEndColor["y"].GetFloat(),
 		m_FadeInEndColor["z"].GetFloat(), m_FadeInEndColor["w"].GetFloat());
 
+	m_Desc.m_FadeSecond = ManagerDesc["m_FadeSecond"].GetFloat();
 	return true;
 }
 
@@ -193,7 +199,7 @@ void CStage_Manager::State_Tick(const _double& TimeDelta)
 	case MANAGER_OPEN_STATE_INFO:
 		//Focus_Stay(TimeDelta);
 		break;
-	case MANAGER_CAMERA_FADE_IN:
+	case MANAGER_FADE_IN:
 		Fade_In(TimeDelta);
 		break;
 	}
@@ -213,7 +219,7 @@ void CStage_Manager::Change_State()
 			m_vCurrentFadeColor = m_Desc.m_FadeInStartColor;
 
 			break;
-		case MANAGER_CAMERA_FADE_IN:
+		case MANAGER_FADE_IN:
 			m_eRenderId = RENDER_BLEND_UI;
 			m_vCurrentFadeColor = m_Desc.m_FadeInStartColor;
 			break;
@@ -306,7 +312,7 @@ HRESULT CStage_Manager::SetUp_ShaderResources()
 	if (FAILED(m_pTextureCom->Set_ShaderResource(m_pShaderCom, "g_Texture", 0)))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_RawValue("g_vColor", &m_Desc.m_FadeInStartColor, (sizeof m_Desc.m_FadeInStartColor))))
+	if (FAILED(m_pShaderCom->Set_RawValue("g_vColor", &m_vCurrentFadeColor, (sizeof m_vCurrentFadeColor))))
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);

@@ -1292,6 +1292,10 @@ HRESULT CLoader::Loading_ForStageLevel()
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_StageCameraTarget"),
 			CStageCameraTarget::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Stage_Manager"),
+			CStage_Manager::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
 	}
 
 	wsprintf(m_szLoadingText, TEXT("로딩이 완료되었습니다."));

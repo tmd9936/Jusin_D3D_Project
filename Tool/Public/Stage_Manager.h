@@ -22,7 +22,7 @@ class CStage_Manager final : public CGameObject
 {
 public:
 	enum WORLDMAP_MANAGER_STATE {
-		MANAGER_CAMERA_FADE_IN,
+		MANAGER_FADE_IN,
 		MANAGER_IDLE,
 		MANAGER_OPEN_STATE_INFO,
 		MANAGER_END
@@ -62,7 +62,7 @@ private:
 private:
 	WORLDMAP_MANAGER_DESC		m_Desc = {};
 	WORLDMAP_MANAGER_STATE		m_ePreState = { MANAGER_END };
-	WORLDMAP_MANAGER_STATE		m_eCurState = { MANAGER_IDLE };
+	WORLDMAP_MANAGER_STATE		m_eCurState = { MANAGER_FADE_IN };
 
 	CStageCamera*				p_MainCamera = { nullptr };
 
@@ -83,7 +83,7 @@ private:
 	_float4x4					m_ProjMatrix = {};
 
 	_float4						m_vCurrentFadeColor = {};
-	_double						m_fCurrentFadeTIme = { 0.f };
+	_double						m_fCurrentFadeTime = { 0.f };
 
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
