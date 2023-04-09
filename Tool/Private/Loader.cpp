@@ -14,6 +14,7 @@
 #include "ModelUI.h"
 #include "Map.h"
 #include "Stove.h"
+#include "Effect_Sakura.h"
 
 #include "WorldMapFlower.h"
 #include "WorldMapGrass.h"

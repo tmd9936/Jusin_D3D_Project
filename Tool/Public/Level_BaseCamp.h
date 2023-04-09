@@ -35,6 +35,8 @@ private: /* 이 레벨이 사용하기위한 사본 객체들을 그룹별로 생성하낟. */
 	HRESULT Ready_Layer_PlayerSearcher(const _tchar* pLayerTag);
 	HRESULT Ready_Layer_MonsterSearcher(const _tchar* pLayerTag);
 
+	HRESULT Ready_Layer_InstanceEffect(const _tchar* pLayerTag);
+
 	HRESULT	Ready_LightDesc();
 
 

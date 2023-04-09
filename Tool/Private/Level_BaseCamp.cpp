@@ -311,6 +311,21 @@ HRESULT CLevel_BaseCamp::Ready_Layer_MonsterSearcher(const _tchar* pLayerTag)
 	return S_OK;
 }
 
+HRESULT CLevel_BaseCamp::Ready_Layer_InstanceEffect(const _tchar* pLayerTag)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_BASECAMP, pLayerTag)))
+		return E_FAIL;
+
+	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Effect_Sakura"), LEVEL_BASECAMP, pLayerTag)))
+	//	return E_FAIL;
+
+	Safe_Release(pGameInstance);
+	return S_OK;
+}
+
 HRESULT CLevel_BaseCamp::Ready_LightDesc()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
