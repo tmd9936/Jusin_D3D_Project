@@ -89,7 +89,6 @@ _uint CStageEnemyMonster::LateTick(_double TimeDelta)
 	case CMonFSM::IDLE1:
 		if (Search_Target())
 		{
-			//m_pMonFSM->Transit_MotionState(CMonFSM::IDLE_GROUND);
 			m_pTarget = m_pSearcher->Get_Target();
 		}
 		break;
@@ -108,7 +107,6 @@ void CStageEnemyMonster::Change_State_FSM(_uint eState)
 	switch (eState)
 	{
 	case CMonFSM::IDLE1:
-		//m_pNavigationCom->Set_Index_By_Position({ m_PokemonDesc.vPos.x, m_PokemonDesc.vPos.y, m_PokemonDesc.vPos.z });
 		break;
 	case CMonFSM::ROAR:
 		//m_bTurn = true;
@@ -118,19 +116,14 @@ void CStageEnemyMonster::Change_State_FSM(_uint eState)
 
 	case CMonFSM::IDLE_GROUND:
 		break;
-
 	case CMonFSM::ATK_NORMAL:
-		//Do_Skill(m_PokemonDesc.m_normalSkillType, L"Layer_MonsterSkill");
 		break;
-
 	case CMonFSM::ATK_SLE_NORMAL_START:
 		break;
-
 	case CMonFSM::ATK_SLE_NORMAL_LOOP:
 		break;
 	case CMonFSM::ATK_SLE_NORMAL_END:
 		break;
-
 	case CMonFSM::BODYBLOW:
 		if (m_pTarget)
 		{
@@ -216,11 +209,6 @@ void CStageEnemyMonster::Init_RandomMotionChangeDelay()
 
 HRESULT CStageEnemyMonster::Add_TransitionRandomState()
 {
-	m_pMonFSM->Add_RandomTransitionState(CMonFSM::ATK_NORMAL);
-	m_pMonFSM->Add_RandomTransitionState(CMonFSM::ATK_SLE_NORMAL_START);
-	m_pMonFSM->Add_RandomTransitionState(CMonFSM::BODYBLOW);
-	m_pMonFSM->Add_RandomTransitionState(CMonFSM::JUMPLANDING_SLE_START);
-
 	return S_OK;
 }
 
@@ -311,10 +299,7 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 					Do_RandomSkill();
 				}
 				else 
-				{
-					//m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
-
-				}
+				{}
 			}
 		}
 		break;

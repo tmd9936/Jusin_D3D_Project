@@ -190,27 +190,16 @@ void CStageSupportMonster::Change_State_FSM(_uint eState)
 	case CMonFSM::IDLE1:
 		//m_pNavigationCom->Set_Index_By_Position({ m_PokemonDesc.vPos.x, m_PokemonDesc.vPos.y, m_PokemonDesc.vPos.z });
 		break;
-	case CMonFSM::ROAR:
-		//m_bTurn = true;
-		//Set_MovePosition();
-		// 카메라 보이면 연출
-		break;
-
 	case CMonFSM::IDLE_GROUND:
 		break;
-
 	case CMonFSM::ATK_NORMAL:
-		//Do_Skill(m_PokemonDesc.m_normalSkillType, L"Layer_MonsterSkill");
 		break;
-
 	case CMonFSM::ATK_SLE_NORMAL_START:
 		break;
-
 	case CMonFSM::ATK_SLE_NORMAL_LOOP:
 		break;
 	case CMonFSM::ATK_SLE_NORMAL_END:
 		break;
-
 	case CMonFSM::BODYBLOW:
 		if (m_pTarget)
 		{
@@ -283,11 +272,6 @@ void CStageSupportMonster::Init_RandomMotionChangeDelay()
 
 HRESULT CStageSupportMonster::Add_TransitionRandomState()
 {
-	m_pMonFSM->Add_RandomTransitionState(CMonFSM::ATK_NORMAL);
-	m_pMonFSM->Add_RandomTransitionState(CMonFSM::ATK_SLE_NORMAL_START);
-	m_pMonFSM->Add_RandomTransitionState(CMonFSM::BODYBLOW);
-	m_pMonFSM->Add_RandomTransitionState(CMonFSM::JUMPLANDING_SLE_START);
-
 	return S_OK;
 }
 
@@ -299,11 +283,6 @@ _uint CStageSupportMonster::State_Tick(const _double& TimeDelta)
 	{
 		pTargetTransform = m_pTarget->Get_As<CTransform>();
 	}
-
-
-	/*
-		적 발견하면 공격을 쿨타임 없이 끊임없이 하는데 이거 해결해야함
-	*/
 
 	switch (m_pMonFSM->Get_MotionState())
 	{
@@ -376,15 +355,6 @@ _uint CStageSupportMonster::State_Tick(const _double& TimeDelta)
 	case CMonFSM::IDLE_GROUND:
 		m_pModelCom->Play_Animation(TimeDelta);
 
-		//if (nullptr == m_pTarget || m_pTarget->Is_Dead())
-		//{
-		//	if (Search_Target())
-		//	{
-		//		m_pTarget = m_pSearcher->Get_Target();
-		//		break;
-		//	}
-		//}
-
 		if (pTargetTransform)
 		{
 			m_pTransformCom->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta * 1.5));
@@ -397,8 +367,6 @@ _uint CStageSupportMonster::State_Tick(const _double& TimeDelta)
 				}
 				else
 				{
-					//m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
-
 				}
 			}
 		}

@@ -74,7 +74,7 @@ private:
 	CGameObject*		m_pMainPlayer = { nullptr };
 	CTransform*			m_pMainPlayerTransform = { nullptr };
 
-	_double				m_FormationFightTime = { 0.05 };
+	_double				m_FormationFightTime = { 0.03 };
 	_double				m_FormationFightTimeAcc = { 0.0 };
 	_bool				m_FormationChanger = { false };
 
