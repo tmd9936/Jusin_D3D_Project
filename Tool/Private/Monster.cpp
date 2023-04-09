@@ -299,7 +299,10 @@ HRESULT CMonster::Add_HpBar()
 	HpDesc.m_fPositinoY = -60.f;
 	HpDesc.m_fPositinoZ = 0.1f;
 
-	HpDesc.m_vHpColor = _float4(0.f, 0.89f, 1.f, 1.f);
+	if (0 == Get_LayerTag().compare(L"Layer_Player"))
+		HpDesc.m_vHpColor = _float4(0.f, 0.89f, 1.f, 1.f);
+	else
+		HpDesc.m_vHpColor = _float4(1.f, 0.25f, 0.f, 1.f);
 
 	lstrcpy(HpDesc.m_TextureProtoTypeName, L"Prototype_Component_Texture_Window_Plane_Corner_Bar");
 
