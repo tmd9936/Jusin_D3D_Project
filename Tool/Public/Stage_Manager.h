@@ -57,6 +57,9 @@ public:
 	}
 
 private:
+	HRESULT Init_ManagerInfo();
+
+private:
 	void Fade_In(const _double& TimeDelta);
 
 private:

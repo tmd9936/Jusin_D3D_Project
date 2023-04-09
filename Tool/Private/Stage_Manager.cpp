@@ -35,26 +35,8 @@ HRESULT CStage_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, v
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
-	m_eRenderId = RENDER_BLEND_UI;
-
-	m_fSizeX = (_float)g_iWinSizeX * 1.5f;
-	m_fSizeY = (_float)g_iWinSizeY * 1.5f;
-	m_fX = (_float)(g_iWinSizeX >> 1);
-	m_fY = (_float)(g_iWinSizeY >> 1);
-
-	m_pTransformCom->Set_Scaled({ m_fSizeX, m_fSizeY, 1.f });
-	m_pTransformCom->Set_Pos(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f);
-
-	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
-
-	XMStoreFloat4x4(&m_ProjMatrix,
-		XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
-
-	p_MainCamera = (CStageCamera*)CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Camera", L"Main_Camera");
-	if (nullptr == p_MainCamera)
+	if (FAILED(Init_ManagerInfo()))
 		return E_FAIL;
-
-	Safe_AddRef(p_MainCamera);
 
 	return S_OK;
 }
@@ -73,28 +55,8 @@ HRESULT CStage_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, c
 	if (FAILED(Add_Components_By_File()))
 		return E_FAIL;
 
-	m_eRenderId = RENDER_BLEND_UI;
-
-	m_vCurrentFadeColor = m_Desc.m_FadeInStartColor;
-
-	m_fSizeX = (_float)g_iWinSizeX * 1.5f;
-	m_fSizeY = (_float)g_iWinSizeY * 1.5f;
-	m_fX = (_float)(g_iWinSizeX >> 1);
-	m_fY = (_float)(g_iWinSizeY >> 1);
-
-	m_pTransformCom->Set_Scaled({ m_fSizeX, m_fSizeY, 1.f });
-	m_pTransformCom->Set_Pos(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f);
-
-	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
-
-	XMStoreFloat4x4(&m_ProjMatrix,
-		XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
-
-	p_MainCamera = (CStageCamera*)CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Camera", L"Main_Camera");
-	if (nullptr == p_MainCamera)
+	if (FAILED(Init_ManagerInfo()))
 		return E_FAIL;
-
-	Safe_AddRef(p_MainCamera);
 
 	return S_OK;
 }
@@ -122,6 +84,34 @@ HRESULT CStage_Manager::Render()
 	m_pShaderCom->Begin(2);
 
 	m_pVIBufferCom->Render();
+
+	return S_OK;
+}
+
+HRESULT CStage_Manager::Init_ManagerInfo()
+{
+	m_eRenderId = RENDER_BLEND_UI;
+
+	m_vCurrentFadeColor = m_Desc.m_FadeInStartColor;
+
+	m_fSizeX = (_float)g_iWinSizeX * 1.5f;
+	m_fSizeY = (_float)g_iWinSizeY * 1.5f;
+	m_fX = (_float)(g_iWinSizeX >> 1);
+	m_fY = (_float)(g_iWinSizeY >> 1);
+
+	m_pTransformCom->Set_Scaled({ m_fSizeX, m_fSizeY, 1.f });
+	m_pTransformCom->Set_Pos(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f);
+
+	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
+
+	XMStoreFloat4x4(&m_ProjMatrix,
+		XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
+
+	p_MainCamera = (CStageCamera*)CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Camera", L"Main_Camera");
+	if (nullptr == p_MainCamera)
+		return E_FAIL;
+
+	Safe_AddRef(p_MainCamera);
 
 	return S_OK;
 }
