@@ -252,7 +252,7 @@ HRESULT CStageSupportMonster::Init_MainPlayer()
 	CGameInstance* pGameInstance =  CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	m_pMainPlayer = pGameInstance->Get_Object(Get_Levelindex(), Get_LayerTag().c_str(), L"Player");
+	m_pMainPlayer = pGameInstance->Get_Object(Get_Levelindex(), Get_LayerTag().c_str(), L"Player1");
 	if (nullptr == m_pMainPlayer)
 		return E_FAIL;
 	Safe_AddRef(m_pMainPlayer);

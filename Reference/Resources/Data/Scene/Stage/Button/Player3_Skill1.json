@@ -1,15 +1,15 @@
 {
     "ButtonDesc": {
-        "m_fX": 703.0,
+        "m_fX": 865.0,
         "m_fY": 383.0,
         "m_fSizeX": 21.0,
         "m_fSizeY": 21.0,
         "m_ModelPrototypLevel": 0,
         "m_ShaderLevelIndex": 0,
-        "m_DiffuseTexturePath": "./button_skill_koori_reitoubiimu.dds",
+        "m_DiffuseTexturePath": "./button_skill_esper_bariaa.dds",
         "m_MaskPrototypeTag": "Prototype_Component_Button_Color_Mask",
         "m_BrushPrototypeTag": "",
-        "m_ButtonName": "Pokemon3_Skill1",
+        "m_ButtonName": "Pokemon3_Skill2",
         "m_UIType": 0,
         "m_vColor": {
             "x" : 0.9,

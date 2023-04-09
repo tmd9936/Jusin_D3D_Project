@@ -141,7 +141,7 @@ void CSkillToolGUI::Player_Skill_Change(_uint SkillType)
 {
 	const _uint iLevelindex = CDataToolGUI::GetInstance()->Get_Current_Levelindex();
 
-	CGameObject* pPlayer = CGameInstance::GetInstance()->Get_Object(iLevelindex, L"Layer_Player", L"Player");
+	CGameObject* pPlayer = CGameInstance::GetInstance()->Get_Object(iLevelindex, L"Layer_Player", L"Player1");
 
 	if (pPlayer == nullptr)
 		return;

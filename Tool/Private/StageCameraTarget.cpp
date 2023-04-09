@@ -112,7 +112,7 @@ void CStageCameraTarget::Formation_State_Tick(const _double& TimeDelta)
 
 CTransform* CStageCameraTarget::Get_PlayerTransform()
 {
-	CGameObject* pPlyaer = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Player", L"Player");
+	CGameObject* pPlyaer = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Player", L"Player1");
 	if (nullptr == pPlyaer)
 		return nullptr;
 

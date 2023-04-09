@@ -248,11 +248,11 @@ HRESULT CLevel_Stage::Ready_Layer_Monster(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_Layer(LEVEL_STAGE, pLayerTag)))
 		return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageEnemyMonster"), LEVEL_STAGE, pLayerTag, nullptr, "../../Reference/Resources/Data/Scene/Stage/MonsterData/EnemyData_031_boss.json", CLONE_FILEPATH)))
-		return E_FAIL;
+	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageEnemyMonster"), LEVEL_STAGE, pLayerTag, nullptr, "../../Reference/Resources/Data/Scene/Stage/MonsterData/EnemyData_031_boss.json", CLONE_FILEPATH)))
+	//	return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageEnemyMonster"), LEVEL_STAGE, pLayerTag, nullptr, "../../Reference/Resources/Data/Scene/Stage/MonsterData/EnemyData_087_warter01.json", CLONE_FILEPATH)))
-		return E_FAIL;
+	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageEnemyMonster"), LEVEL_STAGE, pLayerTag, nullptr, "../../Reference/Resources/Data/Scene/Stage/MonsterData/EnemyData_087_warter01.json", CLONE_FILEPATH)))
+	//	return E_FAIL;
 
 	Safe_Release(pGameInstance);
 
@@ -279,17 +279,20 @@ HRESULT CLevel_Stage::Ready_Layer_Player(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_Layer(LEVEL_STAGE, pLayerTag)))
 		return E_FAIL;
 
-	CMonster::POKEMON_DESC desc{};
-	desc.m_monsterNo = 25;
-	desc.vPos = _float4(19.2f, 0.5f, 22.0f, 1.f);
-	desc.m_skillIDs.push_back(24);
-	desc.m_skillIDs.push_back(58);
-	desc.m_skillIDs.push_back(57);
-	desc.m_skillIDs.push_back(25);
-	desc.m_attackBasis = 50;
-	desc.m_hpBasis = 2500;
+	//CMonster::POKEMON_DESC desc{};
+	//desc.m_monsterNo = 25;
+	//desc.vPos = _float4(19.2f, 0.5f, 22.0f, 1.f);
+	//desc.m_skillIDs.push_back(24);
+	//desc.m_skillIDs.push_back(58);
+	//desc.m_skillIDs.push_back(57);
+	//desc.m_skillIDs.push_back(25);
+	//desc.m_attackBasis = 50;
+	//desc.m_hpBasis = 2500;
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Player"), LEVEL_STAGE, pLayerTag, L"Player", &desc)))
+	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Player"), LEVEL_STAGE, pLayerTag, L"Player1", &desc)))
+	//	return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Player"), LEVEL_STAGE, pLayerTag, L"Player1", "../../Reference/Resources/Data/Database/NowMonster/NowPartyMonster1.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);
@@ -323,22 +326,22 @@ HRESULT CLevel_Stage::Ready_Layer_UI(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UI"), LEVEL_STAGE, pLayerTag, L"PokemonIcon3", "../../Reference/Resources/Data/Scene/Stage/UI/Pokemon_Icon3.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PokemonSkillButton"), LEVEL_STAGE, pLayerTag, L"Player_Skill1", "../../Reference/Resources/Data/Scene/Stage/Button/Player_Skill1.json", CLONE_FILEPATH)))
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PokemonSkillButton"), LEVEL_STAGE, pLayerTag, L"Player1_Skill0", "../../Reference/Resources/Data/Scene/Stage/Button/Player1_Skill0.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PokemonSkillButton"), LEVEL_STAGE, pLayerTag, L"Player_Skill2", "../../Reference/Resources/Data/Scene/Stage/Button/Player_Skill2.json", CLONE_FILEPATH)))
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PokemonSkillButton"), LEVEL_STAGE, pLayerTag, L"Player1_Skill1", "../../Reference/Resources/Data/Scene/Stage/Button/Player1_Skill1.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PokemonSkillButton"), LEVEL_STAGE, pLayerTag, L"Player2_Skill0", "../../Reference/Resources/Data/Scene/Stage/Button/Player2_Skill0.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PokemonSkillButton"), LEVEL_STAGE, pLayerTag, L"Player2_Skill1", "../../Reference/Resources/Data/Scene/Stage/Button/Player2_Skill1.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PokemonSkillButton"), LEVEL_STAGE, pLayerTag, L"Player2_Skill2", "../../Reference/Resources/Data/Scene/Stage/Button/Player2_Skill2.json", CLONE_FILEPATH)))
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PokemonSkillButton"), LEVEL_STAGE, pLayerTag, L"Player3_Skill0", "../../Reference/Resources/Data/Scene/Stage/Button/Player3_Skill0.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PokemonSkillButton"), LEVEL_STAGE, pLayerTag, L"Player3_Skill1", "../../Reference/Resources/Data/Scene/Stage/Button/Player3_Skill1.json", CLONE_FILEPATH)))
-		return E_FAIL;
-
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PokemonSkillButton"), LEVEL_STAGE, pLayerTag, L"Player3_Skill2", "../../Reference/Resources/Data/Scene/Stage/Button/Player3_Skill2.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);

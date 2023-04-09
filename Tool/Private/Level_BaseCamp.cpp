@@ -179,10 +179,10 @@ HRESULT CLevel_BaseCamp::Ready_Layer_Player(const _tchar* pLayerTag)
 	//desc.m_attackBasis = 50;
 	//desc.m_hpBasis = 2500;
 
-	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Player"), LEVEL_BASECAMP, pLayerTag, L"Player", &desc)))
+	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Player"), LEVEL_BASECAMP, pLayerTag, L"Player1", &desc)))
 	//	return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Player"), LEVEL_BASECAMP, pLayerTag, L"Player", "../../Reference/Resources/Data/Database/NowMonster/NowPartyMonster1.json", CLONE_FILEPATH)))
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Player"), LEVEL_BASECAMP, pLayerTag, L"Player1", "../../Reference/Resources/Data/Database/NowMonster/NowPartyMonster1.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
 	//Prototype_GameObject_StageSupportMonster
