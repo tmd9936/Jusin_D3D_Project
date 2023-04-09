@@ -312,7 +312,7 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 				}
 				else 
 				{
-					m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
+					//m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
 
 				}
 			}

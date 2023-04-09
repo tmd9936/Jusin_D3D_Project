@@ -414,6 +414,18 @@ void CMonster::Do_Skill_After_Set_Motion(_uint skillType, const _tchar* pLayer)
 	{
 		m_pMonFSM->Transit_MotionState(CMonFSM::ATK_NORMAL, m_pModelCom);
 	}
+	else if (skillType == 50) // 하이드럼 펌프
+	{
+		m_pMonFSM->Transit_MotionState(CMonFSM::POKING, m_pModelCom);
+	}
+	else if (skillType == 72) // 냉동빔
+	{
+		m_pMonFSM->Transit_MotionState(CMonFSM::POKING, m_pModelCom);
+	}
+	else if (skillType == 79) // 얼다바람
+	{
+		m_pMonFSM->Transit_MotionState(CMonFSM::POKING, m_pModelCom);
+	}
 	else if (skillType == 100) // 지진
 	{
 		m_pMonFSM->Transit_MotionState(CMonFSM::JUMPLANDING_SLE_START, m_pModelCom);
@@ -426,11 +438,11 @@ void CMonster::Do_Skill_After_Set_Motion(_uint skillType, const _tchar* pLayer)
 	{
 		m_pMonFSM->Transit_MotionState(CMonFSM::ATK_SLE_NORMAL_START, m_pModelCom);
 	}
-	else if (skillType == 50) // 하이드럼 펌프
+	else if (skillType == 188) // 돌떨구기
 	{
 		m_pMonFSM->Transit_MotionState(CMonFSM::POKING, m_pModelCom);
 	}
-	else if (skillType == 79) // 얼다바람
+	else
 	{
 		m_pMonFSM->Transit_MotionState(CMonFSM::POKING, m_pModelCom);
 	}

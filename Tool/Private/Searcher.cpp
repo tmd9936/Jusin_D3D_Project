@@ -45,6 +45,8 @@ _uint CSearcher::Tick(_double TimeDelta)
 
 	m_eCollisionState = COLLISION_STATE_NO;
 
+	this;
+
 	if (m_Desc.pParentTransformCom)
 		m_pSphereCom->Tick(m_Desc.pParentTransformCom->Get_WorldMatrix_Matrix());
 
@@ -72,11 +74,10 @@ HRESULT CSearcher::Render()
 void CSearcher::On_Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
 {
 	m_pTarget = pOther->Get_Owner();
-
 	m_eCollisionState = COLLISION_STATE_ON;
 }
 
-void CSearcher::On_CollisionEnter(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
+void CSearcher::On_CollisionEnter(CCollider* pOther,  const _float& fX, const _float& fY, const _float& fZ)
 {
 	m_eCollisionState = COLLISION_STATE_ENTER;
 }
@@ -101,7 +102,7 @@ HRESULT CSearcher::Add_Components()
 
 	ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
 	ColliderDesc.vScale = _float3(5.f, 5.f, 5.f);
-	ColliderDesc.vPosition = _float3(0.0f, ColliderDesc.vScale.y * 0.5f, 0.f);
+	ColliderDesc.vPosition = _float3(0.0f, 0.5f, 0.f);
 	if (FAILED(pGameInstance->Add_Component(CCollider::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
 		(CComponent**)&m_pSphereCom, &ColliderDesc)))
 		return E_FAIL;

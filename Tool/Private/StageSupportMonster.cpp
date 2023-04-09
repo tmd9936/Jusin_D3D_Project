@@ -99,6 +99,23 @@ _uint CStageSupportMonster::LateTick(_double TimeDelta)
 		break;
 	}
 
+	if (m_pTarget)
+	{
+		if (!m_bBattle)
+		{
+			m_bBattle = true;
+			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
+		}
+	}
+	else
+	{
+		if (m_bBattle)
+		{
+			m_pMonFSM->Transit_MotionState(CMonFSM::FORMATION_NORMAL, m_pModelCom);
+			m_bBattle = false;
+		}
+	}
+
 	return __super::LateTick(TimeDelta);
 }
 
@@ -281,20 +298,8 @@ _uint CStageSupportMonster::State_Tick(const _double& TimeDelta)
 	if (m_pTarget)
 	{
 		pTargetTransform = m_pTarget->Get_As<CTransform>();
-		if (!m_bBattle)
-		{
-			m_bBattle = true;
-			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
-		}
 	}
-	else
-	{
-		if (m_bBattle)
-		{
-			m_pMonFSM->Transit_MotionState(CMonFSM::FORMATION_NORMAL, m_pModelCom);
-			m_bBattle = false;
-		}
-	}
+
 
 	/*
 		적 발견하면 공격을 쿨타임 없이 끊임없이 하는데 이거 해결해야함
@@ -349,7 +354,7 @@ _uint CStageSupportMonster::State_Tick(const _double& TimeDelta)
 					else
 					{
 						if (m_pTransformCom->Go_BackWard_Look_Pos(pTargetTransform->Get_State(CTransform::STATE_POSITION), m_pTransformCom->Get_State(CTransform::STATE_POSITION)
-							+ m_pTransformCom->Get_State(CTransform::STATE_LOOK) * -2.f, _float(TimeDelta * 1.5), 0.5f, m_pNavigationCom))
+							+ m_pTransformCom->Get_State(CTransform::STATE_LOOK) * -2.f, _float(TimeDelta * 1.5), 1.2f, m_pNavigationCom))
 						{
 						}
 					}
@@ -371,20 +376,20 @@ _uint CStageSupportMonster::State_Tick(const _double& TimeDelta)
 	case CMonFSM::IDLE_GROUND:
 		m_pModelCom->Play_Animation(TimeDelta);
 
-		if (nullptr == m_pTarget || m_pTarget->Is_Dead())
-		{
-			if (Search_Target())
-			{
-				m_pTarget = m_pSearcher->Get_Target();
-				break;
-			}
-		}
+		//if (nullptr == m_pTarget || m_pTarget->Is_Dead())
+		//{
+		//	if (Search_Target())
+		//	{
+		//		m_pTarget = m_pSearcher->Get_Target();
+		//		break;
+		//	}
+		//}
 
 		if (pTargetTransform)
 		{
 			m_pTransformCom->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta * 1.5));
 
-			if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta * 1.5f), 1.5f, m_pNavigationCom))
+			if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta * 1.5f), 2.0f, m_pNavigationCom))
 			{
 				if (m_bCanAttack)
 				{
@@ -392,7 +397,7 @@ _uint CStageSupportMonster::State_Tick(const _double& TimeDelta)
 				}
 				else
 				{
-					m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
+					//m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
 
 				}
 			}
