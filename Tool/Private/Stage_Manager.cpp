@@ -88,6 +88,7 @@ HRESULT CStage_Manager::Render()
 	return S_OK;
 }
 
+
 HRESULT CStage_Manager::Init_ManagerInfo()
 {
 	m_eRenderId = RENDER_BLEND_UI;

@@ -53,17 +53,12 @@ private:
 	void	Jump_Rotate();
 
 private:
-	_uint			m_TestSkillindex = { 58 };
-	_double			m_fAccel = { 1.5f };
-	_int			m_SkillLoopCount = { 0 };
-	_float			m_SkillLoopDelay = { 1.f };
+	_uint				m_TestSkillindex = { 58 };
+	_double				m_fAccel = { 1.5f };
+	_int				m_SkillLoopCount = { 0 };
+	_float				m_SkillLoopDelay = { 1.f };
 
-	//CMonFSM::MONSTER_STATE m_eLoopState = { CMonFSM::END_MOTION };
-
-	SKILL_LOOP_DESC m_SkillLoopDesc = {};
-
-//private:
-//	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 던진다. */
+	SKILL_LOOP_DESC		m_SkillLoopDesc = {};
 
 public:
 	static CPlayer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

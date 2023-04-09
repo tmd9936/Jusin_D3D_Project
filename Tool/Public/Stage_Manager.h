@@ -56,6 +56,9 @@ public:
 		m_eCurState = MANAGER_IDLE;
 	}
 
+public:
+	void	Skill_UI_CoolTimeStart();
+
 private:
 	HRESULT Init_ManagerInfo();
 
