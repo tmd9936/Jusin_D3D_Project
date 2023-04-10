@@ -156,8 +156,8 @@ protected:
 	
 	_bool				m_bAttack = { false };
 
-	_double				m_AttackCoolTime = { 1.0 };
-	_double				m_SkillCoolTime = { 2.0 };
+	_double				m_AttackCoolTime = { 1.5 };
+	_double				m_SkillCoolTime = { 5.0 };
 
 	_double				m_AttackCoolTimeAcc = { 0.0 };
 	_double				m_SkillCoolTimeAcc = { 0.0 };
