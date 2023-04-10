@@ -147,6 +147,8 @@ private:
 	_double					m_CurShakeDegree = { 0.0 };
 	SHAKE_DIR				m_CurShakeDirection = { SHAKE_DIR_UP };
 
+	_bool					m_ShakePeriod = { true };
+
 public:
 	/* Prototype */
 	/* 원형 객체를 생성한다. */

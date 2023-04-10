@@ -299,20 +299,37 @@ void CStageCamera::Camera_Shake_Tick(const _double& TimeDelta)
 	switch (m_CurShakeDirection)
 	{
 	case SHAKE_DIR_UP:
-		m_pTransform->Turn(m_pTransform->Get_State(CTransform::STATE_RIGHT), _float(TimeDelta) * XMConvertToRadians(m_StageCameraDesc.m_shakeDegree));
+		if (m_ShakePeriod)
+		{
+			m_pTransform->Rotation_Current_Coordination(XMVector3Transform(
+				m_pTransform->Get_State(CTransform::STATE_RIGHT), 
+				XMMatrixRotationAxis(m_pTransform->Get_State(CTransform::STATE_LOOK), 
+					XMConvertToRadians(45.f))), XMConvertToRadians(m_StageCameraDesc.m_shakeDegree));
+			m_ShakePeriod = false;
+		}
 		if (m_ShakePeriodTimeAcc >= m_StageCameraDesc.m_shakePeriodTime)
 		{
 			m_CurShakeDirection = SHAKE_DIR_DOWN;
 			m_ShakePeriodTimeAcc = 0.0;
+			m_ShakePeriod = true;
 		}
 		break;
 
 	case SHAKE_DIR_DOWN:
-		m_pTransform->Turn(m_pTransform->Get_State(CTransform::STATE_RIGHT), _float(TimeDelta * -1.f) * XMConvertToRadians(m_StageCameraDesc.m_shakeDegree));
+		if (m_ShakePeriod)
+		{
+			m_pTransform->Rotation_Current_Coordination(XMVector3Transform(
+				m_pTransform->Get_State(CTransform::STATE_RIGHT), 
+				XMMatrixRotationAxis(m_pTransform->Get_State(CTransform::STATE_LOOK),
+					XMConvertToRadians(45.f))), -1.f * XMConvertToRadians(m_StageCameraDesc.m_shakeDegree));
+			m_ShakePeriod = false;
+
+		}
 		if (m_ShakePeriodTimeAcc >= m_StageCameraDesc.m_shakePeriodTime)
 		{
 			m_CurShakeDirection = SHAKE_DIR_UP;
 			m_ShakePeriodTimeAcc = 0.0;
+			m_ShakePeriod = true;
 		}
 		break;
 	}
@@ -327,6 +344,7 @@ void CStageCamera::Camemra_Shake_Init()
 	m_ShakeTimeAcc = 0.0;
 	m_ShakePeriodTimeAcc = 0.0;
 	m_CurShakeDegree = 0.0;
+	m_ShakePeriod = true;
 }
 
 void CStageCamera::Camemra_Shake_CoolTimeCheck(const _double& TimeDelta)

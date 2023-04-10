@@ -150,8 +150,8 @@ public:
 
 	void Go_Down_No_Y(_float TimeDelta);
 
-
 	void Rotation(_fvector vAxis, _float Radian);
+	void Rotation_Current_Coordination(_fvector vAxis, _float Radian);
 	void Turn(_fvector vAxis, _float TimeDelta);
 
 	_bool TurnToTarget(_fvector vAxis, _fvector vTargetPos, _float TimeDelta);

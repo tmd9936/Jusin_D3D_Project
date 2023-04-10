@@ -331,7 +331,6 @@ void CTransform::Go_Down_No_Y(_float TimeDelta)
 	Set_State(STATE_POSITION, vPosition);
 }
 
-
 void CTransform::Rotation(_fvector vAxis, _float Radian)
 {
 	_float3 vScale = Get_Scaled();
@@ -349,6 +348,19 @@ void CTransform::Rotation(_fvector vAxis, _float Radian)
 	//Set_State(STATE_RIGHT, vRight);
 	//Set_State(STATE_UP, vUp);
 	//Set_State(STATE_LOOK, vLook);
+
+	_matrix		RotationMatrix = XMMatrixRotationAxis(vAxis, Radian);
+
+	Set_State(CTransform::STATE_RIGHT, XMVector3TransformNormal(vRight, RotationMatrix));
+	Set_State(CTransform::STATE_UP, XMVector3TransformNormal(vUp, RotationMatrix));
+	Set_State(CTransform::STATE_LOOK, XMVector3TransformNormal(vLook, RotationMatrix));
+}
+
+void CTransform::Rotation_Current_Coordination(_fvector vAxis, _float Radian)
+{
+	_vector		vRight = Get_State(CTransform::STATE_RIGHT);
+	_vector		vUp = Get_State(CTransform::STATE_UP);
+	_vector		vLook = Get_State(CTransform::STATE_LOOK);
 
 	_matrix		RotationMatrix = XMMatrixRotationAxis(vAxis, Radian);
 
