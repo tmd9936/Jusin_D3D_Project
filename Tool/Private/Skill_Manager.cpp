@@ -646,7 +646,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 				return E_FAIL;
 			pTransform->LookAt(XMVectorSetW(vLook, 1.f));
 			pTransform->Set_TransforDesc({ XMConvertToRadians(10.f), XMConvertToRadians(350.f) });
-			pTransform->Set_Scaled({ 2.2f, 2.2f, 2.2f });
+			pTransform->Set_Scaled({ 2.f, 2.f, 2.f });
 
 			_float4 pos1 = {};
 			XMStoreFloat4(&pos1, vPos + (vLook * 0.25f * (_float)i));

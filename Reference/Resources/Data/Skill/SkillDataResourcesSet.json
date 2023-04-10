@@ -3976,7 +3976,7 @@
       "m_isEnablePotential_DebuffProbUp": 0,
       "m_isEnablePotential_BuffTimeUp": 0,
       "m_isEnablePotential_BuffShare": 0,
-      "m_isEnablePotential_Knockback": 1,
+      "m_isEnablePotential_Knockback": 0,
       "m_isEnablePotential_Damage": 0
     },
     {
