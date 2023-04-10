@@ -62,8 +62,6 @@ HRESULT CStageEnemyMonster::Initialize(const _tchar* pLayerTag, _uint iLevelInde
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 		return E_FAIL;
 
-	Init_RandomMotionChangeDelay();
-
 	return S_OK;
 }
 
@@ -71,8 +69,6 @@ HRESULT CStageEnemyMonster::Initialize(const _tchar* pLayerTag, _uint iLevelInde
 {
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, filePath)))
 		return E_FAIL;
-
-	Init_RandomMotionChangeDelay();
 
 	return S_OK;
 }
@@ -180,26 +176,6 @@ void CStageEnemyMonster::On_CollisionExit(CCollider* pOther, const _float& fX, c
 {
 }
 
-void CStageEnemyMonster::Go_To_RandomPosition(const _double& TimeDelta)
-{
-	if (m_bTurn)
-	{
-		if (m_pTransformCom->TurnToTarget({ 0.f, 1.f, 0.f, 0.f }, XMLoadFloat4(&m_MovePosition), (_float)TimeDelta))
-		{
-			m_bTurn = false;
-		}
-	}
-	else
-	{
-		Check_Do_Change_RandomMotion(TimeDelta);
-		if (m_pTransformCom->Chase(XMLoadFloat4(&m_MovePosition), (_float)TimeDelta, 0.2f, m_pNavigationCom))
-		{
-			MotionChange_Random();
-			Init_RandomMotionChangeDelay();
-		}
-	}
-
-}
 
 void CStageEnemyMonster::AI_Type_Long_Idle_Tick(const _double& TimeDelta, CTransform* pTargetTransform)
 {
@@ -241,12 +217,6 @@ void CStageEnemyMonster::AI_Type_Long_Idle_Tick(const _double& TimeDelta, CTrans
 			}
 		}
 	}
-}
-
-void CStageEnemyMonster::Init_RandomMotionChangeDelay()
-{
-	m_MotionChangeDelay = _float(rand() % 3 + 2);
-	m_CurMotionChangeDelayTime = 0.f;
 }
 
 HRESULT CStageEnemyMonster::Add_TransitionRandomState()
@@ -347,10 +317,7 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
 			m_pMonFSM->Transit_MotionState(CMonFSM::ATK_SLE_NORMAL_END, m_pModelCom);
-			m_bCanAttack = false;
-			m_bCanSkillAttack = false;
-			m_AttackCoolTimeAcc = 0.0;
-			m_SkillCoolTimeAcc = 0.0;
+			SkillCoolTime_Start();
 		}
 		break;
 	case CMonFSM::ATK_SLE_NORMAL_END:
@@ -364,11 +331,8 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 	case CMonFSM::POKING:
 		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
-			m_bCanAttack = false;
-			m_bCanSkillAttack = false;
 			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
-			m_AttackCoolTimeAcc = 0.0;
-			m_SkillCoolTimeAcc = 0.0;
+			SkillCoolTime_Start();
 		}
 
 		break;
@@ -380,11 +344,8 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 		m_pTransformCom->Go_Straight(_float(TimeDelta * 2.5), m_pNavigationCom);
 		if (m_pModelCom->Play_Animation(TimeDelta * 0.7))
 		{
-			m_bCanSkillAttack = false;
-			m_bCanAttack = false;
 			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
-			m_AttackCoolTimeAcc = m_AttackCoolTime;
-			m_SkillCoolTimeAcc = m_SkillCoolTime;
+			SkillCoolTime_Start();
 		}
 
 		break;
@@ -392,33 +353,24 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 	case CMonFSM::TREMBLING:
 		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
-			m_bCanSkillAttack = false;
-			m_bCanAttack = false;
 			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
-			m_AttackCoolTimeAcc = 0.0;
-			m_SkillCoolTimeAcc = 0.0;
+			SkillCoolTime_Start();
 		}
 		break;
 
 	case CMonFSM::VERTICAL_JUMP:
 		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
-			m_bCanSkillAttack = false;
-			m_bCanAttack = false;
 			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
-			m_AttackCoolTimeAcc = 0.0;
-			m_SkillCoolTimeAcc = 0.0;
+			SkillCoolTime_Start();
 		}
 		break;
 
 	case CMonFSM::JUMPLANDING_SLE_START:
 		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
-			m_bCanSkillAttack = false;
-			m_bCanAttack = false;
 			m_pMonFSM->Transit_MotionState(CMonFSM::JUMPLANDING_SLE_LOOP, m_pModelCom);
-			m_AttackCoolTimeAcc = 0.0;
-			m_SkillCoolTimeAcc = 0.0;
+			SkillCoolTime_Start();
 			//mat = m_pModelCom->Get_CombinedTransformationMatrix_float4_4(0);
 			//m_pTransformCom->Set_PosY(mat.m[3][2]);
 		}
@@ -445,16 +397,6 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 	return 0;
 }
 
-void CStageEnemyMonster::Check_Do_Change_RandomMotion(const _double& TimeDelta)
-{
-	if (m_MotionChangeDelay < m_CurMotionChangeDelayTime)
-	{
-		MotionChange_Random();
-		Init_RandomMotionChangeDelay();
-	}
-
-	m_CurMotionChangeDelayTime += _float(TimeDelta);
-}
 
 void CStageEnemyMonster::MotionChange_Random()
 {

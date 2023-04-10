@@ -138,6 +138,8 @@ protected:
 protected:
 	_bool	Search_Target();
 
+	void	SkillCoolTime_Start();
+
 protected:
 	virtual HRESULT Add_Components();
 	virtual HRESULT Add_Components_By_File();

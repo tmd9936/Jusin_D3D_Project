@@ -500,6 +500,14 @@ _bool CMonster::Search_Target()
 	return false;
 }
 
+void CMonster::SkillCoolTime_Start()
+{
+	m_bCanSkillAttack = false;
+	m_bCanAttack = false;
+	m_AttackCoolTimeAcc = 0.0;
+	m_SkillCoolTimeAcc = 0.0;
+}
+
 
 HRESULT CMonster::Add_Components()
 {

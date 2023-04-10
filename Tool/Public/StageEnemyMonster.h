@@ -35,11 +35,8 @@ protected:
 	virtual _uint State_Tick(const _double& TimeDelta) override;
 
 protected:
-	void		Init_RandomMotionChangeDelay();
-	void		Check_Do_Change_RandomMotion(const _double& TimeDelta);
 	void		MotionChange_Random();
 	void		Do_RandomSkill();
-	void		Go_To_RandomPosition(const _double& TimeDelta);
 
 private:
 	void		AI_Type_Long_Idle_Tick(const _double& TimeDelta, CTransform* pTargetTransform);
