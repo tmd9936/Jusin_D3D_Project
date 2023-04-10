@@ -1,14 +1,50 @@
 #include "..\Public\Renderer.h"
 #include "GameObject.h"
 
+#include "Target_Manager.h"
+
 CRenderer::CRenderer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner)
 	: CComponent(pDevice, pContext)
+	, m_pTarget_Manager(CTarget_Manager::GetInstance())
 {
+	Safe_AddRef(m_pTarget_Manager);
 
 }
 
 HRESULT CRenderer::Initialize_Prototype()
 {
+	//if (nullptr == m_pTarget_Manager)
+	//	return E_FAIL;
+
+	//_uint				iNumViewports = 1;
+	//D3D11_VIEWPORT		ViewportDesc;
+	//ZeroMemory(&ViewportDesc, sizeof ViewportDesc);
+
+	//m_pContext->RSGetViewports(&iNumViewports, &ViewportDesc);
+
+	///* For.Target_Diffuse */
+	//if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
+	//	TEXT("Target_Diffuse"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM)))
+	//	return E_FAIL;
+
+	///* For.Target_Normal */
+	//if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
+	//	TEXT("Target_Normal"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM)))
+	//	return E_FAIL;
+
+	///* For.Target_Shade */
+	//if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
+	//	TEXT("Target_Shade"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM)))
+	//	return E_FAIL;
+
+	//if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Deferred"), TEXT("Target_Diffuse"))))
+	//	return E_FAIL;
+	//if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Deferred"), TEXT("Target_Normal"))))
+	//	return E_FAIL;
+
+	//if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_LightAcc"), TEXT("Target_Shade"))))
+	//	return E_FAIL;
+
 	return S_OK;
 }
 
@@ -178,6 +214,8 @@ CComponent* CRenderer::Clone(CGameObject* pOwner, void* pArg)
 void CRenderer::Free()
 {
 	__super::Free();
+
+	Safe_Release(m_pTarget_Manager);
 
 	for (_uint i = 0; i < RENDER_END; ++i)
 	{

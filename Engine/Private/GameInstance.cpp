@@ -8,6 +8,7 @@
 #include "Collider_Manager.h"
 #include "Font_Manager.h"
 #include "Frustum.h"
+#include "Target_Manager.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -599,6 +600,8 @@ void CGameInstance::Release_Engine()
 	CInput_Device::GetInstance()->DestroyInstance();
 
 	CFont_Manager::GetInstance()->DestroyInstance();
+
+	CTarget_Manager::GetInstance()->DestroyInstance();
 
 	CGraphic_Device::GetInstance()->DestroyInstance();
 }

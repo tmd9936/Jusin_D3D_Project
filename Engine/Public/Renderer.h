@@ -7,6 +7,8 @@
 
 BEGIN(Engine)
 
+class CTarget_Manager;
+
 class ENGINE_DLL CRenderer final : public CComponent
 {
 public:
@@ -26,6 +28,9 @@ public:
 
 private:
 	list<class CGameObject*>					m_RenderGroups[RENDER_END];
+
+private:
+	CTarget_Manager* m_pTarget_Manager = { nullptr };
 
 private: /* 그리는 그룹들에 따라 셋팅이 바뀌어야할 필요가 생길 수 있기때문에 그룹별로 함수를 만들어 처리. */
 	HRESULT Draw_Priority();

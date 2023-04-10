@@ -172,6 +172,12 @@
     <Filter Include="01. Utility\03. Component\Formation">
       <UniqueIdentifier>{4e866037-00b4-4675-a100-57781b82f73a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\08. RenderTarget">
+      <UniqueIdentifier>{ab0d55ce-3f77-4a32-afbc-d3dafdf91074}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\08. RenderTarget\Target">
+      <UniqueIdentifier>{99482a24-b891-410e-894f-fc72ec54a962}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Engine_Defines.h">
@@ -351,6 +357,12 @@
     <ClInclude Include="..\Public\Formation.h">
       <Filter>01. Utility\03. Component\Formation</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\RenderTarget.h">
+      <Filter>01. Utility\08. RenderTarget\Target</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Target_Manager.h">
+      <Filter>01. Utility\08. RenderTarget</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -514,6 +526,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Formation.cpp">
       <Filter>01. Utility\03. Component\Formation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RenderTarget.cpp">
+      <Filter>01. Utility\08. RenderTarget\Target</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Target_Manager.cpp">
+      <Filter>01. Utility\08. RenderTarget</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
