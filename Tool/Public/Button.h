@@ -187,6 +187,7 @@ protected:
 	vector<CPartText*>		m_TextParts;
 
 	_uint			m_TickResult = { 0 };
+
 private:
 	_float4x4		m_TransformMatrix = {};
 	_float4x4		m_selectTransformMatrix = {};

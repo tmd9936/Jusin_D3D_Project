@@ -8,7 +8,7 @@ float4			g_vColor;
 float2			g_Size;
 float			g_HpRatio = 1.f;
 float			g_Radius;
-float			g_progress;
+float			g_Progress;
 
 struct VS_IN
 {
@@ -141,7 +141,7 @@ PS_OUT PS_MAIN_CLOCKWISECOOLTIME(PS_IN In)
 	float angle;
 
 	angle = CalculateClockAngle_float(In.vTexUV);
-	Out.vColor = (angle > 0.3) ? float4(0, 0, 0, 0.4) : float4(0, 0, 0, 0.0);
+	Out.vColor = (angle > g_Progress) ? float4(0, 0, 0, 0.4) : float4(0, 0, 0, 0.0);
 
 	float2 coords = In.vTexUV * 7.f;
 

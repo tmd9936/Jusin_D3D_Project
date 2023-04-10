@@ -166,6 +166,8 @@ HRESULT CPartTexture::SetUp_ShaderResources()
 		return E_FAIL;
 
 	m_pShaderCom->Set_RawValue("g_vColor", &m_UIDesc.m_vColor, sizeof(_float4));
+
+	m_pShaderCom->Set_RawValue("g_Progress", &m_UIDesc.m_Progress, sizeof(_float));
 	
 	Safe_Release(pGameInstance);
 

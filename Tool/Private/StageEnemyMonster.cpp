@@ -339,7 +339,7 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
 			m_bCanAttack = false;
-			m_AttackCoolTimeAcc = m_AttackCoolTime;
+			m_AttackCoolTimeAcc = 0.0;
 			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
 		}
 		break;
@@ -349,8 +349,8 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 			m_pMonFSM->Transit_MotionState(CMonFSM::ATK_SLE_NORMAL_END, m_pModelCom);
 			m_bCanAttack = false;
 			m_bCanSkillAttack = false;
-			m_AttackCoolTimeAcc = m_AttackCoolTime;
-			m_SkillCoolTimeAcc = m_SkillCoolTime;
+			m_AttackCoolTimeAcc = 0.0;
+			m_SkillCoolTimeAcc = 0.0;
 		}
 		break;
 	case CMonFSM::ATK_SLE_NORMAL_END:
@@ -367,8 +367,8 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 			m_bCanAttack = false;
 			m_bCanSkillAttack = false;
 			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
-			m_AttackCoolTimeAcc = m_AttackCoolTime * 1.5f;
-			m_SkillCoolTimeAcc = m_SkillCoolTime * 1.5f;
+			m_AttackCoolTimeAcc = 0.0;
+			m_SkillCoolTimeAcc = 0.0;
 		}
 
 		break;
@@ -395,8 +395,8 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 			m_bCanSkillAttack = false;
 			m_bCanAttack = false;
 			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
-			m_AttackCoolTimeAcc = m_AttackCoolTime;
-			m_SkillCoolTimeAcc = m_SkillCoolTime;
+			m_AttackCoolTimeAcc = 0.0;
+			m_SkillCoolTimeAcc = 0.0;
 		}
 		break;
 
@@ -406,8 +406,8 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 			m_bCanSkillAttack = false;
 			m_bCanAttack = false;
 			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
-			m_AttackCoolTimeAcc = m_AttackCoolTime;
-			m_SkillCoolTimeAcc = m_SkillCoolTime;
+			m_AttackCoolTimeAcc = 0.0;
+			m_SkillCoolTimeAcc = 0.0;
 		}
 		break;
 
@@ -417,8 +417,8 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 			m_bCanSkillAttack = false;
 			m_bCanAttack = false;
 			m_pMonFSM->Transit_MotionState(CMonFSM::JUMPLANDING_SLE_LOOP, m_pModelCom);
-			m_AttackCoolTimeAcc = m_AttackCoolTime;
-			m_SkillCoolTimeAcc = m_SkillCoolTime;
+			m_AttackCoolTimeAcc = 0.0;
+			m_SkillCoolTimeAcc = 0.0;
 			//mat = m_pModelCom->Get_CombinedTransformationMatrix_float4_4(0);
 			//m_pTransformCom->Set_PosY(mat.m[3][2]);
 		}

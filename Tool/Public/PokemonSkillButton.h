@@ -4,6 +4,8 @@
 
 BEGIN(Client)
 
+class CMonster;
+
 class CPokemonSkillButton :
     public CButton
 {
@@ -11,6 +13,15 @@ protected:
     CPokemonSkillButton(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     CPokemonSkillButton(const CPokemonSkillButton& rhs);
     virtual ~CPokemonSkillButton() = default;
+
+public:
+    virtual _uint Tick(_double TimeDelta) override;
+
+public:
+    void    Set_ParentMonster(CMonster* pMonster) {
+        m_pMonster = pMonster;
+        Safe_AddRef(m_pMonster);
+    }
 
 protected:
     virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override;
@@ -21,6 +32,9 @@ protected:
     virtual _uint On_Press() override;
     virtual _uint On_Select() override;
     virtual _uint On_Release() override;
+
+private:
+    CMonster* m_pMonster = { nullptr };
 
 public:
     /* Prototype */

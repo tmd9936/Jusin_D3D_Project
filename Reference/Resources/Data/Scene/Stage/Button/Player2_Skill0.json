@@ -21,10 +21,10 @@
             {
                 "m_fX": 0.0,
                 "m_fY": 0.0,
-                "m_fSizeX": 45.0,
-                "m_fSizeY": 45.0,
+                "m_fSizeX": 43.0,
+                "m_fSizeY": 43.0,
                 "m_eType": 1,
-                "m_ShaderPass": 2,
+                "m_ShaderPass": 4,
                 "m_vColor": {
                     "x": 0.2,
                     "y": 0.2,

@@ -7,6 +7,8 @@
 
 #include "Monster.h"
 
+#include "PokemonSkillButton.h"
+
 #include "Client_Utility.h"
 
 
@@ -132,6 +134,19 @@ void CStage_Manager::Init_PlayersPos()
 
 		pNaviagtion = pPlayer1->Get_As<CNavigation>();
 		pNaviagtion->Set_Index_By_Position({ 30.54f, 0.5f, 19.28f });
+
+		CGameObject* pPlayer1Skill0 = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_UI", L"Player1_Skill0");
+		if (nullptr != pPlayer1Skill0)
+		{
+			dynamic_cast<CPokemonSkillButton*>(pPlayer1Skill0)->Set_ParentMonster((CMonster*)pPlayer1);
+		}
+
+		CGameObject* pPlayer1Skill1 = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_UI", L"Player1_Skill1");
+		if (nullptr != pPlayer1Skill1)
+		{
+			dynamic_cast<CPokemonSkillButton*>(pPlayer1Skill1)->Set_ParentMonster((CMonster*)pPlayer1);
+		}
+
 	}
 
 	CGameObject* pPlayer2 = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Player", L"Player2");
@@ -142,6 +157,18 @@ void CStage_Manager::Init_PlayersPos()
 
 		pNaviagtion = pPlayer2->Get_As<CNavigation>();
 		pNaviagtion->Set_Index_By_Position({ 29.f, 0.5f, 18.5f });
+
+		CGameObject* pPlayer2Skill0 = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_UI", L"Player2_Skill0");
+		if (nullptr != pPlayer2Skill0)
+		{
+			dynamic_cast<CPokemonSkillButton*>(pPlayer2Skill0)->Set_ParentMonster((CMonster*)pPlayer2);
+		}
+
+		CGameObject* pPlayer2Skill1 = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_UI", L"Player2_Skill1");
+		if (nullptr != pPlayer2Skill1)
+		{
+			dynamic_cast<CPokemonSkillButton*>(pPlayer2Skill1)->Set_ParentMonster((CMonster*)pPlayer2);
+		}
 	}
 
 	CGameObject* pPlayer3 = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Player", L"Player3");
@@ -152,6 +179,18 @@ void CStage_Manager::Init_PlayersPos()
 
 		pNaviagtion = pPlayer3->Get_As<CNavigation>();
 		pNaviagtion->Set_Index_By_Position({ 31.f, 0.5f, 18.5f });
+
+		CGameObject* pPlayer3Skill0 = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_UI", L"Player3_Skill0");
+		if (nullptr != pPlayer3Skill0)
+		{
+			dynamic_cast<CPokemonSkillButton*>(pPlayer3Skill0)->Set_ParentMonster((CMonster*)pPlayer3);
+		}
+
+		CGameObject* pPlayer3Skill1 = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_UI", L"Player3_Skill1");
+		if (nullptr != pPlayer3Skill1)
+		{
+			dynamic_cast<CPokemonSkillButton*>(pPlayer3Skill1)->Set_ParentMonster((CMonster*)pPlayer3);
+		}
 	}
 
 	CGameObject* pCameraTarget = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_CameraTarget", L"CameraTarget");

@@ -36,6 +36,8 @@ public:
 		_float				m_fSizeX;
 		_float				m_fSizeY;
 
+		_float				m_Progress;
+
 		_uint				m_ShaderPass;
 		_uint				m_TextureProtoTypeLevel;
 		_tchar				m_TextureProtoTypeName[MAX_PATH];
@@ -60,6 +62,10 @@ public:
 
 	void	Set_TextureNumber(_uint iNumber) {
 		m_TextureNumber = iNumber;
+	}
+
+	void Set_Progress(_float progress) {
+		m_UIDesc.m_Progress = progress;
 	}
 
 private:

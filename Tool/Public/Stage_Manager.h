@@ -17,6 +17,8 @@ END
 BEGIN(Client)
 
 class CStageCamera;
+class CPokemonSkillButton;
+class CMonster;
 
 class CStage_Manager final : public CGameObject
 {

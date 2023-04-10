@@ -8,6 +8,9 @@
 
 #include "Utility.h"
 
+#include "HpBar.h"
+#include "DamageText.h"
+
 CPlayer::CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CMonster(pDevice, pContext)
 {
@@ -56,6 +59,17 @@ HRESULT CPlayer::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const ch
 
 _uint CPlayer::Tick(_double TimeDelta)
 {
+	if (m_pHpBar)
+		m_pHpBar->Tick(TimeDelta);
+
+	if (m_pHPCom)
+		m_pHPCom->Tick(TimeDelta);
+
+	if (m_pDamageText)
+		m_pDamageText->Tick(TimeDelta);
+
+	CoolTimeCheck(TimeDelta);
+
 	_float4x4 mat = {};
 	switch (m_pMonFSM->Get_MotionState())
 	{
@@ -75,9 +89,6 @@ _uint CPlayer::Tick(_double TimeDelta)
 		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
 			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
-			if (m_bAttack)
-				m_bAttack = false;
-
 		}
 		break;
 	case CMonFSM::JUMPLANDING_SLE_START:
@@ -109,14 +120,17 @@ _uint CPlayer::Tick(_double TimeDelta)
 			mat = m_pModelCom->Get_CombinedTransformationMatrix_float4_4(0);
 			m_pTransformCom->Set_PosY(mat.m[3][2]);
 			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
+
 		}
 		break;
 	case CMonFSM::HAPPY:
 		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
 			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
-			if (m_bAttack)
-				m_bAttack = false;
+			m_bCanSkillAttack = false;
+			m_bCanAttack = false;
+			m_AttackCoolTimeAcc = 0.0;
+			m_SkillCoolTimeAcc = 0.0;
 		}
 		break;
 	case CMonFSM::DASH_SLE_START:
@@ -157,8 +171,10 @@ _uint CPlayer::Tick(_double TimeDelta)
 
 				Do_Skill(220, CMonFSM::JUMPLANDING_SLE_LOOP, L"Layer_PlayerSkill");
 
-				if (m_bAttack)
-					m_bAttack = false;
+				m_bCanSkillAttack = false;
+				m_bCanAttack = false;
+				m_AttackCoolTimeAcc = 0.0;
+				m_SkillCoolTimeAcc = 0.0;
 			}
 			m_fAccel = 1.f;
 		}
@@ -232,28 +248,43 @@ _uint CPlayer::Tick(_double TimeDelta)
 
 	else  if (KEY_TAB(KEY::A))
 	{
-		Do_Skill(m_normalSkillType2, CMonFSM::ATK_NORMAL, L"Layer_PlayerSkill");
-		//m_SkillLoopDesc.m_CurskillIndex = 0;
+		if (m_bCanAttack)
+		{
+			Do_Skill(m_normalSkillType2, CMonFSM::ATK_NORMAL, L"Layer_PlayerSkill");
+			m_bCanAttack = false;
+			m_AttackCoolTimeAcc = 0.0;
+		}
 	}
 
 	else  if (KEY_TAB(KEY::W))
 	{
-		Do_Skill(m_PokemonDesc.m_normalSkillType, CMonFSM::ATK_NORMAL, L"Layer_PlayerSkill");
+		if (m_bCanAttack)
+		{
+			Do_Skill(m_PokemonDesc.m_normalSkillType, CMonFSM::ATK_NORMAL, L"Layer_PlayerSkill");
+			m_bCanAttack = false;
+			m_AttackCoolTimeAcc = 0.0;
+		}
 	}
 
 	else  if (KEY_TAB(KEY::S))
 	{
-		Do_Skill(m_PokemonDesc.m_skillIDs[0], CMonFSM::DASH_SLE_START, L"Layer_PlayerSkill");
-		m_SkillLoopCount = 1;
-		m_SkillLoopDelay = 1.f;
-		m_fAccel = 1.f;
-		m_SkillLoopDesc.m_CurskillIndex = 0;
+		if (m_bCanSkillAttack)
+		{
+			Do_Skill(m_PokemonDesc.m_skillIDs[0], CMonFSM::DASH_SLE_START, L"Layer_PlayerSkill");
+			m_SkillLoopCount = 1;
+			m_SkillLoopDelay = 1.f;
+			m_fAccel = 1.f;
+			m_SkillLoopDesc.m_CurskillIndex = 0;
+		}
 	}
 
 	else  if (KEY_TAB(KEY::D))
 	{
-		Do_Skill(m_PokemonDesc.m_skillIDs[1], CMonFSM::HAPPY, L"Layer_PlayerSkill");
-		m_SkillLoopDesc.m_CurskillIndex = 1;
+		if (m_bCanSkillAttack)
+		{
+			Do_Skill(m_PokemonDesc.m_skillIDs[1], CMonFSM::HAPPY, L"Layer_PlayerSkill");
+			m_SkillLoopDesc.m_CurskillIndex = 1;
+		}
 	}
 
 	else if (KEY_TAB(KEY::SPACE))
@@ -262,6 +293,7 @@ _uint CPlayer::Tick(_double TimeDelta)
 	}
 
 	m_pAABB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
+
 
 	return _uint();
 }

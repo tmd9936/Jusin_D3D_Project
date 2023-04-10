@@ -21,15 +21,15 @@
             {
                 "m_fX": 0.0,
                 "m_fY": 0.0,
-                "m_fSizeX": 44.0,
-                "m_fSizeY": 44.0,
+                "m_fSizeX": 43.0,
+                "m_fSizeY": 43.0,
                 "m_eType": 1,
-                "m_ShaderPass": 2,
+                "m_ShaderPass": 4,
                 "m_vColor": {
-                    "x": 0.2,
-                    "y": 0.2,
-                    "z": 0.2,
-                    "w": 0.45
+                    "x": 0.81568,
+                    "y": 0.36862745,
+                    "z": 0.223529,
+                    "w": 0.0
                 },
                 "m_TextureProtoTypeLevel": 0,
                 "m_TextureProtoTypeName": "Prototype_Component_Texture_Window_Plane_Corner",

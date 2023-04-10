@@ -96,6 +96,15 @@ public:
 		m_MovePosition = { rand() % 10 + 12.f, 0.f, rand() % 10 + 15.f, 1.f };
 	}
 
+public:
+	const _bool		Get_CanSkillAttack() const {
+		return m_bCanSkillAttack;
+	}
+
+	const _float	Get_SkillCoolTimeProgress() const {
+		return m_SkillCoolTimeAcc / m_SkillCoolTime;
+	}
+
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
 	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
@@ -156,11 +165,11 @@ protected:
 	
 	_bool				m_bAttack = { false };
 
-	_double				m_AttackCoolTime = { 1.5 };
-	_double				m_SkillCoolTime = { 5.0 };
+	_double				m_AttackCoolTime = { 1.0 };
+	_double				m_SkillCoolTime = { 4.0 };
 
-	_double				m_AttackCoolTimeAcc = { 0.0 };
-	_double				m_SkillCoolTimeAcc = { 0.0 };
+	_double				m_AttackCoolTimeAcc = { 1.0 };
+	_double				m_SkillCoolTimeAcc = { 4.0 };
 
 	_bool				m_bCanAttack = { true };
 	_double				m_bCanSkillAttack = { true };

@@ -464,22 +464,20 @@ void CMonster::Do_Skill_After_Set_Motion(_uint skillType, const _tchar* pLayer)
 
 void CMonster::CoolTimeCheck(const _double& TimeDelta)
 {
-	if (m_SkillCoolTimeAcc > 0.0)
+	if (m_SkillCoolTimeAcc <= m_SkillCoolTime)
 	{
-		m_SkillCoolTimeAcc -= TimeDelta;
-		if (m_SkillCoolTimeAcc <= 0.0)
+		m_SkillCoolTimeAcc += TimeDelta;
+		if (m_SkillCoolTimeAcc >= m_AttackCoolTime)
 		{
-			m_SkillCoolTimeAcc = 0.0;
 			m_bCanSkillAttack = true;
 		}
 	}
 
-	if (m_AttackCoolTimeAcc > 0.0)
+	if (m_AttackCoolTimeAcc <= m_AttackCoolTime)
 	{
-		m_AttackCoolTimeAcc -= TimeDelta;
-		if (m_AttackCoolTimeAcc <= 0.0)
+		m_AttackCoolTimeAcc += TimeDelta;
+		if (m_AttackCoolTimeAcc >= m_AttackCoolTime)
 		{
-			m_AttackCoolTimeAcc = 0.0;
 			m_bCanAttack = true;
 		}
 	}
