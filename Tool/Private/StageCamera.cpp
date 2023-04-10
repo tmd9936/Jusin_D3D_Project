@@ -53,10 +53,11 @@ HRESULT CStageCamera::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, con
 
 _uint CStageCamera::Tick(_double TimeDelta)
 {
-	if (KEY_TAB(KEY::K))
+	/*if (KEY_TAB(KEY::K))
 		m_pTransform->Go_Straight((_float)TimeDelta);
 	else if (KEY_TAB(KEY::M))
-		m_pTransform->Go_Backward((_float)TimeDelta);
+		m_pTransform->Go_Backward((_float)TimeDelta);*/
+
 
 	Camemra_Shake_CoolTimeCheck(TimeDelta);
 
@@ -66,6 +67,11 @@ _uint CStageCamera::Tick(_double TimeDelta)
 _uint CStageCamera::LateTick(_double TimeDelta)
 {
 	State_LateTick(TimeDelta);
+
+	if (KEY_TAB(KEY::L))
+	{
+		Do_Shake();
+	}
 
 	State_Change();
 
@@ -214,10 +220,6 @@ void CStageCamera::Change_AdditionalDistanceByCameraAt(const _double& TimeDelta)
 	case Client::CStageCameraTarget::MOVE_STATE_NARROW:
 		Zoom_In_From_CameraTarget(TimeDelta);
 		break;
-	case Client::CStageCameraTarget::MOVE_STATE_END:
-		break;
-	default:
-		break;
 	}
 }
 
@@ -284,19 +286,44 @@ _bool CStageCamera::Zoom_In_From_CameraTarget(const _double& TimeDelta)
 
 void CStageCamera::Camera_Shake_Tick(const _double& TimeDelta)
 {
+	/*
+		카메라 흔들리는 순서 : 위 아래 위 아래 중간
+	*/
 	if (m_ShakeTimeAcc > m_StageCameraDesc.m_shakeTime)
 	{
 		m_eCurState = STATE_FORMATION;
+		m_ShakeCoolTimeAcc = 0.0;
 		return;
 	}
 
-	m_CurShakeDegree += TimeDelta;
+	switch (m_CurShakeDirection)
+	{
+	case SHAKE_DIR_UP:
+		m_pTransform->Turn(m_pTransform->Get_State(CTransform::STATE_RIGHT), _float(TimeDelta) * XMConvertToRadians(m_StageCameraDesc.m_shakeDegree));
+		if (m_ShakePeriodTimeAcc >= m_StageCameraDesc.m_shakePeriodTime)
+		{
+			m_CurShakeDirection = SHAKE_DIR_DOWN;
+			m_ShakePeriodTimeAcc = 0.0;
+		}
+		break;
+
+	case SHAKE_DIR_DOWN:
+		m_pTransform->Turn(m_pTransform->Get_State(CTransform::STATE_RIGHT), _float(TimeDelta * -1.f) * XMConvertToRadians(m_StageCameraDesc.m_shakeDegree));
+		if (m_ShakePeriodTimeAcc >= m_StageCameraDesc.m_shakePeriodTime)
+		{
+			m_CurShakeDirection = SHAKE_DIR_UP;
+			m_ShakePeriodTimeAcc = 0.0;
+		}
+		break;
+	}
+	
 	m_ShakePeriodTimeAcc += TimeDelta;
 	m_ShakeTimeAcc += TimeDelta;
 }
 
 void CStageCamera::Camemra_Shake_Init()
 {
+	m_CurShakeDirection = SHAKE_DIR_UP;
 	m_ShakeTimeAcc = 0.0;
 	m_ShakePeriodTimeAcc = 0.0;
 	m_CurShakeDegree = 0.0;
@@ -310,8 +337,10 @@ void CStageCamera::Camemra_Shake_CoolTimeCheck(const _double& TimeDelta)
 		{
 			m_CanShake = true;
 		}
-		m_ShakeCoolTimeAcc += TimeDelta;
 	}
+
+	if (m_ShakeCoolTimeAcc <= m_StageCameraDesc.m_shakeCoolTime)
+		m_ShakeCoolTimeAcc += TimeDelta;
 }
 
 _bool CStageCamera::Focus_To_Object(const _float4& vPosition, const _float& TImeDelta, const _float& limitDistance)

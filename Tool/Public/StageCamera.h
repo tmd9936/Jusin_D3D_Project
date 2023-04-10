@@ -29,6 +29,14 @@ public:
 	};
 
 public:
+	enum SHAKE_DIR
+	{
+		SHAKE_DIR_UP,
+		SHAKE_DIR_DOWN,
+		SHAKE_DIR_END
+	};
+
+public:
 	typedef struct tagStageCameraDesc
 	{
 		_float		m_distance;
@@ -77,6 +85,7 @@ public:
 		if (m_CanShake)
 		{
 			m_eCurState = STATE_SHAKE;
+			m_CanShake = false;
 		}
 	}
 
@@ -136,6 +145,7 @@ private:
 	_double					m_ShakeTimeAcc = { 0.0 };
 	_double					m_ShakePeriodTimeAcc = { 0.0 };
 	_double					m_CurShakeDegree = { 0.0 };
+	SHAKE_DIR				m_CurShakeDirection = { SHAKE_DIR_UP };
 
 public:
 	/* Prototype */
