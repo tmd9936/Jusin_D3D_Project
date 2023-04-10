@@ -209,29 +209,10 @@ void CStageCamera::Change_AdditionalDistanceByCameraAt(const _double& TimeDelta)
 	case Client::CStageCameraTarget::MOVE_STATE_NONE:
 		break;
 	case Client::CStageCameraTarget::MOVE_STATE_WIDEN:
-		m_CurAdditionalDistance += (_float)TimeDelta * 1.5f;
-
-		if (m_CurAdditionalDistance > m_StageCameraDesc.m_distanceMax)
-		{
-			m_CurAdditionalDistance = m_StageCameraDesc.m_distanceMax;
-		}
-		m_MaxZoomTimeAcc = m_StageCameraDesc.m_maxZoomTime;
+		Zoom_Out_From_CameraTarget(TimeDelta);
 		break;
 	case Client::CStageCameraTarget::MOVE_STATE_NARROW:
-		if (m_MaxZoomTimeAcc > 0.0)
-		{
-			m_MaxZoomTimeAcc -= TimeDelta;
-			return;
-		}
-		else
-		{
-			m_CurAdditionalDistance -= (_float)TimeDelta;
-
-			if (m_CurAdditionalDistance < m_StageCameraDesc.m_distanceMin)
-			{
-				m_CurAdditionalDistance = m_StageCameraDesc.m_distanceMin;
-			}
-		}
+		Zoom_In_From_CameraTarget(TimeDelta);
 		break;
 	case Client::CStageCameraTarget::MOVE_STATE_END:
 		break;
@@ -244,53 +225,21 @@ void CStageCamera::Change_AdditionalDistanceByCulling(const _double& TimeDelta)
 {
 	if (Get_PlayerCulling(L"Player1"))
 	{
-		m_CurAdditionalDistance += (_float)TimeDelta * 2.f;
-
-		if (m_CurAdditionalDistance > m_StageCameraDesc.m_distanceMax)
-		{
-			m_CurAdditionalDistance = m_StageCameraDesc.m_distanceMax;
-		}
-		m_MaxZoomTimeAcc = m_StageCameraDesc.m_maxZoomTime;
+		Zoom_Out_From_CameraTarget(TimeDelta);
 		return;
 	}
 	if (Get_PlayerCulling(L"Player2"))
 	{
-		m_CurAdditionalDistance += (_float)TimeDelta * 2.f;
-
-		if (m_CurAdditionalDistance > m_StageCameraDesc.m_distanceMax)
-		{
-			m_CurAdditionalDistance = m_StageCameraDesc.m_distanceMax;
-		}
-		m_MaxZoomTimeAcc = m_StageCameraDesc.m_maxZoomTime;
+		Zoom_Out_From_CameraTarget(TimeDelta);
 		return;
 	}
 	if (Get_PlayerCulling(L"Player3"))
 	{
-		m_CurAdditionalDistance += (_float)TimeDelta * 2.f;
-
-		if (m_CurAdditionalDistance > m_StageCameraDesc.m_distanceMax)
-		{
-			m_CurAdditionalDistance = m_StageCameraDesc.m_distanceMax;
-		}
-		m_MaxZoomTimeAcc = m_StageCameraDesc.m_maxZoomTime;
+		Zoom_Out_From_CameraTarget(TimeDelta);
 		return;
 	}
 
-	if (m_MaxZoomTimeAcc > 0.0)
-	{
-		m_MaxZoomTimeAcc -= TimeDelta;
-		return;
-	}
-	else
-	{
-		m_CurAdditionalDistance -= (_float)TimeDelta;
-
-		if (m_CurAdditionalDistance < m_StageCameraDesc.m_distanceMin)
-		{
-			m_CurAdditionalDistance = m_StageCameraDesc.m_distanceMin;
-		}
-	}
-	
+	Zoom_In_From_CameraTarget(TimeDelta);
 }
 
 _bool CStageCamera::Get_PlayerCulling(const _tchar* pObjectTag)
@@ -300,6 +249,37 @@ _bool CStageCamera::Get_PlayerCulling(const _tchar* pObjectTag)
 		return false;
 
 	return pPlyaer->Is_BeCulling();
+}
+
+void CStageCamera::Zoom_Out_From_CameraTarget(const _double& TimeDelta)
+{
+	m_CurAdditionalDistance += (_float)TimeDelta * 1.5f;
+
+	if (m_CurAdditionalDistance > m_StageCameraDesc.m_distanceMax)
+	{
+		m_CurAdditionalDistance = m_StageCameraDesc.m_distanceMax;
+	}
+	m_MaxZoomTimeAcc = m_StageCameraDesc.m_maxZoomTime;
+}
+
+_bool CStageCamera::Zoom_In_From_CameraTarget(const _double& TimeDelta)
+{
+	if (m_MaxZoomTimeAcc > 0.0)
+	{
+		m_MaxZoomTimeAcc -= TimeDelta;
+		return false;
+	}
+	else
+	{
+		m_CurAdditionalDistance -= (_float)TimeDelta;
+
+		if (m_CurAdditionalDistance < m_StageCameraDesc.m_distanceMin)
+		{
+			m_CurAdditionalDistance = m_StageCameraDesc.m_distanceMin;
+		}
+
+		return true;
+	}
 }
 
 void CStageCamera::Camera_Shake_Tick(const _double& TimeDelta)

@@ -112,6 +112,9 @@ private:
 
 	_bool					Get_PlayerCulling(const _tchar* pObjectTag);
 
+	void					Zoom_Out_From_CameraTarget(const _double& TimeDelta);
+	_bool					Zoom_In_From_CameraTarget(const _double& TimeDelta);
+
 private:
 	STAGE_CAMERA_DESC		m_StageCameraDesc = { };
 	/// <summary>
