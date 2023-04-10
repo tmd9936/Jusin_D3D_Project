@@ -343,7 +343,6 @@ void CStageCamera::Camemra_Shake_Init()
 	m_CurShakeDirection = SHAKE_DIR_UP;
 	m_ShakeTimeAcc = 0.0;
 	m_ShakePeriodTimeAcc = 0.0;
-	m_CurShakeDegree = 0.0;
 	m_ShakePeriod = true;
 }
 

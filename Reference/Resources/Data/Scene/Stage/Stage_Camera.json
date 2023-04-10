@@ -1,7 +1,7 @@
 {
     "CameraDesc": {
         "m_distance": 4.0,
-        "m_shakeTime": 0.6,
+        "m_shakeTime": 0.4,
         "m_shakePeriodTime": 0.10000000298023224,
         "m_shakeDegree": 0.800000011920929,
         "m_distanceMin": 1.0,
@@ -9,7 +9,7 @@
         "m_moveSpeed": 0.4,
         "m_zoomSpeed": 3.0,
         "m_maxZoomTime": 1.0,
-        "m_shakeCoolTime": 2.0,
+        "m_shakeCoolTime": 4.0,
         "m_DistancefromAt": {
             "x": 1.315572738647461,
             "y": 3.2889299392700195,

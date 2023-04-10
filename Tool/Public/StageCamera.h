@@ -139,14 +139,12 @@ private:
 
 	_double					m_MaxZoomTimeAcc = { 0.0 };
 
-	_double					m_ShakeCoolTimeAcc = { 2.0 };
+	_double					m_ShakeCoolTimeAcc = { 0.0 };
 	_bool					m_CanShake = { true };
 
 	_double					m_ShakeTimeAcc = { 0.0 };
 	_double					m_ShakePeriodTimeAcc = { 0.0 };
-	_double					m_CurShakeDegree = { 0.0 };
 	SHAKE_DIR				m_CurShakeDirection = { SHAKE_DIR_UP };
-
 	_bool					m_ShakePeriod = { true };
 
 public:
