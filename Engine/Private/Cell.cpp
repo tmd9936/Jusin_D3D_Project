@@ -123,7 +123,14 @@ _vector CCell::Get_SlidePower(_fvector vPosition, _fvector vLook)
 		midIndex = POINT_C;
 	}
 	
-	return  XMVector3Normalize(XMLoadFloat3(&m_vPoints[midIndex]) - XMLoadFloat3(&m_vPoints[minIndex]));
+	
+	_float vMinRad = acosf(XMVectorGetX(XMVector3Dot(XMVector3Normalize(vPosition - XMLoadFloat3(&m_vPoints[minIndex])), XMVector3Normalize(vLook))));
+	_float vMidRad = acosf(XMVectorGetX(XMVector3Dot(XMVector3Normalize(vPosition - XMLoadFloat3(&m_vPoints[midIndex])), XMVector3Normalize(vLook))));
+
+	if (vMinRad > vMidRad)
+		return  XMVector3Normalize(XMLoadFloat3(&m_vPoints[minIndex]) - XMLoadFloat3(&m_vPoints[midIndex]));
+	else
+		return  XMVector3Normalize(XMLoadFloat3(&m_vPoints[midIndex]) - XMLoadFloat3(&m_vPoints[minIndex]));
 }
 
 void CCell::Compute_Height(_float3& vPosition, _float& fY)
