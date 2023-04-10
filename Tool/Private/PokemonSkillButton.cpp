@@ -11,8 +11,6 @@
 #include "PartText.h"
 
 
-
-
 CPokemonSkillButton::CPokemonSkillButton(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CButton(pDevice, pContext)
 {
@@ -44,9 +42,6 @@ HRESULT CPokemonSkillButton::Initialize(const _tchar* pLayerTag, _uint iLevelInd
 	return S_OK;
 }
 
-/*
-
-*/
 HRESULT CPokemonSkillButton::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath)
 {
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, filePath)))
