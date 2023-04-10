@@ -246,13 +246,27 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 					{
 						Do_RandomSkill();
 					}
-					else if (!m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta), 2.8f, m_pNavigationCom))
-					{}
+					if (m_bChase)
+					{
+						if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta), 2.8f, m_pNavigationCom))
+						{
+							m_bChase = false;
+							m_ChaseCoolTimeAcc = 0.0;
+						}
+					}
 					else
 					{
 						if (m_pTransformCom->Go_BackWard_Look_Pos(pTargetTransform->Get_State(CTransform::STATE_POSITION), m_pTransformCom->Get_State(CTransform::STATE_POSITION)
 							+ m_pTransformCom->Get_State(CTransform::STATE_LOOK) * -2.f, _float(TimeDelta * 1.5), 0.5f, m_pNavigationCom))
 						{}
+					}
+					if (!m_bChase)
+					{
+						m_ChaseCoolTimeAcc += TimeDelta;
+						if (m_ChaseCoolTimeAcc > m_ChaseCoolTime)
+						{
+							m_bChase = true;
+						}
 					}
 				}
 			}

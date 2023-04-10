@@ -49,6 +49,10 @@ private:
 
 	_vector		m_vTargetPos = {};
 
+	_double		m_ChaseCoolTime = { 2.0 };
+	_double		m_ChaseCoolTimeAcc = { 0.0 };
+	_double		m_bChase = { true };
+
 public:
 	static CStageEnemyMonster* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) override;

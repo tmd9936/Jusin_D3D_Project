@@ -389,19 +389,22 @@ _bool CTransform::TurnToTarget(_fvector vAxis, _fvector vTargetPos, _float TimeD
 
 	_float radian = acosf(dot);
 
-	if (dot >= 0.99f)
+	if (dot >= 0.95f)
+	{
 		return true;
+	}
 	else
 	{
-		_vector vLook = vTargetPos - vPos;
-		_vector vRight = XMVector3Cross(XMVectorSet(0.f, 1.f, 0.f, 0.f), vLook);
-		_vector vUp = XMVector3Cross(vLook, vRight);
+		_vector		vRight = Get_State(CTransform::STATE_RIGHT);
+		_vector		vUp = Get_State(CTransform::STATE_UP);
+		_vector		vLook = Get_State(CTransform::STATE_LOOK);
 
-		_float3		vScale = Get_Scaled();
+		_vector axis = XMVectorSetZ(XMVectorSetX(XMVector3Cross(vLook, vLookTarget), 0.f), 0.f);
+		_matrix RotationMatrix = XMMatrixRotationAxis(axis, m_TransformDesc.RotationPerSec * TimeDelta);
 
-		Set_State(STATE_RIGHT, XMVector3Normalize(vRight) * vScale.x);
-		Set_State(STATE_UP, XMVector3Normalize(vUp) * vScale.y);
-		Set_State(STATE_LOOK, XMVector3Normalize(vLook) * vScale.z);
+		Set_State(CTransform::STATE_RIGHT, XMVector3TransformNormal(vRight, RotationMatrix));
+		Set_State(CTransform::STATE_UP, XMVector3TransformNormal(vUp, RotationMatrix));
+		Set_State(CTransform::STATE_LOOK, XMVector3TransformNormal(vLook, RotationMatrix));
 
 		return false;
 	}
@@ -451,6 +454,8 @@ _float CTransform::Get_DistanceFromTarget(_fvector vTargetPos)
 _bool CTransform::Chase(_fvector vTargetPos, _float TimeDelta, _float limitDitance, CNavigation* pNavigation)
 {
 	LookAt(vTargetPos);
+
+	//TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), vTargetPos, TimeDelta);
 
 	_bool	isMove = true;
 
@@ -584,7 +589,6 @@ _bool CTransform::Go_BackWard_Look_Pos(_fvector vLookPos, _fvector vArrivePos, _
 	if (length >= limitDitance)
 	{
 		vPosition += XMVector3Normalize(vDir) * TimeDelta * m_TransformDesc.SpeedPerSec;
-		Set_State(STATE_POSITION, vPosition);
 
 		if (nullptr != pNavigation)
 		{
