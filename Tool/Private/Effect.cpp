@@ -104,6 +104,14 @@ _uint CEffect::LateTick(_double TimeDelta)
 
 		m_pNavigationCom->Set_Index_By_Position({ m_EffectDesc.m_FinalWorldMatrix.m[3][0], 
 			m_EffectDesc.m_FinalWorldMatrix.m[3][1], m_EffectDesc.m_FinalWorldMatrix.m[3][2] });
+
+		if (true == CGameInstance::GetInstance()->Is_In_Frustum(
+			XMVectorSet(m_EffectDesc.m_FinalWorldMatrix.m[3][0], 
+				m_EffectDesc.m_FinalWorldMatrix.m[3][1],
+				m_EffectDesc.m_FinalWorldMatrix.m[3][2], 1.f), 2.f))
+		{
+			m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
+		}
 	}
 	else
 	{
@@ -112,9 +120,12 @@ _uint CEffect::LateTick(_double TimeDelta)
 
 		if (m_pColliderCom)
 			m_pColliderCom->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
-	}
 
-	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
+		if (true == CGameInstance::GetInstance()->Is_In_Frustum(m_pTransformCom->Get_State(CTransform::STATE_POSITION), 2.f))
+		{
+			m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
+		}
+	}
 
 
 #ifdef _DEBUG
