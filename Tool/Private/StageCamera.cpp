@@ -153,13 +153,16 @@ _uint CStageCamera::Chase_CameraAt(const _double& TimeDelta)
 	if (nullptr == pTransform)
 		return 0;
 
-	_vector movePoint = pTransform->Get_State(CTransform::STATE_POSITION) + (m_vDistanceVectorFromAt * m_StageCameraDesc.m_distance);
+	Change_AdditionalDistance(TimeDelta);
+
+	_vector movePoint = pTransform->Get_State(CTransform::STATE_POSITION) + (m_vDistanceVectorFromAt * m_StageCameraDesc.m_distance * m_CurAdditionalDistance);
 	/*_float4 targetPos = {};
 	XMStoreFloat4(&targetPos, pTransform->Get_State(CTransform::STATE_POSITION));*/
 
 	m_pTransform->ChaseNoLook(movePoint, (_float)TimeDelta * m_StageCameraDesc.m_moveSpeed, 0.2f);
 
 	m_StageCameraDesc.CameraDesc = m_CameraDesc;
+
 
 	return 0;
 }
@@ -183,6 +186,68 @@ _uint CStageCamera::FadeIn_Chase_CameraAt(const _double& TimeDelta)
 	m_StageCameraDesc.CameraDesc = m_CameraDesc;
 
 	return 0;
+}
+
+void CStageCamera::Change_AdditionalDistance(const _double& TimeDelta)
+{
+	if (Get_PlayerCulling(L"Player1"))
+	{
+		m_CurAdditionalDistance += (_float)TimeDelta;
+
+		if (m_CurAdditionalDistance > m_StageCameraDesc.m_distanceMax)
+		{
+			m_CurAdditionalDistance = m_StageCameraDesc.m_distanceMax;
+		}
+			m_MaxZoomTimeAcc = m_MaxZoomTime;
+		return;
+	}
+	if (Get_PlayerCulling(L"Player2"))
+	{
+		m_CurAdditionalDistance += (_float)TimeDelta;
+
+		if (m_CurAdditionalDistance > m_StageCameraDesc.m_distanceMax)
+		{
+			m_CurAdditionalDistance = m_StageCameraDesc.m_distanceMax;
+		}
+			m_MaxZoomTimeAcc = m_MaxZoomTime;
+		return;
+	}
+	if (Get_PlayerCulling(L"Player3"))
+	{
+		m_CurAdditionalDistance += (_float)TimeDelta;
+
+		if (m_CurAdditionalDistance > m_StageCameraDesc.m_distanceMax)
+		{
+			m_CurAdditionalDistance = m_StageCameraDesc.m_distanceMax;
+		}
+			m_MaxZoomTimeAcc = m_MaxZoomTime;
+		return;
+	}
+
+	if (m_MaxZoomTimeAcc > 0.0)
+	{
+		m_MaxZoomTimeAcc -= TimeDelta;
+		return;
+	}
+	else
+	{
+		m_CurAdditionalDistance -= (_float)TimeDelta;
+
+		if (m_CurAdditionalDistance < m_StageCameraDesc.m_distanceMin)
+		{
+			m_CurAdditionalDistance = m_StageCameraDesc.m_distanceMin;
+		}
+	}
+	
+}
+
+_bool CStageCamera::Get_PlayerCulling(const _tchar* pObjectTag)
+{
+	CGameObject* pPlyaer = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Player", pObjectTag);
+	if (nullptr == pPlyaer)
+		return false;
+
+	return pPlyaer->Is_BeCulling();
 }
 
 _bool CStageCamera::Focus_To_Object(const _float4& vPosition, const _float& TImeDelta, const _float& limitDistance)

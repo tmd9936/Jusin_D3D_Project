@@ -204,6 +204,12 @@ _uint CMonster::LateTick(_double TimeDelta)
 			m_pDamageText->LateTick(TimeDelta);
 
 		m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
+		
+		m_bBeCulling = false;
+	}
+	else
+	{
+		m_bBeCulling = true;
 	}
 	return _uint();
 }

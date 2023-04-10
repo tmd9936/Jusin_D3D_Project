@@ -484,7 +484,7 @@ _bool CTransform::Chase(_fvector vTargetPos, _float TimeDelta, _float limitDitan
 		else
 		{
 			_vector vSlidePosition = Get_State(STATE_POSITION);
-			vSlidePosition += XMVector3Normalize(vSlideLook) * TimeDelta * m_TransformDesc.SpeedPerSec;
+			vSlidePosition += XMVector3Normalize(vSlideLook) * TimeDelta * m_TransformDesc.SpeedPerSec * 2.5f;
 
 			isMove = pNavigation->Move_OnNavigation(vSlidePosition);
 			if (true == isMove)

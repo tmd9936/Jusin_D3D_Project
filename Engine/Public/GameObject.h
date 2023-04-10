@@ -81,7 +81,14 @@ public:
 	}
 
 public:
-	_bool					Is_Dead() { return m_bDead; }
+	const _bool					Is_Dead() const { 
+		return m_bDead; 
+	}
+
+	const _bool					Is_BeCulling() const {
+		return m_bBeCulling;
+	}
+
 	void					Set_Alive() { m_bDead = false; }
 	void					Set_Dead() { m_bDead = true; }
 
@@ -142,6 +149,9 @@ protected:
 	_uint											m_iLevelindex = { 0 };
 
 	string											m_strSaveJsonPath = {};
+
+	_bool											m_bBeCulling = { false };
+
 
 
 public:

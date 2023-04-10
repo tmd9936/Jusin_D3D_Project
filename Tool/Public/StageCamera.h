@@ -25,6 +25,7 @@ public:
 		STATE_END
 	};
 
+
 public:
 	typedef struct tagStageCameraDesc
 	{
@@ -72,7 +73,6 @@ protected:
 	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
 
 private:
-
 	HRESULT					Add_Components();
 
 private:
@@ -86,6 +86,10 @@ private:
 	_uint					Chase_CameraAt(const _double& TimeDelta);
 	_uint					FadeIn_Chase_CameraAt(const _double& TimeDelta);
 
+	void					Change_AdditionalDistance(const _double& TimeDelta);
+
+	_bool					Get_PlayerCulling(const _tchar* pObjectTag);
+
 
 private:
 	STAGE_CAMERA_DESC		m_StageCameraDesc = { };
@@ -97,6 +101,12 @@ private:
 
 	STATE					m_eCurState = { STATE_FADE_IN };
 	STATE					m_ePreState = { STATE_END };
+
+	_float					m_CurAdditionalDistance = { 1.1f };
+
+	_double					m_MaxZoomTime = { 1.5 };
+	_double					m_MaxZoomTimeAcc = { 0.0 };
+
 
 public:
 	/* Prototype */

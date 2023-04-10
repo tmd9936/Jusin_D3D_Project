@@ -102,7 +102,7 @@ public:
 	}
 
 	const _float	Get_SkillCoolTimeProgress() const {
-		return m_SkillCoolTimeAcc / m_SkillCoolTime;
+		return _float(m_SkillCoolTimeAcc / m_SkillCoolTime);
 	}
 
 	void		Do_Skill_By_Index(_uint skillindex, const _tchar* pLayer);
