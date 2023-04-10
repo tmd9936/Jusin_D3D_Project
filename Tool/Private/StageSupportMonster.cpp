@@ -315,7 +315,7 @@ _uint CStageSupportMonster::State_Tick(const _double& TimeDelta)
 		{
 			if (pTargetTransform)
 			{
-				m_pTransformCom->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta * 1.5));
+				//m_pTransformCom->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta * 1.5));
 
 				if (m_PokemonDesc.m_AIType == AI_TYPE_SHORT_DISTACE)
 				{
@@ -364,7 +364,7 @@ _uint CStageSupportMonster::State_Tick(const _double& TimeDelta)
 
 		if (pTargetTransform)
 		{
-			m_pTransformCom->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta * 1.5));
+			//m_pTransformCom->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta * 1.5));
 
 			if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta * 1.5f), 2.0f, m_pNavigationCom))
 			{

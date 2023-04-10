@@ -42,6 +42,9 @@ protected:
 	void		Go_To_RandomPosition(const _double& TimeDelta);
 
 private:
+	void		AI_Type_Long_Idle_Tick(const _double& TimeDelta, CTransform* pTargetTransform);
+
+private:
 	_float		m_MotionChangeDelay = { 3.f };
 	_float		m_CurMotionChangeDelayTime = { 0.f };
 

@@ -201,6 +201,48 @@ void CStageEnemyMonster::Go_To_RandomPosition(const _double& TimeDelta)
 
 }
 
+void CStageEnemyMonster::AI_Type_Long_Idle_Tick(const _double& TimeDelta, CTransform* pTargetTransform)
+{
+	if (m_bCanAttack)
+	{
+		Do_RandomSkill();
+	}
+
+	_float targetToDistance = m_pTransformCom->Get_DistanceFromTarget(pTargetTransform->Get_State(CTransform::STATE_POSITION));
+
+	if (m_bChase)
+	{
+		if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta), 2.0f, m_pNavigationCom))
+		{
+			m_bChase = false;
+			m_ChaseCoolTimeAcc = 0.0;
+		}
+	}
+	else
+	{
+		if (targetToDistance <= 1.5f)
+		{
+			if (m_pTransformCom->Go_BackWard_Look_Pos(pTargetTransform->Get_State(CTransform::STATE_POSITION), m_pTransformCom->Get_State(CTransform::STATE_POSITION)
+				+ m_pTransformCom->Get_State(CTransform::STATE_LOOK) * -2.f, _float(TimeDelta * 1.5), 0.5f, m_pNavigationCom))
+			{
+			}
+		}
+	}
+	if (!m_bChase)
+	{
+
+		if (targetToDistance >= 3.f)
+		{
+			m_ChaseCoolTimeAcc += TimeDelta;
+
+			if (m_ChaseCoolTimeAcc > m_ChaseCoolTime)
+			{
+				m_bChase = true;
+			}
+		}
+	}
+}
+
 void CStageEnemyMonster::Init_RandomMotionChangeDelay()
 {
 	m_MotionChangeDelay = _float(rand() % 3 + 2);
@@ -231,7 +273,7 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 		{
 			if (pTargetTransform)
 			{
-				m_pTransformCom->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta * 1.5));
+				//m_pTransformCom->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta * 1.5));
 				
 				if (m_PokemonDesc.m_AIType == AI_TYPE_SHORT_DISTACE)
 				{
@@ -242,44 +284,7 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 				}
 				else
 				{
-					if (m_bCanAttack)
-					{
-						Do_RandomSkill();
-					}
-
-					_float targetToDistance = m_pTransformCom->Get_DistanceFromTarget(pTargetTransform->Get_State(CTransform::STATE_POSITION));
-
-					if (m_bChase)
-					{
-						if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta), 2.0f, m_pNavigationCom))
-						{
-							m_bChase = false;
-							m_ChaseCoolTimeAcc = 0.0;
-						}
-					}
-					else
-					{
-						if (targetToDistance <= 1.5f)
-						{
-							if (m_pTransformCom->Go_BackWard_Look_Pos(pTargetTransform->Get_State(CTransform::STATE_POSITION), m_pTransformCom->Get_State(CTransform::STATE_POSITION)
-								+ m_pTransformCom->Get_State(CTransform::STATE_LOOK) * -2.f, _float(TimeDelta * 1.5), 0.5f, m_pNavigationCom))
-							{
-							}
-						}
-					}
-					if (!m_bChase)
-					{
-
-						if (targetToDistance >= 3.f)
-						{
-							m_ChaseCoolTimeAcc += TimeDelta;
-
-							if (m_ChaseCoolTimeAcc > m_ChaseCoolTime)
-							{
-								m_bChase = true;
-							}
-						}
-					}
+					AI_Type_Long_Idle_Tick(TimeDelta, pTargetTransform);
 				}
 			}
 		}
@@ -316,7 +321,7 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 
 		if (pTargetTransform)
 		{
-			m_pTransformCom->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta * 1.5));
+			//m_pTransformCom->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta * 1.5));
 
 			if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta * 1.5f), 1.5f, m_pNavigationCom))
 			{
