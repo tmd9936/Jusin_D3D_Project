@@ -467,7 +467,7 @@ void CMonster::CoolTimeCheck(const _double& TimeDelta)
 	if (m_SkillCoolTimeAcc <= m_SkillCoolTime)
 	{
 		m_SkillCoolTimeAcc += TimeDelta;
-		if (m_SkillCoolTimeAcc >= m_AttackCoolTime)
+		if (m_SkillCoolTimeAcc >= m_SkillCoolTime)
 		{
 			m_bCanSkillAttack = true;
 		}
@@ -704,6 +704,19 @@ HRESULT CMonster::SetUp_ShaderResources()
 	Safe_Release(pGameInstance);
 
 	return S_OK;
+}
+
+void CMonster::Do_Skill_By_Index(_uint skillindex, const _tchar* pLayer)
+{
+	if (nullptr == pLayer)
+		return;
+
+	if (!m_bCanSkillAttack || m_PokemonDesc.m_skillIDs.size() <= 0 || m_PokemonDesc.m_skillIDs.size() <= skillindex)
+	{
+		return;
+	}
+
+	Do_Skill_After_Set_Motion(m_PokemonDesc.m_skillIDs[skillindex], pLayer);
 }
 
 _bool CMonster::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator)

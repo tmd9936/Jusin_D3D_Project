@@ -63,7 +63,10 @@ _uint CPokemonSkillButton::On_Idle()
 
 _uint CPokemonSkillButton::On_Press()
 {
-
+	if (nullptr != m_pMonster)
+	{
+		m_pMonster->Do_Skill_By_Index(m_SkillNumber, L"Layer_PlayerSkill");
+	}
 	return 0;
 }
 

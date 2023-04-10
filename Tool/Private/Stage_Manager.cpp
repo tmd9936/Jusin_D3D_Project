@@ -139,12 +139,16 @@ void CStage_Manager::Init_PlayersPos()
 		if (nullptr != pPlayer1Skill0)
 		{
 			dynamic_cast<CPokemonSkillButton*>(pPlayer1Skill0)->Set_ParentMonster((CMonster*)pPlayer1);
+			dynamic_cast<CPokemonSkillButton*>(pPlayer1Skill0)->Set_SkillNumber(0);
+
 		}
 
 		CGameObject* pPlayer1Skill1 = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_UI", L"Player1_Skill1");
 		if (nullptr != pPlayer1Skill1)
 		{
 			dynamic_cast<CPokemonSkillButton*>(pPlayer1Skill1)->Set_ParentMonster((CMonster*)pPlayer1);
+			dynamic_cast<CPokemonSkillButton*>(pPlayer1Skill1)->Set_SkillNumber(1);
+
 		}
 
 	}
@@ -162,12 +166,15 @@ void CStage_Manager::Init_PlayersPos()
 		if (nullptr != pPlayer2Skill0)
 		{
 			dynamic_cast<CPokemonSkillButton*>(pPlayer2Skill0)->Set_ParentMonster((CMonster*)pPlayer2);
+			dynamic_cast<CPokemonSkillButton*>(pPlayer2Skill0)->Set_SkillNumber(0);
+
 		}
 
 		CGameObject* pPlayer2Skill1 = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_UI", L"Player2_Skill1");
 		if (nullptr != pPlayer2Skill1)
 		{
 			dynamic_cast<CPokemonSkillButton*>(pPlayer2Skill1)->Set_ParentMonster((CMonster*)pPlayer2);
+			dynamic_cast<CPokemonSkillButton*>(pPlayer2Skill1)->Set_SkillNumber(1);
 		}
 	}
 
@@ -184,12 +191,15 @@ void CStage_Manager::Init_PlayersPos()
 		if (nullptr != pPlayer3Skill0)
 		{
 			dynamic_cast<CPokemonSkillButton*>(pPlayer3Skill0)->Set_ParentMonster((CMonster*)pPlayer3);
+			dynamic_cast<CPokemonSkillButton*>(pPlayer3Skill0)->Set_SkillNumber(0);
+
 		}
 
 		CGameObject* pPlayer3Skill1 = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_UI", L"Player3_Skill1");
 		if (nullptr != pPlayer3Skill1)
 		{
 			dynamic_cast<CPokemonSkillButton*>(pPlayer3Skill1)->Set_ParentMonster((CMonster*)pPlayer3);
+			dynamic_cast<CPokemonSkillButton*>(pPlayer3Skill1)->Set_SkillNumber(1);
 		}
 	}
 

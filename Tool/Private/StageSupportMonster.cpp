@@ -411,9 +411,9 @@ _uint CStageSupportMonster::State_Tick(const _double& TimeDelta)
 		{
 			m_bCanAttack = false;
 			m_bCanSkillAttack = false;
-			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
 			m_AttackCoolTimeAcc = 0.0;
 			m_SkillCoolTimeAcc = 0.0;
+			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
 		}
 		break;
 

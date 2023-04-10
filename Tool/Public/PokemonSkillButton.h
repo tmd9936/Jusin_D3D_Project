@@ -23,6 +23,10 @@ public:
         Safe_AddRef(m_pMonster);
     }
 
+    void    Set_SkillNumber(_uint number) {
+        m_SkillNumber = number;
+    }
+
 protected:
     virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override;
     virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath) override;
@@ -34,7 +38,8 @@ protected:
     virtual _uint On_Release() override;
 
 private:
-    CMonster* m_pMonster = { nullptr };
+    CMonster*   m_pMonster = { nullptr };
+    _uint       m_SkillNumber = { 0 };
 
 public:
     /* Prototype */

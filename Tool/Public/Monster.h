@@ -105,6 +105,8 @@ public:
 		return m_SkillCoolTimeAcc / m_SkillCoolTime;
 	}
 
+	void		Do_Skill_By_Index(_uint skillindex, const _tchar* pLayer);
+
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
 	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
@@ -172,7 +174,7 @@ protected:
 	_double				m_SkillCoolTimeAcc = { 4.0 };
 
 	_bool				m_bCanAttack = { true };
-	_double				m_bCanSkillAttack = { true };
+	_bool				m_bCanSkillAttack = { true };
 
 protected:
 
