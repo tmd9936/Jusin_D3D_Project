@@ -250,7 +250,7 @@ void CStageCamera::Change_AdditionalDistanceByCulling(const _double& TimeDelta)
 		{
 			m_CurAdditionalDistance = m_StageCameraDesc.m_distanceMax;
 		}
-			m_MaxZoomTimeAcc = m_StageCameraDesc.m_maxZoomTime;
+		m_MaxZoomTimeAcc = m_StageCameraDesc.m_maxZoomTime;
 		return;
 	}
 	if (Get_PlayerCulling(L"Player2"))
@@ -261,7 +261,7 @@ void CStageCamera::Change_AdditionalDistanceByCulling(const _double& TimeDelta)
 		{
 			m_CurAdditionalDistance = m_StageCameraDesc.m_distanceMax;
 		}
-			m_MaxZoomTimeAcc = m_StageCameraDesc.m_maxZoomTime;
+		m_MaxZoomTimeAcc = m_StageCameraDesc.m_maxZoomTime;
 		return;
 	}
 	if (Get_PlayerCulling(L"Player3"))
@@ -272,7 +272,7 @@ void CStageCamera::Change_AdditionalDistanceByCulling(const _double& TimeDelta)
 		{
 			m_CurAdditionalDistance = m_StageCameraDesc.m_distanceMax;
 		}
-			m_MaxZoomTimeAcc = m_StageCameraDesc.m_maxZoomTime;
+		m_MaxZoomTimeAcc = m_StageCameraDesc.m_maxZoomTime;
 		return;
 	}
 
