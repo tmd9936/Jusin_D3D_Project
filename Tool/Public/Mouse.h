@@ -32,6 +32,13 @@ public:
 	virtual HRESULT Render() override;
 
 private:
+	void	Hide_TIme_Check(const _double& TimeDelta);
+
+	void	Hide_State_Init();
+
+	void	Mouse_Move_Check();
+
+private:
 	CTransform* m_pTransformCom = { nullptr };
 	CRenderer* m_pRendererCom = { nullptr };
 	CShader* m_pShaderCom = { nullptr };
@@ -42,6 +49,11 @@ private:
 	_float4x4		m_ViewMatrix = {};
 	_float4x4		m_ProjMatrix = {};
 
+	_float			m_alpha = { 1.f };
+
+	_double			m_HideTime = { 1.0 };
+	_double			m_HideTimeAcc = { 0.0 };
+	_bool			m_Hide = { false };
 
 private:
 	HRESULT Add_Components();

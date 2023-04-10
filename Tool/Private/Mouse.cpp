@@ -62,11 +62,14 @@ _uint CMouse::Tick(_double TimeDelta)
 
 	m_pTransformCom->Set_Pos(_float(ptMouse.x) - g_iWinSizeX * 0.5f, _float(-ptMouse.y) + g_iWinSizeY * 0.5f, 0.1f);
 
+	Mouse_Move_Check();
+
 	switch (m_eState)
 	{
 	case STATE_IDLE:
 		if (MOUSE_TAB(MOUSE::LBTN))
 		{
+			Hide_State_Init();
 			m_eState = STATE_CLICK;
 		}
 		break;
@@ -77,6 +80,8 @@ _uint CMouse::Tick(_double TimeDelta)
 		}
 		break;
 	}
+
+	Hide_TIme_Check(TimeDelta);
 
 	return _uint();
 }
@@ -103,7 +108,7 @@ HRESULT CMouse::Render()
 		if (FAILED(m_pModelCom->SetUp_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
 			return E_FAIL;
 
-		m_pShaderCom->Begin(0);
+		m_pShaderCom->Begin(2);
 
 		m_pModelCom->Render(i);
 	}
@@ -111,11 +116,46 @@ HRESULT CMouse::Render()
 	return S_OK;
 }
 
+void CMouse::Hide_TIme_Check(const _double& TimeDelta)
+{
+	if (!m_Hide)
+	{
+		if (m_HideTimeAcc >= m_HideTime)
+		{
+			m_Hide = true;
+			m_alpha = 0.f;
+		}
+		m_HideTimeAcc += TimeDelta;
+	}
+
+}
+
+void CMouse::Hide_State_Init()
+{
+	m_alpha = 1.f;
+	m_Hide = false;
+	m_HideTimeAcc = 0.0;
+}
+
+void CMouse::Mouse_Move_Check()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	_long MouseMove = { 0 };
+	if (MouseMove = pGameInstance->Get_MouseMove(CInput_Device::DIMS_X))
+	{
+		Hide_State_Init();
+	}
+	if (MouseMove = pGameInstance->Get_MouseMove(CInput_Device::DIMS_Y))
+	{
+		Hide_State_Init();
+	}
+}
+
 
 HRESULT CMouse::Add_Components()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-
 
 	/* For.Com_Transform */
 	CTransform::TRANSFORMDESC		TransformDesc = { 10.f, XMConvertToRadians(90.0f) };
@@ -158,6 +198,8 @@ HRESULT CMouse::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_Matrix("g_ProjMatrix",
 		&m_ProjMatrix)))
 		return E_FAIL;
+
+	m_pShaderCom->Set_RawValue("g_alpha", &m_alpha, sizeof(_float));
 
 	Safe_Release(pGameInstance);
 
