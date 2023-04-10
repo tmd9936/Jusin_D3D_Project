@@ -101,8 +101,8 @@ HRESULT CSearcher::Add_Components()
 	CCollider::COLLIDER_DESC		ColliderDesc;
 
 	ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
-	ColliderDesc.vScale = _float3(5.f, 5.f, 5.f);
-	ColliderDesc.vPosition = _float3(0.0f, 0.5f, 0.f);
+	ColliderDesc.vScale = _float3(7.f, 7.f, 7.f);
+	ColliderDesc.vPosition = _float3(0.0f, 1.5f, 0.f);
 	if (FAILED(pGameInstance->Add_Component(CCollider::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
 		(CComponent**)&m_pSphereCom, &ColliderDesc)))
 		return E_FAIL;

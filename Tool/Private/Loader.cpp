@@ -761,7 +761,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		/* For.Prototype_GameObject_SP_Koori_Kogoerukaze */
 		CRushAttackEffect::RUSH_ATTACK_EFFECT_DESC KogoerukazeDesc{};
 		KogoerukazeDesc.attackEffectDesc.effectDesc.m_bParentRotateApply = false;
-		KogoerukazeDesc.attackEffectDesc.effectDesc.m_CurrentLoopCount = 2;
+		KogoerukazeDesc.attackEffectDesc.effectDesc.m_CurrentLoopCount = 1;
 		KogoerukazeDesc.attackEffectDesc.effectDesc.m_IsParts = false;
 		KogoerukazeDesc.attackEffectDesc.effectDesc.m_AnimationSpeed = 1.0;
 		KogoerukazeDesc.attackEffectDesc.effectDesc.m_AnimationStartAcc = 0.0;
@@ -774,7 +774,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		/* For.Prototype_GameObject_SP_Mizu_Haidoroponpu */
 		CRushAttackEffect::RUSH_ATTACK_EFFECT_DESC HaidoroponpuDesc{};
 		HaidoroponpuDesc.attackEffectDesc.effectDesc.m_bParentRotateApply = false;
-		HaidoroponpuDesc.attackEffectDesc.effectDesc.m_CurrentLoopCount = 2;
+		HaidoroponpuDesc.attackEffectDesc.effectDesc.m_CurrentLoopCount = 1;
 		HaidoroponpuDesc.attackEffectDesc.effectDesc.m_IsParts = false;
 		HaidoroponpuDesc.attackEffectDesc.effectDesc.m_AnimationSpeed = 1.0;
 		HaidoroponpuDesc.attackEffectDesc.effectDesc.m_AnimationStartAcc = 0.0;
@@ -786,7 +786,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		/* For.Prototype_GameObject_SP_Koori_Reitoubiimu */
 		CRushAttackEffect::RUSH_ATTACK_EFFECT_DESC ReitoubiimuDesc{};
 		ReitoubiimuDesc.attackEffectDesc.effectDesc.m_bParentRotateApply = false;
-		ReitoubiimuDesc.attackEffectDesc.effectDesc.m_CurrentLoopCount = 4;
+		ReitoubiimuDesc.attackEffectDesc.effectDesc.m_CurrentLoopCount = 2;
 		ReitoubiimuDesc.attackEffectDesc.effectDesc.m_IsParts = false;
 		ReitoubiimuDesc.attackEffectDesc.effectDesc.m_AnimationSpeed = 1.0;
 		ReitoubiimuDesc.attackEffectDesc.effectDesc.m_AnimationStartAcc = 0.0;
