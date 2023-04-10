@@ -15,11 +15,25 @@ BEGIN(Client)
 class CStageCameraTarget final : public CGameObject
 {
 public:
+	typedef struct Stage_Camera_Target_Desc
+	{
+		_float		m_distanceCheckMinLength;
+	} STAGE_CAMERA_TARGET_DESC;
+
+public:
 	enum STATE
 	{
 		STATE_FORMATION,
 		STATE_STOP,
 		STATE_END
+	};
+
+	enum MOVE_STATE
+	{
+		MOVE_STATE_NONE,
+		MOVE_STATE_WIDEN, // 除問 弊橫颶
+		MOVE_STATE_NARROW, // 除問 謎嬴颶
+		MOVE_STATE_END
 	};
 
 private:
@@ -34,6 +48,11 @@ public:
 	virtual _uint LateTick(_double TimeDelta) override;
 	virtual HRESULT Render() override;
 
+public:
+	const MOVE_STATE	Get_MoveState() const {
+		return m_eMoveState;
+	}
+
 private:
 	HRESULT Add_Components();
 	HRESULT SetUp_ShaderResources();
@@ -42,14 +61,22 @@ private:
 	void			Change_State();
 	void			Formation_State_Tick(const _double& TimeDelta);
 	CTransform*		Get_PlayerTransform(const _tchar* pObjectTag);
+
 private:
 	CTransform* m_pTransformCom = { nullptr };
 	CRenderer* m_pRendererCom = { nullptr };
 	CShader* m_pShaderCom = { nullptr };
 	CModel* m_pModelCom = { nullptr };
 
-	STATE		m_eCurrentState = { STATE_FORMATION };
-	STATE		m_ePreState = { STATE_END };
+private:
+	STAGE_CAMERA_TARGET_DESC	m_Desc = {};
+	STATE						m_eCurrentState = { STATE_FORMATION };
+	STATE						m_ePreState = { STATE_END };
+
+	_float						m_CurMaxDistanceFromPlayer = { 0.f };
+	_float						m_PreMaxDistanceFromPlayer = { 0.f };
+
+	MOVE_STATE					m_eMoveState = { MOVE_STATE_NONE };
 
 public:
 	/* Prototype */

@@ -3,6 +3,8 @@
 
 #include "GameInstance.h"
 
+#include "StageCameraTarget.h"
+
 CStageCamera::CStageCamera(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CCamera(pDevice, pContext)
 {
@@ -56,6 +58,8 @@ _uint CStageCamera::Tick(_double TimeDelta)
 	else if (KEY_TAB(KEY::M))
 		m_pTransform->Go_Backward((_float)TimeDelta);
 
+	Camemra_Shake_CoolTimeCheck(TimeDelta);
+
 	return __super::Tick(TimeDelta);
 }
 
@@ -81,6 +85,9 @@ _uint CStageCamera::State_LateTick(const _double& TimeDelta)
 	case STATE_BATTLE:
 		Chase_CameraAt(TimeDelta);
 		break;
+	case STATE_SHAKE:
+		Camera_Shake_Tick(TimeDelta);
+		break;
 	case STATE_MOVE_TO_BOSS:
 		break;
 	case STATE_LOOK_AT_BOSS:
@@ -105,6 +112,9 @@ void CStageCamera::State_Change()
 		case STATE_FADE_IN:
 			break;
 		case STATE_FORMATION:
+			break;
+		case STATE_SHAKE:
+			Camemra_Shake_Init();
 			break;
 		case STATE_BATTLE:
 			break;
@@ -153,16 +163,13 @@ _uint CStageCamera::Chase_CameraAt(const _double& TimeDelta)
 	if (nullptr == pTransform)
 		return 0;
 
-	Change_AdditionalDistance(TimeDelta);
+	Change_AdditionalDistanceByCameraAt(TimeDelta);
 
 	_vector movePoint = pTransform->Get_State(CTransform::STATE_POSITION) + (m_vDistanceVectorFromAt * m_StageCameraDesc.m_distance * m_CurAdditionalDistance);
-	/*_float4 targetPos = {};
-	XMStoreFloat4(&targetPos, pTransform->Get_State(CTransform::STATE_POSITION));*/
 
 	m_pTransform->ChaseNoLook(movePoint, (_float)TimeDelta * m_StageCameraDesc.m_moveSpeed, 0.2f);
 
 	m_StageCameraDesc.CameraDesc = m_CameraDesc;
-
 
 	return 0;
 }
@@ -188,39 +195,84 @@ _uint CStageCamera::FadeIn_Chase_CameraAt(const _double& TimeDelta)
 	return 0;
 }
 
-void CStageCamera::Change_AdditionalDistance(const _double& TimeDelta)
+void CStageCamera::Change_AdditionalDistanceByCameraAt(const _double& TimeDelta)
 {
-	if (Get_PlayerCulling(L"Player1"))
+	CGameObject* pCameraTarget = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_CameraTarget", L"CameraTarget");
+	
+	if (nullptr == pCameraTarget)
+		return;
+
+	CStageCameraTarget::MOVE_STATE moveState = static_cast<CStageCameraTarget*>(pCameraTarget)->Get_MoveState();
+
+	switch (moveState)
 	{
-		m_CurAdditionalDistance += (_float)TimeDelta;
+	case Client::CStageCameraTarget::MOVE_STATE_NONE:
+		break;
+	case Client::CStageCameraTarget::MOVE_STATE_WIDEN:
+		m_CurAdditionalDistance += (_float)TimeDelta * 1.5f;
 
 		if (m_CurAdditionalDistance > m_StageCameraDesc.m_distanceMax)
 		{
 			m_CurAdditionalDistance = m_StageCameraDesc.m_distanceMax;
 		}
-			m_MaxZoomTimeAcc = m_MaxZoomTime;
+		m_MaxZoomTimeAcc = m_StageCameraDesc.m_maxZoomTime;
+		break;
+	case Client::CStageCameraTarget::MOVE_STATE_NARROW:
+		if (m_MaxZoomTimeAcc > 0.0)
+		{
+			m_MaxZoomTimeAcc -= TimeDelta;
+			return;
+		}
+		else
+		{
+			m_CurAdditionalDistance -= (_float)TimeDelta;
+
+			if (m_CurAdditionalDistance < m_StageCameraDesc.m_distanceMin)
+			{
+				m_CurAdditionalDistance = m_StageCameraDesc.m_distanceMin;
+			}
+		}
+		break;
+	case Client::CStageCameraTarget::MOVE_STATE_END:
+		break;
+	default:
+		break;
+	}
+}
+
+void CStageCamera::Change_AdditionalDistanceByCulling(const _double& TimeDelta)
+{
+	if (Get_PlayerCulling(L"Player1"))
+	{
+		m_CurAdditionalDistance += (_float)TimeDelta * 2.f;
+
+		if (m_CurAdditionalDistance > m_StageCameraDesc.m_distanceMax)
+		{
+			m_CurAdditionalDistance = m_StageCameraDesc.m_distanceMax;
+		}
+			m_MaxZoomTimeAcc = m_StageCameraDesc.m_maxZoomTime;
 		return;
 	}
 	if (Get_PlayerCulling(L"Player2"))
 	{
-		m_CurAdditionalDistance += (_float)TimeDelta;
+		m_CurAdditionalDistance += (_float)TimeDelta * 2.f;
 
 		if (m_CurAdditionalDistance > m_StageCameraDesc.m_distanceMax)
 		{
 			m_CurAdditionalDistance = m_StageCameraDesc.m_distanceMax;
 		}
-			m_MaxZoomTimeAcc = m_MaxZoomTime;
+			m_MaxZoomTimeAcc = m_StageCameraDesc.m_maxZoomTime;
 		return;
 	}
 	if (Get_PlayerCulling(L"Player3"))
 	{
-		m_CurAdditionalDistance += (_float)TimeDelta;
+		m_CurAdditionalDistance += (_float)TimeDelta * 2.f;
 
 		if (m_CurAdditionalDistance > m_StageCameraDesc.m_distanceMax)
 		{
 			m_CurAdditionalDistance = m_StageCameraDesc.m_distanceMax;
 		}
-			m_MaxZoomTimeAcc = m_MaxZoomTime;
+			m_MaxZoomTimeAcc = m_StageCameraDesc.m_maxZoomTime;
 		return;
 	}
 
@@ -248,6 +300,38 @@ _bool CStageCamera::Get_PlayerCulling(const _tchar* pObjectTag)
 		return false;
 
 	return pPlyaer->Is_BeCulling();
+}
+
+void CStageCamera::Camera_Shake_Tick(const _double& TimeDelta)
+{
+	if (m_ShakeTimeAcc > m_StageCameraDesc.m_shakeTime)
+	{
+		m_eCurState = STATE_FORMATION;
+		return;
+	}
+
+	m_CurShakeDegree += TimeDelta;
+	m_ShakePeriodTimeAcc += TimeDelta;
+	m_ShakeTimeAcc += TimeDelta;
+}
+
+void CStageCamera::Camemra_Shake_Init()
+{
+	m_ShakeTimeAcc = 0.0;
+	m_ShakePeriodTimeAcc = 0.0;
+	m_CurShakeDegree = 0.0;
+}
+
+void CStageCamera::Camemra_Shake_CoolTimeCheck(const _double& TimeDelta)
+{
+	if (!m_CanShake)
+	{
+		if (m_ShakeCoolTimeAcc >= m_StageCameraDesc.m_shakeCoolTime)
+		{
+			m_CanShake = true;
+		}
+		m_ShakeCoolTimeAcc += TimeDelta;
+	}
 }
 
 _bool CStageCamera::Focus_To_Object(const _float4& vPosition, const _float& TImeDelta, const _float& limitDistance)
@@ -294,6 +378,9 @@ _bool CStageCamera::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType
 
 		CameraDesc.AddMember("m_moveSpeed", m_StageCameraDesc.m_moveSpeed, allocator);
 		CameraDesc.AddMember("m_zoomSpeed", m_StageCameraDesc.m_zoomSpeed, allocator);
+
+		CameraDesc.AddMember("m_maxZoomTime", m_StageCameraDesc.m_maxZoomTime, allocator);
+		CameraDesc.AddMember("m_shakeCoolTime", m_StageCameraDesc.m_shakeCoolTime, allocator);
 
 		Value m_DistancefromAt(kObjectType);
 		{
@@ -362,6 +449,9 @@ _bool CStageCamera::Load_By_JsonFile_Impl(Document& doc)
 
 	m_StageCameraDesc.m_moveSpeed = CameraDesc["m_moveSpeed"].GetFloat();
 	m_StageCameraDesc.m_zoomSpeed = CameraDesc["m_zoomSpeed"].GetFloat();
+
+	m_StageCameraDesc.m_maxZoomTime = CameraDesc["m_maxZoomTime"].GetDouble();
+	m_StageCameraDesc.m_shakeCoolTime = CameraDesc["m_shakeCoolTime"].GetDouble();
 
 	const Value& m_DistancefromAt = CameraDesc["m_DistancefromAt"];
 	m_StageCameraDesc.m_DistancefromAt.x = m_DistancefromAt["x"].GetFloat();

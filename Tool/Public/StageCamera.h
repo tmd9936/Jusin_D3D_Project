@@ -11,6 +11,8 @@ END
 
 BEGIN(Client)
 
+class CStageCameraTarget;
+
 class  CStageCamera final : public CCamera
 {
 public:
@@ -18,13 +20,13 @@ public:
 	{
 		STATE_FADE_IN,
 		STATE_FORMATION,
+		STATE_SHAKE,
 		STATE_BATTLE,
 		STATE_MOVE_TO_BOSS,
 		STATE_LOOK_AT_BOSS,
 		STATE_RETURN_TO_PLAYER,
 		STATE_END
 	};
-
 
 public:
 	typedef struct tagStageCameraDesc
@@ -41,6 +43,9 @@ public:
 		_float		m_zoomSpeed;
 
 		_float3		m_DistancefromAt;
+
+		_double		m_maxZoomTime;
+		_double		m_shakeCoolTime;
 
 		CCamera::CAMERADESC		CameraDesc;
 	}STAGE_CAMERA_DESC;
@@ -68,6 +73,13 @@ public:
 	/// <returns> False 움직이는 중, True 도착</returns>
 	_bool	Focus_To_Object(const _float4& vPosition, const _float& TImeDelta, const _float& limitDistance);
 
+	void	Do_Shake() {
+		if (m_CanShake)
+		{
+			m_eCurState = STATE_SHAKE;
+		}
+	}
+
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
 	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
@@ -76,20 +88,29 @@ private:
 	HRESULT					Add_Components();
 
 private:
+	HRESULT					Init_CameraPos();
+
+private:
 	void					Data_Save_Logic();
 
 private:
 	_uint					State_LateTick(const _double& TimeDelta);
 	void					State_Change();
 
-	HRESULT					Init_CameraPos();
-	_uint					Chase_CameraAt(const _double& TimeDelta);
+private:
 	_uint					FadeIn_Chase_CameraAt(const _double& TimeDelta);
 
-	void					Change_AdditionalDistance(const _double& TimeDelta);
+private:
+	void					Camera_Shake_Tick(const _double& TimeDelta);
+	void					Camemra_Shake_Init();
+	void					Camemra_Shake_CoolTimeCheck(const _double& TimeDelta);
+
+private:
+	_uint					Chase_CameraAt(const _double& TimeDelta);
+	void					Change_AdditionalDistanceByCameraAt(const _double& TimeDelta);
+	void					Change_AdditionalDistanceByCulling(const _double& TimeDelta);
 
 	_bool					Get_PlayerCulling(const _tchar* pObjectTag);
-
 
 private:
 	STAGE_CAMERA_DESC		m_StageCameraDesc = { };
@@ -104,9 +125,14 @@ private:
 
 	_float					m_CurAdditionalDistance = { 1.1f };
 
-	_double					m_MaxZoomTime = { 1.5 };
 	_double					m_MaxZoomTimeAcc = { 0.0 };
 
+	_double					m_ShakeCoolTimeAcc = { 2.0 };
+	_bool					m_CanShake = { true };
+
+	_double					m_ShakeTimeAcc = { 0.0 };
+	_double					m_ShakePeriodTimeAcc = { 0.0 };
+	_double					m_CurShakeDegree = { 0.0 };
 
 public:
 	/* Prototype */

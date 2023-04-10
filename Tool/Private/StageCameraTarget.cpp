@@ -29,6 +29,8 @@ HRESULT CStageCameraTarget::Initialize(const _tchar* pLayerTag, _uint iLevelInde
 	CTransform* pPlayerTransform = Get_PlayerTransform(L"Player1");
 	if (nullptr == pPlayerTransform)
 		return E_FAIL;
+	
+	m_Desc.m_distanceCheckMinLength = 2.5f;
 
 	_float3 playerPos = {}; 
 	XMStoreFloat3(&playerPos, pPlayerTransform->Get_State(CTransform::STATE_POSITION));
@@ -103,26 +105,62 @@ void CStageCameraTarget::Change_State()
 
 void CStageCameraTarget::Formation_State_Tick(const _double& TimeDelta)
 {
-	_vector vPos = {};
+	_vector vArrivePos = {};
+	_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
 	CTransform* pPlayer1Transform = Get_PlayerTransform(L"Player1");
 	if (nullptr == pPlayer1Transform)
 		return;
 
-	vPos = pPlayer1Transform->Get_State(CTransform::STATE_POSITION);
+	vArrivePos = pPlayer1Transform->Get_State(CTransform::STATE_POSITION);
+
+	m_CurMaxDistanceFromPlayer = XMVectorGetX(XMVector4Length(vArrivePos - vPos));
 
 	CTransform* pPlayer2Transform = Get_PlayerTransform(L"Player2");
 	if (nullptr != pPlayer2Transform)
 	{
-		vPos = (vPos + pPlayer2Transform->Get_State(CTransform::STATE_POSITION)) * 0.5f;
+		vArrivePos = (vArrivePos + pPlayer2Transform->Get_State(CTransform::STATE_POSITION)) * 0.5f;
+		_float distanceFromPlayer2	= XMVectorGetX(XMVector4Length(
+			pPlayer2Transform->Get_State(CTransform::STATE_POSITION) - vPos));
+
+		if (distanceFromPlayer2 > m_CurMaxDistanceFromPlayer)
+		{
+			m_CurMaxDistanceFromPlayer = distanceFromPlayer2;
+		}
 	}
 
 	CTransform* pPlayer3Transform = Get_PlayerTransform(L"Player3");
 	if (nullptr != pPlayer3Transform)
 	{
-		vPos = (vPos + pPlayer3Transform->Get_State(CTransform::STATE_POSITION)) * 0.5f;
+		vArrivePos = (vArrivePos + pPlayer3Transform->Get_State(CTransform::STATE_POSITION)) * 0.5f;
+		_float distanceFromPlayer3 = XMVectorGetX(XMVector4Length(
+			pPlayer3Transform->Get_State(CTransform::STATE_POSITION) - vPos));
+
+		if (distanceFromPlayer3 > m_CurMaxDistanceFromPlayer)
+		{
+			m_CurMaxDistanceFromPlayer = distanceFromPlayer3;
+		}
 	}
 
-	m_pTransformCom->ChaseNoLook(vPos, (_float)TimeDelta, 0.2f);
+	if (m_Desc.m_distanceCheckMinLength < m_CurMaxDistanceFromPlayer)
+	{
+		if (m_CurMaxDistanceFromPlayer > m_PreMaxDistanceFromPlayer)
+		{
+			m_eMoveState = MOVE_STATE_WIDEN;
+		}
+		else if (m_CurMaxDistanceFromPlayer < m_PreMaxDistanceFromPlayer)
+		{
+			m_eMoveState = MOVE_STATE_NARROW;
+		}
+		else
+		{
+			m_eMoveState = MOVE_STATE_NARROW;
+		}
+	}
+
+	m_PreMaxDistanceFromPlayer = m_CurMaxDistanceFromPlayer;
+
+	m_pTransformCom->ChaseNoLook(vArrivePos, (_float)TimeDelta, 0.2f);
 }
 
 CTransform* CStageCameraTarget::Get_PlayerTransform(const _tchar* pObjectTag)
