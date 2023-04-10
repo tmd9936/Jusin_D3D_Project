@@ -32,6 +32,10 @@ public:
 	virtual HRESULT Render() override;
 
 private:
+	void	State_Tick(const _double& TimeDelta);
+
+	void	Mouse_Set_Position();
+
 	void	Hide_TIme_Check(const _double& TimeDelta);
 
 	void	Hide_State_Init();
