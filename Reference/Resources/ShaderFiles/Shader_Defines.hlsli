@@ -101,3 +101,12 @@ float RoundedRectSDF(float2 centerPosition, float2 size, float radius)
 float roundedBoxSDF(float2 CenterPosition, float2 Size, float Radius) {
 	return length(max(abs(CenterPosition) - Size + Radius, 0.0)) - Radius;
 }
+
+
+#ifndef PI 
+#define PI 3.141592f
+#endif
+
+#ifndef ONE_OVER_PI
+#define ONE_OVER_PI 0.318309f
+#endif

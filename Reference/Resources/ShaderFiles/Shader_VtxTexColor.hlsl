@@ -8,6 +8,7 @@ float4			g_vColor;
 float2			g_Size;
 float			g_HpRatio = 1.f;
 float			g_Radius;
+float			g_progress;
 
 struct VS_IN
 {
@@ -115,6 +116,42 @@ PS_OUT PS_MAIN_HP(PS_IN In)
 	return Out;
 }
 
+
+float CalculateClockAngle_float(float2 uv)
+{
+	float2 a = float2(0.0, 1.0);
+	float2 b = normalize(uv - float2(0.5, 0.5));
+
+	float dot = (a.x * b.x) - (a.y * b.y);
+	float det = (a.x * b.y) + (a.y * b.x);
+	float angle = atan2(-det, -dot);
+
+	return ((angle + PI) * 0.5f) * ONE_OVER_PI;
+}
+
+
+PS_OUT PS_MAIN_CLOCKWISECOOLTIME(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	//Out.vColor = g_Texture.Sample(LinearSampler, In.vTexUV);
+
+	float4 sourceColor = g_Texture.Sample(LinearSampler, In.vTexUV);
+
+	float angle;
+
+	angle = CalculateClockAngle_float(In.vTexUV);
+	Out.vColor = (angle > 0.3) ? float4(0, 0, 0, 0.4) : float4(0, 0, 0, 0.0);
+
+	float2 coords = In.vTexUV * 7.f;
+
+	if (ShouldDiscard(coords, 7.f, 1.f))
+		discard;
+
+	return Out;
+
+}
+
 technique11		DefaultTechnique
 {
 	pass ColorBase
@@ -167,6 +204,19 @@ technique11		DefaultTechnique
 		HullShader = NULL;
 		DomainShader = NULL;
 		PixelShader = compile ps_5_0 PS_MAIN_HP();
+	}
+
+	pass ClockWiseCoolTime
+	{
+		SetRasterizerState(RS_Default);
+		SetDepthStencilState(DSS_Enable_ZTest_Disable_ZWrite, 0);
+		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		HullShader = NULL;
+		DomainShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_CLOCKWISECOOLTIME();
 	}
 
 }
