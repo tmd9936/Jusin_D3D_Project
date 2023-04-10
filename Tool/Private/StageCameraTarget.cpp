@@ -26,7 +26,7 @@ HRESULT CStageCameraTarget::Initialize(const _tchar* pLayerTag, _uint iLevelInde
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
-	CTransform* pPlayerTransform = Get_PlayerTransform();
+	CTransform* pPlayerTransform = Get_PlayerTransform(L"Player1");
 	if (nullptr == pPlayerTransform)
 		return E_FAIL;
 
@@ -103,16 +103,31 @@ void CStageCameraTarget::Change_State()
 
 void CStageCameraTarget::Formation_State_Tick(const _double& TimeDelta)
 {
-	CTransform* pPlayerTransform = Get_PlayerTransform();
-	if (nullptr == pPlayerTransform)
+	_vector vPos = {};
+	CTransform* pPlayer1Transform = Get_PlayerTransform(L"Player1");
+	if (nullptr == pPlayer1Transform)
 		return;
 
-	m_pTransformCom->ChaseNoLook(pPlayerTransform->Get_State(CTransform::STATE_POSITION), (_float)TimeDelta, 0.2f);
+	vPos = pPlayer1Transform->Get_State(CTransform::STATE_POSITION);
+
+	CTransform* pPlayer2Transform = Get_PlayerTransform(L"Player2");
+	if (nullptr != pPlayer2Transform)
+	{
+		vPos = (vPos + pPlayer2Transform->Get_State(CTransform::STATE_POSITION)) * 0.5f;
+	}
+
+	CTransform* pPlayer3Transform = Get_PlayerTransform(L"Player3");
+	if (nullptr != pPlayer3Transform)
+	{
+		vPos = (vPos + pPlayer3Transform->Get_State(CTransform::STATE_POSITION)) * 0.5f;
+	}
+
+	m_pTransformCom->ChaseNoLook(vPos, (_float)TimeDelta, 0.2f);
 }
 
-CTransform* CStageCameraTarget::Get_PlayerTransform()
+CTransform* CStageCameraTarget::Get_PlayerTransform(const _tchar* pObjectTag)
 {
-	CGameObject* pPlyaer = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Player", L"Player1");
+	CGameObject* pPlyaer = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Player", pObjectTag);
 	if (nullptr == pPlyaer)
 		return nullptr;
 

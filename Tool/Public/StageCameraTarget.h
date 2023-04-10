@@ -41,7 +41,7 @@ private:
 private:
 	void			Change_State();
 	void			Formation_State_Tick(const _double& TimeDelta);
-	CTransform*		Get_PlayerTransform();
+	CTransform*		Get_PlayerTransform(const _tchar* pObjectTag);
 private:
 	CTransform* m_pTransformCom = { nullptr };
 	CRenderer* m_pRendererCom = { nullptr };
