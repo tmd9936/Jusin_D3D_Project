@@ -141,16 +141,19 @@ void CCollider::Tick(_fmatrix TransformMatrix)
 void CCollider::On_Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
 {
 	m_pOwner->On_Collision(pOther, fX, fY, fZ);
+	m_eState = COLLISION_STATE_ON;
 }
 
 void CCollider::On_CollisionEnter(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
 {
 	m_pOwner->On_CollisionEnter(pOther, fX, fY, fZ);
+	m_eState = COLLISION_STATE_ENTER;
 }
 
 void CCollider::On_CollisionExit(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
 {
 	m_pOwner->On_CollisionExit(pOther, fX, fY, fZ);
+	m_eState = COLLISION_STATE_EXIT;
 }
 
 const _vector CCollider::Get_Center() const

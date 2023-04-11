@@ -15,6 +15,16 @@ public:
     enum TYPE { TYPE_SPHERE, TYPE_AABB, TYPE_OBB, TYPE_END };
 
 public:
+    enum COLLISION_STATE
+    {
+        COLLISION_STATE_NONE,
+        COLLISION_STATE_ENTER,
+        COLLISION_STATE_ON,
+        COLLISION_STATE_EXIT,
+        COLLISION_STATE_END,
+    };
+
+public:
     typedef struct tagCollider_Desc
     {
         _float3		vScale;
@@ -92,6 +102,9 @@ protected:
 
     COLLIDER_DESC   m_Collider_Desc = {};
     TYPE	        m_eType = { TYPE_END };
+
+protected:
+    COLLISION_STATE m_eState = { COLLISION_STATE_END };
 
 protected:
     static _uint g_iColliderID;

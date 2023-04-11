@@ -35,6 +35,8 @@ void CSphere::Tick(_fmatrix TransformMatrix)
     m_pSphere_Original->Transform(*m_pSphere, TransformMatrix);
 
     m_isCollision = false;
+
+    m_eState = COLLISION_STATE_NONE;
 }
 
 void CSphere::Draw(_vector vColor)

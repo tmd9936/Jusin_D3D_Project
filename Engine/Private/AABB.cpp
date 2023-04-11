@@ -36,6 +36,8 @@ void CAABB::Tick(_fmatrix TransformMatrix)
     m_pAABB_Original->Transform(*m_pAABB, Remove_Rotation(TransformMatrix));
 
     m_isCollision = false;
+
+    m_eState = COLLISION_STATE_NONE;
 }
 
 void CAABB::Draw(_vector vColor)
