@@ -3,6 +3,7 @@
 #include "Skill_Manager.h"
 #include "Effect_Manager.h"
 
+#include "StageCamera.h"
 #include "GameInstance.h"
 
 CAttackEffect::CAttackEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -94,12 +95,12 @@ _uint CAttackEffect::LateTick(_double TimeDelta)
 
 void CAttackEffect::On_CollisionEnter(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
 {
-	Collision(pOther, fX, fY, fZ);
+	Collision(pOther, fX, fY, fZ, true);
 }
 
 void CAttackEffect::On_Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
 {
-	Collision(pOther, fX, fY, fZ);
+	Collision(pOther, fX, fY, fZ, false);
 }
 
 
@@ -131,7 +132,8 @@ HRESULT CAttackEffect::Add_Components()
 	return S_OK;
 }
 
-void CAttackEffect::Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
+void CAttackEffect::Collision(CCollider* pOther, 
+	const _float& fX, const _float& fY, const _float& fZ, _bool collisionEffect)
 {
 	if (m_pColliderCom)
 	{
@@ -155,14 +157,16 @@ void CAttackEffect::Collision(CCollider* pOther, const _float& fX, const _float&
 				{
 					pOtherHpCom->Get_Damage(m_pAttackCom->Get_AttackPower());
 
-					// TODO:: 콜리전 이펙트 생성
-					Create_Collision_Effect(pOtherTransform);
+					if (collisionEffect)
+					{
+						Camera_Shake_Request();
+						Create_Collision_Effect(pOtherTransform);
+					}
 
 					if (false == m_AttackEffectDesc.m_bContinue)
 					{
 						Set_Dead();
 					}
-
 
 					m_AttackTimeAcc = m_AttackEffectDesc.m_AttackTime;
 				}
@@ -233,6 +237,16 @@ void CAttackEffect::Create_Collision_Effect(CTransform* hitObjectTransform)
 
 	Safe_Release(pSkillEffect);
 
+}
+
+void CAttackEffect::Camera_Shake_Request()
+{
+	CGameObject* pStageCamera = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Camera", L"Main_Camera");
+
+	if (nullptr == pStageCamera)
+		return;
+
+	dynamic_cast<CStageCamera*>(pStageCamera)->Do_Shake();
 }
 
 CAttackEffect* CAttackEffect::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

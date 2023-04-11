@@ -53,6 +53,14 @@ public:
 		return m_eMoveState;
 	}
 
+	void	Start_Formation() {
+		m_eCurrentState = STATE_FORMATION;
+	}
+
+	void	Stop_Formation() {
+		m_eCurrentState = STATE_STOP;
+	}
+
 private:
 	HRESULT Add_Components();
 	HRESULT SetUp_ShaderResources();

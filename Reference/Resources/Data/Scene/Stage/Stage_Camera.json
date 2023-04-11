@@ -9,7 +9,7 @@
         "m_moveSpeed": 0.4,
         "m_zoomSpeed": 3.0,
         "m_maxZoomTime": 1.0,
-        "m_shakeCoolTime": 4.0,
+        "m_shakeCoolTime": 7.0,
         "m_DistancefromAt": {
             "x": 1.315572738647461,
             "y": 3.2889299392700195,

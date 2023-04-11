@@ -57,7 +57,7 @@ _uint CStageCamera::Tick(_double TimeDelta)
 		m_pTransform->Go_Straight((_float)TimeDelta);
 	else if (KEY_TAB(KEY::M))
 		m_pTransform->Go_Backward((_float)TimeDelta);*/
-
+	State_Change();
 
 	Camemra_Shake_CoolTimeCheck(TimeDelta);
 
@@ -72,8 +72,6 @@ _uint CStageCamera::LateTick(_double TimeDelta)
 	{
 		Do_Shake();
 	}
-
-	State_Change();
 
 	return __super::LateTick(TimeDelta);
 }
@@ -116,19 +114,26 @@ void CStageCamera::State_Change()
 		switch (m_eCurState)
 		{
 		case STATE_FADE_IN:
+			CameraTarget_Formation_Start();
 			break;
 		case STATE_FORMATION:
+			CameraTarget_Formation_Start();
 			break;
 		case STATE_SHAKE:
+			CameraTarget_Formation_Stop();
 			Camemra_Shake_Init();
 			break;
 		case STATE_BATTLE:
+			CameraTarget_Formation_Start();
 			break;
 		case STATE_MOVE_TO_BOSS:
+			CameraTarget_Formation_Stop();
 			break;
 		case STATE_LOOK_AT_BOSS:
+			CameraTarget_Formation_Stop();
 			break;
 		case STATE_RETURN_TO_PLAYER:
+			CameraTarget_Formation_Stop();
 			break;
 		case STATE_END:
 			break;
@@ -201,6 +206,24 @@ _uint CStageCamera::FadeIn_Chase_CameraAt(const _double& TimeDelta)
 	return 0;
 }
 
+void CStageCamera::CameraTarget_Formation_Start()
+{
+	CGameObject* pCameraTarget = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_CameraTarget", L"CameraTarget");
+	if (nullptr == pCameraTarget)
+		return;
+
+	dynamic_cast<CStageCameraTarget*>(pCameraTarget)->Start_Formation();
+}
+
+void CStageCamera::CameraTarget_Formation_Stop()
+{
+	CGameObject* pCameraTarget = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_CameraTarget", L"CameraTarget");
+	if (nullptr == pCameraTarget)
+		return;
+
+	dynamic_cast<CStageCameraTarget*>(pCameraTarget)->Stop_Formation();
+}
+
 void CStageCamera::Change_AdditionalDistanceByCameraAt(const _double& TimeDelta)
 {
 	CGameObject* pCameraTarget = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_CameraTarget", L"CameraTarget");
@@ -255,7 +278,7 @@ _bool CStageCamera::Get_PlayerCulling(const _tchar* pObjectTag)
 
 void CStageCamera::Zoom_Out_From_CameraTarget(const _double& TimeDelta)
 {
-	m_CurAdditionalDistance += (_float)TimeDelta * 1.5f;
+	m_CurAdditionalDistance += (_float)TimeDelta;
 
 	if (m_CurAdditionalDistance > m_StageCameraDesc.m_distanceMax)
 	{
@@ -292,6 +315,7 @@ void CStageCamera::Camera_Shake_Tick(const _double& TimeDelta)
 	if (m_ShakeTimeAcc > m_StageCameraDesc.m_shakeTime)
 	{
 		m_eCurState = STATE_FORMATION;
+		m_ShakeTimeAcc = 0.0;
 		m_ShakeCoolTimeAcc = 0.0;
 		return;
 	}
@@ -363,6 +387,15 @@ void CStageCamera::Camemra_Shake_CoolTimeCheck(const _double& TimeDelta)
 _bool CStageCamera::Focus_To_Object(const _float4& vPosition, const _float& TImeDelta, const _float& limitDistance)
 {
 	return m_pTransform->ChaseNoLook(XMLoadFloat4(&vPosition), TImeDelta, limitDistance);
+}
+
+void CStageCamera::Do_Shake()
+{
+	if (m_CanShake)
+	{
+		m_eCurState = STATE_SHAKE;
+		m_CanShake = false;
+	}
 }
 
 void CStageCamera::Data_Save_Logic()

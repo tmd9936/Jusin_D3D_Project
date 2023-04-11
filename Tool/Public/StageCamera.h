@@ -81,13 +81,7 @@ public:
 	/// <returns> False 움직이는 중, True 도착</returns>
 	_bool	Focus_To_Object(const _float4& vPosition, const _float& TImeDelta, const _float& limitDistance);
 
-	void	Do_Shake() {
-		if (m_CanShake)
-		{
-			m_eCurState = STATE_SHAKE;
-			m_CanShake = false;
-		}
-	}
+	void	Do_Shake();
 
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
@@ -108,6 +102,8 @@ private:
 
 private:
 	_uint					FadeIn_Chase_CameraAt(const _double& TimeDelta);
+	void					CameraTarget_Formation_Start();
+	void					CameraTarget_Formation_Stop();
 
 private:
 	void					Camera_Shake_Tick(const _double& TimeDelta);
