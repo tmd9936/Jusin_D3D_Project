@@ -38,8 +38,8 @@
         "fNear": 0.20000000298023224,
         "fFar": 300.0,
         "TransformDesc": {
-            "RotationPerSec": 3.1415927410125732,
-            "SpeedPerSec": 20.0
+            "RotationPerSec": 1.5415927410125732,
+            "SpeedPerSec": 1.2
         }
     }
 }

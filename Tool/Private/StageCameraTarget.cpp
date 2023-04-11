@@ -177,7 +177,7 @@ HRESULT CStageCameraTarget::Add_Components()
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
 	/* For.Com_Transform */
-	CTransform::TRANSFORMDESC		TransformDesc = { 10.f, XMConvertToRadians(90.0f) };
+	CTransform::TRANSFORMDESC		TransformDesc = { 1.5f, XMConvertToRadians(90.0f) };
 	if (FAILED(pGameInstance->Add_Component(CTransform::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		(CComponent**)&m_pTransformCom, &TransformDesc)))
 		return E_FAIL;

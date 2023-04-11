@@ -528,8 +528,6 @@ _bool CTransform::ChaseNoLook(_fvector vTargetPos, _float TimeDelta, _float limi
 
 	_vector vDir = vTargetPos - vPosition;
 
-	XMVectorSetX(vDir, 0.f);
-
 	_float length = XMVectorGetX(XMVector3Length(vDir));
 
 	if (length >= limitDitance)

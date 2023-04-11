@@ -43,7 +43,7 @@ HRESULT CStageCamera::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, con
 	}
 
 	if (FAILED(Init_CameraPos()))
-		return E_FAIL;
+		return E_FAIL;	
 	
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, &m_StageCameraDesc.CameraDesc)))
 		return E_FAIL;
@@ -57,7 +57,6 @@ _uint CStageCamera::Tick(_double TimeDelta)
 		m_pTransform->Go_Straight((_float)TimeDelta);
 	else if (KEY_TAB(KEY::M))
 		m_pTransform->Go_Backward((_float)TimeDelta);*/
-	State_Change();
 
 	Camemra_Shake_CoolTimeCheck(TimeDelta);
 
@@ -72,6 +71,7 @@ _uint CStageCamera::LateTick(_double TimeDelta)
 	{
 		Do_Shake();
 	}
+	State_Change();
 
 	return __super::LateTick(TimeDelta);
 }
@@ -178,7 +178,7 @@ _uint CStageCamera::Chase_CameraAt(const _double& TimeDelta)
 
 	_vector movePoint = pTransform->Get_State(CTransform::STATE_POSITION) + (m_vDistanceVectorFromAt * m_StageCameraDesc.m_distance * m_CurAdditionalDistance);
 
-	m_pTransform->ChaseNoLook(movePoint, (_float)TimeDelta * m_StageCameraDesc.m_moveSpeed, 0.2f);
+	m_pTransform->ChaseNoLook(movePoint, (_float)TimeDelta, 0.2f);
 
 	m_StageCameraDesc.CameraDesc = m_CameraDesc;
 
@@ -196,7 +196,7 @@ _uint CStageCamera::FadeIn_Chase_CameraAt(const _double& TimeDelta)
 		return 0;
 
 	_vector movePoint = pTransform->Get_State(CTransform::STATE_POSITION) + (m_vDistanceVectorFromAt * m_StageCameraDesc.m_distance);
-	if (m_pTransform->ChaseNoLook(movePoint, (_float)TimeDelta * m_StageCameraDesc.m_moveSpeed * 10.f, 1.8f))
+	if (m_pTransform->ChaseNoLook(movePoint, (_float)TimeDelta * m_StageCameraDesc.m_moveSpeed * 50.f, 1.8f))
 	{
 		m_eCurState = STATE_FORMATION;
 	}
