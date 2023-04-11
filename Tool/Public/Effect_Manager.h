@@ -60,6 +60,9 @@ private:
 
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 던진다. */
 
+public:
+	const static _uint m_damageEffect00 = 31;
+	const static _uint m_damageEffect01 = 32;
 
 private:
 	vector<CEffect::EFFECT_DESC> m_Effect_Descs;
@@ -68,6 +71,7 @@ private:
 	const wstring m_EffectFilePath = { L"../../Reference/Resources/Mesh/Animation/Effect/" };
 
 	string m_filePath = {};
+
 
 public:
 	static CEffect_Manager* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const char* filePath);
