@@ -368,6 +368,14 @@ HRESULT CMonster::Add_DamageText()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
+	CGameObject* pObject = pGameInstance->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"MiscData");
+	if (nullptr == pObject)
+		return E_FAIL;
+	CMiscData* pMiscData = dynamic_cast<CMiscData*>(pObject);
+	if (nullptr == pMiscData)
+		return E_FAIL;
+	CMiscData::DAMAGETETXTMISC_DESC damageTextMisc_Desc = pMiscData->Get_DamageTextMisc_Desc();
+
 	CDamageText::DAMAGETEXT_DESC		DamageDesc{};
 	ZeroMemory(&DamageDesc, sizeof DamageDesc);
 
@@ -376,11 +384,11 @@ HRESULT CMonster::Add_DamageText()
 
 	XMStoreFloat4x4(&DamageDesc.PivotMatrix, m_pModelCom->Get_PivotMatrix());
 
-	DamageDesc.m_vScale = { 20.f, 20.f };
+	DamageDesc.m_vScale = { damageTextMisc_Desc.SizeX, damageTextMisc_Desc.SizeY };
 
-	DamageDesc.m_fPositionX = -30.f;
-	DamageDesc.m_fPositinoY = -80.f;
-	DamageDesc.m_fPositinoZ = 0.1f;
+	DamageDesc.m_fPositionX = damageTextMisc_Desc.PositionX;
+	DamageDesc.m_fPositinoY = damageTextMisc_Desc.PositionY;
+	DamageDesc.m_fPositinoZ = damageTextMisc_Desc.PositionZ;
 
 	DamageDesc.m_vColor = _float4(1.f, 1.f, 1.f, 1.f);
 

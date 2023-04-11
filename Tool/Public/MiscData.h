@@ -18,13 +18,26 @@ public:
 		_float PositionX;
 		_float PositionY;
 		_float PositionZ;
+
 		_float4 playerColor;
 		_float4 enemyColor;
+
 	} HPBARMISC_DESC;
+
+	typedef struct DamageTextMisc_Desc
+	{
+		_float SizeX;
+		_float SizeY;
+		_float PositionX;
+		_float PositionY;
+		_float PositionZ;
+
+	} DAMAGETETXTMISC_DESC;
 
 	typedef struct Misc_Desc
 	{
-		HPBARMISC_DESC hpBarMiscDesc;
+		HPBARMISC_DESC			hpBarMiscDesc;
+		DAMAGETETXTMISC_DESC	damageTextMiscDesc;
 	} MISC_DESC;
 
 private:
@@ -43,6 +56,10 @@ public:
 public:
 	HPBARMISC_DESC Get_HpBarMisc_Desc() const {
 		return m_MiscDesc.hpBarMiscDesc;
+	}
+
+	DAMAGETETXTMISC_DESC Get_DamageTextMisc_Desc() const {
+		return m_MiscDesc.damageTextMiscDesc;
 	}
 
 protected:

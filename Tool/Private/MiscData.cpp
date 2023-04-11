@@ -105,6 +105,7 @@ _bool CMiscData::Load_By_JsonFile_Impl(Document& doc)
 
 	const Value& MiscDesc = doc["MiscDesc"];
 
+	// ==== hpBarMiscDesc ====
 	const Value& hpBarMiscDesc = MiscDesc["hpBarMiscDesc"].GetObj();
 	m_MiscDesc.hpBarMiscDesc.SizeX = hpBarMiscDesc["SizeX"].GetFloat();
 	m_MiscDesc.hpBarMiscDesc.SizeY = hpBarMiscDesc["SizeY"].GetFloat();
@@ -128,6 +129,17 @@ _bool CMiscData::Load_By_JsonFile_Impl(Document& doc)
 		enemyColor["z"].GetFloat(),
 		enemyColor["w"].GetFloat()
 	};
+	// ==== hpBarMiscDesc ====
+
+	// ==== damageTextMiscDesc ====
+	const Value& damageTextMiscDesc = MiscDesc["damageTextMiscDesc"].GetObj();
+	m_MiscDesc.damageTextMiscDesc.SizeX = damageTextMiscDesc["SizeX"].GetFloat();
+	m_MiscDesc.damageTextMiscDesc.SizeY = damageTextMiscDesc["SizeY"].GetFloat();
+
+	m_MiscDesc.damageTextMiscDesc.PositionX = damageTextMiscDesc["PositionX"].GetFloat();
+	m_MiscDesc.damageTextMiscDesc.PositionY = damageTextMiscDesc["PositionY"].GetFloat();
+	m_MiscDesc.damageTextMiscDesc.PositionZ = damageTextMiscDesc["PositionZ"].GetFloat();
+	// ==== damageTextMiscDesc ====
 
 	return true;
 }
