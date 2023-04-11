@@ -296,20 +296,7 @@ _uint CStageSupportMonster::State_Tick(const _double& TimeDelta)
 				}
 				else
 				{
-					if (m_bCanAttack)
-					{
-						Do_RandomSkill();
-					}
-					else if (!m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta), 2.8f, m_pNavigationCom))
-					{
-					}
-					else
-					{
-						if (m_pTransformCom->Go_BackWard_Look_Pos(pTargetTransform->Get_State(CTransform::STATE_POSITION), m_pTransformCom->Get_State(CTransform::STATE_POSITION)
-							+ m_pTransformCom->Get_State(CTransform::STATE_LOOK) * -2.f, _float(TimeDelta * 1.5), 1.2f, m_pNavigationCom))
-						{
-						}
-					}
+					AI_Type_Long_Idle_Tick(TimeDelta, pTargetTransform);
 				}
 			}
 		}
@@ -622,6 +609,48 @@ HRESULT CStageSupportMonster::Load_By_Json_PreAddComponents()
 		return E_FAIL;
 
 	return S_OK;
+}
+
+void CStageSupportMonster::AI_Type_Long_Idle_Tick(const _double& TimeDelta, CTransform* pTargetTransform)
+{
+	if (m_bCanAttack)
+	{
+		Do_RandomSkill();
+	}
+
+	_float targetToDistance = m_pTransformCom->Get_DistanceFromTarget(pTargetTransform->Get_State(CTransform::STATE_POSITION));
+
+	if (m_bChase)
+	{
+		if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta), 2.0f, m_pNavigationCom))
+		{
+			m_bChase = false;
+			m_ChaseCoolTimeAcc = 0.0;
+		}
+	}
+	else
+	{
+		if (targetToDistance <= 1.5f)
+		{
+			if (m_pTransformCom->Go_BackWard_Look_Pos(pTargetTransform->Get_State(CTransform::STATE_POSITION), m_pTransformCom->Get_State(CTransform::STATE_POSITION)
+				+ m_pTransformCom->Get_State(CTransform::STATE_LOOK) * -2.f, _float(TimeDelta * 1.5), 0.5f, m_pNavigationCom))
+			{
+			}
+		}
+	}
+	if (!m_bChase)
+	{
+
+		if (targetToDistance >= 3.f)
+		{
+			m_ChaseCoolTimeAcc += TimeDelta;
+
+			if (m_ChaseCoolTimeAcc > m_ChaseCoolTime)
+			{
+				m_bChase = true;
+			}
+		}
+	}
 }
 
 

@@ -53,6 +53,9 @@ protected:
 protected:
 	virtual		HRESULT		Load_By_Json_PreAddComponents() override;
 
+private:
+	void					AI_Type_Long_Idle_Tick(const _double& TimeDelta, CTransform* pTargetTransform);
+
 //protected:
 //	virtual HRESULT			Add_Components() override;
 //	virtual HRESULT			Add_Components_By_File() override;
@@ -61,9 +64,6 @@ private:
 	CFormation*			m_pFormationCom = { nullptr };
 
 private:
-	_float				m_MotionChangeDelay = { 3.f };
-	_float				m_CurMotionChangeDelayTime = { 0.f };
-
 	_bool				m_bTurn = { false };
 	_bool				m_bBattle = { false };
 	_vector				m_vTargetPos = {};
@@ -74,6 +74,10 @@ private:
 	_double				m_FormationFightTime = { 0.03 };
 	_double				m_FormationFightTimeAcc = { 0.0 };
 	_bool				m_FormationChanger = { false };
+
+	_double				m_ChaseCoolTime = { 2.0 };
+	_double				m_ChaseCoolTimeAcc = { 0.0 };
+	_double				m_bChase = { true };
 
 public:
 	static CStageSupportMonster* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

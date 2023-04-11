@@ -42,9 +42,6 @@ private:
 	void		AI_Type_Long_Idle_Tick(const _double& TimeDelta, CTransform* pTargetTransform);
 
 private:
-	_float		m_MotionChangeDelay = { 3.f };
-	_float		m_CurMotionChangeDelayTime = { 0.f };
-
 	_bool		m_bTurn = { false };
 
 	_vector		m_vTargetPos = {};

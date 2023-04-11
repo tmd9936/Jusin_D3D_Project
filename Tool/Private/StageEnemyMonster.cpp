@@ -310,7 +310,7 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 		{
 			m_bCanAttack = false;
 			m_AttackCoolTimeAcc = 0.0;
-			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
+			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1);
 		}
 		break;
 	case CMonFSM::ATK_SLE_NORMAL_START:
