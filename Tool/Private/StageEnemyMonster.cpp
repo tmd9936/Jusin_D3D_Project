@@ -199,7 +199,7 @@ void CStageEnemyMonster::AI_Type_Long_Idle_Tick(const _double& TimeDelta, CTrans
 		if (targetToDistance <= 1.5f)
 		{
 			if (m_pTransformCom->Go_BackWard_Look_Pos(pTargetTransform->Get_State(CTransform::STATE_POSITION), m_pTransformCom->Get_State(CTransform::STATE_POSITION)
-				+ m_pTransformCom->Get_State(CTransform::STATE_LOOK) * -2.f, _float(TimeDelta * 1.5), 0.5f, m_pNavigationCom))
+				+ m_pTransformCom->Get_State(CTransform::STATE_LOOK) * -1.5f, _float(TimeDelta * 1.5), 0.5f, m_pNavigationCom))
 			{
 			}
 		}

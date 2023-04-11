@@ -390,36 +390,23 @@ void CTransform::Turn(_fvector vAxis, _float TimeDelta)
 
 _bool CTransform::TurnToTarget(_fvector vAxis, _fvector vTargetPos, _float TimeDelta)
 {
+	_vector vPos = Get_State(STATE_POSITION);
+	_vector vLook = vTargetPos - vPos;
+	_vector vRight = XMVector3Cross(XMVectorSet(0.f, 1.f, 0.f, 0.f), vLook);
+	_vector vUp = XMVector3Cross(vLook, vRight);
 
-	_vector		vUp = Get_State(CTransform::STATE_UP);
-	_vector		vLook = Get_State(CTransform::STATE_LOOK);
-	_vector		vPos = Get_State(STATE_POSITION);
+	_float3		vScale = Get_Scaled();
 
-	_vector		vLookTarget = XMVector3Normalize(XMVectorSetY(vTargetPos, 0.f) - XMVectorSetY(vPos, 0.f));
+	//_float dot = XMVectorGetX(XMVector3Dot(XMVector3Normalize(vLook), vLookTarget));
 
-	_float dot = XMVectorGetX(XMVector3Dot(XMVector3Normalize(vLook), vLookTarget));
+	_matrix RotationMatrix = XMMatrixRotationAxis(vUp, m_TransformDesc.RotationPerSec * TimeDelta);
 
-	_float radian = acosf(dot);
+	Set_State(CTransform::STATE_RIGHT, XMVector3TransformNormal(XMVector3Normalize(vRight) * vScale.x, RotationMatrix));
+	Set_State(CTransform::STATE_UP, XMVector3TransformNormal(XMVector3Normalize(vUp) * vScale.y, RotationMatrix));
+	Set_State(CTransform::STATE_LOOK, XMVector3TransformNormal(XMVector3Normalize(vLook) * vScale.z, RotationMatrix));
 
-	if (dot >= 0.95f)
-	{
-		return true;
-	}
-	else
-	{
-		_vector		vRight = Get_State(CTransform::STATE_RIGHT);
-		_vector		vUp = Get_State(CTransform::STATE_UP);
-		_vector		vLook = Get_State(CTransform::STATE_LOOK);
-
-		_vector axis = XMVectorSetZ(XMVectorSetX(XMVector3Cross(vLook, vLookTarget), 0.f), 0.f);
-		_matrix RotationMatrix = XMMatrixRotationAxis(axis, m_TransformDesc.RotationPerSec * TimeDelta);
-
-		Set_State(CTransform::STATE_RIGHT, XMVector3TransformNormal(vRight, RotationMatrix));
-		Set_State(CTransform::STATE_UP, XMVector3TransformNormal(vUp, RotationMatrix));
-		Set_State(CTransform::STATE_LOOK, XMVector3TransformNormal(vLook, RotationMatrix));
-
-		return false;
-	}
+	return false;
+	
 }
 
 void CTransform::LookAt(_fvector vTargetPos)
@@ -587,7 +574,7 @@ _bool	CTransform::Chase_No_Y(_fvector vTargetPos, _float TimeDelta, _float limit
 
 _bool CTransform::Go_BackWard_Look_Pos(_fvector vLookPos, _fvector vArrivePos, _float TimeDelta, _float limitDitance, CNavigation* pNavigation)
 {
-	//LookAt(vLookPos);
+	TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), vLookPos, TimeDelta);
 
 	_bool	isMove = true;
 
