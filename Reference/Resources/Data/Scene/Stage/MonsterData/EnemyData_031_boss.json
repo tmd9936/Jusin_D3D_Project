@@ -39,6 +39,7 @@
         "m_slotTypeWeightMulti": 20,
         "m_normalSkillType": 6,
         "m_AIType": 1,
+        "m_layerType": 1,
         "m_skillIDs": [
           100,
           164,

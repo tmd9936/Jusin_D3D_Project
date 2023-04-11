@@ -452,9 +452,9 @@ _float CTransform::Get_DistanceFromTarget(_fvector vTargetPos)
 
 _bool CTransform::Chase(_fvector vTargetPos, _float TimeDelta, _float limitDitance, CNavigation* pNavigation)
 {
-	//LookAt(vTargetPos);
+	LookAt(vTargetPos);
 
-	TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), vTargetPos, TimeDelta);
+	//TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), vTargetPos, TimeDelta);
 
 	_bool	isMove = true;
 

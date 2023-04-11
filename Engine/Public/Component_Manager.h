@@ -57,7 +57,7 @@ public:
 	HRESULT Add_Prototype(_uint iLevelIndex, const _tchar* pPrototypeTag, class CComponent* pPrototype);
 	class CComponent* Clone_Component(_uint iLevelIndex, const _tchar* pPrototypeTag, CGameObject* pGameObject, void* pArg = nullptr);
 
-	_bool	Check_Prototype(const wstring& prototypeTag);
+	_bool	Check_Prototype(const wstring prototypeTag);
 
 private:
 	unordered_map<wstring, class CComponent*>* m_pPrototypes = { nullptr };

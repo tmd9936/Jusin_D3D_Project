@@ -24,7 +24,9 @@ HRESULT CSearcher::Initialize_Prototype()
 HRESULT CSearcher::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
 	if (nullptr != pArg)
-		memcpy(&m_Desc.pParentTransformCom, pArg, sizeof m_Desc);
+	{
+		m_Desc.pParentTransformCom = (*(SEARCHER_DESC*)(pArg)).pParentTransformCom;
+	}
 
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 		return E_FAIL;
@@ -45,8 +47,6 @@ _uint CSearcher::Tick(_double TimeDelta)
 
 	m_eCollisionState = COLLISION_STATE_NO;
 
-	this;
-
 	if (m_Desc.pParentTransformCom)
 		m_pSphereCom->Tick(m_Desc.pParentTransformCom->Get_WorldMatrix_Matrix());
 
@@ -59,22 +59,14 @@ _uint CSearcher::LateTick(_double TimeDelta)
 	return _uint();
 }
 
-HRESULT CSearcher::Render()
-{
-	if (FAILED(SetUp_ShaderResources()))
-		return E_FAIL;
-
-#ifdef _DEBUG
-	m_pSphereCom->Render();
-#endif // _DEBUG
-
-	return S_OK;
-}
 
 void CSearcher::On_Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
 {
-	m_pTarget = pOther->Get_Owner();
-	m_eCollisionState = COLLISION_STATE_ON;
+	if (nullptr != pOther)
+	{
+		m_pTarget = pOther->Get_Owner();
+		m_eCollisionState = COLLISION_STATE_ON;
+	}
 }
 
 void CSearcher::On_CollisionEnter(CCollider* pOther,  const _float& fX, const _float& fY, const _float& fZ)
@@ -91,11 +83,6 @@ void CSearcher::On_CollisionExit(CCollider* pOther, const _float& fX, const _flo
 HRESULT CSearcher::Add_Components()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-
-	/* For.Com_Renderer */
-	if (FAILED(pGameInstance->Add_Component(CRenderer::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Renderer"),
-		(CComponent**)&m_pRendererCom, nullptr)))
-		return E_FAIL;
 
 	/* For.Com_AABB*/
 	CCollider::COLLIDER_DESC		ColliderDesc;
@@ -148,6 +135,5 @@ void CSearcher::Free()
 	__super::Free();
 
 	Safe_Release(m_Desc.pParentTransformCom);
-	Safe_Release(m_pRendererCom);
 	Safe_Release(m_pSphereCom);
 }

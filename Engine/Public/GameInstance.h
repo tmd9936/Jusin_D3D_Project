@@ -62,6 +62,7 @@ public: /* For.Object_Manager */
 	CComponent* Get_Component(const FamilyId& familyId, _uint iLevelIndex, const _tchar* pLayerTag, const _tchar* pObjectTag) const;
 	HRESULT		Remove_Component(const FamilyId& familyId, CGameObject* pObj);
 	CGameObject* Get_Object(_uint iLevelIndex, const _tchar* pLayerTag, const _tchar* pObjectTag) const;
+	CGameObject* Get_Object(_uint iLevelIndex, const _tchar* pLayerTag, wstring objectTag) const;
 	template<typename T, typename = std::enable_if<is_base_of<CComponent, T>::value>>
 	HRESULT Get_ComponentList(vector<T>& result, _uint iLevelIndex, const _tchar* pLayerTag);
 	template<typename T, typename = std::enable_if<is_base_of<CComponent, T>::value>>
@@ -78,7 +79,7 @@ public: /* For.Object_Manager */
 public: /* For.Component_Manager */
 	HRESULT Add_Prototype(_uint iLevelIndex, const _tchar* pPrototypeTag, class CComponent* pPrototype);
 	class CComponent* Clone_Component(_uint iLevelIndex, const _tchar* pPrototypeTag, class CGameObject* pGameObject, void* pArg = nullptr);
-	_bool	Check_Prototype(const wstring& prototypeTag);
+	_bool	Check_Prototype(const wstring prototypeTag);
 
 public: /* For.Sound_Manager */
 	HRESULT		Ready_Sound();

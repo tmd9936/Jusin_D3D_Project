@@ -355,8 +355,6 @@ CGameObject* CObject_Manager::Clone_GameObject(const _tchar* pLayerTag, _uint iL
 	return pGameObject;
 }
 
-
-
 CGameObject* CObject_Manager::Get_Object(_uint iLevelIndex, const _tchar* pLayerTag, const _tchar* pObjectTag) const
 {
 	if (nullptr == pObjectTag || nullptr == pLayerTag)
@@ -370,7 +368,26 @@ CGameObject* CObject_Manager::Get_Object(_uint iLevelIndex, const _tchar* pLayer
 	if (nullptr == pLayer)
 		return nullptr;
 
-	CGameObject* pResult = pLayer->Get_Object(pObjectTag);
+	wstring objectTag = pObjectTag;
+	CGameObject* pResult = pLayer->Get_Object(objectTag.c_str());
+
+	return pResult;
+}
+
+CGameObject* CObject_Manager::Get_Object(_uint iLevelIndex, const _tchar* pLayerTag, wstring objectTag) const
+{
+	if (objectTag.empty() || nullptr == pLayerTag)
+		return nullptr;
+
+	if (iLevelIndex >= m_iNumLevels)
+		return nullptr;
+
+	CLayer* pLayer = Find_Layer(iLevelIndex, pLayerTag);
+
+	if (nullptr == pLayer)
+		return nullptr;
+
+	CGameObject* pResult = pLayer->Get_Object(objectTag);
 
 	return pResult;
 }

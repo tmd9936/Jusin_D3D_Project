@@ -296,7 +296,7 @@ _bool CNavigation::Move_OnNavigation_Sliding(_fvector vPosition, _fvector vLook,
 			return true;
 		}
 
-		vOutSlidLook = m_Cells[m_NaviDesc.iIndex]->Get_SlidePower(vPosition, vLook);
+		vOutSlidLook = m_Cells[m_NaviDesc.iIndex]->Get_SlidePowerV2(vPosition, vLook);
 
 		/* 나간 방향에 이웃이 없다면?*/
 		return false;

@@ -27,16 +27,16 @@ HRESULT CLevel_BaseCamp::Initialize()
 	if (FAILED(Ready_Layer_Terrain(TEXT("Layer_Terrain"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Env(TEXT("Layer_Env"))))
-		return E_FAIL;
-
-	if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
-		return E_FAIL;
-
 	if (FAILED(Ready_Layer_PlayerSearcher(TEXT("Layer_PlayerSearcher"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_MonsterSearcher(TEXT("Layer_MonsterSearcher"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_Env(TEXT("Layer_Env"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))

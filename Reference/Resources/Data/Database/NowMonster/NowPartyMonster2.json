@@ -39,6 +39,7 @@
         "m_slotTypeWeightMulti": 20,
         "m_normalSkillType": 10,
         "m_AIType": 1,
+        "m_layerType": 0,
         "m_relativePosition": {
           "x": -0.8,
           "y": 0.0,

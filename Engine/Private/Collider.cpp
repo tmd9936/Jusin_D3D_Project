@@ -116,7 +116,13 @@ HRESULT CCollider::Initialize_Prototype()
 
 HRESULT CCollider::Initialize(void* pArg)
 {
-	m_Collider_Desc = *(COLLIDER_DESC*)pArg;
+	if (nullptr != pArg)
+	{
+		m_Collider_Desc.vScale = (*(COLLIDER_DESC*)pArg).vScale;
+		m_Collider_Desc.vRotation = (*(COLLIDER_DESC*)pArg).vRotation;
+		m_Collider_Desc.vPosition = (*(COLLIDER_DESC*)pArg).vPosition;
+
+	}
 
 	//_matrix ScaleMatrix, RotationXMatrix, RotationYMatrix, RotationZMatrix, TranslationMatrix;
 

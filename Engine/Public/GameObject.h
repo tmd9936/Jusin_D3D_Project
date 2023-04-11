@@ -33,7 +33,7 @@ public:
 	const wstring			Get_NameTag() const {
 		return m_strNameTag; }
 
-	void					Set_NameTag(wstring& strName) {
+	void					Set_NameTag(wstring strName) {
 		m_strNameTag = strName; 
 	}
 	void					Set_NameTag(const _tchar* strName) {
@@ -47,11 +47,11 @@ public:
 		m_eRenderId = eRenderId; 
 	}
 
-	const wstring			Get_LayerTag() const {
+	wstring			Get_LayerTag() const {
 		return m_strLayerTag; 
 	}
 
-	void					Set_LayerTag(const wstring& strLayerTag) {
+	void					Set_LayerTag(const wstring strLayerTag) {
 		m_strLayerTag = strLayerTag; 
 	}
 
@@ -69,7 +69,7 @@ public:
 	const wstring			Get_ProtoTypeTag() const {
 		return m_strProtoTypeTag;
 	}
-	void					Set_ProtoTypeTag(const wstring& prototypeTag) {
+	void					Set_ProtoTypeTag(const wstring prototypeTag) {
 		m_strProtoTypeTag = prototypeTag;
 	}
 

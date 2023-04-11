@@ -41,7 +41,7 @@ HRESULT CRenderTarget::Ready_RenderTarget(_uint iSizeX, _uint iSizeY, DXGI_FORMA
 	if (FAILED(m_pDevice->CreateRenderTargetView(m_pTexture2D, nullptr, &m_pRTV)))
 		return E_FAIL;
 
-	/* 2차원 버퍼인 랜더 타겟을 정겨변수로 던져서 그리기 위한 셰이더 리소스 생성 */
+	/* 2차원 버퍼인 랜더 타겟을 정적변수로 던져서 그리기 위한 셰이더 리소스 생성 */
 	if (FAILED(m_pDevice->CreateShaderResourceView(m_pTexture2D, nullptr, &m_pSRV)))
 		return E_FAIL;
 

@@ -194,7 +194,7 @@ void CChargeEffect::Attack_Effect_Add()
 		}
 		else
 		{
-			XMStoreFloat4(&pos, vParentPos);
+			XMStoreFloat4(&pos, vParentPos + vParentLook * 0.5f);
 			pSkillEffect->Set_Pos(pos);
 		}
 

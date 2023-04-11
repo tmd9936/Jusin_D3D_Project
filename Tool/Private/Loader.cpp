@@ -783,6 +783,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		KogoerukazeDesc.attackEffectDesc.effectDesc.m_IsParts = false;
 		KogoerukazeDesc.attackEffectDesc.effectDesc.m_AnimationSpeed = 0.5;
 		KogoerukazeDesc.attackEffectDesc.effectDesc.m_AnimationStartAcc = 0.0;
+		KogoerukazeDesc.attackEffectDesc.m_bContinue = true;
 		KogoerukazeDesc.m_RushSpeed = 0.7;
 		KogoerukazeDesc.attackEffectDesc.effectDesc.m_AnimationLoop = false;
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SP_Koori_Kogoerukaze"),
@@ -797,6 +798,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		HaidoroponpuDesc.attackEffectDesc.effectDesc.m_IsParts = false;
 		HaidoroponpuDesc.attackEffectDesc.effectDesc.m_AnimationSpeed = 1.0;
 		HaidoroponpuDesc.attackEffectDesc.effectDesc.m_AnimationStartAcc = 0.0;
+		HaidoroponpuDesc.attackEffectDesc.m_bContinue = true;
 		HaidoroponpuDesc.m_RushSpeed = 0.5;
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SP_Mizu_Haidoroponpu"),
 			CRushAttackEffect::Create(m_pDevice, m_pContext, HaidoroponpuDesc))))
@@ -805,7 +807,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		/* For.Prototype_GameObject_SP_Koori_Reitoubiimu */
 		CRushAttackEffect::RUSH_ATTACK_EFFECT_DESC ReitoubiimuDesc{};
 		ReitoubiimuDesc.attackEffectDesc.effectDesc.m_bParentRotateApply = false;
-		ReitoubiimuDesc.attackEffectDesc.effectDesc.m_CurrentLoopCount = 2;
+		ReitoubiimuDesc.attackEffectDesc.effectDesc.m_CurrentLoopCount = 4;
 		ReitoubiimuDesc.attackEffectDesc.effectDesc.m_IsParts = false;
 		ReitoubiimuDesc.attackEffectDesc.effectDesc.m_AnimationSpeed = 1.0;
 		ReitoubiimuDesc.attackEffectDesc.effectDesc.m_AnimationStartAcc = 0.0;
@@ -961,55 +963,57 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 	//		return E_FAIL;
 
 	//}
-
-	modelName = L"Prototype_Component_Model_Pokemon_PM25";
-	if (false == pGameInstance->Check_Prototype(modelName.c_str()))
+	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_BASECAMP))
 	{
-		PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f) * XMMatrixRotationY(XMConvertToRadians(180.f));
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, modelName.c_str(),
-			CModel::Create(m_pDevice, m_pContext, "../../Reference/Resources/Mesh/Animation/Pokemon/PM25.json", CModel::TYPE_MESH_COLOR_ANIM, PivotMatrix))))
-			return E_FAIL;
+		modelName = L"Prototype_Component_Model_Pokemon_PM25";
+		if (false == pGameInstance->Check_Prototype(modelName.c_str()))
+		{
+			PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, modelName.c_str(),
+				CModel::Create(m_pDevice, m_pContext, "../../Reference/Resources/Mesh/Animation/Pokemon/PM25.json", CModel::TYPE_MESH_COLOR_ANIM, PivotMatrix))))
+				return E_FAIL;
+		}
+
+		modelName = L"Prototype_Component_Model_Pokemon_PM91";
+		if (false == pGameInstance->Check_Prototype(modelName.c_str()))
+		{
+			PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, modelName.c_str(),
+				CModel::Create(m_pDevice, m_pContext, "../../Reference/Resources/Mesh/Animation/Pokemon/PM91.json", CModel::TYPE_MESH_COLOR_ANIM, PivotMatrix))))
+				return E_FAIL;
+		}
+
+		modelName = L"Prototype_Component_Model_Pokemon_PM95";
+		if (false == pGameInstance->Check_Prototype(modelName.c_str()))
+		{
+			PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, modelName.c_str(),
+				CModel::Create(m_pDevice, m_pContext, "../../Reference/Resources/Mesh/Animation/Pokemon/PM95.json", CModel::TYPE_MESH_COLOR_ANIM, PivotMatrix))))
+				return E_FAIL;
+		}
+
+		//modelName = L"Prototype_Component_Model_Pokemon_PM31";
+		//if (false == pGameInstance->Check_Prototype(modelName.c_str()))
+		//{
+		//	PivotMatrix = XMMatrixScaling(0.4f, 0.4f, 0.4f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+		//	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, modelName.c_str(),
+		//		CModel::Create(m_pDevice, m_pContext, "../../Reference/Resources/Mesh/Animation/Pokemon/PM31.json", CModel::TYPE_MESH_COLOR_ANIM, PivotMatrix))))
+		//		return E_FAIL;
+		//}
+
+		modelName = L"Prototype_Component_Model_Pokemon_PM87";
+		if (false == pGameInstance->Check_Prototype(modelName.c_str()))
+		{
+			PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, modelName.c_str(),
+				CModel::Create(m_pDevice, m_pContext, "../../Reference/Resources/Mesh/Animation/Pokemon/PM87.json", CModel::TYPE_MESH_COLOR_ANIM, PivotMatrix))))
+				return E_FAIL;
+		}
+
+		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Model_Pokemon_PM10"),
+		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Pokemon/PM10.fbx", PivotMatrix))))
+		//	return E_FAIL;
 	}
-
-	modelName = L"Prototype_Component_Model_Pokemon_PM91";
-	if (false == pGameInstance->Check_Prototype(modelName.c_str()))
-	{
-		PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f) * XMMatrixRotationY(XMConvertToRadians(180.f));
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, modelName.c_str(),
-			CModel::Create(m_pDevice, m_pContext, "../../Reference/Resources/Mesh/Animation/Pokemon/PM91.json", CModel::TYPE_MESH_COLOR_ANIM, PivotMatrix))))
-			return E_FAIL;
-	}
-
-	modelName = L"Prototype_Component_Model_Pokemon_PM95";
-	if (false == pGameInstance->Check_Prototype(modelName.c_str()))
-	{
-		PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f) * XMMatrixRotationY(XMConvertToRadians(180.f));
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, modelName.c_str(),
-			CModel::Create(m_pDevice, m_pContext, "../../Reference/Resources/Mesh/Animation/Pokemon/PM95.json", CModel::TYPE_MESH_COLOR_ANIM, PivotMatrix))))
-			return E_FAIL;
-	}
-
-	//modelName = L"Prototype_Component_Model_Pokemon_PM31";
-	//if (false == pGameInstance->Check_Prototype(modelName.c_str()))
-	//{
-	//	PivotMatrix = XMMatrixScaling(0.4f, 0.4f, 0.4f) * XMMatrixRotationY(XMConvertToRadians(180.f));
-	//	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, modelName.c_str(),
-	//		CModel::Create(m_pDevice, m_pContext, "../../Reference/Resources/Mesh/Animation/Pokemon/PM31.json", CModel::TYPE_MESH_COLOR_ANIM, PivotMatrix))))
-	//		return E_FAIL;
-	//}
-
-	modelName = L"Prototype_Component_Model_Pokemon_PM87";
-	if (false == pGameInstance->Check_Prototype(modelName.c_str()))
-	{
-		PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f) * XMMatrixRotationY(XMConvertToRadians(180.f));
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, modelName.c_str(),
-			CModel::Create(m_pDevice, m_pContext, "../../Reference/Resources/Mesh/Animation/Pokemon/PM87.json", CModel::TYPE_MESH_COLOR_ANIM, PivotMatrix))))
-			return E_FAIL;
-	}
-
-	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Model_Pokemon_PM10"),
-	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Pokemon/PM10.fbx", PivotMatrix))))
-	//	return E_FAIL;
 
 
 #pragma endregion

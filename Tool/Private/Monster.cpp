@@ -172,8 +172,6 @@ _uint CMonster::Tick(_double TimeDelta)
 	if (m_pDamageText)
 		m_pDamageText->Tick(TimeDelta);
 
-	m_pSearcher->Tick(TimeDelta);
-
 	CoolTimeCheck(TimeDelta);
 
 	HitTimeCheck(TimeDelta);
@@ -340,32 +338,28 @@ HRESULT CMonster::Add_HpBar()
 HRESULT CMonster::Add_Searcher()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	//Safe_AddRef(pGameInstance);
+	Safe_AddRef(pGameInstance);
 
 	CSearcher::SEARCHER_DESC		searcherDesc{};
-	ZeroMemory(&searcherDesc, sizeof searcherDesc);
 
 	searcherDesc.pParentTransformCom = m_pTransformCom;
 	Safe_AddRef(searcherDesc.pParentTransformCom);
 
-	if (0 == Get_LayerTag().compare(L"Layer_Player"))
+	if (m_PokemonDesc.m_layerType == LAYER_TYPE_PLAYER)
 	{
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Searcher"), Get_Levelindex(), L"Layer_PlayerSearcher",
 			(CGameObject**)&m_pSearcher, nullptr, &searcherDesc)))
 				return E_FAIL;
+
 	}
-	else if (0 == Get_LayerTag().compare(L"Layer_Monster"))
+	else
 	{
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Searcher"), Get_Levelindex(), L"Layer_MonsterSearcher", 
 			(CGameObject**)&m_pSearcher, nullptr, &searcherDesc)))
 				return E_FAIL;
 	}
-	else
-	{
-		return E_FAIL;
-	}
 
-	//Safe_Release(pGameInstance);
+	Safe_Release(pGameInstance);
 	return S_OK;
 }
 
@@ -826,6 +820,7 @@ _bool CMonster::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& al
 			PokemonDesc.AddMember("m_slotTypeWeightMulti", m_PokemonDesc.m_slotTypeWeightMulti, allocator);
 			PokemonDesc.AddMember("m_normalSkillType", m_PokemonDesc.m_normalSkillType, allocator);
 			PokemonDesc.AddMember("m_AIType", m_PokemonDesc.m_AIType, allocator);
+			PokemonDesc.AddMember("m_layerType", m_PokemonDesc.m_layerType, allocator);
 
 			Value m_skillIDs(kArrayType);
 			{
@@ -886,6 +881,7 @@ _bool CMonster::Load_By_JsonFile_Impl(Document& doc)
 
 		m_PokemonDesc.m_normalSkillType = PokemonDesc["m_normalSkillType"].GetUint();
 		m_PokemonDesc.m_AIType = PokemonDesc["m_AIType"].GetUint();
+		m_PokemonDesc.m_layerType = PokemonDesc["m_layerType"].GetUint();
 
 		const Value& skillIDs = PokemonDesc["m_skillIDs"];
 		for (SizeType i = 0; i < skillIDs.Size(); ++i)

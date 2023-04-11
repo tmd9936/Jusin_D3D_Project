@@ -40,6 +40,7 @@ public:
 		const _tchar* pLayerTag, CGameObject** ppOut, const _tchar* pObjectNameTag = nullptr, void* pArg = nullptr, CLONE_TYPE eCloneType = CLONE_ARGS); /* 원형을 복제하여 사본을 추가한다. */
 	
 	CGameObject* Get_Object(_uint iLevelIndex, const _tchar* pLayerTag, const _tchar* pObjectTag) const;
+	CGameObject* Get_Object(_uint iLevelIndex, const _tchar* pLayerTag, wstring pObjectTag) const;
 
 	template<typename T, typename = std::enable_if<is_base_of<CComponent, T>::value>>
 	HRESULT Get_ComponentList(vector<T>& result, _uint iLevelIndex, const _tchar* pLayerTag)

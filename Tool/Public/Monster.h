@@ -40,6 +40,12 @@ public:
 
 	};
 
+	enum LAYER_TYPE {
+		LAYER_TYPE_PLAYER,
+		LAYER_TYPE_MONSTER,
+		LAYER_TYPE_END
+	};
+
 public:
 	typedef	struct PokeMon_Desc
 	{
@@ -70,6 +76,7 @@ public:
 		_uint			m_slotTypeWeightMulti;
 
 		_uint			m_AIType;
+		_uint			m_layerType;
 
 		_uint			m_normalSkillType;
 

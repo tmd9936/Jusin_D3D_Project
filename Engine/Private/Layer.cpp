@@ -89,6 +89,16 @@ CGameObject* CLayer::Get_Object(const _tchar* pObjectNameTag)
 	return iter->second;
 }
 
+CGameObject* CLayer::Get_Object(wstring objectTag)
+{
+	auto iter = m_objectStore.find(objectTag);
+
+	if (m_objectStore.end() == iter)
+		return nullptr;
+
+	return iter->second;
+}
+
 HRESULT CLayer::Remove_Component(const FamilyId& familyId, CGameObject* pObj)
 {
 	if (nullptr == pObj)

@@ -18,6 +18,7 @@ public:
 public:
 	HRESULT Store_Component(CGameObject* pGameObject, const FamilyId& id);
 	CGameObject* Get_Object(const _tchar* pObjectNameTag);
+	CGameObject* Get_Object(wstring objectTag);
 	unordered_multimap<FamilyId, CGameObject*>* Get_ComponentStore() {
 		return &m_componentStore;
 	}

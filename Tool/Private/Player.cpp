@@ -415,6 +415,8 @@ _bool CPlayer::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& all
 			PokemonDesc.AddMember("m_normalSkillType", m_PokemonDesc.m_normalSkillType, allocator);
 			PokemonDesc.AddMember("m_normalSkillType2", m_normalSkillType2, allocator);
 
+			PokemonDesc.AddMember("m_layerType", m_PokemonDesc.m_layerType, allocator);
+
 			Value m_skillIDs(kArrayType);
 			{
 				for (size_t i = 0; i < m_PokemonDesc.m_skillIDs.size(); ++i)
@@ -474,6 +476,8 @@ _bool CPlayer::Load_By_JsonFile_Impl(Document& doc)
 
 		m_PokemonDesc.m_normalSkillType = PokemonDesc["m_normalSkillType"].GetUint();
 		m_normalSkillType2 = PokemonDesc["m_normalSkillType2"].GetUint();
+
+		m_PokemonDesc.m_layerType = PokemonDesc["m_layerType"].GetUint();
 
 		const Value& skillIDs = PokemonDesc["m_skillIDs"];
 		for (SizeType i = 0; i < skillIDs.Size(); ++i)

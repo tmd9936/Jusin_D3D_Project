@@ -51,7 +51,7 @@ CComponent* CComponent_Manager::Clone_Component(_uint iLevelIndex, const _tchar*
 	return pComponent;
 }
 
-_bool CComponent_Manager::Check_Prototype(const wstring& prototypeTag)
+_bool CComponent_Manager::Check_Prototype(const wstring prototypeTag)
 {
 	if (nullptr == m_pPrototypes)
 		return false;

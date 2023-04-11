@@ -45,15 +45,13 @@ HRESULT CStageSupportMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIn
 		return E_FAIL;
 
 	m_bBattle = false;
-	m_pMonFSM->Transit_MotionState(CMonFSM::FORMATION_NORMAL, m_pModelCom);
+	m_pMonFSM->Transit_MotionState(CMonFSM::FORMATION_NORMAL);
 
 	return S_OK;
 }
 
 HRESULT CStageSupportMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath)
 {
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, filePath)))
 		return E_FAIL;
 
@@ -61,7 +59,7 @@ HRESULT CStageSupportMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIn
 		return E_FAIL;
 
 	m_bBattle = false;
-	m_pMonFSM->Transit_MotionState(CMonFSM::FORMATION_NORMAL, m_pModelCom);
+	m_pMonFSM->Transit_MotionState(CMonFSM::FORMATION_NORMAL);
 
 	return S_OK;
 }
@@ -216,7 +214,10 @@ void CStageSupportMonster::Change_State_FSM(_uint eState)
 		break;
 	case CMonFSM::POKING:
 		break;
-
+	case CMonFSM::FORMATION_NORMAL:
+		break;
+	case CMonFSM::FORMATION_RUN:
+		break;
 	default:
 		break;
 	}
@@ -501,6 +502,7 @@ _bool CStageSupportMonster::Save_By_JsonFile_Impl(Document& doc, Document::Alloc
 			PokemonDesc.AddMember("m_slotTypeWeightMulti", m_PokemonDesc.m_slotTypeWeightMulti, allocator);
 			PokemonDesc.AddMember("m_normalSkillType", m_PokemonDesc.m_normalSkillType, allocator);
 			PokemonDesc.AddMember("m_AIType", m_PokemonDesc.m_AIType, allocator);
+			PokemonDesc.AddMember("m_layerType", m_PokemonDesc.m_layerType, allocator);
 
 			Value relativePosition(kObjectType);
 			{
@@ -575,6 +577,7 @@ _bool CStageSupportMonster::Load_By_JsonFile_Impl(Document& doc)
 
 		m_PokemonDesc.m_normalSkillType = PokemonDesc["m_normalSkillType"].GetUint();
 		m_PokemonDesc.m_AIType = PokemonDesc["m_AIType"].GetUint();
+		m_PokemonDesc.m_layerType = PokemonDesc["m_layerType"].GetUint();
 
 		const Value& relativePosition = PokemonDesc["m_relativePosition"];
 		_vector vRelativePos = XMVectorSet(relativePosition["x"].GetFloat(),
