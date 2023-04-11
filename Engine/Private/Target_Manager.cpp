@@ -1,6 +1,11 @@
 #include "..\Public\Target_Manager.h"
 #include "RenderTarget.h"
 
+#ifdef _DEBUG
+#include "Shader.h"
+#include "VIBuffer_Rect.h"
+#endif // _DEBUG
+
 IMPLEMENT_SINGLETON(CTarget_Manager)
 
 CTarget_Manager::CTarget_Manager()
@@ -61,6 +66,8 @@ HRESULT CTarget_Manager::Begin_MRT(ID3D11DeviceContext* pContext, const _tchar* 
 		pRenderTargets[iNumRenderTargets++] = pRenderTarget->Get_RTV();
 	}
 
+	/*사용자가 만들어둔 타겟들을 장치에 바인딩한다, 
+	추가로 기존에 바인딩 되어있던 뎁스 스텐실 정보도 같이 다시 바인딩 한다.*/ 
 	pContext->OMSetRenderTargets(iNumRenderTargets, pRenderTargets, m_pDepthStencilView);
 
 	return S_OK;
@@ -75,6 +82,34 @@ HRESULT CTarget_Manager::End_MRT(ID3D11DeviceContext* pContext)
 
 	return S_OK;
 }
+
+#ifdef _DEBUG
+
+HRESULT CTarget_Manager::Ready_Debug(const _tchar* pTargetTag, _float fX, _float fY, _float fSizeX, _float fSizeY)
+{
+	CRenderTarget* pRenderTarget = Find_RenderTarget(pTargetTag);
+
+	if (nullptr == pRenderTarget)
+		return E_FAIL;
+
+	return pRenderTarget->Ready_Debug(fX, fY, fSizeX, fSizeY);
+}
+
+HRESULT CTarget_Manager::Render_MRT(const _tchar* pMRTTag, CShader* pShader, CVIBuffer_Rect* pVIBuffer)
+{
+	list<CRenderTarget*>* pMRTList = Find_MRT(pMRTTag);
+
+	if (nullptr == pMRTList)
+		return E_FAIL;
+
+	for (auto& pRenderTarget : *pMRTList)
+	{
+		pRenderTarget->Render(pShader, pVIBuffer);
+	}
+
+	return S_OK;
+}
+#endif // _DEBUG
 
 CRenderTarget* CTarget_Manager::Find_RenderTarget(const _tchar* pTargetTag)
 {

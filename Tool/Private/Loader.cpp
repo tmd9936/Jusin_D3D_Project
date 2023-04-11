@@ -809,6 +809,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		ReitoubiimuDesc.attackEffectDesc.effectDesc.m_IsParts = false;
 		ReitoubiimuDesc.attackEffectDesc.effectDesc.m_AnimationSpeed = 1.0;
 		ReitoubiimuDesc.attackEffectDesc.effectDesc.m_AnimationStartAcc = 0.0;
+		ReitoubiimuDesc.attackEffectDesc.m_bContinue = true;
 		ReitoubiimuDesc.m_RushSpeed = 1.0;
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SP_Koori_Reitoubiimu"),
 			CRushAttackEffect::Create(m_pDevice, m_pContext, ReitoubiimuDesc))))

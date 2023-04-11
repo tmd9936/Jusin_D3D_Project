@@ -1,5 +1,9 @@
 #include "..\Public\RenderTarget.h"
 
+#ifdef _DEBUG
+#include "Shader.h"
+#include "VIBuffer_Rect.h"
+#endif // _DEBUG
 
 CRenderTarget::CRenderTarget(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
@@ -43,6 +47,40 @@ HRESULT CRenderTarget::Ready_RenderTarget(_uint iSizeX, _uint iSizeY, DXGI_FORMA
 
 	return S_OK;
 }
+
+#ifdef _DEBUG
+HRESULT CRenderTarget::Ready_Debug(_float fX, _float fY, _float fSizeX, _float fSizeY)
+{
+	_uint				iNumViewports = 1;
+	D3D11_VIEWPORT		ViewportDesc;
+	ZeroMemory(&ViewportDesc, sizeof ViewportDesc);
+
+	m_pContext->RSGetViewports(&iNumViewports, &ViewportDesc);
+
+	XMStoreFloat4x4(&m_WorldMatrix, XMMatrixIdentity());
+	m_WorldMatrix._11 = fSizeX;
+	m_WorldMatrix._22 = fSizeY;
+
+	m_WorldMatrix._41 = fX - ViewportDesc.Width * 0.5f;
+	m_WorldMatrix._42 = -fY + ViewportDesc.Height * 0.5f;
+
+	return S_OK;
+}
+HRESULT CRenderTarget::Render(CShader* pShader, CVIBuffer_Rect* pVIBuffer)
+{
+	if (FAILED(pShader->Set_Matrix("g_WorldMatrix", &m_WorldMatrix)))
+		return E_FAIL;
+
+	if (FAILED(pShader->Set_ShaderResourceView("g_Texture", m_pSRV)))
+		return E_FAIL;
+
+	pShader->Begin(0);
+
+	pVIBuffer->Render();
+
+	return S_OK;
+}
+#endif // _DEBUG
 
 CRenderTarget* CRenderTarget::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, _uint iSizeX, _uint iSizeY, DXGI_FORMAT eFormat)
 {

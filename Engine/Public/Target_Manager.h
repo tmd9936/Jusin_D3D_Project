@@ -30,6 +30,12 @@ public:
 	/// <returns></returns>
 	HRESULT End_MRT(ID3D11DeviceContext* pContext);
 
+#ifdef _DEBUG
+public:
+	HRESULT Ready_Debug(const _tchar* pTargetTag, _float fX, _float fY, _float fSizeX, _float fSizeY);
+	HRESULT Render_MRT(const _tchar* pMRTTag, class CShader* pShader, class CVIBuffer_Rect* pVIBuffer);
+#endif // _DEBUG
+
 private:
 	/* 랜더타켓을 바인딩 하기 이전에 바인딩 되어있던 백버퍼를 임시로 저장하기 위함*/
 	ID3D11RenderTargetView* m_pBackBufferView = { nullptr };
