@@ -178,7 +178,7 @@ _uint CStageCamera::Chase_CameraAt(const _double& TimeDelta)
 
 	_vector movePoint = pTransform->Get_State(CTransform::STATE_POSITION) + (m_vDistanceVectorFromAt * m_StageCameraDesc.m_distance * m_CurAdditionalDistance);
 
-	m_pTransform->ChaseNoLook(movePoint, (_float)TimeDelta, 0.2f);
+	m_pTransform->ChaseNoLook(movePoint, (_float)TimeDelta, 0.4f);
 
 	m_StageCameraDesc.CameraDesc = m_CameraDesc;
 

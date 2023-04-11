@@ -160,7 +160,7 @@ void CStageCameraTarget::Formation_State_Tick(const _double& TimeDelta)
 
 	m_PreMaxDistanceFromPlayer = m_CurMaxDistanceFromPlayer;
 
-	m_pTransformCom->ChaseNoLook(vArrivePos, (_float)TimeDelta, 0.2f);
+	m_pTransformCom->ChaseNoLook(vArrivePos, (_float)TimeDelta, 0.4f);
 }
 
 CTransform* CStageCameraTarget::Get_PlayerTransform(const _tchar* pObjectTag)
