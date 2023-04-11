@@ -44,6 +44,8 @@ public:
 		_double					m_AnimationStartAcc = { 0.0 };
 		_double					m_AnimationSpeed = { 1.0 };
 
+		_bool					m_AnimationLoop = { true };
+
 		_int					m_CurrentLoopCount = { 0 };
 
 		CBone*					pBonePtr = { nullptr };

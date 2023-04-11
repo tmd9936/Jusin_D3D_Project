@@ -763,9 +763,10 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		KogoerukazeDesc.attackEffectDesc.effectDesc.m_bParentRotateApply = false;
 		KogoerukazeDesc.attackEffectDesc.effectDesc.m_CurrentLoopCount = 0;
 		KogoerukazeDesc.attackEffectDesc.effectDesc.m_IsParts = false;
-		KogoerukazeDesc.attackEffectDesc.effectDesc.m_AnimationSpeed = 1.0;
+		KogoerukazeDesc.attackEffectDesc.effectDesc.m_AnimationSpeed = 0.5;
 		KogoerukazeDesc.attackEffectDesc.effectDesc.m_AnimationStartAcc = 0.0;
 		KogoerukazeDesc.m_RushSpeed = 0.7;
+		KogoerukazeDesc.attackEffectDesc.effectDesc.m_AnimationLoop = false;
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SP_Koori_Kogoerukaze"),
 			CRushAttackEffect::Create(m_pDevice, m_pContext, KogoerukazeDesc))))
 			return E_FAIL;

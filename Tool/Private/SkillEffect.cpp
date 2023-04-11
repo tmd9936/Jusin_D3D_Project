@@ -41,6 +41,8 @@ HRESULT CSkillEffect::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, voi
 		m_EffectDesc.m_AnimationLoopTime = (*(EFFECT_DESC*)(pArg)).m_AnimationLoopTime;
 		m_EffectDesc.m_AnimationStartAcc = (*(EFFECT_DESC*)(pArg)).m_AnimationStartAcc;
 
+		m_EffectDesc.m_AnimationLoop = (*(EFFECT_DESC*)(pArg)).m_AnimationLoop;
+
 		m_EffectDesc.m_AnimationSpeed = (*(EFFECT_DESC*)(pArg)).m_AnimationSpeed;
 		m_EffectDesc.m_CurrentLoopCount = (*(EFFECT_DESC*)(pArg)).m_CurrentLoopCount;
 		m_EffectDesc.m_IsParts = (*(EFFECT_DESC*)(pArg)).m_IsParts;
@@ -214,7 +216,7 @@ void CSkillEffect::Set_AnimaitonStartTime(_double time)
 
 void CSkillEffect::Loop_Count_Check(const _double& TimeDelta)
 {
-	if (m_pModelCom->Play_Animation(TimeDelta * m_EffectDesc.m_AnimationSpeed))
+	if (m_pModelCom->Play_Animation(TimeDelta * m_EffectDesc.m_AnimationSpeed, m_EffectDesc.m_AnimationLoop))
 	{
 		m_pModelCom->Set_Animation_Start_Time(m_EffectDesc.m_AnimationStartAcc);
 
