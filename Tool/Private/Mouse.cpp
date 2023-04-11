@@ -61,7 +61,7 @@ _uint CMouse::Tick(_double TimeDelta)
 
 	State_Tick(TimeDelta);
 
-	Hide_TIme_Check(TimeDelta);
+	Hide_Time_Check(TimeDelta);
 
 	return _uint();
 }
@@ -125,7 +125,7 @@ void CMouse::Mouse_Set_Position()
 	m_pTransformCom->Set_Pos(_float(ptMouse.x) - g_iWinSizeX * 0.5f, _float(-ptMouse.y) + g_iWinSizeY * 0.5f, 0.1f);
 }
 
-void CMouse::Hide_TIme_Check(const _double& TimeDelta)
+void CMouse::Hide_Time_Check(const _double& TimeDelta)
 {
 	if (!m_Hide)
 	{
@@ -160,7 +160,6 @@ void CMouse::Mouse_Move_Check()
 		Hide_State_Init();
 	}
 }
-
 
 HRESULT CMouse::Add_Components()
 {

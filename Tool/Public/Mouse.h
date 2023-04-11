@@ -32,21 +32,19 @@ public:
 	virtual HRESULT Render() override;
 
 private:
-	void	State_Tick(const _double& TimeDelta);
+	void		State_Tick(const _double& TimeDelta);
 
-	void	Mouse_Set_Position();
+	void		Mouse_Set_Position();
+	void		Mouse_Move_Check();
 
-	void	Hide_TIme_Check(const _double& TimeDelta);
-
-	void	Hide_State_Init();
-
-	void	Mouse_Move_Check();
+	void		Hide_Time_Check(const _double& TimeDelta);
+	void		Hide_State_Init();
 
 private:
-	CTransform* m_pTransformCom = { nullptr };
-	CRenderer* m_pRendererCom = { nullptr };
-	CShader* m_pShaderCom = { nullptr };
-	CModel* m_pModelCom = { nullptr };
+	CTransform*		m_pTransformCom = { nullptr };
+	CRenderer*		m_pRendererCom = { nullptr };
+	CShader*		m_pShaderCom = { nullptr };
+	CModel*			m_pModelCom = { nullptr };
 
 private:
 	STATE			m_eState = { STATE_CLICK };
