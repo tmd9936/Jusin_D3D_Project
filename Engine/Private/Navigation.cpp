@@ -284,7 +284,10 @@ _bool CNavigation::Move_OnNavigation_Sliding(_fvector vPosition, _fvector vLook,
 			while (true)
 			{
 				if (-1 == iNeighborIndex)
+				{
+					vOutSlidLook = m_Cells[m_NaviDesc.iIndex]->Get_SlidePowerV2(vPosition, vLook);
 					return false;
+				}
 
 				if (true == m_Cells[iNeighborIndex]->isIn(vPosition, iNeighborIndex))
 				{

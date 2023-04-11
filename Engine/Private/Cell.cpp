@@ -135,44 +135,29 @@ _vector CCell::Get_SlidePower(_fvector vPosition, _fvector vLook)
 
 _vector CCell::Get_SlidePowerV2(_fvector vPosition, _fvector vLook)
 {
-	size_t curLine = 0;
-	_float dot = 0.f;
+	size_t slideLine = 0;
+	_float dot = 1.f;
+	_vector vNormal = {};
+
+	_vector vInverseLook = vLook * -1.f;
 
 	for (size_t i = 0; i < LINE_END; ++i)
 	{
-		if (0 < XMVectorGetX(XMVector3Dot(XMVector3Normalize(XMLoadFloat3(&m_vNormal[i])), vLook)))
+		_vector		vDir = vPosition - XMLoadFloat3(&m_vPoints[i]);
+
+		if (0 < (XMVectorGetX(XMVector3Dot(XMVector3Normalize(vDir), XMVector3Normalize(XMLoadFloat3(&m_vNormal[i]))))))
 		{
-			curLine = i;
+			slideLine = i;
 			break;
 		}
 	}
 
-	_vector vPointLine = {};
-	_vector vAxis = XMVector3Cross(vLook, XMVector3Normalize(XMLoadFloat3(&m_vNormal[curLine])));
+	dot = XMVectorGetX(XMVector3Dot((vInverseLook), (XMLoadFloat3(&m_vNormal[slideLine]))));
+	vNormal =  (XMLoadFloat3(&m_vNormal[slideLine])) * dot - vInverseLook;
 
-	if (curLine == 0)
-	{
-		if (XMVectorGetY(vAxis) >= 0.f)
-			vPointLine = XMVector3Normalize(XMLoadFloat3(&m_vPoints[POINT_A]) - XMLoadFloat3(&m_vPoints[POINT_B]));
-		else
-			vPointLine = XMVector3Normalize(XMLoadFloat3(&m_vPoints[POINT_B]) - XMLoadFloat3(&m_vPoints[POINT_A]));
-	}
-	else if (curLine == 1)
-	{
-		if (XMVectorGetY(vAxis) >= 0.f)
-			vPointLine = XMVector3Normalize(XMLoadFloat3(&m_vPoints[POINT_B]) - XMLoadFloat3(&m_vPoints[POINT_C]));
-		else
-			vPointLine = XMVector3Normalize(XMLoadFloat3(&m_vPoints[POINT_C]) - XMLoadFloat3(&m_vPoints[POINT_B]));
-	}
-	else
-	{
-		if (XMVectorGetY(vAxis) >= 0.f)
-			vPointLine = XMVector3Normalize(XMLoadFloat3(&m_vPoints[POINT_A]) - XMLoadFloat3(&m_vPoints[POINT_C]));
-		else
-			vPointLine = XMVector3Normalize(XMLoadFloat3(&m_vPoints[POINT_C]) - XMLoadFloat3(&m_vPoints[POINT_A]));
-	}
+	//_vector vPointLine = {};
 
-	return vPointLine;
+	return vNormal;
 }
 
 void CCell::Compute_Height(_float3& vPosition, _float& fY)
