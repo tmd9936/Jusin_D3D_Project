@@ -232,9 +232,9 @@ void CTransform::Go_Straight(_float TimeDelta, CNavigation* pNavigation)
 		if (nullptr != pNavigation)
 		{
 			_vector vSlidePosition = Get_State(STATE_POSITION);
-			vSlidePosition += vSlideLook * TimeDelta * m_TransformDesc.SpeedPerSec;
+			vSlidePosition += vSlideLook * TimeDelta * m_TransformDesc.SpeedPerSec * 1.5f;
 
-			isMove = pNavigation->Move_OnNavigation(vSlidePosition);
+			isMove = pNavigation->Move_OnNavigation_Sliding(vSlidePosition, vLook, vSlideLook);
 			if (true == isMove)
 			{
 				Set_State(STATE_POSITION, XMVectorSetY(vSlidePosition, fY));
@@ -483,7 +483,7 @@ _bool CTransform::Chase(_fvector vTargetPos, _float TimeDelta, _float limitDitan
 		else
 		{
 			_vector vSlidePosition = Get_State(STATE_POSITION);
-			vSlidePosition += vSlideLook * TimeDelta * m_TransformDesc.SpeedPerSec * 2.5f;
+			vSlidePosition += vSlideLook * TimeDelta * m_TransformDesc.SpeedPerSec * 2.5;
 
 			isMove = pNavigation->Move_OnNavigation(vSlidePosition);
 			if (true == isMove)
