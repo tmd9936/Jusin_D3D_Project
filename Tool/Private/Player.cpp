@@ -127,10 +127,6 @@ _uint CPlayer::Tick(_double TimeDelta)
 		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
 			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
-			m_bCanSkillAttack = false;
-			m_bCanAttack = false;
-			m_AttackCoolTimeAcc = 0.0;
-			m_SkillCoolTimeAcc = 0.0;
 		}
 		break;
 	case CMonFSM::DASH_SLE_START:
@@ -170,11 +166,6 @@ _uint CPlayer::Tick(_double TimeDelta)
 				m_SkillLoopDesc.m_eLoopState = CMonFSM::END_MOTION;
 
 				Do_Skill(220, CMonFSM::JUMPLANDING_SLE_LOOP, L"Layer_PlayerSkill");
-
-				m_bCanSkillAttack = false;
-				m_bCanAttack = false;
-				m_AttackCoolTimeAcc = 0.0;
-				m_SkillCoolTimeAcc = 0.0;
 			}
 			m_fAccel = 1.f;
 		}
@@ -275,6 +266,7 @@ _uint CPlayer::Tick(_double TimeDelta)
 			m_SkillLoopDelay = 1.f;
 			m_fAccel = 1.f;
 			m_SkillLoopDesc.m_CurskillIndex = 0;
+			SkillCoolTime_Start();
 		}
 	}
 
@@ -284,6 +276,7 @@ _uint CPlayer::Tick(_double TimeDelta)
 		{
 			Do_Skill(m_PokemonDesc.m_skillIDs[1], CMonFSM::HAPPY, L"Layer_PlayerSkill");
 			m_SkillLoopDesc.m_CurskillIndex = 1;
+			SkillCoolTime_Start();
 		}
 	}
 
