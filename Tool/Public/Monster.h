@@ -16,7 +16,7 @@ class COBB;
 class CSphere;
 class CHP;
 class CAttack;
-
+class CManualCollisionState;
 class CNavigation;
 
 END
@@ -134,6 +134,8 @@ protected:
 
 protected:
 	void	CoolTimeCheck(const _double& TimeDelta);
+	void	HitTimeCheck(const _double& TimeDelta);
+	void	HitCheck();
 
 protected:
 	_bool	Search_Target();
@@ -147,39 +149,45 @@ protected:
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 던진다. */
 
 protected:
-	CTransform*			m_pTransformCom = { nullptr };
-	CRenderer*			m_pRendererCom = { nullptr };
-	CShader*			m_pShaderCom = { nullptr };
-	CModel*				m_pModelCom = { nullptr };
-	CPickingCube*		m_pPickingCube = { nullptr };
-	CMonFSM*			m_pMonFSM = { nullptr };
+	CTransform*				m_pTransformCom = { nullptr };
+	CRenderer*				m_pRendererCom = { nullptr };
+	CShader*				m_pShaderCom = { nullptr };
+	CModel*					m_pModelCom = { nullptr };
+	CPickingCube*			m_pPickingCube = { nullptr };
+	CMonFSM*				m_pMonFSM = { nullptr };
 
-	CAABB*				m_pAABB = { nullptr };
-	COBB*				m_pOBB = { nullptr };
-	CSphere*			m_pSphere = { nullptr };
+	CAABB*					m_pAABB = { nullptr };
+	COBB*					m_pOBB = { nullptr };
+	CSphere*				m_pSphere = { nullptr };
 
-	CNavigation*		m_pNavigationCom = { nullptr };
+	CNavigation*			m_pNavigationCom = { nullptr };
+	CManualCollisionState*	m_pManualCollisionState = { nullptr };
 
-	CHP*				m_pHPCom = { nullptr };
-	CAttack*			m_pAttackCom = { nullptr };
+	CHP*					m_pHPCom = { nullptr };
+	CAttack*				m_pAttackCom = { nullptr };
 
 protected:
-	POKEMON_DESC		m_PokemonDesc = {};
-	_float4				m_MovePosition = { 20.f, 0.f, 20.f, 1.f };
+	POKEMON_DESC			m_PokemonDesc = {};
+	_float4					m_MovePosition = { 20.f, 0.f, 20.f, 1.f };
 	
-	_bool				m_bAttack = { false };
+	_bool					m_bAttack = { false };
 
-	_double				m_AttackCoolTime = { 1.0 };
-	_double				m_SkillCoolTime = { 2.0 };
+	_double					m_AttackCoolTime = { 1.0 };
+	_double					m_SkillCoolTime = { 2.0 };
 
-	_double				m_AttackCoolTimeAcc = { 1.0 };
-	_double				m_SkillCoolTimeAcc = { 4.0 };
+	_double					m_AttackCoolTimeAcc = { 1.0 };
+	_double					m_SkillCoolTimeAcc = { 4.0 };
 
-	_bool				m_bCanAttack = { true };
-	_bool				m_bCanSkillAttack = { true };
+	_bool					m_bCanAttack = { true };
+	_bool					m_bCanSkillAttack = { true };
+
+	_double					m_hitTime = { 0.15 };
+	_double					m_hitTimeAcc = { 0.0 };
+	_bool					m_bHitState = { false };
+
+	_float4					m_hitColor = { 1.f, 1.f, 1.f, 1.f };
 
 protected:
-
 	vector<CGameObject*>	m_Parts;
 	CHpBar*					m_pHpBar = { nullptr };
 	CSearcher*				m_pSearcher = { nullptr };

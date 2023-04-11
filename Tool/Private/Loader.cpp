@@ -69,6 +69,8 @@
 #include "MiscData.h"
 #include "Stage_Manager.h"
 
+#include "ManualCollisionState.h"
+
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
 	, m_pContext(pContext)
@@ -550,6 +552,14 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		/* For.Prototype_Component_VIBuffer_Rect_Instance */
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect_Instance"),
 			CVIBuffer_Rect_Instance::Create(m_pDevice, m_pContext, 100))))
+			return E_FAIL;
+
+		/*
+			이펙트에서 몬스터의 이 컴포넌트 가져와서 수동으로 히트상태로 만들고 몬스터에서 이거로 히트 판단하는거로 바꾸기
+		*/
+		/* For.Prototype_Component_ManualCollisionState */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_ManualCollisionState"),
+			CManualCollisionState::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
 	}

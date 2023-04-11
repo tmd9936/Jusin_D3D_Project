@@ -22,7 +22,7 @@
 #include "HP.h"
 #include "Attack.h"
 #include "Formation.h"
-
+#include "ManualCollisionState.h"
 #pragma endregion
 
 #pragma region COLLIDER

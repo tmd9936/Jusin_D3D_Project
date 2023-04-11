@@ -158,9 +158,7 @@ _uint CMonster::Tick(_double TimeDelta)
 {
 	//m_pMonFSM->Update_Component((_float)TimeDelta, m_pModelCom);
 
-	m_pAABB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
-	//m_pOBB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
-	//m_pSphere->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
+	m_pManualCollisionState->Tick(TimeDelta);
 	
 	for (auto& pGameObject : m_Parts)
 		pGameObject->Tick(TimeDelta);
@@ -178,11 +176,17 @@ _uint CMonster::Tick(_double TimeDelta)
 
 	CoolTimeCheck(TimeDelta);
 
+	HitTimeCheck(TimeDelta);
+
+	m_pAABB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
+
 	return State_Tick(TimeDelta);
 }
 
 _uint CMonster::LateTick(_double TimeDelta)
 {
+	HitCheck();
+
 	if (true == CGameInstance::GetInstance()->Is_In_Frustum(m_pTransformCom->Get_State(CTransform::STATE_POSITION), 1.f))
 	{
 		for (auto& pGameObject : m_Parts)
@@ -196,10 +200,9 @@ _uint CMonster::LateTick(_double TimeDelta)
 			if (m_pHPCom->Is_DamageEvent())
 			{
 				m_pDamageText->Show_Damage(m_pHPCom->Get_DamageRecieved(), { 1.f, 0.14f, 0.0f, 1.f }, { 0.75f, 0.75f }, 0.f, { 0.f, 0.f });
-				
 			}
 		}
-
+		//
 		if (m_pDamageText)
 			m_pDamageText->LateTick(TimeDelta);
 
@@ -211,6 +214,7 @@ _uint CMonster::LateTick(_double TimeDelta)
 	{
 		m_bBeCulling = true;
 	}
+
 	return _uint();
 }
 
@@ -228,7 +232,8 @@ HRESULT CMonster::Render()
 		if (FAILED(m_pModelCom->SetUp_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
 			return E_FAIL;
 
-		m_pShaderCom->Begin(0);
+		m_pShaderCom->Begin(_uint(m_bHitState));
+		//m_pShaderCom->Begin(0);
 
 		m_pModelCom->Render(i);
 	}
@@ -472,8 +477,6 @@ void CMonster::Do_Skill_After_Set_Motion(_uint skillType, const _tchar* pLayer)
 	{
 		m_pMonFSM->Transit_MotionState(CMonFSM::POKING, m_pModelCom);
 	}
-
-
 }
 
 void CMonster::CoolTimeCheck(const _double& TimeDelta)
@@ -494,6 +497,29 @@ void CMonster::CoolTimeCheck(const _double& TimeDelta)
 		{
 			m_bCanAttack = true;
 		}
+	}
+}
+
+void CMonster::HitTimeCheck(const _double& TimeDelta)
+{
+	if (m_hitTimeAcc <= m_hitTime)
+	{
+		m_hitTimeAcc += TimeDelta;
+		if (m_hitTimeAcc >= m_hitTime)
+		{
+			m_bHitState = false;
+		}
+	}
+}
+
+void CMonster::HitCheck()
+{
+	CManualCollisionState::COLLISION_STATE collisionState = m_pManualCollisionState->Get_State();
+
+	if (collisionState == CAABB::COLLISION_STATE::COLLISION_STATE_ENTER)
+	{
+		m_bHitState = true;
+		m_hitTimeAcc = 0.0;
 	}
 }
 
@@ -554,9 +580,13 @@ HRESULT CMonster::Add_Components()
 		(CComponent**)&m_pMonFSM, nullptr)))
 		return E_FAIL;
 
+	/* For.Com_ManualCollisionState */
+	if (FAILED(pGameInstance->Add_Component(CManualCollisionState::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_ManualCollisionState"),
+		(CComponent**)&m_pManualCollisionState, nullptr)))
+		return E_FAIL;
+
 	/* For.Com_AABB*/
 	CCollider::COLLIDER_DESC		ColliderDesc;
-
 	ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
 	ColliderDesc.vScale = _float3(0.8f, 1.5f, 0.8f);
 	ColliderDesc.vPosition = _float3(0.0f, 0.f, 0.f);
@@ -635,9 +665,13 @@ HRESULT CMonster::Add_Components_By_File()
 		(CComponent**)&m_pMonFSM, nullptr)))
 		return E_FAIL;
 
+	/* For.Com_ManualCollisionState */
+	if (FAILED(pGameInstance->Add_Component(CManualCollisionState::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_ManualCollisionState"),
+		(CComponent**)&m_pManualCollisionState, nullptr)))
+		return E_FAIL;
+
 	/* For.Com_AABB*/
 	CCollider::COLLIDER_DESC		ColliderDesc;
-
 	ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
 	ColliderDesc.vScale = _float3(0.8f, 1.5f, 0.8f);
 	ColliderDesc.vPosition = _float3(0.0f, ColliderDesc.vScale.y * 0.5f, 0.f);
@@ -721,6 +755,10 @@ HRESULT CMonster::SetUp_ShaderResources()
 
 	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightSpecular",
 		&pLightDesc->vSpecular, sizeof(_float4))))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_vColor",
+		&m_hitColor, sizeof(_float4))))
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);
@@ -893,7 +931,6 @@ void CMonster::Free()
 {
 	__super::Free();
 
-
 	for (auto& pGameObject : m_Parts)
 		Safe_Release(pGameObject);
 
@@ -915,5 +952,5 @@ void CMonster::Free()
 	Safe_Release(m_pNavigationCom);
 	Safe_Release(m_pHPCom);
 	Safe_Release(m_pAttackCom);
-
+	Safe_Release(m_pManualCollisionState);
 }

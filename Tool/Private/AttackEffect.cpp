@@ -161,6 +161,7 @@ void CAttackEffect::Collision(CCollider* pOther,
 					{
 						Camera_Shake_Request();
 						Create_Collision_Effect(pOtherTransform);
+						Set_ManualCollisionState(pOtherOwner, CManualCollisionState::COLLISION_STATE::COLLISION_STATE_ENTER);
 					}
 
 					if (false == m_AttackEffectDesc.m_bContinue)
@@ -259,6 +260,12 @@ void CAttackEffect::Camera_Shake_Request()
 		return;
 
 	dynamic_cast<CStageCamera*>(pStageCamera)->Do_Shake();
+}
+
+void CAttackEffect::Set_ManualCollisionState(CGameObject* pOtherOwner, CManualCollisionState::COLLISION_STATE eState)
+{
+	CManualCollisionState* pMCS = pOtherOwner->Get_As<CManualCollisionState>();
+	pMCS->Set_State(eState);
 }
 
 CAttackEffect* CAttackEffect::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

@@ -81,6 +81,10 @@ public:
         return m_pSphere;
     }
 
+    const COLLISION_STATE Get_Collision_State() const {
+        return m_eState;
+    }
+
 protected:
     _matrix Remove_Rotation(_fmatrix TranformMatrix);
 

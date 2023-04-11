@@ -6,6 +6,7 @@ BEGIN(Engine)
 class CCollider;
 class CAttack;
 class CHP;
+class CManualCollisionState;
 END
 
 BEGIN(Client)
@@ -64,6 +65,7 @@ protected:
 	void		Attack_Time_Check(const _double& TimeDelta);
 	void		Create_Collision_Effect(CTransform* hitObjectTransform);
 	void		Camera_Shake_Request();
+	void		Set_ManualCollisionState(CGameObject* pOtherOwner, CManualCollisionState::COLLISION_STATE eState);
 
 protected:
 	ATTACK_EFFECT_DESC	m_AttackEffectDesc = {};

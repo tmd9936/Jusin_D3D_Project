@@ -178,6 +178,9 @@
     <Filter Include="01. Utility\08. RenderTarget\Target">
       <UniqueIdentifier>{99482a24-b891-410e-894f-fc72ec54a962}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\03. Component\ManualCollsionState">
+      <UniqueIdentifier>{ba6ece7d-b911-4126-8660-5ece63491190}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Engine_Defines.h">
@@ -363,6 +366,9 @@
     <ClInclude Include="..\Public\Target_Manager.h">
       <Filter>01. Utility\08. RenderTarget</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\ManualCollisionState.h">
+      <Filter>01. Utility\03. Component\ManualCollsionState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -532,6 +538,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Target_Manager.cpp">
       <Filter>01. Utility\08. RenderTarget</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ManualCollisionState.cpp">
+      <Filter>01. Utility\03. Component\ManualCollsionState</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

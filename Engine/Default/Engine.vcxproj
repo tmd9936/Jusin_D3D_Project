@@ -38,6 +38,7 @@
     <ClInclude Include="..\Public\Formation.h" />
     <ClInclude Include="..\Public\Frustum.h" />
     <ClInclude Include="..\Public\HP.h" />
+    <ClInclude Include="..\Public\ManualCollisionState.h" />
     <ClInclude Include="..\Public\Navigation.h" />
     <ClInclude Include="..\Public\OBB.h" />
     <ClInclude Include="..\Public\PickingCube.h" />
@@ -100,6 +101,7 @@
     <ClCompile Include="..\Private\Formation.cpp" />
     <ClCompile Include="..\Private\Frustum.cpp" />
     <ClCompile Include="..\Private\HP.cpp" />
+    <ClCompile Include="..\Private\ManualCollisionState.cpp" />
     <ClCompile Include="..\Private\Navigation.cpp" />
     <ClCompile Include="..\Private\OBB.cpp" />
     <ClCompile Include="..\Private\PickingCube.cpp" />

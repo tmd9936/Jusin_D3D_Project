@@ -68,7 +68,11 @@ _uint CPlayer::Tick(_double TimeDelta)
 	if (m_pDamageText)
 		m_pDamageText->Tick(TimeDelta);
 
+	m_pManualCollisionState->Tick(TimeDelta);
+
 	CoolTimeCheck(TimeDelta);
+
+	HitTimeCheck(TimeDelta);
 
 	_float4x4 mat = {};
 	switch (m_pMonFSM->Get_MotionState())
