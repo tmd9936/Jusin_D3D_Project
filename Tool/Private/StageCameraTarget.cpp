@@ -176,7 +176,7 @@ HRESULT CStageCameraTarget::Add_Components()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
-	/* For.Com_Transform */
+	/* For.Com_Transform */ /* 타켓 속도 1.5 이상되면 순간이동하는 느낌으로 움직여서 이상해짐, 몬스터 속도랑 맞춰야 할듯*/
 	CTransform::TRANSFORMDESC		TransformDesc = { 1.5f, XMConvertToRadians(90.0f) };
 	if (FAILED(pGameInstance->Add_Component(CTransform::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		(CComponent**)&m_pTransformCom, &TransformDesc)))

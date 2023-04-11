@@ -8,11 +8,11 @@
             "z": 24.0,
             "w": 1.0
         },
-        "moveSpeed": 0.9,
+        "moveSpeed": 1.1,
         "rotateSpeed": 1.2,
         "m_monsterNo": 31,
         "m_hpBasis": 1400,
-        "m_attackBasis": 125,
+        "m_attackBasis": 100,
         "m_hpGrow": 1,
         "m_attackGrow": 1,
         "m_type1": 3,
