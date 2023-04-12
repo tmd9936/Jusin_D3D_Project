@@ -168,7 +168,7 @@ _uint CBaseCampMonster::State_Tick(const _double& TimeDelta)
 
 	case CMonFSM::DEAD_ROTATE:
 		m_bHitState = true;
-		if (m_pModelCom->Play_Animation(TimeDelta))
+		if (m_pModelCom->Play_Animation(TimeDelta, false))
 		{
 			Set_Dead();
 		}
