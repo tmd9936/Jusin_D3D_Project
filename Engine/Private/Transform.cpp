@@ -499,12 +499,26 @@ _bool CTransform::Chase(_fvector vTargetPos, _float TimeDelta, _float limitDitan
 		else
 		{
 			_vector vSlidePosition = Get_State(STATE_POSITION);
-			vSlidePosition += vSlideLook * TimeDelta * m_TransformDesc.SpeedPerSec * 2.5;
+			vSlidePosition += vSlideLook * TimeDelta * m_TransformDesc.SpeedPerSec * 1.5;
 
 			isMove = pNavigation->Move_OnNavigation(vSlidePosition);
 			if (true == isMove)
 			{
 				Set_State(STATE_POSITION, vSlidePosition);
+			}
+			else
+			{
+				vSlideLook = XMVector3TransformNormal(vSlideLook, XMMatrixRotationAxis(vAxis, XMConvertToRadians(90.f)));
+
+				_vector vSlidePosition = Get_State(STATE_POSITION);
+				vSlidePosition += vSlideLook * TimeDelta * m_TransformDesc.SpeedPerSec * 1.5f;
+
+				isMove = pNavigation->Move_OnNavigation(vSlidePosition);
+				if (true == isMove)
+				{
+					Set_State(STATE_POSITION, vSlidePosition);
+				}
+
 			}
 		}
 		return false;
