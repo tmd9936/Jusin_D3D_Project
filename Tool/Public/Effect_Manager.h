@@ -64,6 +64,9 @@ public:
 	const static _uint m_damageEffect00 = 31;
 	const static _uint m_damageEffect01 = 32;
 
+	const static _uint m_damageBoss = 248;
+	const static _uint m_damageBossEnd = 249;
+
 private:
 	vector<CEffect::EFFECT_DESC> m_Effect_Descs;
 	vector<CSkillEffect::EFFECT_DESC> m_Skill_Effect_Descs;

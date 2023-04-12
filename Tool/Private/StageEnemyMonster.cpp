@@ -5,6 +5,8 @@
 
 #include "Searcher.h"
 
+#include "Stage_Manager.h"
+
 /*
 1 스테이지
 니드킹 지진, 메가톤 펀치, 돌진
@@ -75,6 +77,11 @@ HRESULT CStageEnemyMonster::Initialize(const _tchar* pLayerTag, _uint iLevelInde
 
 _uint CStageEnemyMonster::Tick(_double TimeDelta)
 {
+	if (m_bDead)
+		return OBJ_DEAD;
+
+	Dead_Check();
+
 	return __super::Tick(TimeDelta);
 }
 
@@ -141,6 +148,10 @@ void CStageEnemyMonster::Change_State_FSM(_uint eState)
 	case CMonFSM::POKING:
 		break;
 
+	case CMonFSM::DEAD_BOSS:
+		Boss_DeadEffect(false);
+		break;
+
 	default:
 		break;
 	}
@@ -175,7 +186,6 @@ void CStageEnemyMonster::On_Collision(CCollider* pOther, const _float& fX, const
 void CStageEnemyMonster::On_CollisionExit(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
 {
 }
-
 
 void CStageEnemyMonster::AI_Type_Long_Idle_Tick(const _double& TimeDelta, CTransform* pTargetTransform)
 {
@@ -217,6 +227,29 @@ void CStageEnemyMonster::AI_Type_Long_Idle_Tick(const _double& TimeDelta, CTrans
 			}
 		}
 	}
+}
+
+void CStageEnemyMonster::Dead_Check()
+{
+	if (m_pHPCom->Get_CurrentHp() <= 0.f
+		&& m_pMonFSM->Get_MotionState() != CMonFSM::DEAD_ROTATE 
+		&& m_pMonFSM->Get_MotionState() != CMonFSM::DEAD_BOSS)
+	{
+		if (m_isBoss)
+			m_pMonFSM->Transit_MotionState(CMonFSM::DEAD_BOSS, m_pModelCom);
+		else
+			m_pMonFSM->Transit_MotionState(CMonFSM::DEAD_ROTATE, m_pModelCom);
+	}
+}
+
+void CStageEnemyMonster::Boss_DeadEffect(_bool isEnd)
+{
+	CGameObject* pManager = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Manager", L"Stage_Manager");
+
+	if (nullptr == pManager)
+		return;
+
+	dynamic_cast<CStage_Manager*>(pManager)->Boss_DeadEffect(isEnd, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
 }
 
 _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
@@ -323,7 +356,6 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 		{
 			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
 		}
-
 		break;
 
 	case CMonFSM::POKING:
@@ -332,22 +364,17 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
 			SkillCoolTime_Start();
 		}
-
 		break;
-
-
 	case CMonFSM::BODYBLOW:
 		//m_pTransformCom->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), m_vTargetPos, TimeDelta * 2.0);
 		//m_pTransformCom->ChaseNoLook(m_vTargetPos, _float(TimeDelta * 3.0));
-		m_pTransformCom->Go_Straight(_float(TimeDelta * 2.5), m_pNavigationCom);
+		m_pTransformCom->Go_Straight(_float(TimeDelta * 1.5), m_pNavigationCom);
 		if (m_pModelCom->Play_Animation(TimeDelta * 0.7))
 		{
 			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
 			SkillCoolTime_Start();
 		}
-
 		break;
-
 	case CMonFSM::TREMBLING:
 		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
@@ -355,7 +382,6 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 			SkillCoolTime_Start();
 		}
 		break;
-
 	case CMonFSM::VERTICAL_JUMP:
 		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
@@ -363,7 +389,6 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 			SkillCoolTime_Start();
 		}
 		break;
-
 	case CMonFSM::JUMPLANDING_SLE_START:
 		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
@@ -373,7 +398,6 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 			//m_pTransformCom->Set_PosY(mat.m[3][2]);
 		}
 		break;
-
 	case CMonFSM::JUMPLANDING_SLE_LOOP:
 		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
@@ -388,10 +412,20 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 			//m_pTransformCom->Set_PosY(mat.m[3][2]);
 		}
 		break;
-
 	case CMonFSM::DEAD_ROTATE:
+		m_bHitState = true;
+		if (m_pModelCom->Play_Animation(TimeDelta, false))
+		{
+			Set_Dead();
+		}
 		break;
 	case CMonFSM::DEAD_BOSS:
+		m_bHitState = true;
+		if (m_pModelCom->Play_Animation(TimeDelta))
+		{
+			Boss_DeadEffect(true);
+			Set_Dead();
+		}
 		break;
 	default:
 		break;
@@ -419,6 +453,129 @@ void CStageEnemyMonster::Do_RandomSkill()
 	_uint randSKill = rand() % m_PokemonDesc.m_skillIDs.size();
 
 	Do_Skill_After_Set_Motion(m_PokemonDesc.m_skillIDs[randSKill], L"Layer_MonsterSkill");
+}
+
+
+_bool CStageEnemyMonster::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator)
+{
+	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
+	if (m_pTransformCom)
+	{
+		Value PokemonDesc(kObjectType);
+		{
+			Value ModelPrototypeTag;
+			string tag = convert.to_bytes(m_PokemonDesc.ModelPrototypeTag.c_str());
+			ModelPrototypeTag.SetString(tag.c_str(), (SizeType)tag.size(), allocator);
+			PokemonDesc.AddMember("ModelPrototypeTag", ModelPrototypeTag, allocator);
+
+			PokemonDesc.AddMember("ModelPrototypeLevelIndex", m_PokemonDesc.ModelPrototypeLevelIndex, allocator);
+
+			Value vPos(kObjectType);
+			{
+				_float4 pos = {};
+				XMStoreFloat4(&pos, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
+
+				vPos.AddMember("x", pos.x, allocator);
+				vPos.AddMember("y", pos.y, allocator);
+				vPos.AddMember("z", pos.z, allocator);
+				vPos.AddMember("w", pos.w, allocator);
+			}
+			PokemonDesc.AddMember("vPos", vPos, allocator);
+
+			PokemonDesc.AddMember("moveSpeed", m_PokemonDesc.moveSpeed, allocator);
+			PokemonDesc.AddMember("rotateSpeed", m_PokemonDesc.rotateSpeed, allocator);
+
+			PokemonDesc.AddMember("m_monsterNo", m_PokemonDesc.m_monsterNo, allocator);
+			PokemonDesc.AddMember("m_attackBasis", m_PokemonDesc.m_attackBasis, allocator);
+			PokemonDesc.AddMember("m_hpGrow", m_PokemonDesc.m_hpGrow, allocator);
+			PokemonDesc.AddMember("m_attackGrow", m_PokemonDesc.m_attackGrow, allocator);
+			PokemonDesc.AddMember("m_type1", m_PokemonDesc.m_type1, allocator);
+			PokemonDesc.AddMember("m_type2", m_PokemonDesc.m_type2, allocator);
+			PokemonDesc.AddMember("m_visitWeightDefault", m_PokemonDesc.m_visitWeightDefault, allocator);
+			PokemonDesc.AddMember("m_visitWeight", m_PokemonDesc.m_visitWeight, allocator);
+			PokemonDesc.AddMember("m_cookTableID", m_PokemonDesc.m_cookTableID, allocator);
+			PokemonDesc.AddMember("m_color", m_PokemonDesc.m_color, allocator);
+			PokemonDesc.AddMember("m_Rate", m_PokemonDesc.m_Rate, allocator);
+			PokemonDesc.AddMember("m_isLayer", m_PokemonDesc.m_isLayer, allocator);
+			PokemonDesc.AddMember("m_meleePercent", m_PokemonDesc.m_meleePercent, allocator);
+			PokemonDesc.AddMember("m_slotTypeWeightHp", m_PokemonDesc.m_slotTypeWeightHp, allocator);
+			PokemonDesc.AddMember("m_slotTypeWeightAttack", m_PokemonDesc.m_slotTypeWeightAttack, allocator);
+			PokemonDesc.AddMember("m_slotTypeWeightMulti", m_PokemonDesc.m_slotTypeWeightMulti, allocator);
+			PokemonDesc.AddMember("m_normalSkillType", m_PokemonDesc.m_normalSkillType, allocator);
+			PokemonDesc.AddMember("m_AIType", m_PokemonDesc.m_AIType, allocator);
+			PokemonDesc.AddMember("m_layerType", m_PokemonDesc.m_layerType, allocator);
+			PokemonDesc.AddMember("m_isBoss", m_isBoss, allocator);
+
+			Value m_skillIDs(kArrayType);
+			{
+				for (size_t i = 0; i < m_PokemonDesc.m_skillIDs.size(); ++i)
+				{
+					m_skillIDs.PushBack(m_PokemonDesc.m_skillIDs[i], allocator);
+				}
+			}
+			PokemonDesc.AddMember("m_skillIDs", m_skillIDs, allocator);
+
+		}
+		doc.AddMember("PokemonDesc", PokemonDesc, allocator);
+	}
+
+	return true;
+}
+
+_bool CStageEnemyMonster::Load_By_JsonFile_Impl(Document& doc)
+{
+	if (m_pTransformCom)
+	{
+		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
+
+		const Value& PokemonDesc = doc["PokemonDesc"];
+
+		string ModelPrototypeTag = PokemonDesc["ModelPrototypeTag"].GetString();
+		m_PokemonDesc.ModelPrototypeTag = convert.from_bytes(ModelPrototypeTag);
+
+		m_PokemonDesc.ModelPrototypeLevelIndex = PokemonDesc["ModelPrototypeLevelIndex"].GetUint();
+
+		const Value& vPos = PokemonDesc["vPos"];
+		m_pTransformCom->Set_Pos(vPos["x"].GetFloat(), vPos["y"].GetFloat(), vPos["z"].GetFloat());
+		m_PokemonDesc.vPos.x = vPos["x"].GetFloat();
+		m_PokemonDesc.vPos.y = vPos["y"].GetFloat();
+		m_PokemonDesc.vPos.z = vPos["z"].GetFloat();
+		m_PokemonDesc.vPos.w = vPos["w"].GetFloat();
+
+		m_PokemonDesc.moveSpeed = PokemonDesc["moveSpeed"].GetFloat();
+		m_PokemonDesc.rotateSpeed = PokemonDesc["rotateSpeed"].GetFloat();
+
+		m_PokemonDesc.m_monsterNo = PokemonDesc["m_monsterNo"].GetUint();
+		m_PokemonDesc.m_hpBasis = PokemonDesc["m_hpBasis"].GetUint();
+		m_PokemonDesc.m_attackBasis = PokemonDesc["m_attackBasis"].GetUint();
+		m_PokemonDesc.m_hpGrow = PokemonDesc["m_hpGrow"].GetUint();
+		m_PokemonDesc.m_attackGrow = PokemonDesc["m_attackGrow"].GetUint();
+		m_PokemonDesc.m_type1 = PokemonDesc["m_type1"].GetUint();
+		m_PokemonDesc.m_type2 = PokemonDesc["m_type2"].GetUint();
+		m_PokemonDesc.m_visitWeightDefault = PokemonDesc["m_visitWeightDefault"].GetUint();
+		m_PokemonDesc.m_visitWeight = PokemonDesc["m_visitWeight"].GetUint();
+		m_PokemonDesc.m_cookTableID = PokemonDesc["m_cookTableID"].GetUint();
+		m_PokemonDesc.m_color = PokemonDesc["m_color"].GetUint();
+		m_PokemonDesc.m_Rate = PokemonDesc["m_Rate"].GetUint();
+		m_PokemonDesc.m_isLayer = PokemonDesc["m_isLayer"].GetUint();
+		m_PokemonDesc.m_meleePercent = PokemonDesc["m_meleePercent"].GetUint();
+		m_PokemonDesc.m_slotTypeWeightHp = PokemonDesc["m_slotTypeWeightHp"].GetUint();
+		m_PokemonDesc.m_slotTypeWeightAttack = PokemonDesc["m_slotTypeWeightAttack"].GetUint();
+		m_PokemonDesc.m_slotTypeWeightMulti = PokemonDesc["m_slotTypeWeightMulti"].GetUint();
+
+		m_PokemonDesc.m_normalSkillType = PokemonDesc["m_normalSkillType"].GetUint();
+		m_PokemonDesc.m_AIType = PokemonDesc["m_AIType"].GetUint();
+		m_PokemonDesc.m_layerType = PokemonDesc["m_layerType"].GetUint();
+		m_isBoss = PokemonDesc["m_isBoss"].GetBool();
+
+		const Value& skillIDs = PokemonDesc["m_skillIDs"];
+		for (SizeType i = 0; i < skillIDs.Size(); ++i)
+		{
+			m_PokemonDesc.m_skillIDs.push_back(skillIDs[i].GetInt());
+		}
+	}
+
+	return true;
 }
 
 CStageEnemyMonster* CStageEnemyMonster::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

@@ -112,7 +112,7 @@ public:
 		return _float(m_SkillCoolTimeAcc / m_SkillCoolTime);
 	}
 
-	void		Do_Skill_By_Index(_uint skillindex, const _tchar* pLayer);
+	void			Do_Skill_By_Index(_uint skillindex, const _tchar* pLayer);
 
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);

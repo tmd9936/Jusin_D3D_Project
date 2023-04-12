@@ -6,6 +6,9 @@
 #include "Utility.h"
 
 BEGIN(Client)
+
+class CStage_Manager;
+
 class CStageEnemyMonster : public CMonster
 {
 private:
@@ -31,13 +34,19 @@ public:
 	virtual void On_CollisionExit(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
 
 protected:
-	virtual _uint State_Tick(const _double& TimeDelta) override;
+	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
+	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
 
 protected:
-	void		Do_RandomSkill();
+	virtual _uint			State_Tick(const _double& TimeDelta) override;
+
+protected:
+	void					Do_RandomSkill();
 
 private:
-	void		AI_Type_Long_Idle_Tick(const _double& TimeDelta, CTransform* pTargetTransform);
+	void					AI_Type_Long_Idle_Tick(const _double& TimeDelta, CTransform* pTargetTransform);
+	void					Dead_Check();
+	void					Boss_DeadEffect(_bool isEnd);
 
 private:
 	_bool		m_bTurn = { false };
@@ -47,6 +56,8 @@ private:
 	_double		m_ChaseCoolTime = { 2.0 };
 	_double		m_ChaseCoolTimeAcc = { 0.0 };
 	_double		m_bChase = { true };
+
+	_bool		m_isBoss = { false };
 
 public:
 	static CStageEnemyMonster* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

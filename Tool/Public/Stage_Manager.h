@@ -19,6 +19,7 @@ BEGIN(Client)
 class CStageCamera;
 class CPokemonSkillButton;
 class CMonster;
+class CEffect_Manager;
 
 class CStage_Manager final : public CGameObject
 {
@@ -58,15 +59,11 @@ public:
 		m_eCurState = MANAGER_IDLE;
 	}
 
-//public:
-//	void	Skill_UI_CoolTimeStart();
-
-
+	void	Boss_DeadEffect(_bool isEnd, _fvector vPos);
 
 private:
 	HRESULT Init_ManagerInfo();
 	void	Init_PlayersPos();
-
 
 private:
 	void Fade_In(const _double& TimeDelta);

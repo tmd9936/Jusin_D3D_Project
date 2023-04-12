@@ -11,6 +11,8 @@
 
 #include "Client_Utility.h"
 
+#include "Effect_Manager.h"
+
 
 CStage_Manager::CStage_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
@@ -90,6 +92,31 @@ HRESULT CStage_Manager::Render()
 	return S_OK;
 }
 
+
+void CStage_Manager::Boss_DeadEffect(_bool isEnd, _fvector vPos)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	CEffect_Manager* pEffect_Manager = dynamic_cast<CEffect_Manager*>(pGameInstance->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"Effect_Manager"));
+	if (nullptr == pEffect_Manager)
+		return;
+
+	CSkillEffect* pSkillEffect = nullptr;
+
+	if (false == isEnd)
+		pSkillEffect = pEffect_Manager->CreateEffect(CEffect_Manager::m_damageBoss, L"Prototype_GameObject_SkillEffect", Get_LayerTag().c_str(), Get_Levelindex());
+	else
+		pSkillEffect = pEffect_Manager->CreateEffect(CEffect_Manager::m_damageBossEnd, L"Prototype_GameObject_SkillEffect", Get_LayerTag().c_str(), Get_Levelindex());
+
+	if (nullptr != pSkillEffect)
+	{
+		_float4 vCreatePos{};
+		XMStoreFloat4(&vCreatePos, vPos);
+		pSkillEffect->Set_Pos(vCreatePos);
+	}
+
+	Safe_Release(pSkillEffect);
+}
 
 HRESULT CStage_Manager::Init_ManagerInfo()
 {

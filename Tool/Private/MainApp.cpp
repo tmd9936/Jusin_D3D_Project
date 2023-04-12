@@ -199,7 +199,7 @@ HRESULT CMainApp::Render()
 	}
 #endif
 
-	m_pGameInstance->Present(0, 0);
+	m_pGameInstance->Present(1, 0);
 
 	return S_OK;
 }

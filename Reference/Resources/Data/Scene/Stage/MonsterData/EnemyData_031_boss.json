@@ -40,6 +40,7 @@
         "m_normalSkillType": 6,
         "m_AIType": 1,
         "m_layerType": 1,
+        "m_isBoss": true,
         "m_skillIDs": [
           100,
           164,

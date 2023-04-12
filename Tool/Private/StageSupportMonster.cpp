@@ -45,7 +45,7 @@ HRESULT CStageSupportMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIn
 		return E_FAIL;
 
 	m_bBattle = false;
-	m_pMonFSM->Transit_MotionState(CMonFSM::FORMATION_NORMAL);
+	m_pMonFSM->Transit_MotionState(CMonFSM::FORMATION_NORMAL, m_pModelCom);
 
 	return S_OK;
 }
@@ -59,7 +59,7 @@ HRESULT CStageSupportMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIn
 		return E_FAIL;
 
 	m_bBattle = false;
-	m_pMonFSM->Transit_MotionState(CMonFSM::FORMATION_NORMAL);
+	m_pMonFSM->Transit_MotionState(CMonFSM::FORMATION_NORMAL, m_pModelCom);
 
 	return S_OK;
 }
@@ -183,10 +183,13 @@ void CStageSupportMonster::Change_State_FSM(_uint eState)
 	{
 	case CMonFSM::IDLE1:
 		//m_pNavigationCom->Set_Index_By_Position({ m_PokemonDesc.vPos.x, m_PokemonDesc.vPos.y, m_PokemonDesc.vPos.z });
+		m_bBattle = true;
 		break;
 	case CMonFSM::IDLE_GROUND:
+		m_bBattle = true;
 		break;
 	case CMonFSM::ATK_NORMAL:
+		m_bBattle = true;
 		break;
 	case CMonFSM::ATK_SLE_NORMAL_START:
 		break;
@@ -215,8 +218,10 @@ void CStageSupportMonster::Change_State_FSM(_uint eState)
 	case CMonFSM::POKING:
 		break;
 	case CMonFSM::FORMATION_NORMAL:
+		m_bBattle = false;
 		break;
 	case CMonFSM::FORMATION_RUN:
+		m_bBattle = false;
 		break;
 	default:
 		break;
