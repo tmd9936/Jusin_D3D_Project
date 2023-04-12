@@ -121,6 +121,8 @@ _uint APIENTRY LoadingDenkiEffect(void* pArg)
 {
 	if (FAILED(CoInitializeEx(nullptr, 0)))
 		return E_FAIL;
+	
+	while (!CThreadPool::GetInstance()) {}
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
@@ -198,6 +200,8 @@ _uint APIENTRY LoadingDokuEffect(void* pArg)
 	if (FAILED(CoInitializeEx(nullptr, 0)))
 		return E_FAIL;
 
+	while (!CThreadPool::GetInstance()) {}
+
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
 	EnterCriticalSection(CThreadPool::GetInstance()->Get_CurrentCriticalSection());
@@ -267,6 +271,8 @@ _uint APIENTRY LoadingNormalEffect(void* pArg)
 {
 	if (FAILED(CoInitializeEx(nullptr, 0)))
 		return E_FAIL;
+
+	while (!CThreadPool::GetInstance()) {}
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
@@ -338,6 +344,8 @@ _uint APIENTRY LoadingKooriEffect(void* pArg)
 {
 	if (FAILED(CoInitializeEx(nullptr, 0)))
 		return E_FAIL;
+
+	while (!CThreadPool::GetInstance()) {}
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 

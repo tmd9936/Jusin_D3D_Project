@@ -31,6 +31,8 @@ HRESULT CBaseCampMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex,
 
 	Init_RandomMotionChangeDelay();
 
+	m_pTransformCom->Set_PositionY(0.5f);
+
 	return S_OK;
 }
 
@@ -41,17 +43,26 @@ HRESULT CBaseCampMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex,
 
 	Init_RandomMotionChangeDelay();
 
+	m_pTransformCom->Set_PositionY(0.5f);
+
 	return S_OK;
 }
 
 _uint CBaseCampMonster::Tick(_double TimeDelta)
 {
-	if (m_pHPCom->Get_CurrentHp() <= 0.f)
-	{
+	if (m_bDead)
 		return OBJ_DEAD;
+
+	if (m_pHPCom->Get_CurrentHp() <= 0.f 
+		&& m_pMonFSM->Get_MotionState() != CMonFSM::DEAD_ROTATE)
+	{
+		m_pMonFSM->Transit_MotionState(CMonFSM::DEAD_ROTATE, m_pModelCom);
 	}
 
-	m_pMonFSM->Update_Component((_float)TimeDelta, m_pModelCom);
+	if (m_pMonFSM->Get_MotionState() != CMonFSM::DEAD_ROTATE)
+	{
+		m_pMonFSM->Update_Component((_float)TimeDelta, m_pModelCom);
+	}
 	return __super::Tick(TimeDelta);
 }
 
@@ -64,7 +75,6 @@ HRESULT CBaseCampMonster::Render()
 {
 	return __super::Render();
 }
-
 
 void CBaseCampMonster::Change_State_FSM(_uint eState)
 {
@@ -154,6 +164,14 @@ _uint CBaseCampMonster::State_Tick(const _double& TimeDelta)
 
 	case CMonFSM::IDLE_GROUND:
 		Go_To_RandomPosition(TimeDelta);
+		break;
+
+	case CMonFSM::DEAD_ROTATE:
+		m_bHitState = true;
+		if (m_pModelCom->Play_Animation(TimeDelta))
+		{
+			Set_Dead();
+		}
 		break;
 
 	//case CMonFSM::ROTATE_LOOP:
