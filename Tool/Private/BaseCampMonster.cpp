@@ -46,6 +46,11 @@ HRESULT CBaseCampMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex,
 
 _uint CBaseCampMonster::Tick(_double TimeDelta)
 {
+	if (m_pHPCom->Get_CurrentHp() <= 0.f)
+	{
+		return OBJ_DEAD;
+	}
+
 	m_pMonFSM->Update_Component((_float)TimeDelta, m_pModelCom);
 	return __super::Tick(TimeDelta);
 }

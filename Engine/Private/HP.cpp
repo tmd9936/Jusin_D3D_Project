@@ -44,7 +44,7 @@ _uint CHP::Tick(const _double& Timedelta)
 }
 
 
-void CHP::Get_Damage(_uint damage)
+void CHP::Get_Damage(_int damage)
 {
 	m_CurrentHP -= damage;
 

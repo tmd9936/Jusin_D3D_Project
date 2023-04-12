@@ -390,6 +390,11 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 			//m_pTransformCom->Set_PosY(mat.m[3][2]);
 		}
 		break;
+
+	case CMonFSM::DEAD_ROTATE:
+		break;
+	case CMonFSM::DEAD_BOSS:
+		break;
 	default:
 		break;
 	}

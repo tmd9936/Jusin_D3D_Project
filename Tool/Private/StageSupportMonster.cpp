@@ -250,7 +250,7 @@ _uint CStageSupportMonster::State_Tick(const _double& TimeDelta)
 {
 	CTransform* pTargetTransform = nullptr;
 
-	if (m_pTarget)
+	if (nullptr != m_pTarget && !m_pTarget->Is_Dead())
 	{
 		pTargetTransform = m_pTarget->Get_As<CTransform>();
 	}
