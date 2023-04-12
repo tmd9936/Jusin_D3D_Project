@@ -70,6 +70,8 @@ HRESULT CTarget_Manager::Begin_MRT(ID3D11DeviceContext* pContext, const _tchar* 
 		pRenderTargets[iNumRenderTargets++] = pRenderTarget->Get_RTV();
 	}
 
+	m_CurBeginRederTargetNum = iNumRenderTargets;
+
 	/*사용자가 만들어둔 타겟들을 장치에 바인딩한다, 
 	추가로 기존에 바인딩 되어있던 뎁스 스텐실 정보도 같이 다시 바인딩 한다.*/ 
 	pContext->OMSetRenderTargets(iNumRenderTargets, pRenderTargets, m_pDepthStencilView);
@@ -79,6 +81,9 @@ HRESULT CTarget_Manager::Begin_MRT(ID3D11DeviceContext* pContext, const _tchar* 
 
 HRESULT CTarget_Manager::End_MRT(ID3D11DeviceContext* pContext)
 {
+	ID3D11ShaderResourceView* pSRV = nullptr;
+	pContext->PSSetShaderResources(1, m_CurBeginRederTargetNum - 1, &pSRV);
+
 	pContext->OMSetRenderTargets(1, &m_pBackBufferView, m_pDepthStencilView);
 
 	Safe_Release(m_pBackBufferView);

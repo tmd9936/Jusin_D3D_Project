@@ -53,6 +53,8 @@ private:
 	/* 뎁스 스탠실은 기존에 있던것을 사용해야함*/
 	ID3D11DepthStencilView* m_pDepthStencilView = { nullptr };
 
+	UINT					m_CurBeginRederTargetNum = { 0 };
+
 private: /* 렌더타겟을 생성하여 보관의 역할을 한다. */
 	unordered_map<const _tchar*, class CRenderTarget*>				m_RenderTargets;
 	typedef unordered_map<const _tchar*, class CRenderTarget*>		RENDERTARGETS;
