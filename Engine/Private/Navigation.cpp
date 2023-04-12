@@ -265,7 +265,7 @@ _bool CNavigation::Move_OnNavigation(_fvector vPosition)
 	}
 }
 
-_bool CNavigation::Move_OnNavigation_Sliding(_fvector vPosition, _fvector vLook, _vector& vOutSlidLook)
+_bool CNavigation::Move_OnNavigation_Sliding(_fvector vPosition, _fvector vLook, _vector& vOutSlidLook, _vector& vAxis)
 {
 	if (m_NaviDesc.iIndex >= m_Cells.size())
 		return false;
@@ -285,7 +285,16 @@ _bool CNavigation::Move_OnNavigation_Sliding(_fvector vPosition, _fvector vLook,
 			{
 				if (-1 == iNeighborIndex)
 				{
-					vOutSlidLook = m_Cells[m_NaviDesc.iIndex]->Get_SlidePowerV2(vPosition, vLook);
+					vOutSlidLook = m_Cells[m_NaviDesc.iIndex]->Get_SlidePowerV3(vPosition, vLook, vAxis);
+					if (XMVectorGetY(vAxis) > 0.f)
+					{
+						vAxis = XMVectorSet(0.f, 1.f, 0.f, 0.f);
+					}
+					else
+					{
+						vAxis = XMVectorSet(0.f, -1.f, 0.f, 0.f);
+					}
+
 					return false;
 				}
 
@@ -299,7 +308,16 @@ _bool CNavigation::Move_OnNavigation_Sliding(_fvector vPosition, _fvector vLook,
 			return true;
 		}
 
-		vOutSlidLook = m_Cells[m_NaviDesc.iIndex]->Get_SlidePowerV2(vPosition, vLook);
+		vOutSlidLook = m_Cells[m_NaviDesc.iIndex]->Get_SlidePowerV3(vPosition, vLook, vAxis);
+
+		if (XMVectorGetY(vAxis) > 0.f)
+		{
+			vAxis = XMVectorSet(0.f, 1.f, 0.f, 0.f);
+		}
+		else
+		{
+			vAxis = XMVectorSet(0.f, -1.f, 0.f, 0.f);
+		}
 
 		/* 나간 방향에 이웃이 없다면?*/
 		return false;

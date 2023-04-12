@@ -212,10 +212,11 @@ void CTransform::Go_Straight(_float TimeDelta, CNavigation* pNavigation)
 	vPosition += XMVector3Normalize(vLook) * m_TransformDesc.SpeedPerSec * TimeDelta;
 
 	_vector vSlideLook = {};
+	_vector vAxis = {};
 
 	if (nullptr != pNavigation)
 	{
-		isMove = pNavigation->Move_OnNavigation_Sliding(vPosition, vLook, vSlideLook);
+		isMove = pNavigation->Move_OnNavigation_Sliding(vPosition, vLook, vSlideLook, vAxis);
 	}
 
 	if (true == isMove)
@@ -234,10 +235,24 @@ void CTransform::Go_Straight(_float TimeDelta, CNavigation* pNavigation)
 			_vector vSlidePosition = Get_State(STATE_POSITION);
 			vSlidePosition += vSlideLook * TimeDelta * m_TransformDesc.SpeedPerSec * 1.5f;
 
-			isMove = pNavigation->Move_OnNavigation_Sliding(vSlidePosition, vLook, vSlideLook);
+			isMove = pNavigation->Move_OnNavigation(vSlidePosition);
 			if (true == isMove)
 			{
 				Set_State(STATE_POSITION, XMVectorSetY(vSlidePosition, fY));
+			}
+			else
+			{
+				vSlideLook = XMVector3TransformNormal(vSlideLook, XMMatrixRotationAxis(vAxis, XMConvertToRadians(90.f)));
+
+				_vector vSlidePosition = Get_State(STATE_POSITION);
+				vSlidePosition += vSlideLook * TimeDelta * m_TransformDesc.SpeedPerSec * 1.5f;
+
+				isMove = pNavigation->Move_OnNavigation(vSlidePosition);
+				if (true == isMove)
+				{
+					Set_State(STATE_POSITION, XMVectorSetY(vSlidePosition, fY));
+				}
+
 			}
 		}
 	}
@@ -470,10 +485,11 @@ _bool CTransform::Chase(_fvector vTargetPos, _float TimeDelta, _float limitDitan
 		vPosition += XMVector3Normalize(vDir) * TimeDelta * m_TransformDesc.SpeedPerSec;
 
 		_vector vSlideLook = {};
+		_vector vAxis = {};
 
 		if (nullptr != pNavigation)
 		{
-			isMove = pNavigation->Move_OnNavigation_Sliding(vPosition, vLook, vSlideLook);
+			isMove = pNavigation->Move_OnNavigation_Sliding(vPosition, vLook, vSlideLook, vAxis);
 		}
 
 		if (true == isMove)

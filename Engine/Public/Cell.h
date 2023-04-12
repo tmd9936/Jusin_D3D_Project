@@ -33,6 +33,8 @@ public:
 
 	_vector		Get_SlidePower(_fvector vPosition, _fvector vLook);
 	_vector		Get_SlidePowerV2(_fvector vPosition, _fvector vLook);
+	_vector		Get_SlidePowerV3(_fvector vPosition, _fvector vLook, _vector& vAxis);
+
 
 	void Compute_Height(_float3& vPosition, _float& fY);
 
