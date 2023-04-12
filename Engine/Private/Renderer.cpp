@@ -38,6 +38,11 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 
 	/* For.Target_Normal */
+	/*
+	* float이 4바이트인데 2바이트인데
+	* DXGI_FORMAT_R16G16B16A16_UNORM로 데이터의 정보를 저장하는 이유는
+	* 4바이트로 노말 정보를 받을 경우 나중에 프레임드랍이 발생할 수 있음
+	*/
 	/* 던저지는 데이터의 정보가 UNORM이여서 나중에 빛 정보를 이 타겟에 저장할 시 에는 
 	0~1값으로 보정해서 데이터를 넘겨야함, 이후에 디퓨즈 정보와 연산을 할 때는 -1 ~ 1사이의 값으로 다시 보정해줘야함 */
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
