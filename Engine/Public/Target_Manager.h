@@ -13,7 +13,8 @@ private:
 	virtual ~CTarget_Manager() = default;
 
 public:
-	HRESULT Add_RenderTarget(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pTargetTag, _uint iSizeX, _uint iSizeY, DXGI_FORMAT eFormat);
+	HRESULT Add_RenderTarget(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, 
+		const _tchar* pTargetTag, _uint iSizeX, _uint iSizeY, DXGI_FORMAT eFormat, const _float4& vClearColor);
 	HRESULT Add_MRT(const _tchar* pMRTTag, const _tchar* pTargetTag);
 	/// <summary>
 	/// 바인딩 되어있던 백버퍼뷰를 임시 저장한 후에 해당 태그의 MRT를 랜더 타겟으로 지정
@@ -29,6 +30,16 @@ public:
 	/// <param name="pContext"></param>
 	/// <returns></returns>
 	HRESULT End_MRT(ID3D11DeviceContext* pContext);
+
+	/// <summary>
+	/// 해당 타겟에게 셰이더 리소스 뷰를 셰이더에 바인딩 요청
+	/// </summary>
+	/// <param name="pTargetTag"> 해당 타겟의 태그 </param>
+	/// <param name="pShader">바인딩 될 셰이더</param>
+	/// <param name="pConstantName">셰이더 안에 있는 변수의 컨택스트 이름</param>
+	/// <returns></returns>
+	HRESULT Set_ShaderResourceView(const _tchar* pTargetTag, class CShader* pShader,
+		const char* pConstantName);
 
 #ifdef _DEBUG
 public:

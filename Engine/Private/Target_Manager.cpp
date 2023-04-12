@@ -12,12 +12,13 @@ CTarget_Manager::CTarget_Manager()
 {
 }
 
-HRESULT CTarget_Manager::Add_RenderTarget(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pTargetTag, _uint iSizeX, _uint iSizeY, DXGI_FORMAT eFormat)
+HRESULT CTarget_Manager::Add_RenderTarget(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, 
+	const _tchar* pTargetTag, _uint iSizeX, _uint iSizeY, DXGI_FORMAT eFormat, const _float4& vClearColor)
 {
 	if (nullptr != Find_RenderTarget(pTargetTag))
 		return E_FAIL;
 
-	CRenderTarget* pRenderTarget = CRenderTarget::Create(pDevice, pContext, iSizeX, iSizeY, eFormat);
+	CRenderTarget* pRenderTarget = CRenderTarget::Create(pDevice, pContext, iSizeX, iSizeY, eFormat, vClearColor);
 	if (nullptr == pRenderTarget)
 		return E_FAIL;
 
@@ -61,8 +62,11 @@ HRESULT CTarget_Manager::Begin_MRT(ID3D11DeviceContext* pContext, const _tchar* 
 
 	_uint		iNumRenderTargets = 0;
 
+	/* 랜더 타겟을 Begin 시점에 클리어 해주는게 맞음 
+	End 시점에 클리어 한다면 기껏 그렸는데 저장된 정보가 다 사라짐*/
 	for (auto& pRenderTarget : *pMRTList)
 	{
+		pRenderTarget->Clear();
 		pRenderTargets[iNumRenderTargets++] = pRenderTarget->Get_RTV();
 	}
 
@@ -81,6 +85,16 @@ HRESULT CTarget_Manager::End_MRT(ID3D11DeviceContext* pContext)
 	Safe_Release(m_pDepthStencilView);
 
 	return S_OK;
+}
+
+HRESULT CTarget_Manager::Set_ShaderResourceView(const _tchar* pTargetTag, CShader* pShader, const char* pConstantName)
+{
+	CRenderTarget* pRenderTarget = Find_RenderTarget(pTargetTag);
+
+	if (nullptr == pRenderTarget)
+		return E_FAIL;
+
+	return pRenderTarget->Set_ShaderResourceView(pShader, pConstantName);
 }
 
 #ifdef _DEBUG

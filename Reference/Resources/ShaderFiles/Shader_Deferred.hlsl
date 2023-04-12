@@ -1,7 +1,17 @@
 #include "Shader_Defines.hlsli"
 
 matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
+
+vector			g_vLightDir;
+vector			g_vLightDiffuse;
+vector			g_vLightAmbient;
+
+vector			g_vMtrlAmbient = vector(1.f, 1.f, 1.f, 1.f);
+
 texture2D		g_Texture;
+texture2D		g_NormalTexture;
+texture2D		g_DiffuseTexture;
+texture2D		g_ShadeTexture;
 
 struct VS_IN
 {
@@ -39,6 +49,12 @@ struct PS_IN
 struct PS_OUT
 {
 	float4		vColor : SV_TARGET0;
+};
+
+struct PS_OUT_LIGHT
+{
+	float4		vShade : SV_TARGET0;
+	/*float4		vSpecular : SV_TARGET1;*/
 };
 
 /* 픽셀의 색을 결정한다. */

@@ -10,6 +10,7 @@ BEGIN(Engine)
 class CTarget_Manager;
 class CVIBuffer_Rect;
 class CShader;
+class CLight_Manager;
 
 class ENGINE_DLL CRenderer final : public CComponent
 {
@@ -33,13 +34,14 @@ private:
 
 private:
 	CTarget_Manager* m_pTarget_Manager = { nullptr };
+	CLight_Manager* m_pLight_Manager = { nullptr };
 
 private:
-	class CVIBuffer_Rect* m_pVIBuffer = { nullptr };
-	class CShader* m_pShader = { nullptr };
+	CVIBuffer_Rect* m_pVIBuffer = { nullptr };
+	CShader* m_pShader = { nullptr };
 
 private:
-	_float4x4							m_ViewMatrix, m_ProjMatrix;
+	_float4x4							m_WorldMatrix{}, m_ViewMatrix{}, m_ProjMatrix{};
 
 
 private: /* 그리는 그룹들에 따라 셋팅이 바뀌어야할 필요가 생길 수 있기때문에 그룹별로 함수를 만들어 처리. */
@@ -50,6 +52,10 @@ private: /* 그리는 그룹들에 따라 셋팅이 바뀌어야할 필요가 생길 수 있기때문에 그�
 	HRESULT Draw_Back_UI();
 	HRESULT Draw_UI();
 	HRESULT Draw_Blend_UI();
+
+private:
+	HRESULT Draw_LightAcc();
+	HRESULT Draw_DeferredBlend();
 
 #ifdef _DEBUG
 private:

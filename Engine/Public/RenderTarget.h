@@ -16,7 +16,9 @@ public:
 	}
 
 public:
-	HRESULT Ready_RenderTarget(_uint iSizeX, _uint iSizeY, DXGI_FORMAT eFormat);
+	HRESULT Ready_RenderTarget(_uint iSizeX, _uint iSizeY, DXGI_FORMAT eFormat, const _float4& vClearColor);
+	HRESULT	Clear();
+	HRESULT Set_ShaderResourceView(class CShader* pShader, const char* pConstantName);
 
 #ifdef _DEBUG
 public:
@@ -24,7 +26,7 @@ public:
 	HRESULT Render(class CShader* pShader, class CVIBuffer_Rect* pVIBuffer);
 #endif // _DEBUG
 
-public:
+private:
 	ID3D11Device*					m_pDevice = { nullptr };
 	ID3D11DeviceContext*			m_pContext = { nullptr };
 
@@ -36,13 +38,16 @@ public:
 	/* 셰이더 전역으로 던질 수 있도록 하기위해. */
 	ID3D11ShaderResourceView*		m_pSRV = { nullptr };
 
+	_float4							m_vClearColor = {};
+
 #ifdef _DEBUG
 private:
 	_float4x4						m_WorldMatrix;
 #endif // _DEBUG
 
 public:
-	static CRenderTarget* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, _uint iSizeX, _uint iSizeY, DXGI_FORMAT eFormat);
+	static CRenderTarget* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, 
+		_uint iSizeX, _uint iSizeY, DXGI_FORMAT eFormat, const _float4& vClearColor);
 	virtual void Free() override;
 };
 

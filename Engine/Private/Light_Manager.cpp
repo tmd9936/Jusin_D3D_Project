@@ -17,6 +17,18 @@ const LIGHTDESC* CLight_Manager::Get_Light(_uint iIndex)
     return (*iter)->Get_LightDesc();
 }
 
+
+HRESULT CLight_Manager::Render(CShader* pShader, CVIBuffer_Rect* pVIBuffer)
+{
+    for (auto& pLight : m_Lights)
+    {
+        if (nullptr != pLight)
+            pLight->Render(pShader, pVIBuffer);
+    }
+
+    return E_NOTIMPL;
+}
+
 HRESULT CLight_Manager::Add_Light(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const LIGHTDESC& LightDesc)
 {
     CLight* pLight = CLight::Create(pDevice, pContext, LightDesc);
