@@ -123,7 +123,7 @@ protected:
 
 protected:
 	virtual HRESULT Add_MotionState();
-	virtual	HRESULT Add_TransitionRandomState() PURE;
+	virtual	HRESULT Add_TransitionRandomState() { return S_OK; }
 	virtual	_uint	State_Tick(const _double& TimeDelta) PURE;
 
 protected:

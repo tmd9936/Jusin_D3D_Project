@@ -219,19 +219,17 @@ void CStageEnemyMonster::AI_Type_Long_Idle_Tick(const _double& TimeDelta, CTrans
 	}
 }
 
-HRESULT CStageEnemyMonster::Add_TransitionRandomState()
-{
-	return S_OK;
-}
-
 _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 {
 	CTransform* pTargetTransform = nullptr;
-	//_float4x4 mat = {};
 
-	if (m_pTarget)
+	if (nullptr != m_pTarget && !m_pTarget->Is_Dead())
 	{
 		pTargetTransform = m_pTarget->Get_As<CTransform>();
+	}
+	else
+	{
+		m_pTarget = nullptr;
 	}
 
 	switch (m_pMonFSM->Get_MotionState())
@@ -400,12 +398,6 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 	}
 
 	return 0;
-}
-
-
-void CStageEnemyMonster::MotionChange_Random()
-{
-	m_pMonFSM->Get_RandomState(m_pModelCom);
 }
 
 void CStageEnemyMonster::Do_RandomSkill()

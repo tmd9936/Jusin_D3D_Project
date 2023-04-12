@@ -1,15 +1,21 @@
 #include "../Default/stdafx.h"
 
+#include "Client_Defines.h"
+
+#ifdef _IMGUITOOL
 #include "imgui.h"
 #include "imgui_impl_win32.h"
 #include "imgui_impl_dx11.h"
+#endif
 
 #include "MainApp.h"
 #include "Level_Loading.h"
 
+#ifdef _IMGUITOOL
 #include "MapToolGUI.h"
 #include "DataToolGUI.h"
 #include "SkillToolGUI.h"
+#endif
 
 #include "GameInstance.h"
 #include "Collider.h"
@@ -20,17 +26,22 @@
 
 #include "ThreadPool.h"
 
-
 CMainApp::CMainApp()
 	: m_pGameInstance(CGameInstance::GetInstance())
+#ifdef _IMGUITOOL
 	, m_pMapToolGUI(CMapToolGUI::GetInstance())
 	, m_pDataToolGUI(CDataToolGUI::GetInstance())
 	, m_pSkillToolGUI(CSkillToolGUI::GetInstance())
+#endif
 {
-	Safe_AddRef(m_pMapToolGUI);
 	Safe_AddRef(m_pGameInstance);
+
+#ifdef _IMGUITOOL
+	Safe_AddRef(m_pMapToolGUI);
 	Safe_AddRef(m_pDataToolGUI);
 	Safe_AddRef(m_pSkillToolGUI);
+#endif
+
 
 }
 
@@ -46,14 +57,17 @@ HRESULT CMainApp::Initialize()
 	GraphicDesc.iViewSizeX = g_iWinSizeX;
 	GraphicDesc.iViewSizeY = g_iWinSizeY;
 
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-
 	if (FAILED(m_pGameInstance->Initialize_Engine(LEVEL_END, g_hInst, GraphicDesc, &m_pDevice, &m_pContext)))
 		return E_FAIL;
 
 	if (FAILED(Ready_Fonts()))
 		return E_FAIL;
+
+	CThreadPool::GetInstance();
+
+#ifdef _IMGUITOOL
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
 
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
@@ -66,9 +80,6 @@ HRESULT CMainApp::Initialize()
 	// Setup Dear ImGui style
 	ImGui::StyleColorsDark();
 	//ImGui::StyleColorsClassic();
-
-
-	CThreadPool::GetInstance();
 
 	// When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
 	ImGuiStyle& style = ImGui::GetStyle();
@@ -84,7 +95,8 @@ HRESULT CMainApp::Initialize()
 
 	ImGui_ImplWin32_Init(g_hWnd);
 	ImGui_ImplDX11_Init(m_pDevice, m_pContext);
-	
+#endif
+
 	if (FAILED(Ready_Prototype_Component_For_Static()))
 		return E_FAIL;
 	if (FAILED(Ready_Prototype_GameObject_For_Static()))
@@ -96,6 +108,7 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(SetUp_StartLevel(LEVEL_LOGO)))
 		return E_FAIL;
 
+#ifdef _IMGUITOOL
 	if (FAILED(m_pMapToolGUI->Initialize(m_pDevice, m_pContext)))
 		return E_FAIL;
 
@@ -104,6 +117,7 @@ HRESULT CMainApp::Initialize()
 
 	if (FAILED(m_pSkillToolGUI->Initialize(m_pDevice, m_pContext)))
 		return E_FAIL;
+#endif
 
 	return S_OK;
 }
@@ -112,27 +126,38 @@ void CMainApp::Tick(_double TimeDelta)
 {
 	m_pGameInstance->Tick_Engine(TimeDelta);
 
+#ifdef _IMGUITOOL
 	if (m_bToolMode)
 	{
 		m_pMapToolGUI->Tick(TimeDelta);
 	}
+#endif
+
+#ifdef _IMGUITOOL
+	m_TimeAcc += TimeDelta;
+#endif // _DEBUG
 
 }
 
 HRESULT CMainApp::Render()
 {
+#ifdef _IMGUITOOL
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
 	Tool_Mode_ON_OFF_UI();
+#endif
 
 	if (CClient_Utility::Mouse_Pos_In_Platform())
 	{
+#ifdef _IMGUITOOL
 		ImGui::SetMouseCursor(ImGuiMouseCursor_None);
+#endif
 		SetCursor(NULL);
 	}
 
+#ifdef _IMGUITOOL
 	//bool bDemo = true;
 	//ImGui::ShowDemoWindow();
 	m_pMapToolGUI->Render();
@@ -143,8 +168,11 @@ HRESULT CMainApp::Render()
 	io.DisplaySize = ImVec2((float)g_iWinSizeX, (float)g_iWinSizeY);
 
 	ImGuiPlatformIO& PlatformIO = ImGui::GetPlatformIO();
+#endif
 
+#ifdef _IMGUITOOL
 	m_pGameInstance->SetRenderTargets(true);
+#endif
 	//m_pGameInstance->Clear_BackBuffer_View(_float4{ 0.156f, 0.109f, 0.f, 1.f });
 	m_pGameInstance->Clear_BackBuffer_View({ g_BackBufferColor.x, g_BackBufferColor.y, g_BackBufferColor.z, g_BackBufferColor.w });
 	m_pGameInstance->Clear_DepthStencil_View();
@@ -152,9 +180,13 @@ HRESULT CMainApp::Render()
 	//m_pMapToolGUI->Reder_End();
 	m_pRenderer->Draw_RenderGroup();
 
+	if (FAILED(RenderFPS()))
+		return E_FAIL;
+
 	//if (FAILED(m_pGameInstance->Render_Font(TEXT("Font_NanumBarunGothic"), TEXT("테스트입니다. 화이팅"), _float2(0.f, 0.f), XMVectorSet(1.f, 1.f, 1.f, 1.f))))
 	//	return E_FAIL;
 
+#ifdef _IMGUITOOL
 	m_pGameInstance->SetRenderTargets(false);
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
@@ -165,14 +197,35 @@ HRESULT CMainApp::Render()
 		ImGui::UpdatePlatformWindows();
 		ImGui::RenderPlatformWindowsDefault();
 	}
+#endif
 
-	m_pGameInstance->Present(1, 0);
+	m_pGameInstance->Present(0, 0);
+
+	return S_OK;
+}
+
+HRESULT CMainApp::RenderFPS()
+{
+#ifdef _IMGUITOOL
+	++m_dwNumDraw;
+
+	if (m_TimeAcc >= 1.0)
+	{
+		wsprintf(m_szFPS, TEXT("fps : %d"), m_dwNumDraw);
+		m_TimeAcc = 0.0;
+		m_dwNumDraw = 0;
+	}
+
+	if (FAILED(m_pGameInstance->Render_Font(TEXT("Font_NanumBarunGothic"), m_szFPS, _float2(0.f, 20.f), XMVectorSet(0.f, 0.f, 0.f, 1.f))))
+		return E_FAIL;
+#endif // _DEBUG
 
 	return S_OK;
 }
 
 void CMainApp::Tool_Mode_ON_OFF_UI()
 {
+#ifdef _IMGUITOOL
 	ImGui::Begin("Tool Mode On/OFF");
 	{
 		if (m_bToolMode)
@@ -183,6 +236,7 @@ void CMainApp::Tool_Mode_ON_OFF_UI()
 		ImGui::ToggleButton("ON/OFF", &m_bToolMode);
 	}
 	ImGui::End();
+#endif
 }
 
 HRESULT CMainApp::SetUp_StartLevel(LEVEL eNextLevelID)
@@ -285,6 +339,7 @@ void CMainApp::Free()
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pGameInstance);
 
+#ifdef _IMGUITOOL
 	Safe_Release(m_pMapToolGUI);
 	CMapToolGUI::GetInstance()->DestroyInstance();
 
@@ -298,6 +353,8 @@ void CMainApp::Free()
 	ImGui_ImplDX11_Shutdown();
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
+#endif
+
 
 	CThreadPool::GetInstance()->DestroyInstance();
 

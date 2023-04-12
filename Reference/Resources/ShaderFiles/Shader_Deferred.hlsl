@@ -1,4 +1,4 @@
-#include "Shader_Defines.hlsli"
+
 
 matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
@@ -12,6 +12,13 @@ texture2D		g_Texture;
 texture2D		g_NormalTexture;
 texture2D		g_DiffuseTexture;
 texture2D		g_ShadeTexture;
+
+
+
+sampler LinearSampler = sampler_state
+{
+	filter = min_mag_mip_linear;
+};
 
 struct VS_IN
 {
@@ -73,7 +80,6 @@ PS_OUT_LIGHT PS_MAIN_LIGHT_DIRECTIONAL(PS_IN In)
 
 	vector	vNormalDesc = g_NormalTexture.Sample(LinearSampler, In.vTexUV);
 
-	// 0~1로 전달되었던 노말 정보를 -1 ~ 1로 다시 되돌림
 	vector	vNormal = vector(vNormalDesc.xyz * 2.f - 1.f, 0.f);
 
 	Out.vShade = g_vLightDiffuse * (saturate(dot(normalize(g_vLightDir) * -1.f, vNormal)) +
@@ -98,6 +104,33 @@ PS_OUT PS_MAIN_DEFERRED_BLEND(PS_IN In)
 	return Out;
 }
 
+RasterizerState RS_Default
+{
+	FillMode = solid;
+};
+
+
+
+DepthStencilState DSS_Default
+{
+	DepthEnable = true;
+	DepthWriteMask = all;
+	DepthFunc = less_equal;
+};
+
+DepthStencilState DSS_Not_ZTest_Not_ZWrite
+{
+	DepthEnable = false;
+	DepthWriteMask = zero;
+};
+
+BlendState BS_Default
+{
+	BlendEnable[0] = false;
+};
+
+
+
 technique11		DefaultTechnique
 {
 	pass Debug
@@ -116,7 +149,7 @@ technique11		DefaultTechnique
 	pass LightAcc_Directional
 	{
 		SetRasterizerState(RS_Default);
-		SetDepthStencilState(DSS_Disable_ZTest_Disable_ZWrite, 0);
+		SetDepthStencilState(DSS_Not_ZTest_Not_ZWrite, 0);
 		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
 		VertexShader = compile vs_5_0 VS_MAIN();
@@ -129,7 +162,7 @@ technique11		DefaultTechnique
 	pass LightAcc_Point
 	{
 		SetRasterizerState(RS_Default);
-		SetDepthStencilState(DSS_Disable_ZTest_Disable_ZWrite, 0);
+		SetDepthStencilState(DSS_Not_ZTest_Not_ZWrite, 0);
 		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
 		VertexShader = compile vs_5_0 VS_MAIN();
@@ -142,7 +175,7 @@ technique11		DefaultTechnique
 	pass Deferred_Blend
 	{
 		SetRasterizerState(RS_Default);
-		SetDepthStencilState(DSS_Disable_ZTest_Disable_ZWrite, 0);
+		SetDepthStencilState(DSS_Not_ZTest_Not_ZWrite, 0);
 		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
 		VertexShader = compile vs_5_0 VS_MAIN();

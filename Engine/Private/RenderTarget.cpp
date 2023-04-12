@@ -88,6 +88,7 @@ HRESULT CRenderTarget::Ready_Debug(_float fX, _float fY, _float fSizeX, _float f
 
 	return S_OK;
 }
+
 HRESULT CRenderTarget::Render(CShader* pShader, CVIBuffer_Rect* pVIBuffer)
 {
 	if (FAILED(pShader->Set_Matrix("g_WorldMatrix", &m_WorldMatrix)))
@@ -120,8 +121,6 @@ CRenderTarget* CRenderTarget::Create(ID3D11Device* pDevice, ID3D11DeviceContext*
 
 void CRenderTarget::Free()
 {
-	// SaveDDSTextureToFile(m_pContext, m_pTexture2D, TEXT("../Bin/Test.dds"));
-
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
 

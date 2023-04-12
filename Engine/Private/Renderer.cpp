@@ -7,6 +7,7 @@
 #include "Shader.h"
 #include "VIBuffer_Rect.h"
 
+
 CRenderer::CRenderer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner)
 	: CComponent(pDevice, pContext)
 	, m_pTarget_Manager(CTarget_Manager::GetInstance())
@@ -32,9 +33,9 @@ HRESULT CRenderer::Initialize_Prototype()
 	/* 디퍼드 셰이드를 시작하기전에 버퍼를 클리어 할 때 스카이 박스와 같은 정보를 배제하지 않기위해
 	알파를 0.f으로 처리하고 디퍼드 셰이드를 할 때 알파가 0.f인 부분을 discard함, 빛 계산으로 알파가 0.f이 된 부분이 있을 수 있으니
 	그때는 알파를 1.f로 살림*/
+	/* For.Target_Diffuse */
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
-		TEXT("Target_Diffuse"), ViewportDesc.Width, ViewportDesc.Height,
-		DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
+		TEXT("Target_Diffuse"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 
 	/* For.Target_Normal */
@@ -45,15 +46,13 @@ HRESULT CRenderer::Initialize_Prototype()
 	*/
 	/* 던저지는 데이터의 정보가 UNORM이여서 나중에 빛 정보를 이 타겟에 저장할 시 에는 
 	0~1값으로 보정해서 데이터를 넘겨야함, 이후에 디퓨즈 정보와 연산을 할 때는 -1 ~ 1사이의 값으로 다시 보정해줘야함 */
+	/* For.Target_Normal */
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
-		TEXT("Target_Normal"), ViewportDesc.Width, ViewportDesc.Height, 
-		DXGI_FORMAT_R16G16B16A16_UNORM, _float4(0.f, 0.f, 0.f, 1.f))))
+		TEXT("Target_Normal"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, _float4(0.f, 0.f, 0.f, 1.f))))
 		return E_FAIL;
 
-	/* For.Target_Shade */
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
-		TEXT("Target_Shade"), ViewportDesc.Width, ViewportDesc.Height, 
-		DXGI_FORMAT_R16G16B16A16_UNORM, _float4(0.f, 0.f, 0.f, 1.f))))
+		TEXT("Target_Shade"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, _float4(0.f, 0.f, 0.f, 1.f))))
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Deferred"), TEXT("Target_Diffuse"))))

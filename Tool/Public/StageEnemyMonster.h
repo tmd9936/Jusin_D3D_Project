@@ -31,11 +31,9 @@ public:
 	virtual void On_CollisionExit(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
 
 protected:
-	virtual HRESULT Add_TransitionRandomState() override;
 	virtual _uint State_Tick(const _double& TimeDelta) override;
 
 protected:
-	void		MotionChange_Random();
 	void		Do_RandomSkill();
 
 private:
