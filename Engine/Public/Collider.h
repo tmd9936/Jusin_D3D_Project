@@ -63,6 +63,14 @@ public:
     virtual void Set_TransformMatrix() PURE;
     _bool Collision(CCollider* pTarget);
 
+public:
+    const _bool     Get_CanCollision() const {
+        return m_bCanCollision;
+    }
+
+    void            Set_CanCollision(_bool bCanCollision) {
+        m_bCanCollision = bCanCollision;
+    }
 
 public:
     const TYPE   Get_Type() const {
@@ -106,6 +114,8 @@ protected:
 
     COLLIDER_DESC   m_Collider_Desc = {};
     TYPE	        m_eType = { TYPE_END };
+
+    _bool           m_bCanCollision = { true };
 
 protected:
     COLLISION_STATE m_eState = { COLLISION_STATE_END };
