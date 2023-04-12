@@ -254,6 +254,10 @@ _uint CStageSupportMonster::State_Tick(const _double& TimeDelta)
 	{
 		pTargetTransform = m_pTarget->Get_As<CTransform>();
 	}
+	else
+	{
+		m_pTarget = nullptr;
+	}
 
 	switch (m_pMonFSM->Get_MotionState())
 	{
