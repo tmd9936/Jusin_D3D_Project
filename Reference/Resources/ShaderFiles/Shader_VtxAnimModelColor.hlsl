@@ -3,21 +3,6 @@
 matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 matrix			g_BoneMatrices[256]; /* 메시에 영향을 주는 뼈들이다.  VTF */
 
-vector			g_vCamPosition;
-vector			g_vLightDir = vector(1.f, -1.f, 1.f, 0.f);
-
-vector			g_vLightPos = vector(15.f, 5.f, 15.f, 1.f);
-float			g_fLightRange = 10.f;
-
-vector			g_vLightDiffuse = vector(1.f, 1.f, 1.f, 1.f);
-vector			g_vLightAmbient = vector(1.f, 1.f, 1.f, 1.f);
-vector			g_vLightSpecular = vector(1.f, 1.f, 1.f, 1.f);
-
-texture2D		g_DiffuseTexture;
-
-vector			g_vMtrlAmbient = vector(0.4f, 0.4f, 0.4f, 1.f);
-vector			g_vMtrlSpecular = vector(1.f, 1.f, 1.f, 1.f);
-
 float4			g_vColor = float4(1.f, 1.f, 1.f, 1.f);
 
 struct VS_IN
@@ -76,60 +61,61 @@ struct PS_IN
 	float4		vWorldPos : TEXCOORD2;
 };
 
-struct PS_OUT
-{
-	float4		vColor : SV_TARGET0;
-};
-
-PS_OUT PS_MAIN(PS_IN In)
-{
-	PS_OUT			Out = (PS_OUT)0;
-
-	//Out.vColor = In.vColor;
-	vector		vMtrlDiffuse = In.vColor;
-
-	if (vMtrlDiffuse.a < 0.1f)
-		discard;
-
-	float		fShade = max(dot(normalize(g_vLightDir) * -1.f, normalize(In.vNormal)), 0.f);
-
-	vector		vReflect = reflect(normalize(g_vLightDir), normalize(In.vNormal));
-	vector		vLook = In.vWorldPos - g_vCamPosition;
-	float		fSpecular = pow(max(dot(normalize(vReflect) * -1.f, normalize(vLook)), 0.f), 30);
-
-	Out.vColor = (g_vLightDiffuse * vMtrlDiffuse) * saturate(fShade + (g_vLightAmbient * g_vMtrlAmbient))
-		+ (g_vLightSpecular * g_vMtrlSpecular) * fSpecular;
-
-	return Out;
-}
-
 //struct PS_OUT
 //{
-//	float4		vDiffuse : SV_TARGET0;
-//	float4		vNormal : SV_TARGET1;
+//	float4		vColor : SV_TARGET0;
 //};
 //
 //PS_OUT PS_MAIN(PS_IN In)
 //{
 //	PS_OUT			Out = (PS_OUT)0;
 //
-//	vector		vMtrlDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+//	//Out.vColor = In.vColor;
+//	vector		vMtrlDiffuse = In.vColor;
 //
 //	if (vMtrlDiffuse.a < 0.1f)
 //		discard;
 //
-//	Out.vDiffuse = vMtrlDiffuse;
-//	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f); // 디퍼드 셰이더에서 노말의 값을 0~1로 받기 때문에 이와같이 노말의 값을 변경함
+//	float		fShade = max(dot(normalize(g_vLightDir) * -1.f, normalize(In.vNormal)), 0.f);
+//
+//	vector		vReflect = reflect(normalize(g_vLightDir), normalize(In.vNormal));
+//	vector		vLook = In.vWorldPos - g_vCamPosition;
+//	float		fSpecular = pow(max(dot(normalize(vReflect) * -1.f, normalize(vLook)), 0.f), 30);
+//
+//	Out.vColor = (g_vLightDiffuse * vMtrlDiffuse) * saturate(fShade + (g_vLightAmbient * g_vMtrlAmbient))
+//		+ (g_vLightSpecular * g_vMtrlSpecular) * fSpecular;
 //
 //	return Out;
 //}
+
+struct PS_OUT
+{
+	float4		vDiffuse : SV_TARGET0;
+	float4		vNormal : SV_TARGET1;
+};
+
+PS_OUT PS_MAIN(PS_IN In)
+{
+	PS_OUT			Out = (PS_OUT)0;
+
+	vector		vMtrlDiffuse = In.vColor;
+
+	if (vMtrlDiffuse.a < 0.1f)
+		discard;
+
+	Out.vDiffuse = vMtrlDiffuse;
+	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f); // 디퍼드 셰이더에서 노말의 값을 0~1로 받기 때문에 이와같이 노말의 값을 변경함
+
+	return Out;
+}
 
 
 PS_OUT PS_MAIN_COLOR(PS_IN In)
 {
 	PS_OUT			Out = (PS_OUT)0;
 
-	Out.vColor = g_vColor;
+	Out.vDiffuse = g_vColor;
+	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
 
 	return Out;
 }

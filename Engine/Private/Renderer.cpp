@@ -78,13 +78,13 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 
 #ifdef _DEBUG
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Diffuse"), 100.f, 100.f, 200.f, 200.f)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Diffuse"), 50.f, 50.f, 100.f, 100.f)))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Normal"), 100.f, 300.f, 200.f, 200.f)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Normal"), 50.f, 150.f, 100.f, 100.f)))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Shade"), 300.f, 100.f, 200.f, 200.f)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Shade"), 150.f, 50.f, 100.f, 100.f)))
 		return E_FAIL;
 #endif // _DEBUG
 
@@ -117,6 +117,12 @@ HRESULT CRenderer::Draw_RenderGroup()
 	if (FAILED(Draw_NonBlend()))
 		return E_FAIL;
 
+	if (FAILED(Draw_LightAcc()))
+		return E_FAIL;
+
+	if (FAILED(Draw_DeferredBlend()))
+		return E_FAIL;
+
 	if (FAILED(Draw_NonLight()))
 		return E_FAIL;
 
@@ -133,8 +139,8 @@ HRESULT CRenderer::Draw_RenderGroup()
 		return E_FAIL;
 
 #ifdef _DEBUG
-	//if (FAILED(Render_Debug()))
-	//	return E_FAIL;
+	if (FAILED(Render_Debug()))
+		return E_FAIL;
 #endif // _DEBUG
 
 	return S_OK;
@@ -166,18 +172,6 @@ HRESULT CRenderer::Draw_NonBlend()
 	후처리 하려했던 Nonblend에 그려질 객체들의 정보만 가져와서 후처리를 해줘야함 
 	*/
 
-	for (auto& pGameObject : m_RenderGroups[RENDER_NONBLEND])
-	{
-		if (nullptr != pGameObject)
-			pGameObject->Render();
-
-		Safe_Release(pGameObject);
-	}
-
-	m_RenderGroups[RENDER_NONBLEND].clear();
-
-	//m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_Deferred"));
-
 	//for (auto& pGameObject : m_RenderGroups[RENDER_NONBLEND])
 	//{
 	//	if (nullptr != pGameObject)
@@ -188,7 +182,19 @@ HRESULT CRenderer::Draw_NonBlend()
 
 	//m_RenderGroups[RENDER_NONBLEND].clear();
 
-	//m_pTarget_Manager->End_MRT(m_pContext);
+	m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_Deferred"));
+
+	for (auto& pGameObject : m_RenderGroups[RENDER_NONBLEND])
+	{
+		if (nullptr != pGameObject)
+			pGameObject->Render();
+
+		Safe_Release(pGameObject);
+	}
+
+	m_RenderGroups[RENDER_NONBLEND].clear();
+
+	m_pTarget_Manager->End_MRT(m_pContext);
 
 	return S_OK;
 }
@@ -277,19 +283,23 @@ HRESULT CRenderer::Draw_LightAcc()
 	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_LightAcc"))))
 		return E_FAIL;
 
+
 	/* Shade 타겟에 그리는 작업을 수행한다. */
-	m_pShader->Set_Matrix("g_WorldMatrix", &m_WorldMatrix);
-	m_pShader->Set_Matrix("g_ViewMatrix", &m_ViewMatrix);
-	m_pShader->Set_Matrix("g_ProjMatrix", &m_ProjMatrix);
+	if (FAILED(m_pShader->Set_Matrix("g_WorldMatrix", &m_WorldMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_Normal"), m_pShader, "g_NormalTexture")))
 		return E_FAIL;
 
 	m_pLight_Manager->Render(m_pShader, m_pVIBuffer);
 
+	/* 따로 빼놨던 백버퍼를 장치에 복구한다. */
 	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
-
 	return S_OK;
 }
 

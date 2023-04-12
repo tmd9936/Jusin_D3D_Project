@@ -727,30 +727,6 @@ HRESULT CMonster::SetUp_ShaderResources()
 		&pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_PROJ))))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_RawValue("g_vCamPosition",
-		&pGameInstance->Get_CamPosition(), sizeof(_float4))))
-		return E_FAIL;
-
-	const LIGHTDESC* pLightDesc = pGameInstance->Get_Light(0);
-	if (nullptr == pLightDesc)
-		return E_FAIL;
-
-	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightDir",
-		&pLightDesc->vDirection, sizeof(_float4))))
-		return E_FAIL;
-
-	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightDiffuse",
-		&pLightDesc->vDiffuse, sizeof(_float4))))
-		return E_FAIL;
-
-	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightAmbient",
-		&pLightDesc->vAmbient, sizeof(_float4))))
-		return E_FAIL;
-
-	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightSpecular",
-		&pLightDesc->vSpecular, sizeof(_float4))))
-		return E_FAIL;
-
 	if (FAILED(m_pShaderCom->Set_RawValue("g_vColor",
 		&m_hitColor, sizeof(_float4))))
 		return E_FAIL;

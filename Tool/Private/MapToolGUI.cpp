@@ -51,7 +51,7 @@ HRESULT CMapToolGUI::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pCon
 
 	io.Platform_CreateWindow(m_pRootViewport);
 	((ImGui_ImplWin32_ViewportData2*)(m_pRootViewport->PlatformUserData))->Hwnd = g_hWnd;
-	((ImGui_ImplWin32_ViewportData2*)(m_pRootViewport->PlatformUserData))->HwndOwned = true;
+	((ImGui_ImplWin32_ViewportData2*)(m_pRootViewport->PlatformUserData))->HwndOwned = false;
 
 	m_pRootViewport->Size.x = g_iWinSizeX;
 	m_pRootViewport->Size.y = g_iWinSizeY;

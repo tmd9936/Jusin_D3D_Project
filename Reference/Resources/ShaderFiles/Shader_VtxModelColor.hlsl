@@ -1,20 +1,8 @@
 #include "Shader_Defines.hlsli"
 
 matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
-vector			g_vCamPosition;
-vector			g_vLightDir = vector(1.f, -1.f, 1.f, 0.f);
-
-vector			g_vLightPos = vector(15.f, 5.f, 15.f, 1.f);
-float			g_fLightRange = 10.f;
-
-vector			g_vLightDiffuse = vector(1.f, 1.f, 1.f, 1.f);
-vector			g_vLightAmbient = vector(1.f, 1.f, 1.f, 1.f);
-vector			g_vLightSpecular = vector(1.f, 1.f, 1.f, 1.f);
-
 texture2D		g_DiffuseTexture;
 
-vector			g_vMtrlAmbient = vector(0.4f, 0.4f, 0.4f, 1.f);
-vector			g_vMtrlSpecular = vector(1.f, 1.f, 1.f, 1.f);
 
 struct VS_IN
 {
@@ -59,27 +47,48 @@ struct PS_IN
 	float4		vWorldPos : TEXCOORD2;
 };
 
+//struct PS_OUT
+//{
+//	float4		vColor : SV_TARGET0;
+//};
+//
+//PS_OUT PS_MAIN(PS_IN In)
+//{
+//	PS_OUT			Out = (PS_OUT)0;
+//
+//
+//	//Out.vColor = In.vColor;
+//	vector		vMtrlDiffuse = In.vColor;
+//
+//	float		fShade = max(dot(normalize(g_vLightDir) * -1.f, normalize(In.vNormal)), 0.f);
+//
+//	vector		vReflect = reflect(normalize(g_vLightDir), normalize(In.vNormal));
+//	vector		vLook = In.vWorldPos - g_vCamPosition;
+//	float		fSpecular = pow(max(dot(normalize(vReflect) * -1.f, normalize(vLook)), 0.f), 30);
+//
+//	Out.vColor = (g_vLightDiffuse * vMtrlDiffuse) * saturate(fShade + (g_vLightAmbient * g_vMtrlAmbient))
+//		+ (g_vLightSpecular * g_vMtrlSpecular) * fSpecular;
+//
+//	return Out;
+//}
+
 struct PS_OUT
 {
-	float4		vColor : SV_TARGET0;
+	float4		vDiffuse : SV_TARGET0;
+	float4		vNormal : SV_TARGET1;
 };
 
 PS_OUT PS_MAIN(PS_IN In)
 {
 	PS_OUT			Out = (PS_OUT)0;
 
-
-	//Out.vColor = In.vColor;
 	vector		vMtrlDiffuse = In.vColor;
 
-	float		fShade = max(dot(normalize(g_vLightDir) * -1.f, normalize(In.vNormal)), 0.f);
+	if (vMtrlDiffuse.a < 0.1f)
+		discard;
 
-	vector		vReflect = reflect(normalize(g_vLightDir), normalize(In.vNormal));
-	vector		vLook = In.vWorldPos - g_vCamPosition;
-	float		fSpecular = pow(max(dot(normalize(vReflect) * -1.f, normalize(vLook)), 0.f), 30);
-
-	Out.vColor = (g_vLightDiffuse * vMtrlDiffuse) * saturate(fShade + (g_vLightAmbient * g_vMtrlAmbient))
-		+ (g_vLightSpecular * g_vMtrlSpecular) * fSpecular;
+	Out.vDiffuse = vMtrlDiffuse;
+	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
 
 	return Out;
 }
