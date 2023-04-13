@@ -373,4 +373,5 @@ void CEffect_Manager::Free()
 	__super::Free();
 
 	m_Effect_Descs.clear();
+	m_Skill_Effect_Descs.clear();
 }

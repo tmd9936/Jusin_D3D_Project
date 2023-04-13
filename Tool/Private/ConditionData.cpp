@@ -269,4 +269,6 @@ CGameObject* CConditionData::Clone(const _tchar* pLayerTag, _uint iLevelIndex, c
 void CConditionData::Free()
 {
 	__super::Free();
+	m_ConditionData_Desc.clear();
+	m_ConditionTypeData_Desc.clear();
 }
