@@ -22,7 +22,22 @@ HRESULT CBuffState::Initialize_Prototype()
 HRESULT CBuffState::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
 	if (nullptr != pArg)
-		memcpy(&m_Desc, pArg, sizeof m_Desc);
+	{
+		m_Desc.pParent = (*(BUFFSTATE_DESC*)(pArg)).pParent;
+		m_Desc.PivotMatrix = (*(BUFFSTATE_DESC*)(pArg)).PivotMatrix;
+
+		m_Desc.m_fPositionX = (*(BUFFSTATE_DESC*)(pArg)).m_fPositionX;
+		m_Desc.m_fPositinoY = (*(BUFFSTATE_DESC*)(pArg)).m_fPositinoY;
+		m_Desc.m_fPositinoZ = (*(BUFFSTATE_DESC*)(pArg)).m_fPositinoZ;
+
+		m_Desc.m_fSizeX = (*(BUFFSTATE_DESC*)(pArg)).m_fSizeX;
+		m_Desc.m_fSizeY = (*(BUFFSTATE_DESC*)(pArg)).m_fSizeY;
+
+		lstrcpy(m_Desc.m_TextureProtoTypeName, (*(BUFFSTATE_DESC*)(pArg)).m_TextureProtoTypeName);
+		m_Desc.m_TextureLevelIndex = (*(BUFFSTATE_DESC*)(pArg)).m_TextureLevelIndex;
+
+		m_Desc.m_eBuffType = (*(BUFFSTATE_DESC*)(pArg)).m_eBuffType;
+	}
 
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 		return E_FAIL;
@@ -156,10 +171,6 @@ HRESULT CBuffState::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_Matrix("g_ProjMatrix",
 		&m_ProjMatrix)))
 		return E_FAIL;
-
-	//if (FAILED(m_pShaderCom->Set_RawValue("g_vCamPosition",
-	//	&pGameInstance->Get_CamPosition(), sizeof(_float4))))
-	//	return E_FAIL;
 
 	if (FAILED(m_pTextureCom->Set_ShaderResource(m_pShaderCom, "g_Texture", 0)))
 		return E_FAIL;

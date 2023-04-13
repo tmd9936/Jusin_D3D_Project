@@ -12,10 +12,36 @@ class CTransform;
 class CModel;
 END
 
+/*
+버프 타입에 맞게 플레이어의 컴포넌트를 가져와서 변경시키기
+추가로 체인지 컴포넌트로 아이콘 텍스처 바꾸기
+버프/디버프 끝났으면 랜더 끝내고 안보이기
+*/
+
 BEGIN(Client)
 
 class CBuffState final : public CGameObject
 {
+public:
+	enum BUFF_TYPE {
+		BUFF_TYPE_DAMAGE_UP1,
+		BUFF_TYPE_DAMAGE_UP2,
+		BUFF_TYPE_DAMAGE_DOWN,
+		BUFF_TYPE_DEFENSE_UP,
+		BUFF_TYPE_DEFENSE_DOWN,
+		BUFF_TYPE_SPEED_UP,
+		BUFF_TYPE_SPEED_DOWN,
+		BUFF_TYPE_RESIST_UP,
+		BUFF_TYPE_RESIST_DOWN,
+		BUFF_TYPE_DOKU,
+		BUFF_TYPE_MAHI,
+		BUFF_TYPE_KOORI,
+		BUFF_TYPE_YAKEDO,
+		BUFF_TYPE_KONRAN,
+		BUFF_TYPE_KANASIBARI,
+		BUFF_TYPE_NEMURI,
+	};
+
 public:
 	typedef struct BuffState_Desc
 	{
@@ -31,6 +57,10 @@ public:
 
 		_tchar				m_TextureProtoTypeName[MAX_PATH];
 		_uint				m_TextureLevelIndex;
+
+		BUFF_TYPE			m_eBuffType;
+
+		_double				m_EndTime;
 
 	} BUFFSTATE_DESC;
 private:
@@ -53,23 +83,21 @@ private:
 	CTexture*				m_pTextureCom = { nullptr };
 	
 private:
-	BUFFSTATE_DESC		m_Desc = {};
-	_float4x4			m_FinalWorldMatrix; /* 원점기준 (내 월드 * 부모월드) */
+	BUFFSTATE_DESC			m_Desc = {};
+	_float4x4				m_FinalWorldMatrix = {};
 
-	_float4x4			m_ViewMatrix = {};
-	_float4x4			m_ProjMatrix = {};
+	_float4x4				m_ViewMatrix = {};
+	_float4x4				m_ProjMatrix = {};
+
+	_double					m_CurEndTimeAcc = { 0.0 };
 
 private:
 	HRESULT Add_Components();
 	HRESULT SetUp_ShaderResources();
 	_matrix Remove_Scale(_fmatrix Matrix);
 
-
 public:
-	/* Prototype */
-	/* 원형 객체를 생성한다. */
 	static CBuffState* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	/* 사본 객체를 생성한다. */
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) override;
 	virtual void Free() override;
 };

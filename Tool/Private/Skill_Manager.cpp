@@ -13,6 +13,7 @@
 #include "HommingAttackEffect.h"
 #include "BezierAttackEffect.h"
 #include "ChargeEffect.h"
+#include "ConditionData.h"
 
 CSkill_Manager::CSkill_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
@@ -749,6 +750,17 @@ CSkill* CSkill_Manager::Do_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _ui
 	else if (skillType == 188) // 돌떨구기
 	{
 		CreateSkill(pLayerTag, iLevelIndex, skillType, damage, vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
+	}
+	else if (skillType == 192) // 록커트
+	{
+		// 컨디션 3
+		// 컨디션 데이터 가져오고 플레이어의 버프 자리 남는 자리에 텍스쳐 생성시키고 
+		// 해당 데이터에 맞는 값 증가시켜주기
+
+	}
+	else if (skillType == 116) // 베리어
+	{
+		// 컨디션 2
 	}
 
 	else

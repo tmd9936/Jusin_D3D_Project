@@ -14,6 +14,7 @@ class CEffect;
 class CEffect_Manager;
 class CAttackEffect;
 class CSkillEffect;
+class CConditionData;
 
 class CSkill_Manager final : public CGameObject
 {
