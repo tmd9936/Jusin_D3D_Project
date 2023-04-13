@@ -129,6 +129,11 @@ HRESULT CBuffState::Render()
 	return S_OK;
 }
 
+HRESULT CBuffState::Set_BuffState(_uint skillType, BUFF_STATE eState, const _tchar* textureName, _float valueA, _float valueB, _float endTime, _float ratio)
+{
+	return S_OK;
+}
+
 HRESULT CBuffState::Change_Texture(const _tchar* prototypeTag)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();

@@ -54,8 +54,8 @@ public:
 
 
 private:
-	CConditionData(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CConditionData(const CConditionData& rhs);
+	explicit CConditionData(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CConditionData(const CConditionData& rhs);
 	virtual ~CConditionData() = default;
 
 public:
@@ -66,6 +66,19 @@ public:
 
 	virtual _uint Tick(_double TimeDelta) override;
 	virtual _uint LateTick(_double TimeDelta) override;
+
+public:
+	CONDITIONDATA_DESC	Get_ConditonData(_uint index) const {
+		return m_ConditionData_Desc[index];
+	}
+
+	CONDITIONTYPEDATA_DESC	Get_ConditonTypeData(_uint index) const {
+		return m_ConditionTypeData_Desc[index];
+	}
+
+	CONDITIONPARAMETER_DESC	Get_ConditionParameter() const {
+		return m_ConditionParameter;
+	}
 
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);

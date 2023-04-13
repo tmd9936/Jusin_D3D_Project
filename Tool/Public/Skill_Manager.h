@@ -15,6 +15,7 @@ class CEffect_Manager;
 class CAttackEffect;
 class CSkillEffect;
 class CConditionData;
+class CBuffState;
 
 class CSkill_Manager final : public CGameObject
 {
@@ -45,11 +46,11 @@ public:
 
 public: 
 	HRESULT CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType, _uint damage, _fmatrix vParentMatrix,
-		CBone* pBone, CTransform* pParentTransform, _fmatrix PivotMatrix);
+		CBone* pBone, CTransform* pParentTransform, _fmatrix PivotMatrix, CBuffState* pBuffState);
 
 public:
 	CSkill* Do_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType, _uint damage,
-		_fmatrix vParentMatrix, CModel* pModel, const char* boneTag, CTransform* pParentTransform);
+		_fmatrix vParentMatrix, CModel* pModel, const char* boneTag, CTransform* pParentTransform, CBuffState* pBuffState);
 
 public:
 	CSkill* Create_Test_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType,

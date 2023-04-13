@@ -444,8 +444,11 @@ void CMonster::Do_Skill(_uint skillType, const _tchar* pLayer)
 		CSkill_Manager* pSkill_Mananger = dynamic_cast<CSkill_Manager*>(pManager);
 		if (nullptr != pSkill_Mananger)
 		{
+			//  같은 스킬타입의 버프/디버프가 이미 동작중이면,
+			//  동작중인 버프의 쿨타임을 초기화 시키기
+
 			pSkill_Mananger->Do_Skill(pLayer, m_iLevelindex, skillType,
-				m_pAttackCom->Get_AttackPower(), m_pTransformCom->Get_WorldMatrix_Matrix(), m_pModelCom, "effect00", m_pTransformCom);
+				m_pAttackCom->Get_AttackPower(), m_pTransformCom->Get_WorldMatrix_Matrix(), m_pModelCom, "effect00", m_pTransformCom, Search_NoAction_BuffState(skillType));
 		}
 
 		CGameObject* pStageCamera = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Camera", L"Main_Camera");
@@ -768,6 +771,29 @@ HRESULT CMonster::SetUp_ShaderResources()
 	Safe_Release(pGameInstance);
 
 	return S_OK;
+}
+
+CBuffState* CMonster::Search_NoAction_BuffState(const _uint& skillType)
+{
+	if (m_buffStates.empty())
+		return nullptr;
+
+	for (auto& buffState : m_buffStates)
+	{
+		if (buffState->Get_CurSkillType() == skillType)
+		{
+			return buffState;
+		}
+		else
+		{
+			if (buffState->Get_CanBuffSet())
+			{
+				return buffState;
+			}
+		}
+	}
+
+	return nullptr;
 }
 
 void CMonster::Do_Skill_By_Index(_uint skillindex, const _tchar* pLayer)

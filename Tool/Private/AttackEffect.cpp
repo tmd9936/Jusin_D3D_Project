@@ -231,7 +231,7 @@ void CAttackEffect::Create_Collision_Effect(CTransform* hitObjectTransform)
 
 	CSkillEffect* pSkillEffect = nullptr;
 
-	int randType = rand() % 12;
+	int randType = rand() % 10;
 	if (randType == 0)
 	{
 		pSkillEffect = pEffect_Manager->CreateEffect(CEffect_Manager::m_damageEffect00, L"Prototype_GameObject_SkillEffect", Get_LayerTag().c_str(), Get_Levelindex());

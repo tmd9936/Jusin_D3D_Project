@@ -88,11 +88,19 @@ public:
 	virtual HRESULT Render() override;
 
 public:
+	HRESULT Set_BuffState(_uint skillType, BUFF_STATE eState, const _tchar* textureName,
+		_float valueA, _float valueB, _float endTime, _float ratio);
+
 	HRESULT Change_Texture(const _tchar* prototypeTag);
 
 	const _bool	Get_CanBuffSet() const {
 		return m_bCanBuffSet;
 	}
+
+	const _uint Get_CurSkillType() const {
+		return m_CurSkillType;
+	}
+
 
 private:
 	void	EndTime_Check(const _double& TimeDelta);
@@ -128,6 +136,8 @@ private:
 
 	BUFF_STATE				m_eCurBuffState = { BUFF_STATE_NONE };
 	BUFF_STATE				m_ePreBuffState = { BUFF_STATE_END };
+
+	_uint					m_CurSkillType = { 0 };
 
 private:
 	HRESULT Add_Components();

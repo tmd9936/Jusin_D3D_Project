@@ -158,6 +158,9 @@ protected:
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 던진다. */
 
 protected:
+	CBuffState* Search_NoAction_BuffState(const _uint& skillType);
+
+protected:
 	CTransform*				m_pTransformCom = { nullptr };
 	CRenderer*				m_pRendererCom = { nullptr };
 	CShader*				m_pShaderCom = { nullptr };

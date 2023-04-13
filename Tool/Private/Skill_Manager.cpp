@@ -15,6 +15,9 @@
 #include "ChargeEffect.h"
 #include "ConditionData.h"
 
+#include "BuffState.h"
+
+
 CSkill_Manager::CSkill_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
 {
@@ -325,7 +328,8 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 }
 
 HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
-	_uint skillType, _uint damage, _fmatrix vParentMatrix, CBone* pBone, CTransform* pParentTransform, _fmatrix PivotMatrix)
+	_uint skillType, _uint damage, _fmatrix vParentMatrix, 
+	CBone * pBone, CTransform* pParentTransform, _fmatrix PivotMatrix, CBuffState* pBuffState)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
@@ -336,6 +340,11 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 	CEffect_Manager* pEffect_Manager = dynamic_cast<CEffect_Manager*>(pGameInstance->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"Effect_Manager"));
 
 	if (nullptr == pEffect_Manager)
+		return E_FAIL;
+
+	CConditionData* pConditionData = dynamic_cast<CConditionData*>(pGameInstance->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"ConditionData"));
+
+	if (nullptr == pConditionData)
 		return E_FAIL;
 
 	CSkillEffect* pSkillEffect = nullptr;
@@ -676,6 +685,28 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 			Safe_Release(pSkillEffect);
 		}
 	}
+	else if (skillType == 192) // 록커트
+	{
+		if (nullptr == pBuffState)
+			return E_FAIL;
+
+		_uint conditionDataID = m_Skill_Depend_Datas[skillType].m_conditions[0];
+
+		CConditionData::CONDITIONDATA_DESC conditionDataDesc = pConditionData->Get_ConditonData(conditionDataID);
+		_uint conditinoTypeID = conditionDataDesc.m_type;
+
+		CConditionData::CONDITIONTYPEDATA_DESC conditionTypeDataDesc = pConditionData->Get_ConditonTypeData(conditinoTypeID);
+
+		Create_No_ChargeEffect(conditionTypeDataDesc.m_effectType, vLook, vPos, pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
+
+		
+
+	}
+	else if (skillType == 116) // 베리어
+	{
+		if (nullptr == pBuffState)
+			return E_FAIL;
+	}
 	else
 	{
 		Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[1], vLook, vPos, pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
@@ -705,7 +736,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 }
 
 CSkill* CSkill_Manager::Do_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType, _uint damage,
-	_fmatrix vParentMatrix, CModel* pModel, const char* boneTag, CTransform* pParentTransform)
+	_fmatrix vParentMatrix, CModel* pModel, const char* boneTag, CTransform* pParentTransform, CBuffState* pBuffState)
 {
 	if (nullptr == pLayerTag || nullptr == pModel || nullptr == pParentTransform)
 		return nullptr;
@@ -713,43 +744,53 @@ CSkill* CSkill_Manager::Do_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _ui
 	CSkill* pSkill = nullptr;
 	if (skillType <= 35 && skillType % 2 == 1) // 원거리 공격
 	{
-		CreateSkill(pLayerTag, iLevelIndex, skillType, damage, vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage, 
+			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState);
 	}
 	else if (skillType == 50) // 하이드럼 펌프
 	{
-		CreateSkill(pLayerTag, iLevelIndex, skillType, damage, vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState);
 	}
 	else if (skillType == 57) // 10만 볼트
 	{
-		CreateSkill(pLayerTag, iLevelIndex, skillType, damage, vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState);
 	}
 	else if (skillType == 58) // 볼테커
 	{
-		CreateSkill(pLayerTag, iLevelIndex, skillType, damage, vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState);
 	}
 	else if (skillType == 72) // 냉동빔
 	{
-		CreateSkill(pLayerTag, iLevelIndex, skillType, damage, vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState);
 	}
 	else if (skillType == 79) // 얼다 바람
 	{
-		CreateSkill(pLayerTag, iLevelIndex, skillType, damage, vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState);
 	}
 	else if (skillType == 100) // 지진
 	{
-		CreateSkill(pLayerTag, iLevelIndex, skillType, damage, vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState);
 	}
 	else if (skillType == 164) // 돌진
 	{
-		CreateSkill(pLayerTag, iLevelIndex, skillType, damage, vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState);
 	}
 	else if (skillType == 168) // 메가톤 펀치
 	{
-		CreateSkill(pLayerTag, iLevelIndex, skillType, damage, vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState);
 	}
 	else if (skillType == 188) // 돌떨구기
 	{
-		CreateSkill(pLayerTag, iLevelIndex, skillType, damage, vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState);
 	}
 	else if (skillType == 192) // 록커트
 	{
