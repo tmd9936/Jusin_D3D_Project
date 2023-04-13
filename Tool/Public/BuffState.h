@@ -36,7 +36,7 @@ class CBuffState final : public CGameObject
 public:
 	enum BUFF_TYPE {
 		BUFF_TYPE_NONE,
-		BUFF_TYPE_DAMAGE_UP2,
+		BUFF_TYPE_DAMAGE_UP,
 		BUFF_TYPE_DAMAGE_DOWN,
 		BUFF_TYPE_DEFENSE_UP,
 		BUFF_TYPE_DEFENSE_DOWN,
@@ -89,6 +89,9 @@ public:
 	virtual _uint Tick(_double TimeDelta) override;
 	virtual _uint LateTick(_double TimeDelta) override;
 	virtual HRESULT Render() override;
+
+public:
+	HRESULT Change_Texture(const _tchar* prototypeTag);
 
 private:
 	CTransform*				m_pTransformCom = { nullptr };

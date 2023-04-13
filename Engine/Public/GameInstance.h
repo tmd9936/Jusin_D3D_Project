@@ -75,6 +75,7 @@ public: /* For.Object_Manager */
 	CGameObject* Clone_GameObject(const _tchar* pLayerTag, _uint iLevelIndex, const _tchar* pPrototypeTag, CGameObject** ppOut, void* pArg);
 	HRESULT		Layer_Tick_State_Change(const _tchar* pLayerTag, _uint iLevelIndex, _bool bTick);
 	_bool		Is_Layer(_uint iLevelIndex, const wstring& layerTag);
+	HRESULT		Change_Component(const FamilyId& familyId, CGameObject* pGameObject, _uint iLevelIndex, const _tchar* pPrototypeTag, CComponent** ppOut, void* pArg);
 
 public: /* For.Component_Manager */
 	HRESULT Add_Prototype(_uint iLevelIndex, const _tchar* pPrototypeTag, class CComponent* pPrototype);

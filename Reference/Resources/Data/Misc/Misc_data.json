@@ -30,28 +30,28 @@
             {
                 "SizeX": 15.0,
                 "SizeY": 15.0,
-                "PositionX": -40.0,
+                "PositionX": -50.0,
                 "PositionY": -80.0,
                 "PositionZ": 0.1
             },
             {
                 "SizeX": 15.0,
                 "SizeY": 15.0,
-                "PositionX": -20.0,
+                "PositionX": -30.0,
                 "PositionY": -80.0,
                 "PositionZ": 0.1
             },
             {
                 "SizeX": 15.0,
                 "SizeY": 15.0,
-                "PositionX": 0.0,
+                "PositionX": -10.0,
                 "PositionY": -80.0,
                 "PositionZ": 0.1
             },
             {
                 "SizeX": 15.0,
                 "SizeY": 15.0,
-                "PositionX": 20.0,
+                "PositionX": 10.0,
                 "PositionY": -80.0,
                 "PositionZ": 0.1
             }

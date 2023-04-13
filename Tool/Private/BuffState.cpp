@@ -77,6 +77,9 @@ _uint CBuffState::Tick(_double TimeDelta)
 
 _uint CBuffState::LateTick(_double TimeDelta)
 {
+	//if (m_Desc.m_eBuffType != BUFF_TYPE_NONE)
+	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
+
 	// 부모 기준으로의 자식의 위치를 지정함
 	_float4 BuffPos{};
 	XMStoreFloat4(&BuffPos, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
@@ -109,8 +112,6 @@ _uint CBuffState::LateTick(_double TimeDelta)
 	//m_FinalWorldMatrix.m[3][1] *= -1.f;
 	m_FinalWorldMatrix.m[3][2] = m_Desc.m_fPositinoZ;
 
-	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
-
 	return _uint();
 }
 
@@ -122,6 +123,16 @@ HRESULT CBuffState::Render()
 	m_pShaderCom->Begin(0);
 
 	m_pVIBufferCom->Render();
+
+	return S_OK;
+}
+
+HRESULT CBuffState::Change_Texture(const _tchar* prototypeTag)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	if (FAILED(pGameInstance->Change_Component(CTexture::familyId, this, LEVEL_STATIC, prototypeTag, (CComponent**)&m_pTextureCom, nullptr)))
+		return E_FAIL;
 
 	return S_OK;
 }

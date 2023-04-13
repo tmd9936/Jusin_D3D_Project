@@ -895,6 +895,10 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Pokemon_State/UI_ss_p_defenseup.dds")))))
 			return E_FAIL;
 
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_UI_ss_n_damagedown"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Pokemon_State/UI_ss_n_damagedown.dds")))))
+			return E_FAIL;
+
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Pokemon_Icon_M25"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Pokemon_Icon/button_icon_M25.dds")))))
 			return E_FAIL;

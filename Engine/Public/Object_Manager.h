@@ -97,6 +97,7 @@ public:
 		return S_OK;
 	}
 
+
 public:
 	HRESULT		Add_Component (const FamilyId& familyId, CGameObject* pGameObject, _uint iLevelIndex, const _tchar* pPrototypeTag, CComponent** ppOut, void* pArg);
 	CComponent* Get_Component(const FamilyId& familyId, CGameObject* pObj) const;
@@ -114,6 +115,8 @@ public:
 
 public:
 	_bool		Is_Layer(_uint iLevelIndex, const wstring& layerTag);
+
+	HRESULT		Change_Component(const FamilyId& familyId, CGameObject* pGameObject, _uint iLevelIndex, const _tchar* pPrototypeTag, CComponent** ppOut, void* pArg);
 
 protected:
 	HRESULT		Store_Component(const _tchar* pLayerTag, class CGameObject* pGameObject, const FamilyId& id);

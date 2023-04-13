@@ -356,6 +356,15 @@ _bool CGameInstance::Is_Layer(_uint iLevelIndex, const wstring& layerTag)
 	return m_pObject_Manager->Is_Layer(iLevelIndex, layerTag);
 }
 
+HRESULT CGameInstance::Change_Component(const FamilyId& familyId, CGameObject* pGameObject, _uint iLevelIndex, const _tchar* pPrototypeTag, CComponent** ppOut, void* pArg)
+{
+	if (nullptr == m_pObject_Manager)
+		return E_FAIL;
+
+	return m_pObject_Manager->Change_Component(familyId, pGameObject, iLevelIndex, pPrototypeTag, ppOut, pArg);
+}
+
+
 HRESULT CGameInstance::Add_Prototype(_uint iLevelIndex, const _tchar* pPrototypeTag, CComponent* pPrototype)
 {
 	if (nullptr == m_pComponent_Manager)

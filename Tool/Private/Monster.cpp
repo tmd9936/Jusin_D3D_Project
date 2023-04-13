@@ -278,6 +278,7 @@ HRESULT CMonster::Add_BuffState()
 		BuffStateDesc.pParentAttack = m_pAttackCom;
 		BuffStateDesc.pParentHP = m_pHPCom;
 		BuffStateDesc.pParentMonFSM = m_pMonFSM;
+		//BuffStateDesc.m_eBuffType = CBuffState::BUFF_TYPE_NONE;
 
 		XMStoreFloat4x4(&BuffStateDesc.PivotMatrix, m_pModelCom->Get_PivotMatrix());
 
@@ -288,13 +289,19 @@ HRESULT CMonster::Add_BuffState()
 		BuffStateDesc.m_fPositinoY = buffStateMiscDesces[i].PositionY;
 		BuffStateDesc.m_fPositinoZ = buffStateMiscDesces[i].PositionZ;
 
-		lstrcpy(BuffStateDesc.m_TextureProtoTypeName, L"Prototype_Component_Texture_UI_ss_p_speedup");
+		lstrcpy(BuffStateDesc.m_TextureProtoTypeName, L"Prototype_Component_Texture_UI_ss_n_damagedown");
 
 		BuffStateDesc.m_TextureLevelIndex = LEVEL_STATIC;
 
 		pGameInstance->Clone_GameObject(L"Layer_BuffState", m_iLevelindex, TEXT("Prototype_GameObject_BuffState"), (CGameObject**)&pBuffState, &BuffStateDesc);
 		if (nullptr == pBuffState)
 			return E_FAIL;
+		
+		if (i == 0)
+		{
+			if (FAILED(pBuffState->Change_Texture(L"Prototype_Component_Texture_UI_ss_p_speedup")))
+				return E_FAIL;
+		}
 
 		m_buffStates.push_back(pBuffState);
 	}

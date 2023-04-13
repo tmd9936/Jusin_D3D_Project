@@ -27,6 +27,8 @@ public:
 
 	void Get_All_GameObject_In_Layer(vector<CGameObject*>& result);
 
+	_bool	Has_Component(const FamilyId& familyId, CGameObject* pGameObject);
+
 public:
 	void		Tick_State_Change(_bool bTick) {
 		m_bTick = bTick;
