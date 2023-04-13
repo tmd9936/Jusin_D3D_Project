@@ -129,8 +129,24 @@ HRESULT CBuffState::Render()
 	return S_OK;
 }
 
-HRESULT CBuffState::Set_BuffState(_uint skillType, BUFF_STATE eState, const _tchar* textureName, _float valueA, _float valueB, _float endTime, _float ratio)
+HRESULT CBuffState::Set_BuffState(_uint skillType, BUFF_STATE eState, const _tchar* textureName, 
+	_float valueA, _float valueB, _float endTime, _float ratio)
 {
+	if (nullptr == textureName)
+		return E_FAIL;
+
+	_tchar prototypeTag[MAX_PATH] = L"Prototype_Component_Texture_";
+	lstrcat(prototypeTag, textureName);
+	if (FAILED(Change_Texture(prototypeTag)))
+		return E_FAIL;
+
+	m_EndTime = (_double)endTime;
+	m_eCurBuffState = eState;
+	m_CurSkillType = skillType;
+	m_ratio = ratio;
+	m_valueA = valueA;
+	m_valueB = valueB;
+
 	return S_OK;
 }
 
@@ -308,16 +324,16 @@ void CBuffState::Return_Original_State(BUFF_STATE preState)
 	case BUFF_STATE_DAMAGE_DOWN:
 		break;
 	case BUFF_STATE_DEFENSE_UP:
-		Set_ParentDefensePercent(1.f);
+		Set_ParentDefensePercent(1.f - m_valueA);
 		break;
 	case BUFF_STATE_DEFENSE_DOWN:
-		Set_ParentDefensePercent(1.f);
+		Set_ParentDefensePercent(1.f + m_valueA);
 		break;
 	case BUFF_STATE_SPEED_UP:
-		Set_ParentSpeedPercent(1.f);
+		Set_ParentSpeedPercent(1.f + m_valueA);
 		break;
 	case BUFF_STATE_SPEED_DOWN:
-		Set_ParentSpeedPercent(1.f);
+		Set_ParentSpeedPercent(1.f - m_valueA);
 		break;
 	case BUFF_STATE_RESIST_UP:
 		break;

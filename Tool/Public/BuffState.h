@@ -101,7 +101,6 @@ public:
 		return m_CurSkillType;
 	}
 
-
 private:
 	void	EndTime_Check(const _double& TimeDelta);
 	void	State_Tick(const _double& TimeDelta);
@@ -133,6 +132,10 @@ private:
 	_bool					m_bCanBuffSet = { true };
 	_double					m_EndTime = { 10.0 };
 	_double					m_EndTimeAcc = { 0.0 };
+
+	_float					m_valueA = { 0.f };
+	_float					m_valueB = { 0.f };
+	_float					m_ratio = { 0.f };
 
 	BUFF_STATE				m_eCurBuffState = { BUFF_STATE_NONE };
 	BUFF_STATE				m_ePreBuffState = { BUFF_STATE_END };
