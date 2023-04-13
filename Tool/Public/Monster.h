@@ -30,6 +30,7 @@ class CSearcher;
 class CDamageText;
 class CMiscData;
 class CStageCamera;
+class CBuffState;
 
 class CMonster abstract : public CGameObject
 {
@@ -196,7 +197,7 @@ protected:
 	_float4					m_hitColor = { 1.f, 1.f, 1.f, 1.f };
 
 protected:
-	vector<CGameObject*>	m_Parts;
+	vector<CBuffState*>		m_buffStates;
 	CHpBar*					m_pHpBar = { nullptr };
 	CSearcher*				m_pSearcher = { nullptr };
 	CDamageText*			m_pDamageText = { nullptr };

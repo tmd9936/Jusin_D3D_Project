@@ -87,8 +87,8 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* p
 	if (FAILED(Add_DamageText()))
 		return E_FAIL;
 
-	/*if (FAILED(Add_BuffState()))
-		return E_FAIL;*/
+	if (FAILED(Add_BuffState()))
+		return E_FAIL;
 
 	if (FAILED(Add_HpBar()))
 		return E_FAIL;
@@ -131,8 +131,8 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const c
 	if (FAILED(Add_MotionState()))
 		return E_FAIL;
 
-	/*if (FAILED(Add_BuffState()))
-		return E_FAIL;*/
+	if (FAILED(Add_BuffState()))
+		return E_FAIL;
 
 	if (FAILED(Add_DamageText()))
 		return E_FAIL;
@@ -162,8 +162,8 @@ _uint CMonster::Tick(_double TimeDelta)
 
 	m_pManualCollisionState->Tick(TimeDelta);
 	
-	for (auto& pGameObject : m_Parts)
-		pGameObject->Tick(TimeDelta);
+	for (auto& pBuffStates : m_buffStates)
+		pBuffStates->Tick(TimeDelta);
 
 	if (m_pHpBar)
 		m_pHpBar->Tick(TimeDelta);
@@ -189,8 +189,8 @@ _uint CMonster::LateTick(_double TimeDelta)
 
 	if (true == CGameInstance::GetInstance()->Is_In_Frustum(m_pTransformCom->Get_State(CTransform::STATE_POSITION), 1.f))
 	{
-		for (auto& pGameObject : m_Parts)
-			pGameObject->LateTick(TimeDelta);
+		for (auto& pBuffStates : m_buffStates)
+			pBuffStates->LateTick(TimeDelta);
 
 		if (m_pHpBar)
 			m_pHpBar->LateTick(TimeDelta);
@@ -257,34 +257,47 @@ HRESULT CMonster::Add_BuffState()
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	CGameObject* pGameObject = nullptr;
-
-	CBuffState::BUFFSTATE_DESC		BuffStateDesc;
-	ZeroMemory(&BuffStateDesc, sizeof BuffStateDesc);
-
-	BuffStateDesc.pParentTransform = m_pTransformCom;
-	BuffStateDesc.pParentAttack= m_pAttackCom;
-	BuffStateDesc.pParentHP = m_pHPCom;
-	BuffStateDesc.pParentMonFSM = m_pMonFSM;
-
-	XMStoreFloat4x4(&BuffStateDesc.PivotMatrix, m_pModelCom->Get_PivotMatrix());
-
-	BuffStateDesc.m_fSizeX = 20.f;
-	BuffStateDesc.m_fSizeY = 20.f;
-
-	BuffStateDesc.m_fPositionX = -10.f;
-	BuffStateDesc.m_fPositinoY = -40.f;
-	BuffStateDesc.m_fPositinoZ = 0.1f;
-
-	lstrcpy(BuffStateDesc.m_TextureProtoTypeName, L"Prototype_Component_Texture_Pokemon_State_doku");
-
-	BuffStateDesc.m_TextureLevelIndex = LEVEL_STATIC;
-
-	pGameObject = pGameInstance->Clone_GameObject(L"Layer_BuffState", m_iLevelindex, TEXT("Prototype_GameObject_BuffState"), &BuffStateDesc);
-	if (nullptr == pGameObject)
+	CGameObject* pObject = pGameInstance->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"MiscData");
+	if (nullptr == pObject)
 		return E_FAIL;
 
-	m_Parts.push_back(pGameObject);
+	CMiscData* pMiscData = dynamic_cast<CMiscData*>(pObject);
+	if (nullptr == pMiscData)
+		return E_FAIL;
+
+	vector<CMiscData::BUFFSTATEMISC_DESC> buffStateMiscDesces = pMiscData->Get_BuffStateDesces();
+
+	for (size_t i = 0; i < buffStateMiscDesces.size(); ++i)
+	{
+		CBuffState* pBuffState = nullptr;
+
+		CBuffState::BUFFSTATE_DESC		BuffStateDesc;
+		ZeroMemory(&BuffStateDesc, sizeof BuffStateDesc);
+
+		BuffStateDesc.pParentTransform = m_pTransformCom;
+		BuffStateDesc.pParentAttack = m_pAttackCom;
+		BuffStateDesc.pParentHP = m_pHPCom;
+		BuffStateDesc.pParentMonFSM = m_pMonFSM;
+
+		XMStoreFloat4x4(&BuffStateDesc.PivotMatrix, m_pModelCom->Get_PivotMatrix());
+
+		BuffStateDesc.m_fSizeX = buffStateMiscDesces[i].SizeX;
+		BuffStateDesc.m_fSizeY = buffStateMiscDesces[i].SizeY;
+
+		BuffStateDesc.m_fPositionX = buffStateMiscDesces[i].PositionX;
+		BuffStateDesc.m_fPositinoY = buffStateMiscDesces[i].PositionY;
+		BuffStateDesc.m_fPositinoZ = buffStateMiscDesces[i].PositionZ;
+
+		lstrcpy(BuffStateDesc.m_TextureProtoTypeName, L"Prototype_Component_Texture_UI_ss_p_speedup");
+
+		BuffStateDesc.m_TextureLevelIndex = LEVEL_STATIC;
+
+		pGameInstance->Clone_GameObject(L"Layer_BuffState", m_iLevelindex, TEXT("Prototype_GameObject_BuffState"), (CGameObject**)&pBuffState, &BuffStateDesc);
+		if (nullptr == pBuffState)
+			return E_FAIL;
+
+		m_buffStates.push_back(pBuffState);
+	}
 
 	Safe_Release(pGameInstance);
 
@@ -918,10 +931,10 @@ void CMonster::Free()
 {
 	__super::Free();
 
-	for (auto& pGameObject : m_Parts)
+	for (auto& pGameObject : m_buffStates)
 		Safe_Release(pGameObject);
 
-	m_Parts.clear();
+	m_buffStates.clear();
 
 	Safe_Release(m_pHpBar);
 	Safe_Release(m_pSearcher);
