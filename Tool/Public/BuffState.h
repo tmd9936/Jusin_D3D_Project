@@ -90,12 +90,22 @@ public:
 public:
 	HRESULT Change_Texture(const _tchar* prototypeTag);
 
+	const _bool	Get_CanBuffSet() const {
+		return m_bCanBuffSet;
+	}
+
 private:
 	void	EndTime_Check(const _double& TimeDelta);
 	void	State_Tick(const _double& TimeDelta);
 	void	Change_State();
 
 	void	Change_State_Buff_On();
+
+private:
+	void	Set_ParentSpeedPercent(_float percent);
+	void	Set_ParentDefensePercent(_float percent);
+
+	void	Return_Original_State(BUFF_STATE preState);
 
 private:
 	CTransform*				m_pTransformCom = { nullptr };

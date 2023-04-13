@@ -203,6 +203,7 @@ void CBuffState::Change_State()
 		switch (m_eCurBuffState)
 		{
 		case BUFF_STATE_NONE:
+			Return_Original_State(m_ePreBuffState);
 			m_eRenderId = RENDER_END;
 			m_bCanBuffSet = true;
 			break;
@@ -214,12 +215,14 @@ void CBuffState::Change_State()
 			break;
 		case BUFF_STATE_DEFENSE_UP:
 			Change_State_Buff_On();
+			Set_ParentDefensePercent(1.3f);
 			break;
 		case BUFF_STATE_DEFENSE_DOWN:
 			Change_State_Buff_On();
 			break;
 		case BUFF_STATE_SPEED_UP:
 			Change_State_Buff_On();
+			Set_ParentSpeedPercent(1.5f);
 			break;
 		case BUFF_STATE_SPEED_DOWN:
 			Change_State_Buff_On();
@@ -267,6 +270,69 @@ void CBuffState::Change_State_Buff_On()
 	m_eRenderId = RENDER_UI;
 	m_bCanBuffSet = false;
 	m_EndTimeAcc = 0.0;
+}
+
+void CBuffState::Set_ParentSpeedPercent(_float percent)
+{
+	if (nullptr == m_Desc.pParentTransform)
+		return;
+
+	m_Desc.pParentTransform->Set_SpeedPercent(percent);
+}
+
+void CBuffState::Set_ParentDefensePercent(_float percent)
+{
+	if (nullptr == m_Desc.pParentHP)
+		return;
+
+	m_Desc.pParentHP->Set_DamageGetPercent(percent);
+}
+
+void CBuffState::Return_Original_State(BUFF_STATE preState)
+{
+	switch (preState)
+	{
+	case BUFF_STATE_NONE:
+		break;
+	case BUFF_STATE_DAMAGE_UP:
+		break;
+	case BUFF_STATE_DAMAGE_DOWN:
+		break;
+	case BUFF_STATE_DEFENSE_UP:
+		Set_ParentDefensePercent(1.f);
+		break;
+	case BUFF_STATE_DEFENSE_DOWN:
+		Set_ParentDefensePercent(1.f);
+		break;
+	case BUFF_STATE_SPEED_UP:
+		Set_ParentSpeedPercent(1.f);
+		break;
+	case BUFF_STATE_SPEED_DOWN:
+		Set_ParentSpeedPercent(1.f);
+		break;
+	case BUFF_STATE_RESIST_UP:
+		break;
+	case BUFF_STATE_RESIST_DOWN:
+		break;
+	case BUFF_STATE_DOKU:
+		break;
+	case BUFF_STATE_MAHI:
+		break;
+	case BUFF_STATE_KOORI:
+		break;
+	case BUFF_STATE_YAKEDO:
+		break;
+	case BUFF_STATE_KONRAN:
+		break;
+	case BUFF_STATE_KANASIBARI:
+		break;
+	case BUFF_STATE_NEMURI:
+		break;
+	case BUFF_STATE_END:
+		break;
+	default:
+		break;
+	}
 }
 
 HRESULT CBuffState::Add_Components()
