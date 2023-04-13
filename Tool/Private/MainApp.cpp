@@ -197,9 +197,12 @@ HRESULT CMainApp::Render()
 		ImGui::UpdatePlatformWindows();
 		ImGui::RenderPlatformWindowsDefault();
 	}
+	m_pGameInstance->Present(1, 0);
 #endif
 
-	m_pGameInstance->Present(1, 0);
+#ifndef _IMGUITOOL
+	m_pGameInstance->Present(0, 0);
+#endif
 
 	return S_OK;
 }
