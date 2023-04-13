@@ -63,7 +63,6 @@ void CLevel_Loading::Tick(_double TimeDelta)
 
 			CLevel* pNewLevel = { nullptr };
 
-
 			switch (m_eNextLevelID)
 			{
 			case LEVEL_LOGO:
@@ -72,6 +71,7 @@ void CLevel_Loading::Tick(_double TimeDelta)
 					Safe_Release(pGameInstance);
 					return;
 				}
+
 				pNewLevel = CLevel_Logo::Create(m_pDevice, m_pContext);
 				break;
 
@@ -121,6 +121,8 @@ HRESULT CLevel_Loading::Ready_Layer_UI(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_Layer(LEVEL_LOADING, pLayerTag)))
 		return E_FAIL;
 
+	CGameInstance::GetInstance()->StopAll();
+
 	CModelUI::UI_DESC desc = {};
 	desc.m_fSizeX = g_iWinSizeX >> 1;
 	desc.m_fSizeY = g_iWinSizeY >> 1;
@@ -133,7 +135,6 @@ HRESULT CLevel_Loading::Ready_Layer_UI(const _tchar* pLayerTag)
 
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ModelUI"), LEVEL_LOADING, pLayerTag, nullptr, &desc)))
 		return E_FAIL;
-
 
 	Safe_Release(pGameInstance);
 	return S_OK;

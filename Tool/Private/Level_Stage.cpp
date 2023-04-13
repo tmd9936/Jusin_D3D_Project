@@ -18,6 +18,9 @@ CLevel_Stage::CLevel_Stage(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 
 HRESULT CLevel_Stage::Initialize()
 {
+	CGameInstance::GetInstance()->StopAll();
+	CGameInstance::GetInstance()->PlayBGM(TEXT("BGM_Waterside_2.ogg"));
+
 	if (FAILED(Ready_LightDesc()))
 		return E_FAIL;
 
@@ -277,6 +280,9 @@ HRESULT CLevel_Stage::Ready_Layer_Player(const _tchar* pLayerTag)
 	Safe_AddRef(pGameInstance);
 
 	if (FAILED(pGameInstance->Add_Layer(LEVEL_STAGE, pLayerTag)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_STAGE, L"Layer_BuffState")))
 		return E_FAIL;
 
 	//CMonster::POKEMON_DESC desc{};
