@@ -72,6 +72,8 @@ HRESULT CBuffState::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void*
 
 _uint CBuffState::Tick(_double TimeDelta)
 {
+	//Change_State();
+
 	return _uint();
 }
 
@@ -135,6 +137,136 @@ HRESULT CBuffState::Change_Texture(const _tchar* prototypeTag)
 		return E_FAIL;
 
 	return S_OK;
+}
+
+void CBuffState::EndTime_Check(const _double& TimeDelta)
+{
+	if (!m_bCanBuffSet)
+	{
+		if (m_EndTimeAcc >= m_EndTime)
+		{
+			m_eCurBuffState = BUFF_STATE_NONE;
+		}
+	}
+
+	if (m_EndTimeAcc < m_EndTime)
+		m_EndTimeAcc += TimeDelta;
+}
+
+void CBuffState::State_Tick(const _double& TimeDelta)
+{
+	switch (m_eCurBuffState)
+	{
+	case BUFF_STATE_NONE:
+		break;
+	case BUFF_STATE_DAMAGE_UP:
+		break;
+	case BUFF_STATE_DAMAGE_DOWN:
+		break;
+	case BUFF_STATE_DEFENSE_UP:
+		break;
+	case BUFF_STATE_DEFENSE_DOWN:
+		break;
+	case BUFF_STATE_SPEED_UP:
+		break;
+	case BUFF_STATE_SPEED_DOWN:
+		break;
+	case BUFF_STATE_RESIST_UP:
+		break;
+	case BUFF_STATE_RESIST_DOWN:
+		break;
+	case BUFF_STATE_DOKU:
+		break;
+	case BUFF_STATE_MAHI:
+		break;
+	case BUFF_STATE_KOORI:
+		break;
+	case BUFF_STATE_YAKEDO:
+		break;
+	case BUFF_STATE_KONRAN:
+		break;
+	case BUFF_STATE_KANASIBARI:
+		break;
+	case BUFF_STATE_NEMURI:
+		break;
+	case BUFF_STATE_END:
+		break;
+	default:
+		break;
+	}
+}
+
+void CBuffState::Change_State()
+{
+	if (m_eCurBuffState != m_ePreBuffState)
+	{
+		switch (m_eCurBuffState)
+		{
+		case BUFF_STATE_NONE:
+			m_eRenderId = RENDER_END;
+			m_bCanBuffSet = true;
+			break;
+		case BUFF_STATE_DAMAGE_UP:
+			Change_State_Buff_On();
+			break;
+		case BUFF_STATE_DAMAGE_DOWN:
+			Change_State_Buff_On();
+			break;
+		case BUFF_STATE_DEFENSE_UP:
+			Change_State_Buff_On();
+			break;
+		case BUFF_STATE_DEFENSE_DOWN:
+			Change_State_Buff_On();
+			break;
+		case BUFF_STATE_SPEED_UP:
+			Change_State_Buff_On();
+			break;
+		case BUFF_STATE_SPEED_DOWN:
+			Change_State_Buff_On();
+			break;
+		case BUFF_STATE_RESIST_UP:
+			Change_State_Buff_On();
+			break;
+		case BUFF_STATE_RESIST_DOWN:
+			Change_State_Buff_On();
+			break;
+		case BUFF_STATE_DOKU:
+			Change_State_Buff_On();
+			break;
+		case BUFF_STATE_MAHI:
+			Change_State_Buff_On();
+			break;
+		case BUFF_STATE_KOORI:
+			Change_State_Buff_On();
+			break;
+		case BUFF_STATE_YAKEDO:
+			Change_State_Buff_On();
+			break;
+		case BUFF_STATE_KONRAN:
+			Change_State_Buff_On();
+			break;
+		case BUFF_STATE_KANASIBARI:
+			Change_State_Buff_On();
+			break;
+		case BUFF_STATE_NEMURI:
+			Change_State_Buff_On();
+			break;
+		case BUFF_STATE_END:
+			Change_State_Buff_On();
+			break;
+		default:
+			break;
+		}
+
+		m_ePreBuffState = m_eCurBuffState;
+	}
+}
+
+void CBuffState::Change_State_Buff_On()
+{
+	m_eRenderId = RENDER_UI;
+	m_bCanBuffSet = false;
+	m_EndTimeAcc = 0.0;
 }
 
 HRESULT CBuffState::Add_Components()

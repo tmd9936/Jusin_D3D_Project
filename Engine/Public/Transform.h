@@ -183,13 +183,15 @@ public:
 		XMStoreFloat4x4(&m_WorldMatrix, matrix);
 	}
 
-	_bool	Bezier_Curve( _In_ _fvector vPos1, _In_ _fvector vPos2, _In_ _fvector vPos3, _Out_ _gvector output, _float TimeDelta, _float limitDitance);
+public:
+	void Set_SpeedPercent(_float percent);
 
 private:
-	_float4x4	m_WorldMatrix = { };
-	TRANSFORMDESC m_TransformDesc = { };
+	_float4x4		m_WorldMatrix = { };
+	TRANSFORMDESC	m_TransformDesc = { };
 
-	_float3		m_Rotation = {};
+	_float3			m_Rotation = {};
+	_float			m_SpeedPercent = { 1.f };
 
 public:
 	// CComponent을(를) 통해 상속됨

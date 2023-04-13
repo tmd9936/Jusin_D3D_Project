@@ -28,16 +28,16 @@ public:
 	_uint		Tick(const _double& Timedelta);
 
 public:
-	const _int		Get_MaxHp() const {
+	const _int	Get_MaxHp() const {
 		return m_MaxHP;
 	}
 
-	const _int		Get_CurrentHp() const {
+	const _int	Get_CurrentHp() const {
 		return m_CurrentHP;
 	}
 
 public:
-	const _float		Get_HP_Ratio() const {
+	const _float Get_HP_Ratio() const {
 		return m_CurrentHP / (_float)m_MaxHP;
 	}
 
@@ -57,13 +57,15 @@ public:
 	}
 
 public:
-	void	Get_Damage(_int damage);
+	void Get_Damage(_int damage);
 
 	void Heal(_int healNum) {
 		m_CurrentHP += healNum;
 		if (m_CurrentHP > m_MaxHP)
 			m_CurrentHP = m_MaxHP;
 	}
+
+	void Set_DamageGetPercent(_float percent);
 
 private:	
 	HP_DESC		m_Desc = {};
@@ -73,6 +75,8 @@ private:
 
 	_int		m_DamageReceived = { 0 };
 	_bool		m_GetDamageEvent = { false };
+
+	_float		m_DamageGetPercent = { 1.f };
 public:
 	static CHP* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CComponent* Clone(CGameObject* pOwner, void* pArg = nullptr) override;

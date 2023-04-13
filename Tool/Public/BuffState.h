@@ -74,8 +74,6 @@ public:
 		_tchar				m_TextureProtoTypeName[MAX_PATH];
 		_uint				m_TextureLevelIndex;
 
-		_double				m_EndTime;
-
 	} BUFFSTATE_DESC;
 private:
 	CBuffState(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -93,6 +91,13 @@ public:
 	HRESULT Change_Texture(const _tchar* prototypeTag);
 
 private:
+	void	EndTime_Check(const _double& TimeDelta);
+	void	State_Tick(const _double& TimeDelta);
+	void	Change_State();
+
+	void	Change_State_Buff_On();
+
+private:
 	CTransform*				m_pTransformCom = { nullptr };
 	CRenderer*				m_pRendererCom = { nullptr };
 	CShader*				m_pShaderCom = { nullptr };
@@ -107,7 +112,9 @@ private:
 	_float4x4				m_ViewMatrix = {};
 	_float4x4				m_ProjMatrix = {};
 
-	_double					m_CurEndTimeAcc = { 0.0 };
+	_bool					m_bCanBuffSet = { true };
+	_double					m_EndTime = { 10.0 };
+	_double					m_EndTimeAcc = { 0.0 };
 
 	BUFF_STATE				m_eCurBuffState = { BUFF_STATE_NONE };
 	BUFF_STATE				m_ePreBuffState = { BUFF_STATE_END };

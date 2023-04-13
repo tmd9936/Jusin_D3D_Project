@@ -46,7 +46,7 @@ _uint CHP::Tick(const _double& Timedelta)
 
 void CHP::Get_Damage(_int damage)
 {
-	m_CurrentHP -= damage;
+	m_CurrentHP -= max(5, _int(damage * m_DamageGetPercent));
 
 	m_GetDamageEvent = true;
 
@@ -61,6 +61,14 @@ void CHP::Get_Damage(_int damage)
 		}
 		m_CurrentHP = 0;
 	}
+}
+
+void CHP::Set_DamageGetPercent(_float percent)
+{
+	if (percent < 0.2f || percent > 1.8f)
+		return;
+
+	m_DamageGetPercent = percent;
 }
 
 CHP* CHP::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
