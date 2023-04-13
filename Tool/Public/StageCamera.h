@@ -6,6 +6,7 @@
 BEGIN(Engine)
 
 class CTransform;
+class CMonFSM;
 
 END
 
@@ -23,7 +24,6 @@ public:
 		STATE_SHAKE,
 		STATE_BATTLE,
 		STATE_SKILL_ZOOM_IN,
-		STATE_SKILL_ZOOM_IN_RETURN,
 		STATE_MOVE_TO_BOSS,
 		STATE_LOOK_AT_BOSS,
 		STATE_RETURN_TO_PLAYER,
@@ -59,7 +59,6 @@ public:
 
 		_double		m_skillZoomInCoolTime;
 		_double		m_skillZoomInAdditionalDistance;
-		
 
 		CCamera::CAMERADESC		CameraDesc;
 	}STAGE_CAMERA_DESC;
@@ -89,6 +88,8 @@ public:
 
 	void	Do_Shake();
 
+	void	Do_Skill_Zoom_In(CGameObject* pObject);
+
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
 	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
@@ -112,7 +113,7 @@ private:
 	void					CameraTarget_Formation_Stop();
 
 private:
-	void					Camera_Shake_Tick(const _double& TimeDelta);
+	void					Camera_Shake_LateTick(const _double& TimeDelta);
 	void					Camemra_Shake_Init();
 	void					Camemra_Shake_CoolTimeCheck(const _double& TimeDelta);
 
@@ -127,6 +128,7 @@ private:
 	_bool					Zoom_In_From_CameraTarget(const _double& TimeDelta);
 
 private:
+	void					Skill_Zoom_In_LateTick(const _double& TimeDelta);
 	void					Skill_Zoom_In_CoolTImeCheck(const _double& TimeDelta);
 
 private:
@@ -152,7 +154,8 @@ private:
 	_bool					m_ShakePeriod = { true };
 	SHAKE_DIR				m_CurShakeDirection = { SHAKE_DIR_UP };
 
-	_double					m_SkillZoomInTimeAcc = { 0.0 };
+	CGameObject*			m_pSkillZoomInTarget = { nullptr };
+	_double					m_SkillZoomInCoolTimeAcc = { 0.0 };
 	_bool					m_CanSkillZoomIn = { true };
 
 public:

@@ -92,11 +92,10 @@ _uint CStageCamera::State_LateTick(const _double& TimeDelta)
 		Chase_CameraAt(TimeDelta);
 		break;
 	case STATE_SHAKE:
-		Camera_Shake_Tick(TimeDelta);
+		Camera_Shake_LateTick(TimeDelta);
 		break;
 	case STATE_SKILL_ZOOM_IN:
-		break;
-	case STATE_SKILL_ZOOM_IN_RETURN:
+		Skill_Zoom_In_LateTick(TimeDelta);
 		break;
 	case STATE_MOVE_TO_BOSS:
 		break;
@@ -133,8 +132,6 @@ void CStageCamera::State_Change()
 			CameraTarget_Formation_Start();
 			break;
 		case STATE_SKILL_ZOOM_IN:
-			break;
-		case STATE_SKILL_ZOOM_IN_RETURN:
 			break;
 		case STATE_MOVE_TO_BOSS:
 			CameraTarget_Formation_Stop();
@@ -201,7 +198,6 @@ _uint CStageCamera::Chase_CameraAt(const _double& TimeDelta)
 
 _uint CStageCamera::FadeIn_Chase_CameraAt(const _double& TimeDelta)
 {
-	//CGameObject* pCameraTarget = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_CameraTarget", L"CameraTarget");
 	if (nullptr == m_pStageCameraTarget)
 		return 0;
 	CTransform* pTransform = m_pStageCameraTarget->Get_As<CTransform>();
@@ -222,7 +218,6 @@ _uint CStageCamera::FadeIn_Chase_CameraAt(const _double& TimeDelta)
 
 void CStageCamera::CameraTarget_Formation_Start()
 {
-	//CGameObject* pCameraTarget = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_CameraTarget", L"CameraTarget");
 	if (nullptr == m_pStageCameraTarget)
 		return;
 
@@ -231,7 +226,6 @@ void CStageCamera::CameraTarget_Formation_Start()
 
 void CStageCamera::CameraTarget_Formation_Stop()
 {
-	//CGameObject* pCameraTarget = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_CameraTarget", L"CameraTarget");
 	if (nullptr == m_pStageCameraTarget)
 		return;
 
@@ -240,8 +234,6 @@ void CStageCamera::CameraTarget_Formation_Stop()
 
 void CStageCamera::Change_AdditionalDistanceByCameraAt(const _double& TimeDelta)
 {
-	//CGameObject* pCameraTarget = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_CameraTarget", L"CameraTarget");
-	
 	if (nullptr == m_pStageCameraTarget)
 		return;
 
@@ -321,25 +313,56 @@ _bool CStageCamera::Zoom_In_From_CameraTarget(const _double& TimeDelta)
 	}
 }
 
+void CStageCamera::Skill_Zoom_In_LateTick(const _double& TimeDelta)
+{
+	if (nullptr == m_pSkillZoomInTarget || m_pSkillZoomInTarget->Is_Dead())
+	{
+		m_eCurState = STATE_FORMATION;
+		Safe_Release(m_pSkillZoomInTarget);
+		return;
+	}
+
+	CMonFSM* pFSM = m_pSkillZoomInTarget->Get_As<CMonFSM>();
+
+	if (pFSM->Get_MotionState() == CMonFSM::FORMATION_NORMAL || pFSM->Get_MotionState() == CMonFSM::FORMATION_RUN ||
+		pFSM->Get_MotionState() == CMonFSM::IDLE1 || pFSM->Get_MotionState() == CMonFSM::IDLE2 || pFSM->Get_MotionState() == CMonFSM::IDLE_GROUND)
+	{
+		m_eCurState = STATE_FORMATION;
+		return;
+	}
+
+	CTransform* pTransform = m_pSkillZoomInTarget->Get_As<CTransform>();
+
+	if (nullptr == pTransform)
+	{
+		m_eCurState = STATE_FORMATION;
+		return;
+	}
+
+	_vector movePoint = pTransform->Get_State(CTransform::STATE_POSITION) + (m_vDistanceVectorFromAt * m_StageCameraDesc.m_distance * m_StageCameraDesc.m_skillZoomInAdditionalDistance);
+
+	m_pTransform->ChaseNoLook(movePoint, (_float)TimeDelta, 0.4f);
+
+	m_StageCameraDesc.CameraDesc = m_CameraDesc;
+}
+
 void CStageCamera::Skill_Zoom_In_CoolTImeCheck(const _double& TimeDelta)
 {
 	if (!m_CanSkillZoomIn)
 	{
-		if (m_SkillZoomInTimeAcc >= m_StageCameraDesc.m_skillZoomInCoolTime)
+		if (m_SkillZoomInCoolTimeAcc >= m_StageCameraDesc.m_skillZoomInCoolTime)
 		{
 			m_CanSkillZoomIn = true;
 		}
 	}
 
-	if (m_SkillZoomInTimeAcc <= m_StageCameraDesc.m_skillZoomInCoolTime)
-		m_SkillZoomInTimeAcc += TimeDelta;
+	if (m_SkillZoomInCoolTimeAcc <= m_StageCameraDesc.m_skillZoomInCoolTime)
+		m_SkillZoomInCoolTimeAcc += TimeDelta;
 }
 
-void CStageCamera::Camera_Shake_Tick(const _double& TimeDelta)
+void CStageCamera::Camera_Shake_LateTick(const _double& TimeDelta)
 {
-	/*
-		카메라 흔들리는 순서 : 위 아래 위 아래 중간
-	*/
+	/* 카메라 흔들리는 순서 : 위 아래 위 아래 중간 */
 	if (m_ShakeTimeAcc > m_StageCameraDesc.m_shakeTime)
 	{
 		m_eCurState = STATE_FORMATION;
@@ -419,10 +442,32 @@ _bool CStageCamera::Focus_To_Object(const _float4& vPosition, const _float& TIme
 
 void CStageCamera::Do_Shake()
 {
-	if (m_CanShake)
+	if (m_CanShake && m_eCurState == STATE_FORMATION)
 	{
 		m_eCurState = STATE_SHAKE;
 		m_CanShake = false;
+	}
+}
+
+void CStageCamera::Do_Skill_Zoom_In(CGameObject* pObject)
+{
+	if (m_eCurState != STATE_FORMATION)
+		return;
+
+	if (nullptr == pObject)
+		return;
+
+	if (nullptr == pObject->Get_As<CMonFSM>())
+		return;
+
+	m_pSkillZoomInTarget = pObject;
+
+	Safe_AddRef(m_pSkillZoomInTarget);
+
+	if (m_CanSkillZoomIn)
+	{
+		m_CanSkillZoomIn = false;
+		m_eCurState = STATE_SKILL_ZOOM_IN;
 	}
 }
 
@@ -632,4 +677,6 @@ void CStageCamera::Free()
 	__super::Free();
 
 	Safe_Release(m_pStageCameraTarget);
+	Safe_Release(m_pSkillZoomInTarget);
+
 }
