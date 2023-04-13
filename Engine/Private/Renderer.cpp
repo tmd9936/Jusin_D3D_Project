@@ -48,11 +48,11 @@ HRESULT CRenderer::Initialize_Prototype()
 	0~1값으로 보정해서 데이터를 넘겨야함, 이후에 디퓨즈 정보와 연산을 할 때는 -1 ~ 1사이의 값으로 다시 보정해줘야함 */
 	/* For.Target_Normal */
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
-		TEXT("Target_Normal"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, _float4(0.f, 0.f, 0.f, 1.f))))
+		TEXT("Target_Normal"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, _float4(0.f, 0.f, 0.f, 1.f))))
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
-		TEXT("Target_Shade"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, _float4(0.f, 0.f, 0.f, 1.f))))
+		TEXT("Target_Shade"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, _float4(0.f, 0.f, 0.f, 1.f))))
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Deferred"), TEXT("Target_Diffuse"))))
@@ -97,7 +97,7 @@ HRESULT CRenderer::Initialize(void* pArg)
 
 HRESULT CRenderer::Add_RenderGroup(RENDERGROUP eRenderGroup, CGameObject* pGameObject)
 {
-	if (eRenderGroup >= RENDER_END ||
+	if (eRenderGroup >= RENDER_END || eRenderGroup < 0 ||
 		nullptr == pGameObject)
 		return E_FAIL;
 

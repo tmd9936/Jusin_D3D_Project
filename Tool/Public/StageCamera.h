@@ -22,6 +22,8 @@ public:
 		STATE_FORMATION,
 		STATE_SHAKE,
 		STATE_BATTLE,
+		STATE_SKILL_ZOOM_IN,
+		STATE_SKILL_ZOOM_IN_RETURN,
 		STATE_MOVE_TO_BOSS,
 		STATE_LOOK_AT_BOSS,
 		STATE_RETURN_TO_PLAYER,
@@ -54,6 +56,8 @@ public:
 
 		_double		m_maxZoomTime;
 		_double		m_shakeCoolTime;
+
+		_double		m_skillZoomInCoolTime;
 
 		CCamera::CAMERADESC		CameraDesc;
 	}STAGE_CAMERA_DESC;
@@ -126,7 +130,7 @@ private:
 	/// 카메라와 At간 유지할 거리
 	/// </summary>
 	_vector					m_vDistanceVectorFromAt = { };
-	CGameObject*			m_pTarget = { nullptr };
+	CStageCameraTarget*		m_pStageCameraTarget = { nullptr };
 
 	STATE					m_eCurState = { STATE_FADE_IN };
 	STATE					m_ePreState = { STATE_END };
@@ -140,8 +144,10 @@ private:
 
 	_double					m_ShakeTimeAcc = { 0.0 };
 	_double					m_ShakePeriodTimeAcc = { 0.0 };
-	SHAKE_DIR				m_CurShakeDirection = { SHAKE_DIR_UP };
 	_bool					m_ShakePeriod = { true };
+	SHAKE_DIR				m_CurShakeDirection = { SHAKE_DIR_UP };
+
+	_double					m_SkillZoomInTimeAcc = { 0.0 };
 
 public:
 	/* Prototype */

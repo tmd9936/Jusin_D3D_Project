@@ -147,10 +147,14 @@ void CStageCamera::State_Change()
 
 HRESULT CStageCamera::Init_CameraPos()
 {
-	CGameObject* pCameraTarget = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_CameraTarget", L"CameraTarget");
-	if (nullptr == pCameraTarget)
+	CGameObject* pTarget = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_CameraTarget", L"CameraTarget");
+	if (nullptr == pTarget)
 		return E_FAIL;
-	CTransform* pTransform = pCameraTarget->Get_As<CTransform>();
+
+	m_pStageCameraTarget = static_cast<CStageCameraTarget*>(pTarget);
+	Safe_AddRef(m_pStageCameraTarget);
+
+	CTransform* pTransform = m_pStageCameraTarget->Get_As<CTransform>();
 
 	_float4 targetPos = {};
 	XMStoreFloat4(&targetPos, pTransform->Get_State(CTransform::STATE_POSITION));
@@ -166,10 +170,10 @@ HRESULT CStageCamera::Init_CameraPos()
 
 _uint CStageCamera::Chase_CameraAt(const _double& TimeDelta)
 {
-	CGameObject* pCameraTarget = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_CameraTarget", L"CameraTarget");
-	if (nullptr == pCameraTarget)
+	//CGameObject* pCameraTarget = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_CameraTarget", L"CameraTarget");
+	if (nullptr == m_pStageCameraTarget)
 		return 0;
-	CTransform* pTransform = pCameraTarget->Get_As<CTransform>();
+	CTransform* pTransform = m_pStageCameraTarget->Get_As<CTransform>();
 
 	if (nullptr == pTransform)
 		return 0;
@@ -187,10 +191,10 @@ _uint CStageCamera::Chase_CameraAt(const _double& TimeDelta)
 
 _uint CStageCamera::FadeIn_Chase_CameraAt(const _double& TimeDelta)
 {
-	CGameObject* pCameraTarget = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_CameraTarget", L"CameraTarget");
-	if (nullptr == pCameraTarget)
+	//CGameObject* pCameraTarget = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_CameraTarget", L"CameraTarget");
+	if (nullptr == m_pStageCameraTarget)
 		return 0;
-	CTransform* pTransform = pCameraTarget->Get_As<CTransform>();
+	CTransform* pTransform = m_pStageCameraTarget->Get_As<CTransform>();
 
 	if (nullptr == pTransform)
 		return 0;
@@ -208,30 +212,30 @@ _uint CStageCamera::FadeIn_Chase_CameraAt(const _double& TimeDelta)
 
 void CStageCamera::CameraTarget_Formation_Start()
 {
-	CGameObject* pCameraTarget = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_CameraTarget", L"CameraTarget");
-	if (nullptr == pCameraTarget)
+	//CGameObject* pCameraTarget = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_CameraTarget", L"CameraTarget");
+	if (nullptr == m_pStageCameraTarget)
 		return;
 
-	dynamic_cast<CStageCameraTarget*>(pCameraTarget)->Start_Formation();
+	m_pStageCameraTarget->Start_Formation();
 }
 
 void CStageCamera::CameraTarget_Formation_Stop()
 {
-	CGameObject* pCameraTarget = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_CameraTarget", L"CameraTarget");
-	if (nullptr == pCameraTarget)
+	//CGameObject* pCameraTarget = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_CameraTarget", L"CameraTarget");
+	if (nullptr == m_pStageCameraTarget)
 		return;
 
-	dynamic_cast<CStageCameraTarget*>(pCameraTarget)->Stop_Formation();
+	m_pStageCameraTarget->Stop_Formation();
 }
 
 void CStageCamera::Change_AdditionalDistanceByCameraAt(const _double& TimeDelta)
 {
-	CGameObject* pCameraTarget = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_CameraTarget", L"CameraTarget");
+	//CGameObject* pCameraTarget = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_CameraTarget", L"CameraTarget");
 	
-	if (nullptr == pCameraTarget)
+	if (nullptr == m_pStageCameraTarget)
 		return;
 
-	CStageCameraTarget::MOVE_STATE moveState = static_cast<CStageCameraTarget*>(pCameraTarget)->Get_MoveState();
+	CStageCameraTarget::MOVE_STATE moveState = m_pStageCameraTarget->Get_MoveState();
 
 	switch (moveState)
 	{
@@ -400,11 +404,11 @@ void CStageCamera::Do_Shake()
 
 void CStageCamera::Data_Save_Logic()
 {
-	CGameObject* pCameraTarget = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_CameraTarget", L"CameraTarget");
-	if (nullptr == pCameraTarget)
+	//CGameObject* pCameraTarget = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_CameraTarget", L"CameraTarget");
+	if (nullptr == m_pStageCameraTarget)
 		return;
 
-	CTransform* pTargetTransform = pCameraTarget->Get_As<CTransform>();
+	CTransform* pTargetTransform = m_pStageCameraTarget->Get_As<CTransform>();
 
 	_float4 targetPos = {};
 	XMStoreFloat4(&targetPos, pTargetTransform->Get_State(CTransform::STATE_POSITION));
@@ -440,6 +444,8 @@ _bool CStageCamera::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType
 
 		CameraDesc.AddMember("m_maxZoomTime", m_StageCameraDesc.m_maxZoomTime, allocator);
 		CameraDesc.AddMember("m_shakeCoolTime", m_StageCameraDesc.m_shakeCoolTime, allocator);
+
+		CameraDesc.AddMember("m_shakeCoolTime", m_StageCameraDesc.m_skillZoomInCoolTime, allocator);
 
 		Value m_DistancefromAt(kObjectType);
 		{
@@ -511,6 +517,8 @@ _bool CStageCamera::Load_By_JsonFile_Impl(Document& doc)
 
 	m_StageCameraDesc.m_maxZoomTime = CameraDesc["m_maxZoomTime"].GetDouble();
 	m_StageCameraDesc.m_shakeCoolTime = CameraDesc["m_shakeCoolTime"].GetDouble();
+
+	m_StageCameraDesc.m_skillZoomInCoolTime = CameraDesc["m_skillZoomInCoolTime"].GetDouble();
 
 	const Value& m_DistancefromAt = CameraDesc["m_DistancefromAt"];
 	m_StageCameraDesc.m_DistancefromAt.x = m_DistancefromAt["x"].GetFloat();
@@ -596,4 +604,6 @@ CGameObject* CStageCamera::Clone(const _tchar* pLayerTag, _uint iLevelIndex, voi
 void CStageCamera::Free()
 {
 	__super::Free();
+
+	Safe_Release(m_pStageCameraTarget);
 }
