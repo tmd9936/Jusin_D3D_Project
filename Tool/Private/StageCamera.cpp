@@ -60,6 +60,8 @@ _uint CStageCamera::Tick(_double TimeDelta)
 
 	Camemra_Shake_CoolTimeCheck(TimeDelta);
 
+	Skill_Zoom_In_CoolTImeCheck(TimeDelta);
+
 	return __super::Tick(TimeDelta);
 }
 
@@ -91,6 +93,10 @@ _uint CStageCamera::State_LateTick(const _double& TimeDelta)
 		break;
 	case STATE_SHAKE:
 		Camera_Shake_Tick(TimeDelta);
+		break;
+	case STATE_SKILL_ZOOM_IN:
+		break;
+	case STATE_SKILL_ZOOM_IN_RETURN:
 		break;
 	case STATE_MOVE_TO_BOSS:
 		break;
@@ -125,6 +131,10 @@ void CStageCamera::State_Change()
 			break;
 		case STATE_BATTLE:
 			CameraTarget_Formation_Start();
+			break;
+		case STATE_SKILL_ZOOM_IN:
+			break;
+		case STATE_SKILL_ZOOM_IN_RETURN:
 			break;
 		case STATE_MOVE_TO_BOSS:
 			CameraTarget_Formation_Stop();
@@ -311,6 +321,20 @@ _bool CStageCamera::Zoom_In_From_CameraTarget(const _double& TimeDelta)
 	}
 }
 
+void CStageCamera::Skill_Zoom_In_CoolTImeCheck(const _double& TimeDelta)
+{
+	if (!m_CanSkillZoomIn)
+	{
+		if (m_SkillZoomInTimeAcc >= m_StageCameraDesc.m_skillZoomInCoolTime)
+		{
+			m_CanSkillZoomIn = true;
+		}
+	}
+
+	if (m_SkillZoomInTimeAcc <= m_StageCameraDesc.m_skillZoomInCoolTime)
+		m_SkillZoomInTimeAcc += TimeDelta;
+}
+
 void CStageCamera::Camera_Shake_Tick(const _double& TimeDelta)
 {
 	/*
@@ -445,7 +469,8 @@ _bool CStageCamera::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType
 		CameraDesc.AddMember("m_maxZoomTime", m_StageCameraDesc.m_maxZoomTime, allocator);
 		CameraDesc.AddMember("m_shakeCoolTime", m_StageCameraDesc.m_shakeCoolTime, allocator);
 
-		CameraDesc.AddMember("m_shakeCoolTime", m_StageCameraDesc.m_skillZoomInCoolTime, allocator);
+		CameraDesc.AddMember("m_skillZoomInCoolTime", m_StageCameraDesc.m_skillZoomInCoolTime, allocator);
+		CameraDesc.AddMember("m_skillZoomInAdditionalDistance", m_StageCameraDesc.m_skillZoomInAdditionalDistance, allocator);
 
 		Value m_DistancefromAt(kObjectType);
 		{
@@ -519,6 +544,7 @@ _bool CStageCamera::Load_By_JsonFile_Impl(Document& doc)
 	m_StageCameraDesc.m_shakeCoolTime = CameraDesc["m_shakeCoolTime"].GetDouble();
 
 	m_StageCameraDesc.m_skillZoomInCoolTime = CameraDesc["m_skillZoomInCoolTime"].GetDouble();
+	m_StageCameraDesc.m_skillZoomInAdditionalDistance = CameraDesc["m_skillZoomInAdditionalDistance"].GetDouble();
 
 	const Value& m_DistancefromAt = CameraDesc["m_DistancefromAt"];
 	m_StageCameraDesc.m_DistancefromAt.x = m_DistancefromAt["x"].GetFloat();

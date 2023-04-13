@@ -58,6 +58,8 @@ public:
 		_double		m_shakeCoolTime;
 
 		_double		m_skillZoomInCoolTime;
+		_double		m_skillZoomInAdditionalDistance;
+		
 
 		CCamera::CAMERADESC		CameraDesc;
 	}STAGE_CAMERA_DESC;
@@ -125,6 +127,9 @@ private:
 	_bool					Zoom_In_From_CameraTarget(const _double& TimeDelta);
 
 private:
+	void					Skill_Zoom_In_CoolTImeCheck(const _double& TimeDelta);
+
+private:
 	STAGE_CAMERA_DESC		m_StageCameraDesc = { };
 	/// <summary>
 	/// 카메라와 At간 유지할 거리
@@ -148,6 +153,7 @@ private:
 	SHAKE_DIR				m_CurShakeDirection = { SHAKE_DIR_UP };
 
 	_double					m_SkillZoomInTimeAcc = { 0.0 };
+	_bool					m_CanSkillZoomIn = { true };
 
 public:
 	/* Prototype */
