@@ -338,9 +338,9 @@ void CStageCamera::Skill_Zoom_In_LateTick(const _double& TimeDelta)
 		return;
 	}
 
-	_vector movePoint = pTransform->Get_State(CTransform::STATE_POSITION) + (m_vDistanceVectorFromAt * m_StageCameraDesc.m_distance * m_StageCameraDesc.m_skillZoomInAdditionalDistance);
+	_vector movePoint = pTransform->Get_State(CTransform::STATE_POSITION) + (m_vDistanceVectorFromAt * m_StageCameraDesc.m_distance * (_float)m_StageCameraDesc.m_skillZoomInAdditionalDistance);
 
-	m_pTransform->ChaseNoLook(movePoint, (_float)TimeDelta * m_StageCameraDesc.m_skillZoomInAdditionalSpeed, 0.4f);
+	m_pTransform->ChaseNoLook(movePoint, (_float)TimeDelta * (_float)m_StageCameraDesc.m_skillZoomInAdditionalSpeed, 0.4f);
 
 	m_StageCameraDesc.CameraDesc = m_CameraDesc;
 }
