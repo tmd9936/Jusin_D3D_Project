@@ -172,6 +172,7 @@
     <ClInclude Include="..\Public\BuffState.h" />
     <ClInclude Include="..\Public\Button.h" />
     <ClInclude Include="..\Public\ChargeEffect.h" />
+    <ClInclude Include="..\Public\ConditionData.h" />
     <ClInclude Include="..\Public\DamageText.h" />
     <ClInclude Include="..\Public\GoToStageButton.h" />
     <ClInclude Include="..\Public\HommingAttackEffect.h" />
@@ -251,6 +252,7 @@
     <ClCompile Include="..\Private\BuffState.cpp" />
     <ClCompile Include="..\Private\Button.cpp" />
     <ClCompile Include="..\Private\ChargeEffect.cpp" />
+    <ClCompile Include="..\Private\ConditionData.cpp" />
     <ClCompile Include="..\Private\DamageText.cpp" />
     <ClCompile Include="..\Private\GoToStageButton.cpp" />
     <ClCompile Include="..\Private\HommingAttackEffect.cpp" />

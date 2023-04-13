@@ -71,6 +71,8 @@
 
 #include "ManualCollisionState.h"
 
+#include "ConditionData.h"
+
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
 	, m_pContext(pContext)
@@ -661,6 +663,14 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MiscData"),
 			CMiscData::Create(m_pDevice, m_pContext, "../../Reference/Resources/Data/Misc/Misc_data.json"))))
 			return E_FAIL;
+
+		/* For.Prototype_GameObject_MiscData */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ConditionData"),
+			CConditionData::Create(m_pDevice, m_pContext, 
+				"../../Reference/Resources/Data/Condition_Buff_DeBuff/ConditionDataSet.json",
+				"../../Reference/Resources/Data/Condition_Buff_DeBuff/ConditionTypeDataSet.json",
+				"../../Reference/Resources/Data/Condition_Buff_DeBuff/ConditionParameter.json"))))
+			return E_FAIL;
 	}
 #pragma endregion
 
@@ -678,6 +688,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			return E_FAIL;
 
 		if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MiscData", LEVEL_STATIC, L"Layer_Manager", L"MiscData")))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_ConditionData", LEVEL_STATIC, L"Layer_Manager", L"ConditionData")))
 			return E_FAIL;
 	}
 #pragma endregion

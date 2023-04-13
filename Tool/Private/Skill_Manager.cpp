@@ -7,6 +7,8 @@
 
 #include "Effect.h"
 
+#include "AttackEffect.h"
+
 #include "RushAttackEffect.h"
 #include "HommingAttackEffect.h"
 #include "BezierAttackEffect.h"
@@ -859,6 +861,8 @@ _bool CSkill_Manager::Load_By_JsonFile_Impl(Document& doc)
 
 	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
 
+	m_Skill_Depend_Datas.reserve((size_t)m_datas.Size());
+
 	for (SizeType i = 0; i < m_datas.Size(); ++i)
 	{
 		SKILL_DEPEND_DATA m_desc{};
@@ -913,6 +917,8 @@ bool CSkill_Manager::Load_SkillDataResourcesSet_JsonFile(const char* filePath)
 		assert(m_datas.IsArray());
 
 		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
+
+		m_Skill_Desc_Datas.reserve((size_t)m_datas.Size());
 
 		for (SizeType i = 0; i < m_datas.Size(); ++i)
 		{

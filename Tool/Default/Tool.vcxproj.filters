@@ -244,6 +244,9 @@
     <Filter Include="02. GameObject\BaseCamp\Effect">
       <UniqueIdentifier>{bb4e3f47-2239-4e6e-a6b8-0d3cc108fad7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\Static\ConditionData">
+      <UniqueIdentifier>{02f09a0a-3dc9-4d41-aa08-88c11b8a79ab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -479,6 +482,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Effect_Sakura.h">
       <Filter>02. GameObject\BaseCamp\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ConditionData.h">
+      <Filter>02. GameObject\Static\ConditionData</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -716,6 +722,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Effect_Sakura.cpp">
       <Filter>02. GameObject\BaseCamp\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ConditionData.cpp">
+      <Filter>02. GameObject\Static\ConditionData</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

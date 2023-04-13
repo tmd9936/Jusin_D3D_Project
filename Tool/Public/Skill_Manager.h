@@ -12,6 +12,8 @@ BEGIN(Client)
 
 class CEffect;
 class CEffect_Manager;
+class CAttackEffect;
+class CSkillEffect;
 
 class CSkill_Manager final : public CGameObject
 {
