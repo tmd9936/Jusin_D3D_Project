@@ -131,6 +131,7 @@ private:
 
 private:
 	void					Skill_Zoom_In_LateTick(const _double& TimeDelta);
+	void					Skill_Zoom_In_End();
 	void					Skill_Zoom_In_CoolTImeCheck(const _double& TimeDelta);
 
 private:
