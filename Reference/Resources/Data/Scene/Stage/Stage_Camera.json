@@ -10,7 +10,7 @@
         "m_zoomSpeed": 3.0,
         "m_maxZoomTime": 1.0,
         "m_shakeCoolTime": 7.0,
-        "m_skillZoomInCoolTime": 8.0,
+        "m_skillZoomInCoolTime": 6.5,
         "m_skillZoomInAdditionalDistance": 0.7,
         "m_skillZoomInAdditionalSpeed": 2.5,
         "m_DistancefromAt": {
