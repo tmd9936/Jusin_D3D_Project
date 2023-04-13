@@ -288,6 +288,10 @@ void CBuffState::Set_ParentDefensePercent(_float percent)
 	m_Desc.pParentHP->Set_DamageGetPercent(percent);
 }
 
+/* 
+컨디션 데이터에 따라서 버프주기..
+*/
+
 void CBuffState::Return_Original_State(BUFF_STATE preState)
 {
 	switch (preState)

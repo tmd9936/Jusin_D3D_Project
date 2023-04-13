@@ -349,6 +349,7 @@ void CStageCamera::Skill_Zoom_In_End()
 {
 	m_eCurState = STATE_FORMATION;
 	Safe_Release(m_pSkillZoomInTarget);
+	m_CurAdditionalDistance = 1.1f;
 	m_pSkillZoomInTarget = nullptr;
 }
 
