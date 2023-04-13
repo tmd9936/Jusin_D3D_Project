@@ -41,7 +41,6 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevelID)
 		{
 			pGameInstance->Ready_Sound();
 		}
-		//pGameInstance->PlayBGM(TEXT("BGM_BASE.ogg"));
 
 		Safe_Release(pGameInstance);
 	}

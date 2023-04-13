@@ -43,6 +43,8 @@ HRESULT CBackGround::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void
 	XMStoreFloat4x4(&m_ProjMatrix,
 		XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
 
+	CGameInstance::GetInstance()->StopAll();
+
 	return S_OK;
 }
 
@@ -53,6 +55,20 @@ _uint CBackGround::Tick(_double TimeDelta)
 
 _uint CBackGround::LateTick(_double TimeDelta)
 {
+
+	if (false == m_bLogoBallSound)
+	{
+		CGameInstance::GetInstance()->PlaySoundW(L"LogoBall.ogg", Engine::SOUND_UI);
+		m_bLogoBallSound = true;
+	}
+
+	if (m_fTextureNum >= 27.f && false == m_bTitleBGM)
+	{
+		//CGameInstance::GetInstance()->StopSound(Engine::SOUND_EFFECT);
+		CGameInstance::GetInstance()->PlayBGM(TEXT("BGM_Title.ogg"));
+		m_bTitleBGM = true;
+	}
+
 	if (m_fTextureNum < 30.0)
 	{
 		m_fTextureNum += TimeDelta * 11.5;

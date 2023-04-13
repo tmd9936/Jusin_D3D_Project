@@ -38,6 +38,9 @@ private:
 
 	_double				m_fTextureNum = { 0.0 };
 
+	_bool				m_bTitleBGM = { false };
+	_bool				m_bLogoBallSound = { false };
+
 private:
 	HRESULT Add_Components();
 	HRESULT SetUp_ShaderResources();
