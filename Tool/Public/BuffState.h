@@ -10,6 +10,9 @@ class CShader;
 class CTexture;
 class CTransform;
 class CModel;
+class CHp;
+class CAttack;
+class CMonFSM;
 END
 
 /*
@@ -18,13 +21,21 @@ END
 버프/디버프 끝났으면 랜더 끝내고 안보이기
 */
 
+
+/*
+Transform 컴포넌트 : 이동속도 증가 및 감소
+HP 컴포넌트 : 방어력 및 체력 틱데미지
+Attack 컴포넌트 : 공격력 증가 및 감소
+MonFSM 컴포넌트 : 몬스터 정지 시키기
+*/
+
 BEGIN(Client)
 
 class CBuffState final : public CGameObject
 {
 public:
 	enum BUFF_TYPE {
-		BUFF_TYPE_DAMAGE_UP1,
+		BUFF_TYPE_NONE,
 		BUFF_TYPE_DAMAGE_UP2,
 		BUFF_TYPE_DAMAGE_DOWN,
 		BUFF_TYPE_DEFENSE_UP,
@@ -45,7 +56,11 @@ public:
 public:
 	typedef struct BuffState_Desc
 	{
-		CTransform*			pParent = { nullptr }; // 기준이 되는 부모
+		CTransform*			pParentTransform = { nullptr }; // 기준이 되는 부모
+		CHP*				pParentHP = { nullptr };
+		CAttack*			pParentAttack = { nullptr };
+		CMonFSM*			pParentMonFSM = { nullptr };
+
 		_float4x4			PivotMatrix;
 
 		_float				m_fPositionX;
@@ -81,7 +96,8 @@ private:
 	CShader*				m_pShaderCom = { nullptr };
 	CVIBuffer_Rect*			m_pVIBufferCom = { nullptr };
 	CTexture*				m_pTextureCom = { nullptr };
-	
+	CTexture*				m_pMaskTextureCom = { nullptr };
+
 private:
 	BUFFSTATE_DESC			m_Desc = {};
 	_float4x4				m_FinalWorldMatrix = {};

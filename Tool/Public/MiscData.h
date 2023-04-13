@@ -34,10 +34,21 @@ public:
 
 	} DAMAGETETXTMISC_DESC;
 
+	typedef struct BuffStateMisc_Desc
+	{
+		_float SizeX;
+		_float SizeY;
+		_float PositionX;
+		_float PositionY;
+		_float PositionZ;
+
+	} BUFFSTATEMISC_DESC;
+
 	typedef struct Misc_Desc
 	{
-		HPBARMISC_DESC			hpBarMiscDesc;
-		DAMAGETETXTMISC_DESC	damageTextMiscDesc;
+		HPBARMISC_DESC					hpBarMiscDesc;
+		DAMAGETETXTMISC_DESC			damageTextMiscDesc;
+		vector<BUFFSTATEMISC_DESC>		buffStateMiscDesces;
 	} MISC_DESC;
 
 private:
@@ -60,6 +71,10 @@ public:
 
 	DAMAGETETXTMISC_DESC Get_DamageTextMisc_Desc() const {
 		return m_MiscDesc.damageTextMiscDesc;
+	}
+
+	vector<BUFFSTATEMISC_DESC>	Get_BuffStateDesces() const {
+		return m_MiscDesc.buffStateMiscDesces;
 	}
 
 protected:

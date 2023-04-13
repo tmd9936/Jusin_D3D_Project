@@ -141,31 +141,36 @@ _bool CMiscData::Load_By_JsonFile_Impl(Document& doc)
 	m_MiscDesc.damageTextMiscDesc.PositionZ = damageTextMiscDesc["PositionZ"].GetFloat();
 	// ==== damageTextMiscDesc ====
 
+	// ==== m_buffStateDesces ====
+	const Value& m_buffStateDesces = MiscDesc["m_buffStateDesces"].GetArray();
+
+	m_MiscDesc.buffStateMiscDesces.reserve(m_buffStateDesces.Size());
+
+	for (SizeType i = 0; i < m_buffStateDesces.Size(); ++i)
+	{
+		BUFFSTATEMISC_DESC desc{};
+
+		desc.SizeX = m_buffStateDesces[i]["SizeX"].GetFloat();
+		desc.SizeY = m_buffStateDesces[i]["SizeY"].GetFloat();
+		desc.PositionX = m_buffStateDesces[i]["PositionX"].GetFloat();
+		desc.PositionY = m_buffStateDesces[i]["PositionY"].GetFloat();
+		desc.PositionZ = m_buffStateDesces[i]["PositionZ"].GetFloat();
+
+		m_MiscDesc.buffStateMiscDesces.push_back(move(desc));
+	}
+
+	// ==== m_buffStateDesces ====
+
 	return true;
 }
 
 HRESULT CMiscData::Add_Components()
 {
-	//CGameInstance* pGameInstance = CGameInstance::GetInstance();
-
-	///* For.Com_Shader */
-	//if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_STATIC, m_MapDesc.ShaderPrototypeTag.c_str(),
-	//	(CComponent**)&m_pShaderCom, nullptr)))
-	//	return E_FAIL;
-
-
 	return S_OK;
 }
 
 HRESULT CMiscData::Add_Components_By_File()
 {
-	//CGameInstance* pGameInstance = CGameInstance::GetInstance();
-
-	///* For.Com_Renderer */
-	//if (FAILED(pGameInstance->Add_Component(CRenderer::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Renderer"),
-	//	(CComponent**)&m_pRendererCom, nullptr)))
-	//	return E_FAIL;
-
 	return S_OK;
 }
 

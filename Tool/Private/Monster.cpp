@@ -262,8 +262,10 @@ HRESULT CMonster::Add_BuffState()
 	CBuffState::BUFFSTATE_DESC		BuffStateDesc;
 	ZeroMemory(&BuffStateDesc, sizeof BuffStateDesc);
 
-	BuffStateDesc.pParent = m_pTransformCom;
-	Safe_AddRef(m_pTransformCom);
+	BuffStateDesc.pParentTransform = m_pTransformCom;
+	BuffStateDesc.pParentAttack= m_pAttackCom;
+	BuffStateDesc.pParentHP = m_pHPCom;
+	BuffStateDesc.pParentMonFSM = m_pMonFSM;
 
 	XMStoreFloat4x4(&BuffStateDesc.PivotMatrix, m_pModelCom->Get_PivotMatrix());
 

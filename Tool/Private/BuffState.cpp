@@ -23,7 +23,11 @@ HRESULT CBuffState::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void*
 {
 	if (nullptr != pArg)
 	{
-		m_Desc.pParent = (*(BUFFSTATE_DESC*)(pArg)).pParent;
+		m_Desc.pParentTransform = (*(BUFFSTATE_DESC*)(pArg)).pParentTransform;
+		m_Desc.pParentHP = (*(BUFFSTATE_DESC*)(pArg)).pParentHP;
+		m_Desc.pParentAttack = (*(BUFFSTATE_DESC*)(pArg)).pParentAttack;
+		m_Desc.pParentMonFSM = (*(BUFFSTATE_DESC*)(pArg)).pParentMonFSM;
+
 		m_Desc.PivotMatrix = (*(BUFFSTATE_DESC*)(pArg)).PivotMatrix;
 
 		m_Desc.m_fPositionX = (*(BUFFSTATE_DESC*)(pArg)).m_fPositionX;
@@ -44,6 +48,11 @@ HRESULT CBuffState::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void*
 
 	if (FAILED(Add_Components()))
 		return E_FAIL;
+
+	Safe_AddRef(m_Desc.pParentTransform);
+	Safe_AddRef(m_Desc.pParentHP);
+	Safe_AddRef(m_Desc.pParentAttack);
+	Safe_AddRef(m_Desc.pParentMonFSM);
 
 	// 뷰포트 기준으로 나타낼 크기를 지정함
 	m_pTransformCom->Set_Scaled({ m_Desc.m_fSizeX, m_Desc.m_fSizeY, 1.f });
@@ -81,15 +90,9 @@ _uint CBuffState::LateTick(_double TimeDelta)
 	_matrix projMatrix = pGameInstance->Get_Transform_Matrix(CPipeLine::D3DTS_PROJ);
 
 	_float4x4 ParentMat{};
-	XMStoreFloat4x4(&ParentMat, m_Desc.pParent->Get_WorldMatrix_Matrix());
+	XMStoreFloat4x4(&ParentMat, m_Desc.pParentTransform->Get_WorldMatrix_Matrix());
 
 	XMStoreFloat4x4(&ParentMat, XMLoadFloat4x4(&ParentMat) * viewMatrix * projMatrix * ViewPortMatrix);
-
-	//_float ParentScaleXRatio = XMVectorGetX(XMVector3Length((XMLoadFloat4x4(&ParentMat).r[0]))) / g_iWinSizeX;
-	//_float ParentScaleYRatio = XMVectorGetX(XMVector3Length((XMLoadFloat4x4(&ParentMat).r[1]))) / g_iWinSizeY;
-	//_float ParentScaleZRatio = XMVectorGetX(XMVector3Length((XMLoadFloat4x4(&ParentMat).r[2])));
-
-	//_float ScaleRatio = ParentMat.m[3][3] / ParentMat.m[3][2];
 
 	// x와 y에 z빼기를 해주면 뷰포트 기준으로의 위치가 만들어짐
 	// z까지 z뺴기를 해주면 부모의 뒤로 랜더가 될 경우가 생기기 때문에 z는 임의의 값으로 놔둠
@@ -153,6 +156,10 @@ HRESULT CBuffState::Add_Components()
 		(CComponent**)&m_pTextureCom, nullptr)))
 		return E_FAIL;
 
+	/* For.Com_MaskTexture */
+	if (FAILED(pGameInstance->Add_Component(FAMILY_ID_TEXTURE_MASK, this, LEVEL_STATIC, TEXT("Prototype_Component_Texture_UIMask"),
+		(CComponent**)&m_pMaskTextureCom, nullptr)))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -174,6 +181,9 @@ HRESULT CBuffState::SetUp_ShaderResources()
 
 	if (FAILED(m_pTextureCom->Set_ShaderResource(m_pShaderCom, "g_Texture", 0)))
 		return E_FAIL;
+
+	//if (FAILED(m_pMaskTextureCom->Set_ShaderResource(m_pShaderCom, "g_MaskTexture", 0)))
+	//	return E_FAIL;
 
 	Safe_Release(pGameInstance);
 
@@ -221,13 +231,15 @@ void CBuffState::Free()
 {
 	__super::Free();
 
-	Safe_Release(m_Desc.pParent);
+	Safe_Release(m_Desc.pParentTransform);
+	Safe_Release(m_Desc.pParentHP);
+	Safe_Release(m_Desc.pParentAttack);
+	Safe_Release(m_Desc.pParentMonFSM);
 
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pRendererCom);
 	Safe_Release(m_pTextureCom);
-
-
+	Safe_Release(m_pMaskTextureCom);
 }
