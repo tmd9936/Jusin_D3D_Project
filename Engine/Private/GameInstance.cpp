@@ -493,6 +493,14 @@ _matrix CGameInstance::Get_ViewPort_Matrix(float x, float y, float w, float h, f
 	return m_pPipeLine->Get_ViewPort_Matrix(x, y, w, h, minZ, maxZ);
 }
 
+_float CGameInstance::Get_CameraFar()
+{
+	if (nullptr == m_pPipeLine)
+		return 0.f;
+
+	return m_pPipeLine->Get_CameraFar();
+}
+
 const KEY_STATE CGameInstance::Get_KeyState(KEY eKey)
 {
 	if (nullptr == m_pInput_Device)

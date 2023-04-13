@@ -2,6 +2,7 @@
 
 matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 texture2D		g_DiffuseTexture;
+float			g_CameraFar;
 
 
 struct VS_IN
@@ -76,6 +77,7 @@ struct PS_OUT
 {
 	float4		vDiffuse : SV_TARGET0;
 	float4		vNormal : SV_TARGET1;
+	float4		vDepth : SV_TARGET2;
 };
 
 PS_OUT PS_MAIN(PS_IN In)
@@ -89,6 +91,10 @@ PS_OUT PS_MAIN(PS_IN In)
 
 	Out.vDiffuse = vMtrlDiffuse;
 	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
+
+	// x : z / w 투영기준 z나누기 한 값
+	// y : 뷰스페이스 공간에서의 데이터를 디퍼드에 전달해주기위한 값, 디퍼드에서 다시 300 곱함
+	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / g_CameraFar, 0.f, 0.f);
 
 	return Out;
 }

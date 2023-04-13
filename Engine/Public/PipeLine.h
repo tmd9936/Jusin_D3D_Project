@@ -51,6 +51,10 @@ public:
 		return m_CamDesc;
 	}
 
+	_float	Get_CameraFar() const {
+		return m_CamDesc.fFar;
+	}
+
 public:
 	void	Update();
 

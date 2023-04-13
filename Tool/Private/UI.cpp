@@ -333,6 +333,8 @@ HRESULT CUI::SetUp_ShaderResources()
 		m_pShaderCom->Set_RawValue("g_Size", &size, sizeof(_float2));
 		_float	radius = 3.f;
 		m_pShaderCom->Set_RawValue("g_Radius", &radius, sizeof(_float));
+		_float	g_Progress = 0.f;
+		m_pShaderCom->Set_RawValue("g_Progress", &g_Progress, sizeof(_float));
 
 	}
 

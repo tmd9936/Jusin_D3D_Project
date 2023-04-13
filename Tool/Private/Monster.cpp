@@ -739,6 +739,11 @@ HRESULT CMonster::SetUp_ShaderResources()
 		&m_hitColor, sizeof(_float4))))
 		return E_FAIL;
 
+	_float cameraFar = pGameInstance->Get_CameraFar();
+	if (FAILED(m_pShaderCom->Set_RawValue("g_CameraFar",
+		&cameraFar, sizeof(_float))))
+		return E_FAIL;
+
 	Safe_Release(pGameInstance);
 
 	return S_OK;

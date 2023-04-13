@@ -309,6 +309,11 @@ HRESULT CStagePoint::SetUp_ShaderResources()
 		&pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_PROJ))))
 		return E_FAIL;
 
+	_float cameraFar = pGameInstance->Get_CameraFar();
+	if (FAILED(m_pShaderCom->Set_RawValue("g_CameraFar",
+		&cameraFar, sizeof(_float))))
+		return E_FAIL;
+
 	Safe_Release(pGameInstance);
 
 	return S_OK;

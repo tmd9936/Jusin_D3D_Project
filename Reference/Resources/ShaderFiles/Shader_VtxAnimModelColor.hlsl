@@ -5,6 +5,8 @@ matrix			g_BoneMatrices[256]; /* 메시에 영향을 주는 뼈들이다.  VTF */
 
 float4			g_vColor = float4(1.f, 1.f, 1.f, 1.f);
 
+float			g_CameraFar;
+
 struct VS_IN
 {
 	float3		vPosition : POSITION;
@@ -92,6 +94,7 @@ struct PS_OUT
 {
 	float4		vDiffuse : SV_TARGET0;
 	float4		vNormal : SV_TARGET1;
+	float4		vDepth : SV_TARGET2;
 };
 
 PS_OUT PS_MAIN(PS_IN In)
@@ -105,6 +108,7 @@ PS_OUT PS_MAIN(PS_IN In)
 
 	Out.vDiffuse = vMtrlDiffuse;
 	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f); // 디퍼드 셰이더에서 노말의 값을 0~1로 받기 때문에 이와같이 노말의 값을 변경함
+	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / g_CameraFar, 0.f, 0.f);
 
 	return Out;
 }
@@ -116,6 +120,7 @@ PS_OUT PS_MAIN_COLOR(PS_IN In)
 
 	Out.vDiffuse = g_vColor;
 	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
+	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / g_CameraFar, 0.f, 0.f);
 
 	return Out;
 }

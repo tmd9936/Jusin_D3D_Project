@@ -11,6 +11,7 @@ class CTarget_Manager;
 class CVIBuffer_Rect;
 class CShader;
 class CLight_Manager;
+class CPipeLine;
 
 class ENGINE_DLL CRenderer final : public CComponent
 {
