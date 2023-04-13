@@ -18,6 +18,8 @@
 
 #include "Utility.h"
 
+#include "StageCamera.h"
+
 CMonster::CMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
 {
@@ -420,9 +422,15 @@ void CMonster::Do_Skill(_uint skillType, const _tchar* pLayer)
 
 		CSkill_Manager* pSkill_Mananger = dynamic_cast<CSkill_Manager*>(pManager);
 		if (nullptr != pSkill_Mananger)
-		{	
+		{
 			pSkill_Mananger->Do_Skill(pLayer, m_iLevelindex, skillType,
 				m_pAttackCom->Get_AttackPower(), m_pTransformCom->Get_WorldMatrix_Matrix(), m_pModelCom, "effect00", m_pTransformCom);
+		}
+
+		CGameObject* pStageCamera = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Camera", L"Main_Camera");
+		if (nullptr != pStageCamera)
+		{
+			dynamic_cast<CStageCamera*>(pStageCamera)->Do_Skill_Zoom_In(this);
 		}
 	}
 }

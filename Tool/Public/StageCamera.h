@@ -59,6 +59,8 @@ public:
 
 		_double		m_skillZoomInCoolTime;
 		_double		m_skillZoomInAdditionalDistance;
+		_double		m_skillZoomInAdditionalSpeed;
+
 
 		CCamera::CAMERADESC		CameraDesc;
 	}STAGE_CAMERA_DESC;

@@ -231,6 +231,9 @@ void CStageEnemyMonster::AI_Type_Long_Idle_Tick(const _double& TimeDelta, CTrans
 
 void CStageEnemyMonster::Dead_Check()
 {
+	if (nullptr == m_pHPCom)
+		return;
+
 	if (m_pHPCom->Get_CurrentHp() <= 0.f
 		&& m_pMonFSM->Get_MotionState() != CMonFSM::DEAD_ROTATE 
 		&& m_pMonFSM->Get_MotionState() != CMonFSM::DEAD_BOSS)

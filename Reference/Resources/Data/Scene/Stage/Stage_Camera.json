@@ -12,6 +12,7 @@
         "m_shakeCoolTime": 7.0,
         "m_skillZoomInCoolTime": 8.0,
         "m_skillZoomInAdditionalDistance": 0.7,
+        "m_skillZoomInAdditionalSpeed": 2.5,
         "m_DistancefromAt": {
             "x": 1.315572738647461,
             "y": 3.2889299392700195,

@@ -328,6 +328,7 @@ void CStageCamera::Skill_Zoom_In_LateTick(const _double& TimeDelta)
 		pFSM->Get_MotionState() == CMonFSM::IDLE1 || pFSM->Get_MotionState() == CMonFSM::IDLE2 || pFSM->Get_MotionState() == CMonFSM::IDLE_GROUND)
 	{
 		m_eCurState = STATE_FORMATION;
+		Safe_Release(m_pSkillZoomInTarget);
 		return;
 	}
 
@@ -336,12 +337,13 @@ void CStageCamera::Skill_Zoom_In_LateTick(const _double& TimeDelta)
 	if (nullptr == pTransform)
 	{
 		m_eCurState = STATE_FORMATION;
+		Safe_Release(m_pSkillZoomInTarget);
 		return;
 	}
 
 	_vector movePoint = pTransform->Get_State(CTransform::STATE_POSITION) + (m_vDistanceVectorFromAt * m_StageCameraDesc.m_distance * m_StageCameraDesc.m_skillZoomInAdditionalDistance);
 
-	m_pTransform->ChaseNoLook(movePoint, (_float)TimeDelta, 0.4f);
+	m_pTransform->ChaseNoLook(movePoint, (_float)TimeDelta * m_StageCameraDesc.m_skillZoomInAdditionalSpeed, 0.4f);
 
 	m_StageCameraDesc.CameraDesc = m_CameraDesc;
 }
@@ -516,6 +518,7 @@ _bool CStageCamera::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType
 
 		CameraDesc.AddMember("m_skillZoomInCoolTime", m_StageCameraDesc.m_skillZoomInCoolTime, allocator);
 		CameraDesc.AddMember("m_skillZoomInAdditionalDistance", m_StageCameraDesc.m_skillZoomInAdditionalDistance, allocator);
+		CameraDesc.AddMember("m_skillZoomInAdditionalSpeed", m_StageCameraDesc.m_skillZoomInAdditionalSpeed, allocator);
 
 		Value m_DistancefromAt(kObjectType);
 		{
@@ -590,6 +593,7 @@ _bool CStageCamera::Load_By_JsonFile_Impl(Document& doc)
 
 	m_StageCameraDesc.m_skillZoomInCoolTime = CameraDesc["m_skillZoomInCoolTime"].GetDouble();
 	m_StageCameraDesc.m_skillZoomInAdditionalDistance = CameraDesc["m_skillZoomInAdditionalDistance"].GetDouble();
+	m_StageCameraDesc.m_skillZoomInAdditionalSpeed = CameraDesc["m_skillZoomInAdditionalSpeed"].GetDouble();
 
 	const Value& m_DistancefromAt = CameraDesc["m_DistancefromAt"];
 	m_StageCameraDesc.m_DistancefromAt.x = m_DistancefromAt["x"].GetFloat();

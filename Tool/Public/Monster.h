@@ -29,6 +29,7 @@ class CHpBar;
 class CSearcher;
 class CDamageText;
 class CMiscData;
+class CStageCamera;
 
 class CMonster abstract : public CGameObject
 {
