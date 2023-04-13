@@ -108,6 +108,7 @@ void CStage_Manager::Boss_DeadEffect(_bool isEnd, _fvector vPos)
 	else
 	{
 		pSkillEffect = pEffect_Manager->CreateEffect(CEffect_Manager::m_damageBossEnd, L"Prototype_GameObject_SkillEffect", Get_LayerTag().c_str(), Get_Levelindex());
+		CGameInstance::GetInstance()->StopAll();
 		CGameInstance::GetInstance()->PlayBGM(L"BGM_Stage_Clear.ogg");
 	}
 
