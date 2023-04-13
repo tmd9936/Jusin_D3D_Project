@@ -698,8 +698,10 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 		CConditionData::CONDITIONTYPEDATA_DESC conditionTypeDataDesc = pConditionData->Get_ConditonTypeData(conditinoTypeID);
 
 		Create_No_ChargeEffect(conditionTypeDataDesc.m_effectType, vLook, vPos, pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
-
 		
+		pBuffState->Set_BuffState(skillType, (CBuffState::BUFF_STATE)conditionTypeDataDesc.m_id,
+			conditionTypeDataDesc.m_iconPath.c_str(), conditionDataDesc.m_Value_A, conditionDataDesc.m_Value_B, 
+			conditionDataDesc.m_time, conditionDataDesc.m_ratio);
 
 	}
 	else if (skillType == 116) // 베리어
@@ -797,6 +799,9 @@ CSkill* CSkill_Manager::Do_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _ui
 		// 컨디션 3
 		// 컨디션 데이터 가져오고 플레이어의 버프 자리 남는 자리에 텍스쳐 생성시키고 
 		// 해당 데이터에 맞는 값 증가시켜주기
+
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState);
 
 	}
 	else if (skillType == 116) // 베리어

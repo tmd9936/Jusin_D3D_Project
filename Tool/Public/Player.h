@@ -13,6 +13,8 @@ END
 
 BEGIN(Client)
 
+class CBuffState;
+
 class CPlayer final : public CMonster
 {
 public:

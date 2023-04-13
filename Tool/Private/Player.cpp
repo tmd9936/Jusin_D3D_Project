@@ -10,6 +10,7 @@
 
 #include "HpBar.h"
 #include "DamageText.h"
+#include "BuffState.h"
 
 CPlayer::CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CMonster(pDevice, pContext)
@@ -59,6 +60,9 @@ HRESULT CPlayer::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const ch
 
 _uint CPlayer::Tick(_double TimeDelta)
 {
+	for (auto& pBuffStates : m_buffStates)
+		pBuffStates->Tick(TimeDelta);
+
 	if (m_pHpBar)
 		m_pHpBar->Tick(TimeDelta);
 

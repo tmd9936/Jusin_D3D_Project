@@ -12,7 +12,7 @@
         "rotateSpeed": 1.2,
         "m_monsterNo": 91,
         "m_hpBasis": 800,
-        "m_attackBasis": 40,
+        "m_attackBasis": 55,
         "m_hpGrow": 1,
         "m_attackGrow": 1,
         "m_type1": 10,

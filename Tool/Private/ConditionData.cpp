@@ -99,10 +99,10 @@ _bool CConditionData::Load_By_JsonFile_Impl(Document& doc)
 
 		desc.m_id = m_datas[i]["m_id"].GetUint();
 		desc.m_type = m_datas[i]["m_type"].GetUint();
-		desc.m_Value_A = m_datas[i]["m_type"].GetFloat();
-		desc.m_Value_B = m_datas[i]["m_type"].GetFloat();
-		desc.m_time = m_datas[i]["m_type"].GetFloat();
-		desc.m_ratio = m_datas[i]["m_type"].GetFloat();
+		desc.m_Value_A = m_datas[i]["m_Value_A"].GetFloat();
+		desc.m_Value_B = m_datas[i]["m_Value_B"].GetFloat();
+		desc.m_time = m_datas[i]["m_time"].GetFloat();
+		desc.m_ratio = m_datas[i]["m_ratio"].GetFloat();
 
 		m_ConditionData_Desc.push_back(move(desc));
 	}

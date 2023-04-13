@@ -12,7 +12,7 @@
         "rotateSpeed": 1.2,
         "m_monsterNo": 95,
         "m_hpBasis": 1000,
-        "m_attackBasis": 40,
+        "m_attackBasis": 55,
         "m_hpGrow": 1,
         "m_attackGrow": 1,
         "m_type1": 5,
@@ -48,7 +48,8 @@
         },
         "m_FormationChanger": true,
         "m_skillIDs": [
-          188
+          188,
+          192
         ]
     }
 }

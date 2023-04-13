@@ -72,7 +72,9 @@ HRESULT CBuffState::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void*
 
 _uint CBuffState::Tick(_double TimeDelta)
 {
-	//Change_State();
+	EndTime_Check(TimeDelta);
+
+	Change_State();
 
 	return _uint();
 }
@@ -140,6 +142,7 @@ HRESULT CBuffState::Set_BuffState(_uint skillType, BUFF_STATE eState, const _tch
 	if (FAILED(Change_Texture(prototypeTag)))
 		return E_FAIL;
 
+	m_EndTimeAcc = 0.0;
 	m_EndTime = (_double)endTime;
 	m_eCurBuffState = eState;
 	m_CurSkillType = skillType;
@@ -324,16 +327,16 @@ void CBuffState::Return_Original_State(BUFF_STATE preState)
 	case BUFF_STATE_DAMAGE_DOWN:
 		break;
 	case BUFF_STATE_DEFENSE_UP:
-		Set_ParentDefensePercent(1.f - m_valueA);
+		Set_ParentDefensePercent(1.f);
 		break;
 	case BUFF_STATE_DEFENSE_DOWN:
-		Set_ParentDefensePercent(1.f + m_valueA);
+		Set_ParentDefensePercent(1.f);
 		break;
 	case BUFF_STATE_SPEED_UP:
-		Set_ParentSpeedPercent(1.f + m_valueA);
+		Set_ParentSpeedPercent(1.f);
 		break;
 	case BUFF_STATE_SPEED_DOWN:
-		Set_ParentSpeedPercent(1.f - m_valueA);
+		Set_ParentSpeedPercent(1.f);
 		break;
 	case BUFF_STATE_RESIST_UP:
 		break;
