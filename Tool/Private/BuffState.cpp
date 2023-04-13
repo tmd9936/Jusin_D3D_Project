@@ -40,7 +40,7 @@ HRESULT CBuffState::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void*
 		lstrcpy(m_Desc.m_TextureProtoTypeName, (*(BUFFSTATE_DESC*)(pArg)).m_TextureProtoTypeName);
 		m_Desc.m_TextureLevelIndex = (*(BUFFSTATE_DESC*)(pArg)).m_TextureLevelIndex;
 
-		m_Desc.m_eBuffType = (*(BUFFSTATE_DESC*)(pArg)).m_eBuffType;
+		//m_Desc.m_eBuffType = (*(BUFFSTATE_DESC*)(pArg)).m_eBuffType;
 	}
 
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))

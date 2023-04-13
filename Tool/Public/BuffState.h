@@ -18,13 +18,13 @@ END
 /*
 버프 타입에 맞게 플레이어의 컴포넌트를 가져와서 변경시키기
 추가로 체인지 컴포넌트로 아이콘 텍스처 바꾸기
-버프/디버프 끝났으면 랜더 끝내고 안보이기
-*/
+버프/디버프 끝났으면 버프 상태 NONE으로 바꾸기 NONE인 상태에서는 랜더그룹에 추가 X*/
 
 
 /*
+* 부모 컴포넌트별 적용되는 버프
 Transform 컴포넌트 : 이동속도 증가 및 감소
-HP 컴포넌트 : 방어력 및 체력 틱데미지
+HP 컴포넌트 : 방어력 및 체력 틱 데미지
 Attack 컴포넌트 : 공격력 증가 및 감소
 MonFSM 컴포넌트 : 몬스터 정지 시키기
 */
@@ -34,23 +34,24 @@ BEGIN(Client)
 class CBuffState final : public CGameObject
 {
 public:
-	enum BUFF_TYPE {
-		BUFF_TYPE_NONE,
-		BUFF_TYPE_DAMAGE_UP,
-		BUFF_TYPE_DAMAGE_DOWN,
-		BUFF_TYPE_DEFENSE_UP,
-		BUFF_TYPE_DEFENSE_DOWN,
-		BUFF_TYPE_SPEED_UP,
-		BUFF_TYPE_SPEED_DOWN,
-		BUFF_TYPE_RESIST_UP,
-		BUFF_TYPE_RESIST_DOWN,
-		BUFF_TYPE_DOKU,
-		BUFF_TYPE_MAHI,
-		BUFF_TYPE_KOORI,
-		BUFF_TYPE_YAKEDO,
-		BUFF_TYPE_KONRAN,
-		BUFF_TYPE_KANASIBARI,
-		BUFF_TYPE_NEMURI,
+	enum BUFF_STATE {
+		BUFF_STATE_NONE,
+		BUFF_STATE_DAMAGE_UP,
+		BUFF_STATE_DAMAGE_DOWN,
+		BUFF_STATE_DEFENSE_UP,
+		BUFF_STATE_DEFENSE_DOWN,
+		BUFF_STATE_SPEED_UP,
+		BUFF_STATE_SPEED_DOWN,
+		BUFF_STATE_RESIST_UP,
+		BUFF_STATE_RESIST_DOWN,
+		BUFF_STATE_DOKU,
+		BUFF_STATE_MAHI,
+		BUFF_STATE_KOORI,
+		BUFF_STATE_YAKEDO,
+		BUFF_STATE_KONRAN,
+		BUFF_STATE_KANASIBARI,
+		BUFF_STATE_NEMURI,
+		BUFF_STATE_END
 	};
 
 public:
@@ -72,8 +73,6 @@ public:
 
 		_tchar				m_TextureProtoTypeName[MAX_PATH];
 		_uint				m_TextureLevelIndex;
-
-		BUFF_TYPE			m_eBuffType;
 
 		_double				m_EndTime;
 
@@ -109,6 +108,9 @@ private:
 	_float4x4				m_ProjMatrix = {};
 
 	_double					m_CurEndTimeAcc = { 0.0 };
+
+	BUFF_STATE				m_eCurBuffState = { BUFF_STATE_NONE };
+	BUFF_STATE				m_ePreBuffState = { BUFF_STATE_END };
 
 private:
 	HRESULT Add_Components();
