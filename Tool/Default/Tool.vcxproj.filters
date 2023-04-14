@@ -247,6 +247,9 @@
     <Filter Include="02. GameObject\Static\ConditionData">
       <UniqueIdentifier>{02f09a0a-3dc9-4d41-aa08-88c11b8a79ab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\Stage\Pokering">
+      <UniqueIdentifier>{8c152159-86f5-49b7-ac26-b15ef8c09a05}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -485,6 +488,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\ConditionData.h">
       <Filter>02. GameObject\Static\ConditionData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Pokering.h">
+      <Filter>02. GameObject\Stage\Pokering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -725,6 +731,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\ConditionData.cpp">
       <Filter>02. GameObject\Static\ConditionData</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Pokering.cpp">
+      <Filter>02. GameObject\Stage\Pokering</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

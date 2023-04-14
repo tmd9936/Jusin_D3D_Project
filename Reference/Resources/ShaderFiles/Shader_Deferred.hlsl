@@ -89,15 +89,17 @@ PS_OUT_LIGHT PS_MAIN_LIGHT_DIRECTIONAL(PS_IN In)
 	//vector	vDepthDesc = g_DepthTexture.Sample(LinearSampler, In.vTexUV);
 	//float	fViewZ = vDepthDesc.y * g_CameraFar;
 	
-	// 월드의 포스를 uv좌표와 투영스페이스를 대조하여 임의로 만들고 z정보는 랜더타겟에서 가져옴
 	vector	vNormal = vector(vNormalDesc.xyz * 2.f - 1.f, 0.f);
 
 	Out.vShade = g_vLightDiffuse * (saturate(dot(normalize(g_vLightDir) * -1.f, vNormal)) +
 		(g_vLightAmbient * g_vMtrlAmbient));
-	Out.vShade.a = 1.f;
+
+	Out.vShade.a = 1.f; 
 
 	//vector	vWorldPos;
 
+	// uv좌표와 투영스페이스의 관계성으로 uv를 이용해서 투영의 xy 좌표를 만들고 z정보는 랜더타겟에서 가져옴
+	
 	///* 월드위치 * 뷰행렬 * 투영행렬 * 1/z */
 	//vWorldPos.x = In.vTexUV.x * 2.f - 1.f;
 	//vWorldPos.y = In.vTexUV.y * -2.f + 1.f;
@@ -128,7 +130,14 @@ PS_OUT PS_MAIN_DEFERRED_BLEND(PS_IN In)
 	vector		vShade = g_ShadeTexture.Sample(LinearSampler, In.vTexUV);
 	//vector		vSpecular = g_SpecularTexture.Sample(LinearSampler, In.vTexUV);
 
-	//Out.vColor = vDiffuse * vShade + vSpecular;
+
+/* 스카이박스 이후에 디퍼드를 그리면
+알파가 0이되면 0이면 discard해서 미리 그렸던 스카이박스에 대한 연산을 하지 않으려 했던 작업이
+스펙큘러에 의해 0.f이상이 되면 쓰레기값이 들어가면서 
+태양같이 빛이 모이는 생기는 현상이 생김 이것을 막으려고 
+1. Renderer에서 스펙큘러의 알파를 0으로 만들어주기
+2. Out.vSpecular.xyz <- a의 값을 아예 배제해서 Out을 리턴해줌*/
+//Out.vColor = vDiffuse * vShade + vSpecular;
 
 	Out.vColor = vDiffuse * vShade;
 

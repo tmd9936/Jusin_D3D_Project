@@ -20,6 +20,7 @@ class CStageCamera;
 class CPokemonSkillButton;
 class CMonster;
 class CEffect_Manager;
+class CPokering;
 
 class CStage_Manager final : public CGameObject
 {
@@ -63,7 +64,7 @@ public:
 
 private:
 	HRESULT Init_ManagerInfo();
-	void	Init_PlayersPos();
+	HRESULT	Init_PlayersPos();
 
 private:
 	void Fade_In(const _double& TimeDelta);

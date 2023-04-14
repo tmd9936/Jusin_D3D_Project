@@ -13,6 +13,8 @@
 
 #include "Effect_Manager.h"
 
+#include "Pokering.h"
+
 
 CStage_Manager::CStage_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
@@ -152,8 +154,10 @@ HRESULT CStage_Manager::Init_ManagerInfo()
 	return S_OK;
 }
 
-void CStage_Manager::Init_PlayersPos()
+HRESULT CStage_Manager::Init_PlayersPos()
 {
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
 	CTransform* pTransform = nullptr;
 	CNavigation* pNaviagtion = nullptr;
 
@@ -182,6 +186,17 @@ void CStage_Manager::Init_PlayersPos()
 
 		}
 
+		CModel* pPlayerModel = pPlayer1->Get_As<CModel>();
+
+		CPokering::POKERING_DESC pokeringDesc{};
+
+		pokeringDesc.pBonePtr = pPlayerModel->Get_BonePtr("rootJT");
+		lstrcpy(pokeringDesc.modelPrototypeTag, L"Prototype_Component_Model_PokeringA");
+		XMStoreFloat4x4(&pokeringDesc.PivotMatrix, pPlayerModel->Get_PivotMatrix());
+		pokeringDesc.pParent = dynamic_cast<CMonster*>(pPlayer1);
+		pokeringDesc.pParentTransform = pPlayer1->Get_As<CTransform>();
+
+		pGameInstance->Add_GameObject(L"Prototype_GameObject_Pokering", LEVEL_STAGE, L"Layer_Pokering", L"PokeringA", &pokeringDesc);
 	}
 
 	CGameObject* pPlayer2 = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Player", L"Player2");
@@ -207,6 +222,18 @@ void CStage_Manager::Init_PlayersPos()
 			dynamic_cast<CPokemonSkillButton*>(pPlayer2Skill1)->Set_ParentMonster((CMonster*)pPlayer2);
 			dynamic_cast<CPokemonSkillButton*>(pPlayer2Skill1)->Set_SkillNumber(1);
 		}
+
+		CModel* pPlayerModel = pPlayer2->Get_As<CModel>();
+
+		CPokering::POKERING_DESC pokeringDesc{};
+
+		pokeringDesc.pBonePtr = pPlayerModel->Get_BonePtr("rootJT");
+		lstrcpy(pokeringDesc.modelPrototypeTag, L"Prototype_Component_Model_PokeringB");
+		XMStoreFloat4x4(&pokeringDesc.PivotMatrix, pPlayerModel->Get_PivotMatrix());
+		pokeringDesc.pParent = dynamic_cast<CMonster*>(pPlayer2);
+		pokeringDesc.pParentTransform = pPlayer2->Get_As<CTransform>();
+
+		pGameInstance->Add_GameObject(L"Prototype_GameObject_Pokering", LEVEL_STAGE, L"Layer_Pokering", L"PokeringB", &pokeringDesc);
 	}
 
 	CGameObject* pPlayer3 = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Player", L"Player3");
@@ -232,6 +259,19 @@ void CStage_Manager::Init_PlayersPos()
 			dynamic_cast<CPokemonSkillButton*>(pPlayer3Skill1)->Set_ParentMonster((CMonster*)pPlayer3);
 			dynamic_cast<CPokemonSkillButton*>(pPlayer3Skill1)->Set_SkillNumber(1);
 		}
+
+
+		CModel* pPlayerModel = pPlayer3->Get_As<CModel>();
+
+		CPokering::POKERING_DESC pokeringDesc{};
+
+		pokeringDesc.pBonePtr = pPlayerModel->Get_BonePtr("rootJT");
+		lstrcpy(pokeringDesc.modelPrototypeTag, L"Prototype_Component_Model_PokeringC");
+		XMStoreFloat4x4(&pokeringDesc.PivotMatrix, pPlayerModel->Get_PivotMatrix());
+		pokeringDesc.pParent = dynamic_cast<CMonster*>(pPlayer3);
+		pokeringDesc.pParentTransform = pPlayer3->Get_As<CTransform>();
+
+		pGameInstance->Add_GameObject(L"Prototype_GameObject_Pokering", LEVEL_STAGE, L"Layer_Pokering", L"PokeringC", &pokeringDesc);
 	}
 
 	CGameObject* pCameraTarget = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_CameraTarget", L"CameraTarget");
@@ -240,6 +280,9 @@ void CStage_Manager::Init_PlayersPos()
 		pTransform = pCameraTarget->Get_As<CTransform>();
 		pTransform->Set_Pos(30.54f, 0.5f, 19.28f);
 	}
+	
+
+	return S_OK;
 }
 
 void CStage_Manager::Fade_In(const _double& TimeDelta)

@@ -55,6 +55,7 @@ HRESULT CRenderer::Initialize_Prototype()
 	/* For.Target_Depth */
 	/* 현재 픽셀의 z정보를 저장해주는 타겟, Z정보에는 투영 기준의 z값과 
 	뷰 기준의 z값을 축소시킨 값 (원래 값 / 카메라의 Far)*/
+	/* 포멧을 32가 아닌16으로 하면 스펙큘러 계산시 지형같은 부분에 물결치는 현상이 발생할 수 있음 -> 이를 해결하기 위해 뎁스렌더타겟의 기본 포멧 크기를 32로 함  */
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
 		TEXT("Target_Depth"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R32G32B32A32_FLOAT, _float4(0.f, 0.f, 0.f, 1.f))))
 		return E_FAIL;
@@ -65,10 +66,9 @@ HRESULT CRenderer::Initialize_Prototype()
 
 	/* For.Target_Specular */
 	/* 스펙큘러 값을 저장해서 받아오는 타겟 */
-	/* 스펙큘러의 알파값이 0이되는 순간 쓰레기값에 스펙큘러가 적용되면서 어느 한 지점에 태양같이 빛이 과하게 반사되는 부분이 생길 수 있음*/
-	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
-		TEXT("Target_Specular"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
-		return E_FAIL;
+	//if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
+	//	TEXT("Target_Specular"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
+	//	return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Deferred"), TEXT("Target_Diffuse"))))
 		return E_FAIL;

@@ -282,6 +282,30 @@ HRESULT CModel::Get_Mesh_IndexBuffer_Data(_uint meshIndex, vector<FACEINDICES32>
 	return S_OK;
 }
 
+void CModel::Set_Animation_Duratino(const _uint& animationIndex, _double duration)
+{
+	if (m_Animations.size() <= animationIndex)
+		return;
+
+	return m_Animations[animationIndex]->Set_Duration(duration);
+}
+
+void CModel::Set_StartTimeAcc(const _uint& animationIndex, _double timeAcc)
+{
+	if (m_Animations.size() <= animationIndex)
+		return;
+
+	return m_Animations[animationIndex]->Set_StartTimeAcc(timeAcc);
+}
+
+const _double CModel::Get_Animation_Duration(const _uint& animationIndex) const
+{
+	if (m_Animations.size() <= animationIndex)
+		return 0.0;
+
+	return m_Animations[animationIndex]->Get_Duration();
+}
+
 const _double CModel::Get_LerpDuration()
 {
 	return CAnimation::m_LerpDuration;

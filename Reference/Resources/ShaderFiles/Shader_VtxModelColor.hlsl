@@ -90,10 +90,11 @@ PS_OUT PS_MAIN(PS_IN In)
 		discard;
 
 	Out.vDiffuse = vMtrlDiffuse;
+	// -1 ~ 1인 노말값을 부호가 없는 데이터에 던져주기위해 0~1로 보정해줌
 	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
 
 	// x : z / w 투영기준 z나누기 한 값
-	// y : 뷰스페이스 공간에서의 데이터를 디퍼드에 전달해주기위한 값, 디퍼드에서 다시 300 곱함
+	// y : 뷰스페이스 공간에서의 데이터를 디퍼드에 전달해주기위한 값, 디퍼드에서 다시 카메라의 Far를 곱함
 	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / g_CameraFar, 0.f, 0.f);
 
 	return Out;
