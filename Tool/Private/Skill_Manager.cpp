@@ -449,12 +449,15 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 
 		pSkillEffect = pEffect_Manager->CreateEffect(m_Skill_Depend_Datas[skillType].m_effects[0], L"Prototype_GameObject_AttackEffect", pLayerTag, iLevelIndex);
 		if (nullptr != pSkillEffect)
+		{
 			pSkillEffect->Set_Parent(pBone, pParentTransform, PivotMatrix);
+			pSkillEffect->Set_ParentRotateApply(true);
+		}
 
 		CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
 		if (nullptr == pTransform)
 			return E_FAIL;
-		pTransform->LookAt(XMVectorSetW(vLook, 1.f));
+		//pTransform->LookAt(XMVectorSetW(vLook, 1.f));
 
 		CAttackEffect::ATTACK_EFFECT_DESC desc{};
 		Set_NormalAttackDesc(desc, skillType, pSkillEffect);
@@ -1050,13 +1053,13 @@ void CSkill_Manager::Create_No_ChargeEffect(_uint skillType, _vector vLook, _vec
 	if (nullptr != pSkillEffect)
 	{
 		pSkillEffect->Set_Parent(pBone, pParentTransform, PivotMatrix);
-		//pSkillEffect->Set_ParentRotateApply(true);
+		pSkillEffect->Set_ParentRotateApply(true);
 	}
 
 	CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
 	if (nullptr == pTransform)
 		return;
-	pTransform->LookAt(XMVectorSetW(vLook, 1.f));
+	//pTransform->LookAt(XMVectorSetW(vLook, 1.f));
 
 	_float4 pos = {};
 	XMStoreFloat4(&pos, vPos);
