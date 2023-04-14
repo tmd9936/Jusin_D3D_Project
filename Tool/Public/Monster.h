@@ -193,7 +193,7 @@ protected:
 	_bool					m_bCanAttack = { true };
 	_bool					m_bCanSkillAttack = { true };
 
-	_double					m_hitTime = { 0.15 };
+	_double					m_hitTime = { 0.4 };
 	_double					m_hitTimeAcc = { 0.0 };
 	_bool					m_bHitState = { false };
 
