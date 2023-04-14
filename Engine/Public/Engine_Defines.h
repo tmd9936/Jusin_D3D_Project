@@ -2,6 +2,9 @@
 
 #pragma warning (disable : 4251)
 
+//#define NAVIGATION_DEBUG
+//#define RENDERTARGET_DEBUG
+
 #include <d3d11.h>
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
@@ -56,7 +59,6 @@ using namespace DirectX;
 #include "Engine_Function.h"
 #include "Engine_Struct.h"
 #include "Engine_Typedef.h"
-
 
 #ifndef _TOOL
 

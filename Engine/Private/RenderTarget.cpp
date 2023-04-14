@@ -1,6 +1,6 @@
 #include "..\Public\RenderTarget.h"
 
-#ifdef _DEBUG
+#ifdef RENDERTARGET_DEBUG
 #include "Shader.h"
 #include "VIBuffer_Rect.h"
 #endif // _DEBUG
@@ -70,7 +70,7 @@ HRESULT CRenderTarget::Set_ShaderResourceView(CShader* pShader, const char* pCon
 	return pShader->Set_ShaderResourceView(pConstantName, m_pSRV);
 }
 
-#ifdef _DEBUG
+#ifdef RENDERTARGET_DEBUG
 HRESULT CRenderTarget::Ready_Debug(_float fX, _float fY, _float fSizeX, _float fSizeY)
 {
 	_uint				iNumViewports = 1;

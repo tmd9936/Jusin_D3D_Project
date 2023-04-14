@@ -41,7 +41,7 @@ public:
 	HRESULT Set_ShaderResourceView(const _tchar* pTargetTag, class CShader* pShader,
 		const char* pConstantName);
 
-#ifdef _DEBUG
+#ifdef RENDERTARGET_DEBUG
 public:
 	HRESULT Ready_Debug(const _tchar* pTargetTag, _float fX, _float fY, _float fSizeX, _float fSizeY);
 	HRESULT Render_MRT(const _tchar* pMRTTag, class CShader* pShader, class CVIBuffer_Rect* pVIBuffer);

@@ -12,14 +12,14 @@ CNavigation::CNavigation(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, C
 CNavigation::CNavigation(const CNavigation& rhs, CGameObject* pOwner)
 	: CComponent(rhs, pOwner)
 	, m_Cells(rhs.m_Cells)
-#ifdef _DEBUG
+#ifdef NAVIGATION_DEBUG
 	, m_pShader(rhs.m_pShader)
 #endif // _DEBUG
 {
 	for (auto& pCell : m_Cells)
 		Safe_AddRef(pCell);
 
-#ifdef _DEBUG
+#ifdef NAVIGATION_DEBUG
 	Safe_AddRef(m_pShader);
 #endif // _DEBUG
 
@@ -54,7 +54,7 @@ HRESULT CNavigation::Initialize_Prototype_HFile(const _tchar* pNavigationData)
 	if (FAILED(SetUp_Neighbors()))
 		return E_FAIL;
 
-#ifdef _DEBUG
+#ifdef NAVIGATION_DEBUG
 	m_pShader = CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_Cell.hlsl"), VTXPOS_DECLARATION::Elements, VTXPOS_DECLARATION::iNumElements);
 	if (nullptr == m_pShader)
 		return E_FAIL;
@@ -106,7 +106,7 @@ HRESULT CNavigation::Initialize_Prototype_Json(const char* pNavigationData)
 	if (FAILED(SetUp_Neighbors()))
 		return E_FAIL;
 
-#ifdef _DEBUG
+#ifdef NAVIGATION_DEBUG
 	m_pShader = CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_Cell.hlsl"), VTXPOS_DECLARATION::Elements, VTXPOS_DECLARATION::iNumElements);
 	if (nullptr == m_pShader)
 		return E_FAIL;
@@ -125,7 +125,7 @@ HRESULT CNavigation::Initialize(void* pArg)
 
 HRESULT CNavigation::Render()
 {
-#ifdef _DEBUG
+#ifdef NAVIGATION_DEBUG
 	_float4x4		WorldMatrix;
 	XMStoreFloat4x4(&WorldMatrix, XMMatrixIdentity());
 
@@ -429,7 +429,7 @@ void CNavigation::Free()
 		Safe_Release(pCell);
 	m_Cells.clear();
 
-#ifdef _DEBUG
+#ifdef NAVIGATION_DEBUG
 	Safe_Release(m_pShader);
 #endif // _DEBUG
 }

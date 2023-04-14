@@ -1,7 +1,7 @@
 #include "..\Public\Target_Manager.h"
 #include "RenderTarget.h"
 
-#ifdef _DEBUG
+#ifdef RENDERTARGET_DEBUG
 #include "Shader.h"
 #include "VIBuffer_Rect.h"
 #endif // _DEBUG
@@ -103,7 +103,7 @@ HRESULT CTarget_Manager::Set_ShaderResourceView(const _tchar* pTargetTag, CShade
 	return pRenderTarget->Set_ShaderResourceView(pShader, pConstantName);
 }
 
-#ifdef _DEBUG
+#ifdef RENDERTARGET_DEBUG
 
 HRESULT CTarget_Manager::Ready_Debug(const _tchar* pTargetTag, _float fX, _float fY, _float fSizeX, _float fSizeY)
 {

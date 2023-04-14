@@ -95,7 +95,7 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (nullptr == m_pShader)
 		return E_FAIL;
 
-#ifdef _DEBUG
+#ifdef RENDERTARGET_DEBUG
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Diffuse"), 50.f, 50.f, 100.f, 100.f)))
 		return E_FAIL;
 
@@ -162,7 +162,7 @@ HRESULT CRenderer::Draw_RenderGroup()
 	if (FAILED(Draw_Blend_UI()))
 		return E_FAIL;
 
-#ifdef _DEBUG
+#ifdef RENDERTARGET_DEBUG
 	if (FAILED(Render_Debug()))
 		return E_FAIL;
 #endif // _DEBUG
@@ -374,7 +374,7 @@ HRESULT CRenderer::Draw_DeferredBlend()
 	return S_OK;
 }
 
-#ifdef _DEBUG
+#ifdef RENDERTARGET_DEBUG
 HRESULT CRenderer::Render_Debug()
 {
 	if (nullptr == m_pTarget_Manager)

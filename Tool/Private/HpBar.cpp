@@ -67,17 +67,24 @@ _uint CHpBar::LateTick(_double TimeDelta)
 
 	_float3 vScale = m_pTransformCom->Get_Scaled();
 
-	XMStoreFloat4x4(&m_FinalWorldMatrix, XMMatrixSet(
-		vScale.x, 0.f, 0.f, 0.f,
-		0.f, vScale.y, 0.f, 0.f,
-		0.f, 0.f, 1.f, 0.f,
-		(ParentMat.m[3][0]) / ParentMat.m[3][2], (ParentMat.m[3][1]) / ParentMat.m[3][2], 0.f, 1.f
-	));
+	XMStoreFloat4x4(&m_FinalWorldMatrix, XMMatrixScaling(vScale.x, vScale.y, 1.f));
 
-	m_FinalWorldMatrix.m[3][0] = m_FinalWorldMatrix.m[3][0] - g_iWinSizeX * 0.5f;
-	m_FinalWorldMatrix.m[3][1] = -m_FinalWorldMatrix.m[3][1] + g_iWinSizeY * 0.5f;
-	//m_FinalWorldMatrix.m[3][1] *= -1.f;
-	m_FinalWorldMatrix.m[3][2] = 0.1f;
+	//XMStoreFloat4x4(&m_FinalWorldMatrix, XMMatrixSet(
+	//	vScale.x, 0.f, 0.f, 0.f,
+	//	0.f, vScale.y, 0.f, 0.f,
+	//	0.f, 0.f, 1.f, 0.f,
+	//	(ParentMat.m[3][0]) / ParentMat.m[3][2], (ParentMat.m[3][1]) / ParentMat.m[3][2], 0.f, 1.f
+	//));
+
+	XMStoreFloat4x4(&m_FinalWorldMatrix, 
+		XMLoadFloat4x4(&m_FinalWorldMatrix) * XMMatrixTranslation((ParentMat.m[3][0]) / ParentMat.m[3][2] - g_iWinSizeX * 0.5f,
+		-((ParentMat.m[3][1]) / ParentMat.m[3][2]) + g_iWinSizeY * 0.5f,
+		0.1f));
+
+	//m_FinalWorldMatrix.m[3][0] = m_FinalWorldMatrix.m[3][0] - g_iWinSizeX * 0.5f;
+	//m_FinalWorldMatrix.m[3][1] = -m_FinalWorldMatrix.m[3][1] + g_iWinSizeY * 0.5f;
+	////m_FinalWorldMatrix.m[3][1] *= -1.f;
+	//m_FinalWorldMatrix.m[3][2] = 0.1f;
 
 	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
 

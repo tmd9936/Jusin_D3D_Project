@@ -50,7 +50,7 @@ private:
 	NAVIDESC				m_NaviDesc = {};
 	vector<CCell*>			m_Cells;
 
-#ifdef _DEBUG
+#ifdef NAVIGATION_DEBUG
 private:
 	CShader* m_pShader = { nullptr };
 #endif // _DEBUG
