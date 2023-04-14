@@ -47,7 +47,7 @@ HRESULT CPokering::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* 
 
 	m_eRenderId = RENDER_NONBLEND;
 
-	m_IdleStateTimeAcc = m_pModelCom->Get_Animation_Duration(0);
+	m_IdleStateTimeAcc = m_pModelCom->Get_Animation_Duration(0) - 1;
 
 	return S_OK;
 }
@@ -119,6 +119,7 @@ void CPokering::Stage_Change()
 			m_pModelCom->Set_StartTimeAcc(0, 0.0);
 			break;
 		case STATE_COOLTIME_END:
+			m_pModelCom->Set_StartTimeAcc(0, m_IdleStateTimeAcc);
 			m_CoolTimeEndTimeAcc = 0.0;
 			break;
 		}
@@ -132,14 +133,14 @@ void CPokering::State_Tick(const _double& TimeDelta)
 	switch (m_eCurState)
 	{
 	case STATE_IDLE:
-		m_pModelCom->Play_Animation(TimeDelta);
+		m_pModelCom->Play_Animation(TimeDelta, false);
 		if (false == m_desc.pParent->Get_CanSkillAttack())
 		{
 			m_eCurState = STATE_COOLTIME;
 		}
 		break;
 	case STATE_COOLTIME:
-		if (m_pModelCom->Play_Animation(TimeDelta * 0.9, false))
+		if (m_pModelCom->Play_Animation(TimeDelta * 0.9))
 		{
 			m_eCurState = STATE_COOLTIME_END;
 		}
