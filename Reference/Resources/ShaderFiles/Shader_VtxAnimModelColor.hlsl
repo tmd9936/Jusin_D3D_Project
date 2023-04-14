@@ -5,6 +5,8 @@ matrix			g_BoneMatrices[256]; /* 메시에 영향을 주는 뼈들이다.  VTF */
 
 float4			g_vColor = float4(1.f, 1.f, 1.f, 1.f);
 
+float			g_Ratio;
+
 float			g_CameraFar;
 
 struct VS_IN
@@ -63,43 +65,41 @@ struct PS_IN
 	float4		vWorldPos : TEXCOORD2;
 };
 
-//struct PS_OUT
-//{
-//	float4		vColor : SV_TARGET0;
-//};
-//
-//PS_OUT PS_MAIN(PS_IN In)
-//{
-//	PS_OUT			Out = (PS_OUT)0;
-//
-//	//Out.vColor = In.vColor;
-//	vector		vMtrlDiffuse = In.vColor;
-//
-//	if (vMtrlDiffuse.a < 0.1f)
-//		discard;
-//
-//	float		fShade = max(dot(normalize(g_vLightDir) * -1.f, normalize(In.vNormal)), 0.f);
-//
-//	vector		vReflect = reflect(normalize(g_vLightDir), normalize(In.vNormal));
-//	vector		vLook = In.vWorldPos - g_vCamPosition;
-//	float		fSpecular = pow(max(dot(normalize(vReflect) * -1.f, normalize(vLook)), 0.f), 30);
-//
-//	Out.vColor = (g_vLightDiffuse * vMtrlDiffuse) * saturate(fShade + (g_vLightAmbient * g_vMtrlAmbient))
-//		+ (g_vLightSpecular * g_vMtrlSpecular) * fSpecular;
-//
-//	return Out;
-//}
+struct PS_OUT_COLOR
 
-struct PS_OUT
+{
+	float4		vColor : SV_TARGET0;
+};
+
+PS_OUT_COLOR PS_MAIN_EFFECT(PS_IN In)
+{
+	PS_OUT_COLOR			Out = (PS_OUT_COLOR)0;
+
+	//Out.vColor = In.vColor;
+	vector		vMtrlDiffuse = In.vColor;
+
+	if (vMtrlDiffuse.a < 0.1f)
+		discard;
+
+	/*vector		vReflect = reflect(normalize(g_vLightDir), normalize(In.vNormal));
+	vector		vLook = In.vWorldPos - g_vCamPosition;
+	float		fSpecular = pow(max(dot(normalize(vReflect) * -1.f, normalize(vLook)), 0.f), 30);*/
+
+	Out.vColor = vMtrlDiffuse;
+
+	return Out;
+}
+
+struct PS_OUT_DEFERRED
 {
 	float4		vDiffuse : SV_TARGET0;
 	float4		vNormal : SV_TARGET1;
 	float4		vDepth : SV_TARGET2;
 };
 
-PS_OUT PS_MAIN(PS_IN In)
+PS_OUT_DEFERRED PS_MAIN(PS_IN In)
 {
-	PS_OUT			Out = (PS_OUT)0;
+	PS_OUT_DEFERRED			Out = (PS_OUT_DEFERRED)0;
 
 	vector		vMtrlDiffuse = In.vColor;
 
@@ -114,11 +114,24 @@ PS_OUT PS_MAIN(PS_IN In)
 }
 
 
-PS_OUT PS_MAIN_COLOR(PS_IN In)
+PS_OUT_DEFERRED PS_MAIN_COLOR(PS_IN In)
 {
-	PS_OUT			Out = (PS_OUT)0;
+	PS_OUT_DEFERRED			Out = (PS_OUT_DEFERRED)0;
 
 	Out.vDiffuse = g_vColor;
+	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
+	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / g_CameraFar, 0.f, 0.f);
+
+	return Out;
+}
+
+PS_OUT_DEFERRED PS_MAIN_COLOR_RATIO(PS_IN In)
+{
+	PS_OUT_DEFERRED			Out = (PS_OUT_DEFERRED)0;
+
+	//In.vColor = In.vColor + g_vColor * g_Ratio;
+
+	Out.vDiffuse = saturate(In.vColor + g_vColor * g_Ratio);
 	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
 	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / g_CameraFar, 0.f, 0.f);
 
@@ -152,6 +165,32 @@ technique11		DefaultTechnique
 		HullShader = NULL;
 		DomainShader = NULL;
 		PixelShader = compile ps_5_0 PS_MAIN_COLOR();
+	}
+
+	pass Model_Color_Ratio
+	{
+		SetRasterizerState(RS_Default);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		HullShader = NULL;
+		DomainShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_COLOR_RATIO();
+	}
+
+	pass Model_Color_Effect
+	{
+		SetRasterizerState(RS_Default);
+		SetDepthStencilState(DSS_Enable_ZTest_Disable_ZWrite, 0);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		HullShader = NULL;
+		DomainShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_EFFECT();
 	}
 
 

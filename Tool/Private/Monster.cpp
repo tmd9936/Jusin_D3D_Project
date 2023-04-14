@@ -233,8 +233,10 @@ HRESULT CMonster::Render()
 		if (FAILED(m_pModelCom->SetUp_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
 			return E_FAIL;
 
-		m_pShaderCom->Begin(_uint(m_bHitState));
-		//m_pShaderCom->Begin(0);
+		if (m_bHitState)
+			m_pShaderCom->Begin(2);
+		else
+			m_pShaderCom->Begin(0);
 
 		m_pModelCom->Render(i);
 	}
@@ -762,6 +764,11 @@ HRESULT CMonster::SetUp_ShaderResources()
 
 	if (FAILED(m_pShaderCom->Set_RawValue("g_vColor",
 		&m_hitColor, sizeof(_float4))))
+		return E_FAIL;
+
+	_float ratio = fabs(m_hitTimeAcc - m_hitTime) / m_hitTime;
+	if (FAILED(m_pShaderCom->Set_RawValue("g_Ratio",
+		&ratio, sizeof(_float))))
 		return E_FAIL;
 
 	_float cameraFar = pGameInstance->Get_CameraFar();
