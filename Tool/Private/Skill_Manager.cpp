@@ -444,7 +444,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 	}
 	else if (skillType == 58) // 볼태커
 	{
-		Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[1], vLook, vPos, pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
+		Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[1], vLook, XMVectorSet(0.f, 0.5f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
 
 		pSkillEffect = pEffect_Manager->CreateEffect(m_Skill_Depend_Datas[skillType].m_effects[0], L"Prototype_GameObject_AttackEffect", pLayerTag, iLevelIndex);
 		if (nullptr != pSkillEffect)
@@ -483,6 +483,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 		if (nullptr == pTransform)
 			return E_FAIL;
 		pTransform->LookAt(XMVectorSetW(vLook, 1.f));
+		pTransform->Set_Pos({ 0.f, 0.f, -0.6f, 1.f });
 
 
 		Safe_Release(pSkillEffect);
@@ -505,6 +506,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 		if (nullptr == pTransform)
 			return E_FAIL;
 		pTransform->LookAt(XMVectorSetW(vLook, 1.f));
+		pTransform->Set_Pos({0.f, 0.f, -0.6f, 1.f});
 
 
 		Safe_Release(pSkillEffect);
@@ -622,7 +624,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 	{
 		for (size_t i = 1; i <= 2; ++i)
 		{
-			Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[0], vLook, vPos, pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
+			Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[0], vLook, XMVectorSet(0.f, 0.5f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
 
 			pSkillEffect = pEffect_Manager->CreateEffect(m_Skill_Depend_Datas[skillType].m_effects[1], L"Prototype_GameObject_AttackEffect", pLayerTag, iLevelIndex);
 
@@ -649,7 +651,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 	{
 		for (size_t i = 1; i <= 2; ++i)
 		{
-			Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[0], vLook, vPos, pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
+			Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[0], vLook, XMVectorSet(0.f, 0.f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
 
 			pSkillEffect = pEffect_Manager->CreateEffect(m_Skill_Depend_Datas[skillType].m_effects[1], L"Prototype_GameObject_BezierAttackEffect", pLayerTag, iLevelIndex);
 
@@ -697,7 +699,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 
 		CConditionData::CONDITIONTYPEDATA_DESC conditionTypeDataDesc = pConditionData->Get_ConditonTypeData(conditinoTypeID);
 
-		Create_No_ChargeEffect(conditionTypeDataDesc.m_effectType, vLook, vPos, pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
+		Create_No_ChargeEffect(conditionTypeDataDesc.m_effectType, vLook, XMVectorSet(0.f, 0.f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
 		
 		pBuffState->Set_BuffState(skillType, (CBuffState::BUFF_STATE)conditionTypeDataDesc.m_id,
 			conditionTypeDataDesc.m_iconPath.c_str(), conditionDataDesc.m_Value_A, conditionDataDesc.m_Value_B, 
@@ -708,10 +710,23 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 	{
 		if (nullptr == pBuffState)
 			return E_FAIL;
+
+		_uint conditionDataID = m_Skill_Depend_Datas[skillType].m_conditions[0];
+
+		CConditionData::CONDITIONDATA_DESC conditionDataDesc = pConditionData->Get_ConditonData(conditionDataID);
+		_uint conditinoTypeID = conditionDataDesc.m_type;
+
+		CConditionData::CONDITIONTYPEDATA_DESC conditionTypeDataDesc = pConditionData->Get_ConditonTypeData(conditinoTypeID);
+
+		Create_No_ChargeEffect(conditionTypeDataDesc.m_effectType, vLook, XMVectorSet(0.f, 0.f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
+
+		pBuffState->Set_BuffState(skillType, (CBuffState::BUFF_STATE)conditionTypeDataDesc.m_id,
+			conditionTypeDataDesc.m_iconPath.c_str(), conditionDataDesc.m_Value_A, conditionDataDesc.m_Value_B,
+			conditionDataDesc.m_time, conditionDataDesc.m_ratio);
 	}
 	else
 	{
-		Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[1], vLook, vPos, pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
+		Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[1], vLook, XMVectorSet(0.f, 0.5f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
 
 		pSkillEffect = pEffect_Manager->CreateEffect(m_Skill_Depend_Datas[skillType].m_effects[0], L"Prototype_GameObject_AttackEffect", pLayerTag, iLevelIndex);
 
@@ -807,6 +822,9 @@ CSkill* CSkill_Manager::Do_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _ui
 	else if (skillType == 116) // 베리어
 	{
 		// 컨디션 2
+
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState);
 	}
 
 	else
@@ -1029,7 +1047,10 @@ void CSkill_Manager::Create_No_ChargeEffect(_uint skillType, _vector vLook, _vec
 
 	pSkillEffect = pEffect_Manager->CreateEffect(skillType, L"Prototype_GameObject_SkillEffect", pLayerTag, iLevelIndex);
 	if (nullptr != pSkillEffect)
+	{
 		pSkillEffect->Set_Parent(pBone, pParentTransform, PivotMatrix);
+		//pSkillEffect->Set_ParentRotateApply(true);
+	}
 
 	CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
 	if (nullptr == pTransform)
