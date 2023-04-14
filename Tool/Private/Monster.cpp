@@ -233,10 +233,18 @@ HRESULT CMonster::Render()
 		if (FAILED(m_pModelCom->SetUp_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
 			return E_FAIL;
 
-		if (m_bHitState)
-			m_pShaderCom->Begin(2);
+		if (m_pMonFSM->Get_MotionState() == CMonFSM::MONSTER_STATE::DEAD_BOSS ||
+			m_pMonFSM->Get_MotionState() == CMonFSM::MONSTER_STATE::DEAD_ROTATE)
+		{
+			m_pShaderCom->Begin(1);
+		}
 		else
-			m_pShaderCom->Begin(0);
+		{
+			if (m_bHitState)
+				m_pShaderCom->Begin(2);
+			else
+				m_pShaderCom->Begin(0);
+		}
 
 		m_pModelCom->Render(i);
 	}
@@ -762,9 +770,19 @@ HRESULT CMonster::SetUp_ShaderResources()
 		&pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_PROJ))))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_RawValue("g_vColor",
-		&m_hitColor, sizeof(_float4))))
-		return E_FAIL;
+	if (m_pMonFSM->Get_MotionState() == CMonFSM::MONSTER_STATE::DEAD_BOSS ||
+		m_pMonFSM->Get_MotionState() == CMonFSM::MONSTER_STATE::DEAD_ROTATE)
+	{
+		if (FAILED(m_pShaderCom->Set_RawValue("g_vColor",
+			&m_deadColor, sizeof(_float4))))
+			return E_FAIL;
+	}
+	else
+	{
+		if (FAILED(m_pShaderCom->Set_RawValue("g_vColor",
+			&m_hitColor, sizeof(_float4))))
+			return E_FAIL;
+	}
 
 	_float ratio = fabs(m_hitTimeAcc - m_hitTime) / m_hitTime;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_Ratio",
