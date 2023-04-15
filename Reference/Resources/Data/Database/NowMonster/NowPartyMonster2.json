@@ -1,6 +1,6 @@
 {
     "PokemonDesc": {
-        "ModelPrototypeTag": "Prototype_Component_Model_Pokemon_PM95",
+        "ModelPrototypeTag": "Prototype_Component_Model_Pokemon_PM75",
         "ModelPrototypeLevelIndex": 0,
         "vPos": {
             "x": 18.0,
@@ -10,7 +10,7 @@
         },
         "moveSpeed": 1.2,
         "rotateSpeed": 1.2,
-        "m_monsterNo": 95,
+        "m_monsterNo": 75,
         "m_hpBasis": 1000,
         "m_attackBasis": 60,
         "m_hpGrow": 1,

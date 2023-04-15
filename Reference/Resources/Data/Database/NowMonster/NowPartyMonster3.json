@@ -1,6 +1,6 @@
 {
     "PokemonDesc": {
-        "ModelPrototypeTag": "Prototype_Component_Model_Pokemon_PM91",
+        "ModelPrototypeTag": "Prototype_Component_Model_Pokemon_PM8",
         "ModelPrototypeLevelIndex": 0,
         "vPos": {
             "x": 15.0,
@@ -10,13 +10,13 @@
         },
         "moveSpeed": 1.2,
         "rotateSpeed": 1.2,
-        "m_monsterNo": 91,
+        "m_monsterNo": 8,
         "m_hpBasis": 1000,
         "m_attackBasis": 60,
         "m_hpGrow": 1,
         "m_attackGrow": 1,
         "m_type1": 10,
-        "m_type2": 14,
+        "m_type2": 10,
         "m_visitWeightDefault": 0,
         "m_visitWeight": 5,
         "m_cookTableID": 0,

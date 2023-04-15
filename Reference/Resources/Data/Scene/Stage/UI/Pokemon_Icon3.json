@@ -13,7 +13,7 @@
             "w": 1.0
         },
         "m_TextureProtoTypeLevel": 0,
-        "m_TextureProtoTypeName" : "Prototype_Component_Texture_Pokemon_Icon_M91",
+        "m_TextureProtoTypeName" : "Prototype_Component_Texture_Pokemon_Icon_M8",
         "m_TextureParts": [
             {
                 "m_fX": 0.0,
@@ -53,7 +53,7 @@
                     "y": 0.28
                 },
                 "m_FontTag": "Font_NanumBarunGothic", 
-                "m_Text": "파르셸",
+                "m_Text": "어니부기",
                 "LayerTag": "Layer_UI"
             }
         ]

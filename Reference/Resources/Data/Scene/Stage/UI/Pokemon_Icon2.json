@@ -13,7 +13,7 @@
             "w": 1.0
         },
         "m_TextureProtoTypeLevel": 0,
-        "m_TextureProtoTypeName" : "Prototype_Component_Texture_Pokemon_Icon_M95",
+        "m_TextureProtoTypeName" : "Prototype_Component_Texture_Pokemon_Icon_M75",
         "m_TextureParts": [
             {
                 "m_fX": 0.0,
@@ -53,7 +53,7 @@
                     "y": 0.28
                 },
                 "m_FontTag": "Font_NanumBarunGothic", 
-                "m_Text": "롱스톤",
+                "m_Text": "데구리",
                 "LayerTag": "Layer_UI"
             }
         ]
