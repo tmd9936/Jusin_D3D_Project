@@ -92,8 +92,10 @@ PS_OUT PS_MAIN_HP(PS_IN In)
 
 	Out.vColor = g_Texture.Sample(LinearSampler, In.vTexUV);
 
-	if (Out.vColor.a > 0.1)
+	if (Out.vColor.a > 0.1f)
+	{
 		Out.vColor = g_vColor;
+	}
 	else
 	{
 
@@ -103,14 +105,22 @@ PS_OUT PS_MAIN_HP(PS_IN In)
 
 		float _Health = g_HpRatio;
 		float4 healthbarColor = lerp(g_vColor, float4(g_vColor.x, g_vColor.y, g_vColor.z - 0.2f, g_vColor.w), _Health);
-		float4 bgColor = float4(0, 0, 0, 0);
+		float4 bgColor = float4(g_vColor.xyz, 0.f);
 
-		float healthbarMask = In.vTexUV.x < _Health;
+		bool healthbarMask = In.vTexUV.x < _Health;
 		//float healthbarMask = floor(i.uv.x * 10)/10 < _Health; // health bar split up into 10 chunks
 
-		float4 finalColor = lerp(bgColor, healthbarColor, healthbarMask);
+		if (healthbarMask)
+		{
+			Out.vColor = float4(g_vColor.xyz, 0.75f);
+		}
+		else
+		{
+			Out.vColor = float4(0.f, 0.f, 0.f, 0.6f);
+		}
+		//float4 finalColor = lerp(bgColor, healthbarColor, healthbarMask);
 
-		Out.vColor = finalColor;
+		//Out.vColor = float4(finalColor.xyz, 0.8);
 	}
 
 	return Out;
@@ -119,8 +129,8 @@ PS_OUT PS_MAIN_HP(PS_IN In)
 
 float CalculateClockAngle_float(float2 uv)
 {
-	float2 a = float2(0.0, 1.0);
-	float2 b = normalize(uv - float2(0.5, 0.5));
+	float2 a = float2(0.f, 1.f);
+	float2 b = normalize(uv - float2(0.5f, 0.5f));
 
 	float dot = (a.x * b.x) - (a.y * b.y);
 	float det = (a.x * b.y) + (a.y * b.x);
@@ -141,7 +151,7 @@ PS_OUT PS_MAIN_CLOCKWISECOOLTIME(PS_IN In)
 	float angle;
 
 	angle = CalculateClockAngle_float(In.vTexUV);
-	Out.vColor = (angle > g_Progress) ? float4(0, 0, 0, 0.4) : float4(0, 0, 0, 0.0);
+	Out.vColor = (angle > g_Progress) ? float4(0.f, 0.f, 0.f, 0.4f) : float4(0.f, 0.f, 0.f, 0.f);
 
 	float2 coords = In.vTexUV * 7.f;
 
@@ -197,7 +207,7 @@ technique11		DefaultTechnique
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Enable_ZTest_Disable_ZWrite, 0);
-		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;

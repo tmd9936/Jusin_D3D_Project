@@ -197,7 +197,7 @@ protected:
 	_double					m_hitTimeAcc = { 0.0 };
 	_bool					m_bHitState = { false };
 
-	_float4					m_hitColor = { 0.5f, 0.5f, 0.5f, 1.f };
+	_float4					m_hitColor = { 1.f, 1.f, 1.f, 1.f };
 	_float4					m_deadColor = { 1.f, 1.f, 1.f, 1.f };
 
 protected:
