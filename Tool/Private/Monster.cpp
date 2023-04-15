@@ -289,6 +289,7 @@ HRESULT CMonster::Add_BuffState()
 		BuffStateDesc.pParentAttack = m_pAttackCom;
 		BuffStateDesc.pParentHP = m_pHPCom;
 		BuffStateDesc.pParentMonFSM = m_pMonFSM;
+		BuffStateDesc.pParentModel = m_pModelCom;
 
 		XMStoreFloat4x4(&BuffStateDesc.PivotMatrix, m_pModelCom->Get_PivotMatrix());
 

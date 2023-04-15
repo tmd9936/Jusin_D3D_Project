@@ -46,11 +46,12 @@ public:
 		BUFF_STATE_RESIST_DOWN,
 		BUFF_STATE_DOKU,
 		BUFF_STATE_MAHI,
+		BUFF_STATE_NEMURI,
 		BUFF_STATE_KOORI,
 		BUFF_STATE_YAKEDO,
 		BUFF_STATE_KONRAN,
 		BUFF_STATE_KANASIBARI,
-		BUFF_STATE_NEMURI,
+		BUFF_STATE_NEMURI2,
 		BUFF_STATE_END
 	};
 
@@ -61,6 +62,7 @@ public:
 		CHP*				pParentHP = { nullptr };
 		CAttack*			pParentAttack = { nullptr };
 		CMonFSM*			pParentMonFSM = { nullptr };
+		CModel*				pParentModel = { nullptr };
 
 		_float4x4			PivotMatrix;
 
@@ -116,6 +118,9 @@ private:
 	void	Set_ParentSpeedPercent(_float percent);
 	void	Set_ParentDefensePercent(_float percent);
 
+	void	Set_ParentState(CMonFSM::MONSTER_STATE eState);
+
+private:
 	void	Return_Original_State(BUFF_STATE preState);
 
 private:

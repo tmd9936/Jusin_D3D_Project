@@ -436,6 +436,12 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 			Set_Dead();
 		}
 		break;
+
+	case CMonFSM::IDLE_NO:
+		m_pModelCom->Play_Animation(TimeDelta);
+
+		break;
+
 	default:
 		break;
 	}

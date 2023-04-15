@@ -78,6 +78,8 @@ _uint CPlayer::Tick(_double TimeDelta)
 
 	HitTimeCheck(TimeDelta);
 
+	m_pAABB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
+
 	_float4x4 mat = {};
 	switch (m_pMonFSM->Get_MotionState())
 	{
@@ -178,123 +180,15 @@ _uint CPlayer::Tick(_double TimeDelta)
 			m_fAccel = 1.f;
 		}
 		break;
+	case CMonFSM::IDLE_NO:
+		m_pModelCom->Play_Animation(TimeDelta);
+		break;
 	default:
 		break;
 	}
 
-	if (KEY_TAB(KEY::DOWN))
-	{
-		if (!m_bAttack)
-		{
-			if (m_pMonFSM->Get_MotionState() != CMonFSM::RUN_GOUND2)
-			{
-				m_pMonFSM->Transit_MotionState(CMonFSM::RUN_GOUND2, m_pModelCom);
-			}
-		}
-		m_pTransformCom->Go_Backward((_float)TimeDelta, m_pNavigationCom);
-	}
-	else if (KEY_HOLD(KEY::DOWN))
-	{
-		if (!m_bAttack)
-		{
-			m_pTransformCom->Go_Backward((_float)TimeDelta, m_pNavigationCom);
-		}
-	}
-	else  if (KEY_AWAY(KEY::DOWN))
-	{
-		if (!m_bAttack)
-		{
-			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
-		}
-	}
-
-	if (GetKeyState(VK_LEFT) & 0x8000)
-	{
-		m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), (_float)TimeDelta * -1.f);
-	}
-
-	if (GetKeyState(VK_RIGHT) & 0x8000)
-	{
-		m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), (_float)TimeDelta);
-	}
-
-	if (KEY_TAB(KEY::UP))
-	{
-		if (!m_bAttack)
-		{
-			if (m_pMonFSM->Get_MotionState() != CMonFSM::RUN_GOUND2)
-			{
-				m_pMonFSM->Transit_MotionState(CMonFSM::RUN_GOUND2, m_pModelCom);
-			}
-		}
-
-		m_pTransformCom->Go_Straight((_float)TimeDelta, m_pNavigationCom);
-	}
-	else if (KEY_HOLD(KEY::UP))
-	{
-		if (!m_bAttack)
-		{
-			m_pTransformCom->Go_Straight((_float)TimeDelta, m_pNavigationCom);
-		}
-	}
-	else  if (KEY_AWAY(KEY::UP))
-	{
-		if (!m_bAttack)
-		{
-			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
-		}
-	}
-
-	else  if (KEY_TAB(KEY::A))
-	{
-		if (m_bCanAttack)
-		{
-			Do_Skill(m_normalSkillType2, CMonFSM::ATK_NORMAL, L"Layer_PlayerSkill");
-			m_bCanAttack = false;
-			m_AttackCoolTimeAcc = 0.0;
-		}
-	}
-
-	else  if (KEY_TAB(KEY::W))
-	{
-		if (m_bCanAttack)
-		{
-			Do_Skill(m_PokemonDesc.m_normalSkillType, CMonFSM::ATK_NORMAL, L"Layer_PlayerSkill");
-			m_bCanAttack = false;
-			m_AttackCoolTimeAcc = 0.0;
-		}
-	}
-
-	else  if (KEY_TAB(KEY::S))
-	{
-		if (m_bCanSkillAttack)
-		{
-			Do_Skill(m_PokemonDesc.m_skillIDs[0], CMonFSM::DASH_SLE_START, L"Layer_PlayerSkill");
-			m_SkillLoopCount = 1;
-			m_SkillLoopDelay = 1.f;
-			m_fAccel = 1.f;
-			m_SkillLoopDesc.m_CurskillIndex = 0;
-			SkillCoolTime_Start();
-		}
-	}
-
-	else  if (KEY_TAB(KEY::D))
-	{
-		if (m_bCanSkillAttack)
-		{
-			Do_Skill(m_PokemonDesc.m_skillIDs[1], CMonFSM::HAPPY, L"Layer_PlayerSkill");
-			m_SkillLoopDesc.m_CurskillIndex = 1;
-			SkillCoolTime_Start();
-		}
-	}
-
-	else if (KEY_TAB(KEY::SPACE))
-	{
-		Do_TestSkill();
-	}
-
-	m_pAABB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
-
+	if (CMonFSM::IDLE_NO != m_pMonFSM->Get_MotionState())
+		Key_Input(TimeDelta);
 
 	return _uint();
 }
@@ -536,6 +430,120 @@ void CPlayer::Free()
 {
 	__super::Free();
 
+}
+
+void CPlayer::Key_Input(const _double& TimeDelta)
+{
+	if (KEY_TAB(KEY::DOWN))
+	{
+		if (!m_bAttack)
+		{
+			if (m_pMonFSM->Get_MotionState() != CMonFSM::RUN_GOUND2)
+			{
+				m_pMonFSM->Transit_MotionState(CMonFSM::RUN_GOUND2, m_pModelCom);
+			}
+		}
+		m_pTransformCom->Go_Backward((_float)TimeDelta, m_pNavigationCom);
+	}
+	else if (KEY_HOLD(KEY::DOWN))
+	{
+		if (!m_bAttack)
+		{
+			m_pTransformCom->Go_Backward((_float)TimeDelta, m_pNavigationCom);
+		}
+	}
+	else  if (KEY_AWAY(KEY::DOWN))
+	{
+		if (!m_bAttack)
+		{
+			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
+		}
+	}
+
+	if (GetKeyState(VK_LEFT) & 0x8000)
+	{
+		m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), (_float)TimeDelta * -1.f);
+	}
+
+	if (GetKeyState(VK_RIGHT) & 0x8000)
+	{
+		m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), (_float)TimeDelta);
+	}
+
+	if (KEY_TAB(KEY::UP))
+	{
+		if (!m_bAttack)
+		{
+			if (m_pMonFSM->Get_MotionState() != CMonFSM::RUN_GOUND2)
+			{
+				m_pMonFSM->Transit_MotionState(CMonFSM::RUN_GOUND2, m_pModelCom);
+			}
+		}
+
+		m_pTransformCom->Go_Straight((_float)TimeDelta, m_pNavigationCom);
+	}
+	else if (KEY_HOLD(KEY::UP))
+	{
+		if (!m_bAttack)
+		{
+			m_pTransformCom->Go_Straight((_float)TimeDelta, m_pNavigationCom);
+		}
+	}
+	else  if (KEY_AWAY(KEY::UP))
+	{
+		if (!m_bAttack)
+		{
+			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
+		}
+	}
+
+	else  if (KEY_TAB(KEY::A))
+	{
+		if (m_bCanAttack)
+		{
+			Do_Skill(m_normalSkillType2, CMonFSM::ATK_NORMAL, L"Layer_PlayerSkill");
+			m_bCanAttack = false;
+			m_AttackCoolTimeAcc = 0.0;
+		}
+	}
+
+	else  if (KEY_TAB(KEY::W))
+	{
+		if (m_bCanAttack)
+		{
+			Do_Skill(m_PokemonDesc.m_normalSkillType, CMonFSM::ATK_NORMAL, L"Layer_PlayerSkill");
+			m_bCanAttack = false;
+			m_AttackCoolTimeAcc = 0.0;
+		}
+	}
+
+	else  if (KEY_TAB(KEY::S))
+	{
+		if (m_bCanSkillAttack)
+		{
+			Do_Skill(m_PokemonDesc.m_skillIDs[0], CMonFSM::DASH_SLE_START, L"Layer_PlayerSkill");
+			m_SkillLoopCount = 1;
+			m_SkillLoopDelay = 1.f;
+			m_fAccel = 1.f;
+			m_SkillLoopDesc.m_CurskillIndex = 0;
+			SkillCoolTime_Start();
+		}
+	}
+
+	else  if (KEY_TAB(KEY::D))
+	{
+		if (m_bCanSkillAttack)
+		{
+			Do_Skill(m_PokemonDesc.m_skillIDs[1], CMonFSM::HAPPY, L"Layer_PlayerSkill");
+			m_SkillLoopDesc.m_CurskillIndex = 1;
+			SkillCoolTime_Start();
+		}
+	}
+
+	else if (KEY_TAB(KEY::SPACE))
+	{
+		Do_TestSkill();
+	}
 }
 
 HRESULT CPlayer::Add_TransitionRandomState()

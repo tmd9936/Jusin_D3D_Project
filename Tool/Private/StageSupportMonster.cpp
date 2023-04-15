@@ -223,6 +223,7 @@ void CStageSupportMonster::Change_State_FSM(_uint eState)
 	case CMonFSM::FORMATION_RUN:
 		m_bBattle = false;
 		break;
+
 	default:
 		break;
 	}
@@ -429,6 +430,10 @@ _uint CStageSupportMonster::State_Tick(const _double& TimeDelta)
 			//mat = m_pModelCom->Get_CombinedTransformationMatrix_float4_4(0);
 			//m_pTransformCom->Set_PosY(mat.m[3][2]);
 		}
+		break;
+
+	case CMonFSM::IDLE_NO:
+		m_pModelCom->Play_Animation(TimeDelta);
 		break;
 
 	default:

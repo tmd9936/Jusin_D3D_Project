@@ -27,6 +27,7 @@ HRESULT CBuffState::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void*
 		m_Desc.pParentHP = (*(BUFFSTATE_DESC*)(pArg)).pParentHP;
 		m_Desc.pParentAttack = (*(BUFFSTATE_DESC*)(pArg)).pParentAttack;
 		m_Desc.pParentMonFSM = (*(BUFFSTATE_DESC*)(pArg)).pParentMonFSM;
+		m_Desc.pParentModel = (*(BUFFSTATE_DESC*)(pArg)).pParentModel;
 
 		m_Desc.PivotMatrix = (*(BUFFSTATE_DESC*)(pArg)).PivotMatrix;
 
@@ -53,6 +54,7 @@ HRESULT CBuffState::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void*
 	Safe_AddRef(m_Desc.pParentHP);
 	Safe_AddRef(m_Desc.pParentAttack);
 	Safe_AddRef(m_Desc.pParentMonFSM);
+	Safe_AddRef(m_Desc.pParentModel);
 
 	// 뷰포트 기준으로 나타낼 크기를 지정함
 	m_pTransformCom->Set_Scaled({ m_Desc.m_fSizeX, m_Desc.m_fSizeY, 1.f });
@@ -207,6 +209,8 @@ void CBuffState::State_Tick(const _double& TimeDelta)
 		break;
 	case BUFF_STATE_MAHI:
 		break;
+	case BUFF_STATE_NEMURI:
+		break;
 	case BUFF_STATE_KOORI:
 		break;
 	case BUFF_STATE_YAKEDO:
@@ -215,7 +219,7 @@ void CBuffState::State_Tick(const _double& TimeDelta)
 		break;
 	case BUFF_STATE_KANASIBARI:
 		break;
-	case BUFF_STATE_NEMURI:
+	case BUFF_STATE_NEMURI2:
 		break;
 	case BUFF_STATE_END:
 		break;
@@ -267,6 +271,9 @@ void CBuffState::Change_State()
 		case BUFF_STATE_MAHI:
 			Change_State_Buff_On();
 			break;
+		case BUFF_STATE_NEMURI:
+			Change_State_Buff_On();
+			break;
 		case BUFF_STATE_KOORI:
 			Change_State_Buff_On();
 			break;
@@ -279,7 +286,7 @@ void CBuffState::Change_State()
 		case BUFF_STATE_KANASIBARI:
 			Change_State_Buff_On();
 			break;
-		case BUFF_STATE_NEMURI:
+		case BUFF_STATE_NEMURI2:
 			Change_State_Buff_On();
 			break;
 		case BUFF_STATE_END:
@@ -316,9 +323,14 @@ void CBuffState::Set_ParentDefensePercent(_float percent)
 	m_Desc.pParentHP->Set_DamageGetPercent(percent);
 }
 
-/* 
-컨디션 데이터에 따라서 버프주기..
-*/
+void CBuffState::Set_ParentState(CMonFSM::MONSTER_STATE eState)
+{
+	if (nullptr == m_Desc.pParentMonFSM)
+		return;
+
+	//m_Desc.pParentMonFSM->Transit_MotionState();
+}
+
 
 void CBuffState::Return_Original_State(BUFF_STATE preState)
 {
@@ -350,6 +362,8 @@ void CBuffState::Return_Original_State(BUFF_STATE preState)
 		break;
 	case BUFF_STATE_MAHI:
 		break;
+	case BUFF_STATE_NEMURI:
+		break;
 	case BUFF_STATE_KOORI:
 		break;
 	case BUFF_STATE_YAKEDO:
@@ -358,7 +372,7 @@ void CBuffState::Return_Original_State(BUFF_STATE preState)
 		break;
 	case BUFF_STATE_KANASIBARI:
 		break;
-	case BUFF_STATE_NEMURI:
+	case BUFF_STATE_NEMURI2:
 		break;
 	case BUFF_STATE_END:
 		break;
@@ -505,6 +519,7 @@ void CBuffState::Free()
 	Safe_Release(m_Desc.pParentHP);
 	Safe_Release(m_Desc.pParentAttack);
 	Safe_Release(m_Desc.pParentMonFSM);
+	Safe_Release(m_Desc.pParentModel);
 
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pTransformCom);

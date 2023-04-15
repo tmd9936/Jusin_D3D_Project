@@ -49,6 +49,9 @@ public:
 	}
 
 private:
+	void	Key_Input(const _double& TimeDelta);
+
+private:
 	virtual HRESULT Add_TransitionRandomState() override;
 	virtual _uint State_Tick(const _double& TimeDelta) override;
 

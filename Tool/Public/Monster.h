@@ -132,10 +132,8 @@ protected:
 	virtual	_uint	State_Tick(const _double& TimeDelta) PURE;
 
 protected:
-	HRESULT Add_BuffState();
-
-protected:
 	HRESULT	Add_HpBar();
+	HRESULT Add_BuffState();
 	HRESULT	Add_Searcher();
 	HRESULT Add_DamageText();
 
@@ -151,7 +149,6 @@ protected:
 
 protected:
 	_bool	Search_Target();
-
 	void	SkillCoolTime_Start();
 
 protected:
