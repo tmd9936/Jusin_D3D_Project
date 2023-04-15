@@ -13,6 +13,7 @@
 #include "Level_Stage.h"
 
 #include "ModelUI.h"
+#include "ThreadPool.h"
 #pragma endregion
 
 
@@ -56,7 +57,7 @@ void CLevel_Loading::Tick(_double TimeDelta)
 {
 	//if (GetKeyState(VK_RETURN) & 0x8000)
 	//{
-		if (true == m_pLoader->Get_Finished())
+		if (true == m_pLoader->Get_Finished() && true == CThreadPool::GetInstance()->Is_NoJobStae())
 		{
 			CGameInstance* pGameInstance = CGameInstance::GetInstance();
 			Safe_AddRef(pGameInstance);

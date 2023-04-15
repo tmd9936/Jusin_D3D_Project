@@ -62,7 +62,7 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(m_pGameInstance->Initialize_Engine(LEVEL_END, g_hInst, GraphicDesc, &m_pDevice, &m_pContext)))
 		return E_FAIL;
 
-	CThreadPool::GetInstance();
+	CThreadPool::GetInstance()->Start();
 	m_Init = true;
 	
 	if (FAILED(Ready_Fonts()))

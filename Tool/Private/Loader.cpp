@@ -122,18 +122,11 @@ _uint APIENTRY LoadingMain(void* pArg)
 	return 0;
 }
 
-_uint APIENTRY LoadingDenkiEffect(void* pArg)
-{
-	if (FAILED(CoInitializeEx(nullptr, 0)))
-		return E_FAIL;
-	
+_uint APIENTRY LoadingDenkiEffect()
+{	
 	while (!CMainApp::Get_MainAppInit()) {}
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-
-	EnterCriticalSection(CThreadPool::GetInstance()->Get_CurrentCriticalSection());
-
-	DWORD  workerID = CThreadPool::GetInstance()->Get_WorkerThreadId();
 
 	HRESULT			hr = { 0 };
 
@@ -193,29 +186,14 @@ _uint APIENTRY LoadingDenkiEffect(void* pArg)
 		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Effect/E_SP_Kaminari_Start.fbx", PivotMatrix))))
 		return	E_FAIL;
 
-	if (FAILED(hr))
-	{
-		LeaveCriticalSection(CThreadPool::GetInstance()->Get_CriticalSection(workerID));
-		return 1;
-	}
-
-	LeaveCriticalSection(CThreadPool::GetInstance()->Get_CriticalSection(workerID));
-
 	return 0;
 }
 
-_uint APIENTRY LoadingDokuEffect(void* pArg)
+_uint APIENTRY LoadingDokuEffect()
 {
-	if (FAILED(CoInitializeEx(nullptr, 0)))
-		return E_FAIL;
-
 	while (!CMainApp::Get_MainAppInit()) {}
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-
-	EnterCriticalSection(CThreadPool::GetInstance()->Get_CurrentCriticalSection());
-
-	DWORD  workerID = CThreadPool::GetInstance()->Get_WorkerThreadId();
 
 	HRESULT			hr = { 0 };
 
@@ -272,29 +250,15 @@ _uint APIENTRY LoadingDokuEffect(void* pArg)
 		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Effect/E_EF_damage_boss_end.fbx", PivotMatrix))))
 		return	E_FAIL;
 
-	if (FAILED(hr))
-	{
-		LeaveCriticalSection(CThreadPool::GetInstance()->Get_CriticalSection(workerID));
-		return 1;
-	}
-
-	LeaveCriticalSection(CThreadPool::GetInstance()->Get_CriticalSection(workerID));
-
 	return 0;
 }
 
-_uint APIENTRY LoadingNormalEffect(void* pArg)
+_uint APIENTRY LoadingNormalEffect()
 {
-	if (FAILED(CoInitializeEx(nullptr, 0)))
-		return E_FAIL;
-
 	while (!CMainApp::Get_MainAppInit()) {}
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
-	EnterCriticalSection(CThreadPool::GetInstance()->Get_CurrentCriticalSection());
-
-	DWORD  workerID = CThreadPool::GetInstance()->Get_WorkerThreadId();
 
 	HRESULT			hr = { 0 };
 
@@ -345,29 +309,15 @@ _uint APIENTRY LoadingNormalEffect(void* pArg)
 		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Effect/E_BPB_Normal_Loop.fbx", PivotMatrix))))
 		return	E_FAIL;
 
-	if (FAILED(hr))
-	{
-		LeaveCriticalSection(CThreadPool::GetInstance()->Get_CriticalSection(workerID));
-		return 1;
-	}
-
-	LeaveCriticalSection(CThreadPool::GetInstance()->Get_CriticalSection(workerID));
 
 	return 0;
 }
 
-_uint APIENTRY LoadingKooriEffect(void* pArg)
+_uint APIENTRY LoadingKooriEffect()
 {
-	if (FAILED(CoInitializeEx(nullptr, 0)))
-		return E_FAIL;
-
 	while (!CMainApp::Get_MainAppInit()) {}
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-
-	EnterCriticalSection(CThreadPool::GetInstance()->Get_CurrentCriticalSection());
-
-	DWORD  workerID = CThreadPool::GetInstance()->Get_WorkerThreadId();
 
 	HRESULT			hr = { 0 };
 
@@ -422,18 +372,60 @@ _uint APIENTRY LoadingKooriEffect(void* pArg)
 		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Effect/E_EF_Positive.fbx", PivotMatrix))))
 		return	E_FAIL;
 
-
-	if (FAILED(hr))
-	{
-		LeaveCriticalSection(CThreadPool::GetInstance()->Get_CriticalSection(workerID));
-		return 1;
-	}
-
-	LeaveCriticalSection(CThreadPool::GetInstance()->Get_CriticalSection(workerID));
-
 	return 0;
 }
 
+
+_uint APIENTRY LoadingMap()
+{
+	while (!CMainApp::Get_MainAppInit()) {}
+
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	HRESULT			hr = { 0 };
+
+	_matrix		PivotMatrix = XMMatrixIdentity();
+
+	/* For.Prototype_Component_Model_Stage_Map */
+	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_Map1"),
+		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Map/C_water1_01.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_Map2"),
+		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Map/C_water1_02.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_Map3"),
+		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Map/C_water1_03.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_Map4"),
+		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Map/C_water1_04.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_Map5"),
+		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Map/C_water1_05.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_Map6"),
+		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Map/C_water1_06.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_Map7"),
+		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Map/C_water1_07.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_Map8"),
+		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Map/C_water1_08.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_Map9"),
+		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Map/C_water1_09.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	return hr;
+}
 
 HRESULT CLoader::Initialize(LEVEL eNextLevelID)
 {
@@ -441,11 +433,21 @@ HRESULT CLoader::Initialize(LEVEL eNextLevelID)
 
 	if (eNextLevelID == LEVEL_LOGO)
 	{
-		CThreadPool::GetInstance()->Add_Work(LoadingDenkiEffect);
-		CThreadPool::GetInstance()->Add_Work(LoadingNormalEffect);
-		CThreadPool::GetInstance()->Add_Work(LoadingDokuEffect);
-		CThreadPool::GetInstance()->Add_Work(LoadingKooriEffect);
+		std::function<_uint()> fun1 = std::function<_uint()>(LoadingDenkiEffect);
+		CThreadPool::GetInstance()->QueueJob(fun1);
+		CThreadPool::GetInstance()->QueueJob(std::function<_uint()>(LoadingNormalEffect));
+		CThreadPool::GetInstance()->QueueJob(std::function<_uint()>(LoadingDokuEffect));
+		CThreadPool::GetInstance()->QueueJob(std::function<_uint()>(LoadingKooriEffect));
+		//CThreadPool::GetInstance()->Add_Work(LoadingDenkiEffect);
+		//CThreadPool::GetInstance()->Add_Work(LoadingNormalEffect);
+		//CThreadPool::GetInstance()->Add_Work(LoadingDokuEffect);
+		//CThreadPool::GetInstance()->Add_Work(LoadingKooriEffect);
 	}
+	else if (eNextLevelID == LEVEL_STAGE)
+	{
+		CThreadPool::GetInstance()->QueueJob(std::function<_uint()>(LoadingMap));
+	}
+
 	
 
 	InitializeCriticalSection(m_CriticalSection);
@@ -1338,6 +1340,7 @@ HRESULT CLoader::Loading_ForWorldMapLevel()
 	return S_OK;
 }
 
+
 HRESULT CLoader::Loading_ForStageLevel()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
@@ -1357,44 +1360,6 @@ HRESULT CLoader::Loading_ForStageLevel()
 		/* For.Prototype_Component_Calculator */
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Calculator"),
 			CCalculator::Create(m_pDevice, m_pContext))))
-			return E_FAIL;
-
-		/* For.Prototype_Component_Model_Stage_Map */
-		PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_Map1"),
-			CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Map/C_water1_01.fbx", PivotMatrix))))
-			return E_FAIL;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_Map2"),
-			CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Map/C_water1_02.fbx", PivotMatrix))))
-			return E_FAIL;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_Map3"),
-			CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Map/C_water1_03.fbx", PivotMatrix))))
-			return E_FAIL;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_Map4"),
-			CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Map/C_water1_04.fbx", PivotMatrix))))
-			return E_FAIL;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_Map5"),
-			CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Map/C_water1_05.fbx", PivotMatrix))))
-			return E_FAIL;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_Map6"),
-			CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Map/C_water1_06.fbx", PivotMatrix))))
-			return E_FAIL;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_Map7"),
-			CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Map/C_water1_07.fbx", PivotMatrix))))
-			return E_FAIL;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_Map8"),
-			CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Map/C_water1_08.fbx", PivotMatrix))))
-			return E_FAIL;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_Map9"),
-			CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Map/C_water1_09.fbx", PivotMatrix))))
 			return E_FAIL;
 
 		if (false == pGameInstance->Get_LevelFirstInit(LEVEL_STAGE))

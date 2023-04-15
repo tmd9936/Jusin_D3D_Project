@@ -7,89 +7,69 @@ CThreadPool::CThreadPool()
 {
 }
 
-/*
-_uint APIENTRY LoadingMain(void* pArg)
+void CThreadPool::Start()
 {
-	if(FAILED(CoInitializeEx(nullptr, 0)))
-		return E_FAIL;
+    const uint32_t num_threads = std::thread::hardware_concurrency(); // Max # of threads the system supports
+    threads.resize(num_threads);
 
-	CLoader* pLoader = (CLoader*)pArg;
-
-	EnterCriticalSection(pLoader->Get_CriticalSection());
-
-	HRESULT			hr = { 0 };
-
-	switch (pLoader->Get_NextLevelID())
-	{
-	case LEVEL_LOGO:
-		hr = pLoader->Loading_ForLogoLevel();
-		break;
-	case LEVEL_BASECAMP:
-		hr = pLoader->Loading_ForBaseCampLevel();
-		break;
-	case LEVEL_WORLDMAP:
-		hr = pLoader->Loading_ForWorldMapLevel();
-		break;
-	case LEVEL_STAGE:
-		hr = pLoader->Loading_ForStageLevel();
-		break;
-	}
-
-	if (FAILED(hr))
-	{
-		LeaveCriticalSection(pLoader->Get_CriticalSection());
-		return 1;
-	}
-
-	LeaveCriticalSection(pLoader->Get_CriticalSection());
-
-	return 0;
+    for (uint32_t i = 0; i < num_threads; i++) {
+        threads.at(i) = std::thread(&CThreadPool::ThreadLoop, this);
+    }
 }
 
-*/
-
-HRESULT CThreadPool::Initialize(_uint threadNum)
+void CThreadPool::QueueJob(const std::function<_uint()>& job)
 {
-	workList.reserve(threadNum);
-	workerThreadList.reserve(threadNum);
-	workerEventList.reserve(threadNum);
-
-	return S_OK;
+    {
+        std::unique_lock<std::mutex> lock(queue_mutex);
+        jobs.push(job);
+    }
+    mutex_condition.notify_one();
 }
 
-HRESULT CThreadPool::Add_Work(WORK work)
+void CThreadPool::Stop()
 {
-	WorkerThread workThread = {};
-
-	workThread.finished = false;
-	workThread.m_CriticalSection = { new CRITICAL_SECTION };
-	workThread.hThread = { 0 };
-	workThread.idThread = threadIdx++;
-
-	InitializeCriticalSection(workThread.m_CriticalSection);
-	workerThreadList.push_back(workThread);
-
-	workThread.hThread = (HANDLE)_beginthreadex(nullptr, 0, work, this, 0, nullptr);
-	//	workThread.hTread = (HANDLE)_beginthreadex(nullptr, 0, work, this, 0, &threadIdx);
-
-	if (0 == workThread.hThread)
-		return E_FAIL;
-
-	workList.push_back(work);
-	workerEventList.push_back(workThread.hThread);
-
-	return S_OK;
+    {
+        std::unique_lock<std::mutex> lock(queue_mutex);
+        should_terminate = true;
+    }
+    mutex_condition.notify_all();
+    for (std::thread& active_thread : threads) {
+        active_thread.join();
+    }
+    threads.clear();
 }
+
+_bool CThreadPool::Is_NoJobStae()
+{
+    bool result = false;
+    {
+        std::unique_lock<std::mutex> lock(queue_mutex);
+        result = jobs.empty();
+    }
+    return result;
+}
+
+void CThreadPool::ThreadLoop()
+{
+    while (true) {
+        std::function<_uint()> job;
+        {
+            std::unique_lock<std::mutex> lock(queue_mutex);
+            mutex_condition.wait(lock, [this] {
+                return !jobs.empty() || should_terminate;
+                });
+            if (should_terminate) {
+                return;
+            }
+            job = jobs.front();
+            jobs.pop();
+        }
+        job();
+    }
+}
+
 
 void CThreadPool::Free(void)
 {
-	for (auto& worker : workerThreadList)
-	{
-		WaitForSingleObject(worker.hThread, INFINITE);
-
-		DeleteCriticalSection(worker.m_CriticalSection);
-		DeleteObject(worker.hThread);
-
-		Safe_Delete(worker.m_CriticalSection);
-	}
+    Stop();
 }
