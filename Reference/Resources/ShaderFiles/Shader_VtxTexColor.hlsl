@@ -127,19 +127,6 @@ PS_OUT PS_MAIN_HP(PS_IN In)
 }
 
 
-float CalculateClockAngle_float(float2 uv)
-{
-	float2 a = float2(0.f, 1.f);
-	float2 b = normalize(uv - float2(0.5f, 0.5f));
-
-	float dot = (a.x * b.x) - (a.y * b.y);
-	float det = (a.x * b.y) + (a.y * b.x);
-	float angle = atan2(-det, -dot);
-
-	return ((angle + PI) * 0.5f) * ONE_OVER_PI;
-}
-
-
 PS_OUT PS_MAIN_CLOCKWISECOOLTIME(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;

@@ -3,8 +3,10 @@
 matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
 texture2D		g_Texture;
+texture2D		g_MaskTexture;
 
 float4			g_vColor;
+float			g_Progress;
 
 struct VS_IN
 {
@@ -73,6 +75,23 @@ PS_OUT PS_MAIN_ALPHA(PS_IN In)
 	return Out;
 }
 
+PS_OUT PS_MAIN_COOLTIME_ALPHAMASK(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	vector		vMask = g_MaskTexture.Sample(LinearSampler, In.vTexUV);
+
+	if (vMask.a < 0.1)
+		discard;
+
+	Out.vColor = g_Texture.Sample(LinearSampler, In.vTexUV);
+
+	float angle = CalculateClockAngle_float(In.vTexUV);
+	Out.vColor = (angle > g_Progress) ? float4(0.f, 0.f, 0.f, 0.4f) : float4(0.f, 0.f, 0.f, 0.f);
+
+	return Out;
+}
+
 technique11		DefaultTechnique
 {
 	pass BackGround
@@ -112,5 +131,18 @@ technique11		DefaultTechnique
 		HullShader = NULL;
 		DomainShader = NULL;
 		PixelShader = compile ps_5_0 PS_MAIN_ALPHA();
+	}
+
+	pass CoolTimeAlphaMask
+	{
+		SetRasterizerState(RS_Default);
+		SetDepthStencilState(DSS_Enable_ZTest_Disable_ZWrite, 0);
+		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		HullShader = NULL;
+		DomainShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_COOLTIME_ALPHAMASK();
 	}
 }

@@ -115,6 +115,13 @@ private:
 	void	Return_Original_State(BUFF_STATE preState);
 
 private:
+	HRESULT Add_Components();
+	HRESULT SetUp_ShaderResources();
+	HRESULT SetUp_CoolTimeMask_ShaderResources();
+
+	//_matrix Remove_Scale(_fmatrix Matrix);
+
+private:
 	CTransform*				m_pTransformCom = { nullptr };
 	CRenderer*				m_pRendererCom = { nullptr };
 	CShader*				m_pShaderCom = { nullptr };
@@ -141,11 +148,6 @@ private:
 	BUFF_STATE				m_ePreBuffState = { BUFF_STATE_END };
 
 	_uint					m_CurSkillType = { 0 };
-
-private:
-	HRESULT Add_Components();
-	HRESULT SetUp_ShaderResources();
-	_matrix Remove_Scale(_fmatrix Matrix);
 
 public:
 	static CBuffState* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

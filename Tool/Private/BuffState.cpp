@@ -123,9 +123,12 @@ HRESULT CBuffState::Render()
 {
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
-
 	m_pShaderCom->Begin(0);
+	m_pVIBufferCom->Render();
 
+	if (FAILED(SetUp_CoolTimeMask_ShaderResources()))
+		return E_FAIL;
+	m_pShaderCom->Begin(3);
 	m_pVIBufferCom->Render();
 
 	return S_OK;
@@ -427,16 +430,45 @@ HRESULT CBuffState::SetUp_ShaderResources()
 	return S_OK;
 }
 
-_matrix CBuffState::Remove_Scale(_fmatrix Matrix)
+HRESULT CBuffState::SetUp_CoolTimeMask_ShaderResources()
 {
-	_matrix		Result = Matrix;
+	if (FAILED(m_pShaderCom->Set_Matrix("g_WorldMatrix", &m_FinalWorldMatrix)))
+		return E_FAIL;
 
-	Result.r[0] = XMVector3Normalize(Result.r[0]);
-	Result.r[1] = XMVector3Normalize(Result.r[1]);
-	Result.r[2] = XMVector3Normalize(Result.r[2]);
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
 
-	return Result;
+	if (FAILED(m_pShaderCom->Set_Matrix("g_ViewMatrix",
+		&m_ViewMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Set_Matrix("g_ProjMatrix",
+		&m_ProjMatrix)))
+		return E_FAIL;
+
+	if (FAILED(m_pTextureCom->Set_ShaderResource(m_pShaderCom, "g_MaskTexture", 0)))
+		return E_FAIL;
+
+	if (FAILED(m_pMaskTextureCom->Set_ShaderResource(m_pShaderCom, "g_Texture", 0)))
+		return E_FAIL;
+
+	_float progress = _float(m_EndTimeAcc / m_EndTime);
+	m_pShaderCom->Set_RawValue("g_Progress", &progress, sizeof(_float));
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
 }
+
+//_matrix CBuffState::Remove_Scale(_fmatrix Matrix)
+//{
+//	_matrix		Result = Matrix;
+//
+//	Result.r[0] = XMVector3Normalize(Result.r[0]);
+//	Result.r[1] = XMVector3Normalize(Result.r[1]);
+//	Result.r[2] = XMVector3Normalize(Result.r[2]);
+//
+//	return Result;
+//}
 
 CBuffState* CBuffState::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {

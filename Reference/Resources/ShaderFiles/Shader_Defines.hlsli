@@ -1,3 +1,11 @@
+#ifndef PI 
+#define PI 3.141592f
+#endif
+
+#ifndef ONE_OVER_PI
+#define ONE_OVER_PI 0.318309f
+#endif
+
 /* For.Sampler State  */
 sampler PointSampler = sampler_state
 {
@@ -102,11 +110,14 @@ float roundedBoxSDF(float2 CenterPosition, float2 Size, float Radius) {
 	return length(max(abs(CenterPosition) - Size + Radius, 0.0)) - Radius;
 }
 
+float CalculateClockAngle_float(float2 uv)
+{
+	float2 a = float2(0.f, 1.f);
+	float2 b = normalize(uv - float2(0.5f, 0.5f));
 
-#ifndef PI 
-#define PI 3.141592f
-#endif
+	float dot = (a.x * b.x) - (a.y * b.y);
+	float det = (a.x * b.y) + (a.y * b.x);
+	float angle = atan2(-det, -dot);
 
-#ifndef ONE_OVER_PI
-#define ONE_OVER_PI 0.318309f
-#endif
+	return ((angle + PI) * 0.5f) * ONE_OVER_PI;
+}
