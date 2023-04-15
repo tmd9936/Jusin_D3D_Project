@@ -750,7 +750,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 		XMStoreFloat4(&pos, vPos);
 		pSkillEffect->Set_Pos(pos);
 
-		pTransform->Set_Scaled({ 1.5f, 1.5f, 1.5f });
+		//pTransform->Set_Scaled({ 1.5f, 1.5f, 1.5f });
 
 		CAttackEffect::ATTACK_EFFECT_DESC desc{};
 		Set_NormalAttackDesc(desc, skillType, pSkillEffect, 4);
@@ -1088,14 +1088,16 @@ void CSkill_Manager::Create_No_ChargeEffect(_uint skillType, _vector vLook, _vec
 	pSkillEffect = pEffect_Manager->CreateEffect(skillType, L"Prototype_GameObject_SkillEffect", pLayerTag, iLevelIndex);
 	if (nullptr != pSkillEffect)
 	{
-		pSkillEffect->Set_Parent(pBone, pParentTransform, PivotMatrix);
+		pSkillEffect->Set_Parent(pBone, pParentTransform, PivotMatrix * XMMatrixRotationAxis({ 0.f, 1.f, 0.f, 0.f }, XMConvertToRadians(180.f)));
 		pSkillEffect->Set_ParentRotateApply(true);
 	}
 
 	CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
 	if (nullptr == pTransform)
 		return;
-	//pTransform->LookAt(XMVectorSetW(vLook, 1.f));
+	//pTransform->LookAt(XMVectorSetW(vLook * -1.f, 1.f));
+	//pTransform->Rotation({ 0.f, 1.f, 0.f, 0.f }, XMConvertToRadians(180.f));
+
 
 	_float4 pos = {};
 	XMStoreFloat4(&pos, vPos);

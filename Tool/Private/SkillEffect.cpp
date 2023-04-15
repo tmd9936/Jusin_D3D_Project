@@ -61,7 +61,7 @@ HRESULT CSkillEffect::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, voi
 	_float3 vPos{};
 	XMStoreFloat3(&vPos, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
 
-	m_pNavigationCom->Set_Index_By_Position({ vPos.x, vPos.y, vPos.z });
+	//m_pNavigationCom->Set_Index_By_Position({ vPos.x, vPos.y, vPos.z });
 
 	m_pModelCom->Set_Animation(0);
 
@@ -96,13 +96,13 @@ _uint CSkillEffect::LateTick(_double TimeDelta)
 			else
 				XMStoreFloat4x4(&m_EffectDesc.m_FinalWorldMatrix, m_pTransformCom->Get_WorldMatrix_Matrix() * m_EffectDesc.pParent->Get_Position_Matrix());
 
-		m_pNavigationCom->Set_Index_By_Position({ m_EffectDesc.m_FinalWorldMatrix.m[3][0],
-			m_EffectDesc.m_FinalWorldMatrix.m[3][1], m_EffectDesc.m_FinalWorldMatrix.m[3][2] });
+		//m_pNavigationCom->Set_Index_By_Position({ m_EffectDesc.m_FinalWorldMatrix.m[3][0],
+		//	m_EffectDesc.m_FinalWorldMatrix.m[3][1], m_EffectDesc.m_FinalWorldMatrix.m[3][2] });
 	}
 	else
 	{
 		_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-		m_pNavigationCom->Set_Index_By_Position({ XMVectorGetX(vPos), XMVectorGetY(vPos), XMVectorGetZ(vPos) });
+		//m_pNavigationCom->Set_Index_By_Position({ XMVectorGetX(vPos), XMVectorGetY(vPos), XMVectorGetZ(vPos) });
 	}
 
 	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
