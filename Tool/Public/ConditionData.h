@@ -68,8 +68,13 @@ public:
 	virtual _uint LateTick(_double TimeDelta) override;
 
 public:
-	CONDITIONDATA_DESC	Get_ConditonData(_uint index) const {
-		return m_ConditionData_Desc[index];
+	void	Get_ConditonData(CONDITIONDATA_DESC& out, _uint index) const {
+		auto iter = m_ConditionData_Desc.find(index);
+
+		if (m_ConditionData_Desc.end() == iter)
+			return;
+
+		out = iter->second;
 	}
 
 	CONDITIONTYPEDATA_DESC	Get_ConditonTypeData(_uint index) const {
@@ -93,7 +98,9 @@ private:
 	HRESULT Add_Components_By_File();
 
 private:
-	vector<CONDITIONDATA_DESC>			m_ConditionData_Desc;
+	//vector<CONDITIONDATA_DESC>					m_ConditionData_Desc;
+	unordered_map<_uint, CONDITIONDATA_DESC>			m_ConditionData_Desc;
+
 	vector<CONDITIONTYPEDATA_DESC>		m_ConditionTypeData_Desc;
 	CONDITIONPARAMETER_DESC				m_ConditionParameter = {};
 

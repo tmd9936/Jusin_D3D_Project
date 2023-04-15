@@ -104,7 +104,7 @@ _bool CConditionData::Load_By_JsonFile_Impl(Document& doc)
 		desc.m_time = m_datas[i]["m_time"].GetFloat();
 		desc.m_ratio = m_datas[i]["m_ratio"].GetFloat();
 
-		m_ConditionData_Desc.push_back(move(desc));
+		m_ConditionData_Desc.insert({ desc.m_id , move(desc) });
 	}
 
 	return true;

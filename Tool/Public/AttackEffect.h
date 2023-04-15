@@ -14,6 +14,9 @@ BEGIN(Client)
 class CSkill_Manager;
 class CEffect_Manager;
 class CStageCamera;
+class CBuffState;
+class CConditionData;
+class CMonster;
 
 class CAttackEffect :
 	public CSkillEffect
@@ -25,6 +28,7 @@ public:
 		_bool					m_bKnockBack = { false };
 		_bool					m_bContinue = { false };
 		_uint					m_CollisionEffectType = { 0 };
+		_uint					m_ConditionDataID = { 0 };
 
 		EFFECT_DESC	effectDesc;
 
@@ -36,10 +40,10 @@ protected:
 	virtual ~CAttackEffect() = default;
 
 public:
-	virtual HRESULT Initialize_Prototype() override; /* 원형객체의 초기화작업 */
-	virtual HRESULT Initialize_Prototype(ATTACK_EFFECT_DESC& attackEffectDesc); /* 원형객체의 초기화작업 */
+	virtual HRESULT Initialize_Prototype() override; 
+	virtual HRESULT Initialize_Prototype(ATTACK_EFFECT_DESC& attackEffectDesc); 
 
-	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override; /* 사본객체의 초기화작업 */
+	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override;
 
 	virtual _uint Tick(_double TimeDelta) override;
 	virtual _uint LateTick(_double TimeDelta) override;
@@ -55,6 +59,7 @@ public:
 		m_AttackEffectDesc.m_bKnockBack = attackEffectDesc.m_bKnockBack;
 		m_AttackEffectDesc.m_bContinue = attackEffectDesc.m_bContinue;
 		m_AttackEffectDesc.m_CollisionEffectType = attackEffectDesc.m_CollisionEffectType;
+		m_AttackEffectDesc.m_ConditionDataID = attackEffectDesc.m_ConditionDataID;
 	}
 
 protected:
@@ -66,6 +71,7 @@ protected:
 	void		Create_Collision_Effect(CTransform* hitObjectTransform);
 	void		Camera_Shake_Request();
 	void		Set_ManualCollisionState(CGameObject* pOtherOwner, CManualCollisionState::COLLISION_STATE eState);
+	void		Do_DebuffCondition(CGameObject* pOtherOwner);
 
 protected:
 	ATTACK_EFFECT_DESC	m_AttackEffectDesc = {};

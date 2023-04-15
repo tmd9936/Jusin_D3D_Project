@@ -88,7 +88,7 @@ public:
 	virtual HRESULT Render() override;
 
 public:
-	HRESULT Set_BuffState(_uint skillType, BUFF_STATE eState, const _tchar* textureName,
+	HRESULT Set_BuffState(_uint buffType, _uint skillType, BUFF_STATE eState, const _tchar* textureName,
 		_float valueA, _float valueB, _float endTime, _float ratio);
 
 	HRESULT Change_Texture(const _tchar* prototypeTag);
@@ -99,6 +99,10 @@ public:
 
 	const _uint Get_CurSkillType() const {
 		return m_CurSkillType;
+	}
+
+	const _uint Get_CurBuffType() const {
+		return m_CurBuffType;
 	}
 
 private:
@@ -148,6 +152,8 @@ private:
 	BUFF_STATE				m_ePreBuffState = { BUFF_STATE_END };
 
 	_uint					m_CurSkillType = { 0 };
+	_uint					m_CurBuffType = { 0 };
+
 
 public:
 	static CBuffState* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

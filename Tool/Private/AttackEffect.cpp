@@ -6,6 +6,13 @@
 #include "StageCamera.h"
 #include "GameInstance.h"
 
+#include "BuffState.h"
+#include "ConditionData.h"
+
+#include "Monster.h"
+
+#define	NO_DEBUFF_CONDITION 0
+
 CAttackEffect::CAttackEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CSkillEffect(pDevice, pContext)
 {
@@ -163,9 +170,10 @@ void CAttackEffect::Collision(CCollider* pOther,
 					if (collisionEffect)
 					{
 						Camera_Shake_Request();
-						Create_Collision_Effect(pOtherTransform);
 						Set_ManualCollisionState(pOtherOwner, CManualCollisionState::COLLISION_STATE::COLLISION_STATE_ENTER);
 					}
+					Create_Collision_Effect(pOtherTransform);
+					Do_DebuffCondition(pOtherOwner);
 
 					if (false == m_AttackEffectDesc.m_bContinue)
 					{
@@ -270,6 +278,40 @@ void CAttackEffect::Set_ManualCollisionState(CGameObject* pOtherOwner, CManualCo
 	CManualCollisionState* pMCS = pOtherOwner->Get_As<CManualCollisionState>();
 	pMCS->Set_State(eState);
 }
+
+void CAttackEffect::Do_DebuffCondition(CGameObject* pOtherOwner)
+{
+	int randomValue = rand() % 5;
+
+	if (randomValue != 0)
+		return;
+
+	if (m_AttackEffectDesc.m_ConditionDataID == NO_DEBUFF_CONDITION)
+		return;
+
+	CMonster* pOtherMonster = dynamic_cast<CMonster*>(pOtherOwner);
+	if (nullptr == pOtherMonster)
+		return;
+
+	CGameObject* pObject = CGameInstance::GetInstance()->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"ConditionData");
+	CConditionData* pConditionData = dynamic_cast<CConditionData*>(pObject);
+	if (nullptr == pConditionData)
+		return;
+
+	CConditionData::CONDITIONDATA_DESC conditionDataDesc{};
+	pConditionData->Get_ConditonData(conditionDataDesc, m_AttackEffectDesc.m_ConditionDataID);
+	_uint conditinoTypeID = conditionDataDesc.m_type;
+
+	CBuffState* pBuffState = pOtherMonster->Search_NoAction_DeBuffState(conditinoTypeID);
+	if (nullptr == pBuffState)
+		return;
+
+	CConditionData::CONDITIONTYPEDATA_DESC conditionTypeDataDesc = pConditionData->Get_ConditonTypeData(conditinoTypeID);
+	pBuffState->Set_BuffState(conditinoTypeID, 500, (CBuffState::BUFF_STATE)conditionTypeDataDesc.m_id,
+		conditionTypeDataDesc.m_iconPath.c_str(), conditionDataDesc.m_Value_A, conditionDataDesc.m_Value_B,
+		conditionDataDesc.m_time, conditionDataDesc.m_ratio);
+}
+
 
 CAttackEffect* CAttackEffect::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {

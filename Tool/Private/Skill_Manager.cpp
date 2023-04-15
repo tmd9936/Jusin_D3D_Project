@@ -370,7 +370,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 		pSkillEffect->Set_Pos(pos);
 
 		CAttackEffect::ATTACK_EFFECT_DESC desc{};
-		Set_NormalAttackDesc(desc, skillType, pSkillEffect);
+		Set_NormalAttackDesc(desc, skillType, pSkillEffect, pConditionData);
 
 		dynamic_cast<CRushAttackEffect*>(pSkillEffect)->Set_RushSpeed(0.5);
 		pSkillEffect->Init_LoopCount(2);
@@ -393,6 +393,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 			desc.m_AttackDesc.m_CollisionEffectType = m_Skill_Depend_Datas[skillType].m_effects[2];
 			desc.m_AttackDesc.m_bKnockBack = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Knockback;
 			desc.m_AttackDesc.effectDesc.m_IsParts = false;
+			desc.m_AttackDesc.m_ConditionDataID = Get_ConditionDataID(pConditionData, skillType, 0);
 
 			pSkillEffect = pEffect_Manager->Create_Charge_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex, desc);
 			if (nullptr != pSkillEffect)
@@ -430,6 +431,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 		desc.m_AttackDesc.m_CollisionEffectType = m_Skill_Depend_Datas[skillType].m_effects[2];
 		desc.m_AttackDesc.m_bKnockBack = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Knockback;
 		desc.m_AttackDesc.effectDesc.m_IsParts = true;
+		desc.m_AttackDesc.m_ConditionDataID = Get_ConditionDataID(pConditionData, skillType, 0);
 
 		pSkillEffect = pEffect_Manager->Create_Charge_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex, desc);
 		if (nullptr != pSkillEffect)
@@ -460,7 +462,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 		//pTransform->LookAt(XMVectorSetW(vLook, 1.f));
 
 		CAttackEffect::ATTACK_EFFECT_DESC desc{};
-		Set_NormalAttackDesc(desc, skillType, pSkillEffect);
+		Set_NormalAttackDesc(desc, skillType, pSkillEffect, pConditionData);
 
 		Set_AttackPower(pSkillEffect, _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f)));
 
@@ -478,6 +480,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 		desc.m_AttackDesc.m_CollisionEffectType = m_Skill_Depend_Datas[skillType].m_effects[3];
 		desc.m_AttackDesc.m_bKnockBack = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Knockback;
 		desc.m_AttackDesc.effectDesc.m_IsParts = false;
+		desc.m_AttackDesc.m_ConditionDataID = Get_ConditionDataID(pConditionData, skillType, 0);
 
 		pSkillEffect = pEffect_Manager->Create_Charge_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex, desc);
 		if (nullptr != pSkillEffect)
@@ -528,6 +531,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 		desc.m_AttackDesc.m_CollisionEffectType = m_Skill_Depend_Datas[skillType].m_effects[3];
 		desc.m_AttackDesc.m_bKnockBack = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Knockback;
 		desc.m_AttackDesc.effectDesc.m_IsParts = false;
+		desc.m_AttackDesc.m_ConditionDataID = Get_ConditionDataID(pConditionData, skillType, 0);
 
 		pSkillEffect = pEffect_Manager->Create_Charge_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex, desc);
 		if (nullptr != pSkillEffect)
@@ -585,6 +589,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 		desc.m_AttackDesc.m_CollisionEffectType = m_Skill_Depend_Datas[skillType].m_effects[2];
 		desc.m_AttackDesc.m_bKnockBack = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Knockback;
 		desc.m_AttackDesc.effectDesc.m_IsParts = true;
+		desc.m_AttackDesc.m_ConditionDataID = Get_ConditionDataID(pConditionData, skillType, 0);
 
 		pSkillEffect = pEffect_Manager->Create_Charge_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex, desc);
 		if (nullptr != pSkillEffect)
@@ -614,7 +619,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 		pTransform->LookAt(XMVectorSetW(vLook, 1.f));
 
 		CAttackEffect::ATTACK_EFFECT_DESC desc{};
-		Set_NormalAttackDesc(desc, skillType, pSkillEffect, 1);
+		Set_NormalAttackDesc(desc, skillType, pSkillEffect, pConditionData, 1);
 
 		_float4 pos = {};
 		XMStoreFloat4(&pos, vPos + vLook * 0.25f);
@@ -638,7 +643,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 			pTransform->LookAt(XMVectorSetW(vLook, 1.f));
 
 			CAttackEffect::ATTACK_EFFECT_DESC desc{};
-			Set_NormalAttackDesc(desc, skillType, pSkillEffect);
+			Set_NormalAttackDesc(desc, skillType, pSkillEffect, pConditionData);
 
 			_float4 pos = {};
 			XMStoreFloat4(&pos, vPos + (vLook * 0.75f * _float(i)));
@@ -662,6 +667,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 			CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
 			if (nullptr == pTransform)
 				return E_FAIL;
+
 			pTransform->LookAt(XMVectorSetW(vLook, 1.f));
 			pTransform->Set_TransforDesc({ XMConvertToRadians(10.f), XMConvertToRadians(350.f) });
 			pTransform->Set_Scaled({ 2.f, 2.f, 2.f });
@@ -677,7 +683,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 			XMStoreFloat4(&pos3, vPos + (vLook * 1.5f * (_float)i));
 
 			CAttackEffect::ATTACK_EFFECT_DESC desc{};
-			Set_NormalAttackDesc(desc, skillType, pSkillEffect, 3);
+			Set_NormalAttackDesc(desc, skillType, pSkillEffect, pConditionData, 3);
 
 			static_cast<CBezierAttackEffect*>(pSkillEffect)->Set_BezierPoints(
 				{ pos1.x, pos1.y, pos1.z },
@@ -698,14 +704,15 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 
 		_uint conditionDataID = m_Skill_Depend_Datas[skillType].m_conditions[0];
 
-		CConditionData::CONDITIONDATA_DESC conditionDataDesc = pConditionData->Get_ConditonData(conditionDataID);
+		CConditionData::CONDITIONDATA_DESC conditionDataDesc{};
+		pConditionData->Get_ConditonData(conditionDataDesc, conditionDataID);
 		_uint conditinoTypeID = conditionDataDesc.m_type;
 
 		CConditionData::CONDITIONTYPEDATA_DESC conditionTypeDataDesc = pConditionData->Get_ConditonTypeData(conditinoTypeID);
 
 		Create_No_ChargeEffect(conditionTypeDataDesc.m_effectType, vLook, XMVectorSet(0.f, 0.f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
 		
-		pBuffState->Set_BuffState(skillType, (CBuffState::BUFF_STATE)conditionTypeDataDesc.m_id,
+		pBuffState->Set_BuffState(conditinoTypeID, skillType, (CBuffState::BUFF_STATE)conditionTypeDataDesc.m_id,
 			conditionTypeDataDesc.m_iconPath.c_str(), conditionDataDesc.m_Value_A, conditionDataDesc.m_Value_B, 
 			conditionDataDesc.m_time, conditionDataDesc.m_ratio);
 
@@ -717,14 +724,15 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 
 		_uint conditionDataID = m_Skill_Depend_Datas[skillType].m_conditions[0];
 
-		CConditionData::CONDITIONDATA_DESC conditionDataDesc = pConditionData->Get_ConditonData(conditionDataID);
+		CConditionData::CONDITIONDATA_DESC conditionDataDesc{};
+		pConditionData->Get_ConditonData(conditionDataDesc, conditionDataID);
 		_uint conditinoTypeID = conditionDataDesc.m_type;
 
 		CConditionData::CONDITIONTYPEDATA_DESC conditionTypeDataDesc = pConditionData->Get_ConditonTypeData(conditinoTypeID);
 
 		Create_No_ChargeEffect(conditionTypeDataDesc.m_effectType, vLook, XMVectorSet(0.f, 0.f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
 
-		pBuffState->Set_BuffState(skillType, (CBuffState::BUFF_STATE)conditionTypeDataDesc.m_id,
+		pBuffState->Set_BuffState(conditinoTypeID, skillType, (CBuffState::BUFF_STATE)conditionTypeDataDesc.m_id,
 			conditionTypeDataDesc.m_iconPath.c_str(), conditionDataDesc.m_Value_A, conditionDataDesc.m_Value_B,
 			conditionDataDesc.m_time, conditionDataDesc.m_ratio);
 	}
@@ -753,7 +761,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 		//pTransform->Set_Scaled({ 1.5f, 1.5f, 1.5f });
 
 		CAttackEffect::ATTACK_EFFECT_DESC desc{};
-		Set_NormalAttackDesc(desc, skillType, pSkillEffect, 4);
+		Set_NormalAttackDesc(desc, skillType, pSkillEffect, pConditionData, 4);
 
 		Set_AttackPower(pSkillEffect, _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f)));
 
@@ -771,7 +779,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 		pTransform->LookAt(XMVectorSetW(vLook, 1.f));
 
 		CAttackEffect::ATTACK_EFFECT_DESC desc{};
-		Set_NormalAttackDesc(desc, skillType, pSkillEffect);
+		Set_NormalAttackDesc(desc, skillType, pSkillEffect, pConditionData);
 
 		_float4 pos = {};
 		XMStoreFloat4(&pos, vPos + vLook * 0.5f);
@@ -1107,11 +1115,12 @@ void CSkill_Manager::Create_No_ChargeEffect(_uint skillType, _vector vLook, _vec
 }
 
 void CSkill_Manager::Set_NormalAttackDesc(CAttackEffect::ATTACK_EFFECT_DESC& desc, const _uint& skillType, 
-	CSkillEffect* pSkillEffect, _uint collisionEffectType)
+	CSkillEffect* pSkillEffect, CConditionData* pConditionData, _uint collisionEffectType)
 {
 	desc.m_bContinue = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Continue;
 	desc.m_CollisionEffectType = m_Skill_Depend_Datas[skillType].m_effects[collisionEffectType];
 	desc.m_bKnockBack = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Knockback;
+	desc.m_ConditionDataID = Get_ConditionDataID(pConditionData, skillType, 0);
 
 	static_cast<CAttackEffect*>(pSkillEffect)->Set_AttackDesc(desc);
 }
@@ -1123,6 +1132,14 @@ void CSkill_Manager::Set_AttackPower(CSkillEffect* pSkillEffect, const _uint& da
 	{
 		pAttack->Set_AttackPower(damage);
 	}
+}
+
+_uint CSkill_Manager::Get_ConditionDataID(CConditionData* pConditionData, const _uint& skillType, const _uint& conditionDataID)
+{
+	if (m_Skill_Depend_Datas[skillType].m_conditions.empty())
+		return 0;
+
+	return  m_Skill_Depend_Datas[skillType].m_conditions[conditionDataID];
 }
 
 HRESULT CSkill_Manager::Add_Components()

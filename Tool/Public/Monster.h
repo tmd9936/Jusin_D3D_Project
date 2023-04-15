@@ -116,6 +116,9 @@ public:
 
 	void			Do_Skill_By_Index(_uint skillindex, const _tchar* pLayer);
 
+public:
+	CBuffState*		Search_NoAction_DeBuffState(const _uint& buffType);
+
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
 	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
@@ -152,13 +155,13 @@ protected:
 	void	SkillCoolTime_Start();
 
 protected:
+	CBuffState* Search_NoAction_BuffState(const _uint& skillType);
+
+protected:
 	virtual HRESULT Add_Components();
 	virtual HRESULT Add_Components_By_File();
 
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 던진다. */
-
-protected:
-	CBuffState* Search_NoAction_BuffState(const _uint& skillType);
 
 protected:
 	CTransform*				m_pTransformCom = { nullptr };

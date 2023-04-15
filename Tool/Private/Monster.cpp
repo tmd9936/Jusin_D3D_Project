@@ -835,6 +835,29 @@ void CMonster::Do_Skill_By_Index(_uint skillindex, const _tchar* pLayer)
 	Do_Skill_After_Set_Motion(m_PokemonDesc.m_skillIDs[skillindex], pLayer);
 }
 
+CBuffState* CMonster::Search_NoAction_DeBuffState(const _uint& buffType)
+{
+	if (m_buffStates.empty())
+		return nullptr;
+
+	for (auto& buffState : m_buffStates)
+	{
+		if (buffState->Get_CurBuffType() == buffType)
+		{
+			return buffState;
+		}
+		else
+		{
+			if (buffState->Get_CanBuffSet())
+			{
+				return buffState;
+			}
+		}
+	}
+
+	return nullptr;
+}
+
 _bool CMonster::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator)
 {
 	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;

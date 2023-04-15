@@ -134,7 +134,7 @@ HRESULT CBuffState::Render()
 	return S_OK;
 }
 
-HRESULT CBuffState::Set_BuffState(_uint skillType, BUFF_STATE eState, const _tchar* textureName, 
+HRESULT CBuffState::Set_BuffState(_uint buffType, _uint skillType, BUFF_STATE eState, const _tchar* textureName, 
 	_float valueA, _float valueB, _float endTime, _float ratio)
 {
 	if (nullptr == textureName)
@@ -152,6 +152,7 @@ HRESULT CBuffState::Set_BuffState(_uint skillType, BUFF_STATE eState, const _tch
 	m_ratio = ratio;
 	m_valueA = valueA;
 	m_valueB = valueB;
+	m_CurBuffType = buffType;
 
 	return S_OK;
 }
