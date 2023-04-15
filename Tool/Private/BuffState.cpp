@@ -270,17 +270,20 @@ void CBuffState::Change_State()
 			break;
 		case BUFF_STATE_MAHI:
 			Change_State_Buff_On();
+			Set_ParentState(CMonFSM::MONSTER_STATE::IDLE_NO);
 			break;
 		case BUFF_STATE_NEMURI:
 			Change_State_Buff_On();
 			break;
 		case BUFF_STATE_KOORI:
+			Set_ParentState(CMonFSM::MONSTER_STATE::IDLE_NO);
 			Change_State_Buff_On();
 			break;
 		case BUFF_STATE_YAKEDO:
 			Change_State_Buff_On();
 			break;
 		case BUFF_STATE_KONRAN:
+			Set_ParentState(CMonFSM::MONSTER_STATE::IDLE_NO);
 			Change_State_Buff_On();
 			break;
 		case BUFF_STATE_KANASIBARI:
@@ -325,10 +328,10 @@ void CBuffState::Set_ParentDefensePercent(_float percent)
 
 void CBuffState::Set_ParentState(CMonFSM::MONSTER_STATE eState)
 {
-	if (nullptr == m_Desc.pParentMonFSM)
+	if (nullptr == m_Desc.pParentMonFSM || nullptr == m_Desc.pParentModel)
 		return;
 
-	//m_Desc.pParentMonFSM->Transit_MotionState();
+	m_Desc.pParentMonFSM->Transit_MotionState(eState, m_Desc.pParentModel);
 }
 
 
@@ -361,14 +364,17 @@ void CBuffState::Return_Original_State(BUFF_STATE preState)
 	case BUFF_STATE_DOKU:
 		break;
 	case BUFF_STATE_MAHI:
+		Set_ParentState(CMonFSM::MONSTER_STATE::IDLE1);
 		break;
 	case BUFF_STATE_NEMURI:
 		break;
 	case BUFF_STATE_KOORI:
+		Set_ParentState(CMonFSM::MONSTER_STATE::IDLE1);
 		break;
 	case BUFF_STATE_YAKEDO:
 		break;
 	case BUFF_STATE_KONRAN:
+		Set_ParentState(CMonFSM::MONSTER_STATE::IDLE1);
 		break;
 	case BUFF_STATE_KANASIBARI:
 		break;
