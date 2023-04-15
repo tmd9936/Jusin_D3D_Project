@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "..\Public\Loader.h"
 #include "GameInstance.h"
+#include "MainApp.h"
 
 #include "BackGround.h"
 #include "UI.h"
@@ -126,7 +127,7 @@ _uint APIENTRY LoadingDenkiEffect(void* pArg)
 	if (FAILED(CoInitializeEx(nullptr, 0)))
 		return E_FAIL;
 	
-	while (!CThreadPool::GetInstance()) {}
+	while (!CMainApp::Get_MainAppInit()) {}
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
@@ -208,7 +209,7 @@ _uint APIENTRY LoadingDokuEffect(void* pArg)
 	if (FAILED(CoInitializeEx(nullptr, 0)))
 		return E_FAIL;
 
-	while (!CThreadPool::GetInstance()) {}
+	while (!CMainApp::Get_MainAppInit()) {}
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
@@ -287,7 +288,7 @@ _uint APIENTRY LoadingNormalEffect(void* pArg)
 	if (FAILED(CoInitializeEx(nullptr, 0)))
 		return E_FAIL;
 
-	while (!CThreadPool::GetInstance()) {}
+	while (!CMainApp::Get_MainAppInit()) {}
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
@@ -360,7 +361,7 @@ _uint APIENTRY LoadingKooriEffect(void* pArg)
 	if (FAILED(CoInitializeEx(nullptr, 0)))
 		return E_FAIL;
 
-	while (!CThreadPool::GetInstance()) {}
+	while (!CMainApp::Get_MainAppInit()) {}
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 

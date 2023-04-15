@@ -26,6 +26,8 @@
 
 #include "ThreadPool.h"
 
+_bool				CMainApp::m_Init = false;
+
 CMainApp::CMainApp()
 	: m_pGameInstance(CGameInstance::GetInstance())
 #ifdef _IMGUITOOL
@@ -60,10 +62,11 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(m_pGameInstance->Initialize_Engine(LEVEL_END, g_hInst, GraphicDesc, &m_pDevice, &m_pContext)))
 		return E_FAIL;
 
+	CThreadPool::GetInstance();
+	m_Init = true;
+	
 	if (FAILED(Ready_Fonts()))
 		return E_FAIL;
-
-	CThreadPool::GetInstance();
 
 #ifdef _IMGUITOOL
 	IMGUI_CHECKVERSION();
@@ -99,6 +102,7 @@ HRESULT CMainApp::Initialize()
 
 	if (FAILED(Ready_Prototype_Component_For_Static()))
 		return E_FAIL;
+
 	if (FAILED(Ready_Prototype_GameObject_For_Static()))
 		return E_FAIL;
 

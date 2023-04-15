@@ -23,6 +23,11 @@ private:
 	virtual ~CMainApp() = default;
 
 public:
+	static _bool Get_MainAppInit() {
+		return m_Init;
+	}
+
+public:
 	HRESULT Initialize();
 	void Tick(_double TimeDelta);
 	HRESULT Render();
@@ -63,6 +68,9 @@ private:
 	_tchar						m_szFPS[MAX_PATH] = TEXT("");
 	_ulong						m_dwNumDraw = { 0 };
 #endif // _DEBUG
+
+private:
+	static	_bool				m_Init;
 
 public:
 	static CMainApp* Create();

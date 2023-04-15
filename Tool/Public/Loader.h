@@ -12,6 +12,8 @@ END
 
 BEGIN(Client)
 
+class CMainApp;
+
 class CLoader final : public CBase
 {
 private:

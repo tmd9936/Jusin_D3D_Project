@@ -141,7 +141,6 @@ void CPokering::State_Tick(const _double& TimeDelta)
 		}
 		break;
 	case STATE_COOLTIME:
-
 		// 60 * coolTIme / 100 => coolTime * 0.6;
 		if (m_pModelCom->Play_Animation(TimeDelta * m_CoolTimeSpeed))
 		{
