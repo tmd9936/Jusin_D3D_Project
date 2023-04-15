@@ -49,7 +49,7 @@ HRESULT CEffect::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pA
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
-	m_eRenderId = RENDER_NONBLEND;
+	m_eRenderId = RENDER_NONLIGHT;
 
 	_float3 vPos{};
 	XMStoreFloat3(&vPos, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
@@ -148,13 +148,13 @@ HRESULT CEffect::Render()
 
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
-		if (FAILED(m_pModelCom->SetUp_ShaderResource(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
-			return E_FAIL;
+		//if (FAILED(m_pModelCom->SetUp_ShaderResource(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
+		//	return E_FAIL;
 
 		if (FAILED(m_pModelCom->SetUp_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
 			return E_FAIL;
 
-		m_pShaderCom->Begin(0);
+		m_pShaderCom->Begin(3);
 
 		m_pModelCom->Render(i);
 	}
