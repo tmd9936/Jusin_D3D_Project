@@ -435,30 +435,39 @@ HRESULT CMonster::Add_DamageText()
 	return S_OK;
 }
 
-void CMonster::Do_Skill(_uint skillType, CMonFSM::MONSTER_STATE eMotion, const _tchar* pLayer)
+_bool CMonster::Do_Skill(_uint skillType, CMonFSM::MONSTER_STATE eMotion, const _tchar* pLayer)
 {
 	if (!m_bAttack)
 	{
+		_bool failcheck = Do_Skill(skillType, pLayer);
+
+		if (false == failcheck)
+			return false;
+
 		m_pMonFSM->Transit_MotionState(eMotion, m_pModelCom);
 
-		Do_Skill(skillType, pLayer);
+		return true;
 	}
+	
+	return false;
 }
 
-void CMonster::Do_Skill(_uint skillType, const _tchar* pLayer)
+_bool CMonster::Do_Skill(_uint skillType, const _tchar* pLayer)
 {
 	if (!m_bAttack)
 	{
+		_int failCheck = rand() % m_pAttackCom->Get_AttackFailProbability();
+
+		if (failCheck != 0)
+			return false;
+
 		CGameObject* pManager = CGameInstance::GetInstance()->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"Skill_Manager");
 		if (nullptr == pManager)
-			return;
+			return false;
 
 		CSkill_Manager* pSkill_Mananger = dynamic_cast<CSkill_Manager*>(pManager);
 		if (nullptr != pSkill_Mananger)
 		{
-			//  같은 스킬타입의 버프/디버프가 이미 동작중이면,
-			//  동작중인 버프의 쿨타임을 초기화 시키기
-
 			pSkill_Mananger->Do_Skill(pLayer, m_iLevelindex, skillType,
 				m_pAttackCom->Get_AttackPower(), m_pTransformCom->Get_WorldMatrix_Matrix(), m_pModelCom, "effect00", m_pTransformCom, Search_NoAction_BuffState(skillType));
 		}
@@ -468,12 +477,19 @@ void CMonster::Do_Skill(_uint skillType, const _tchar* pLayer)
 		{
 			dynamic_cast<CStageCamera*>(pStageCamera)->Do_Skill_Zoom_In(this);
 		}
+
+		return true;
 	}
+
+	return false;
 }
 
 void CMonster::Do_Skill_After_Set_Motion(_uint skillType, const _tchar* pLayer)
 {
-	Do_Skill(skillType, pLayer);
+	_bool failcheck = Do_Skill(skillType, pLayer);
+
+	if (false == failcheck)
+		return;
 
 	if (skillType <= 35 && skillType % 2 == 1)
 	{
@@ -785,7 +801,7 @@ HRESULT CMonster::SetUp_ShaderResources()
 			return E_FAIL;
 	}
 
-	_float ratio = fabs(m_hitTimeAcc - m_hitTime) / m_hitTime;
+	_float ratio = (_float)fabs(m_hitTimeAcc - m_hitTime) / m_hitTime;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_Ratio",
 		&ratio, sizeof(_float))))
 		return E_FAIL;

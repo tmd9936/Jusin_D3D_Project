@@ -56,7 +56,7 @@ _uint CPokering::Tick(_double TimeDelta)
 {
 	State_Tick(TimeDelta);
 
-	Stage_Change();
+	State_Change();
 
 	return _uint();
 }
@@ -106,7 +106,7 @@ HRESULT CPokering::Render()
 	return S_OK;
 }
 
-void CPokering::Stage_Change()
+void CPokering::State_Change()
 {
 	if (m_eCurState != m_ePreState)
 	{
@@ -137,10 +137,13 @@ void CPokering::State_Tick(const _double& TimeDelta)
 		if (false == m_desc.pParent->Get_CanSkillAttack())
 		{
 			m_eCurState = STATE_COOLTIME;
+			m_CoolTimeSpeed = 100.0 / (m_desc.pParent->Get_SkillCoomTime() * 60.0);
 		}
 		break;
 	case STATE_COOLTIME:
-		if (m_pModelCom->Play_Animation(TimeDelta * 0.9))
+
+		// 60 * coolTIme / 100 => coolTime * 0.6;
+		if (m_pModelCom->Play_Animation(TimeDelta * m_CoolTimeSpeed))
 		{
 			m_eCurState = STATE_COOLTIME_END;
 		}

@@ -114,6 +114,10 @@ public:
 		return _float(m_SkillCoolTimeAcc / m_SkillCoolTime);
 	}
 
+	const _double	Get_SkillCoomTime() const {
+		return m_SkillCoolTime;
+	}
+
 	void			Do_Skill_By_Index(_uint skillindex, const _tchar* pLayer);
 
 public:
@@ -137,8 +141,8 @@ protected:
 	HRESULT	Add_Searcher();
 	HRESULT Add_DamageText();
 
-	void	Do_Skill(_uint skillType, CMonFSM::MONSTER_STATE eMotion, const _tchar* pLayer);
-	void	Do_Skill(_uint skillType, const _tchar* pLayer);
+	_bool	Do_Skill(_uint skillType, CMonFSM::MONSTER_STATE eMotion, const _tchar* pLayer);
+	_bool	Do_Skill(_uint skillType, const _tchar* pLayer);
 
 	void	Do_Skill_After_Set_Motion(_uint skillType, const _tchar* pLayer);
 

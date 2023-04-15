@@ -4,6 +4,21 @@
 #include "GameInstance.h"
 #include "Bone.h"
 
+
+/*
+https://namu.wiki/w/%ED%8F%AC%EC%BC%93%EB%AA%AC%20%ED%80%98%EC%8A%A4%ED%8A%B8/%ED%8F%AC%EC%BC%93%EB%AA%AC#toc
+ 
+상태이상은 능력치 상승·하락을 제외하면 한 포켓몬에게 하나만 걸릴 수 있으며, 오로지 시간이 지나야만 풀린다. 그리고 본가와는 다르게 타입에 상관 없이 모든 상태이상에 걸릴 수 있다. 불꽃 포켓몬이 화상을 입거나, 독 또는 강철 포켓몬이 중독되거나, 얼음 포켓몬이 얼어붙거나, 전기 포켓몬이 마비될 수 있다.
+독: 본가와 동일하게 일정 주기마다 대미지를 입는다.
+마비: 이동속도가 느려지고, 종종 기술을 사용할 수 없다(정확히는, 기술을 사용해도 종종 실패한다). 종종 흩어지기 명령을 사용해도 도망치지 못한다.
+화상: 본가와 동일하게 일정 주기마다 대미지를 입고 공격력이 감소한다.
+잠듦: 본가와 동일하게 이동이 불가능하고 기술을 사용할 수 없다.
+얼음: 본가와 비슷하나 불꽃 기술을 맞았다고 지속시간이 짧아지지는 않는다.
+혼란: 지속 시간 동안 일정 확률로 자해하며, 기술을 사용할 수 없다. 흩어지기 명령을 받으면 정상적으로 움직인다. 왕콘치나 골뱃이 초음파 또는 이상한빛으로 특히 자주 걸어대므로 주의할 것.
+사슬묶기: 기술 하나를 일정 시간 동안 쓸 수 없게 한다. 에스퍼 타입의 포켓몬이나 골덕이 이 기술을 자주 사용한다.
+
+*/
+
 CBuffState::CBuffState(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
 {
@@ -74,6 +89,8 @@ HRESULT CBuffState::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void*
 
 _uint CBuffState::Tick(_double TimeDelta)
 {
+	State_Tick(TimeDelta);
+
 	EndTime_Check(TimeDelta);
 
 	Change_State();
@@ -139,6 +156,12 @@ HRESULT CBuffState::Render()
 HRESULT CBuffState::Set_BuffState(_uint buffType, _uint skillType, BUFF_STATE eState, const _tchar* textureName, 
 	_float valueA, _float valueB, _float endTime, _float ratio)
 {
+	if (buffType == m_CurBuffType && false == m_bCanBuffSet)
+	{
+		m_EndTimeAcc = 0.0;
+		return S_OK;
+	}
+
 	if (nullptr == textureName)
 		return E_FAIL;
 
@@ -155,6 +178,7 @@ HRESULT CBuffState::Set_BuffState(_uint buffType, _uint skillType, BUFF_STATE eS
 	m_valueA = valueA;
 	m_valueB = valueB;
 	m_CurBuffType = buffType;
+	m_DeBuffTick = (_double)ratio;
 
 	return S_OK;
 }
@@ -247,14 +271,14 @@ void CBuffState::Change_State()
 			break;
 		case BUFF_STATE_DEFENSE_UP:
 			Change_State_Buff_On();
-			Set_ParentDefensePercent(1.3f);
+			Add_ParentSpeedPercent(m_valueA);
 			break;
 		case BUFF_STATE_DEFENSE_DOWN:
 			Change_State_Buff_On();
 			break;
 		case BUFF_STATE_SPEED_UP:
 			Change_State_Buff_On();
-			Set_ParentSpeedPercent(1.5f);
+			Add_ParentSpeedPercent(m_valueA);
 			break;
 		case BUFF_STATE_SPEED_DOWN:
 			Change_State_Buff_On();
@@ -270,21 +294,22 @@ void CBuffState::Change_State()
 			break;
 		case BUFF_STATE_MAHI:
 			Change_State_Buff_On();
-			Set_ParentState(CMonFSM::MONSTER_STATE::IDLE_NO);
+			Add_ParentSpeedPercent(-m_valueA);
+			Set_ParentAttackFailProbability(4);
 			break;
 		case BUFF_STATE_NEMURI:
 			Change_State_Buff_On();
 			break;
 		case BUFF_STATE_KOORI:
-			Set_ParentState(CMonFSM::MONSTER_STATE::IDLE_NO);
 			Change_State_Buff_On();
+			Set_ParentState(CMonFSM::MONSTER_STATE::IDLE_NO);
 			break;
 		case BUFF_STATE_YAKEDO:
 			Change_State_Buff_On();
 			break;
 		case BUFF_STATE_KONRAN:
-			Set_ParentState(CMonFSM::MONSTER_STATE::IDLE_NO);
 			Change_State_Buff_On();
+			Set_ParentState(CMonFSM::MONSTER_STATE::IDLE_NO);
 			break;
 		case BUFF_STATE_KANASIBARI:
 			Change_State_Buff_On();
@@ -308,6 +333,7 @@ void CBuffState::Change_State_Buff_On()
 	m_eRenderId = RENDER_UI;
 	m_bCanBuffSet = false;
 	m_EndTimeAcc = 0.0;
+	m_DeBuffTickAcc = 0.0;
 }
 
 void CBuffState::Set_ParentSpeedPercent(_float percent)
@@ -318,12 +344,28 @@ void CBuffState::Set_ParentSpeedPercent(_float percent)
 	m_Desc.pParentTransform->Set_SpeedPercent(percent);
 }
 
+void CBuffState::Add_ParentSpeedPercent(_float percent)
+{
+	if (nullptr == m_Desc.pParentTransform)
+		return;
+
+	m_returnValue = m_Desc.pParentTransform->Add_SpeedPercent(percent);
+}
+
 void CBuffState::Set_ParentDefensePercent(_float percent)
 {
 	if (nullptr == m_Desc.pParentHP)
 		return;
 
 	m_Desc.pParentHP->Set_DamageGetPercent(percent);
+}
+
+void CBuffState::Set_ParentAttackFailProbability(_int value)
+{
+	if (nullptr == m_Desc.pParentAttack)
+		return;
+
+	m_Desc.pParentAttack->Set_AttackFailProbability(value);
 }
 
 void CBuffState::Set_ParentState(CMonFSM::MONSTER_STATE eState)
@@ -352,10 +394,10 @@ void CBuffState::Return_Original_State(BUFF_STATE preState)
 		Set_ParentDefensePercent(1.f);
 		break;
 	case BUFF_STATE_SPEED_UP:
-		Set_ParentSpeedPercent(1.f);
+		Add_ParentSpeedPercent(m_returnValue);
 		break;
 	case BUFF_STATE_SPEED_DOWN:
-		Set_ParentSpeedPercent(1.f);
+		Add_ParentSpeedPercent(m_returnValue);
 		break;
 	case BUFF_STATE_RESIST_UP:
 		break;
@@ -364,7 +406,8 @@ void CBuffState::Return_Original_State(BUFF_STATE preState)
 	case BUFF_STATE_DOKU:
 		break;
 	case BUFF_STATE_MAHI:
-		Set_ParentState(CMonFSM::MONSTER_STATE::IDLE1);
+		Set_ParentAttackFailProbability(1);
+		Add_ParentSpeedPercent(m_returnValue);
 		break;
 	case BUFF_STATE_NEMURI:
 		break;

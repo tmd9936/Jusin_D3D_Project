@@ -190,6 +190,11 @@ _uint CPlayer::Tick(_double TimeDelta)
 	if (CMonFSM::IDLE_NO != m_pMonFSM->Get_MotionState())
 		Key_Input(TimeDelta);
 
+	else if (KEY_TAB(KEY::SPACE))
+	{
+		Do_TestSkill();
+	}
+
 	return _uint();
 }
 
@@ -501,9 +506,11 @@ void CPlayer::Key_Input(const _double& TimeDelta)
 	{
 		if (m_bCanAttack)
 		{
-			Do_Skill(m_normalSkillType2, CMonFSM::ATK_NORMAL, L"Layer_PlayerSkill");
-			m_bCanAttack = false;
-			m_AttackCoolTimeAcc = 0.0;
+			if (true == Do_Skill(m_normalSkillType2, CMonFSM::ATK_NORMAL, L"Layer_PlayerSkill"))
+			{
+				m_bCanAttack = false;
+				m_AttackCoolTimeAcc = 0.0;
+			}
 		}
 	}
 
@@ -511,9 +518,11 @@ void CPlayer::Key_Input(const _double& TimeDelta)
 	{
 		if (m_bCanAttack)
 		{
-			Do_Skill(m_PokemonDesc.m_normalSkillType, CMonFSM::ATK_NORMAL, L"Layer_PlayerSkill");
-			m_bCanAttack = false;
-			m_AttackCoolTimeAcc = 0.0;
+			if (Do_Skill(m_PokemonDesc.m_normalSkillType, CMonFSM::ATK_NORMAL, L"Layer_PlayerSkill"))
+			{
+				m_bCanAttack = false;
+				m_AttackCoolTimeAcc = 0.0;
+			}
 		}
 	}
 
@@ -521,12 +530,14 @@ void CPlayer::Key_Input(const _double& TimeDelta)
 	{
 		if (m_bCanSkillAttack)
 		{
-			Do_Skill(m_PokemonDesc.m_skillIDs[0], CMonFSM::DASH_SLE_START, L"Layer_PlayerSkill");
-			m_SkillLoopCount = 1;
-			m_SkillLoopDelay = 1.f;
-			m_fAccel = 1.f;
-			m_SkillLoopDesc.m_CurskillIndex = 0;
-			SkillCoolTime_Start();
+			if (Do_Skill(m_PokemonDesc.m_skillIDs[0], CMonFSM::DASH_SLE_START, L"Layer_PlayerSkill"))
+			{
+				m_SkillLoopCount = 1;
+				m_SkillLoopDelay = 1.f;
+				m_fAccel = 1.f;
+				m_SkillLoopDesc.m_CurskillIndex = 0;
+				SkillCoolTime_Start();
+			}
 		}
 	}
 
@@ -534,15 +545,12 @@ void CPlayer::Key_Input(const _double& TimeDelta)
 	{
 		if (m_bCanSkillAttack)
 		{
-			Do_Skill(m_PokemonDesc.m_skillIDs[1], CMonFSM::HAPPY, L"Layer_PlayerSkill");
-			m_SkillLoopDesc.m_CurskillIndex = 1;
-			SkillCoolTime_Start();
+			if (Do_Skill(m_PokemonDesc.m_skillIDs[1], CMonFSM::HAPPY, L"Layer_PlayerSkill"))
+			{
+				m_SkillLoopDesc.m_CurskillIndex = 1;
+				SkillCoolTime_Start();
+			}
 		}
-	}
-
-	else if (KEY_TAB(KEY::SPACE))
-	{
-		Do_TestSkill();
 	}
 }
 

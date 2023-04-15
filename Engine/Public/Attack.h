@@ -22,7 +22,6 @@ public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
 
-
 public:
 	const _uint		Get_AttackPower() const {
 		return m_Desc.m_AttackPower;
@@ -32,9 +31,17 @@ public:
 		m_Desc.m_AttackPower = attackPower;
 	}
 
+	void	Set_AttackFailProbability(_int value) {
+		m_AttackFailProbability = value;
+	}
+
+	const _int	Get_AttackFailProbability() const {
+		return m_AttackFailProbability;
+	}
+
 private:
 	ATTACK_DESC		m_Desc = {};
-
+	_int			m_AttackFailProbability = { 1 };
 
 public:
 	static CAttack* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

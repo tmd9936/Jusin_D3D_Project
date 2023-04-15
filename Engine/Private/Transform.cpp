@@ -685,6 +685,28 @@ void CTransform::Set_SpeedPercent(_float percent)
 	m_SpeedPercent = percent;
 }
 
+_float CTransform::Add_SpeedPercent(_float percent)
+{
+	_float preSpeedPercent = m_SpeedPercent;
+
+	m_SpeedPercent += percent;
+	_float returnValue = -percent;
+
+	if (m_SpeedPercent > 1.8f)
+	{
+		m_SpeedPercent = 1.8f;
+		returnValue = preSpeedPercent - m_SpeedPercent;
+	}
+
+	if (m_SpeedPercent < 0.5f)
+	{
+		m_SpeedPercent = 0.5f;
+		returnValue = preSpeedPercent - m_SpeedPercent;
+	}
+
+	return returnValue;
+}
+
 
 CTransform* CTransform::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {

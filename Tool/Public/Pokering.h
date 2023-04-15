@@ -54,7 +54,7 @@ public:
 	virtual HRESULT Render() override;
 
 private:
-	void	Stage_Change();
+	void	State_Change();
 
 	void	State_Tick(const _double& TimeDelta);
 
@@ -79,6 +79,8 @@ private:
 	_double				m_CoolTimeEndTimeAcc = { 0.0 };
 
 	_float4				m_CoolTimeEndColor = { 1.f, 1.f, 1.f, 1.f };
+
+	_double				m_CoolTimeSpeed = { 0.0 };
 
 	
 private:

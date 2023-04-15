@@ -116,7 +116,10 @@ private:
 
 private:
 	void	Set_ParentSpeedPercent(_float percent);
+	void	Add_ParentSpeedPercent(_float percent);
 	void	Set_ParentDefensePercent(_float percent);
+
+	void	Set_ParentAttackFailProbability(_int value);
 
 	void	Set_ParentState(CMonFSM::MONSTER_STATE eState);
 
@@ -153,11 +156,16 @@ private:
 	_float					m_valueB = { 0.f };
 	_float					m_ratio = { 0.f };
 
+	_float					m_returnValue = { 0.f };
+
 	BUFF_STATE				m_eCurBuffState = { BUFF_STATE_NONE };
 	BUFF_STATE				m_ePreBuffState = { BUFF_STATE_END };
 
 	_uint					m_CurSkillType = { 0 };
 	_uint					m_CurBuffType = { 0 };
+
+	_double					m_DeBuffTick = { 0.1 };
+	_double					m_DeBuffTickAcc = { 0.0 };
 
 
 public:

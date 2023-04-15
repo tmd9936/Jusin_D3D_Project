@@ -185,6 +185,7 @@ public:
 
 public:
 	void Set_SpeedPercent(_float percent);
+	_float Add_SpeedPercent(_float percent);
 
 private:
 	_float4x4		m_WorldMatrix = { };
