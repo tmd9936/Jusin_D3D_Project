@@ -188,15 +188,15 @@ CSkillEffect* CEffect_Manager::CreateEffect(_uint effectType, const _tchar* pEff
 	wstring	FilePath = m_EffectFilePath + effect_Desc.m_effectPath + L".fbx";
 	effect_Desc.m_ProtoTypeTag = L"Prototype_Component_Model_" + effect_Desc.m_effectPath;
 
-	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
-	if (false == pGameInstance->Check_Prototype(effect_Desc.m_ProtoTypeTag))
-	{
-		_matrix	PivotMatrix = XMMatrixScaling(0.3f, 0.3f, 0.3f) * XMMatrixRotationY(XMConvertToRadians(180.f));
-		string effectPath = convert.to_bytes(FilePath);
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, effect_Desc.m_ProtoTypeTag.c_str(),
-			CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, effectPath.c_str(), PivotMatrix))))
-			return	nullptr;
-	}
+	//std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
+	//if (false == pGameInstance->Check_Prototype(effect_Desc.m_ProtoTypeTag))
+	//{
+	//	_matrix	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+	//	string effectPath = convert.to_bytes(FilePath);
+	//	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, effect_Desc.m_ProtoTypeTag.c_str(),
+	//		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, effectPath.c_str(), PivotMatrix))))
+	//		return	nullptr;
+	//}
 
 	CSkillEffect* pSkillEffect = nullptr;
 	if (FAILED(pGameInstance->Add_GameObject(pEffectProtoTypeTag, iLevelIndex, pLayerTag, 
