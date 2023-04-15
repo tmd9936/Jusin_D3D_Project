@@ -5,6 +5,8 @@
 
 #include "Utility.h"
 
+#include "Searcher.h"
+
 
 CBaseCampMonster::CBaseCampMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CMonster(pDevice, pContext)
@@ -51,7 +53,10 @@ HRESULT CBaseCampMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex,
 _uint CBaseCampMonster::Tick(_double TimeDelta)
 {
 	if (m_bDead)
+	{
+		m_pSearcher->Set_Dead();
 		return OBJ_DEAD;
+	}
 
 	if (m_pHPCom->Get_CurrentHp() <= 0.f 
 		&& m_pMonFSM->Get_MotionState() != CMonFSM::DEAD_ROTATE)
