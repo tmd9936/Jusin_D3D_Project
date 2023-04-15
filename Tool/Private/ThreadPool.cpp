@@ -49,6 +49,21 @@ _bool CThreadPool::Is_NoJobStae()
     return result;
 }
 
+_bool CThreadPool::JobEndCheck()
+{
+    return jobEndCheck.empty();
+}
+
+void CThreadPool::JobStart()
+{
+    jobEndCheck.push(0);
+}
+
+void CThreadPool::JobEnd()
+{
+    jobEndCheck.pop();
+}
+
 void CThreadPool::ThreadLoop()
 {
     while (true) {

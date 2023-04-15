@@ -126,6 +126,8 @@ _uint APIENTRY LoadingDenkiEffect()
 {	
 	while (!CMainApp::Get_MainAppInit()) {}
 
+	CThreadPool::GetInstance()->JobStart();
+
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
 	HRESULT			hr = { 0 };
@@ -186,6 +188,8 @@ _uint APIENTRY LoadingDenkiEffect()
 		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Effect/E_SP_Kaminari_Start.fbx", PivotMatrix))))
 		return	E_FAIL;
 
+	CThreadPool::GetInstance()->JobEnd();
+
 	return 0;
 }
 
@@ -193,12 +197,14 @@ _uint APIENTRY LoadingDokuEffect()
 {
 	while (!CMainApp::Get_MainAppInit()) {}
 
+
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
 	HRESULT			hr = { 0 };
 
-	_matrix PivotMatrix = XMMatrixIdentity();
+	CThreadPool::GetInstance()->JobStart();
 
+	_matrix PivotMatrix = XMMatrixIdentity();
 	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f) * XMMatrixRotationY(XMConvertToRadians(180.f));
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_E_BS_Doku",
 		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Effect/E_BS_Doku.fbx", PivotMatrix))))
@@ -250,12 +256,16 @@ _uint APIENTRY LoadingDokuEffect()
 		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Effect/E_EF_damage_boss_end.fbx", PivotMatrix))))
 		return	E_FAIL;
 
+	CThreadPool::GetInstance()->JobEnd();
+
 	return 0;
 }
 
 _uint APIENTRY LoadingNormalEffect()
 {
 	while (!CMainApp::Get_MainAppInit()) {}
+
+	CThreadPool::GetInstance()->JobStart();
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
@@ -309,6 +319,7 @@ _uint APIENTRY LoadingNormalEffect()
 		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Effect/E_BPB_Normal_Loop.fbx", PivotMatrix))))
 		return	E_FAIL;
 
+	CThreadPool::GetInstance()->JobEnd();
 
 	return 0;
 }
@@ -316,6 +327,8 @@ _uint APIENTRY LoadingNormalEffect()
 _uint APIENTRY LoadingKooriEffect()
 {
 	while (!CMainApp::Get_MainAppInit()) {}
+
+	CThreadPool::GetInstance()->JobStart();
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
@@ -372,6 +385,8 @@ _uint APIENTRY LoadingKooriEffect()
 		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Effect/E_EF_Positive.fbx", PivotMatrix))))
 		return	E_FAIL;
 
+	CThreadPool::GetInstance()->JobEnd();
+
 	return 0;
 }
 
@@ -379,6 +394,8 @@ _uint APIENTRY LoadingKooriEffect()
 _uint APIENTRY LoadingMap()
 {
 	while (!CMainApp::Get_MainAppInit()) {}
+
+	CThreadPool::GetInstance()->JobStart();
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
@@ -424,12 +441,16 @@ _uint APIENTRY LoadingMap()
 		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Map/C_water1_09.fbx", PivotMatrix))))
 		return E_FAIL;
 
+	CThreadPool::GetInstance()->JobEnd();
+
 	return hr;
 }
 
 _uint APIENTRY LoadingStaticShader()
 {
 	while (!CMainApp::Get_MainAppInit()) {}
+
+	CThreadPool::GetInstance()->JobStart();
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
@@ -477,9 +498,57 @@ _uint APIENTRY LoadingStaticShader()
 			return E_FAIL;
 	}
 	
+	CThreadPool::GetInstance()->JobEnd();
+
 	return hr;
 }
 
+_uint APIENTRY LoadingWorldMapMesh()
+{
+	while (!CMainApp::Get_MainAppInit()) {}
+
+	CThreadPool::GetInstance()->JobStart();
+
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	HRESULT			hr = { 0 };
+
+	_matrix		PivotMatrix = XMMatrixIdentity();
+	/* For.Prototype_Component_Model_BaseCamp_Field */
+	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Model_WorldMap_island"),
+		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/WorldMap/W_island.fbx", PivotMatrix, true))))
+		return E_FAIL;
+
+	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Model_WorldMap_Cloud"),
+		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/WorldMap/W_cloud.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Model_WorldMap_Flower"),
+		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/WorldMap/W_flower.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Model_WorldMap_Grass"),
+		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/WorldMap/W_grass.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Model_WorldMap_Seawave"),
+		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/WorldMap/W_seawave.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Model_WorldMap_Ship"),
+		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/WorldMap/W_ship.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	CThreadPool::GetInstance()->JobEnd();
+
+	return hr;
+}
 
 HRESULT CLoader::Initialize(LEVEL eNextLevelID)
 {
@@ -498,6 +567,10 @@ HRESULT CLoader::Initialize(LEVEL eNextLevelID)
 		//CThreadPool::GetInstance()->Add_Work(LoadingNormalEffect);
 		//CThreadPool::GetInstance()->Add_Work(LoadingDokuEffect);
 		//CThreadPool::GetInstance()->Add_Work(LoadingKooriEffect);
+	}
+	else if (eNextLevelID == LEVEL_WORLDMAP)
+	{
+		CThreadPool::GetInstance()->QueueJob(std::function<_uint()>(LoadingWorldMapMesh));
 	}
 	else if (eNextLevelID == LEVEL_STAGE)
 	{
@@ -1281,36 +1354,6 @@ HRESULT CLoader::Loading_ForWorldMapLevel()
 		return E_FAIL;
 
 	_matrix		PivotMatrix = XMMatrixIdentity();
-	/* For.Prototype_Component_Model_BaseCamp_Field */
-	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Model_WorldMap_island"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/WorldMap/W_island.fbx", PivotMatrix, true))))
-		return E_FAIL;
-
-	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Model_WorldMap_Cloud"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/WorldMap/W_cloud.fbx", PivotMatrix))))
-		return E_FAIL;
-
-	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Model_WorldMap_Flower"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/WorldMap/W_flower.fbx", PivotMatrix))))
-		return E_FAIL;
-
-	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Model_WorldMap_Grass"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/WorldMap/W_grass.fbx", PivotMatrix))))
-		return E_FAIL;
-
-	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Model_WorldMap_Seawave"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/WorldMap/W_seawave.fbx", PivotMatrix))))
-		return E_FAIL;
-
-	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Model_WorldMap_Ship"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/WorldMap/W_ship.fbx", PivotMatrix))))
-		return E_FAIL;
 
 	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Model_WorldMap_Special_Idle"),

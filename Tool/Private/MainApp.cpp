@@ -47,6 +47,25 @@ CMainApp::CMainApp()
 
 }
 
+_uint APIENTRY Ready_Font()
+{
+	while (!CMainApp::Get_MainAppInit()) {}
+
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	HRESULT			hr = { 0 };
+
+	if (FAILED(pGameInstance->Add_Font(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(),
+		TEXT("Font_NanumBarunGothic"), TEXT("../../Reference/Resources/Fonts/nanumBarunGothic.spritefont"))))
+		return hr;
+
+	if (FAILED(pGameInstance->Add_Font(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(),
+		TEXT("Font_NanumBarunGothicBold"), TEXT("../../Reference/Resources/Fonts/nanumBarunGothicBold.spritefont"))))
+		return hr;
+
+	return hr;
+}
+
 HRESULT CMainApp::Initialize()
 {
 	srand((unsigned int)time(nullptr));
@@ -65,8 +84,10 @@ HRESULT CMainApp::Initialize()
 	CThreadPool::GetInstance()->Start();
 	m_Init = true;
 	
-	if (FAILED(Ready_Fonts()))
-		return E_FAIL;
+	//if (FAILED(Ready_Fonts()))
+	//	return E_FAIL;
+
+	CThreadPool::GetInstance()->QueueJob(std::function<_uint()>(Ready_Font));
 
 #ifdef _IMGUITOOL
 	IMGUI_CHECKVERSION();
@@ -283,7 +304,7 @@ HRESULT CMainApp::Ready_Prototype_Component_For_Static()
 
 	_matrix PivotMatrix = XMMatrixIdentity();
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Loading_Scene"),
-		CModel::Create(m_pDevice, m_pContext, "../../Reference/Resources/Mesh/Animation/Loading/title_loading.json", CModel::TYPE_ANIM, PivotMatrix))))
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../../Reference/Resources/Mesh/Animation/Loading/title_loading.fbx", PivotMatrix))))
 		return E_FAIL;
 
 

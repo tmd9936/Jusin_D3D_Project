@@ -37,6 +37,11 @@ public:
     void Stop();
     _bool Is_NoJobStae();
 
+    _bool JobEndCheck();
+
+    void JobStart();
+    void JobEnd();
+
 private:
     void ThreadLoop();
 
@@ -45,6 +50,8 @@ private:
     std::condition_variable mutex_condition; // Allows threads to wait on new jobs or termination 
     std::vector<std::thread> threads;
     std::queue<std::function<_uint()>> jobs;
+
+    std::queue<_uint> jobEndCheck;
 
 public:
     virtual void Free(void) override;

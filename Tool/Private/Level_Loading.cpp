@@ -57,7 +57,7 @@ void CLevel_Loading::Tick(_double TimeDelta)
 {
 	//if (GetKeyState(VK_RETURN) & 0x8000)
 	//{
-		if (true == m_pLoader->Get_Finished() && true == CThreadPool::GetInstance()->Is_NoJobStae())
+		if (true == m_pLoader->Get_Finished() && true == CThreadPool::GetInstance()->Is_NoJobStae() && true == CThreadPool::GetInstance()->JobEndCheck())
 		{
 			CGameInstance* pGameInstance = CGameInstance::GetInstance();
 			Safe_AddRef(pGameInstance);
