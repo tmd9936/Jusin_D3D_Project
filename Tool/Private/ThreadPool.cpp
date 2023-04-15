@@ -63,20 +63,20 @@ HRESULT CThreadPool::Add_Work(WORK work)
 
 	workThread.finished = false;
 	workThread.m_CriticalSection = { new CRITICAL_SECTION };
-	workThread.hTread = { 0 };
+	workThread.hThread = { 0 };
 	workThread.idThread = threadIdx++;
 
 	InitializeCriticalSection(workThread.m_CriticalSection);
 	workerThreadList.push_back(workThread);
 
-	workThread.hTread = (HANDLE)_beginthreadex(nullptr, 0, work, this, 0, nullptr);
+	workThread.hThread = (HANDLE)_beginthreadex(nullptr, 0, work, this, 0, nullptr);
 	//	workThread.hTread = (HANDLE)_beginthreadex(nullptr, 0, work, this, 0, &threadIdx);
 
-	if (0 == workThread.hTread)
+	if (0 == workThread.hThread)
 		return E_FAIL;
 
 	workList.push_back(work);
-	workerEventList.push_back(workThread.hTread);
+	workerEventList.push_back(workThread.hThread);
 
 	return S_OK;
 }
@@ -85,10 +85,10 @@ void CThreadPool::Free(void)
 {
 	for (auto& worker : workerThreadList)
 	{
-		WaitForSingleObject(worker.hTread, INFINITE);
+		WaitForSingleObject(worker.hThread, INFINITE);
 
 		DeleteCriticalSection(worker.m_CriticalSection);
-		DeleteObject(worker.hTread);
+		DeleteObject(worker.hThread);
 
 		Safe_Delete(worker.m_CriticalSection);
 	}

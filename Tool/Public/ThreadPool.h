@@ -10,7 +10,7 @@ typedef _uint(APIENTRY *WORK)(void* pArg);
 
 typedef struct __WokerThread
 {
-    HANDLE hTread;
+    HANDLE hThread;
     DWORD idThread;
     LPCRITICAL_SECTION m_CriticalSection;
     _bool finished;
