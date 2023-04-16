@@ -39,6 +39,7 @@ HRESULT CBone::Initialize(aiNode* pAINode, CModel* pModel, CBone* pParent)
 		|| fabs(m_TransformationMatrix.m[2][2]) >= m_NoKeyFrameTransfomationMatirixFixValue)
 	{
 		XMStoreFloat4x4(&m_TransformationMatrix, XMMatrixIdentity());
+
 	}
 
 	return S_OK;
@@ -51,6 +52,9 @@ void CBone::SetUp_TransformationMatrix(_fmatrix Matrix)
 	if (m_TransformationMatrix.m[0][0] <= 0.f && m_TransformationMatrix.m[1][1] <= 0.f && m_TransformationMatrix.m[2][2] <= 0.f)
 	{
 		XMStoreFloat4x4(&m_TransformationMatrix, XMMatrixIdentity());
+		m_TransformationMatrix.m[0][0] = 0.001f;
+		m_TransformationMatrix.m[1][1] = 0.001f;
+		m_TransformationMatrix.m[2][2] = 0.001f;
 	}
 
 	if (fabs(m_TransformationMatrix.m[0][0]) >= m_NoKeyFrameTransfomationMatirixFixValue
