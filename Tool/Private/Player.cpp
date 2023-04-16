@@ -192,7 +192,7 @@ _uint CPlayer::Tick(_double TimeDelta)
 
 	if (KEY_TAB(KEY::SPACE))
 	{
-		Do_TestSkill();
+ 		Do_TestSkill();
 	}
 
 	return _uint();
