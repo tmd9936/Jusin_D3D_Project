@@ -22,6 +22,7 @@ void CThreadPool::QueueJob(const std::function<_uint()>& job)
     {
         std::unique_lock<std::mutex> lock(queue_mutex);
         jobs.push(job);
+        lock.unlock();
     }
     mutex_condition.notify_one();
 }
@@ -31,6 +32,7 @@ void CThreadPool::Stop()
     {
         std::unique_lock<std::mutex> lock(queue_mutex);
         should_terminate = true;
+        lock.unlock();
     }
     mutex_condition.notify_all();
     for (std::thread& active_thread : threads) {
@@ -56,12 +58,17 @@ _bool CThreadPool::JobEndCheck()
 
 void CThreadPool::JobStart()
 {
+    std::unique_lock<std::mutex> lock(queue_mutex);
     jobEndCheck.push(0);
+    lock.unlock();
 }
 
 void CThreadPool::JobEnd()
 {
+    std::unique_lock<std::mutex> lock(queue_mutex);
     jobEndCheck.pop();
+    lock.unlock();
+
 }
 
 void CThreadPool::ThreadLoop()

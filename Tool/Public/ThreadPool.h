@@ -51,7 +51,7 @@ private:
     std::vector<std::thread> threads;
     std::queue<std::function<_uint()>> jobs;
 
-    std::queue<_uint> jobEndCheck;
+    std::queue<_int> jobEndCheck;
 
 public:
     virtual void Free(void) override;
