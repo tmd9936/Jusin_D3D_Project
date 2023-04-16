@@ -278,7 +278,7 @@ _uint CStageSupportMonster::State_Tick(const _double& TimeDelta)
 		m_pTransformCom->Chase(m_pMainPlayerTransform->Get_State(CTransform::STATE_POSITION) + 
 			m_pMainPlayerTransform->Get_NoScaleState(CTransform::STATE_LOOK) * XMVectorGetZ(m_pFormationCom->Get_RelativePos()) +
 			m_pMainPlayerTransform->Get_NoScaleState(CTransform::STATE_RIGHT) * XMVectorGetX(m_pFormationCom->Get_RelativePos()),
-			_float(TimeDelta), 0.5f, m_pNavigationCom);
+			_float(TimeDelta), 0.3f, m_pNavigationCom);
 		break;
 
 	case CMonFSM::FORMATION_RUN:
