@@ -76,8 +76,8 @@ PS_OUT PS_MAIN_CORNER_ROUND(PS_IN In)
 	if (Out.vColor.a < 0.1)
 		discard;
 
-	float2 coords = In.vTexUV * 10.f;
-	if (ShouldDiscard(coords, 10.f, 1.f))
+	float2 coords = In.vTexUV * g_Size;
+	if (ShouldDiscard(coords, g_Size, 10.f))
 		discard;
 
 	Out.vColor = g_vColor;
@@ -99,8 +99,8 @@ PS_OUT PS_MAIN_HP(PS_IN In)
 	else
 	{
 
-		float2 coords = In.vTexUV * 5.f;
-		if (ShouldDiscard(coords, 5.f, 1.f))
+		float2 coords = In.vTexUV * g_Size;
+		if (ShouldDiscard(coords, g_Size, 10.f))
 			discard;
 
 		float _Health = g_HpRatio;
@@ -140,9 +140,9 @@ PS_OUT PS_MAIN_CLOCKWISECOOLTIME(PS_IN In)
 	angle = CalculateClockAngle_float(In.vTexUV);
 	Out.vColor = (angle > g_Progress) ? float4(0.f, 0.f, 0.f, 0.4f) : float4(0.f, 0.f, 0.f, 0.f);
 
-	float2 coords = In.vTexUV * 7.f;
+	float2 coords = In.vTexUV * g_Size;
 
-	if (ShouldDiscard(coords, 7.f, 1.f))
+	if (ShouldDiscard(coords, g_Size, 10.f))
 		discard;
 
 	return Out;

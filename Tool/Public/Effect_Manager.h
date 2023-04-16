@@ -61,11 +61,11 @@ private:
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 던진다. */
 
 public:
-	const static _uint m_damageEffect00 = 31;
-	const static _uint m_damageEffect01 = 32;
+	constexpr static _uint m_damageEffect00 = 31;
+	constexpr static _uint m_damageEffect01 = 32;
 
-	const static _uint m_damageBoss = 248;
-	const static _uint m_damageBossEnd = 249;
+	constexpr static _uint m_damageBoss = 248;
+	constexpr static _uint m_damageBossEnd = 249;
 
 private:
 	vector<CEffect::EFFECT_DESC> m_Effect_Descs;

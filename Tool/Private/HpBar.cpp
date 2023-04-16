@@ -152,6 +152,11 @@ HRESULT CHpBar::SetUp_ShaderResources()
 		&m_ProjMatrix)))
 		return E_FAIL;
 
+	// m_Desc.m_fSizeX, m_Desc.m_fSizeY
+	_float2 g_Size = { m_Desc.m_fSizeX, m_Desc.m_fSizeY };
+	if (FAILED(m_pShaderCom->Set_RawValue("g_Size", &g_Size, sizeof(_float2))))
+		return E_FAIL;
+
 	//if (FAILED(m_pShaderCom->Set_RawValue("g_vCamPosition",
 	//	&pGameInstance->Get_CamPosition(), sizeof(_float4))))
 	//	return E_FAIL;

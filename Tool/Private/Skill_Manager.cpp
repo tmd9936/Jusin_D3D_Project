@@ -686,6 +686,8 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 			CAttackEffect::ATTACK_EFFECT_DESC desc{};
 			Set_NormalAttackDesc(desc, skillType, pSkillEffect, pConditionData, 3);
 
+			desc.m_bKnockBack = true;
+
 			static_cast<CBezierAttackEffect*>(pSkillEffect)->Set_BezierPoints(
 				{ pos1.x, pos1.y, pos1.z },
 				{ pos2.x, pos2.y + 2.5f, pos2.z },

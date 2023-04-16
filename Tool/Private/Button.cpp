@@ -424,6 +424,9 @@ HRESULT CButton::SetUp_ShaderResources()
 
 	m_pShaderCom->Set_RawValue("g_vColor", &m_ButtonDesc.m_vColor, sizeof(_float4));
 
+	_float2 g_Size = { m_ButtonDesc.m_fSizeX, m_ButtonDesc.m_fSizeY };
+	m_pShaderCom->Set_RawValue("g_Size", &g_Size, sizeof(_float2));
+
 	Safe_Release(pGameInstance);
 
 	return S_OK;
