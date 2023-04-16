@@ -190,7 +190,7 @@ _uint CPlayer::Tick(_double TimeDelta)
 	if (CMonFSM::IDLE_NO != m_pMonFSM->Get_MotionState())
 		Key_Input(TimeDelta);
 
-	else if (KEY_TAB(KEY::SPACE))
+	if (KEY_TAB(KEY::SPACE))
 	{
 		Do_TestSkill();
 	}
