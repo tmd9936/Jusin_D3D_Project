@@ -204,7 +204,7 @@ void CStageEnemyMonster::AI_Type_Long_Idle_Tick(const _double& TimeDelta, CTrans
 
 	if (m_bChase)
 	{
-		if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta), 2.0f, m_pNavigationCom))
+		if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta), 2.8f, m_pNavigationCom))
 		{
 			m_bChase = false;
 			m_ChaseCoolTimeAcc = 0.0;
@@ -215,7 +215,7 @@ void CStageEnemyMonster::AI_Type_Long_Idle_Tick(const _double& TimeDelta, CTrans
 		if (targetToDistance <= 1.5f)
 		{
 			if (m_pTransformCom->Go_BackWard_Look_Pos(pTargetTransform->Get_State(CTransform::STATE_POSITION), m_pTransformCom->Get_State(CTransform::STATE_POSITION)
-				+ m_pTransformCom->Get_State(CTransform::STATE_LOOK) * -1.5f, _float(TimeDelta * 1.5), 0.5f, m_pNavigationCom))
+				+ m_pTransformCom->Get_State(CTransform::STATE_LOOK) * -1.5f, _float(TimeDelta * 1.5), 0.8f, m_pNavigationCom))
 			{
 			}
 		}
@@ -223,6 +223,7 @@ void CStageEnemyMonster::AI_Type_Long_Idle_Tick(const _double& TimeDelta, CTrans
 	if (!m_bChase)
 	{
 
+		m_pTransformCom->TurnToTarget({ 0.f, 1.f, 0.f, 0.f }, pTargetTransform->Get_State(CTransform::STATE_POSITION), TimeDelta);
 		if (targetToDistance >= 3.f)
 		{
 			m_ChaseCoolTimeAcc += TimeDelta;

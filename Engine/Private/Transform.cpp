@@ -413,8 +413,17 @@ _bool CTransform::TurnToTarget(_fvector vAxis, _fvector vTargetPos, _float TimeD
 	_float3		vScale = Get_Scaled();
 
 	//_float dot = XMVectorGetX(XMVector3Dot(XMVector3Normalize(vLook), vLookTarget));
+	_vector axis = {};
+	if (XMVectorGetY(vUp) > 0.f)
+	{
+		axis = XMVectorSet(0.f, 1.f, 0.f, 0.f);
+	}
+	else
+	{
+		axis = XMVectorSet(0.f, -1.f, 0.f, 0.f);
+	}
 
-	_matrix RotationMatrix = XMMatrixRotationAxis(vUp, m_TransformDesc.RotationPerSec * TimeDelta);
+	_matrix RotationMatrix = XMMatrixRotationAxis(axis, m_TransformDesc.RotationPerSec * TimeDelta);
 
 	Set_State(CTransform::STATE_RIGHT, XMVector3TransformNormal(XMVector3Normalize(vRight) * vScale.x, RotationMatrix));
 	Set_State(CTransform::STATE_UP, XMVector3TransformNormal(XMVector3Normalize(vUp) * vScale.y, RotationMatrix));
