@@ -582,8 +582,9 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 		desc.m_NextEffectPrototypeTag = L"Prototype_GameObject_" + skill_desc.m_skillPath;
 		desc.m_NextEffectTypeIndex = m_Skill_Depend_Datas[skillType].m_effects[1];
 		desc.m_NextEffectType = EFFECT_TYPE_ATTACK;
-		desc.m_NextEffectNum = 4;
-		desc.m_NextEffectAngles = { XMConvertToRadians(45.f), XMConvertToRadians(135.f), XMConvertToRadians(225.f), XMConvertToRadians(315.f) };
+		desc.m_NextEffectNum = 7;
+		desc.m_NextEffectAngles = { XMConvertToRadians(0.f), XMConvertToRadians(45.f),  XMConvertToRadians(90.f), XMConvertToRadians(135.f),
+			XMConvertToRadians(180.f), XMConvertToRadians(225.f), XMConvertToRadians(315.f) };
 		desc.m_NextEffectPower = _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f));
 		desc.m_vScale = _float3(2.5f, 2.5f, 2.5f);
 		desc.m_AttackDesc.m_bContinue = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Continue;
