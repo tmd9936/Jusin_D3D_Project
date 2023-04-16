@@ -8,6 +8,8 @@ texture2D		g_MaskTexture;
 float4			g_vColor;
 float			g_Progress;
 
+float2			g_Size;
+
 struct VS_IN
 {
 	float3		vPosition : POSITION;
@@ -53,13 +55,30 @@ PS_OUT PS_MAIN(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
-	Out.vColor = g_Texture.Sample(PointSampler, In.vTexUV);
+	Out.vColor = g_Texture.Sample(LinearSampler, In.vTexUV);
 
 	if (Out.vColor.a < 0.1)
 		discard;
 
 	return Out;
 }
+
+PS_OUT PS_MAIN_ROUND(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	Out.vColor = g_Texture.Sample(LinearSampler, In.vTexUV);
+
+	if (Out.vColor.a < 0.1)
+		discard;
+
+	float2 coords = In.vTexUV * g_Size;
+	if (ShouldDiscard(coords, g_Size, 10.f))
+		discard;
+
+	return Out;
+}
+
 
 PS_OUT PS_MAIN_ALPHA(PS_IN In)
 {
@@ -117,7 +136,7 @@ technique11		DefaultTechnique
 		GeometryShader = NULL;
 		HullShader = NULL;
 		DomainShader = NULL;
-		PixelShader = compile ps_5_0 PS_MAIN();
+		PixelShader = compile ps_5_0 PS_MAIN_ROUND();
 	}
 
 	pass Alpha
