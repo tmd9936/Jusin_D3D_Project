@@ -836,6 +836,16 @@ CSkill* CSkill_Manager::Do_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _ui
 		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
 			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState);
 	}
+	//else if (skillType == 96) // ÁøÈë »Ñ¸®±â
+	//{
+	//	CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
+	//		vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState);
+	//}
+	//else if (skillType == 97) //97 »ÀºÎ¸Þ¶û
+	//{
+	//	CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
+	//		vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState);
+	//}
 	else if (skillType == 100) // ÁöÁø
 	{
 		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
@@ -851,6 +861,11 @@ CSkill* CSkill_Manager::Do_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _ui
 		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
 			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState);
 	}
+	//else if (skillType == 177) // Â°·Áº¸±â
+	//{
+	//	CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
+	//		vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState);
+	//}
 	else if (skillType == 188) // µ¹¶³±¸±â
 	{
 		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,

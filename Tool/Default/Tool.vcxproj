@@ -170,6 +170,7 @@
     <ClInclude Include="..\Public\BaseCamp_Manager.h" />
     <ClInclude Include="..\Public\BezierAttackEffect.h" />
     <ClInclude Include="..\Public\BuffState.h" />
+    <ClInclude Include="..\Public\BumerangAttackEffect.h" />
     <ClInclude Include="..\Public\Button.h" />
     <ClInclude Include="..\Public\ChargeEffect.h" />
     <ClInclude Include="..\Public\ConditionData.h" />
@@ -251,6 +252,7 @@
     <ClCompile Include="..\Private\BaseCamp_Manager.cpp" />
     <ClCompile Include="..\Private\BezierAttackEffect.cpp" />
     <ClCompile Include="..\Private\BuffState.cpp" />
+    <ClCompile Include="..\Private\BumerangAttackEffect.cpp" />
     <ClCompile Include="..\Private\Button.cpp" />
     <ClCompile Include="..\Private\ChargeEffect.cpp" />
     <ClCompile Include="..\Private\ConditionData.cpp" />

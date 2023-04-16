@@ -250,6 +250,9 @@
     <Filter Include="02. GameObject\Stage\Pokering">
       <UniqueIdentifier>{8c152159-86f5-49b7-ac26-b15ef8c09a05}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\Static\SkillEffect\AttackEffect\BumerangAttackEffect">
+      <UniqueIdentifier>{2d626e37-05ab-4920-8365-67ff25029c8b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -491,6 +494,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Pokering.h">
       <Filter>02. GameObject\Stage\Pokering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BumerangAttackEffect.h">
+      <Filter>02. GameObject\Static\SkillEffect\AttackEffect\BumerangAttackEffect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -734,6 +740,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Pokering.cpp">
       <Filter>02. GameObject\Stage\Pokering</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BumerangAttackEffect.cpp">
+      <Filter>02. GameObject\Static\SkillEffect\AttackEffect\BumerangAttackEffect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

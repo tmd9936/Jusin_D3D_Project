@@ -17,7 +17,7 @@ public:
 
 
 public:
-	typedef struct Homming_Attack_Effect_Desc
+	typedef struct Rush_Attack_Effect_Desc
 	{
 		_double					m_RushSpeed = { 1.0 };
 
