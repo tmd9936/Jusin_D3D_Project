@@ -72,6 +72,7 @@ protected:
 	void		Camera_Shake_Request();
 	void		Set_ManualCollisionState(CGameObject* pOtherOwner, CManualCollisionState::COLLISION_STATE eState);
 	void		Do_DebuffCondition(CGameObject* pOtherOwner);
+	void		Set_DamageEffectPos(CSkillEffect* pSkillEffect, CTransform* hitObjectTransform, const _float3 vScale);
 
 protected:
 	ATTACK_EFFECT_DESC	m_AttackEffectDesc = {};

@@ -239,28 +239,20 @@ void CAttackEffect::Create_Collision_Effect(CTransform* hitObjectTransform)
 
 	CSkillEffect* pSkillEffect = nullptr;
 
-	int randType = rand() % 7;
+	int randType = rand() % 6;
 	if (randType == 0)
 	{
 		pSkillEffect = pEffect_Manager->CreateEffect(CEffect_Manager::m_damageEffect00, L"Prototype_GameObject_SkillEffect", Get_LayerTag().c_str(), Get_Levelindex());
+		Set_DamageEffectPos(pSkillEffect, hitObjectTransform, {1.5f, 1.5f, 1.5f});
 	}
 	else if (randType == 1)
 	{
 		pSkillEffect = pEffect_Manager->CreateEffect(CEffect_Manager::m_damageEffect01, L"Prototype_GameObject_SkillEffect", Get_LayerTag().c_str(), Get_Levelindex());
-	}
-	else
-	{
-		pSkillEffect = pEffect_Manager->CreateEffect(m_AttackEffectDesc.m_CollisionEffectType, L"Prototype_GameObject_SkillEffect", Get_LayerTag().c_str(), Get_Levelindex());
+		Set_DamageEffectPos(pSkillEffect, hitObjectTransform, { 1.5f, 1.5f, 1.5f });
 	}
 
-	if (nullptr != pSkillEffect)
-	{
-		_float4 vPos{};
-		XMStoreFloat4(&vPos, hitObjectTransform->Get_State(CTransform::STATE_POSITION));
-		pSkillEffect->Set_Pos(vPos);
-	}
-
-	Safe_Release(pSkillEffect);
+	pSkillEffect = pEffect_Manager->CreateEffect(m_AttackEffectDesc.m_CollisionEffectType, L"Prototype_GameObject_SkillEffect", Get_LayerTag().c_str(), Get_Levelindex());
+	Set_DamageEffectPos(pSkillEffect, hitObjectTransform, { 1.75f, 1.75f, 1.75f });
 }
 
 void CAttackEffect::Camera_Shake_Request()
@@ -310,6 +302,23 @@ void CAttackEffect::Do_DebuffCondition(CGameObject* pOtherOwner)
 	pBuffState->Set_BuffState(conditinoTypeID, 500, (CBuffState::BUFF_STATE)conditionTypeDataDesc.m_id,
 		conditionTypeDataDesc.m_iconPath.c_str(), conditionDataDesc.m_Value_A, conditionDataDesc.m_Value_B,
 		conditionDataDesc.m_time, conditionDataDesc.m_ratio);
+}
+
+void CAttackEffect::Set_DamageEffectPos(CSkillEffect* pSkillEffect, CTransform* hitObjectTransform, const _float3 vScale)
+{
+	if (nullptr != pSkillEffect)
+	{
+		_float4 vPos{};
+		XMStoreFloat4(&vPos, hitObjectTransform->Get_State(CTransform::STATE_POSITION));
+		vPos.y = 1.0f;
+		pSkillEffect->Set_Pos(vPos);
+
+		CTransform* pEffectTransform = pSkillEffect->Get_As<CTransform>();
+
+		pEffectTransform->Set_Scaled(vScale);
+	}
+
+	Safe_Release(pSkillEffect);
 }
 
 
