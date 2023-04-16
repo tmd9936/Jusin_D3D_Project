@@ -727,7 +727,7 @@ HRESULT CMonster::Add_Components_By_File()
 	/* For.Com_AABB*/
 	CCollider::COLLIDER_DESC		ColliderDesc;
 	ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
-	ColliderDesc.vScale = _float3(0.8f, 1.5f, 0.8f);
+	ColliderDesc.vScale = _float3(0.6f, 1.5f, 0.6f);
 	ColliderDesc.vPosition = _float3(0.0f, ColliderDesc.vScale.y * 0.5f, 0.f);
 	if (FAILED(pGameInstance->Add_Component(CCollider::familyId	, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB"),
 		(CComponent**)&m_pAABB, &ColliderDesc)))
