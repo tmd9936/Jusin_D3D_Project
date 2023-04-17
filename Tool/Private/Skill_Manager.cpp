@@ -575,6 +575,44 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 
 		Safe_Release(pSkillEffect);
 	}
+	else if (skillType == 96) // ÁøÈë »Ñ¸®±â
+	{
+		for (size_t i = 1; i <= 3; ++i)
+		{
+			Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[0], vLook, XMVectorSet(0.f, 0.5f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
+
+			pSkillEffect = pEffect_Manager->CreateEffect(m_Skill_Depend_Datas[skillType].m_effects[1], L"Prototype_GameObject_RushAttackEffect", pLayerTag, iLevelIndex);
+
+			CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
+			if (nullptr == pTransform)
+				return E_FAIL;
+
+			pTransform->LookAt(XMVectorSetW(vLook, 1.f));
+			if (i == 1)
+			{
+				pTransform->Turn({ 0.f, 1.f, 0.f, 0.f }, XMConvertToRadians(10.f));
+			}
+			else if (i == 2)
+			{
+				pTransform->Turn({ 0.f, 1.f, 0.f, 0.f }, XMConvertToRadians(-10.f));
+			}
+
+			CAttackEffect::ATTACK_EFFECT_DESC desc{};
+			Set_NormalAttackDesc(desc, skillType, pSkillEffect, pConditionData);
+
+			_float4 pos = {};
+			XMStoreFloat4(&pos, vPos);
+			pSkillEffect->Set_Pos(pos);
+
+			dynamic_cast<CRushAttackEffect*>(pSkillEffect)->Set_RushSpeed(0.7);
+
+			//pSkillEffect->Init_LoopCount();
+
+			Set_AttackPower(pSkillEffect, _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f)));
+
+			Safe_Release(pSkillEffect);
+		}
+	}
 	else if (skillType == 97) // »ÀºÎ¸Þ¶û
 	{
 		Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[0], vLook, XMVectorSet(0.f, 0.5f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
@@ -863,11 +901,11 @@ CSkill* CSkill_Manager::Do_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _ui
 		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
 			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState);
 	}
-	//else if (skillType == 96) // ÁøÈë »Ñ¸®±â
-	//{
-	//	CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
-	//		vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState);
-	//}
+	else if (skillType == 96) // ÁøÈë »Ñ¸®±â
+	{
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState);
+	}
 	else if (skillType == 97) //97 »ÀºÎ¸Þ¶û
 	{
 		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
