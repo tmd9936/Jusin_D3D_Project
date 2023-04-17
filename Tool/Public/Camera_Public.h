@@ -89,7 +89,8 @@ private:
 	_bool						m_bMouseMove = { true };
 	_bool						m_bControl = { true };
 
-	_float4						m_DefualtPosition = {};
+	_float4						m_DefaultEye = {};
+	_float4						m_DefaultAt = {};
 
 
 public:
