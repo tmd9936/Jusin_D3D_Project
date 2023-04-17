@@ -122,6 +122,9 @@ public:
 
 public:
 	CBuffState*		Search_NoAction_DeBuffState(const _uint& buffType);
+	_bool			Is_AbNormalState(const _uint& buffType);
+	_bool			Check_Monster_Can_GetAbNormalState(const _uint& buffType);
+
 
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);

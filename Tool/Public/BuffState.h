@@ -117,6 +117,10 @@ public:
 		return m_CurBuffType;
 	}
 
+	BUFF_TYPE Get_BuffType() const {
+		return m_eCurBuffType;
+	}
+
 private:
 	void	EndTime_Check(const _double& TimeDelta);
 	void	State_Tick(const _double& TimeDelta);

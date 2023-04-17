@@ -298,10 +298,23 @@ void CAttackEffect::Do_DebuffCondition(CGameObject* pOtherOwner)
 	if (nullptr == pBuffState)
 		return;
 
-	CConditionData::CONDITIONTYPEDATA_DESC conditionTypeDataDesc = pConditionData->Get_ConditonTypeData(conditinoTypeID);
-	pBuffState->Set_BuffState(conditinoTypeID, 500, (CBuffState::BUFF_STATE)conditionTypeDataDesc.m_id,
-		conditionTypeDataDesc.m_iconPath.c_str(), conditionDataDesc.m_Value_A, conditionDataDesc.m_Value_B,
-		conditionDataDesc.m_time, conditionDataDesc.m_ratio);
+	if (pOtherMonster->Is_AbNormalState(conditinoTypeID))
+	{
+		if (pOtherMonster->Check_Monster_Can_GetAbNormalState(conditinoTypeID))
+		{
+			CConditionData::CONDITIONTYPEDATA_DESC conditionTypeDataDesc = pConditionData->Get_ConditonTypeData(conditinoTypeID);
+			pBuffState->Set_BuffState(conditinoTypeID, 500, (CBuffState::BUFF_STATE)conditionTypeDataDesc.m_id,
+				conditionTypeDataDesc.m_iconPath.c_str(), conditionDataDesc.m_Value_A, conditionDataDesc.m_Value_B,
+				conditionDataDesc.m_time, conditionDataDesc.m_ratio);
+		}
+	}
+	else
+	{
+		CConditionData::CONDITIONTYPEDATA_DESC conditionTypeDataDesc = pConditionData->Get_ConditonTypeData(conditinoTypeID);
+		pBuffState->Set_BuffState(conditinoTypeID, 500, (CBuffState::BUFF_STATE)conditionTypeDataDesc.m_id,
+			conditionTypeDataDesc.m_iconPath.c_str(), conditionDataDesc.m_Value_A, conditionDataDesc.m_Value_B,
+			conditionDataDesc.m_time, conditionDataDesc.m_ratio);
+	}
 }
 
 void CAttackEffect::Set_DamageEffectPos(CSkillEffect* pSkillEffect, CTransform* hitObjectTransform, const _float3 vScale)

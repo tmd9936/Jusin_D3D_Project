@@ -875,6 +875,32 @@ CBuffState* CMonster::Search_NoAction_DeBuffState(const _uint& buffType)
 	return nullptr;
 }
 
+_bool CMonster::Check_Monster_Can_GetAbNormalState(const _uint& buffType)
+{
+	if (m_buffStates.empty())
+		return false;
+
+	for (auto& buffState : m_buffStates)
+	{
+		if (CBuffState::BUFF_TYPE::BUFF_TYPE_STATE_ABNORMAL == buffState->Get_BuffType())
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+_bool CMonster::Is_AbNormalState(const _uint& buffType)
+{
+	if (buffType >= CBuffState::BUFF_STATE::BUFF_STATE_MAHI && buffType <= CBuffState::BUFF_STATE::BUFF_STATE_NEMURI2)
+	{
+		return true;
+	}
+
+	return false;
+}
+
 _bool CMonster::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator)
 {
 	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
