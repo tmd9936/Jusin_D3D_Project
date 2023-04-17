@@ -652,6 +652,13 @@ _uint APIENTRY LoadingPokemonModel()
 			CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), "../../Reference/Resources/Mesh/Animation/Pokemon/PM25.json", CModel::TYPE_MESH_COLOR_ANIM, PivotMatrix))))
 			return E_FAIL;
 
+		// 니드런
+		modelName = L"Prototype_Component_Model_Pokemon_PM32";
+		PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, modelName.c_str(),
+			CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), "../../Reference/Resources/Mesh/Animation/Pokemon/PM32.json", CModel::TYPE_MESH_COLOR_ANIM, PivotMatrix))))
+			return E_FAIL;
+
 		// 니드리노
 		modelName = L"Prototype_Component_Model_Pokemon_PM33";
 		PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f) * XMMatrixRotationY(XMConvertToRadians(180.f));
