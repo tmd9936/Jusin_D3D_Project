@@ -52,6 +52,8 @@ private:
 	_float4x4	m_ViewMatrix = {};
 	_float4x4	m_ProjMatrix = {};
 
+	_bool		m_FirstTick = { false };
+
 
 private:
 	HRESULT Add_Components();
