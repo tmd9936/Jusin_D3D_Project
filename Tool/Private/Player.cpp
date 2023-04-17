@@ -195,6 +195,11 @@ _uint CPlayer::Tick(_double TimeDelta)
  		Do_TestSkill();
 	}
 
+	if (KEY_TAB(KEY::K))
+	{
+		Do_Skill(m_TestSkillindex, CMonFSM::ATK_NORMAL, L"Layer_PlayerSkill");
+	}
+
 	return _uint();
 }
 

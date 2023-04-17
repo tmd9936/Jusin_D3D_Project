@@ -14,6 +14,7 @@
 #include "BezierAttackEffect.h"
 #include "ChargeEffect.h"
 #include "ConditionData.h"
+#include "BumerangAttackEffect.h"
 
 #include "BuffState.h"
 
@@ -351,7 +352,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 
 	CSkill::Skill_Desc skill_desc = m_Skill_Desc_Datas[skillType];
 
-	_vector vLook = vParentMatrix.r[2];
+	_vector vLook = pParentTransform->Get_NoScaleState(CTransform::STATE_LOOK);
 	_vector vPos = vParentMatrix.r[3];
 
 	if (skillType <= 35 && skillType % 2 == 1) // ¿ø°Å¸® °ø°Ý
@@ -574,7 +575,33 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 
 		Safe_Release(pSkillEffect);
 	}
+	else if (skillType == 97) // »ÀºÎ¸Þ¶û
+	{
+		Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[0], vLook, XMVectorSet(0.f, 0.5f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
 
+		pSkillEffect = pEffect_Manager->CreateEffect(m_Skill_Depend_Datas[skillType].m_effects[1], L"Prototype_GameObject_BumerangAttackEffect", pLayerTag, iLevelIndex);
+
+		CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
+		if (nullptr == pTransform)
+			return E_FAIL;
+		pTransform->LookAt(XMVectorSetW(vLook, 1.f));
+
+		CAttackEffect::ATTACK_EFFECT_DESC desc{};
+		Set_NormalAttackDesc(desc, skillType, pSkillEffect, pConditionData);
+
+		_float4 pos = {};
+		XMStoreFloat4(&pos, vPos);
+		pSkillEffect->Set_Pos(pos);
+
+		dynamic_cast<CBumerangAttackEffect*>(pSkillEffect)->Set_RushSpeed(0.7);
+		dynamic_cast<CBumerangAttackEffect*>(pSkillEffect)->Set_ChangeToBackTime(0.9);
+
+		pSkillEffect->Init_LoopCount(10);
+
+		Set_AttackPower(pSkillEffect, _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f)));
+
+		Safe_Release(pSkillEffect);
+	}
 	else if (skillType == 100) // ÁöÁø
 	{
 		CChargeEffect::CHARGE_EFFECT_DESC desc{};
@@ -841,11 +868,11 @@ CSkill* CSkill_Manager::Do_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _ui
 	//	CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
 	//		vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState);
 	//}
-	//else if (skillType == 97) //97 »ÀºÎ¸Þ¶û
-	//{
-	//	CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
-	//		vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState);
-	//}
+	else if (skillType == 97) //97 »ÀºÎ¸Þ¶û
+	{
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState);
+	}
 	else if (skillType == 100) // ÁöÁø
 	{
 		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,

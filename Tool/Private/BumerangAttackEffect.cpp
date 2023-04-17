@@ -77,9 +77,29 @@ _uint CBumerangAttackEffect::LateTick(_double TimeDelta)
 void CBumerangAttackEffect::Rush(const _double& TimeDelta)
 {
 	if (m_eDirection == DIRECTION_FRONT)
-		m_pTransformCom->Go_Straight((_float)(TimeDelta * m_BumerangAttackEffectDesc.m_RushSpeed));
+	{
+		m_pTransformCom->Go_Straight((_float)(TimeDelta * m_BumerangAttackEffectDesc.m_RushSpeed * m_ChangeToBackTimeAcc * 1.1));
+
+		if (m_ChangeToBackTimeAcc >= m_BumerangAttackEffectDesc.m_ChangeToBackTime)
+		{
+			m_eDirection = DIRECTION_STAY;
+			m_ChangeToBackTimeAcc = 0.01;
+		}
+		m_ChangeToBackTimeAcc += TimeDelta;
+	}
+	else if (m_eDirection == DIRECTION_STAY)
+	{
+		if (m_StayTimeAcc >= m_StayTime)
+		{
+			m_eDirection = DIRECTION_BACK;
+		}
+		m_StayTimeAcc += TimeDelta;
+	}
 	else
+	{
 		m_pTransformCom->Go_Backward((_float)(TimeDelta * m_BumerangAttackEffectDesc.m_RushSpeed));
+		m_ChangeToBackTimeAcc += TimeDelta;
+	}
 }
 
 CBumerangAttackEffect* CBumerangAttackEffect::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

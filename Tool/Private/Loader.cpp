@@ -64,6 +64,7 @@
 #include "RushAttackEffect.h"
 #include "ChargeEffect.h"
 #include "BezierAttackEffect.h"
+#include "BumerangAttackEffect.h"
 
 #include "ThreadPool.h"
 
@@ -1068,6 +1069,11 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		/* For.Prototype_GameObject_BezierAttackEffect */
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BezierAttackEffect"),
 			CBezierAttackEffect::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		/* For.Prototype_GameObject_BumerangAttackEffect */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BumerangAttackEffect"),
+			CBumerangAttackEffect::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
 		/* For.Prototype_GameObject_SP_Denki_Zyuumanboruto */

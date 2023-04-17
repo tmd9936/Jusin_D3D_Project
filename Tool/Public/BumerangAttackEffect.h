@@ -17,6 +17,7 @@ public:
 	enum DIRECTION
 	{
 		DIRECTION_FRONT,
+		DIRECTION_STAY,
 		DIRECTION_BACK,
 		DIRECTION_END
 	};
@@ -61,6 +62,11 @@ protected:
 	BUMERANG_ATTACK_EFFECT_DESC		m_BumerangAttackEffectDesc = {};
 	
 	DIRECTION						m_eDirection = { DIRECTION_FRONT };
+
+	_double							m_ChangeToBackTimeAcc = { 0.0 };
+
+	_double							m_StayTime = { 0.3 };
+	_double							m_StayTimeAcc = { 0.0 };
 
 public:
 	friend CLoader;
