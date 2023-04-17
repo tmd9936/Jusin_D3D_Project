@@ -66,6 +66,7 @@ public:
 	}
 
 	void Set_DamageGetPercent(_float percent);
+	_float	Add_DamageGetPercent(_float percent);
 
 private:	
 	HP_DESC		m_Desc = {};

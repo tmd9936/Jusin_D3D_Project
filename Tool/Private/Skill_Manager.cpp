@@ -675,7 +675,25 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 
 		Safe_Release(pSkillEffect);
 	}
+	else if (skillType == 116) // 베리어
+	{
+		if (nullptr == pBuffState)
+			return E_FAIL;
 
+		_uint conditionDataID = m_Skill_Depend_Datas[skillType].m_conditions[0];
+
+		CConditionData::CONDITIONDATA_DESC conditionDataDesc{};
+		pConditionData->Get_ConditonData(conditionDataDesc, conditionDataID);
+		_uint conditinoTypeID = conditionDataDesc.m_type;
+
+		CConditionData::CONDITIONTYPEDATA_DESC conditionTypeDataDesc = pConditionData->Get_ConditonTypeData(conditinoTypeID);
+
+		Create_No_ChargeEffect(conditionTypeDataDesc.m_effectType, vLook, XMVectorSet(0.f, 0.f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
+
+		pBuffState->Set_BuffState(conditinoTypeID, skillType, (CBuffState::BUFF_STATE)conditionTypeDataDesc.m_id,
+			conditionTypeDataDesc.m_iconPath.c_str(), conditionDataDesc.m_Value_A, conditionDataDesc.m_Value_B,
+			conditionDataDesc.m_time, conditionDataDesc.m_ratio);
+	}
 	else if (skillType == 164) // 돌진
 	{
 		pSkillEffect = pEffect_Manager->CreateEffect(m_Skill_Depend_Datas[skillType].m_effects[0], L"Prototype_GameObject_AttackEffect", pLayerTag, iLevelIndex);
@@ -723,6 +741,26 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 			Safe_Release(pSkillEffect);
 		}
 	}
+	else if (skillType == 177) // 째려보기
+	{
+		if (nullptr == pBuffState)
+			return E_FAIL;
+
+		_uint conditionDataID = m_Skill_Depend_Datas[skillType].m_conditions[0];
+
+		CConditionData::CONDITIONDATA_DESC conditionDataDesc{};
+		pConditionData->Get_ConditonData(conditionDataDesc, conditionDataID);
+		_uint conditinoTypeID = conditionDataDesc.m_type;
+
+		CConditionData::CONDITIONTYPEDATA_DESC conditionTypeDataDesc = pConditionData->Get_ConditonTypeData(conditinoTypeID);
+
+		Create_No_ChargeEffect(conditionTypeDataDesc.m_effectType, vLook, XMVectorSet(0.f, 0.f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
+
+		pBuffState->Set_BuffState(conditinoTypeID, skillType, (CBuffState::BUFF_STATE)conditionTypeDataDesc.m_id,
+			conditionTypeDataDesc.m_iconPath.c_str(), conditionDataDesc.m_Value_A, conditionDataDesc.m_Value_B,
+			conditionDataDesc.m_time, conditionDataDesc.m_ratio);
+	}
+
 	else if (skillType == 188) // 돌떨구기
 	{
 		for (size_t i = 1; i <= 2; ++i)
@@ -785,25 +823,6 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 			conditionTypeDataDesc.m_iconPath.c_str(), conditionDataDesc.m_Value_A, conditionDataDesc.m_Value_B, 
 			conditionDataDesc.m_time, conditionDataDesc.m_ratio);
 
-	}
-	else if (skillType == 116) // 베리어
-	{
-		if (nullptr == pBuffState)
-			return E_FAIL;
-
-		_uint conditionDataID = m_Skill_Depend_Datas[skillType].m_conditions[0];
-
-		CConditionData::CONDITIONDATA_DESC conditionDataDesc{};
-		pConditionData->Get_ConditonData(conditionDataDesc, conditionDataID);
-		_uint conditinoTypeID = conditionDataDesc.m_type;
-
-		CConditionData::CONDITIONTYPEDATA_DESC conditionTypeDataDesc = pConditionData->Get_ConditonTypeData(conditinoTypeID);
-
-		Create_No_ChargeEffect(conditionTypeDataDesc.m_effectType, vLook, XMVectorSet(0.f, 0.f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
-
-		pBuffState->Set_BuffState(conditinoTypeID, skillType, (CBuffState::BUFF_STATE)conditionTypeDataDesc.m_id,
-			conditionTypeDataDesc.m_iconPath.c_str(), conditionDataDesc.m_Value_A, conditionDataDesc.m_Value_B,
-			conditionDataDesc.m_time, conditionDataDesc.m_ratio);
 	}
 	else if (skillType == 220) // 볼트 태클
 	{
@@ -926,11 +945,11 @@ CSkill* CSkill_Manager::Do_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _ui
 		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
 			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState);
 	}
-	//else if (skillType == 177) // 째려보기
-	//{
-	//	CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
-	//		vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState);
-	//}
+	else if (skillType == 177) // 째려보기
+	{
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState);
+	}
 	else if (skillType == 188) // 돌떨구기
 	{
 		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,

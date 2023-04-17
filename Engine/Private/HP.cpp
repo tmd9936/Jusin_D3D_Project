@@ -71,6 +71,28 @@ void CHP::Set_DamageGetPercent(_float percent)
 	m_DamageGetPercent = percent;
 }
 
+_float CHP::Add_DamageGetPercent(_float percent)
+{
+	_float returnValue = percent;
+	_float preDamageGetPercent = m_DamageGetPercent;
+	m_DamageGetPercent += percent;
+
+	if (m_DamageGetPercent < 0.2f)
+	{
+		m_DamageGetPercent = 0.2f;
+		returnValue = preDamageGetPercent - m_DamageGetPercent;
+	}
+
+	if (m_DamageGetPercent > 1.8f)
+	{
+		m_DamageGetPercent = 1.8f;
+		returnValue = m_DamageGetPercent - preDamageGetPercent;
+
+	}
+
+	return returnValue;
+}
+
 CHP* CHP::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 	CHP* pInstance = new CHP(pDevice, pContext, nullptr);

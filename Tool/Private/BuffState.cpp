@@ -156,6 +156,11 @@ HRESULT CBuffState::Render()
 HRESULT CBuffState::Set_BuffState(_uint buffType, _uint skillType, BUFF_STATE eState, const _tchar* textureName, 
 	_float valueA, _float valueB, _float endTime, _float ratio)
 {
+	if (m_eCurBuffType == BUFF_TYPE_STATE_ABNORMAL && eState >= BUFF_STATE_MAHI && eState <= BUFF_STATE_NEMURI2)
+	{
+		return E_FAIL;
+	}
+
 	if (buffType == m_CurBuffType && false == m_bCanBuffSet)
 	{
 		m_EndTimeAcc = 0.0;
@@ -262,60 +267,79 @@ void CBuffState::Change_State()
 			Return_Original_State(m_ePreBuffState);
 			m_eRenderId = RENDER_END;
 			m_bCanBuffSet = true;
+			m_eCurBuffType = BUFF_TYPE_NONE;
 			break;
 		case BUFF_STATE_DAMAGE_UP:
 			Change_State_Buff_On();
+			m_eCurBuffType = BUFF_TYPE_STATE_UP;
 			break;
 		case BUFF_STATE_DAMAGE_DOWN:
 			Change_State_Buff_On();
+			m_eCurBuffType = BUFF_TYPE_STATE_DOWN;
 			break;
 		case BUFF_STATE_DEFENSE_UP:
 			Change_State_Buff_On();
-			Add_ParentSpeedPercent(m_valueA);
+			Add_ParentDefensePercent(m_valueA);
+			m_eCurBuffType = BUFF_TYPE_STATE_UP;
 			break;
 		case BUFF_STATE_DEFENSE_DOWN:
 			Change_State_Buff_On();
+			Add_ParentDefensePercent(-m_valueA);
+			m_eCurBuffType = BUFF_TYPE_STATE_DOWN;
 			break;
 		case BUFF_STATE_SPEED_UP:
 			Change_State_Buff_On();
 			Add_ParentSpeedPercent(m_valueA);
+			m_eCurBuffType = BUFF_TYPE_STATE_UP;
 			break;
 		case BUFF_STATE_SPEED_DOWN:
 			Change_State_Buff_On();
+			Add_ParentSpeedPercent(-m_valueA);
+			m_eCurBuffType = BUFF_TYPE_STATE_DOWN;
 			break;
 		case BUFF_STATE_RESIST_UP:
 			Change_State_Buff_On();
+			m_eCurBuffType = BUFF_TYPE_STATE_UP;
 			break;
 		case BUFF_STATE_RESIST_DOWN:
 			Change_State_Buff_On();
+			m_eCurBuffType = BUFF_TYPE_STATE_DOWN;
 			break;
 		case BUFF_STATE_DOKU:
 			Change_State_Buff_On();
+			m_eCurBuffType = BUFF_TYPE_STATE_ABNORMAL;
 			break;
 		case BUFF_STATE_MAHI:
 			Change_State_Buff_On();
 			Add_ParentSpeedPercent(-m_valueA);
 			Set_ParentAttackFailProbability(4);
+			m_eCurBuffType = BUFF_TYPE_STATE_ABNORMAL;
 			break;
 		case BUFF_STATE_NEMURI:
 			Change_State_Buff_On();
+			m_eCurBuffType = BUFF_TYPE_STATE_ABNORMAL;
 			break;
 		case BUFF_STATE_KOORI:
 			Change_State_Buff_On();
 			Set_ParentState(CMonFSM::MONSTER_STATE::IDLE_NO);
+			m_eCurBuffType = BUFF_TYPE_STATE_ABNORMAL;
 			break;
 		case BUFF_STATE_YAKEDO:
 			Change_State_Buff_On();
+			m_eCurBuffType = BUFF_TYPE_STATE_ABNORMAL;
 			break;
 		case BUFF_STATE_KONRAN:
 			Change_State_Buff_On();
 			Set_ParentState(CMonFSM::MONSTER_STATE::IDLE_NO);
+			m_eCurBuffType = BUFF_TYPE_STATE_ABNORMAL;
 			break;
 		case BUFF_STATE_KANASIBARI:
 			Change_State_Buff_On();
+			m_eCurBuffType = BUFF_TYPE_STATE_ABNORMAL;
 			break;
 		case BUFF_STATE_NEMURI2:
 			Change_State_Buff_On();
+			m_eCurBuffType = BUFF_TYPE_STATE_ABNORMAL;
 			break;
 		case BUFF_STATE_END:
 			Change_State_Buff_On();
@@ -360,6 +384,14 @@ void CBuffState::Set_ParentDefensePercent(_float percent)
 	m_Desc.pParentHP->Set_DamageGetPercent(percent);
 }
 
+void CBuffState::Add_ParentDefensePercent(_float percent)
+{
+	if (nullptr == m_Desc.pParentTransform)
+		return;
+
+	m_returnValue = m_Desc.pParentHP->Add_DamageGetPercent(percent);
+}
+
 void CBuffState::Set_ParentAttackFailProbability(_int value)
 {
 	if (nullptr == m_Desc.pParentAttack)
@@ -388,10 +420,10 @@ void CBuffState::Return_Original_State(BUFF_STATE preState)
 	case BUFF_STATE_DAMAGE_DOWN:
 		break;
 	case BUFF_STATE_DEFENSE_UP:
-		Set_ParentDefensePercent(1.f);
+		Add_ParentDefensePercent(m_returnValue);
 		break;
 	case BUFF_STATE_DEFENSE_DOWN:
-		Set_ParentDefensePercent(1.f);
+		Add_ParentDefensePercent(m_returnValue);
 		break;
 	case BUFF_STATE_SPEED_UP:
 		Add_ParentSpeedPercent(m_returnValue);

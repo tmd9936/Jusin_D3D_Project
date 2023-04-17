@@ -34,6 +34,16 @@ BEGIN(Client)
 class CBuffState final : public CGameObject
 {
 public:
+	enum BUFF_TYPE
+	{
+		BUFF_TYPE_NONE,
+		BUFF_TYPE_STATE_UP,
+		BUFF_TYPE_STATE_DOWN,
+		BUFF_TYPE_STATE_ABNORMAL,
+		BUFF_TYPE_END
+	};
+
+public:
 	enum BUFF_STATE {
 		BUFF_STATE_NONE,
 		BUFF_STATE_DAMAGE_UP,
@@ -117,7 +127,9 @@ private:
 private:
 	void	Set_ParentSpeedPercent(_float percent);
 	void	Add_ParentSpeedPercent(_float percent);
+
 	void	Set_ParentDefensePercent(_float percent);
+	void	Add_ParentDefensePercent(_float percent);
 
 	void	Set_ParentAttackFailProbability(_int value);
 
@@ -166,6 +178,8 @@ private:
 
 	_double					m_DeBuffTick = { 0.1 };
 	_double					m_DeBuffTickAcc = { 0.0 };
+
+	BUFF_TYPE				m_eCurBuffType = { BUFF_TYPE_NONE };
 
 
 public:
