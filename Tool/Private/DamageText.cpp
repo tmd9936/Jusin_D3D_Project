@@ -151,7 +151,7 @@ void CDamageText::Show_TimeCheck(const _double& TimeDelta)
 		{
 			m_ShowTImeAcc = 0.0;
 			m_eRenderId = RENDER_END;
-			m_RandSumPos = { _float(rand() % 50 - 25),  _float(rand() % 50 - 25) };
+			m_RandSumPos = { _float(rand() % 30 - 15),  _float(rand() % 30 - 15) };
 		}
 	}
 }		
