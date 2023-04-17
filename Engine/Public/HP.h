@@ -59,6 +59,8 @@ public:
 public:
 	void Get_Damage(_int damage);
 
+	void Get_PercentDamage(_float damagePercent);
+
 	void Heal(_int healNum) {
 		m_CurrentHP += healNum;
 		if (m_CurrentHP > m_MaxHP)

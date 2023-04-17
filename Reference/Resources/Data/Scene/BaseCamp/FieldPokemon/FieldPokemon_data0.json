@@ -11,7 +11,7 @@
         "moveSpeed": 0.5,
         "rotateSpeed": 1.2,
         "m_monsterNo": 95,
-        "m_hpBasis": 350,
+        "m_hpBasis": 950,
         "m_attackBasis": 150,
         "m_hpGrow": 1,
         "m_attackGrow": 1,

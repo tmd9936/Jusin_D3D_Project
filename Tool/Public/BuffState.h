@@ -123,7 +123,7 @@ public:
 
 private:
 	void	EndTime_Check(const _double& TimeDelta);
-	void	State_Tick(const _double& TimeDelta);
+	void	LateState_Tick(const _double& TimeDelta);
 	void	Change_State();
 
 	void	Change_State_Buff_On();
@@ -141,6 +141,8 @@ private:
 
 private:
 	void	Return_Original_State(BUFF_STATE preState);
+
+	void	Set_ParentTickDamage(const _double& TimeDelta);
 
 private:
 	HRESULT Add_Components();

@@ -89,8 +89,6 @@ HRESULT CBuffState::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void*
 
 _uint CBuffState::Tick(_double TimeDelta)
 {
-	State_Tick(TimeDelta);
-
 	EndTime_Check(TimeDelta);
 
 	Change_State();
@@ -100,6 +98,7 @@ _uint CBuffState::Tick(_double TimeDelta)
 
 _uint CBuffState::LateTick(_double TimeDelta)
 {
+	LateState_Tick(TimeDelta);
 	//if (m_Desc.m_eBuffType != BUFF_TYPE_NONE)
 	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
 
@@ -183,7 +182,7 @@ HRESULT CBuffState::Set_BuffState(_uint buffType, _uint skillType, BUFF_STATE eS
 	m_valueA = valueA;
 	m_valueB = valueB;
 	m_CurBuffType = buffType;
-	m_DeBuffTick = (_double)ratio;
+	m_DeBuffTick = (_double)valueA * 2.f;
 
 	return S_OK;
 }
@@ -212,7 +211,7 @@ void CBuffState::EndTime_Check(const _double& TimeDelta)
 		m_EndTimeAcc += TimeDelta;
 }
 
-void CBuffState::State_Tick(const _double& TimeDelta)
+void CBuffState::LateState_Tick(const _double& TimeDelta)
 {
 	switch (m_eCurBuffState)
 	{
@@ -235,6 +234,7 @@ void CBuffState::State_Tick(const _double& TimeDelta)
 	case BUFF_STATE_RESIST_DOWN:
 		break;
 	case BUFF_STATE_DOKU:
+		Set_ParentTickDamage(TimeDelta);
 		break;
 	case BUFF_STATE_MAHI:
 		break;
@@ -307,6 +307,7 @@ void CBuffState::Change_State()
 			break;
 		case BUFF_STATE_DOKU:
 			Change_State_Buff_On();
+			m_DeBuffTickAcc = m_DeBuffTick;
 			m_eCurBuffType = BUFF_TYPE_STATE_ABNORMAL;
 			break;
 		case BUFF_STATE_MAHI:
@@ -460,6 +461,18 @@ void CBuffState::Return_Original_State(BUFF_STATE preState)
 	default:
 		break;
 	}
+}
+
+void CBuffState::Set_ParentTickDamage(const _double& TimeDelta)
+{
+	if (m_DeBuffTickAcc >= m_DeBuffTick)
+	{
+		m_Desc.pParentHP->Get_PercentDamage(m_ratio * 0.1f);
+		m_DeBuffTickAcc = 0.0;
+	}
+
+	m_DeBuffTickAcc += TimeDelta;
+
 }
 
 HRESULT CBuffState::Add_Components()

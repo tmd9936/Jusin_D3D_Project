@@ -63,6 +63,26 @@ void CHP::Get_Damage(_int damage)
 	}
 }
 
+void CHP::Get_PercentDamage(_float damagePercent)
+{
+	_int damage = _int(m_MaxHP * damagePercent);
+	m_GetDamageEvent = true;
+
+	m_DamageReceived = damage;
+
+	m_CurrentHP -= damage;
+
+	if (m_CurrentHP <= 0)
+	{
+		if (m_Desc.bDeadAfterOwnerDead)
+		{
+			if (m_pOwner)
+				m_pOwner->Set_Dead();
+		}
+		m_CurrentHP = 0;
+	}
+}
+
 void CHP::Set_DamageGetPercent(_float percent)
 {
 	if (percent < 0.2f || percent > 1.8f)
