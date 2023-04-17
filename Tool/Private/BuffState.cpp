@@ -245,6 +245,7 @@ void CBuffState::LateState_Tick(const _double& TimeDelta)
 	case BUFF_STATE_YAKEDO:
 		break;
 	case BUFF_STATE_KONRAN:
+		Set_ParentKonranSelfAttack(TimeDelta);
 		break;
 	case BUFF_STATE_KANASIBARI:
 		break;
@@ -331,7 +332,7 @@ void CBuffState::Change_State()
 			break;
 		case BUFF_STATE_KONRAN:
 			Change_State_Buff_On();
-			Set_ParentState(CMonFSM::MONSTER_STATE::IDLE_NO);
+			m_Desc.pParentAttack->Set_CanSkillAttack(false);
 			m_eCurBuffType = BUFF_TYPE_STATE_ABNORMAL;
 			break;
 		case BUFF_STATE_KANASIBARI:
@@ -450,7 +451,7 @@ void CBuffState::Return_Original_State(BUFF_STATE preState)
 	case BUFF_STATE_YAKEDO:
 		break;
 	case BUFF_STATE_KONRAN:
-		Set_ParentState(CMonFSM::MONSTER_STATE::IDLE1);
+		m_Desc.pParentAttack->Set_CanSkillAttack(true);
 		break;
 	case BUFF_STATE_KANASIBARI:
 		break;
@@ -473,6 +474,19 @@ void CBuffState::Set_ParentTickDamage(const _double& TimeDelta)
 
 	m_DeBuffTickAcc += TimeDelta;
 
+}
+
+void CBuffState::Set_ParentKonranSelfAttack(const _double& TimeDelta)
+{
+	if (m_DeBuffTickAcc >= m_DeBuffTick)
+	{
+		_int randValue = rand() % 2;
+		if (randValue == 0)
+			m_Desc.pParentHP->Get_PercentDamage(m_ratio * 0.2f);
+		m_DeBuffTickAcc = 0.0;
+	}
+
+	m_DeBuffTickAcc += TimeDelta;
 }
 
 HRESULT CBuffState::Add_Components()

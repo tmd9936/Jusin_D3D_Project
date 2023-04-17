@@ -144,6 +144,8 @@ private:
 
 	void	Set_ParentTickDamage(const _double& TimeDelta);
 
+	void	Set_ParentKonranSelfAttack(const _double& TimeDelta);
+
 private:
 	HRESULT Add_Components();
 	HRESULT SetUp_ShaderResources();

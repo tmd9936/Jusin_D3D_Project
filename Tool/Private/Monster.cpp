@@ -457,6 +457,12 @@ _bool CMonster::Do_Skill(_uint skillType, const _tchar* pLayer)
 {
 	if (!m_bAttack)
 	{
+		if (skillType > 35)
+		{
+			if (false == m_pAttackCom->Get_CanSkillAttack())
+				return false;
+		}
+
 		_int failCheck = rand() % m_pAttackCom->Get_AttackFailProbability();
 
 		if (failCheck != 0)

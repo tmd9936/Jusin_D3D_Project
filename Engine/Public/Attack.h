@@ -39,9 +39,19 @@ public:
 		return m_AttackFailProbability;
 	}
 
+	void	Set_CanSkillAttack(const _bool& bCanAttack) {
+		m_bCanSkillAttack = bCanAttack;
+	}
+
+	const _bool	Get_CanSkillAttack() const {
+		return m_bCanSkillAttack;
+	}
+
 private:
 	ATTACK_DESC		m_Desc = {};
 	_int			m_AttackFailProbability = { 1 };
+
+	_bool			m_bCanSkillAttack = { true };
 
 public:
 	static CAttack* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
