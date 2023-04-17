@@ -46,6 +46,9 @@ _uint CHP::Tick(const _double& Timedelta)
 
 void CHP::Get_Damage(_int damage)
 {
+	if (damage <= 0)
+		return;
+
 	m_CurrentHP -= max(5, _int(damage * m_DamageGetPercent));
 
 	m_GetDamageEvent = true;
