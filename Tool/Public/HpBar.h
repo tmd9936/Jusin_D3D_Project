@@ -56,6 +56,15 @@ public:
 		m_HpRatio = ratio;
 	}
 
+	void	Set_GetDamageEvent() {
+		m_damageEvent = true;
+		m_vAddColor = { 0.8f, 0.8f, 0.8f, 0.f };
+		m_damageEventTimeAcc = 0.0;
+	}
+
+private:
+	void	Check_DamageEvent(const _double& TimeDelta);
+	
 private:
 	CTransform* m_pTransformCom = { nullptr };
 	CRenderer* m_pRendererCom = { nullptr };
@@ -72,6 +81,12 @@ private:
 	_float4x4			m_ProjMatrix = {};
 
 	_float				m_HpRatio = { 0.7f };
+
+	_float4				m_vAddColor = { 0.f, 0.f, 0.f, 0.f };
+
+	_double				m_damageEventTime = { 0.6 };
+	_double				m_damageEventTimeAcc = { 0.0 };
+	_bool				m_damageEvent = { false };
 
 private:
 	HRESULT Add_Components();

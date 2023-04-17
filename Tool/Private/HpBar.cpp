@@ -46,6 +46,7 @@ HRESULT CHpBar::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pAr
 
 _uint CHpBar::Tick(_double TimeDelta)
 {
+	Check_DamageEvent(TimeDelta);
 	return _uint();
 }
 
@@ -101,6 +102,21 @@ HRESULT CHpBar::Render()
 	m_pVIBufferCom->Render();
 
 	return S_OK;
+}
+
+void CHpBar::Check_DamageEvent(const _double& TimeDelta)
+{
+	if (m_damageEvent)
+	{
+		if (m_damageEventTimeAcc >= m_damageEventTime)
+		{
+			m_damageEvent = false;
+			m_vAddColor = { 0.f, 0.f, 0.f, 0.f };
+		}
+
+		m_damageEventTimeAcc += TimeDelta;
+	}
+
 }
 
 HRESULT CHpBar::Add_Components()
@@ -173,6 +189,9 @@ HRESULT CHpBar::SetUp_ShaderResources()
 		return E_FAIL;
 	
 	if (FAILED(m_pShaderCom->Set_RawValue("g_vColor", &m_Desc.m_vHpColor, sizeof(_float4))))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_vAddColor", &m_vAddColor, sizeof(_float4))))
 		return E_FAIL;
 
 

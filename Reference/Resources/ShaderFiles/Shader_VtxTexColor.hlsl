@@ -10,6 +10,8 @@ float			g_HpRatio = 1.f;
 float			g_Radius;
 float			g_Progress;
 
+float4			g_vAddColor;
+
 struct VS_IN
 {
 	float3		vPosition : POSITION;
@@ -112,7 +114,7 @@ PS_OUT PS_MAIN_HP(PS_IN In)
 
 		if (healthbarMask)
 		{
-			Out.vColor = float4(g_vColor.xyz, 0.75f);
+			Out.vColor = float4(g_vColor.xyz, 0.75f) + g_vAddColor;
 		}
 		else
 		{
