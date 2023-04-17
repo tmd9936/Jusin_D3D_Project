@@ -55,10 +55,15 @@ _uint CGoToStageButton::On_Select()
 
 _uint CGoToStageButton::On_Release()
 {
-	if (FAILED(CGameInstance::GetInstance()->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_STAGE))))
-		return 0;
-	else
-		return OBJ_SCENE_CHNAGE;
+	CGameInstance::GetInstance()->PlaySoundW(L"SE_GAME_START.ogg", Engine::SOUND_STAGE_UI);
+	CGameObject* pGameObject = CGameInstance::GetInstance()->Get_Object(LEVEL_WORLDMAP, L"Layer_Manager", L"WorldMap_Manager");
+	if (nullptr != pGameObject)
+	{
+		CWorldMap_Manager* pWorldMapManager = dynamic_cast<CWorldMap_Manager*>(pGameObject);
+		if (nullptr != pWorldMapManager)
+			pWorldMapManager->Stage_Select();
+	}
+	return 0;
 }
 
 CGoToStageButton* CGoToStageButton::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

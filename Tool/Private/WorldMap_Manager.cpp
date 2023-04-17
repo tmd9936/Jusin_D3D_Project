@@ -10,6 +10,7 @@
 #include "Client_Utility.h"
 #include "StageInfoUI.h"
 #include "StagePoint.h"
+#include "Level_Loading.h"
 
 
 CWorldMap_Manager::CWorldMap_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -106,6 +107,14 @@ _uint CWorldMap_Manager::Tick(_double TimeDelta)
 	State_Tick(TimeDelta);
 	Change_State();
 
+	if (m_eCurState == MANAGET_STAGE_SELECT)
+	{
+		if (FAILED(CGameInstance::GetInstance()->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_STAGE))))
+			return 0;
+		else
+			return OBJ_SCENE_CHNAGE;
+	}
+
 	return _uint();
 }
 
@@ -130,9 +139,9 @@ HRESULT CWorldMap_Manager::Render()
 
 void CWorldMap_Manager::Fade_out(const _double& TimeDelta)
 {
-	if (p_MainCamera->Focus_To_Object(m_FocusPosition, (_float)TimeDelta, 0.01f))
+	if (p_MainCamera->Focus_To_Object(m_FocusPosition, (_float)TimeDelta * m_Desc.m_FadeInCameraSpeed, m_Desc.m_FadeInStopIntervalDistance))
 	{
-		m_eCurState = MANAGER_IDLE;
+		m_eCurState = MANAGET_STAGE_SELECT;
 	}
 
 	m_vCurrentFadeColor.x += (_float)TimeDelta;
@@ -167,8 +176,11 @@ _bool CWorldMap_Manager::Save_By_JsonFile_Impl(Document& doc, Document::Allocato
 		}
 		ManagerDesc.AddMember("m_FadeEndColor", m_FadeEndColor, allocator);
 
+		ManagerDesc.AddMember("m_FadeInStopIntervalDistance", m_Desc.m_FadeInStopIntervalDistance, allocator);
+		ManagerDesc.AddMember("m_FadeInCameraSpeed", m_Desc.m_FadeInCameraSpeed, allocator);
 	}
 	doc.AddMember("ManagerDesc", ManagerDesc, allocator);
+
 
 
 	return true;
@@ -185,6 +197,10 @@ _bool CWorldMap_Manager::Load_By_JsonFile_Impl(Document& doc)
 
 	const Value& m_FadeEndColor = ManagerDesc["m_FadeEndColor"];
 	m_Desc.m_FadeEndColor = _float4(m_FadeEndColor["x"].GetFloat(), m_FadeEndColor["y"].GetFloat(), m_FadeEndColor["z"].GetFloat(), m_FadeEndColor["w"].GetFloat());
+
+	m_Desc.m_FadeInStopIntervalDistance = ManagerDesc["m_FadeInStopIntervalDistance"].GetFloat();
+
+	m_Desc.m_FadeInCameraSpeed = ManagerDesc["m_FadeInCameraSpeed"].GetFloat();
 
 	return true;
 }
@@ -254,6 +270,8 @@ void CWorldMap_Manager::Picking()
 		lstrcpy(stageInfoDesc.m_vStageNameText, stagePointDesc.levelTitleText.c_str());
 
 		((CStageInfoUI*)pStageInfo)->Change_Stage_Info(stagePointDesc.vColor, stagePointDesc.stageNumber, stagePointDesc.levelTitleText);
+
+		m_FocusPosition = _float4(stagePointDesc.vPos.x, stagePointDesc.vPos.y, stagePointDesc.vPos.z, 1.f);
 
 		m_eCurState = MANAGER_OPEN_STATE_INFO;
 	}
@@ -353,8 +371,16 @@ HRESULT CWorldMap_Manager::SetUp_ShaderResources()
 	if (FAILED(m_pTextureCom->Set_ShaderResource(m_pShaderCom, "g_Texture", 0)))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_RawValue("g_vColor", &m_Desc.m_FadeStartColor, (sizeof m_Desc.m_FadeStartColor))))
-		return E_FAIL;
+	if (m_eCurState == MANAGER_CAMERA_FADE_OUT)
+	{
+		if (FAILED(m_pShaderCom->Set_RawValue("g_vColor", &m_vCurrentFadeColor, (sizeof m_vCurrentFadeColor))))
+			return E_FAIL;
+	}
+	else
+	{
+		if (FAILED(m_pShaderCom->Set_RawValue("g_vColor", &m_Desc.m_FadeStartColor, (sizeof m_Desc.m_FadeStartColor))))
+			return E_FAIL;
+	}
 
 	Safe_Release(pGameInstance);
 

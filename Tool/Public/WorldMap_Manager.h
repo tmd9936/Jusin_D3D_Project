@@ -18,6 +18,7 @@ BEGIN(Client)
 
 class CStageInfoUI;
 class CStagePoint;
+class CLevel_Loading;
 
 class CWorldMap_Manager final : public CGameObject
 {
@@ -26,6 +27,7 @@ public:
 		MANAGER_IDLE,
 		MANAGER_OPEN_STATE_INFO,
 		MANAGER_CAMERA_FADE_OUT,
+		MANAGET_STAGE_SELECT,
 		MANAGER_END
 	};
 
@@ -35,6 +37,10 @@ public:
 		_float m_FadeSecond;
 		_float4 m_FadeStartColor;
 		_float4 m_FadeEndColor;
+
+		_float	m_FadeInStopIntervalDistance;
+
+		_float	m_FadeInCameraSpeed;
 
 	} WORLDMAP_MANAGER_DESC;
 
@@ -51,6 +57,11 @@ public:
 	virtual _uint Tick(_double TimeDelta) override;
 	virtual _uint LateTick(_double TimeDelta) override;
 	virtual HRESULT Render() override;
+
+public:
+	void Stage_Select() {
+		m_eCurState = MANAGER_CAMERA_FADE_OUT;
+	}
 
 public:
 	void	Be_Idle() {

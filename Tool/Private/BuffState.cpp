@@ -482,7 +482,7 @@ void CBuffState::Set_ParentKonranSelfAttack(const _double& TimeDelta)
 	{
 		_int randValue = rand() % 2;
 		if (randValue == 0)
-			m_Desc.pParentHP->Get_PercentDamage(m_ratio * 0.2f);
+			m_Desc.pParentHP->Get_PercentDamage(m_ratio * 0.25f);
 		m_DeBuffTickAcc = 0.0;
 	}
 
