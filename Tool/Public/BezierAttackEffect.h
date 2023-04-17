@@ -48,6 +48,13 @@ public:
 		m_BezierAttackEffectDesc.m_vPoint3 = vPoint3;
 	}
 
+	void Set_BezierPointsWithSpeed(_float3 vPoint1, _float3 vPoint2, _float3 vPoint3, const _float& bezierSpeed) {
+		m_BezierAttackEffectDesc.m_vPoint1 = vPoint1;
+		m_BezierAttackEffectDesc.m_vPoint2 = vPoint2;
+		m_BezierAttackEffectDesc.m_vPoint3 = vPoint3;
+		m_BezierSpeed = bezierSpeed;
+	}
+
 protected:
 	void		Bezier(const _double& TimeDelta);
 
@@ -55,6 +62,7 @@ protected:
 	BEZIER_ATTACK_EFFECT_DESC		m_BezierAttackEffectDesc = {};
 
 	_float							m_BezierTime = { 0.f };
+	_float							m_BezierSpeed = { 1.f };
 
 public:
 	friend CLoader;

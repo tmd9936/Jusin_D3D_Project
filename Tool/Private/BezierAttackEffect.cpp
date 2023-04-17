@@ -94,7 +94,7 @@ void CBezierAttackEffect::Bezier(const _double& TimeDelta)
 
 		m_pTransformCom->Set_Pos(x, y, z);
 
-		m_BezierTime += (_float)TimeDelta;
+		m_BezierTime += (_float)TimeDelta * m_BezierSpeed;
 	}
 	else 
 	{

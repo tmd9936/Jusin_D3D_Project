@@ -576,6 +576,74 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 
 		Safe_Release(pSkillEffect);
 	}
+	else if (skillType == 89) // 독침
+	{
+		Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[0], vLook, XMVectorSet(0.f, 0.5f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
+
+		pSkillEffect = pEffect_Manager->CreateEffect(m_Skill_Depend_Datas[skillType].m_effects[1], L"Prototype_GameObject_RushAttackEffect", pLayerTag, iLevelIndex);
+
+		CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
+		if (nullptr == pTransform)
+			return E_FAIL;
+
+		pTransform->LookAt(XMVectorSetW(vLook, 1.f));
+
+		CAttackEffect::ATTACK_EFFECT_DESC desc{};
+		Set_NormalAttackDesc(desc, skillType, pSkillEffect, pConditionData);
+
+		_float4 pos = {};
+		XMStoreFloat4(&pos, vPos);
+		pSkillEffect->Set_Pos(pos);
+
+		dynamic_cast<CRushAttackEffect*>(pSkillEffect)->Set_RushSpeed(0.7);
+
+		//pSkillEffect->Init_LoopCount();
+
+		Set_AttackPower(pSkillEffect, _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f)));
+
+		Safe_Release(pSkillEffect);
+	}
+	else if (skillType == 90) // 독폭탄
+	{
+		Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[0], vLook, XMVectorSet(0.f, 0.f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
+
+		pSkillEffect = pEffect_Manager->CreateEffect(m_Skill_Depend_Datas[skillType].m_effects[1], L"Prototype_GameObject_BezierAttackEffect", pLayerTag, iLevelIndex);
+
+		CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
+		if (nullptr == pTransform)
+			return E_FAIL;
+
+		pTransform->LookAt(XMVectorSetW(vLook, 1.f));
+		pTransform->Set_TransforDesc({ XMConvertToRadians(20.f), XMConvertToRadians(0.f) });
+		pTransform->Set_Scaled({ 1.5f, 1.5f, 1.5f });
+
+		_float4 pos1 = {};
+		XMStoreFloat4(&pos1, vPos + (vLook * 0.25f));
+		pSkillEffect->Set_Pos(pos1);
+
+		_float4 pos2 = {};
+		XMStoreFloat4(&pos2, vPos + (vLook * 0.75f));
+
+		_float4 pos3 = {};
+		XMStoreFloat4(&pos3, vPos + (vLook * 1.5f));
+
+		CAttackEffect::ATTACK_EFFECT_DESC desc{};
+		Set_NormalAttackDesc(desc, skillType, pSkillEffect, pConditionData);
+
+		desc.m_bKnockBack = true;
+
+		static_cast<CBezierAttackEffect*>(pSkillEffect)->Set_BezierPointsWithSpeed(
+			{ pos1.x, pos1.y, pos1.z },
+			{ pos2.x, pos2.y + 1.5f, pos2.z },
+			{ pos3.x, 0.f, pos3.z }, 1.7f
+		);
+
+		pSkillEffect->Init_LoopCount(5);
+
+		Set_AttackPower(pSkillEffect, _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f)));
+
+		Safe_Release(pSkillEffect);
+	}
 	else if (skillType == 96) // 진흙 뿌리기
 	{
 		for (size_t i = 1; i <= 3; ++i)
@@ -925,6 +993,16 @@ CSkill* CSkill_Manager::Do_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _ui
 		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
 			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState);
 	}
+	else if (skillType == 89) // 독침
+	{
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState);
+	}
+	else if (skillType == 90) // 독폭탄
+	{
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState);
+	}
 	else if (skillType == 96) // 진흙 뿌리기
 	{
 		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
@@ -962,18 +1040,12 @@ CSkill* CSkill_Manager::Do_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _ui
 	}
 	else if (skillType == 192) // 록커트
 	{
-		// 컨디션 3
-		// 컨디션 데이터 가져오고 플레이어의 버프 자리 남는 자리에 텍스쳐 생성시키고 
-		// 해당 데이터에 맞는 값 증가시켜주기
-
 		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
 			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState);
 
 	}
 	else if (skillType == 116) // 베리어
 	{
-		// 컨디션 2
-
 		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
 			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState);
 	}
@@ -982,7 +1054,6 @@ CSkill* CSkill_Manager::Do_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _ui
 		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
 			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState);
 	}
-
 	else
 	{
 		pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
