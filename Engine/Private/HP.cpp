@@ -73,7 +73,7 @@ void CHP::Set_DamageGetPercent(_float percent)
 
 _float CHP::Add_DamageGetPercent(_float percent)
 {
-	_float returnValue = percent;
+	_float returnValue = -percent;
 	_float preDamageGetPercent = m_DamageGetPercent;
 	m_DamageGetPercent += percent;
 
@@ -86,7 +86,7 @@ _float CHP::Add_DamageGetPercent(_float percent)
 	if (m_DamageGetPercent > 1.8f)
 	{
 		m_DamageGetPercent = 1.8f;
-		returnValue = m_DamageGetPercent - preDamageGetPercent;
+		returnValue = preDamageGetPercent - m_DamageGetPercent;
 
 	}
 

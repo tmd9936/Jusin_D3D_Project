@@ -279,12 +279,12 @@ void CBuffState::Change_State()
 			break;
 		case BUFF_STATE_DEFENSE_UP:
 			Change_State_Buff_On();
-			Add_ParentDefensePercent(m_valueA);
+			Add_ParentDefensePercent(-m_valueA); // 방어력은 데미지 감소여야해서 (-)를 줌
 			m_eCurBuffType = BUFF_TYPE_STATE_UP;
 			break;
 		case BUFF_STATE_DEFENSE_DOWN:
 			Change_State_Buff_On();
-			Add_ParentDefensePercent(-m_valueA);
+			Add_ParentDefensePercent(m_valueA);
 			m_eCurBuffType = BUFF_TYPE_STATE_DOWN;
 			break;
 		case BUFF_STATE_SPEED_UP:
@@ -426,7 +426,7 @@ void CBuffState::Return_Original_State(BUFF_STATE preState)
 		Add_ParentDefensePercent(m_returnValue);
 		break;
 	case BUFF_STATE_SPEED_UP:
-		Add_ParentSpeedPercent(m_returnValue);
+		Add_ParentSpeedPercent(-m_returnValue);
 		break;
 	case BUFF_STATE_SPEED_DOWN:
 		Add_ParentSpeedPercent(m_returnValue);
