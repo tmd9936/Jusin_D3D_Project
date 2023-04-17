@@ -187,17 +187,6 @@ HRESULT CDamageText::SetUp_ShaderResources()
 	return S_OK;
 }
 
-_matrix CDamageText::Remove_Scale(_fmatrix Matrix)
-{
-	_matrix		Result = Matrix;
-
-	Result.r[0] = XMVector3Normalize(Result.r[0]);
-	Result.r[1] = XMVector3Normalize(Result.r[1]);
-	Result.r[2] = XMVector3Normalize(Result.r[2]);
-
-	return Result;
-}
-
 CDamageText* CDamageText::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 	CDamageText* pInstance = new CDamageText(pDevice, pContext);
