@@ -450,7 +450,8 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 		Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[1], vLook, XMVectorSet(0.f, 0.1f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix * XMMatrixRotationAxis({ 0.f, 1.f, 0.f, 0.f }, XMConvertToRadians(180.f)));
 		Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[2], vLook, XMVectorSet(0.f, 0.1f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix * XMMatrixRotationAxis({ 0.f, 1.f, 0.f, 0.f }, XMConvertToRadians(180.f)));
 
-		pSkillEffect = pEffect_Manager->CreateEffect(m_Skill_Depend_Datas[skillType].m_effects[0], L"Prototype_GameObject_AttackEffect", pLayerTag, iLevelIndex);
+		pSkillEffect = pEffect_Manager->CreateEffect(m_Skill_Depend_Datas[skillType].m_effects[0], 
+			L"Prototype_GameObject_AttackEffect", pLayerTag, iLevelIndex);
 		if (nullptr != pSkillEffect)
 		{
 			pSkillEffect->Set_Parent(pBone, pParentTransform, PivotMatrix * XMMatrixRotationAxis({ 0.f, 1.f, 0.f, 0.f }, XMConvertToRadians(180.f)));
@@ -707,7 +708,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 		Set_NormalAttackDesc(desc, skillType, pSkillEffect, pConditionData, 1);
 
 		_float4 pos = {};
-		XMStoreFloat4(&pos, vPos + vLook * 0.25f);
+		XMStoreFloat4(&pos, vLook * 0.25f);
 		pSkillEffect->Set_Pos(pos);
 
 		Set_AttackPower(pSkillEffect, _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f)));
@@ -830,10 +831,11 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 		Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[1], vLook, XMVectorSet(0.f, 0.1f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
 		Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[2], vLook, XMVectorSet(0.f, 0.1f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
 
-		pSkillEffect = pEffect_Manager->CreateEffect(m_Skill_Depend_Datas[skillType].m_effects[3], L"Prototype_GameObject_AttackEffect", pLayerTag, iLevelIndex);
+		pSkillEffect = pEffect_Manager->CreateEffect(m_Skill_Depend_Datas[skillType].m_effects[3],
+			L"Prototype_GameObject_AttackEffect", pLayerTag, iLevelIndex);
 		if (nullptr != pSkillEffect)
 		{
-			pSkillEffect->Set_ParentNoParts(pBone, pParentTransform, PivotMatrix);
+			pSkillEffect->Set_Parent(pBone, pParentTransform, PivotMatrix* XMMatrixRotationAxis({ 0.f, 1.f, 0.f, 0.f }, XMConvertToRadians(180.f)));
 			//pSkillEffect->Set_ParentRotateApply(true);
 		}
 
@@ -842,11 +844,13 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 			return E_FAIL;
 		//pTransform->LookAt(XMVectorSetW(vLook, 1.f));
 
-		_float4 pos = {};
-		XMStoreFloat4(&pos, vPos);
-		pSkillEffect->Set_Pos(pos);
+		//_float4 pos = {};
+		//XMStoreFloat4(&pos, vPos);
+		//pSkillEffect->Set_Pos(pos);
 
-		//pTransform->Set_Scaled({ 1.5f, 1.5f, 1.5f });
+		//pTransform->Set_Scaled({ 4.5f, 4.5f, 4.5f });
+
+		//pSkillEffect->Init_LoopCount(3);
 
 		CAttackEffect::ATTACK_EFFECT_DESC desc{};
 		Set_NormalAttackDesc(desc, skillType, pSkillEffect, pConditionData, 4);
@@ -1220,6 +1224,7 @@ void CSkill_Manager::Create_No_ChargeEffect(_uint skillType, _vector vLook, _vec
 void CSkill_Manager::Set_NormalAttackDesc(CAttackEffect::ATTACK_EFFECT_DESC& desc, const _uint& skillType, 
 	CSkillEffect* pSkillEffect, CConditionData* pConditionData, _uint collisionEffectType)
 {
+	desc.m_AttackTime = 1.0;
 	desc.m_bContinue = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Continue;
 	desc.m_CollisionEffectType = m_Skill_Depend_Datas[skillType].m_effects[collisionEffectType];
 	desc.m_bKnockBack = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Knockback;

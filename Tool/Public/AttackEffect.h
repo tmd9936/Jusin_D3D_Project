@@ -30,7 +30,7 @@ public:
 		_uint					m_CollisionEffectType = { 0 };
 		_uint					m_ConditionDataID = { 0 };
 
-		EFFECT_DESC	effectDesc;
+		EFFECT_DESC				effectDesc;
 
 	} ATTACK_EFFECT_DESC;
 
