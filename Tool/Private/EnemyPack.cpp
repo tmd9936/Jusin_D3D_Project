@@ -5,6 +5,8 @@
 
 #include "Stage_Manager.h"
 
+#include "StageEnemyMonster.h"
+
 CEnemyPack::CEnemyPack(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
 {
@@ -54,6 +56,9 @@ HRESULT CEnemyPack::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const
 	}
 
 	if (FAILED(Add_Components_By_Json()))
+		return E_FAIL;
+
+	if (FAILED(Create_EnemyPack()))
 		return E_FAIL;
 
 	if (FAILED(Insert_In_Stage_Manager()))
@@ -161,6 +166,31 @@ HRESULT CEnemyPack::Insert_In_Stage_Manager()
 	return S_OK;
 }
 
+HRESULT CEnemyPack::Create_EnemyPack()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	for (size_t i = 0; i < m_Desc.m_registDatas.size(); ++i)
+	{
+		_uint enemyNumber = m_Desc.m_registDatas.at(i).m_enemyNumber;
+		vector<CStageEnemyMonster*>* pEnemys = new vector<CStageEnemyMonster*>;
+
+		for (size_t i = 0; i < enemyNumber; i++)
+		{
+			CStageEnemyMonster* pMonster = nullptr;
+			if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageEnemyMonster"), LEVEL_STAGE,
+				L"Layer_Monster", (CGameObject**)&pMonster, nullptr, (void*)m_Desc.m_registDatas[i].m_enemyFilePath.c_str(), CLONE_FILEPATH)))
+				return E_FAIL;
+
+			pEnemys->push_back(pMonster);
+		}
+
+		m_EnemyPack.push_back(pEnemys);
+	}
+
+	return S_OK;
+}
+
 HRESULT CEnemyPack::Add_Components()
 {
 	return S_OK;
@@ -219,4 +249,18 @@ CGameObject* CEnemyPack::Clone(const _tchar* pLayerTag, _uint iLevelIndex, const
 void CEnemyPack::Free()
 {
 	__super::Free();
+
+	for (vector<CStageEnemyMonster*>* enemys : m_EnemyPack)
+	{
+		if (nullptr != enemys)
+		{
+			for (auto& enemy : *enemys)
+			{
+				Safe_Release(enemy);
+			}
+			Safe_Delete(enemys);
+		}
+	}
+
+	m_EnemyPack.clear();
 }

@@ -10,6 +10,7 @@ END
 BEGIN(Client)
 
 class CStage_Manager;
+class CStageEnemyMonster;
 
 class CEnemyPack final : public CGameObject
 {
@@ -37,10 +38,11 @@ public:
 public:
 	enum  TYPE
 	{
-		TYPE_PRE_CREATE,
-		TYPE_NORMAL_APPEARANCE,
-		TYPE_SURPIRSE_APPEARANCE,
-		TYPE_BOSS_APPEARANCE,
+		TYPE_SPAWN_START,
+		TYPE_SPAWN_AFTER_ROUND_END,
+		TYPE_SPAWN_IN_THE_MIDDLE_OF_ROUND,
+		TYPE_SPAWN_WITH_BOSS,
+		TYPE_SPAWN_BOSS,
 		TYPE_END
 	};
 
@@ -65,13 +67,16 @@ protected:
 private:
 	HRESULT					Insert_In_Stage_Manager();
 
+	HRESULT					Create_EnemyPack();
+
 private:
 	HRESULT					Add_Components();
 	HRESULT					Add_Components_By_Json();
 	HRESULT					SetUp_ShaderResources();
 
 private:
-	ENEMY_PACK_DESC			m_Desc = { };
+	ENEMY_PACK_DESC							m_Desc = { };
+	vector<vector<CStageEnemyMonster*>*>	m_EnemyPack;
 
 public:
 	static CEnemyPack* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

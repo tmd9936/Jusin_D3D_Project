@@ -81,14 +81,17 @@ protected:
 	virtual _bool				Load_By_JsonFile_Impl(Document& doc);
 
 private:
-	void						State_Tick(const _double& TimeDelta);
-	void						Change_State();
-
-private:
 	HRESULT						Add_Components();
 	HRESULT						Add_Components_By_File();
 
 	HRESULT						SetUp_ShaderResources();
+
+private:
+	void						State_Tick(const _double& TimeDelta);
+	void						Change_State();
+
+private:
+	void						Spawn();
 
 private:
 	WORLDMAP_MANAGER_DESC		m_Desc = {};
@@ -100,6 +103,7 @@ private:
 	CStageMessageInfo*			m_pStageMessageInfo = { nullptr };
 	vector<CEnemySpawnPoint*>	m_enemySpawnPoints;
 
+	_int						m_CurrentEnemyCount = { 0 };
 
 private:
 	CTransform*					m_pTransformCom = { nullptr };
@@ -119,6 +123,8 @@ private:
 
 	_float4						m_vCurrentFadeColor = {};
 	_double						m_fCurrentFadeTime = { 0.f };
+
+	size_t						m_CurrentSpawnIndex = { 0 };
 
 public:
 	static CStage_Manager* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

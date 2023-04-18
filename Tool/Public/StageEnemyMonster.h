@@ -33,6 +33,11 @@ public:
 	virtual void On_Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
 	virtual void On_CollisionExit(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
 
+public:
+	void	Be_Spawn() {
+		m_StaySpawn = false;
+	}
+
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
 	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
@@ -58,6 +63,8 @@ private:
 	_double		m_bChase = { true };
 
 	_bool		m_isBoss = { false };
+
+	_bool		m_StaySpawn = { true };
 
 public:
 	static CStageEnemyMonster* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

@@ -83,32 +83,47 @@ HRESULT CStageEnemyMonster::Initialize(const _tchar* pLayerTag, _uint iLevelInde
 
 _uint CStageEnemyMonster::Tick(_double TimeDelta)
 {
-	if (m_bDead)
-		return OBJ_DEAD;
+	if (false == m_StaySpawn)
+	{
+		if (m_bDead)
+			return OBJ_DEAD;
 
-	Dead_Check();
+		Dead_Check();
 
-	return __super::Tick(TimeDelta);
+		return __super::Tick(TimeDelta);
+	}
+	else
+		return 0;
 }
 
 _uint CStageEnemyMonster::LateTick(_double TimeDelta)
 {
-	switch (m_pMonFSM->Get_MotionState())
+	if (false == m_StaySpawn)
 	{
-	case CMonFSM::IDLE1:
-		if (Search_Target())
+		switch (m_pMonFSM->Get_MotionState())
 		{
-			m_pTarget = m_pSearcher->Get_Target();
+		case CMonFSM::IDLE1:
+			if (Search_Target())
+			{
+				m_pTarget = m_pSearcher->Get_Target();
+			}
+			break;
 		}
-		break;
-	}
 
-	return __super::LateTick(TimeDelta);
+		return __super::LateTick(TimeDelta);
+	}
+	else
+		return 0;
 }
 
 HRESULT CStageEnemyMonster::Render()
 {
-	return __super::Render();
+	if (false == m_StaySpawn)
+	{
+		return __super::Render();
+	}
+	else
+		return S_OK;
 }
 
 void CStageEnemyMonster::Change_State_FSM(_uint eState)

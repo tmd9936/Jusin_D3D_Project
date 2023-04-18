@@ -10,6 +10,16 @@ class CPickingCube;
 class CSphere;
 END
 
+/*
+스폰 리스트를 벡터로 담은 다음에
+조건에 맞춰서 스폰을 순차적으로 진행을 함.
+스폰시에 EnemyPack에 있는 스폰 인덱스를 확인해서
+현재 스폰 인덱스에 맞는 몬스터를 EnemyPack에서 찾아서 스폰을 함
+스폰시의 효과는 스폰 포인트에 있는 스폰 타입에 맞춰서 카메라를 움직이거나
+텍스트를 출력
+
+*/
+
 BEGIN(Client)
 
 class CStage_Manager;
@@ -70,6 +80,7 @@ private:
 
 private:
 	ENEMY_SPAWN_POINT_DESC		m_Desc = { };
+	_bool						m_bSpawnComplite = { false };
 
 public:
 	static CEnemySpawnPoint* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
