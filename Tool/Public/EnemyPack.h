@@ -20,7 +20,7 @@ public:
 		_uint		m_enemyNumber;
 		_bool		m_isBoss;
 		_uint		m_setType;  // 적의 데이터 타입(아마 포켓몬마다 던전에 맞춘 데이터파일이 있는데 그거 말하는 듯)
-		_uint		m_setIndex; // 몇 번째에 스폰될지
+		_uint		m_setIndex; // 몇 번째 EnemySpawnPoint에 스폰될지
 		_uint		m_spawnMode; // 스폰모드 (처음에 스폰, 1라운드 끝나면 스폰, 기습 스폰, 보스 스폰..)
 
 	} REGIST_DATA_DESC;

@@ -1,0 +1,14 @@
+{
+   "EnemyPackDesc": {
+        "m_Name": "EnemyPack_water1_001",
+        "m_registDatas": [
+            {
+                "m_enemyFilePath": "../../Reference/Resources/Data/Scene/Stage/EnemySpawnPoint/EnemySpwanPoint2_warter01.json",
+                "m_enemyNumber": 3,
+                "m_isBoss": 0,
+                "m_setType": 0,
+                "m_setIndex": 0
+            }
+        ]
+   } 
+}
