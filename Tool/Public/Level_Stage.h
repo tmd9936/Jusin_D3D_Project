@@ -39,6 +39,8 @@ private:
 
 	HRESULT Ready_Layer_EnemySpawnPoint(const _tchar* pLayerTag);
 
+	HRESULT Ready_Layer_EnemyPack(const _tchar* pLayerTag);
+
 	HRESULT	Ready_LightDesc();
 public:
 	static CLevel_Stage* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

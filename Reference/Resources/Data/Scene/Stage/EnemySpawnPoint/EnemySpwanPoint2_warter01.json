@@ -1,0 +1,11 @@
+{
+    "EnemySpawnPointDesc": {
+        "m_position": {
+            "x": 15.0,
+            "y": 0.5,
+            "z": 24.0
+        },
+        "m_type": 3,
+        "m_spawnRadius": 4.0
+    }
+}

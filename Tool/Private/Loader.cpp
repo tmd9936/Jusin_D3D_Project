@@ -52,6 +52,7 @@
 #include "StageEnemyMonster.h"
 #include "StageSupportMonster.h"
 #include "EnemySpawnPoint.h"
+#include "EnemyPack.h"
 
 #include "HP.h"
 #include "HpBar.h"
@@ -1639,6 +1640,10 @@ HRESULT CLoader::Loading_ForStageLevel()
 
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_EnemySpawnPoint"),
 			CEnemySpawnPoint::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_EnemyPack"),
+			CEnemyPack::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 	}
 

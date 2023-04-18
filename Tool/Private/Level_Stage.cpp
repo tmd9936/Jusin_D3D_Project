@@ -45,7 +45,7 @@ HRESULT CLevel_Stage::Initialize()
 	if (FAILED(Ready_Layer_Map(TEXT("Layer_Map"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_EnemySpawnPoint(TEXT("Layer_EnemySpawnPoint"))))
+	if (FAILED(Ready_Layer_EnemyPack(TEXT("Layer_EnemyPack"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_CameraTarget(TEXT("Layer_CameraTarget"))))
@@ -58,6 +58,9 @@ HRESULT CLevel_Stage::Initialize()
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Manager(TEXT("Layer_Manager"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_EnemySpawnPoint(TEXT("Layer_EnemySpawnPoint"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_PlayerSkill(TEXT("Layer_PlayerSkill"))))
@@ -254,11 +257,11 @@ HRESULT CLevel_Stage::Ready_Layer_Monster(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_Layer(LEVEL_STAGE, pLayerTag)))
 		return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageEnemyMonster"), LEVEL_STAGE, pLayerTag, nullptr, "../../Reference/Resources/Data/Scene/Stage/MonsterData/EnemyData_031_boss.json", CLONE_FILEPATH)))
-		return E_FAIL;
+	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageEnemyMonster"), LEVEL_STAGE, pLayerTag, nullptr, "../../Reference/Resources/Data/Scene/Stage/MonsterData/EnemyData_031_boss.json", CLONE_FILEPATH)))
+	//	return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageEnemyMonster"), LEVEL_STAGE, pLayerTag, nullptr, "../../Reference/Resources/Data/Scene/Stage/MonsterData/EnemyData_087_warter01.json", CLONE_FILEPATH)))
-		return E_FAIL;
+	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageEnemyMonster"), LEVEL_STAGE, pLayerTag, nullptr, "../../Reference/Resources/Data/Scene/Stage/MonsterData/EnemyData_087_warter01.json", CLONE_FILEPATH)))
+	//	return E_FAIL;
 
 	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageEnemyMonster"), LEVEL_STAGE, pLayerTag, nullptr, "../../Reference/Resources/Data/Scene/Stage/MonsterData/EnemyData_104_warter01.json", CLONE_FILEPATH)))
 	//	return E_FAIL;
@@ -266,11 +269,11 @@ HRESULT CLevel_Stage::Ready_Layer_Monster(const _tchar* pLayerTag)
 	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageEnemyMonster"), LEVEL_STAGE, pLayerTag, nullptr, "../../Reference/Resources/Data/Scene/Stage/MonsterData/EnemyData_105_warter01.json", CLONE_FILEPATH)))
 	//	return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageEnemyMonster"), LEVEL_STAGE, pLayerTag, nullptr, "../../Reference/Resources/Data/Scene/Stage/MonsterData/EnemyData_32_warter01.json", CLONE_FILEPATH)))
-		return E_FAIL;
+	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageEnemyMonster"), LEVEL_STAGE, pLayerTag, nullptr, "../../Reference/Resources/Data/Scene/Stage/MonsterData/EnemyData_032_warter01.json", CLONE_FILEPATH)))
+	//	return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageEnemyMonster"), LEVEL_STAGE, pLayerTag, nullptr, "../../Reference/Resources/Data/Scene/Stage/MonsterData/EnemyData_33_warter01.json", CLONE_FILEPATH)))
-		return E_FAIL;
+	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageEnemyMonster"), LEVEL_STAGE, pLayerTag, nullptr, "../../Reference/Resources/Data/Scene/Stage/MonsterData/EnemyData_033_warter01.json", CLONE_FILEPATH)))
+	//	return E_FAIL;
 
 	Safe_Release(pGameInstance);
 
@@ -396,6 +399,28 @@ HRESULT CLevel_Stage::Ready_Layer_CameraTarget(const _tchar* pLayerTag)
 }
 
 HRESULT CLevel_Stage::Ready_Layer_EnemySpawnPoint(const _tchar* pLayerTag)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_STAGE, pLayerTag)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_EnemySpawnPoint"), LEVEL_STAGE, pLayerTag, L"SpawnPoint1", "../../Reference/Resources/Data/Scene/Stage/EnemySpawnPoint/EnemySpwanPoint0_warter01.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_EnemySpawnPoint"), LEVEL_STAGE, pLayerTag, L"SpawnPoint2", "../../Reference/Resources/Data/Scene/Stage/EnemySpawnPoint/EnemySpwanPoint1_warter01.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_EnemySpawnPoint"), LEVEL_STAGE, pLayerTag, L"SpawnPoint3", "../../Reference/Resources/Data/Scene/Stage/EnemySpawnPoint/EnemySpwanPoint2_warter01.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CLevel_Stage::Ready_Layer_EnemyPack(const _tchar* pLayerTag)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);

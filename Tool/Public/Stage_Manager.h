@@ -49,41 +49,42 @@ private:
 	virtual ~CStage_Manager() = default;
 
 public:
-	virtual HRESULT Initialize_Prototype() override; /* 원형객체의 초기화작업 */
-	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override; /* 사본객체의 초기화작업 */
-	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath);
+	virtual HRESULT				Initialize_Prototype() override;
+	virtual HRESULT				Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override;
+	virtual HRESULT				Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath);
 
-	virtual _uint Tick(_double TimeDelta) override;
-	virtual _uint LateTick(_double TimeDelta) override;
-	virtual HRESULT Render() override;
+	virtual _uint				Tick(_double TimeDelta) override;
+	virtual _uint				LateTick(_double TimeDelta) override;
+	virtual HRESULT				Render() override;
 
 public:
 	void	Be_Idle() {
 		m_eCurState = MANAGER_IDLE;
 	}
 
-	void	Boss_DeadEffect(_bool isEnd, _fvector vPos);
+	void						Boss_DeadEffect(_bool isEnd, _fvector vPos);
+	void						Add_EnemySpawnPoint(CEnemySpawnPoint* pEnemySpawnPoint);
 
 private:
-	HRESULT Init_ManagerInfo();
-	HRESULT	Init_PlayersPos();
+	HRESULT						Init_ManagerInfo();
+	HRESULT						Init_PlayersPos();
 
 private:
-	void Fade_In(const _double& TimeDelta);
+	void						Fade_In(const _double& TimeDelta);
 
 protected:
-	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
-	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
+	virtual _bool				Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
+	virtual _bool				Load_By_JsonFile_Impl(Document& doc);
 
 private:
-	void	State_Tick(const _double& TimeDelta);
-	void	Change_State();
+	void						State_Tick(const _double& TimeDelta);
+	void						Change_State();
 
 private:
-	HRESULT Add_Components();
-	HRESULT Add_Components_By_File();
+	HRESULT						Add_Components();
+	HRESULT						Add_Components_By_File();
 
-	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 던진다. */
+	HRESULT						SetUp_ShaderResources();
 
 private:
 	WORLDMAP_MANAGER_DESC		m_Desc = {};
@@ -91,7 +92,7 @@ private:
 	WORLDMAP_MANAGER_STATE		m_eCurState = { MANAGER_FADE_IN };
 
 	CStageCamera*				m_pMainCamera = { nullptr };
-	vector<CEnemySpawnPoint*>	m_enemySpawnPointList;
+	vector<CEnemySpawnPoint*>	m_enemySpawnPoints;
 
 private:
 	CTransform*					m_pTransformCom = { nullptr };

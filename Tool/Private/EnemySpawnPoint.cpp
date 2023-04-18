@@ -3,6 +3,8 @@
 
 #include "GameInstance.h"
 
+#include "Stage_Manager.h"
+
 CEnemySpawnPoint::CEnemySpawnPoint(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
 {
@@ -194,6 +196,21 @@ HRESULT CEnemySpawnPoint::Add_Components_By_Json()
 
 HRESULT CEnemySpawnPoint::SetUp_ShaderResources()
 {
+	return S_OK;
+}
+
+HRESULT CEnemySpawnPoint::Insert_In_Stage_Manager()
+{
+	CGameObject* pObject = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Manager", L"Manager");
+	if (nullptr == pObject)
+		return E_FAIL;
+
+	CStage_Manager* pStageManager = dynamic_cast<CStage_Manager*>(pObject);
+	if (nullptr == pStageManager)
+		return E_FAIL;
+
+	pStageManager->Add_EnemySpawnPoint(this);
+
 	return S_OK;
 }
 

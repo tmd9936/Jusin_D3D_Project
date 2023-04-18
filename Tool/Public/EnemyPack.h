@@ -9,6 +9,8 @@ END
 
 BEGIN(Client)
 
+class CStage_Manager;
+
 class CEnemyPack final : public CGameObject
 {
 public:
@@ -60,6 +62,9 @@ public:
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
 	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
+
+private:
+	HRESULT					Insert_In_Stage_Manager();
 
 private:
 	HRESULT					Add_Components();

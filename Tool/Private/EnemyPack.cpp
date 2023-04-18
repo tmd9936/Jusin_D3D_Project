@@ -3,6 +3,8 @@
 
 #include "GameInstance.h"
 
+#include "Stage_Manager.h"
+
 CEnemyPack::CEnemyPack(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
 {
@@ -136,6 +138,19 @@ _bool CEnemyPack::Load_By_JsonFile_Impl(Document& doc)
 	}
 
 	return true;
+}
+
+HRESULT CEnemyPack::Insert_In_Stage_Manager()
+{
+	CGameObject* pObject = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Manager", L"Manager");
+	if (nullptr == pObject)
+		return E_FAIL;
+
+	CStage_Manager* pStageManager = dynamic_cast<CStage_Manager*>(pObject);
+	if (nullptr == pStageManager)
+		return E_FAIL;
+
+	return S_OK;
 }
 
 

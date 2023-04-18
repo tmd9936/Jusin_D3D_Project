@@ -12,6 +12,8 @@ END
 
 BEGIN(Client)
 
+class CStage_Manager;
+
 class CEnemySpawnPoint final : public CGameObject
 {
 public:
@@ -39,23 +41,26 @@ private:
 	virtual ~CEnemySpawnPoint() = default;
 
 public:
-	virtual HRESULT Initialize_Prototype() override;
-	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override;
-	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath);
+	virtual HRESULT				Initialize_Prototype() override;
+	virtual HRESULT				Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override;
+	virtual HRESULT				Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath);
 
 
-	virtual _uint Tick(_double TimeDelta) override;
-	virtual _uint LateTick(_double TimeDelta) override;
-	virtual HRESULT Render() override;
+	virtual _uint				Tick(_double TimeDelta) override;
+	virtual _uint				LateTick(_double TimeDelta) override;
+	virtual HRESULT				Render() override;
 
 protected:
-	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
-	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
+	virtual _bool				Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
+	virtual _bool				Load_By_JsonFile_Impl(Document& doc);
 
 private:
-	HRESULT Add_Components();
-	HRESULT	Add_Components_By_Json();
-	HRESULT SetUp_ShaderResources(); 
+	HRESULT						Add_Components();
+	HRESULT						Add_Components_By_Json();
+	HRESULT						SetUp_ShaderResources(); 
+
+private:
+	HRESULT						Insert_In_Stage_Manager();
 
 private:
 	CTransform*					m_pTransformCom = { nullptr };
@@ -65,7 +70,6 @@ private:
 
 private:
 	ENEMY_SPAWN_POINT_DESC		m_Desc = { };
-	//TYPE						m_eType = { TYPE_END };
 
 public:
 	static CEnemySpawnPoint* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

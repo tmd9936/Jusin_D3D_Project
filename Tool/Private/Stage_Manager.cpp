@@ -46,6 +46,8 @@ HRESULT CStage_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, v
 	if (FAILED(Init_ManagerInfo()))
 		return E_FAIL;
 
+	m_enemySpawnPoints.reserve(10);
+
 	return S_OK;
 }
 
@@ -65,6 +67,8 @@ HRESULT CStage_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, c
 
 	if (FAILED(Init_ManagerInfo()))
 		return E_FAIL;
+
+	m_enemySpawnPoints.reserve(10);
 
 	return S_OK;
 }
@@ -124,6 +128,15 @@ void CStage_Manager::Boss_DeadEffect(_bool isEnd, _fvector vPos)
 	}
 
 	Safe_Release(pSkillEffect);
+}
+
+void CStage_Manager::Add_EnemySpawnPoint(CEnemySpawnPoint* pEnemySpawnPoint)
+{
+	if (nullptr == pEnemySpawnPoint)
+		return;
+
+	m_enemySpawnPoints.push_back(pEnemySpawnPoint);
+	Safe_AddRef(pEnemySpawnPoint);
 }
 
 HRESULT CStage_Manager::Init_ManagerInfo()
@@ -523,6 +536,11 @@ CGameObject* CStage_Manager::Clone(const _tchar* pLayerTag, _uint iLevelIndex, c
 void CStage_Manager::Free()
 {
 	__super::Free();
+
+	for (auto& point : m_enemySpawnPoints)
+	{
+		Safe_Release(point);
+	}
 
 	Safe_Release(m_pMainCamera);
 
