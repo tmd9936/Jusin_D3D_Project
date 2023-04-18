@@ -69,6 +69,9 @@ public:
 	}
 
 private:
+	HRESULT Init_PlayerPosition();
+
+private:
 	void Fade_out(const _double& TimeDelta);
 
 private:

@@ -59,6 +59,9 @@ HRESULT CWorldMap_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex
 
 	Safe_AddRef(p_MainCamera);
 
+	if (FAILED(Init_PlayerPosition()))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -99,6 +102,9 @@ HRESULT CWorldMap_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex
 
 	Safe_AddRef(p_MainCamera);
 
+	if (FAILED(Init_PlayerPosition()))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -133,6 +139,26 @@ HRESULT CWorldMap_Manager::Render()
 	m_pShaderCom->Begin(2);
 
 	m_pVIBufferCom->Render();
+
+	return S_OK;
+}
+
+HRESULT CWorldMap_Manager::Init_PlayerPosition()
+{
+	CGameObject* pPlayer1 = CGameInstance::GetInstance()->Get_Object(LEVEL_WORLDMAP, L"Layer_Player", L"Player1");
+
+	if (nullptr == pPlayer1)
+		return E_FAIL;
+
+	CTransform* pTransform = pPlayer1->Get_As<CTransform>();
+	if (nullptr == pTransform)
+		return E_FAIL;
+
+	pTransform->Set_Pos(24.04f, 1.2f, 23.60f);
+
+	CNavigation* pNaviagtion = nullptr;
+	pNaviagtion = pPlayer1->Get_As<CNavigation>();
+	pNaviagtion->Set_Index_By_Position({ 24.04f, 1.2f, 23.60f });
 
 	return S_OK;
 }
