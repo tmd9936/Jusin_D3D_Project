@@ -6,10 +6,10 @@
         "m_fSizeY": 36.0,
         "m_ModelPrototypLevel": 0,
         "m_ShaderLevelIndex": 0,
-        "m_DiffuseTexturePath": "./BaseCamp_worldmapL_button.dds",
+        "m_DiffuseTexturePath": "./Worldmap_BaseCampL_button.dds",
         "m_MaskPrototypeTag": "Prototype_Component_Button_Color_Mask",
         "m_BrushPrototypeTag": "",
-        "m_ButtonName": "GO_TO_WORLDMAP",
+        "m_ButtonName": "GO_TO_BASECAMP",
         "m_UIType": 0,
         "m_vColor": {
             "x" : 1.0,
@@ -22,7 +22,7 @@
         ],
         "m_TextParts": [
             {
-                "m_fX": 28.0,
+                "m_fX": 14.0,
                 "m_fY": 29.0,
                 "m_vColor": {
                     "x": 1.0,
@@ -40,7 +40,7 @@
                     "y": 0.25
                 },
                 "m_FontTag": "Font_NanumBarunGothic", 
-                "m_Text": "섬탐험",
+                "m_Text": "베이스 캠프 ",
                 "LayerTag": "Layer_UI"
             }
         ]

@@ -23,6 +23,7 @@
 #include "WorldMapAnimEnv.h"
 #include "WorldMap_Manager.h"
 #include "WorldMapBackToIdel.h"
+#include "GoToBaseCampButton.h"
 
 #include "StageInfoUI.h"
 #include "StagePoint.h"
@@ -1356,6 +1357,7 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_GoToWorldMapButton"),
 			CGoToWorldMapButton::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
+
 		/* For.Prototype_GameObject_FlatTerrain */
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_FlatTerrain"),
 			CFlatTerrain::Create(m_pDevice, m_pContext))))
@@ -1523,6 +1525,11 @@ HRESULT CLoader::Loading_ForWorldMapLevel()
 
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_WorldMap_GoToStageButton"),
 			CGoToStageButton::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		/* For.Prototype_GameObject_GoToBaseCampButton */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_GoToBaseCampButton"),
+			CGoToBaseCampButton::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 	}
 #pragma endregion

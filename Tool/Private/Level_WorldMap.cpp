@@ -274,12 +274,12 @@ HRESULT CLevel_WorldMap::Ready_Layer_Player(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_Layer(LEVEL_WORLDMAP, L"Layer_BuffState")))
 		return E_FAIL;
 
-	CMonster::POKEMON_DESC desc{};
-	desc.m_monsterNo = 25;
-	desc.vPos = _float4(25.2f, 1.5f, 22.0f, 1.f);
+	//CMonster::POKEMON_DESC desc{};
+	//desc.m_monsterNo = 25;
+	//desc.vPos = _float4(25.2f, 1.5f, 22.0f, 1.f);
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Player"), LEVEL_WORLDMAP, pLayerTag, L"Player1", &desc)))
-		return E_FAIL;
+	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Player"), LEVEL_WORLDMAP, pLayerTag, L"Player1", &desc)))
+	//	return E_FAIL;
 
 	Safe_Release(pGameInstance);
 
@@ -314,6 +314,9 @@ HRESULT CLevel_WorldMap::Ready_Layer_UI(const _tchar* pLayerTag)
 	Safe_AddRef(pGameInstance);
 
 	if (FAILED(pGameInstance->Add_Layer(LEVEL_WORLDMAP, pLayerTag)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GoToBaseCampButton"), LEVEL_WORLDMAP, pLayerTag, L"GoToBaseCampButton", "../../Reference/Resources/Data/Scene/WorldMap/Button/GoToBaseCamp.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);

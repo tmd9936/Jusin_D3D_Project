@@ -253,6 +253,9 @@
     <Filter Include="02. GameObject\Static\SkillEffect\AttackEffect\BumerangAttackEffect">
       <UniqueIdentifier>{2d626e37-05ab-4920-8365-67ff25029c8b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\WorldMap\Button\GoToBaseCampButton">
+      <UniqueIdentifier>{97f9b621-990f-4cb9-a324-0a97ffc9c8f9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -497,6 +500,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\BumerangAttackEffect.h">
       <Filter>02. GameObject\Static\SkillEffect\AttackEffect\BumerangAttackEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\GoToBaseCampButton.h">
+      <Filter>02. GameObject\WorldMap\Button\GoToBaseCampButton</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -743,6 +749,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\BumerangAttackEffect.cpp">
       <Filter>02. GameObject\Static\SkillEffect\AttackEffect\BumerangAttackEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\GoToBaseCampButton.cpp">
+      <Filter>02. GameObject\WorldMap\Button\GoToBaseCampButton</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
