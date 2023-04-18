@@ -36,6 +36,9 @@ HRESULT CEnemyPack::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void*
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
+	if (FAILED(Insert_In_Stage_Manager()))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -51,6 +54,9 @@ HRESULT CEnemyPack::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const
 	}
 
 	if (FAILED(Add_Components_By_Json()))
+		return E_FAIL;
+
+	if (FAILED(Insert_In_Stage_Manager()))
 		return E_FAIL;
 
 	return S_OK;
@@ -115,7 +121,7 @@ _bool CEnemyPack::Load_By_JsonFile_Impl(Document& doc)
 {
 	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
 
-	const Value& EnemyPackDesc = doc["EnemyPackDescsss"];
+	const Value& EnemyPackDesc = doc["EnemyPackDesc"];
 
 	string m_Name = EnemyPackDesc["m_Name"].GetString();
 	m_Desc.m_Name = convert.from_bytes(m_Name);
@@ -142,7 +148,7 @@ _bool CEnemyPack::Load_By_JsonFile_Impl(Document& doc)
 
 HRESULT CEnemyPack::Insert_In_Stage_Manager()
 {
-	CGameObject* pObject = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Manager", L"Manager");
+	CGameObject* pObject = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Manager", L"Stage_Manager");
 	if (nullptr == pObject)
 		return E_FAIL;
 
@@ -150,9 +156,10 @@ HRESULT CEnemyPack::Insert_In_Stage_Manager()
 	if (nullptr == pStageManager)
 		return E_FAIL;
 
+	pStageManager->Set_EnemyPack(this);
+
 	return S_OK;
 }
-
 
 HRESULT CEnemyPack::Add_Components()
 {
@@ -163,7 +170,6 @@ HRESULT CEnemyPack::Add_Components_By_Json()
 {
 	return S_OK;
 }
-
 
 HRESULT CEnemyPack::SetUp_ShaderResources()
 {

@@ -54,7 +54,6 @@ public:
 	virtual HRESULT			Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override;
 	virtual HRESULT			Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath);
 
-
 	virtual _uint			Tick(_double TimeDelta) override;
 	virtual _uint			LateTick(_double TimeDelta) override;
 	virtual HRESULT			Render() override;
@@ -72,7 +71,7 @@ private:
 	HRESULT					SetUp_ShaderResources();
 
 private:
-	ENEMY_PACK_DESC		m_Desc = { };
+	ENEMY_PACK_DESC			m_Desc = { };
 
 public:
 	static CEnemyPack* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

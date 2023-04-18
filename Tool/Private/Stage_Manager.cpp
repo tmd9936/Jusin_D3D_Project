@@ -4,18 +4,13 @@
 #include "GameInstance.h"
 
 #include "StageCamera.h"
-
 #include "Monster.h"
-
 #include "PokemonSkillButton.h"
-
 #include "Client_Utility.h"
-
 #include "Effect_Manager.h"
-
 #include "Pokering.h"
-
 #include "EnemySpawnPoint.h"
+#include "EnemyPack.h"
 
 
 CStage_Manager::CStage_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -137,6 +132,15 @@ void CStage_Manager::Add_EnemySpawnPoint(CEnemySpawnPoint* pEnemySpawnPoint)
 
 	m_enemySpawnPoints.push_back(pEnemySpawnPoint);
 	Safe_AddRef(pEnemySpawnPoint);
+}
+
+void CStage_Manager::Set_EnemyPack(CEnemyPack* pEnemyPack)
+{
+	if (nullptr == pEnemyPack || nullptr != m_pEnemyPack)
+		return;
+
+	m_pEnemyPack = pEnemyPack;
+	Safe_AddRef(m_pEnemyPack);
 }
 
 HRESULT CStage_Manager::Init_ManagerInfo()

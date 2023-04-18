@@ -23,6 +23,7 @@ class CMonster;
 class CEffect_Manager;
 class CPokering;
 class CEnemySpawnPoint;
+class CEnemyPack;
 
 class CStage_Manager final : public CGameObject
 {
@@ -64,6 +65,7 @@ public:
 
 	void						Boss_DeadEffect(_bool isEnd, _fvector vPos);
 	void						Add_EnemySpawnPoint(CEnemySpawnPoint* pEnemySpawnPoint);
+	void						Set_EnemyPack(CEnemyPack* pEnemyPack);
 
 private:
 	HRESULT						Init_ManagerInfo();
@@ -92,6 +94,7 @@ private:
 	WORLDMAP_MANAGER_STATE		m_eCurState = { MANAGER_FADE_IN };
 
 	CStageCamera*				m_pMainCamera = { nullptr };
+	CEnemyPack*					m_pEnemyPack = { nullptr };
 	vector<CEnemySpawnPoint*>	m_enemySpawnPoints;
 
 private:

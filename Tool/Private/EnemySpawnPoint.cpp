@@ -37,6 +37,9 @@ HRESULT CEnemySpawnPoint::Initialize(const _tchar* pLayerTag, _uint iLevelIndex,
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
+	if (FAILED(Insert_In_Stage_Manager()))
+		return E_FAIL;
+
 	m_pTransformCom->Set_Pos(m_Desc.m_position.x, m_Desc.m_position.y, m_Desc.m_position.z);
 
 	m_eRenderId = RENDER_NONBLEND;
@@ -56,6 +59,9 @@ HRESULT CEnemySpawnPoint::Initialize(const _tchar* pLayerTag, _uint iLevelIndex,
 	}
 
 	if (FAILED(Add_Components_By_Json()))
+		return E_FAIL;
+
+	if (FAILED(Insert_In_Stage_Manager()))
 		return E_FAIL;
 
 	m_pTransformCom->Set_Pos(m_Desc.m_position.x, m_Desc.m_position.y, m_Desc.m_position.z);
@@ -201,7 +207,7 @@ HRESULT CEnemySpawnPoint::SetUp_ShaderResources()
 
 HRESULT CEnemySpawnPoint::Insert_In_Stage_Manager()
 {
-	CGameObject* pObject = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Manager", L"Manager");
+	CGameObject* pObject = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Manager", L"Stage_Manager");
 	if (nullptr == pObject)
 		return E_FAIL;
 

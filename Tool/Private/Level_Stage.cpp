@@ -45,9 +45,6 @@ HRESULT CLevel_Stage::Initialize()
 	if (FAILED(Ready_Layer_Map(TEXT("Layer_Map"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_EnemyPack(TEXT("Layer_EnemyPack"))))
-		return E_FAIL;
-
 	if (FAILED(Ready_Layer_CameraTarget(TEXT("Layer_CameraTarget"))))
 		return E_FAIL;
 
@@ -61,6 +58,9 @@ HRESULT CLevel_Stage::Initialize()
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_EnemySpawnPoint(TEXT("Layer_EnemySpawnPoint"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_EnemyPack(TEXT("Layer_EnemyPack"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_PlayerSkill(TEXT("Layer_PlayerSkill"))))
@@ -428,6 +428,8 @@ HRESULT CLevel_Stage::Ready_Layer_EnemyPack(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_Layer(LEVEL_STAGE, pLayerTag)))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_EnemyPack"), LEVEL_STAGE, pLayerTag, L"EnemyPack", "../../Reference/Resources/Data/Scene/Stage/EnemyPack/EnemyPack_water1_001.json", CLONE_FILEPATH)))
+		return E_FAIL;
 
 	Safe_Release(pGameInstance);
 
