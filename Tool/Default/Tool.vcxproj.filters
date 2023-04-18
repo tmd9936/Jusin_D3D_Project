@@ -262,6 +262,9 @@
     <Filter Include="02. GameObject\Stage\EnemyPack">
       <UniqueIdentifier>{755943cc-dfcb-4f55-8392-f1a28abf00ff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\Stage\StageMessageInfo">
+      <UniqueIdentifier>{bc4977dd-38f6-4ab3-a11b-357e05990b37}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -515,6 +518,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\EnemyPack.h">
       <Filter>02. GameObject\Stage\EnemyPack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\StageMessageInfo.h">
+      <Filter>02. GameObject\Stage\StageMessageInfo</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -770,6 +776,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\EnemyPack.cpp">
       <Filter>02. GameObject\Stage\EnemyPack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\StageMessageInfo.cpp">
+      <Filter>02. GameObject\Stage\StageMessageInfo</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

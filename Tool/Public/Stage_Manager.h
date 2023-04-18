@@ -24,6 +24,7 @@ class CEffect_Manager;
 class CPokering;
 class CEnemySpawnPoint;
 class CEnemyPack;
+class CStageMessageInfo;
 
 class CStage_Manager final : public CGameObject
 {
@@ -66,6 +67,7 @@ public:
 	void						Boss_DeadEffect(_bool isEnd, _fvector vPos);
 	void						Add_EnemySpawnPoint(CEnemySpawnPoint* pEnemySpawnPoint);
 	void						Set_EnemyPack(CEnemyPack* pEnemyPack);
+	void						Set_StageMessageInfo(CStageMessageInfo* pStageMessageInfo);
 
 private:
 	HRESULT						Init_ManagerInfo();
@@ -95,7 +97,9 @@ private:
 
 	CStageCamera*				m_pMainCamera = { nullptr };
 	CEnemyPack*					m_pEnemyPack = { nullptr };
+	CStageMessageInfo*			m_pStageMessageInfo = { nullptr };
 	vector<CEnemySpawnPoint*>	m_enemySpawnPoints;
+
 
 private:
 	CTransform*					m_pTransformCom = { nullptr };

@@ -215,6 +215,7 @@
     <ClInclude Include="..\Public\Skill_Manager.h" />
     <ClInclude Include="..\Public\StageInfoUI.h" />
     <ClInclude Include="..\Public\StageEnemyMonster.h" />
+    <ClInclude Include="..\Public\StageMessageInfo.h" />
     <ClInclude Include="..\Public\StagePoint.h" />
     <ClInclude Include="..\Public\StageCamera.h" />
     <ClInclude Include="..\Public\StageCameraTarget.h" />
@@ -300,6 +301,7 @@
     <ClCompile Include="..\Private\Skill_Manager.cpp" />
     <ClCompile Include="..\Private\StageInfoUI.cpp" />
     <ClCompile Include="..\Private\StageEnemyMonster.cpp" />
+    <ClCompile Include="..\Private\StageMessageInfo.cpp" />
     <ClCompile Include="..\Private\StagePoint.cpp" />
     <ClCompile Include="..\Private\StageCamera.cpp" />
     <ClCompile Include="..\Private\StageCameraTarget.cpp" />

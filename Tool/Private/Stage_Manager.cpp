@@ -11,6 +11,7 @@
 #include "Pokering.h"
 #include "EnemySpawnPoint.h"
 #include "EnemyPack.h"
+#include "StageMessageInfo.h"
 
 
 CStage_Manager::CStage_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -141,6 +142,15 @@ void CStage_Manager::Set_EnemyPack(CEnemyPack* pEnemyPack)
 
 	m_pEnemyPack = pEnemyPack;
 	Safe_AddRef(m_pEnemyPack);
+}
+
+void CStage_Manager::Set_StageMessageInfo(CStageMessageInfo* pStageMessageInfo)
+{
+	if (nullptr == pStageMessageInfo || nullptr != m_pStageMessageInfo)
+		return;
+
+	m_pStageMessageInfo = pStageMessageInfo;
+	Safe_AddRef(m_pStageMessageInfo);
 }
 
 HRESULT CStage_Manager::Init_ManagerInfo()
@@ -545,6 +555,10 @@ void CStage_Manager::Free()
 	{
 		Safe_Release(point);
 	}
+
+	Safe_Release(m_pStageMessageInfo);
+
+	Safe_Release(m_pEnemyPack);
 
 	Safe_Release(m_pMainCamera);
 

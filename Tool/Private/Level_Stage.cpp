@@ -57,6 +57,9 @@ HRESULT CLevel_Stage::Initialize()
 	if (FAILED(Ready_Layer_Manager(TEXT("Layer_Manager"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_StageMessageInfo(TEXT("Layer_StageMessageInfo"))))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_EnemySpawnPoint(TEXT("Layer_EnemySpawnPoint"))))
 		return E_FAIL;
 
@@ -377,6 +380,7 @@ HRESULT CLevel_Stage::Ready_Layer_UI(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PokemonSkillButton"), LEVEL_STAGE, pLayerTag, L"Player3_Skill1", "../../Reference/Resources/Data/Scene/Stage/Button/Player3_Skill1.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
+
 	Safe_Release(pGameInstance);
 
 	return S_OK;
@@ -429,6 +433,22 @@ HRESULT CLevel_Stage::Ready_Layer_EnemyPack(const _tchar* pLayerTag)
 		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_EnemyPack"), LEVEL_STAGE, pLayerTag, L"EnemyPack", "../../Reference/Resources/Data/Scene/Stage/EnemyPack/EnemyPack_water1_001.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CLevel_Stage::Ready_Layer_StageMessageInfo(const _tchar* pLayerTag)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_STAGE, pLayerTag)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageMessageInfo"), LEVEL_STAGE, pLayerTag, L"StageMessgeInfo", "../../Reference/Resources/Data/Scene/Stage/UI/StageMessageInfo.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);

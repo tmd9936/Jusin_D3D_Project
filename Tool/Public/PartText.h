@@ -61,6 +61,10 @@ public:
 		lstrcpy(m_Text_Desc.m_Text, text.c_str());
 	}
 
+	const wstring	Get_Text() const {
+		return m_Text_Desc.m_Text;
+	}
+
 private:
 	CTransform* m_pTransformCom = { nullptr };
 	CRenderer* m_pRendererCom = { nullptr };

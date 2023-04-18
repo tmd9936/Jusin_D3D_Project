@@ -100,7 +100,6 @@ _uint CUI::Tick(_double TimeDelta)
 
 _uint CUI::LateTick(_double TimeDelta)
 {
-
 	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
 
 	for (auto& part : m_TextureParts)

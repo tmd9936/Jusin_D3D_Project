@@ -53,6 +53,7 @@
 #include "StageSupportMonster.h"
 #include "EnemySpawnPoint.h"
 #include "EnemyPack.h"
+#include "StageMessageInfo.h"
 
 #include "HP.h"
 #include "HpBar.h"
@@ -1005,6 +1006,10 @@ HRESULT CLoader::Loading_ForLogoLevel()
 				"../../Reference/Resources/Data/Condition_Buff_DeBuff/ConditionTypeDataSet.json",
 				"../../Reference/Resources/Data/Condition_Buff_DeBuff/ConditionParameter.json"))))
 			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_StageMessageInfo"),
+			CStageMessageInfo::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
 	}
 #pragma endregion
 
@@ -1645,6 +1650,7 @@ HRESULT CLoader::Loading_ForStageLevel()
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_EnemyPack"),
 			CEnemyPack::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
+
 	}
 
 	wsprintf(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
