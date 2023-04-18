@@ -20,8 +20,8 @@
             }
         },
         "damageTextMiscDesc": {
-            "SizeX": 15.0,
-            "SizeY": 15.0,
+            "SizeX": 0.55,
+            "SizeY": 0.5,
             "PositionX": -17.0,
             "PositionY": -45.0,
             "PositionZ": 0.1
