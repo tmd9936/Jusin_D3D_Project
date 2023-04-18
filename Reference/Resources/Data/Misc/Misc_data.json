@@ -20,10 +20,10 @@
             }
         },
         "damageTextMiscDesc": {
-            "SizeX": 20.0,
-            "SizeY": 20.0,
-            "PositionX": -10.0,
-            "PositionY": -40.0,
+            "SizeX": 15.0,
+            "SizeY": 15.0,
+            "PositionX": -17.0,
+            "PositionY": -45.0,
             "PositionZ": 0.1
         },
         "m_buffStateDesces": [

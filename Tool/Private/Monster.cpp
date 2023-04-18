@@ -200,7 +200,7 @@ _uint CMonster::LateTick(_double TimeDelta)
 			if (m_pHPCom->Is_DamageEvent())
 			{
 				m_pHpBar->Set_GetDamageEvent();
-				m_pDamageText->Show_Damage(m_pHPCom->Get_DamageRecieved(), { 1.f, 1.f, 1.f, 1.f }, { 0.75f, 0.75f }, 0.f, { 0.f, 0.f });
+				m_pDamageText->Show_Damage(m_pHPCom->Get_DamageRecieved(), { 1.f, 1.f, 1.f, 1.f }, { 0.65f, 0.65f }, 0.f, { 0.f, 0.f });
 			}
 		}
 		//
