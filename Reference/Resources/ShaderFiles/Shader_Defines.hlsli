@@ -14,6 +14,11 @@ sampler PointSampler = sampler_state
 	AddressV = wrap;
 };
 
+sampler PointSamplerNoWrap = sampler_state
+{
+	filter = min_mag_mip_point;
+};
+
 sampler LinearSampler = sampler_state
 {
 	filter = min_mag_mip_linear;

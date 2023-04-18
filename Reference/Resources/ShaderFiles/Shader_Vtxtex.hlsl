@@ -55,7 +55,7 @@ PS_OUT PS_MAIN(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
-	Out.vColor = g_Texture.Sample(LinearSampler, In.vTexUV);
+	Out.vColor = g_Texture.Sample(PointSampler, In.vTexUV);
 
 	if (Out.vColor.a < 0.1)
 		discard;
@@ -67,7 +67,7 @@ PS_OUT PS_MAIN_ROUND(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
-	Out.vColor = g_Texture.Sample(LinearSampler, In.vTexUV);
+	Out.vColor = g_Texture.Sample(PointSampler, In.vTexUV);
 
 	if (Out.vColor.a < 0.1)
 		discard;
@@ -84,7 +84,7 @@ PS_OUT PS_MAIN_ALPHA(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
-	Out.vColor = g_Texture.Sample(LinearSampler, In.vTexUV);
+	Out.vColor = g_Texture.Sample(PointSampler, In.vTexUV);
 
 	if (Out.vColor.a < 0.1)
 		discard;
@@ -98,12 +98,12 @@ PS_OUT PS_MAIN_COOLTIME_ALPHAMASK(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
-	vector		vMask = g_MaskTexture.Sample(LinearSampler, In.vTexUV);
+	vector		vMask = g_MaskTexture.Sample(PointSampler, In.vTexUV);
 
 	if (vMask.a < 0.1)
 		discard;
 
-	Out.vColor = g_Texture.Sample(LinearSampler, In.vTexUV);
+	Out.vColor = g_Texture.Sample(PointSampler, In.vTexUV);
 
 	float angle = CalculateClockAngle_float(In.vTexUV);
 	Out.vColor = (angle > g_Progress) ? float4(0.f, 0.f, 0.f, 0.4f) : float4(0.f, 0.f, 0.f, 0.f);
