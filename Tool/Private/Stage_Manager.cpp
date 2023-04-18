@@ -86,9 +86,11 @@ _uint CStage_Manager::LateTick(_double TimeDelta)
 		_int nextSpawnIndex = m_pEnemyPack->Get_NextEnemyPack();
 		CEnemySpawnPoint* pEnemySpawnPoint = m_enemySpawnPoints.at(nextSpawnIndex);
 
+		CEnemySpawnPoint::ENEMY_SPAWN_POINT_DESC desc = move(pEnemySpawnPoint->Get_EnemySpawnPointDesc());
+
 		if (nullptr != pEnemySpawnPoint)
 		{
-			//m_pEnemyPack->Next_Spawn();
+			m_pEnemyPack->Next_Spawn(desc.m_position, desc.m_spawnRadius);
 		}
 	}
 

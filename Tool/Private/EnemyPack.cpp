@@ -87,7 +87,7 @@ HRESULT CEnemyPack::Render()
 	return S_OK;
 }
 
-_bool CEnemyPack::Next_Spawn(_fvector vPosition, const _float& radius)
+_bool CEnemyPack::Next_Spawn(_float3 vPosition, const _float& radius)
 {
 	vector<CStageEnemyMonster*>* currentPack = m_EnemyPack.at(m_NextEnemyPack);
 
@@ -101,8 +101,7 @@ _bool CEnemyPack::Next_Spawn(_fvector vPosition, const _float& radius)
 			CTransform* pTransform = enemy->Get_As<CTransform>();
 			if (nullptr != pTransform)
 			{
-				_float4 vPos{};
-				XMStoreFloat4(&vPos, vPosition);
+				_float3 vPos = vPosition;
 
 				_float randAddRadiran = XMConvertToRadians((_float)(rand() % 36) * 10.f);
 				vPos.x += sin(randAddRadiran) * radius;

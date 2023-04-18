@@ -62,7 +62,7 @@ public:
 	virtual HRESULT			Render() override;
 
 public:
-	_bool					Next_Spawn(_fvector vPosition, const _float& radius);
+	_bool					Next_Spawn(_float3 vPosition, const _float& radius);
 	_bool					Is_CanNextSpawn() {
 		return m_CanNextSpawn;
 	}
