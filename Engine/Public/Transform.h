@@ -146,6 +146,9 @@ public:
 	void Go_Up(_float TimeDelta);
 	void Go_Down(_float TimeDelta);
 
+	void Go_Left_ByNavigation(_float TimeDelta, CNavigation* pNavigation = nullptr);
+	void Go_Right_ByNavigation(_float TimeDelta, CNavigation* pNavigation = nullptr);
+
 	void Go_Straight_No_Y(_float TimeDelta);
 
 	void Go_Down_No_Y(_float TimeDelta);

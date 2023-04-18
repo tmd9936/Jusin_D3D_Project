@@ -133,6 +133,16 @@ void CStageSupportMonster::On_CollisionEnter(CCollider* pOther, const _float& fX
 	if (pOtherOwner->Get_LayerTag().compare(L"Layer_Player") == 0)
 	{
 		Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
+
+		if (fX > 0)
+		{
+			m_pTransformCom->Go_Left_ByNavigation(0.01666f, m_pNavigationCom);
+		}
+		else if (fX < 0)
+		{
+			m_pTransformCom->Go_Right_ByNavigation(0.01666f, m_pNavigationCom);
+		}
+
 		if (m_FormationChanger)
 		{
 			m_FormationFightTimeAcc += 0.01666;
@@ -155,6 +165,15 @@ void CStageSupportMonster::On_Collision(CCollider* pOther, const _float& fX, con
 	if (pOtherOwner->Get_LayerTag().compare(L"Layer_Player") == 0)
 	{
 		Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
+
+		if (fY > 0)
+		{
+			m_pTransformCom->Go_Left_ByNavigation(0.01666f, m_pNavigationCom);
+		}
+		else if (fY < 0)
+		{
+			m_pTransformCom->Go_Right_ByNavigation(0.01666f, m_pNavigationCom);
+		}
 
 		if (m_FormationChanger)
 		{
@@ -330,11 +349,12 @@ _uint CStageSupportMonster::State_Tick(const _double& TimeDelta)
 	case CMonFSM::IDLE_GROUND:
 		m_pModelCom->Play_Animation(TimeDelta);
 
+
 		if (pTargetTransform)
 		{
 			//m_pTransformCom->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta * 1.5));
 
-			if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta * 1.5f), 2.0f, m_pNavigationCom))
+			if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta * 1.2f), 1.4f, m_pNavigationCom))
 			{
 				if (m_bCanAttack)
 				{
@@ -650,7 +670,7 @@ void CStageSupportMonster::AI_Type_Long_Idle_Tick(const _double& TimeDelta, CTra
 		if (targetToDistance <= 1.2f)
 		{
 			if (m_pTransformCom->Go_BackWard_Look_Pos(pTargetTransform->Get_State(CTransform::STATE_POSITION), m_pTransformCom->Get_State(CTransform::STATE_POSITION)
-				+ m_pTransformCom->Get_State(CTransform::STATE_LOOK) * -1.5f, _float(TimeDelta * 1.5), 0.8f, m_pNavigationCom))
+				+ m_pTransformCom->Get_State(CTransform::STATE_LOOK) * -1.5f, _float(TimeDelta * 1.5), 1.2f, m_pNavigationCom))
 			{
 			}
 		}
