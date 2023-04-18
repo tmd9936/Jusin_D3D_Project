@@ -144,7 +144,7 @@ void CStageMessageInfo::Stay_Time_Check(const _double& TimeDelta)
 
 void CStageMessageInfo::State_Tick_Opening(const _double& TimeDelta)
 {
-	m_CurSizeY += TimeDelta * 90.f;
+	m_CurSizeY += _float(TimeDelta * 95.0);
 	if (m_CurSizeY >= m_MaxSizeY)
 	{
 		m_CurSizeY = m_MaxSizeY;
@@ -155,7 +155,7 @@ void CStageMessageInfo::State_Tick_Opening(const _double& TimeDelta)
 
 void CStageMessageInfo::State_Tick_Closing(const _double& TimeDelta)
 {
-	m_CurSizeY -= TimeDelta * 90.f;
+	m_CurSizeY -= _float(TimeDelta * 95.0);
 	if (m_CurSizeY <= 0.f)
 	{
 		m_CurSizeY = 0.f;

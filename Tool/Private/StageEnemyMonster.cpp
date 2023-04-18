@@ -223,7 +223,7 @@ void CStageEnemyMonster::AI_Type_Long_Idle_Tick(const _double& TimeDelta, CTrans
 	if (!m_bChase)
 	{
 
-		m_pTransformCom->TurnToTarget({ 0.f, 1.f, 0.f, 0.f }, pTargetTransform->Get_State(CTransform::STATE_POSITION), TimeDelta);
+		m_pTransformCom->TurnToTarget({ 0.f, 1.f, 0.f, 0.f }, pTargetTransform->Get_State(CTransform::STATE_POSITION), (_float)TimeDelta);
 		if (targetToDistance >= 3.f)
 		{
 			m_ChaseCoolTimeAcc += TimeDelta;

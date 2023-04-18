@@ -808,7 +808,7 @@ HRESULT CMonster::SetUp_ShaderResources()
 			return E_FAIL;
 	}
 
-	_float ratio = (_float)fabs(m_hitTimeAcc - m_hitTime) / m_hitTime;
+	_float ratio = (_float)(fabs(m_hitTimeAcc - m_hitTime) / m_hitTime);
 	if (FAILED(m_pShaderCom->Set_RawValue("g_Ratio",
 		&ratio, sizeof(_float))))
 		return E_FAIL;
