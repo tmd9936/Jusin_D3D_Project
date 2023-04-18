@@ -46,6 +46,9 @@ _uint CHP::Tick(const _double& Timedelta)
 
 void CHP::Get_Damage(_int damage)
 {
+	if (false == m_bCanGetDamage)
+		return;
+
 	if (damage <= 0)
 		return;
 

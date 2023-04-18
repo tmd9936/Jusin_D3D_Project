@@ -70,6 +70,8 @@ HRESULT CStageEnemyMonster::Initialize(const _tchar* pLayerTag, _uint iLevelInde
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 		return E_FAIL;
 
+	m_pHPCom->Set_CanGetDamage(false);
+
 	return S_OK;
 }
 
@@ -77,6 +79,8 @@ HRESULT CStageEnemyMonster::Initialize(const _tchar* pLayerTag, _uint iLevelInde
 {
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, filePath)))
 		return E_FAIL;
+
+	m_pHPCom->Set_CanGetDamage(false);
 
 	return S_OK;
 }

@@ -160,6 +160,9 @@ void CAttackEffect::Collision(CCollider* pOther,
 
 			if (nullptr != pOtherHpCom)
 			{
+				if (false == pOtherHpCom->Get_CanGetDamage())
+					return;
+
 				if (pOtherHpCom->Get_CurrentHp() <= 0)
 					return;
 

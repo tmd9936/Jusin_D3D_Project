@@ -6,6 +6,7 @@
 BEGIN(Engine)
 class CTransform;
 class CNavigation;
+class CHP;
 END
 
 BEGIN(Client)

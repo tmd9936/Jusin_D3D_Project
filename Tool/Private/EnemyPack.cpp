@@ -115,6 +115,12 @@ _bool CEnemyPack::Next_Spawn(_float3 vPosition, const _float& radius)
 				{
 					pNavigation->Set_Index_By_Position(vPos);
 				}
+
+				CHP* pHpCom = enemy->Get_As<CHP>();
+				if (nullptr != pHpCom)
+				{
+					pHpCom->Set_CanGetDamage(true);
+				}
 			}
 			enemy->Be_Spawn();
 		}

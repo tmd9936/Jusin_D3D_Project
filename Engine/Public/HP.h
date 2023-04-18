@@ -70,6 +70,13 @@ public:
 	void Set_DamageGetPercent(_float percent);
 	_float	Add_DamageGetPercent(_float percent);
 
+	void Set_CanGetDamage(const _bool& bCanGetDamage) {
+		m_bCanGetDamage = bCanGetDamage;
+	}
+
+	const _bool Get_CanGetDamage() const {
+		return m_bCanGetDamage;
+	}
 private:	
 	HP_DESC		m_Desc = {};
 
@@ -80,6 +87,8 @@ private:
 	_bool		m_GetDamageEvent = { false };
 
 	_float		m_DamageGetPercent = { 1.f };
+
+	_bool		m_bCanGetDamage = { true };
 public:
 	static CHP* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CComponent* Clone(CGameObject* pOwner, void* pArg = nullptr) override;
