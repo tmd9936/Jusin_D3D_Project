@@ -106,8 +106,6 @@ _uint CBuffState::LateTick(_double TimeDelta)
 	_float4 BuffPos{};
 	XMStoreFloat4(&BuffPos, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
 
-	// 뷰 투영 뷰포트 행렬을 가져올 때 UI지만 직교투영이 아닌 카메라 기준으로 가져오는 이유
-	// 몬스터 기준으로 일단 UI 위치를 특정하기위함 
 	_matrix		ViewPortMatrix = CGameInstance::GetInstance()->Get_ViewPort_Matrix(BuffPos.x, BuffPos.y, g_iWinSizeX, g_iWinSizeY, 0.f, 1.f);
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
@@ -116,23 +114,19 @@ _uint CBuffState::LateTick(_double TimeDelta)
 
 	_float4x4 ParentMat{};
 	XMStoreFloat4x4(&ParentMat, m_Desc.pParentTransform->Get_WorldMatrix_Matrix());
-
 	XMStoreFloat4x4(&ParentMat, XMLoadFloat4x4(&ParentMat) * viewMatrix * projMatrix * ViewPortMatrix);
 
-	// x와 y에 z빼기를 해주면 뷰포트 기준으로의 위치가 만들어짐
-	// z까지 z뺴기를 해주면 부모의 뒤로 랜더가 될 경우가 생기기 때문에 z는 임의의 값으로 놔둠
 	_float3 vScale = m_pTransformCom->Get_Scaled();
-	XMStoreFloat4x4(&m_FinalWorldMatrix, XMMatrixSet(
-		vScale.x, 0.f, 0.f, 0.f,
-		0.f, vScale.y, 0.f, 0.f,
-		0.f, 0.f, 1.f, 0.f,
-		(ParentMat.m[3][0]) / ParentMat.m[3][2], (ParentMat.m[3][1]) / ParentMat.m[3][2], 0.f, 1.f
-	));
 
-	m_FinalWorldMatrix.m[3][0] = (m_FinalWorldMatrix.m[3][0]) - g_iWinSizeX * 0.5f;
-	m_FinalWorldMatrix.m[3][1] = -(m_FinalWorldMatrix.m[3][1]) + g_iWinSizeY * 0.5f;
-	//m_FinalWorldMatrix.m[3][1] *= -1.f;
-	m_FinalWorldMatrix.m[3][2] = m_Desc.m_fPositinoZ;
+	XMStoreFloat4x4(&m_FinalWorldMatrix, XMMatrixScaling(vScale.x, vScale.y, 1.f));
+
+	XMStoreFloat4x4(&m_FinalWorldMatrix,
+		XMLoadFloat4x4(&m_FinalWorldMatrix) * XMMatrixTranslation((ParentMat.m[3][0]) / ParentMat.m[3][2] - g_iWinSizeX * 0.5f,
+			-((ParentMat.m[3][1]) / ParentMat.m[3][2]) + g_iWinSizeY * 0.5f,
+			0.1f));
+
+
+	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
 
 	return _uint();
 }
