@@ -7,7 +7,7 @@ BEGIN(Engine)
 class CTransform;
 class CRenderer;
 class CPickingCube;
-class CAABB;
+class CSphere;
 END
 
 BEGIN(Client)
@@ -61,7 +61,7 @@ private:
 	CTransform*					m_pTransformCom = { nullptr };
 	CRenderer*					m_pRendererCom = { nullptr };
 	CPickingCube*				m_pPickingCube = { nullptr };
-	CAABB*						m_pAABB = { nullptr };
+	CSphere*					m_pSphere = { nullptr };
 
 private:
 	ENEMY_SPAWN_POINT_DESC		m_Desc = { };

@@ -65,7 +65,7 @@ HRESULT CEnemySpawnPoint::Initialize(const _tchar* pLayerTag, _uint iLevelIndex,
 
 _uint CEnemySpawnPoint::Tick(_double TimeDelta)
 {
-	m_pAABB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
+	m_pSphere->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
 	return _uint();
 }
 
@@ -82,7 +82,7 @@ HRESULT CEnemySpawnPoint::Render()
 		return E_FAIL;
 
 #ifdef _DEBUG
-	m_pAABB->Render();
+	m_pSphere->Render();
 #endif // _DEBUG
 
 	return S_OK;
@@ -149,10 +149,10 @@ HRESULT CEnemySpawnPoint::Add_Components()
 	/* For.Com_AABB*/
 	CCollider::COLLIDER_DESC		ColliderDesc;
 	ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
-	ColliderDesc.vScale = _float3(1.f, 1.5f, 1.f);
+	ColliderDesc.vScale = _float3(3.f, 3.f, 3.f);
 	ColliderDesc.vPosition = _float3(0.0f, ColliderDesc.vScale.y * 0.5f, 0.f);
-	if (FAILED(pGameInstance->Add_Component(CCollider::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB"),
-		(CComponent**)&m_pAABB, &ColliderDesc)))
+	if (FAILED(pGameInstance->Add_Component(CCollider::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
+		(CComponent**)&m_pSphere, &ColliderDesc)))
 		return E_FAIL;
 
 
@@ -184,8 +184,8 @@ HRESULT CEnemySpawnPoint::Add_Components_By_Json()
 	ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
 	ColliderDesc.vScale = _float3(m_Desc.m_spawnRadius, m_Desc.m_spawnRadius, m_Desc.m_spawnRadius);
 	ColliderDesc.vPosition = _float3(0.0f, ColliderDesc.vScale.y * 0.5f, 0.f);
-	if (FAILED(pGameInstance->Add_Component(CCollider::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB"),
-		(CComponent**)&m_pAABB, &ColliderDesc)))
+	if (FAILED(pGameInstance->Add_Component(CCollider::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
+		(CComponent**)&m_pSphere, &ColliderDesc)))
 		return E_FAIL;
 
 	return S_OK;
@@ -244,5 +244,5 @@ void CEnemySpawnPoint::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pRendererCom);
 	Safe_Release(m_pPickingCube);
-	Safe_Release(m_pAABB);
+	Safe_Release(m_pSphere);
 }
