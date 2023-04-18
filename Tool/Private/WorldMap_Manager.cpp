@@ -257,12 +257,14 @@ void CWorldMap_Manager::Change_State()
 			m_eRenderId = RENDER_END;
 			p_MainCamera->Control_On();
 			CGameInstance::GetInstance()->Layer_Tick_State_Change(L"Layer_Stage_Info_UI", LEVEL_WORLDMAP, false);
+			CGameInstance::GetInstance()->Layer_Tick_State_Change(L"Layer_UI", LEVEL_WORLDMAP, true);
 			break;
 		case MANAGER_OPEN_STATE_INFO:
 			m_eRenderId = RENDER_BACK_UI;
 			m_vCurrentFadeColor = m_Desc.m_FadeStartColor;
 			p_MainCamera->Control_Off();
 			CGameInstance::GetInstance()->Layer_Tick_State_Change(L"Layer_Stage_Info_UI", LEVEL_WORLDMAP, true);
+			CGameInstance::GetInstance()->Layer_Tick_State_Change(L"Layer_UI", LEVEL_WORLDMAP, false);
 
 			break;
 		case MANAGER_CAMERA_FADE_OUT:
@@ -270,6 +272,8 @@ void CWorldMap_Manager::Change_State()
 			m_vCurrentFadeColor = m_Desc.m_FadeStartColor;
 			p_MainCamera->Control_Off();
 			CGameInstance::GetInstance()->Layer_Tick_State_Change(L"Layer_Stage_Info_UI", LEVEL_WORLDMAP, false);
+			CGameInstance::GetInstance()->Layer_Tick_State_Change(L"Layer_UI", LEVEL_WORLDMAP, false);
+
 			break;
 		}
 		m_ePreState = m_eCurState;
