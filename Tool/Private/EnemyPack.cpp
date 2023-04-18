@@ -128,6 +128,9 @@ _bool CEnemyPack::Next_Spawn(_float3 vPosition, const _float& radius)
 
 void CEnemyPack::Check_CanNextSpawn()
 {
+	if (m_NextEnemyPack >= m_EnemyPack.size())
+		return;
+
 	if (true == m_CanNextSpawn)
 		return;
 
@@ -236,6 +239,7 @@ HRESULT CEnemyPack::Create_EnemyPack()
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
 	_uint setIndex = 0;
+
 	vector<CStageEnemyMonster*>* pEnemys = new vector<CStageEnemyMonster*>;
 	m_EnemyPack.push_back(pEnemys);
 
@@ -254,7 +258,7 @@ HRESULT CEnemyPack::Create_EnemyPack()
 		{
 			CStageEnemyMonster* pMonster = nullptr;
 			if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageEnemyMonster"), LEVEL_STAGE,
-				L"Layer_Monster", (CGameObject**)&pMonster, nullptr, (void*)m_Desc.m_registDatas[j].m_enemyFilePath.c_str(), CLONE_FILEPATH)))
+				L"Layer_Monster", (CGameObject**)&pMonster, nullptr, (void*)m_Desc.m_registDatas[i].m_enemyFilePath.c_str(), CLONE_FILEPATH)))
 				return E_FAIL;
 
 			pEnemys->push_back(pMonster);

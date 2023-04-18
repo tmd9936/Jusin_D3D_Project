@@ -85,7 +85,7 @@ _uint CStage_Manager::LateTick(_double TimeDelta)
 	{
 		_int nextSpawnIndex = m_pEnemyPack->Get_NextEnemyPack();
 
-		if (nextSpawnIndex <= m_enemySpawnPoints.size())
+		if (nextSpawnIndex >= m_enemySpawnPoints.size())
 		{
 			return 0; // 여기서 보스 죽은거로 판별하고 스테이지 끝내기
 		}
