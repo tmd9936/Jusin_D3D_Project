@@ -1,0 +1,61 @@
+{
+    "UIDesc": {
+        "m_fX": 180.0,
+        "m_fY": 40.0,
+        "m_fSizeX": 350.5,
+        "m_fSizeY": 50.0,
+        "m_ShaderPass": 0,
+        "m_UIType": 0,
+        "m_vColor": {
+            "x": 0.5,
+            "y": 0.5,
+            "z": 0.5,
+            "w": 1.0
+        },
+        "m_TextureProtoTypeLevel": 0,
+        "m_TextureProtoTypeName" : "Prototype_Component_Texture_LevelNameBase",
+        "m_TextureParts": [
+            {
+                "m_fX": -151.0,
+                "m_fY": 0.0,
+                "m_fSizeX": 43.0,
+                "m_fSizeY": 43.0,
+                "m_eType": 0,
+                "m_ShaderPass": 1,
+                "m_vColor": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_Worldmap_Icon",
+                "LayerTag": "Layer_UI"
+            }
+        ],
+        "m_TextParts": [
+            {
+                "m_fX": 140.0,
+                "m_fY": 10.0,
+                "m_vColor": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 2.0,
+                    "w": 1.0
+                },
+                "m_Rotation": 0.0,
+                "m_vRotationOrigin": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "m_vScale": {
+                    "x": 0.78,
+                    "y": 0.73
+                },
+                "m_FontTag": "Font_NanumBarunGothic", 
+                "m_Text": "월드맵",
+                "LayerTag": "Layer_UI"
+            }
+        ]
+    }
+}

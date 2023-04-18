@@ -317,6 +317,9 @@ HRESULT CLevel_WorldMap::Ready_Layer_UI(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GoToBaseCampButton"), LEVEL_WORLDMAP, pLayerTag, L"GoToBaseCampButton", "../../Reference/Resources/Data/Scene/WorldMap/Button/GoToBaseCamp.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UI"), LEVEL_WORLDMAP, pLayerTag, L"LevelNameInfo", "../../Reference/Resources/Data/Scene/WorldMap/UI/LevelNameInfo.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
 	Safe_Release(pGameInstance);
 
 	return S_OK;
