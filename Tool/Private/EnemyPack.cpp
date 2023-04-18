@@ -95,6 +95,7 @@ _bool CEnemyPack::Next_Spawn(_float3 vPosition, const _float& radius)
 		return false;
 
 	_int index = 0;
+	_float addRadion = 360.f / currentPack->size();
 	for (auto& enemy : *currentPack)
 	{
 		if (nullptr != enemy)
@@ -104,9 +105,9 @@ _bool CEnemyPack::Next_Spawn(_float3 vPosition, const _float& radius)
 			{
 				_float3 vPos = vPosition;
 
-				_float randAddRadiran = XMConvertToRadians(index * 10.f);
-				vPos.x += sin(randAddRadiran) * radius;
-				vPos.z += cos(randAddRadiran) * radius;
+				_float randAddRadian = XMConvertToRadians(index * addRadion);
+				vPos.x += sin(randAddRadian) * radius;
+				vPos.z += cos(randAddRadian) * radius;
 
 				pTransform->Set_Pos(vPos.x, vPos.y, vPos.z);
 
