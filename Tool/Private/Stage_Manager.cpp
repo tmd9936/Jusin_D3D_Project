@@ -84,6 +84,12 @@ _uint CStage_Manager::LateTick(_double TimeDelta)
 	if (nullptr != m_pEnemyPack && m_pEnemyPack->Is_CanNextSpawn())
 	{
 		_int nextSpawnIndex = m_pEnemyPack->Get_NextEnemyPack();
+
+		if (nextSpawnIndex <= m_enemySpawnPoints.size())
+		{
+			return 0; // 여기서 보스 죽은거로 판별하고 스테이지 끝내기
+		}
+
 		CEnemySpawnPoint* pEnemySpawnPoint = m_enemySpawnPoints.at(nextSpawnIndex);
 
 		CEnemySpawnPoint::ENEMY_SPAWN_POINT_DESC desc = move(pEnemySpawnPoint->Get_EnemySpawnPointDesc());

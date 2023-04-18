@@ -250,11 +250,11 @@ HRESULT CEnemyPack::Create_EnemyPack()
 
 		_uint enemyNumber = m_Desc.m_registDatas.at(i).m_enemyNumber;
 
-		for (size_t i = 0; i < enemyNumber; i++)
+		for (size_t j = 0; j < enemyNumber; ++j)
 		{
 			CStageEnemyMonster* pMonster = nullptr;
 			if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageEnemyMonster"), LEVEL_STAGE,
-				L"Layer_Monster", (CGameObject**)&pMonster, nullptr, (void*)m_Desc.m_registDatas[i].m_enemyFilePath.c_str(), CLONE_FILEPATH)))
+				L"Layer_Monster", (CGameObject**)&pMonster, nullptr, (void*)m_Desc.m_registDatas[j].m_enemyFilePath.c_str(), CLONE_FILEPATH)))
 				return E_FAIL;
 
 			pEnemys->push_back(pMonster);
