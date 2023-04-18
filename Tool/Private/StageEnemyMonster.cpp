@@ -187,13 +187,16 @@ void CStageEnemyMonster::On_CollisionEnter(CCollider* pOther, const _float& fX, 
 
 	if (pOtherOwner->Get_LayerTag().compare(L"Layer_Monster") == 0)
 	{
-		if (fY > 0)
+		if (false == m_StaySpawn)
 		{
-			m_pTransformCom->Go_Left_ByNavigation(0.01666f, m_pNavigationCom);
-		}
-		else if (fY < 0)
-		{
-			m_pTransformCom->Go_Right_ByNavigation(0.01666f, m_pNavigationCom);
+			if (fY > 0)
+			{
+				m_pTransformCom->Go_Left_ByNavigation(0.01666f, m_pNavigationCom);
+			}
+			else if (fY < 0)
+			{
+				m_pTransformCom->Go_Right_ByNavigation(0.01666f, m_pNavigationCom);
+			}
 		}
 
 		Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
@@ -209,13 +212,16 @@ void CStageEnemyMonster::On_Collision(CCollider* pOther, const _float& fX, const
 
 	if (pOtherOwner->Get_LayerTag().compare(L"Layer_Monster") == 0)
 	{
-		if (fY > 0)
+		if (false == m_StaySpawn)
 		{
-			m_pTransformCom->Go_Left_ByNavigation(0.01666f, m_pNavigationCom);
-		}
-		else if (fY < 0)
-		{
-			m_pTransformCom->Go_Right_ByNavigation(0.01666f, m_pNavigationCom);
+			if (fY > 0)
+			{
+				m_pTransformCom->Go_Left_ByNavigation(0.01666f, m_pNavigationCom);
+			}
+			else if (fY < 0)
+			{
+				m_pTransformCom->Go_Right_ByNavigation(0.01666f, m_pNavigationCom);
+			}
 		}
 		Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
 	}

@@ -94,6 +94,7 @@ _bool CEnemyPack::Next_Spawn(_float3 vPosition, const _float& radius)
 	if (nullptr == currentPack)
 		return false;
 
+	_int index = 0;
 	for (auto& enemy : *currentPack)
 	{
 		if (nullptr != enemy)
@@ -103,7 +104,7 @@ _bool CEnemyPack::Next_Spawn(_float3 vPosition, const _float& radius)
 			{
 				_float3 vPos = vPosition;
 
-				_float randAddRadiran = XMConvertToRadians((_float)(rand() % 36) * 10.f);
+				_float randAddRadiran = XMConvertToRadians(index * 10.f);
 				vPos.x += sin(randAddRadiran) * radius;
 				vPos.z += cos(randAddRadiran) * radius;
 
@@ -117,6 +118,7 @@ _bool CEnemyPack::Next_Spawn(_float3 vPosition, const _float& radius)
 			}
 			enemy->Be_Spawn();
 		}
+		++index;
 	}
 
 	m_CanNextSpawn = false;
@@ -136,7 +138,7 @@ void CEnemyPack::Check_CanNextSpawn()
 
 	for (auto& enemy : *currentPack)
 	{
-		if (nullptr != enemy)
+		if (false == enemy->Is_Dead())
 		{
 			return;
 		}
