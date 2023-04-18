@@ -74,6 +74,8 @@ _uint CEnemyPack::Tick(_double TimeDelta)
 
 _uint CEnemyPack::LateTick(_double TimeDelta)
 {
+	Check_CanNextSpawn();
+
 	return _uint();
 }
 
@@ -83,6 +85,66 @@ HRESULT CEnemyPack::Render()
 		return E_FAIL;
 
 	return S_OK;
+}
+
+_bool CEnemyPack::Next_Spawn(_fvector vPosition, const _float& radius)
+{
+	vector<CStageEnemyMonster*>* currentPack = m_EnemyPack.at(m_NextEnemyPack);
+
+	if (nullptr == currentPack)
+		return false;
+
+	for (auto& enemy : *currentPack)
+	{
+		if (nullptr != enemy)
+		{
+			CTransform* pTransform = enemy->Get_As<CTransform>();
+			if (nullptr != pTransform)
+			{
+				_float4 vPos{};
+				XMStoreFloat4(&vPos, vPosition);
+
+				_float randAddRadiran = XMConvertToRadians((_float)(rand() % 36) * 10.f);
+				vPos.x += sin(randAddRadiran) * radius;
+				vPos.z += cos(randAddRadiran) * radius;
+
+				pTransform->Set_Pos(vPos.x, vPos.y, vPos.z);
+
+				CNavigation* pNavigation = enemy->Get_As<CNavigation>();
+				if (nullptr != pNavigation)
+				{
+					pNavigation->Set_Index_By_Position(vPos);
+				}
+			}
+			enemy->Be_Spawn();
+		}
+	}
+
+	m_CanNextSpawn = false;
+
+	return true;
+}
+
+void CEnemyPack::Check_CanNextSpawn()
+{
+	if (true == m_CanNextSpawn)
+		return;
+
+	vector<CStageEnemyMonster*>* currentPack = m_EnemyPack.at(m_NextEnemyPack);
+
+	if (nullptr == currentPack)
+		return;
+
+	for (auto& enemy : *currentPack)
+	{
+		if (nullptr != enemy)
+		{
+			return;
+		}
+	}
+
+	++m_NextEnemyPack;
+	m_CanNextSpawn = true;
 }
 
 _bool CEnemyPack::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator)
@@ -134,6 +196,8 @@ _bool CEnemyPack::Load_By_JsonFile_Impl(Document& doc)
 	const Value& m_registDatas = EnemyPackDesc["m_registDatas"].GetArray();
 	assert(m_registDatas.IsArray());
 
+	m_Desc.m_registDatas.reserve((size_t)m_registDatas.Size());
+
 	for (SizeType i = 0; i < m_registDatas.Size(); ++i)
 	{
 		REGIST_DATA_DESC registDataDesc{};
@@ -170,10 +234,20 @@ HRESULT CEnemyPack::Create_EnemyPack()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
+	_uint setIndex = 0;
+	vector<CStageEnemyMonster*>* pEnemys = new vector<CStageEnemyMonster*>;
+	m_EnemyPack.push_back(pEnemys);
+
 	for (size_t i = 0; i < m_Desc.m_registDatas.size(); ++i)
 	{
+		if (m_Desc.m_registDatas.at(i).m_setIndex != setIndex)
+		{
+			setIndex = m_Desc.m_registDatas.at(i).m_setIndex;
+			pEnemys = new vector<CStageEnemyMonster*>;
+			m_EnemyPack.push_back(pEnemys);
+		}
+
 		_uint enemyNumber = m_Desc.m_registDatas.at(i).m_enemyNumber;
-		vector<CStageEnemyMonster*>* pEnemys = new vector<CStageEnemyMonster*>;
 
 		for (size_t i = 0; i < enemyNumber; i++)
 		{
@@ -184,8 +258,6 @@ HRESULT CEnemyPack::Create_EnemyPack()
 
 			pEnemys->push_back(pMonster);
 		}
-
-		m_EnemyPack.push_back(pEnemys);
 	}
 
 	return S_OK;

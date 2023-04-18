@@ -60,6 +60,11 @@ public:
 	virtual _uint				LateTick(_double TimeDelta) override;
 	virtual HRESULT				Render() override;
 
+public:
+	ENEMY_SPAWN_POINT_DESC		Get_EnemySpawnPointDesc() const {
+		return m_Desc;
+	}
+
 protected:
 	virtual _bool				Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
 	virtual _bool				Load_By_JsonFile_Impl(Document& doc);

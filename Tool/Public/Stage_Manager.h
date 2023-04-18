@@ -91,9 +91,6 @@ private:
 	void						Change_State();
 
 private:
-	void						Spawn();
-
-private:
 	WORLDMAP_MANAGER_DESC		m_Desc = {};
 	WORLDMAP_MANAGER_STATE		m_ePreState = { MANAGER_END };
 	WORLDMAP_MANAGER_STATE		m_eCurState = { MANAGER_FADE_IN };

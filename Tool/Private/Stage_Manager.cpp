@@ -81,6 +81,17 @@ _uint CStage_Manager::LateTick(_double TimeDelta)
 {
 	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
 
+	if (nullptr != m_pEnemyPack && m_pEnemyPack->Is_CanNextSpawn())
+	{
+		_int nextSpawnIndex = m_pEnemyPack->Get_NextEnemyPack();
+		CEnemySpawnPoint* pEnemySpawnPoint = m_enemySpawnPoints.at(nextSpawnIndex);
+
+		if (nullptr != pEnemySpawnPoint)
+		{
+			//m_pEnemyPack->Next_Spawn();
+		}
+	}
+
 	return _uint();
 }
 

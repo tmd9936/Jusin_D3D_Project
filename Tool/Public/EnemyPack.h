@@ -4,7 +4,8 @@
 #include "GameObject.h"
 
 BEGIN(Engine)
-
+class CTransform;
+class CNavigation;
 END
 
 BEGIN(Client)
@@ -60,6 +61,17 @@ public:
 	virtual _uint			LateTick(_double TimeDelta) override;
 	virtual HRESULT			Render() override;
 
+public:
+	_bool					Next_Spawn(_fvector vPosition, const _float& radius);
+	_bool					Is_CanNextSpawn() {
+		return m_CanNextSpawn;
+	}
+
+	void					Check_CanNextSpawn();
+	_int					Get_NextEnemyPack() {
+		return m_NextEnemyPack;
+	}
+
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
 	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
@@ -77,6 +89,8 @@ private:
 private:
 	ENEMY_PACK_DESC							m_Desc = { };
 	vector<vector<CStageEnemyMonster*>*>	m_EnemyPack;
+	_int									m_NextEnemyPack = { 0 };
+	_bool									m_CanNextSpawn = { true };
 
 public:
 	static CEnemyPack* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
