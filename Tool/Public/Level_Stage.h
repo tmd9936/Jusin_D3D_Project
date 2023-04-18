@@ -15,7 +15,7 @@ public:
 	virtual HRESULT Initialize() override;
 	virtual void Tick(_double TimeDelta) override;
 
-private: /* 이 레벨이 사용하기위한 사본 객체들을 그룹별로 생성하낟. */
+private: 
 	HRESULT Ready_Layer_Manager(const _tchar* pLayerTag);
 
 	HRESULT Ready_Layer_Terrain(const _tchar* pLayerTag);
@@ -36,6 +36,8 @@ private: /* 이 레벨이 사용하기위한 사본 객체들을 그룹별로 생성하낟. */
 	HRESULT Ready_Layer_UI(const _tchar* pLayerTag);
 
 	HRESULT Ready_Layer_CameraTarget(const _tchar* pLayerTag);
+
+	HRESULT Ready_Layer_EnemySpawnPoint(const _tchar* pLayerTag);
 
 	HRESULT	Ready_LightDesc();
 public:

@@ -45,6 +45,9 @@ HRESULT CLevel_Stage::Initialize()
 	if (FAILED(Ready_Layer_Map(TEXT("Layer_Map"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_EnemySpawnPoint(TEXT("Layer_EnemySpawnPoint"))))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_CameraTarget(TEXT("Layer_CameraTarget"))))
 		return E_FAIL;
 
@@ -386,6 +389,20 @@ HRESULT CLevel_Stage::Ready_Layer_CameraTarget(const _tchar* pLayerTag)
 
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageCameraTarget"), LEVEL_STAGE, pLayerTag, L"CameraTarget")))
 		return E_FAIL;
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CLevel_Stage::Ready_Layer_EnemySpawnPoint(const _tchar* pLayerTag)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_STAGE, pLayerTag)))
+		return E_FAIL;
+
 
 	Safe_Release(pGameInstance);
 

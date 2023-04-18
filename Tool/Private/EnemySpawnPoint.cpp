@@ -53,12 +53,12 @@ HRESULT CEnemySpawnPoint::Initialize(const _tchar* pLayerTag, _uint iLevelIndex,
 		m_strSaveJsonPath = filePath;
 	}
 
-	if (FAILED(Add_Components()))
+	if (FAILED(Add_Components_By_Json()))
 		return E_FAIL;
 
 	m_pTransformCom->Set_Pos(m_Desc.m_position.x, m_Desc.m_position.y, m_Desc.m_position.z);
 
-	m_eRenderId = RENDER_NONLIGHT;
+	m_eRenderId = RENDER_NONBLEND;
 
 	return S_OK;
 }
@@ -149,12 +149,44 @@ HRESULT CEnemySpawnPoint::Add_Components()
 	/* For.Com_AABB*/
 	CCollider::COLLIDER_DESC		ColliderDesc;
 	ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
-	ColliderDesc.vScale = _float3(1.f, 2.f, 1.f);
+	ColliderDesc.vScale = _float3(1.f, 1.5f, 1.f);
 	ColliderDesc.vPosition = _float3(0.0f, ColliderDesc.vScale.y * 0.5f, 0.f);
 	if (FAILED(pGameInstance->Add_Component(CCollider::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB"),
 		(CComponent**)&m_pAABB, &ColliderDesc)))
 		return E_FAIL;
 
+
+	return S_OK;
+}
+
+HRESULT CEnemySpawnPoint::Add_Components_By_Json()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	/* For.Com_PickingCube */
+	if (FAILED(pGameInstance->Add_Component(CPickingCube::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_PickingCube"),
+		(CComponent**)&m_pPickingCube, nullptr)))
+		return E_FAIL;
+
+	/* For.Com_Transform */
+	CTransform::TRANSFORMDESC		TransformDesc = { 10.f, XMConvertToRadians(90.0f) };
+	if (FAILED(pGameInstance->Add_Component(CTransform::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+		(CComponent**)&m_pTransformCom, &TransformDesc)))
+		return E_FAIL;
+
+	/* For.Com_Renderer */
+	if (FAILED(pGameInstance->Add_Component(CRenderer::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Renderer"),
+		(CComponent**)&m_pRendererCom, nullptr)))
+		return E_FAIL;
+
+	/* For.Com_AABB*/
+	CCollider::COLLIDER_DESC		ColliderDesc;
+	ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
+	ColliderDesc.vScale = _float3(m_Desc.m_spawnRadius, m_Desc.m_spawnRadius, m_Desc.m_spawnRadius);
+	ColliderDesc.vPosition = _float3(0.0f, ColliderDesc.vScale.y * 0.5f, 0.f);
+	if (FAILED(pGameInstance->Add_Component(CCollider::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB"),
+		(CComponent**)&m_pAABB, &ColliderDesc)))
+		return E_FAIL;
 
 	return S_OK;
 }

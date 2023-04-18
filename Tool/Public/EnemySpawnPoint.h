@@ -54,6 +54,7 @@ protected:
 
 private:
 	HRESULT Add_Components();
+	HRESULT	Add_Components_By_Json();
 	HRESULT SetUp_ShaderResources(); 
 
 private:
