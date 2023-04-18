@@ -289,7 +289,7 @@ _bool CEffect_Manager::Load_By_JsonFile_Impl(Document& doc)
 		//m_desc.m_soundEventTag = convert.from_bytes(m_datas[i]["m_soundEventTag"].GetString());
 		m_desc.m_underFlag = m_datas[i]["m_underFlag"].GetUint();
 
-		m_Effect_Descs.push_back(m_desc);
+		m_Effect_Descs.push_back(move(m_desc));
 
 		//==============================
 		SkillEffectDesc.m_effectType = m_datas[i]["m_effectType"].GetUint();
@@ -301,7 +301,7 @@ _bool CEffect_Manager::Load_By_JsonFile_Impl(Document& doc)
 		//m_desc.m_soundEventTag = convert.from_bytes(m_datas[i]["m_soundEventTag"].GetString());
 		SkillEffectDesc.m_underFlag = m_datas[i]["m_underFlag"].GetUint();
 
-		m_Skill_Effect_Descs.push_back(SkillEffectDesc);
+		m_Skill_Effect_Descs.push_back(move(SkillEffectDesc));
 	}
 
 	return true;

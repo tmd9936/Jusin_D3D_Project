@@ -3,6 +3,7 @@
 #include "Client_Defines.h"
 #include "GameObject.h"
 #include "StageCamera.h"
+#include "EnemySpawnPoint.h"
 
 BEGIN(Engine)
 class CCamera;
@@ -21,6 +22,7 @@ class CPokemonSkillButton;
 class CMonster;
 class CEffect_Manager;
 class CPokering;
+class CEnemySpawnPoint;
 
 class CStage_Manager final : public CGameObject
 {
@@ -69,12 +71,27 @@ private:
 private:
 	void Fade_In(const _double& TimeDelta);
 
+protected:
+	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
+	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
+
+private:
+	void	State_Tick(const _double& TimeDelta);
+	void	Change_State();
+
+private:
+	HRESULT Add_Components();
+	HRESULT Add_Components_By_File();
+
+	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 던진다. */
+
 private:
 	WORLDMAP_MANAGER_DESC		m_Desc = {};
 	WORLDMAP_MANAGER_STATE		m_ePreState = { MANAGER_END };
 	WORLDMAP_MANAGER_STATE		m_eCurState = { MANAGER_FADE_IN };
 
-	CStageCamera*				p_MainCamera = { nullptr };
+	CStageCamera*				m_pMainCamera = { nullptr };
+	vector<CEnemySpawnPoint*>	m_enemySpawnPointList;
 
 private:
 	CTransform*					m_pTransformCom = { nullptr };
@@ -94,23 +111,6 @@ private:
 
 	_float4						m_vCurrentFadeColor = {};
 	_double						m_fCurrentFadeTime = { 0.f };
-
-protected:
-	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
-	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
-
-private:
-	void   State_Tick(const _double& TimeDelta);
-
-	void   Change_State();
-	// TODO: UI 숨기기-> 알파로 서서히 사라지게 하기, 마우스 움직이면 다시 알파로 서서히 나타나게하기
-	// 이 기능은 몬스터 충돌 다 하고나서 다다음주 부터 정도?
-
-private:
-	HRESULT Add_Components();
-	HRESULT Add_Components_By_File();
-
-	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 던진다. */
 
 public:
 	static CStage_Manager* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

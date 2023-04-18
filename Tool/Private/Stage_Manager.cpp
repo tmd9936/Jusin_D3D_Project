@@ -15,6 +15,8 @@
 
 #include "Pokering.h"
 
+#include "EnemySpawnPoint.h"
+
 
 CStage_Manager::CStage_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
@@ -143,11 +145,11 @@ HRESULT CStage_Manager::Init_ManagerInfo()
 	XMStoreFloat4x4(&m_ProjMatrix,
 		XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
 
-	p_MainCamera = (CStageCamera*)CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Camera", L"Main_Camera");
-	if (nullptr == p_MainCamera)
+	m_pMainCamera = (CStageCamera*)CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Camera", L"Main_Camera");
+	if (nullptr == m_pMainCamera)
 		return E_FAIL;
 
-	Safe_AddRef(p_MainCamera);
+	Safe_AddRef(m_pMainCamera);
 
 	Init_PlayersPos();
 
@@ -522,7 +524,7 @@ void CStage_Manager::Free()
 {
 	__super::Free();
 
-	Safe_Release(p_MainCamera);
+	Safe_Release(m_pMainCamera);
 
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pTransformCom);

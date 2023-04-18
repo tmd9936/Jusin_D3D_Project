@@ -259,6 +259,9 @@
     <Filter Include="02. GameObject\Stage\EnemySpawnPoint">
       <UniqueIdentifier>{295b9038-9977-4b35-a466-1cf4b8a495b4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\Stage\EnemyPack">
+      <UniqueIdentifier>{755943cc-dfcb-4f55-8392-f1a28abf00ff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -509,6 +512,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\EnemySpawnPoint.h">
       <Filter>02. GameObject\Stage\EnemySpawnPoint</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\EnemyPack.h">
+      <Filter>02. GameObject\Stage\EnemyPack</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -761,6 +767,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\EnemySpawnPoint.cpp">
       <Filter>02. GameObject\Stage\EnemySpawnPoint</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EnemyPack.cpp">
+      <Filter>02. GameObject\Stage\EnemyPack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

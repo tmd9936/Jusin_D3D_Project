@@ -1280,7 +1280,7 @@ bool CSkill_Manager::Load_SkillDataResourcesSet_JsonFile(const char* filePath)
 			m_desc.m_isEnablePotential_Knockback = (_bool)m_datas[i]["m_isEnablePotential_Knockback"].GetUint();
 			m_desc.m_isEnablePotential_Damage = (_bool)m_datas[i]["m_isEnablePotential_Damage"].GetUint();
 
-			m_Skill_Desc_Datas.push_back(m_desc);
+			m_Skill_Desc_Datas.push_back(move(m_desc));
 		}
 
 		/* 구현부 끝 */
