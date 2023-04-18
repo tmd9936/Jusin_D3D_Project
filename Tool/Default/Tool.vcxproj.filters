@@ -256,6 +256,9 @@
     <Filter Include="02. GameObject\WorldMap\Button\GoToBaseCampButton">
       <UniqueIdentifier>{97f9b621-990f-4cb9-a324-0a97ffc9c8f9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\Stage\EnemySpawnPoint">
+      <UniqueIdentifier>{295b9038-9977-4b35-a466-1cf4b8a495b4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -503,6 +506,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\GoToBaseCampButton.h">
       <Filter>02. GameObject\WorldMap\Button\GoToBaseCampButton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\EnemySpawnPoint.h">
+      <Filter>02. GameObject\Stage\EnemySpawnPoint</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -752,6 +758,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\GoToBaseCampButton.cpp">
       <Filter>02. GameObject\WorldMap\Button\GoToBaseCampButton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EnemySpawnPoint.cpp">
+      <Filter>02. GameObject\Stage\EnemySpawnPoint</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -175,6 +175,7 @@
     <ClInclude Include="..\Public\ChargeEffect.h" />
     <ClInclude Include="..\Public\ConditionData.h" />
     <ClInclude Include="..\Public\DamageText.h" />
+    <ClInclude Include="..\Public\EnemySpawnPoint.h" />
     <ClInclude Include="..\Public\GoToBaseCampButton.h" />
     <ClInclude Include="..\Public\GoToStageButton.h" />
     <ClInclude Include="..\Public\HommingAttackEffect.h" />
@@ -258,6 +259,7 @@
     <ClCompile Include="..\Private\ChargeEffect.cpp" />
     <ClCompile Include="..\Private\ConditionData.cpp" />
     <ClCompile Include="..\Private\DamageText.cpp" />
+    <ClCompile Include="..\Private\EnemySpawnPoint.cpp" />
     <ClCompile Include="..\Private\GoToBaseCampButton.cpp" />
     <ClCompile Include="..\Private\GoToStageButton.cpp" />
     <ClCompile Include="..\Private\HommingAttackEffect.cpp" />
