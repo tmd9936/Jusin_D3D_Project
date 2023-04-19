@@ -19,8 +19,17 @@ HRESULT CVIBuffer_Trail::Initialize_Prototype()
 
 HRESULT CVIBuffer_Trail::Initialize(void* pArg)
 {
+	if (nullptr != pArg)
+	{
+		m_Desc = (*(VIBUFFER_TRAIL_DESC*)(pArg));
+	}
+	else
+	{
+		m_Desc.m_iNumVertices = 36;
+	}
+
 	m_iStride = sizeof(VTXTEX);
-	m_iNumVertices = 36;
+	m_iNumVertices = m_Desc.m_iNumVertices;
 	m_iIndexSizePrimitive = sizeof(FACEINDICES32);
 	m_iNumPrimitives = m_iNumVertices - 2;
 	m_iNumIndicesPrimitive = 3;
@@ -127,7 +136,6 @@ _uint CVIBuffer_Trail::Tick(const _double& TimeDelta, _fmatrix parentMatrix)
 			data.vPosition = vPos[i];
 			m_worldVtxTex.push_back(data);
 		}
-		// ((VTXTEX*)SubResource.pData)[i].vPosition = m_pWorldVtxTex[i].vPosition;
 
 		m_fAccTime = 0.0;
 

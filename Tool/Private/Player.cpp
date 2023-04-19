@@ -254,6 +254,7 @@ HRESULT CPlayer::Add_Trail()
 	Safe_AddRef(desc.pParent);
 
 	XMStoreFloat4x4(&desc.PivotMatrix, m_pModelCom->Get_PivotMatrix());
+	desc.trailVertexNum = 36;
 
 	pGameInstance->Clone_GameObject(L"Layer_Player", m_iLevelindex, TEXT("Prototype_GameObject_Trail"), (CGameObject**)&m_pTrail, &desc);
 	if (nullptr == m_pTrail)

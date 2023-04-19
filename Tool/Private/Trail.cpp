@@ -24,16 +24,25 @@ HRESULT CTrail::Initialize_Prototype()
 
 HRESULT CTrail::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
+	if (nullptr != pArg)
+	{
+		memcpy(&m_Desc, pArg, sizeof m_Desc);
+	}
+	else
+	{
+		m_Desc.trailVertexNum = 36;
+	}
+
+	m_initTick = m_Desc.trailVertexNum;
+
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 		return E_FAIL;
 
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_Scaled(_float3(2.5f, 1.0f, 2.5f));
+	m_pTransformCom->Set_Scaled(_float3(1.f, 1.f, 1.f));
 	m_pTransformCom->Rotation(XMVectorSet(1.f, 0.f, 0.f, 0.f), XMConvertToRadians(90.0f));
-
-	memcpy(&m_Desc, pArg, sizeof m_Desc);
 
 	m_eRenderId = RENDER_NONLIGHT;
 
@@ -54,8 +63,15 @@ _uint CTrail::LateTick(_double TimeDelta)
 	XMStoreFloat4x4(&m_FinalWorldMatrix, m_pTransformCom->Get_WorldMatrix_Matrix() * Remove_Scale(ParentMatrix) * m_Desc.pParent->Get_WorldMatrix_Matrix());
 
 	m_pVIBufferCom->Tick(TimeDelta, XMLoadFloat4x4(&m_FinalWorldMatrix));
+	if (m_initTick >= 0)
+	{
+		m_initTick--;
+	}
+	else
+	{
+		m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
+	}
 
-	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
 
 	return _uint();
 }
@@ -88,9 +104,11 @@ HRESULT CTrail::Add_Components()
 		(CComponent**)&m_pRendererCom, nullptr)))
 		return E_FAIL;
 
+	CVIBuffer_Trail::VIBUFFER_TRAIL_DESC desc{};
+	desc.m_iNumVertices = m_Desc.trailVertexNum;
 	/* For.Com_VIBuffer */
-	if (FAILED(pGameInstance->Add_Component(CVIBuffer_Rect::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Trail"),
-		(CComponent**)&m_pVIBufferCom, nullptr)))
+	if (FAILED(pGameInstance->Add_Component(CVIBuffer_Trail::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Trail"),
+		(CComponent**)&m_pVIBufferCom, &desc)))
 		return E_FAIL;
 
 	/* For.Com_Shader */

@@ -21,6 +21,7 @@ public:
 	{
 		CBone*		pBonePtr = { nullptr };
 		CTransform* pParent = { nullptr };
+		_uint		trailVertexNum;
 		_float4x4	PivotMatrix;
 
 	}TRAIL_DESC;
@@ -45,14 +46,15 @@ private:
 	CVIBuffer_Trail* m_pVIBufferCom = { nullptr };
 
 private:
-	_float4x4			m_FinalWorldMatrix = {}; /* 원점기준 (내 월드 * 부모월드) */
-	TRAIL_DESC			m_Desc = {};
-
-private:
 	HRESULT Add_Components();
 	HRESULT SetUp_ShaderResources();
 
 	_matrix Remove_Scale(_fmatrix Matrix);
+
+private:
+	_float4x4			m_FinalWorldMatrix = {}; /* 원점기준 (내 월드 * 부모월드) */
+	TRAIL_DESC			m_Desc = {};
+	_int				m_initTick = { 35 };
 
 public:
 	static CTrail* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
