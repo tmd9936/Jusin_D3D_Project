@@ -18,9 +18,9 @@ CVIBuffer_Trail::CVIBuffer_Trail(const CVIBuffer_Trail& rhs, CGameObject* pOwner
 HRESULT CVIBuffer_Trail::Initialize_Prototype()
 {
 	m_iStride = sizeof(VTXTEX);
-	m_iNumVertices = 4;
+	m_iNumVertices = 20;
 	m_iIndexSizePrimitive = sizeof(FACEINDICES16);
-	m_iNumPrimitives = 2;
+	m_iNumPrimitives = m_iNumVertices - 2;
 	m_iNumIndicesPrimitive = 3;
 	m_iNumBuffers = 1;
 	m_eFormat = DXGI_FORMAT_R16_UINT;
@@ -46,18 +46,20 @@ HRESULT CVIBuffer_Trail::Initialize_Prototype()
 	m_pWorldVtxTex = new VTXTEX[m_iNumVertices];
 	ZeroMemory(m_pWorldVtxTex, m_iStride * m_iNumVertices);
 
-	/* 로컬스페이스 상의 위치 정보를 채운다. */
-	m_pVtxTex[0].vPosition = _float3(-0.5f, 0.5f, 0.f);
-	m_pVtxTex[0].vTexUV = _float2(0.0f, 0.f);
-
-	m_pVtxTex[1].vPosition = _float3(0.5f, 0.5f, 0.f);
-	m_pVtxTex[1].vTexUV = _float2(1.0f, 0.f);
-
-	m_pVtxTex[2].vPosition = _float3(0.5f, -0.5f, 0.f);
-	m_pVtxTex[2].vTexUV = _float2(1.0f, 1.f);
-
-	m_pVtxTex[3].vPosition = _float3(-0.5f, -0.5f, 0.f);
-	m_pVtxTex[3].vTexUV = _float2(0.0f, 1.f);
+	_float interval = 1.f / m_iNumPrimitives;
+	for (size_t i = 0; i < m_iNumVertices; ++i)
+	{
+		if (i % 2)
+		{
+			m_pVtxTex[i].vPosition = _float3(interval * i, 0.1f, 0.f);
+			m_pVtxTex[i].vTexUV = _float2(interval * i, 0.f);
+		}
+		else
+		{
+			m_pVtxTex[i].vPosition = _float3(interval * i, -0.1f, 0.f);
+			m_pVtxTex[i].vTexUV = _float2(interval * i, 1.f);
+		}
+	}
 
 	m_SubResourceData.pSysMem = m_pVtxTex;
 
@@ -81,18 +83,22 @@ HRESULT CVIBuffer_Trail::Initialize_Prototype()
 
 	m_pIndex = new FACEINDICES16[m_iNumPrimitives];
 
-	m_pIndex[0]._0 = 0;
-	m_pIndex[0]._1 = 1;
-	m_pIndex[0]._2 = 2;
+	for (size_t i = 0; i < m_iNumPrimitives; i += 2)
+	{
+		m_pIndex[i]._0 = i;
+		m_pIndex[i]._1 = i + 2;
+		m_pIndex[i]._2 = i + 3;
 
-	m_pIndex[1]._0 = 0;
-	m_pIndex[1]._1 = 2;
-	m_pIndex[1]._2 = 3;
+		m_pIndex[i + 1]._0 = i;
+		m_pIndex[i + 1]._1 = i + 2;
+		m_pIndex[i + 1]._2 = i + 1;
+	}
 
 	m_SubResourceData.pSysMem = m_pIndex;
 
 	if (FAILED(__super::Create_IndexBuffer()))
 		return E_FAIL;
+
 
 	//Safe_Delete_Array(pIndices);
 
@@ -116,6 +122,7 @@ _uint CVIBuffer_Trail::Tick(const _double& TimeDelta, _fmatrix parentMatrix)
 	{
 		XMStoreFloat3(&m_pWorldVtxTex[i].vPosition,
 			XMVector3TransformCoord(XMLoadFloat3(&m_pVtxTex[i].vPosition), parentMatrix));
+
 		((VTXTEX*)SubResource.pData)[i].vPosition = m_pWorldVtxTex[i].vPosition;
 	}
 

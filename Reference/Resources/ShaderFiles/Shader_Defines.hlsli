@@ -43,6 +43,13 @@ RasterizerState RS_CullMode
 	CullMode = none;
 };
 
+RasterizerState RS_Solid_NoCull
+{
+	FillMode = solid;
+	CullMode = none;
+};
+
+
 /* For.DepthStencil State  */
 DepthStencilState DSS_Default
 {
