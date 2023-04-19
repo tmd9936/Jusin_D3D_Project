@@ -28,11 +28,11 @@ const FACEINDICES16* Get_IndexBuffer() {
 
 private:
 	VTXTEX*			m_pVtxTex = { nullptr };
-	VTXTEX*			m_pWorldVtxTex = { nullptr };
-
+	list<VTXTEX>	m_worldVtxTex;
 
 	FACEINDICES16*	m_pIndex = { nullptr };
 
+	_double			m_fAccTime = { 0.0 };
 
 public:
 	static CVIBuffer_Trail* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

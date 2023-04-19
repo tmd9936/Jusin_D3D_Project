@@ -10,7 +10,7 @@ CVIBuffer_Trail::CVIBuffer_Trail(const CVIBuffer_Trail& rhs, CGameObject* pOwner
 	: CVIBuffer(rhs, pOwner)
 	, m_pVtxTex(rhs.m_pVtxTex)
 	, m_pIndex(rhs.m_pIndex)
-	, m_pWorldVtxTex(rhs.m_pWorldVtxTex)
+	, m_worldVtxTex(rhs.m_worldVtxTex)
 {
 
 }
@@ -42,9 +42,6 @@ HRESULT CVIBuffer_Trail::Initialize_Prototype()
 
 	m_pVtxTex = new VTXTEX[m_iNumVertices];
 	ZeroMemory(m_pVtxTex, m_iStride * m_iNumVertices);
-
-	m_pWorldVtxTex = new VTXTEX[m_iNumVertices];
-	ZeroMemory(m_pWorldVtxTex, m_iStride * m_iNumVertices);
 
 	_float interval = 1.f / m_iNumPrimitives;
 	for (size_t i = 0; i < m_iNumVertices; ++i)
@@ -114,20 +111,43 @@ HRESULT CVIBuffer_Trail::Initialize(void* pArg)
 
 _uint CVIBuffer_Trail::Tick(const _double& TimeDelta, _fmatrix parentMatrix)
 {
-	D3D11_MAPPED_SUBRESOURCE		SubResource;
-
-	m_pContext->Map(m_pVB, 0, D3D11_MAP_WRITE_NO_OVERWRITE, 0, &SubResource);
-
-	for (size_t i = 0; i < m_iNumVertices; i++)
+	while (m_worldVtxTex.size() >= 15)
 	{
-		XMStoreFloat3(&m_pWorldVtxTex[i].vPosition,
-			XMVector3TransformCoord(XMLoadFloat3(&m_pVtxTex[i].vPosition), parentMatrix));
-
-		((VTXTEX*)SubResource.pData)[i].vPosition = m_pWorldVtxTex[i].vPosition;
+		m_worldVtxTex.pop_front();
 	}
 
-	m_pContext->Unmap(m_pVB, 0);
+	if (0.02 < m_fAccTime)
+	{
+		_float3 vPos[2];
+		vPos[0] = _float3(1.f, 0.f, 0.f);
+		vPos[1] = _float3(-1.f, 0.f, 0.f);
 
+		for (size_t i = 0; i < 2; i++)
+		{
+			XMStoreFloat3(&vPos[i],
+				XMVector3TransformCoord(XMLoadFloat3(&vPos[i]), parentMatrix));
+
+			VTXTEX data{};
+			data.vPosition = vPos[i];
+			m_worldVtxTex.push_back(data);
+		}
+		// ((VTXTEX*)SubResource.pData)[i].vPosition = m_pWorldVtxTex[i].vPosition;
+
+		m_fAccTime = 0.0;
+
+		D3D11_MAPPED_SUBRESOURCE		SubResource;
+		m_pContext->Map(m_pVB, 0, D3D11_MAP_WRITE_NO_OVERWRITE, 0, &SubResource);
+
+		_uint index = 0;
+		for (auto& data : m_worldVtxTex)
+		{ 
+			((VTXTEX*)SubResource.pData)[index++].vPosition = data.vPosition;
+		}
+
+		m_pContext->Unmap(m_pVB, 0);
+	}
+
+	m_fAccTime += TimeDelta;
 
 	return _uint();
 }
