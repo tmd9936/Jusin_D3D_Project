@@ -18,7 +18,7 @@ CVIBuffer_Trail::CVIBuffer_Trail(const CVIBuffer_Trail& rhs, CGameObject* pOwner
 HRESULT CVIBuffer_Trail::Initialize_Prototype()
 {
 	m_iStride = sizeof(VTXTEX);
-	m_iNumVertices = 20;
+	m_iNumVertices = 35;
 	m_iIndexSizePrimitive = sizeof(FACEINDICES16);
 	m_iNumPrimitives = m_iNumVertices - 2;
 	m_iNumIndicesPrimitive = 3;
@@ -111,7 +111,7 @@ HRESULT CVIBuffer_Trail::Initialize(void* pArg)
 
 _uint CVIBuffer_Trail::Tick(const _double& TimeDelta, _fmatrix parentMatrix)
 {
-	while (m_worldVtxTex.size() >= 20)
+	while (m_worldVtxTex.size() >= 35)
 	{
 		m_worldVtxTex.pop_front();
 	}
