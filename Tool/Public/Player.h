@@ -14,6 +14,7 @@ END
 BEGIN(Client)
 
 class CBuffState;
+class CTrail;
 
 class CPlayer final : public CMonster
 {
@@ -35,7 +36,7 @@ public:
 	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath) override;
 
 	virtual _uint Tick(_double TimeDelta) override;
-	//virtual _uint LateTick(_double TimeDelta) override;
+	virtual _uint LateTick(_double TimeDelta) override;
 	//virtual HRESULT Render() override;
 
 public:
@@ -64,6 +65,9 @@ private:
 	void	Jump_Rotate();
 
 private:
+	HRESULT		Add_Trail();
+
+private:
 	_uint				m_TestSkillindex = { 58 };
 	_double				m_fAccel = { 1.5f };
 	_int				m_SkillLoopCount = { 0 };
@@ -72,6 +76,8 @@ private:
 	SKILL_LOOP_DESC		m_SkillLoopDesc = {};
 
 	_uint				m_normalSkillType2 = { 0 };
+
+	CTrail*				m_pTrail = { nullptr };
 
 public:
 	static CPlayer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

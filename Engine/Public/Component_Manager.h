@@ -6,6 +6,7 @@
 #include "VIBuffer_FlatTerrain.h"
 
 #include "VIBuffer_Rect_Instance.h"
+#include "VIBuffer_Trail.h"
 #pragma endregion
 
 #pragma region COMPONENT

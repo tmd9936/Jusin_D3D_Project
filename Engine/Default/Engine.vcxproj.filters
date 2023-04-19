@@ -181,6 +181,9 @@
     <Filter Include="01. Utility\03. Component\ManualCollsionState">
       <UniqueIdentifier>{ba6ece7d-b911-4126-8660-5ece63491190}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\03. Component\VIBuffer\Trail">
+      <UniqueIdentifier>{34dc9d5e-48b2-4ecb-8643-0e43e17477ff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Engine_Defines.h">
@@ -369,6 +372,9 @@
     <ClInclude Include="..\Public\ManualCollisionState.h">
       <Filter>01. Utility\03. Component\ManualCollsionState</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_Trail.h">
+      <Filter>01. Utility\03. Component\VIBuffer\Trail</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -541,6 +547,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\ManualCollisionState.cpp">
       <Filter>01. Utility\03. Component\ManualCollsionState</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_Trail.cpp">
+      <Filter>01. Utility\03. Component\VIBuffer\Trail</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

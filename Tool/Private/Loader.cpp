@@ -58,6 +58,7 @@
 #include "HP.h"
 #include "HpBar.h"
 #include "Formation.h"
+#include "Trail.h"
 
 #include "DamageText.h"
 
@@ -840,6 +841,10 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/UI/Worldmap_Icon.dds")))))
 			return E_FAIL;
 
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Trail"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Trail/effecttrail.dds")))))
+			return E_FAIL;
+
 	}
 
 #pragma endregion
@@ -899,9 +904,12 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CVIBuffer_Rect_Instance::Create(m_pDevice, m_pContext, 100))))
 			return E_FAIL;
 
-		/*
-			이펙트에서 몬스터의 이 컴포넌트 가져와서 수동으로 히트상태로 만들고 몬스터에서 이거로 히트 판단하는거로 바꾸기
-		*/
+		/* For.Prototype_Component_VIBuffer_Trail */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Trail"),
+			CVIBuffer_Trail::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		/*이펙트에서 몬스터의 이 컴포넌트 가져와서 수동으로 히트상태로 만들고 몬스터에서 이거로 히트 판단*/
 		/* For.Prototype_Component_ManualCollisionState */
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_ManualCollisionState"),
 			CManualCollisionState::Create(m_pDevice, m_pContext))))
@@ -1009,6 +1017,11 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_StageMessageInfo"),
 			CStageMessageInfo::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		/* For.Prototype_GameObject_Trail */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Trail"),
+			CTrail::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 	}
 #pragma endregion

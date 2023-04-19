@@ -265,6 +265,9 @@
     <Filter Include="02. GameObject\Stage\StageMessageInfo">
       <UniqueIdentifier>{bc4977dd-38f6-4ab3-a11b-357e05990b37}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\Static\Trail">
+      <UniqueIdentifier>{58698aa4-37c4-4935-8d19-ad0e0d7f87d2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -521,6 +524,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\StageMessageInfo.h">
       <Filter>02. GameObject\Stage\StageMessageInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Trail.h">
+      <Filter>02. GameObject\Static\Trail</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -779,6 +785,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\StageMessageInfo.cpp">
       <Filter>02. GameObject\Stage\StageMessageInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Trail.cpp">
+      <Filter>02. GameObject\Static\Trail</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
