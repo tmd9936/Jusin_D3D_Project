@@ -8,22 +8,24 @@ CVIBuffer_Trail::CVIBuffer_Trail(ID3D11Device* pDevice, ID3D11DeviceContext* pCo
 
 CVIBuffer_Trail::CVIBuffer_Trail(const CVIBuffer_Trail& rhs, CGameObject* pOwner)
 	: CVIBuffer(rhs, pOwner)
-	, m_pVtxTex(rhs.m_pVtxTex)
-	, m_pIndex(rhs.m_pIndex)
-	, m_worldVtxTex(rhs.m_worldVtxTex)
 {
 
 }
 
 HRESULT CVIBuffer_Trail::Initialize_Prototype()
 {
+	return S_OK;
+}
+
+HRESULT CVIBuffer_Trail::Initialize(void* pArg)
+{
 	m_iStride = sizeof(VTXTEX);
-	m_iNumVertices = 35;
-	m_iIndexSizePrimitive = sizeof(FACEINDICES16);
+	m_iNumVertices = 36;
+	m_iIndexSizePrimitive = sizeof(FACEINDICES32);
 	m_iNumPrimitives = m_iNumVertices - 2;
 	m_iNumIndicesPrimitive = 3;
 	m_iNumBuffers = 1;
-	m_eFormat = DXGI_FORMAT_R16_UINT;
+	m_eFormat = DXGI_FORMAT_R32_UINT;
 	m_eTopology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 
 #pragma region VERTEX_BUFFER
@@ -38,13 +40,12 @@ HRESULT CVIBuffer_Trail::Initialize_Prototype()
 	m_BufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	m_BufferDesc.MiscFlags = 0;
 
-	ZeroMemory(&m_SubResourceData, sizeof m_SubResourceData);
 
-	m_pVtxTex = new VTXTEX[m_iNumVertices];
+	VTXTEX* m_pVtxTex = new VTXTEX[m_iNumVertices];
 	ZeroMemory(m_pVtxTex, m_iStride * m_iNumVertices);
 
-	_float interval = 1.f / m_iNumPrimitives;
-	for (size_t i = 0; i < m_iNumVertices; ++i)
+	_float interval = 1.f / m_iNumVertices;
+	for (_uint i = 0; i < m_iNumVertices; ++i)
 	{
 		if (i % 2)
 		{
@@ -58,12 +59,13 @@ HRESULT CVIBuffer_Trail::Initialize_Prototype()
 		}
 	}
 
+	ZeroMemory(&m_SubResourceData, sizeof m_SubResourceData);
 	m_SubResourceData.pSysMem = m_pVtxTex;
 
 	if (FAILED(__super::Create_VertexBuffer()))
 		return E_FAIL;
 
-	//Safe_Delete_Array(pVertices);
+	Safe_Delete_Array(m_pVtxTex);
 
 #pragma endregion
 
@@ -77,41 +79,35 @@ HRESULT CVIBuffer_Trail::Initialize_Prototype()
 	m_BufferDesc.MiscFlags = 0;
 
 	ZeroMemory(&m_SubResourceData, sizeof m_SubResourceData);
+	FACEINDICES32* m_pIndices = new FACEINDICES32[m_iNumPrimitives];
 
-	m_pIndex = new FACEINDICES16[m_iNumPrimitives];
-
-	for (size_t i = 0; i < m_iNumPrimitives; i += 2)
+	/* m_iNumVertices(정점 개수)를 짝수로 안해주면 인덱스 버퍼 만들어주고 해제시에 
+	초과되는 메모리를 건드린다고 오류 메세지 뜸
+	삼각형 2개로 이루어진 사각형 버퍼를 이어서 만들어주는 것이여서 무조건 짝수 맞춰줘야함*/
+	for (_uint i = 0; i < m_iNumPrimitives; i += 2)
 	{
-		m_pIndex[i]._0 = i;
-		m_pIndex[i]._1 = i + 2;
-		m_pIndex[i]._2 = i + 3;
+		m_pIndices[i]._0 = i;
+		m_pIndices[i]._1 = i + 2;
+		m_pIndices[i]._2 = i + 3;
 
-		m_pIndex[i + 1]._0 = i;
-		m_pIndex[i + 1]._1 = i + 2;
-		m_pIndex[i + 1]._2 = i + 1;
+		m_pIndices[i + 1]._0 = i;
+		m_pIndices[i + 1]._1 = i + 2;
+		m_pIndices[i + 1]._2 = i + 1;
 	}
 
-	m_SubResourceData.pSysMem = m_pIndex;
+	m_SubResourceData.pSysMem = m_pIndices;
 
 	if (FAILED(__super::Create_IndexBuffer()))
 		return E_FAIL;
 
-
-	//Safe_Delete_Array(pIndices);
-
+	Safe_Delete_Array(m_pIndices);
 #pragma endregion
-
-	return S_OK;
-}
-
-HRESULT CVIBuffer_Trail::Initialize(void* pArg)
-{
 	return S_OK;
 }
 
 _uint CVIBuffer_Trail::Tick(const _double& TimeDelta, _fmatrix parentMatrix)
 {
-	while (m_worldVtxTex.size() >= 35)
+	while (m_worldVtxTex.size() >= m_iNumVertices)
 	{
 		m_worldVtxTex.pop_front();
 	}
@@ -180,12 +176,5 @@ CComponent* CVIBuffer_Trail::Clone(CGameObject* pOwner, void* pArg)
 
 void CVIBuffer_Trail::Free()
 {
-	if (!m_bClone)
-	{
-		Safe_Delete_Array(m_pIndex);
-		Safe_Delete_Array(m_pVtxTex);
-	}
-
 	__super::Free();
-
 }

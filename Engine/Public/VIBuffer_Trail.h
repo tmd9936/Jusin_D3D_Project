@@ -18,19 +18,10 @@ public:
 public:
 	virtual	_uint		Tick(const _double& TimeDelta, _fmatrix parentMatrix);
 
-public:
-	const VTXTEX* Get_VertexBuffer() {
-		return m_pVtxTex;
- }
-const FACEINDICES16* Get_IndexBuffer() {
-	return m_pIndex;
-}
+private:		
+	ID3D11Buffer*	 m_pVBInstance = { nullptr };
 
-private:
-	VTXTEX*			m_pVtxTex = { nullptr };
 	list<VTXTEX>	m_worldVtxTex;
-
-	FACEINDICES16*	m_pIndex = { nullptr };
 
 	_double			m_fAccTime = { 0.0 };
 
