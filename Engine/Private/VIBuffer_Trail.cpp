@@ -111,7 +111,7 @@ HRESULT CVIBuffer_Trail::Initialize(void* pArg)
 
 _uint CVIBuffer_Trail::Tick(const _double& TimeDelta, _fmatrix parentMatrix)
 {
-	while (m_worldVtxTex.size() >= 15)
+	while (m_worldVtxTex.size() >= 20)
 	{
 		m_worldVtxTex.pop_front();
 	}
@@ -119,8 +119,8 @@ _uint CVIBuffer_Trail::Tick(const _double& TimeDelta, _fmatrix parentMatrix)
 	if (0.02 < m_fAccTime)
 	{
 		_float3 vPos[2];
-		vPos[0] = _float3(1.f, 0.f, 0.f);
-		vPos[1] = _float3(-1.f, 0.f, 0.f);
+		vPos[0] = _float3(0.f, 0.f, 0.5f);
+		vPos[1] = _float3(0.f, 0.f, -0.5f);
 
 		for (size_t i = 0; i < 2; i++)
 		{
