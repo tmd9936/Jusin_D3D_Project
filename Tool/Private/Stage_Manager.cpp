@@ -14,6 +14,8 @@
 #include "StageMessageInfo.h"
 #include "StageClearUI.h"
 
+#include "Level_Loading.h"
+
 CStage_Manager::CStage_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
 {
@@ -71,6 +73,13 @@ HRESULT CStage_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, c
 
 _uint CStage_Manager::Tick(_double TimeDelta)
 {
+	if (m_returnToWorldMap)
+	{
+		CGameInstance::GetInstance()->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_WORLDMAP));
+
+		return OBJ_SCENE_CHNAGE;
+	}
+
 	State_Tick(TimeDelta);
 	Change_State();
 
@@ -173,6 +182,7 @@ void CStage_Manager::Boss_DeadEffect(_bool isEnd, _fvector vPos)
 		pSkillEffect = pEffect_Manager->CreateEffect(CEffect_Manager::m_damageBossEnd, L"Prototype_GameObject_SkillEffect", Get_LayerTag().c_str(), Get_Levelindex());
 		CGameInstance::GetInstance()->StopAll();
 		CGameInstance::GetInstance()->PlayBGM(L"BGM_Stage_Clear.ogg");
+		m_eCurState = MANAGER_CLEAR;
 	}
 
 	if (nullptr != pSkillEffect)
@@ -460,13 +470,19 @@ void CStage_Manager::State_Tick(const _double& TimeDelta)
 {
 	switch (m_eCurState)
 	{
-	case MANAGER_IDLE:
-		break;
-	case MANAGER_OPEN_STATE_INFO:
-		//Focus_Stay(TimeDelta);
-		break;
 	case MANAGER_FADE_IN:
 		Fade_In(TimeDelta);
+		break;
+
+	case MANAGER_IDLE:
+		break;
+
+	case MANAGER_CLEAR:
+		Stage_Clear_Tick(TimeDelta);
+		break;
+
+	case MANAGER_OPEN_STATE_INFO:
+		Open_StageInfo_Tick(TimeDelta);
 		break;
 	}
 }
@@ -477,21 +493,95 @@ void CStage_Manager::Change_State()
 	{
 		switch (m_eCurState)
 		{
-		case MANAGER_IDLE:
-			m_eRenderId = RENDER_END;
-			break;
-		case MANAGER_OPEN_STATE_INFO:
-			m_eRenderId = RENDER_BLEND_UI;
-			m_vCurrentFadeColor = m_Desc.m_FadeInStartColor;
-
-			break;
 		case MANAGER_FADE_IN:
 			m_eRenderId = RENDER_BLEND_UI;
 			m_vCurrentFadeColor = m_Desc.m_FadeInStartColor;
 			break;
+
+		case MANAGER_IDLE:
+			m_eRenderId = RENDER_END;
+			break;
+
+		case MANAGER_CLEAR:
+			m_stageClearDelayTimeAcc = 0.0;
+			m_vCurrentFadeColor = _float4(0.2f, 0.2f, 0.2f, 0.5f);
+			Stage_Clear();
+			break;
+
+		case MANAGER_OPEN_STATE_INFO:
+			m_eRenderId = RENDER_BLEND_UI;
+			break;
+
 		}
 		m_ePreState = m_eCurState;
 	}
+}
+
+void CStage_Manager::Stage_Clear()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	CMonFSM* pMonFSM = nullptr;
+	CModel* pModel = nullptr;
+
+	CGameObject* pPlayer1 = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Player", L"Player1");
+
+	if (nullptr != pPlayer1)
+	{
+		pMonFSM = pPlayer1->Get_As<CMonFSM>();
+		pModel = pPlayer1->Get_As<CModel>();
+
+		if (nullptr != pMonFSM && nullptr != pModel)
+		{
+			pMonFSM->Transit_MotionState(CMonFSM::STAGE_CLEAR, pModel);
+		}
+	}
+
+	CGameObject* pPlayer2 = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Player", L"Player2");
+
+	if (nullptr != pPlayer2)
+	{
+		pMonFSM = pPlayer2->Get_As<CMonFSM>();
+		pModel = pPlayer2->Get_As<CModel>();
+
+		if (nullptr != pMonFSM && nullptr != pModel)
+		{
+			pMonFSM->Transit_MotionState(CMonFSM::STAGE_CLEAR, pModel);
+		}
+	}
+
+	CGameObject* pPlayer3 = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Player", L"Player3");
+
+	if (nullptr != pPlayer3)
+	{
+		pMonFSM = pPlayer3->Get_As<CMonFSM>();
+		pModel = pPlayer3->Get_As<CModel>();
+
+		if (nullptr != pMonFSM && nullptr != pModel)
+		{
+			pMonFSM->Transit_MotionState(CMonFSM::STAGE_CLEAR, pModel);
+		}
+	}
+}
+
+void CStage_Manager::Stage_Clear_Tick(const _double& TimeDelta)
+{
+	if (m_stageClearDelayTimeAcc >= m_stageClearDelayTime)
+	{
+		m_eCurState = MANAGER_OPEN_STATE_INFO;
+	}
+
+	m_stageClearDelayTimeAcc += TimeDelta;
+}
+
+void CStage_Manager::Open_StageInfo_Tick(const _double& TimeDelta)
+{
+	if (m_openStateTimeAcc >= m_openStateTime)
+	{
+		m_returnToWorldMap = true;
+	}
+
+	m_openStateTimeAcc += TimeDelta;
 }
 
 HRESULT CStage_Manager::Add_Components()

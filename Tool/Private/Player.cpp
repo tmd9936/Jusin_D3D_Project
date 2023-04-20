@@ -189,11 +189,16 @@ _uint CPlayer::Tick(_double TimeDelta)
 	case CMonFSM::IDLE_NO:
 		m_pModelCom->Play_Animation(TimeDelta);
 		break;
+
+	case CMonFSM::STAGE_CLEAR:
+		m_pModelCom->Play_Animation(TimeDelta);
+		break;
+
 	default:
 		break;
 	}
 
-	if (CMonFSM::IDLE_NO != m_pMonFSM->Get_MotionState())
+	if (CMonFSM::IDLE_NO != m_pMonFSM->Get_MotionState() && CMonFSM::STAGE_CLEAR != m_pMonFSM->Get_MotionState())
 		Key_Input(TimeDelta);
 
 	if (KEY_TAB(KEY::SPACE))

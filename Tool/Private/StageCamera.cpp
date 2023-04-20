@@ -112,6 +112,8 @@ _uint CStageCamera::State_LateTick(const _double& TimeDelta)
 	case STATE_RETURN_TO_PLAYER:
 		Return_To_Player(TimeDelta);
 		break;
+	case STATE_STAGE_CLEAR:
+		break;
 	}
 
 	return _uint();
@@ -154,6 +156,9 @@ void CStageCamera::State_Change()
 			break;
 		case STATE_RETURN_TO_PLAYER:
 			//CameraTarget_Formation_Stop();
+			break;
+		case STATE_STAGE_CLEAR:
+			CameraTarget_Formation_Stop();
 			break;
 		}
 

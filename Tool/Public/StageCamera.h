@@ -29,6 +29,7 @@ public:
 		STATE_MOVE_TO_BOSS,
 		STATE_LOOK_AT_BOSS,
 		STATE_RETURN_TO_PLAYER,
+		STATE_STAGE_CLEAR,
 		STATE_END
 	};
 
@@ -95,6 +96,10 @@ public:
 	void	Do_Skill_Zoom_In(CGameObject* pObject);
 
 	void	Set_Move_To_Point(CGameObject* pObject, _bool isBoss);
+
+	void	Set_Stage_Clear() {
+		m_eCurState = STATE_STAGE_CLEAR;
+	}
 
 
 protected:

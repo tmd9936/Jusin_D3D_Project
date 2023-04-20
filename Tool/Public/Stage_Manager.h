@@ -26,6 +26,7 @@ class CEnemySpawnPoint;
 class CEnemyPack;
 class CStageMessageInfo;
 class CStageClearUI;
+class CLevel_Loading;
 
 class CStage_Manager final : public CGameObject
 {
@@ -33,6 +34,7 @@ public:
 	enum WORLDMAP_MANAGER_STATE {
 		MANAGER_FADE_IN,
 		MANAGER_IDLE,
+		MANAGER_CLEAR,
 		MANAGER_OPEN_STATE_INFO,
 		MANAGER_END
 	};
@@ -97,6 +99,12 @@ private:
 	void						Change_State();
 
 private:
+	void						Stage_Clear();
+	void						Stage_Clear_Tick(const _double& TimeDelta);
+
+	void						Open_StageInfo_Tick(const _double& TimeDelta);
+
+private:
 	WORLDMAP_MANAGER_DESC		m_Desc = {};
 	WORLDMAP_MANAGER_STATE		m_ePreState = { MANAGER_END };
 	WORLDMAP_MANAGER_STATE		m_eCurState = { MANAGER_FADE_IN };
@@ -129,6 +137,14 @@ private:
 	_double						m_fCurrentFadeTime = { 0.f };
 
 	size_t						m_CurrentSpawnIndex = { 0 };
+
+	_double						m_stageClearDelayTime = { 1.8 };
+	_double						m_stageClearDelayTimeAcc = { 0.0 };
+
+	_double						m_openStateTime = { 2.0 };
+	_double						m_openStateTimeAcc = { 0.0 };
+	
+	_bool						m_returnToWorldMap = { false };
 
 public:
 	static CStage_Manager* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

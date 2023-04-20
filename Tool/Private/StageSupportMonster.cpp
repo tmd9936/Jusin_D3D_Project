@@ -456,6 +456,10 @@ _uint CStageSupportMonster::State_Tick(const _double& TimeDelta)
 		m_pModelCom->Play_Animation(TimeDelta);
 		break;
 
+	case CMonFSM::STAGE_CLEAR:
+		m_pModelCom->Play_Animation(TimeDelta);
+		break;
+
 	default:
 		break;
 	}
