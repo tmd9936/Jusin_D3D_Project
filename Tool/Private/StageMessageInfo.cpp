@@ -46,6 +46,8 @@ HRESULT CStageMessageInfo::Initialize(const _tchar* pLayerTag, _uint iLevelIndex
 
 	if (m_TextParts.empty())
 		return E_FAIL;
+
+	m_textPositionX = m_TextParts.at(0)->Get_PositionX();
 	m_message = m_TextParts.at(0)->Get_Text();
 
 	if (FAILED(Insert_In_Stage_Manager()))
@@ -166,7 +168,7 @@ void CStageMessageInfo::Set_TextOnParts(const wstring& message)
 {
 	if (m_TextParts.empty())
 		return;
-	m_TextParts.at(0)->Set_Text(message);
+	m_TextParts.at(0)->Set_Text(message, m_textPositionX);
 }
 
 HRESULT CStageMessageInfo::Insert_In_Stage_Manager()

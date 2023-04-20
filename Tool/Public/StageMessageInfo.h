@@ -45,6 +45,19 @@ public:
 		return true;
 	}
 
+	_bool	Open_Message(const wstring& message, const _float& textPositionX) {
+		if (m_eCurState != STATE_NO_RENDER)
+			return false;
+
+		m_message = message;
+
+		m_eCurState = STATE_OPENING;
+
+		m_textPositionX = textPositionX;
+
+		return true;
+	}
+
 	const _bool	Is_NoMessageState() const {
 		if (STATE_NO_RENDER == m_eCurState)
 			return true;
@@ -77,6 +90,8 @@ private:
 	_float			m_CurSizeY = { 0.f };
 	_float			m_MaxSizeY = { 0.f };
 	wstring			m_message = {};
+
+	_float			m_textPositionX = { 0.f };
 
 public:
 	static CStageMessageInfo* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

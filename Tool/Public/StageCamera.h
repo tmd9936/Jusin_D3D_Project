@@ -24,6 +24,8 @@ public:
 		STATE_SHAKE,
 		STATE_BATTLE,
 		STATE_SKILL_ZOOM_IN,
+		STATE_MOVE_TO_MONSTER,
+		STATE_LOOK_AT_MONSTER,
 		STATE_MOVE_TO_BOSS,
 		STATE_LOOK_AT_BOSS,
 		STATE_RETURN_TO_PLAYER,
@@ -92,6 +94,8 @@ public:
 
 	void	Do_Skill_Zoom_In(CGameObject* pObject);
 
+	void	Set_Move_To_Point(CGameObject* pObject);
+
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
 	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
@@ -135,6 +139,11 @@ private:
 	void					Skill_Zoom_In_CoolTImeCheck(const _double& TimeDelta);
 
 private:
+	void					Move_To_LookTargetMonster(const _double& TimeDelta);
+	void					LookTargetMonster_TimeCheck(const _double& TimeDelta);
+	void					Return_To_Player(const _double& TimeDelta);
+
+private:
 	STAGE_CAMERA_DESC		m_StageCameraDesc = { };
 	/// <summary>
 	/// 카메라와 At간 유지할 거리
@@ -160,6 +169,11 @@ private:
 	CGameObject*			m_pSkillZoomInTarget = { nullptr };
 	_double					m_SkillZoomInCoolTimeAcc = { 0.0 };
 	_bool					m_CanSkillZoomIn = { true };
+
+	CGameObject*			m_pMoveTargetPoint = { nullptr };
+
+	_double					m_movePointLookTime = { 1.5 };
+	_double					m_movePointLookTimeAcc = { 0.0 };
 
 public:
 	/* Prototype */

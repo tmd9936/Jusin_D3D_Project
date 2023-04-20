@@ -61,8 +61,18 @@ public:
 		lstrcpy(m_Text_Desc.m_Text, text.c_str());
 	}
 
+	void	Set_Text(const wstring& text, const _float& vPositionX) {
+		lstrcpy(m_Text_Desc.m_Text, text.c_str());
+		m_Text_Desc.m_fX = vPositionX;
+	}
+
+
 	const wstring	Get_Text() const {
 		return m_Text_Desc.m_Text;
+	}
+
+	const _float Get_PositionX() const {
+		return m_Text_Desc.m_fX;
 	}
 
 private:

@@ -99,7 +99,7 @@ _uint CStage_Manager::LateTick(_double TimeDelta)
 				if (nullptr != pEnemySpawnPoint)
 				{
 					m_pEnemyPack->Next_Spawn(desc.m_position, desc.m_spawnRadius);
-					m_pStageMessageInfo->Open_Message(L"야생 포켓몬이다!");
+					m_pStageMessageInfo->Open_Message(L"야생 포켓몬이다!", 230.f);
 				}
 			}
 
@@ -108,6 +108,13 @@ _uint CStage_Manager::LateTick(_double TimeDelta)
 		{
 			CEnemySpawnPoint* pEnemySpawnPoint = m_enemySpawnPoints.at(nextSpawnIndex);
 			CEnemySpawnPoint::ENEMY_SPAWN_POINT_DESC desc = move(pEnemySpawnPoint->Get_EnemySpawnPointDesc());
+
+			if (CEnemySpawnPoint::TYPE::TYPE_NORMAL_APPEARANCE)
+			{
+				m_pStageMessageInfo->Open_Message(L"새로운 포켓몬이 나타났다!", 180.f);
+				m_pMainCamera->Set_Move_To_Point(pEnemySpawnPoint);
+			}
+
 			if (nullptr != pEnemySpawnPoint)
 				m_pEnemyPack->Next_Spawn(desc.m_position, desc.m_spawnRadius);
 		}
