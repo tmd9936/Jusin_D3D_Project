@@ -81,6 +81,10 @@ _uint CEnemySpawnPoint::LateTick(_double TimeDelta)
 {
 	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
 
+#ifdef _DEBUG
+	m_pRendererCom->Add_DebugRenderGroup(m_pSphere);
+#endif // _DEBUG
+
 	return _uint();
 }
 
@@ -88,10 +92,6 @@ HRESULT CEnemySpawnPoint::Render()
 {
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
-
-#ifdef _DEBUG
-	m_pRendererCom->Add_DebugRenderGroup(m_pSphere);
-#endif // _DEBUG
 
 	return S_OK;
 }
