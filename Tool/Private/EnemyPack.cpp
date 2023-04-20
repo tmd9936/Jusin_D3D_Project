@@ -9,6 +9,8 @@
 
 #include "StageProgressUI.h"
 
+#include "StageClearUI.h"
+
 CEnemyPack::CEnemyPack(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
 {
@@ -315,7 +317,20 @@ void CEnemyPack::Set_WaveProgress()
 	_uint waveIndex = m_progresses[m_NextEnemyPack-1].m_waveIndex;
 	_float progress = m_progresses[m_NextEnemyPack-1].m_progress;
 
-	dynamic_cast<CStageProgressUI*>(pObject)->Set_Wave_Progress(waveIndex, progress);
+	_bool waveClear = false;
+	waveClear = dynamic_cast<CStageProgressUI*>(pObject)->Set_Wave_Progress(waveIndex, progress);
+
+	if (waveClear)
+	{
+		CGameObject* pStageClearUI = pGameInstance->Get_Object(LEVEL_STAGE, L"Layer_StageMessageInfo", L"StageClearUI");
+		if (nullptr != pStageClearUI)
+		{
+			if (waveIndex < 2)
+				dynamic_cast<CStageClearUI*>(pStageClearUI)->Open_Message(L"WAVE CLEAR!", 330.f);
+			else
+				dynamic_cast<CStageClearUI*>(pStageClearUI)->Open_Message(L"STAGE CLEAR!", 305.f);
+		}
+	}
 }
 
 HRESULT CEnemyPack::Add_Components()

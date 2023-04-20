@@ -422,7 +422,7 @@ void CBuffState::Return_Original_State(BUFF_STATE preState)
 		Add_ParentDefensePercent(m_returnValue);
 		break;
 	case BUFF_STATE_SPEED_UP:
-		Add_ParentSpeedPercent(-m_returnValue);
+		Add_ParentSpeedPercent(m_returnValue);
 		break;
 	case BUFF_STATE_SPEED_DOWN:
 		Add_ParentSpeedPercent(m_returnValue);

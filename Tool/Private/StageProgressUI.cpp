@@ -79,20 +79,22 @@ _uint CStageProgressUI::LateTick(_double TimeDelta)
 	return _uint();
 }
 
-void CStageProgressUI::Set_Wave_Progress(const _uint& waveIndex, _float progress)
+_bool CStageProgressUI::Set_Wave_Progress(const _uint& waveIndex, _float progress)
 {
 	if (progress > 1.f)
 		progress = 1.f;
 
 	if (waveIndex >= m_TextureParts.size())
-		return;
+		return false;
 
 	m_TextureParts.at(waveIndex)->Add_Progress(progress);
 
 	if (m_TextureParts.at(waveIndex)->Get_Progress() >= 1.f)
 	{
 		m_TextureParts.at(waveIndex + m_desc.m_waveCount)->Set_ColorAlpha(1.f);
+		return true;
 	}
+	return false;
 }
 
 

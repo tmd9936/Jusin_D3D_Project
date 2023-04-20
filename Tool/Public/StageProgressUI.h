@@ -29,7 +29,13 @@ public:
 	virtual _uint LateTick(_double TimeDelta) override;
 
 public:
-	void	Set_Wave_Progress(const _uint& waveIndex, _float progress);
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="waveIndex"></param>
+	/// <param name="progress"></param>
+	/// <returns>웨이브의 Progress가 1.f을 넘으면 true</returns>
+	_bool	Set_Wave_Progress(const _uint& waveIndex, _float progress);
 
 private:
 	HRESULT			Insert_In_Stage_Manager();

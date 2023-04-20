@@ -132,7 +132,7 @@ _uint CStage_Manager::LateTick(_double TimeDelta)
 
 			if (nullptr != pEnemySpawnPoint)
 			{
-				m_pStageClearUI->Open_Message(L"WAVE CLEAR!", 330.f);
+				//m_pStageClearUI->Open_Message(L"WAVE CLEAR!", 330.f);
 				m_pEnemyPack->Next_Spawn(desc.m_position, desc.m_spawnRadius);
 			}
 		}
@@ -169,7 +169,7 @@ void CStage_Manager::Boss_DeadEffect(_bool isEnd, _fvector vPos)
 		pSkillEffect = pEffect_Manager->CreateEffect(CEffect_Manager::m_damageBoss, L"Prototype_GameObject_SkillEffect", Get_LayerTag().c_str(), Get_Levelindex());
 	else
 	{
-		m_pStageClearUI->Open_Message(L"STAGE CLEAR!", 290.f);
+		//m_pStageClearUI->Open_Message(L"STAGE CLEAR!", 290.f);
 		pSkillEffect = pEffect_Manager->CreateEffect(CEffect_Manager::m_damageBossEnd, L"Prototype_GameObject_SkillEffect", Get_LayerTag().c_str(), Get_Levelindex());
 		CGameInstance::GetInstance()->StopAll();
 		CGameInstance::GetInstance()->PlayBGM(L"BGM_Stage_Clear.ogg");

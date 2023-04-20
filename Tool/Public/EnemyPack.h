@@ -14,6 +14,7 @@ BEGIN(Client)
 class CStage_Manager;
 class CStageEnemyMonster;
 class CStageProgressUI;
+class CStageClearUI;
 
 class CEnemyPack final : public CGameObject
 {
