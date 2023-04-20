@@ -395,7 +395,7 @@ void CStageCamera::Move_To_LookTargetMonster(const _double& TimeDelta)
 
 	_vector movePoint = pTransform->Get_State(CTransform::STATE_POSITION) + (m_vDistanceVectorFromAt * m_StageCameraDesc.m_distance * m_CurAdditionalDistance);
 
-	if (m_pTransform->ChaseNoLook(movePoint, (_float)TimeDelta * 8.f, 0.4f))
+	if (m_pTransform->ChaseNoLook(movePoint, (_float)TimeDelta * 10.f, 0.4f))
 	{
 		m_eCurState = STATE_LOOK_AT_MONSTER;
 	}
@@ -427,7 +427,7 @@ void CStageCamera::Return_To_Player(const _double& TimeDelta)
 
 	_vector movePoint = pTransform->Get_State(CTransform::STATE_POSITION) + (m_vDistanceVectorFromAt * m_StageCameraDesc.m_distance * m_CurAdditionalDistance);
 
-	if (m_pTransform->ChaseNoLook(movePoint, (_float)TimeDelta * 8.f, 0.4f))
+	if (m_pTransform->ChaseNoLook(movePoint, (_float)TimeDelta * 10.f, 0.4f))
 	{
 		m_eCurState = STATE_FORMATION;
 	}
@@ -454,7 +454,7 @@ void CStageCamera::Move_To_LookTargetBoss(const _double& TimeDelta)
 
 	_vector movePoint = pTransform->Get_State(CTransform::STATE_POSITION) + (m_vDistanceVectorFromAt * m_StageCameraDesc.m_distance * m_CurAdditionalDistance);
 
-	if (m_pTransform->ChaseNoLook(movePoint, (_float)TimeDelta * 8.f, 0.4f))
+	if (m_pTransform->ChaseNoLook(movePoint, (_float)TimeDelta * 10.f, 0.4f))
 	{
 		m_eCurState = STATE_LOOK_AT_BOSS;
 	}
