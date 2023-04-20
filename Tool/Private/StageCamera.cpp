@@ -596,6 +596,7 @@ void CStageCamera::Set_Move_To_Point(CGameObject* pObject, _bool isBoss)
 	if (nullptr == pObject)
 		return;
 
+	Safe_Release(m_pMoveTargetPoint);
 	m_pMoveTargetPoint = pObject;
 	Safe_AddRef(m_pMoveTargetPoint);
 
