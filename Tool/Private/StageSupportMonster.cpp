@@ -354,7 +354,7 @@ _uint CStageSupportMonster::State_Tick(const _double& TimeDelta)
 		{
 			//m_pTransformCom->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta * 1.5));
 
-			if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta * 1.2f), 1.4f, m_pNavigationCom))
+			if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta * 1.2f), 1.2f, m_pNavigationCom))
 			{
 				if (m_bCanAttack)
 				{
@@ -659,7 +659,7 @@ void CStageSupportMonster::AI_Type_Long_Idle_Tick(const _double& TimeDelta, CTra
 
 	if (m_bChase)
 	{
-		if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta), 2.5f, m_pNavigationCom))
+		if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta), 2.0f, m_pNavigationCom))
 		{
 			m_bChase = false;
 			m_ChaseCoolTimeAcc = 0.0;
