@@ -23,11 +23,11 @@ private:
 	virtual ~CNavigation() = default;
 
 public:
-	HRESULT Initialize_Prototype_HFile(const _tchar* pNavigationData);
-	HRESULT Initialize_Prototype_Json(const char* pNavigationData);
+	virtual HRESULT Initialize(void* pArg) override;
+	virtual HRESULT Initialize_Prototype_HFile(const _tchar* pNavigationData);
+	virtual HRESULT Initialize_Prototype_Json(const char* pNavigationData);
+	virtual HRESULT Render();
 
-	HRESULT Initialize(void* pArg) override;
-	HRESULT Render();
 
 public:
 	HRESULT Change_Cell_Data_By_Json(const char* pNavigationData);

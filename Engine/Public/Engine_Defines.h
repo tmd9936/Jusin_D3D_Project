@@ -4,6 +4,7 @@
 
 //#define NAVIGATION_DEBUG
 //#define RENDERTARGET_DEBUG
+#define DEBUG_COMPONENT_RENDER
 
 #include <d3d11.h>
 #define DIRECTINPUT_VERSION 0x0800

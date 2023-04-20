@@ -28,10 +28,14 @@ public:
 
 public:
 	HRESULT Add_RenderGroup(RENDERGROUP eRenderGroup, class CGameObject* pGameObject);
+	HRESULT Add_DebugRenderGroup(CComponent* pComponent);
 	HRESULT Draw_RenderGroup();
 
 private:
-	list<class CGameObject*>					m_RenderGroups[RENDER_END];
+	list<class CGameObject*>			m_RenderGroups[RENDER_END];
+
+private:
+	list<class CComponent*>				m_DebugGroup;
 
 private:
 	CTarget_Manager* m_pTarget_Manager = { nullptr };
@@ -53,6 +57,8 @@ private: /* 그리는 그룹들에 따라 셋팅이 바뀌어야할 필요가 생길 수 있기때문에 그�
 	HRESULT Draw_Back_UI();
 	HRESULT Draw_UI();
 	HRESULT Draw_Blend_UI();
+
+	HRESULT Draw_DebugComponent();
 
 private:
 	HRESULT Draw_LightAcc();

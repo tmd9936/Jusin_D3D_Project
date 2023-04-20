@@ -251,12 +251,12 @@ HRESULT CMonster::Render()
 	}
 
 #ifdef _DEBUG
-	m_pAABB->Render();
+	//m_pAABB->Render();
 	//m_pOBB->Render();
 	//m_pSphere->Render();
 
-	if (m_pNavigationCom)
-		m_pNavigationCom->Render();
+	m_pRendererCom->Add_DebugRenderGroup(m_pAABB);
+	m_pRendererCom->Add_DebugRenderGroup(m_pNavigationCom);
 
 #endif // _DEBUG
 

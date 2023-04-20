@@ -133,6 +133,18 @@ HRESULT CRenderer::Add_RenderGroup(RENDERGROUP eRenderGroup, CGameObject* pGameO
 	return S_OK;
 }
 
+HRESULT CRenderer::Add_DebugRenderGroup(CComponent* pComponent)
+{
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_DebugGroup.push_back(pComponent);
+
+	Safe_AddRef(pComponent);
+
+	return S_OK;
+}
+
 HRESULT CRenderer::Draw_RenderGroup()
 {
 	if (FAILED(Draw_Priority()))
@@ -152,6 +164,11 @@ HRESULT CRenderer::Draw_RenderGroup()
 
 	if (FAILED(Draw_Blend()))
 		return E_FAIL;
+
+#ifdef DEBUG_COMPONENT_RENDER
+	if (FAILED(Draw_DebugComponent()))
+		return E_FAIL;
+#endif
 
 	if (FAILED(Draw_Back_UI()))
 		return E_FAIL;
@@ -294,6 +311,18 @@ HRESULT CRenderer::Draw_Blend_UI()
 	}
 
 	m_RenderGroups[RENDER_BLEND_UI].clear();
+
+	return S_OK;
+}
+
+HRESULT CRenderer::Draw_DebugComponent()
+{
+	for (auto& pDebugCom : m_DebugGroup)
+	{
+		pDebugCom->Render();
+		Safe_Release(pDebugCom);
+	}
+	m_DebugGroup.clear();
 
 	return S_OK;
 }

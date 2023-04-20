@@ -72,7 +72,7 @@ HRESULT CStove::Render()
 	}
 
 #ifdef _DEBUG
-	m_pAABB->Render();
+	m_pRendererCom->Add_DebugRenderGroup(m_pAABB);
 #endif // _DEBUG
 
 	return S_OK;

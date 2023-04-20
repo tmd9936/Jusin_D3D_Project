@@ -12,7 +12,7 @@ CCollider::CCollider(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 }
 
-#ifdef _DEBUG
+#ifdef DEBUG_COMPONENT_RENDER
 CCollider::CCollider(const CCollider& rhs)
 	: CComponent(rhs)
 	, m_iID(g_iColliderID++)
@@ -38,7 +38,7 @@ CCollider::CCollider(const CCollider& rhs)
 }
 #endif // _DEBUG
 
-#ifdef _DEBUG
+#ifdef DEBUG_COMPONENT_RENDER
 HRESULT CCollider::Render()
 {
 	m_pEffect->SetWorld(XMMatrixIdentity());
@@ -88,7 +88,7 @@ HRESULT CCollider::Initialize_Prototype()
 		break;
 	}
 
-#ifdef _DEBUG
+#ifdef DEBUG_COMPONENT_RENDER
 	m_pBatch = new PrimitiveBatch<DirectX::VertexPositionColor>(m_pContext);
 	if (nullptr == m_pBatch)
 		return E_FAIL;
@@ -235,7 +235,7 @@ void CCollider::Free()
 {
 	__super::Free();
 
-#ifdef _DEBUG
+#ifdef DEBUG_COMPONENT_RENDER
 	if (false == m_bClone)
 	{
 		Safe_Delete(m_pBatch);

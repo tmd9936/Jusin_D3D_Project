@@ -67,7 +67,8 @@ HRESULT CFlatTerrain::Render()
 		m_pVIBufferCom->Render();
 
 	}
-	m_pNavigationCom->Render();
+	m_pRendererCom->Add_DebugRenderGroup(m_pNavigationCom);
+
 #endif // _DEBUG
 
 	return S_OK;

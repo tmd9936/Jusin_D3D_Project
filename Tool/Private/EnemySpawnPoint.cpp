@@ -90,7 +90,7 @@ HRESULT CEnemySpawnPoint::Render()
 		return E_FAIL;
 
 #ifdef _DEBUG
-	m_pSphere->Render();
+	m_pRendererCom->Add_DebugRenderGroup(m_pSphere);
 #endif // _DEBUG
 
 	return S_OK;

@@ -90,11 +90,7 @@ _uint CAttackEffect::LateTick(_double TimeDelta)
 	}
 
 #ifdef _DEBUG
-	if (m_pColliderCom)
-		m_pColliderCom->Render();
-
-	m_pNavigationCom->Render();
-
+	m_pRendererCom->Add_DebugRenderGroup(m_pColliderCom);
 #endif // _DEBUG
 
 	return _uint();
@@ -123,7 +119,7 @@ HRESULT CAttackEffect::Add_Components()
 
 	CCollider::COLLIDER_DESC		ColliderDesc;
 	ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
-	ColliderDesc.vScale = _float3(2.2f, 2.0f, 2.2f);
+	ColliderDesc.vScale = _float3(0.7f, 0.7f, 0.7f);
 	ColliderDesc.vPosition = _float3(0.0f, ColliderDesc.vScale.y * 0.5f, 0.f);
 	if (FAILED(pGameInstance->Add_Component(CCollider::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"),
 		(CComponent**)&m_pColliderCom, &ColliderDesc)))

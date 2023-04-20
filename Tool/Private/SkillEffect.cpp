@@ -109,9 +109,7 @@ _uint CSkillEffect::LateTick(_double TimeDelta)
 
 
 #ifdef _DEBUG
-
-
-	m_pNavigationCom->Render();
+	m_pRendererCom->Add_DebugRenderGroup(m_pNavigationCom);
 
 #endif // _DEBUG
 

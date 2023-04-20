@@ -21,6 +21,7 @@ protected:
 public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg);
+	virtual HRESULT Render() { return S_OK; }
 
 public:
 	virtual const FamilyId	Get_FamilyId() const { 

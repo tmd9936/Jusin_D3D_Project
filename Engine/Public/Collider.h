@@ -37,9 +37,9 @@ protected:
     CCollider(const CCollider& rhs);
     ~CCollider() = default;
 
-#ifdef _DEBUG
+#ifdef DEBUG_COMPONENT_RENDER
 public:
-    HRESULT Render();
+    virtual HRESULT Render();
 #endif // _DEBUG
 
 public:
@@ -124,7 +124,7 @@ protected:
     static _uint g_iColliderID;
     _uint m_iID = { 0 };
 
-#ifdef _DEBUG
+#ifdef DEBUG_COMPONENT_RENDER
 protected:
     PrimitiveBatch<DirectX::VertexPositionColor>* m_pBatch = { nullptr };
     BasicEffect* m_pEffect = { nullptr };
