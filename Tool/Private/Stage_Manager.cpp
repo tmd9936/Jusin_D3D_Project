@@ -213,17 +213,9 @@ _bool CStage_Manager::Request_TurnToCamera(CTransform* pTransform, const _double
 	if (nullptr == pTransform)
 		return true; 
 
-	m_pMainCamera = (CStageCamera*)CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Camera", L"Main_Camera");
-	if (nullptr == m_pMainCamera)
-		return true;
+	_float4 vCameraPos = CGameInstance::GetInstance()->Get_CamPosition();
 
-	CTransform* pCameraTransform = m_pMainCamera->Get_As<CTransform>();
-	if (nullptr == pCameraTransform)
-		return true;
-
-	_vector cameraPos = pCameraTransform->Get_State(CTransform::STATE_POSITION);
-
-	return pTransform->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), cameraPos, TimeDelta);
+	return pTransform->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMLoadFloat4(&vCameraPos), TimeDelta);
 }
 
 HRESULT CStage_Manager::Init_ManagerInfo()
