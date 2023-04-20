@@ -38,6 +38,14 @@ public:
 	virtual _uint LateTick(_double TimeDelta) override;
 	virtual HRESULT Render() override;
 
+public:
+	void	Set_Active() {
+		m_vColor.w = 0.8f;
+	}
+	void	Set_NonActive() {
+		m_vColor.w = 0.f;
+	}
+
 private:
 	CTransform* m_pTransformCom = { nullptr };
 	CRenderer* m_pRendererCom = { nullptr };
@@ -55,6 +63,7 @@ private:
 	_float4x4			m_FinalWorldMatrix = {}; /* 원점기준 (내 월드 * 부모월드) */
 	TRAIL_DESC			m_Desc = {};
 	_int				m_initTick = { 35 };
+	_float4				m_vColor = { 1.f, 1.f, 1.f, 1.f };
 
 public:
 	static CTrail* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

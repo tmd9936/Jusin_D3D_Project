@@ -138,7 +138,7 @@ _uint CPlayer::Tick(_double TimeDelta)
 			//m_pTransformCom->Set_PosY(mat.m[3][2]);
 			//m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
 			Do_Skill(220, CMonFSM::IDLE1, L"Layer_PlayerSkill");
-
+			m_pTrail->Set_NonActive();
 		}
 		break;
 	case CMonFSM::HAPPY:
@@ -259,6 +259,8 @@ HRESULT CPlayer::Add_Trail()
 	pGameInstance->Clone_GameObject(L"Layer_Player", m_iLevelindex, TEXT("Prototype_GameObject_Trail"), (CGameObject**)&m_pTrail, &desc);
 	if (nullptr == m_pTrail)
 		return E_FAIL;
+
+	m_pTrail->Set_NonActive();
 
 	return S_OK;
 }
@@ -401,6 +403,7 @@ void CPlayer::Key_Input(const _double& TimeDelta)
 				m_SkillLoopDelay = 1.f;
 				m_fAccel = 1.f;
 				m_SkillLoopDesc.m_CurskillIndex = 0;
+				m_pTrail->Set_Active();
 				SkillCoolTime_Start();
 			}
 		}
