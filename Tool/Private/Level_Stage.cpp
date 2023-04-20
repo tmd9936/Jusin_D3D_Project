@@ -456,6 +456,7 @@ HRESULT CLevel_Stage::Ready_Layer_StageMessageInfo(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageMessageInfo"), LEVEL_STAGE, pLayerTag, L"StageMessgeInfo", "../../Reference/Resources/Data/Scene/Stage/UI/StageMessageInfo.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
+
 	Safe_Release(pGameInstance);
 
 	return S_OK;

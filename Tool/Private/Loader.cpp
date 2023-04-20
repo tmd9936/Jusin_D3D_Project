@@ -55,6 +55,7 @@
 #include "EnemyPack.h"
 #include "StageMessageInfo.h"
 #include "StageProgressUI.h"
+#include "StageClearUI.h"
 
 #include "HP.h"
 #include "HpBar.h"
@@ -1027,6 +1028,10 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		/* For.Prototype_GameObject_Trail */
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Trail"),
 			CTrail::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_StageClearUI"),
+			CStageClearUI::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 	}
 #pragma endregion

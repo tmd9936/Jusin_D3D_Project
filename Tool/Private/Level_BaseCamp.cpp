@@ -216,6 +216,9 @@ HRESULT CLevel_BaseCamp::Ready_Layer_UI(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UI"), LEVEL_BASECAMP, pLayerTag, L"LevelNameInfo", "../../Reference/Resources/Data/Scene/BaseCamp/UI/LevelNameInfo.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
+	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageClearUI"), LEVEL_BASECAMP, pLayerTag, L"StageClearUI", "../../Reference/Resources/Data/Scene/Stage/UI/StageClearUI.json", CLONE_FILEPATH)))
+	//	return E_FAIL;
+
 	Safe_Release(pGameInstance);
 
 	return S_OK;

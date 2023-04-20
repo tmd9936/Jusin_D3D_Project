@@ -271,6 +271,9 @@
     <Filter Include="02. GameObject\Stage\StageProgressUI">
       <UniqueIdentifier>{d9fa8d50-4452-42f2-86b8-a2ed6a93f14c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\Stage\StageClearUI">
+      <UniqueIdentifier>{ac0c6f44-be7b-4e71-a943-02fbb7a3e024}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -533,6 +536,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\StageProgressUI.h">
       <Filter>02. GameObject\Stage\StageProgressUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\StageClearUI.h">
+      <Filter>02. GameObject\Stage\StageClearUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -797,6 +803,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\StageProgressUI.cpp">
       <Filter>02. GameObject\Stage\StageProgressUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\StageClearUI.cpp">
+      <Filter>02. GameObject\Stage\StageClearUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
