@@ -25,6 +25,7 @@ class CPokering;
 class CEnemySpawnPoint;
 class CEnemyPack;
 class CStageMessageInfo;
+class CStageClearUI;
 
 class CStage_Manager final : public CGameObject
 {
@@ -69,6 +70,7 @@ public:
 	void						Add_EnemySpawnPoint(CEnemySpawnPoint* pEnemySpawnPoint);
 	void						Set_EnemyPack(CEnemyPack* pEnemyPack);
 	void						Set_StageMessageInfo(CStageMessageInfo* pStageMessageInfo);
+	void						Set_StageClearUI(CStageClearUI* pStageClearUI);
 
 public:
 	_bool						Request_TurnToCamera(CTransform* pTransform, const _double& TimeDelta);
@@ -102,6 +104,7 @@ private:
 	CStageCamera*				m_pMainCamera = { nullptr };
 	CEnemyPack*					m_pEnemyPack = { nullptr };
 	CStageMessageInfo*			m_pStageMessageInfo = { nullptr };
+	CStageClearUI*				m_pStageClearUI = { nullptr };
 	vector<CEnemySpawnPoint*>	m_enemySpawnPoints;
 
 	_int						m_CurrentEnemyCount = { 0 };

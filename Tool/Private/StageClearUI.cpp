@@ -181,7 +181,7 @@ HRESULT CStageClearUI::Insert_In_Stage_Manager()
 	if (nullptr == pStageManager)
 		return E_FAIL;
 
-	//pStageManager->Set_StageMessageInfo(this);
+	pStageManager->Set_StageClearUI(this);
 
 	return S_OK;
 }

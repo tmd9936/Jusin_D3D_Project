@@ -81,7 +81,7 @@ private:
 	HRESULT			Insert_In_Stage_Manager();
 
 private:
-	STATE			m_eCurState = { STATE_OPENING };
+	STATE			m_eCurState = { STATE_NO_RENDER };
 	STATE			m_ePreState = { STATE_END };
 
 	_double			m_StayTime = { 1.0 };
