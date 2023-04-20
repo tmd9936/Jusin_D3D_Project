@@ -68,6 +68,22 @@ public:
 		m_UIDesc.m_Progress = progress;
 	}
 
+	void Add_Progress(_float progress) {
+		m_UIDesc.m_Progress += progress;
+
+		if (m_UIDesc.m_Progress > 1.f)
+			m_UIDesc.m_Progress = 1.f;
+	}
+
+	void Set_ColorAlpha(const _float& alpha) {
+		m_UIDesc.m_vColor.w = alpha;
+	}
+
+public:
+	const _float Get_Progress() const {
+		return m_UIDesc.m_Progress;
+	}
+
 private:
 	CTransform* m_pTransformCom = { nullptr };
 	CRenderer* m_pRendererCom = { nullptr };

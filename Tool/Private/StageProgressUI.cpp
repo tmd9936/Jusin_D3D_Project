@@ -34,10 +34,10 @@ HRESULT CStageProgressUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex,
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 		return E_FAIL;
 
-	//m_waveInfo.resize(m_desc.m_waveCount);
-
 	//if (FAILED(Insert_In_Stage_Manager()))
 	//	return E_FAIL;
+
+	m_desc.m_waveCount = 3;
 
 	return S_OK;
 }
@@ -47,10 +47,10 @@ HRESULT CStageProgressUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex,
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, filePath)))
 		return E_FAIL;
 
-	m_waveInfo.resize(m_desc.m_waveCount);
-
 	//if (FAILED(Insert_In_Stage_Manager()))
 	//	return E_FAIL;
+
+	m_desc.m_waveCount = 3;
 
 	return S_OK;
 }
@@ -77,6 +77,22 @@ _uint CStageProgressUI::LateTick(_double TimeDelta)
 
 
 	return _uint();
+}
+
+void CStageProgressUI::Set_Wave_Progress(const _uint& waveIndex, _float progress)
+{
+	if (progress > 1.f)
+		progress = 1.f;
+
+	if (waveIndex >= m_TextureParts.size())
+		return;
+
+	m_TextureParts.at(waveIndex)->Add_Progress(progress);
+
+	if (m_TextureParts.at(waveIndex)->Get_Progress() >= 1.f)
+	{
+		m_TextureParts.at(waveIndex + m_desc.m_waveCount)->Set_ColorAlpha(1.f);
+	}
 }
 
 

@@ -72,12 +72,12 @@
                 "m_fSizeX": 25.0,
                 "m_fSizeY": 20.0,
                 "m_eType": 0,
-                "m_ShaderPass": 0,
+                "m_ShaderPass": 2,
                 "m_vColor": {
                     "x": 0.81568,
                     "y": 0.36862745,
                     "z": 0.223529,
-                    "w": 1.0
+                    "w": 0.0
                 },
                 "m_TextureProtoTypeLevel": 0,
                 "m_TextureProtoTypeName": "Prototype_Component_Texture_Check_mark",
@@ -89,12 +89,12 @@
                 "m_fSizeX": 25.0,
                 "m_fSizeY": 20.0,
                 "m_eType": 0,
-                "m_ShaderPass": 0,
+                "m_ShaderPass": 2,
                 "m_vColor": {
                     "x": 0.81568,
                     "y": 0.36862745,
                     "z": 0.223529,
-                    "w": 1.0
+                    "w": 0.0
                 },
                 "m_TextureProtoTypeLevel": 0,
                 "m_TextureProtoTypeName": "Prototype_Component_Texture_Check_mark",
@@ -106,12 +106,12 @@
                 "m_fSizeX": 25.0,
                 "m_fSizeY": 20.0,
                 "m_eType": 0,
-                "m_ShaderPass": 0,
+                "m_ShaderPass": 2,
                 "m_vColor": {
                     "x": 0.81568,
                     "y": 0.36862745,
                     "z": 0.223529,
-                    "w": 1.0
+                    "w": 0.0
                 },
                 "m_TextureProtoTypeLevel": 0,
                 "m_TextureProtoTypeName": "Prototype_Component_Texture_Check_mark",

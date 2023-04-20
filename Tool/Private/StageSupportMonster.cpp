@@ -667,7 +667,7 @@ void CStageSupportMonster::AI_Type_Long_Idle_Tick(const _double& TimeDelta, CTra
 	}
 	else
 	{
-		if (targetToDistance <= 1.2f)
+		if (targetToDistance <= 0.8f)
 		{
 			if (m_pTransformCom->Go_BackWard_Look_Pos(pTargetTransform->Get_State(CTransform::STATE_POSITION), m_pTransformCom->Get_State(CTransform::STATE_POSITION)
 				+ m_pTransformCom->Get_State(CTransform::STATE_LOOK) * -1.5f, _float(TimeDelta * 1.5), 1.2f, m_pNavigationCom))

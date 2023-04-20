@@ -107,7 +107,6 @@ _uint CSkillEffect::LateTick(_double TimeDelta)
 
 	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
 
-
 #ifdef _DEBUG
 	m_pRendererCom->Add_DebugRenderGroup(m_pNavigationCom);
 

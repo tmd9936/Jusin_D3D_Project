@@ -99,7 +99,7 @@ _uint CStage_Manager::LateTick(_double TimeDelta)
 				if (nullptr != pEnemySpawnPoint)
 				{
 					m_pEnemyPack->Next_Spawn(desc.m_position, desc.m_spawnRadius);
-					m_pStageMessageInfo->Open_Message(L"야생 포켓몬이다!", 230.f);
+					m_pStageMessageInfo->Open_Message(L"야생 포켓몬이다!", 245.f);
 				}
 			}
 

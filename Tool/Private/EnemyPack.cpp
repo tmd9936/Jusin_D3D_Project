@@ -7,6 +7,8 @@
 
 #include "StageEnemyMonster.h"
 
+#include "StageProgressUI.h"
+
 CEnemyPack::CEnemyPack(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
 {
@@ -155,6 +157,7 @@ void CEnemyPack::Check_CanNextSpawn()
 	}
 
 	++m_NextEnemyPack;
+	Set_WaveProgress();
 	m_CanNextSpawn = true;
 }
 
@@ -180,9 +183,11 @@ _bool CEnemyPack::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& 
 
 				registData.AddMember("m_enemyNumber", m_Desc.m_registDatas[i].m_enemyNumber, allocator);
 				registData.AddMember("m_isBoss", m_Desc.m_registDatas[i].m_isBoss, allocator);
-				registData.AddMember("m_setType", m_Desc.m_registDatas[i].m_setType, allocator);
+				registData.AddMember("m_waveIndex", m_Desc.m_registDatas[i].m_waveIndex, allocator);
 				registData.AddMember("m_setIndex", m_Desc.m_registDatas[i].m_setIndex, allocator);
 				registData.AddMember("m_spawnMode", m_Desc.m_registDatas[i].m_spawnMode, allocator);
+				registData.AddMember("m_progress", m_Desc.m_registDatas[i].m_progress, allocator);
+
 
 			}
 			m_registDatas.PushBack(registData, allocator);
@@ -216,9 +221,10 @@ _bool CEnemyPack::Load_By_JsonFile_Impl(Document& doc)
 		registDataDesc.m_enemyFilePath = m_registDatas[i]["m_enemyFilePath"].GetString();
 		registDataDesc.m_enemyNumber = m_registDatas[i]["m_enemyNumber"].GetUint();
 		registDataDesc.m_isBoss = m_registDatas[i]["m_isBoss"].GetBool();
-		registDataDesc.m_setType = m_registDatas[i]["m_setType"].GetUint();
+		registDataDesc.m_waveIndex = m_registDatas[i]["m_waveIndex"].GetUint();
 		registDataDesc.m_setIndex = m_registDatas[i]["m_setIndex"].GetUint();
 		registDataDesc.m_spawnMode = m_registDatas[i]["m_spawnMode"].GetUint();
+		registDataDesc.m_progress = m_registDatas[i]["m_progress"].GetFloat();
 
 		m_Desc.m_registDatas.push_back(move(registDataDesc));
 	}
@@ -254,6 +260,13 @@ HRESULT CEnemyPack::Create_EnemyPack()
 	{
 		if (m_Desc.m_registDatas.at(i).m_setIndex != setIndex)
 		{
+			WAVE_PROGRESS_DESC waveDesc{};
+			waveDesc.m_progress = m_Desc.m_registDatas.at(i - 1).m_progress;
+			waveDesc.m_setIndex = setIndex;
+			waveDesc.m_waveIndex = m_Desc.m_registDatas.at(i - 1).m_waveIndex;
+
+			m_progresses.push_back(waveDesc);
+
 			setIndex = m_Desc.m_registDatas.at(i).m_setIndex;
 			pEnemys = new vector<CStageEnemyMonster*>;
 			m_EnemyPack.push_back(pEnemys);
@@ -281,7 +294,28 @@ HRESULT CEnemyPack::Create_EnemyPack()
 		}
 	}
 
+	WAVE_PROGRESS_DESC waveDesc{};
+	waveDesc.m_progress = m_Desc.m_registDatas.at(m_Desc.m_registDatas.size() - 1).m_progress;
+	waveDesc.m_setIndex = setIndex;
+	waveDesc.m_waveIndex = m_Desc.m_registDatas.at(m_Desc.m_registDatas.size() - 1).m_waveIndex;
+
+	m_progresses.push_back(waveDesc);
+
 	return S_OK;
+}
+
+void CEnemyPack::Set_WaveProgress()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	CGameObject* pObject = pGameInstance->Get_Object(LEVEL_STAGE, L"Layer_UI", L"StageProgressUI");
+	if (nullptr == pObject)
+		return;
+	
+	_uint waveIndex = m_progresses[m_NextEnemyPack-1].m_waveIndex;
+	_float progress = m_progresses[m_NextEnemyPack-1].m_progress;
+
+	dynamic_cast<CStageProgressUI*>(pObject)->Set_Wave_Progress(waveIndex, progress);
 }
 
 HRESULT CEnemyPack::Add_Components()

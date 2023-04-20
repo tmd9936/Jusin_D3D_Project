@@ -13,18 +13,28 @@ BEGIN(Client)
 
 class CStage_Manager;
 class CStageEnemyMonster;
+class CStageProgressUI;
 
 class CEnemyPack final : public CGameObject
 {
+public:
+	typedef struct Wave_Progress_Desc
+	{
+		_uint		m_setIndex;
+		_uint		m_waveIndex;
+		_float		m_progress;
+	} WAVE_PROGRESS_DESC;
+
 public:
 	typedef struct Regist_Data_Desc
 	{
 		string		m_enemyFilePath;
 		_uint		m_enemyNumber;
 		_bool		m_isBoss;
-		_uint		m_setType;  // 적의 데이터 타입(아마 포켓몬마다 던전에 맞춘 데이터파일이 있는데 그거 말하는 듯)
+		_uint		m_waveIndex;  // 몇 번째 웨이브인지
 		_uint		m_setIndex; // 몇 번째 EnemySpawnPoint에 스폰될지
 		_uint		m_spawnMode; // 스폰모드 (처음에 스폰, 1라운드 끝나면 스폰, 기습 스폰, 보스 스폰..)
+		_float		m_progress;
 
 	} REGIST_DATA_DESC;
 
@@ -82,6 +92,8 @@ private:
 
 	HRESULT					Create_EnemyPack();
 
+	void					Set_WaveProgress();
+
 private:
 	HRESULT					Add_Components();
 	HRESULT					Add_Components_By_Json();
@@ -90,6 +102,7 @@ private:
 private:
 	ENEMY_PACK_DESC							m_Desc = { };
 	vector<vector<CStageEnemyMonster*>*>	m_EnemyPack;
+	vector<WAVE_PROGRESS_DESC>				m_progresses;
 	_int									m_NextEnemyPack = { 0 };
 	_bool									m_CanNextSpawn = { true };
 

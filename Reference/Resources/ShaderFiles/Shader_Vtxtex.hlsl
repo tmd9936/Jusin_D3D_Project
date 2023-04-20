@@ -139,7 +139,7 @@ PS_OUT PS_MAIN_PROGRESS_ROUND(PS_IN In)
 	else
 	{
 
-		bool mask = In.vTexUV.x < 0.5f;
+		bool mask = In.vTexUV.x < g_Progress;
 		//float healthbarMask = floor(i.uv.x * 10)/10 < _Health; // health bar split up into 10 chunks
 
 

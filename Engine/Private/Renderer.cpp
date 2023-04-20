@@ -446,6 +446,12 @@ void CRenderer::Free()
 	Safe_Release(m_pLight_Manager);
 	Safe_Release(m_pTarget_Manager);
 
+	for (auto& pComponent : m_DebugGroup)
+	{
+		Safe_Release(pComponent);
+	}
+	m_DebugGroup.clear();
+
 	for (_uint i = 0; i < RENDER_END; ++i)
 	{
 		for (auto& pGameObject : m_RenderGroups[i])
@@ -454,7 +460,7 @@ void CRenderer::Free()
 		m_RenderGroups[i].clear();
 	}
 
-	Safe_Release(m_pShader);
+;	Safe_Release(m_pShader);
 	Safe_Release(m_pVIBuffer);
 
 }

@@ -167,11 +167,8 @@ HRESULT CPartTexture::SetUp_ShaderResources()
 
 	m_pShaderCom->Set_RawValue("g_vColor", &m_UIDesc.m_vColor, sizeof(_float4));
 
-	if (m_UIDesc.m_eType == TYPE_COLOR_TEXTURE)
-	{
-		m_pShaderCom->Set_RawValue("g_Progress", &m_UIDesc.m_Progress, sizeof(_float));
+	m_pShaderCom->Set_RawValue("g_Progress", &m_UIDesc.m_Progress, sizeof(_float));
 
-	}
 	_float2 g_Size = {};
 	g_Size.x = XMVectorGetX(XMVector3Length(XMLoadFloat3((_float3*)&m_FinalWorldMatrix.m[0][0])));
 	g_Size.y = XMVectorGetX(XMVector3Length(XMLoadFloat3((_float3*)&m_FinalWorldMatrix.m[1][0])));

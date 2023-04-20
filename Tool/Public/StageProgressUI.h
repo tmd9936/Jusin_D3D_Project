@@ -9,14 +9,6 @@ class CStageProgressUI :
 	public CUI
 {
 public:
-	typedef struct Wave_State_Desc
-	{
-		_float	m_ratio = 0.f;
-		_bool	m_clear = false;
-		_bool	m_isBossWave = false;
-	} WAVE_DESC_INFO;
-
-public:
 	typedef struct Stage_Progress_UI_Desc
 	{
 		_uint		m_waveCount;
@@ -36,13 +28,15 @@ public:
 	virtual _uint Tick(_double TimeDelta) override;
 	virtual _uint LateTick(_double TimeDelta) override;
 
+public:
+	void	Set_Wave_Progress(const _uint& waveIndex, _float progress);
+
 private:
 	HRESULT			Insert_In_Stage_Manager();
 
 private:
 	STAGE_PROGRESS_UI_DESC		m_desc = {};
-	vector<WAVE_DESC_INFO>		m_waveInfo;
-	_uint						m_CurrentWaveIndex = { 0 };
+
 
 public:
 	static CStageProgressUI* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

@@ -203,11 +203,20 @@ _uint CMonster::LateTick(_double TimeDelta)
 				m_pDamageText->Show_Damage(m_pHPCom->Get_DamageRecieved(), { 1.f, 1.f, 1.f, 1.f }, { 0.55f, 0.5f }, 0.f, { 0.f, 0.f });
 			}
 		}
-		//
 		if (m_pDamageText)
 			m_pDamageText->LateTick(TimeDelta);
 
 		m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
+
+#ifdef _DEBUG
+		//m_pAABB->Render();
+		//m_pOBB->Render();
+		//m_pSphere->Render();
+
+		m_pRendererCom->Add_DebugRenderGroup(m_pAABB);
+		m_pRendererCom->Add_DebugRenderGroup(m_pNavigationCom);
+
+#endif // _DEBUG
 		
 		m_bBeCulling = false;
 	}
@@ -249,16 +258,6 @@ HRESULT CMonster::Render()
 
 		m_pModelCom->Render(i);
 	}
-
-#ifdef _DEBUG
-	//m_pAABB->Render();
-	//m_pOBB->Render();
-	//m_pSphere->Render();
-
-	m_pRendererCom->Add_DebugRenderGroup(m_pAABB);
-	m_pRendererCom->Add_DebugRenderGroup(m_pNavigationCom);
-
-#endif // _DEBUG
 
 	return S_OK;
 }
