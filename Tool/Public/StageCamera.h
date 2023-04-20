@@ -94,7 +94,8 @@ public:
 
 	void	Do_Skill_Zoom_In(CGameObject* pObject);
 
-	void	Set_Move_To_Point(CGameObject* pObject);
+	void	Set_Move_To_Point(CGameObject* pObject, _bool isBoss);
+
 
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
@@ -142,6 +143,10 @@ private:
 	void					Move_To_LookTargetMonster(const _double& TimeDelta);
 	void					LookTargetMonster_TimeCheck(const _double& TimeDelta);
 	void					Return_To_Player(const _double& TimeDelta);
+
+private:
+	void					Move_To_LookTargetBoss(const _double& TimeDelta);
+	void					Boss_Roar_Action();
 
 private:
 	STAGE_CAMERA_DESC		m_StageCameraDesc = { };

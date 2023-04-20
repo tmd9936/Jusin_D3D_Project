@@ -70,6 +70,9 @@ public:
 	void						Set_EnemyPack(CEnemyPack* pEnemyPack);
 	void						Set_StageMessageInfo(CStageMessageInfo* pStageMessageInfo);
 
+public:
+	_bool						Request_TurnToCamera(CTransform* pTransform, const _double& TimeDelta);
+
 private:
 	HRESULT						Init_ManagerInfo();
 	HRESULT						Init_PlayersPos();

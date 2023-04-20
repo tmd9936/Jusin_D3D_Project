@@ -555,6 +555,8 @@ void CTransform::Turn(_fvector vAxis, _float TimeDelta)
 
 _bool CTransform::TurnToTarget(_fvector vAxis, _fvector vTargetPos, _float TimeDelta)
 {
+	_vector vOriginLook = Get_State(STATE_LOOK);
+
 	_vector vPos = Get_State(STATE_POSITION);
 	_vector vLook = vTargetPos - vPos;
 	_vector vRight = XMVector3Cross(XMVectorSet(0.f, 1.f, 0.f, 0.f), vLook);
@@ -562,7 +564,7 @@ _bool CTransform::TurnToTarget(_fvector vAxis, _fvector vTargetPos, _float TimeD
 
 	_float3		vScale = Get_Scaled();
 
-	//_float dot = XMVectorGetX(XMVector3Dot(XMVector3Normalize(vLook), vLookTarget));
+	_float dot = XMVectorGetX(XMVector3Dot(XMVector3Normalize(vLook), XMVector3Normalize(vOriginLook)));
 	_vector axis = {};
 	if (XMVectorGetY(vUp) > 0.f)
 	{
@@ -579,7 +581,10 @@ _bool CTransform::TurnToTarget(_fvector vAxis, _fvector vTargetPos, _float TimeD
 	Set_State(CTransform::STATE_UP, XMVector3TransformNormal(XMVector3Normalize(vUp) * vScale.y, RotationMatrix));
 	Set_State(CTransform::STATE_LOOK, XMVector3TransformNormal(XMVector3Normalize(vLook) * vScale.z, RotationMatrix));
 
-	return false;
+	if (XMConvertToRadians(acos(dot)) <= XMConvertToRadians(3.f))
+		return true;
+	else
+		return false;
 	
 }
 

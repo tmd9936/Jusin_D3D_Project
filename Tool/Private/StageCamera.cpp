@@ -104,8 +104,10 @@ _uint CStageCamera::State_LateTick(const _double& TimeDelta)
 		LookTargetMonster_TimeCheck(TimeDelta);
 		break;
 	case STATE_MOVE_TO_BOSS:
+		Move_To_LookTargetBoss(TimeDelta);
 		break;
 	case STATE_LOOK_AT_BOSS:
+		LookTargetMonster_TimeCheck(TimeDelta);
 		break;
 	case STATE_RETURN_TO_PLAYER:
 		Return_To_Player(TimeDelta);
@@ -139,13 +141,16 @@ void CStageCamera::State_Change()
 		case STATE_MOVE_TO_MONSTER:
 			break;
 		case STATE_LOOK_AT_MONSTER:
+			m_movePointLookTime = 1.5f;
 			m_movePointLookTimeAcc = 0.0;
 			break;
 		case STATE_MOVE_TO_BOSS:
-			CameraTarget_Formation_Stop();
+			m_movePointLookTimeAcc = 0.0;
 			break;
 		case STATE_LOOK_AT_BOSS:
-			CameraTarget_Formation_Stop();
+			m_movePointLookTime = 2.5f;
+			m_movePointLookTimeAcc = 0.0;
+			Boss_Roar_Action();
 			break;
 		case STATE_RETURN_TO_PLAYER:
 			//CameraTarget_Formation_Stop();
@@ -430,6 +435,51 @@ void CStageCamera::Return_To_Player(const _double& TimeDelta)
 	m_StageCameraDesc.CameraDesc = m_CameraDesc;
 }
 
+void CStageCamera::Move_To_LookTargetBoss(const _double& TimeDelta)
+{
+	if (nullptr == m_pMoveTargetPoint)
+	{
+		m_eCurState = STATE_FORMATION;
+	}
+
+	CTransform* pTransform = m_pMoveTargetPoint->Get_As<CTransform>();
+
+	if (nullptr == pTransform)
+		return;
+
+	if (m_CurAdditionalDistance > 1.1f)
+	{
+		m_CurAdditionalDistance -= _float(TimeDelta);
+	}
+
+	_vector movePoint = pTransform->Get_State(CTransform::STATE_POSITION) + (m_vDistanceVectorFromAt * m_StageCameraDesc.m_distance * m_CurAdditionalDistance);
+
+	if (m_pTransform->ChaseNoLook(movePoint, (_float)TimeDelta * 4.f, 0.4f))
+	{
+		m_eCurState = STATE_LOOK_AT_BOSS;
+	}
+
+
+	m_StageCameraDesc.CameraDesc = m_CameraDesc;
+}
+
+void CStageCamera::Boss_Roar_Action()
+{
+	CGameObject* pBoss = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Monster", L"Boss");
+	if (nullptr == pBoss)
+		return;
+
+	CMonFSM* pFSM = pBoss->Get_As<CMonFSM>();
+	if (nullptr == pFSM)
+		return;
+
+	CModel* pModel = pBoss->Get_As<CModel>();
+	if (nullptr == pModel)
+		return;
+
+	pFSM->Transit_MotionState(CMonFSM::ROAR, pModel);
+}
+
 void CStageCamera::Camera_Shake_LateTick(const _double& TimeDelta)
 {
 	/* 카메라 흔들리는 순서 : 위 아래 위 아래 중간 */
@@ -541,7 +591,7 @@ void CStageCamera::Do_Skill_Zoom_In(CGameObject* pObject)
 	}
 }
 
-void CStageCamera::Set_Move_To_Point(CGameObject* pObject)
+void CStageCamera::Set_Move_To_Point(CGameObject* pObject, _bool isBoss)
 {
 	if (nullptr == pObject)
 		return;
@@ -549,7 +599,10 @@ void CStageCamera::Set_Move_To_Point(CGameObject* pObject)
 	m_pMoveTargetPoint = pObject;
 	Safe_AddRef(m_pMoveTargetPoint);
 
-	m_eCurState = STATE_MOVE_TO_MONSTER;
+	if (isBoss)
+		m_eCurState = STATE_MOVE_TO_BOSS;
+	else
+		m_eCurState = STATE_MOVE_TO_MONSTER;
 }
 
 

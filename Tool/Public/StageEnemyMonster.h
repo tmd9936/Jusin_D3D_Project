@@ -52,6 +52,7 @@ private:
 	void					AI_Type_Long_Idle_Tick(const _double& TimeDelta, CTransform* pTargetTransform);
 	void					Dead_Check();
 	void					Boss_DeadEffect(_bool isEnd);
+	void					TurnToCameraRequest(const _double& TimeDelta);
 
 private:
 	_bool		m_bTurn = { false };

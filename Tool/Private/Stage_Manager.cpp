@@ -112,7 +112,7 @@ _uint CStage_Manager::LateTick(_double TimeDelta)
 			if (CEnemySpawnPoint::TYPE::TYPE_NORMAL_APPEARANCE == desc.m_type)
 			{
 				m_pStageMessageInfo->Open_Message(L"새로운 포켓몬이 나타났다!", 180.f);
-				m_pMainCamera->Set_Move_To_Point(pEnemySpawnPoint);
+				m_pMainCamera->Set_Move_To_Point(pEnemySpawnPoint, false);
 			}
 			else if (CEnemySpawnPoint::TYPE::TYPE_SURPIRSE_APPEARANCE == desc.m_type)
 			{
@@ -124,10 +124,10 @@ _uint CStage_Manager::LateTick(_double TimeDelta)
 				}
 				m_pStageMessageInfo->Open_Message(L"포위당했다!", 260.f);
 			}
-			else if (CEnemySpawnPoint::TYPE::TYPE_SURPIRSE_APPEARANCE == desc.m_type)
+			else if (CEnemySpawnPoint::TYPE::TYPE_BOSS_APPEARANCE == desc.m_type)
 			{
 				m_pStageMessageInfo->Open_Message(L"강해 보이는 포켓몬이 나타났다!", 150.f);
-				m_pMainCamera->Set_Move_To_Point(pEnemySpawnPoint);
+				m_pMainCamera->Set_Move_To_Point(pEnemySpawnPoint, true);
 			}
 
 			if (nullptr != pEnemySpawnPoint)
@@ -206,6 +206,24 @@ void CStage_Manager::Set_StageMessageInfo(CStageMessageInfo* pStageMessageInfo)
 
 	m_pStageMessageInfo = pStageMessageInfo;
 	Safe_AddRef(m_pStageMessageInfo);
+}
+
+_bool CStage_Manager::Request_TurnToCamera(CTransform* pTransform, const _double& TimeDelta)
+{
+	if (nullptr == pTransform)
+		return true; 
+
+	m_pMainCamera = (CStageCamera*)CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Camera", L"Main_Camera");
+	if (nullptr == m_pMainCamera)
+		return true;
+
+	CTransform* pCameraTransform = m_pMainCamera->Get_As<CTransform>();
+	if (nullptr == pCameraTransform)
+		return true;
+
+	_vector cameraPos = pCameraTransform->Get_State(CTransform::STATE_POSITION);
+
+	return pTransform->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), cameraPos, TimeDelta);
 }
 
 HRESULT CStage_Manager::Init_ManagerInfo()

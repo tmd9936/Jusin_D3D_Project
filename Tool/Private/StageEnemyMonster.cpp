@@ -137,9 +137,6 @@ void CStageEnemyMonster::Change_State_FSM(_uint eState)
 	case CMonFSM::IDLE1:
 		break;
 	case CMonFSM::ROAR:
-		//m_bTurn = true;
-		//Set_MovePosition();
-		// 카메라 보이면 연출
 		break;
 
 	case CMonFSM::IDLE_GROUND:
@@ -304,6 +301,19 @@ void CStageEnemyMonster::Boss_DeadEffect(_bool isEnd)
 	dynamic_cast<CStage_Manager*>(pManager)->Boss_DeadEffect(isEnd, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
 }
 
+void CStageEnemyMonster::TurnToCameraRequest(const _double& TimeDelta)
+{
+	CGameObject* pManager = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Manager", L"Stage_Manager");
+
+	if (nullptr == pManager)
+		return;
+
+	if (dynamic_cast<CStage_Manager*>(pManager)->Request_TurnToCamera(m_pTransformCom, TimeDelta))
+	{
+		m_pMonFSM->Transit_MotionState(CMonFSM::ROAR, m_pModelCom);
+	}
+}
+
 _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 {
 	CTransform* pTargetTransform = nullptr;
@@ -354,10 +364,17 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 		break;
 
 	case CMonFSM::ROAR:
-		m_pModelCom->Play_Animation(TimeDelta);
+		if (m_pModelCom->Play_Animation(TimeDelta))
+		{
+			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
+		}
 		//m_bTurn = true;
 		//Set_MovePosition();
 		// 카메라 보이면 연출
+		break;
+	case CMonFSM::ROAR_BEFORE:
+		m_pModelCom->Play_Animation(TimeDelta);
+		TurnToCameraRequest(TimeDelta);
 		break;
 
 	case CMonFSM::IDLE_GROUND:

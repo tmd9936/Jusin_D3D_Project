@@ -264,9 +264,18 @@ HRESULT CEnemyPack::Create_EnemyPack()
 		for (size_t j = 0; j < enemyNumber; ++j)
 		{
 			CStageEnemyMonster* pMonster = nullptr;
-			if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageEnemyMonster"), LEVEL_STAGE,
-				L"Layer_Monster", (CGameObject**)&pMonster, nullptr, (void*)m_Desc.m_registDatas[i].m_enemyFilePath.c_str(), CLONE_FILEPATH)))
-				return E_FAIL;
+			if (false == m_Desc.m_registDatas.at(i).m_isBoss)
+			{
+				if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageEnemyMonster"), LEVEL_STAGE,
+					L"Layer_Monster", (CGameObject**)&pMonster, nullptr, (void*)m_Desc.m_registDatas[i].m_enemyFilePath.c_str(), CLONE_FILEPATH)))
+					return E_FAIL;
+			}
+			else
+			{
+				if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageEnemyMonster"), LEVEL_STAGE,
+					L"Layer_Monster", (CGameObject**)&pMonster, L"Boss", (void*)m_Desc.m_registDatas[i].m_enemyFilePath.c_str(), CLONE_FILEPATH)))
+					return E_FAIL;
+			}
 
 			pEnemys->push_back(pMonster);
 		}
