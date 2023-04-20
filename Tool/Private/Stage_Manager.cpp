@@ -87,17 +87,31 @@ _uint CStage_Manager::LateTick(_double TimeDelta)
 
 		if (nextSpawnIndex >= m_enemySpawnPoints.size())
 		{
-			return 0; // 여기서 보스 죽은거로 판별하고 스테이지 끝내기
+			return 0; 
 		}
 
-		CEnemySpawnPoint* pEnemySpawnPoint = m_enemySpawnPoints.at(nextSpawnIndex);
-
-		CEnemySpawnPoint::ENEMY_SPAWN_POINT_DESC desc = move(pEnemySpawnPoint->Get_EnemySpawnPointDesc());
-
-		if (nullptr != pEnemySpawnPoint)
+		if (nextSpawnIndex == 0)
 		{
-			m_pEnemyPack->Next_Spawn(desc.m_position, desc.m_spawnRadius);
+			if (m_pStageMessageInfo->Is_NoMessageState())
+			{
+				CEnemySpawnPoint* pEnemySpawnPoint = m_enemySpawnPoints.at(nextSpawnIndex);
+				CEnemySpawnPoint::ENEMY_SPAWN_POINT_DESC desc = move(pEnemySpawnPoint->Get_EnemySpawnPointDesc());
+				if (nullptr != pEnemySpawnPoint)
+				{
+					m_pEnemyPack->Next_Spawn(desc.m_position, desc.m_spawnRadius);
+					m_pStageMessageInfo->Open_Message(L"야생 포켓몬이다!");
+				}
+			}
+
 		}
+		else
+		{
+			CEnemySpawnPoint* pEnemySpawnPoint = m_enemySpawnPoints.at(nextSpawnIndex);
+			CEnemySpawnPoint::ENEMY_SPAWN_POINT_DESC desc = move(pEnemySpawnPoint->Get_EnemySpawnPointDesc());
+			if (nullptr != pEnemySpawnPoint)
+				m_pEnemyPack->Next_Spawn(desc.m_position, desc.m_spawnRadius);
+		}
+
 	}
 
 	return _uint();

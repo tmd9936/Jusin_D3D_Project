@@ -34,13 +34,22 @@ public:
 	virtual HRESULT Render() override;
 
 public:
-	void	Open_Message(const wstring& message) {
+	_bool	Open_Message(const wstring& message) {
 		if (m_eCurState != STATE_NO_RENDER)
-			return;
+			return false;
 
 		m_message = message;
 
 		m_eCurState = STATE_OPENING;
+
+		return true;
+	}
+
+	const _bool	Is_NoMessageState() const {
+		if (STATE_NO_RENDER == m_eCurState)
+			return true;
+		else
+			return false;
 	}
 
 private:

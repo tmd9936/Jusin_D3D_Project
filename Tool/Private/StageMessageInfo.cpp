@@ -65,20 +65,18 @@ _uint CStageMessageInfo::Tick(_double TimeDelta)
 
 _uint CStageMessageInfo::LateTick(_double TimeDelta)
 {
-	if (m_eRenderId != RENDER_END)
+	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
+
+	for (auto& part : m_TextureParts)
 	{
-		m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
-
-		for (auto& part : m_TextureParts)
-		{
-			part->LateTick(TimeDelta);
-		}
-
-		for (auto& part : m_TextParts)
-		{
-			part->LateTick(TimeDelta);
-		}
+		part->LateTick(TimeDelta);
 	}
+
+	for (auto& part : m_TextParts)
+	{
+		part->LateTick(TimeDelta);
+	}
+	
 
 	return _uint();
 }
@@ -156,9 +154,9 @@ void CStageMessageInfo::State_Tick_Opening(const _double& TimeDelta)
 void CStageMessageInfo::State_Tick_Closing(const _double& TimeDelta)
 {
 	m_CurSizeY -= _float(TimeDelta * 95.0);
-	if (m_CurSizeY <= 0.f)
+	if (m_CurSizeY <= 5.f)
 	{
-		m_CurSizeY = 0.f;
+		m_CurSizeY = 5.f;
 		m_eCurState = STATE_NO_RENDER;
 	}
 	m_pTransformCom->Set_ScaledY(m_CurSizeY);

@@ -81,11 +81,11 @@ protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
 	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
 
+	HRESULT SetUp_ShaderResources();
 private:
 	HRESULT Add_Components();
-	HRESULT SetUp_ShaderResources();
-
 	HRESULT Add_Components_By_File();
+
 
 public:
 	static CUI* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

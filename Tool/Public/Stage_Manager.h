@@ -64,6 +64,7 @@ public:
 		m_eCurState = MANAGER_IDLE;
 	}
 
+	// 여기서 보스 죽은거로 판별하고 스테이지 끝내기
 	void						Boss_DeadEffect(_bool isEnd, _fvector vPos);
 	void						Add_EnemySpawnPoint(CEnemySpawnPoint* pEnemySpawnPoint);
 	void						Set_EnemyPack(CEnemyPack* pEnemyPack);
