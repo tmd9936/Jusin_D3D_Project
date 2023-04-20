@@ -268,6 +268,9 @@
     <Filter Include="02. GameObject\Static\Trail">
       <UniqueIdentifier>{58698aa4-37c4-4935-8d19-ad0e0d7f87d2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\Stage\StageProgressUI">
+      <UniqueIdentifier>{d9fa8d50-4452-42f2-86b8-a2ed6a93f14c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -527,6 +530,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Trail.h">
       <Filter>02. GameObject\Static\Trail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\StageProgressUI.h">
+      <Filter>02. GameObject\Stage\StageProgressUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -788,6 +794,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Trail.cpp">
       <Filter>02. GameObject\Static\Trail</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\StageProgressUI.cpp">
+      <Filter>02. GameObject\Stage\StageProgressUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

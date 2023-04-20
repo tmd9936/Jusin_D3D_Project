@@ -70,7 +70,7 @@ PS_OUT PS_MAIN(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
-	Out.vColor = g_Texture.Sample(PointSampler, In.vTexUV);
+	Out.vColor = g_Texture.Sample(LinearSampler, In.vTexUV);
 
 	if (Out.vColor.a < 0.1)
 		discard;
@@ -82,7 +82,7 @@ PS_OUT PS_MAIN_ROUND(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
-	Out.vColor = g_Texture.Sample(PointSampler, In.vTexUV);
+	Out.vColor = g_Texture.Sample(LinearSampler, In.vTexUV);
 
 	if (Out.vColor.a < 0.1)
 		discard;
@@ -99,7 +99,7 @@ PS_OUT PS_MAIN_ALPHA(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
-	Out.vColor = g_Texture.Sample(PointSampler, In.vTexUV);
+	Out.vColor = g_Texture.Sample(LinearSampler, In.vTexUV);
 
 	if (Out.vColor.a < 0.1)
 		discard;
@@ -113,7 +113,7 @@ PS_OUT PS_MAIN_COOLTIME_ALPHAMASK(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
-	vector		vMask = g_MaskTexture.Sample(PointSampler, In.vTexUV);
+	vector		vMask = g_MaskTexture.Sample(LinearSampler, In.vTexUV);
 
 	if (vMask.a < 0.1)
 		discard;
@@ -122,6 +122,47 @@ PS_OUT PS_MAIN_COOLTIME_ALPHAMASK(PS_IN In)
 
 	float angle = CalculateClockAngle_float(In.vTexUV);
 	Out.vColor = (angle > g_Progress) ? float4(0.f, 0.f, 0.f, 0.4f) : float4(0.f, 0.f, 0.f, 0.f);
+
+	return Out;
+}
+
+PS_OUT PS_MAIN_PROGRESS_ROUND(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	Out.vColor = g_Texture.Sample(LinearSampler, In.vTexUV);
+
+	if (Out.vColor.a > 0.3)
+	{
+		return Out;
+	}
+	else
+	{
+
+		bool mask = In.vTexUV.x < 0.5f;
+		//float healthbarMask = floor(i.uv.x * 10)/10 < _Health; // health bar split up into 10 chunks
+
+
+		if (mask)
+		{
+			float2 coords = In.vTexUV * g_Size;
+			if (ShouldDiscard(coords, g_Size, 5.f))
+				discard;
+
+			if (In.vTexUV.x < 0.09f || In.vTexUV.x > 0.91f)
+				discard;
+
+			if (In.vTexUV.y < 0.09f || In.vTexUV.y > 0.91f)
+				discard;
+			Out.vColor = g_vColor;
+		}
+		else
+		{
+			Out.vColor = float4(0.f, 0.f, 0.f, 0.0f);
+		}
+
+	}
+
 
 	return Out;
 }
@@ -191,5 +232,18 @@ technique11		DefaultTechnique
 		HullShader = NULL;
 		DomainShader = NULL;
 		PixelShader = compile ps_5_0 PS_MAIN_ALPHA();
+	}
+
+	pass ProgressUI
+	{
+		SetRasterizerState(RS_Default);
+		SetDepthStencilState(DSS_Enable_ZTest_Disable_ZWrite, 0);
+		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		HullShader = NULL;
+		DomainShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_PROGRESS_ROUND();
 	}
 }
