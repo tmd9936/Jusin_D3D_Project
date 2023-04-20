@@ -113,6 +113,27 @@ PS_OUT_DEFERRED PS_MAIN(PS_IN In)
 	return Out;
 }
 
+PS_OUT_DEFERRED PS_MAIN_TOON(PS_IN In)
+{
+	PS_OUT_DEFERRED			Out = (PS_OUT_DEFERRED)0;
+
+	vector		vMtrlDiffuse = In.vColor;
+
+	if (vMtrlDiffuse.a < 0.1f)
+		discard;
+
+	float4 diffuse = saturate(vMtrlDiffuse);
+
+	diffuse = ceil(diffuse * 5) / 5.0f;
+
+	Out.vDiffuse = In.vColor * diffuse;
+
+	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f); // 디퍼드 셰이더에서 노말의 값을 0~1로 받기 때문에 이와같이 노말의 값을 변경함
+	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / g_CameraFar, 0.f, 0.f);
+
+	return Out;
+}
+
 
 PS_OUT_DEFERRED PS_MAIN_COLOR(PS_IN In)
 {
@@ -121,6 +142,8 @@ PS_OUT_DEFERRED PS_MAIN_COLOR(PS_IN In)
 	Out.vDiffuse = g_vColor;
 	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
 	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / g_CameraFar, 0.f, 0.f);
+
+
 
 	return Out;
 }
@@ -191,6 +214,19 @@ technique11		DefaultTechnique
 		HullShader = NULL;
 		DomainShader = NULL;
 		PixelShader = compile ps_5_0 PS_MAIN_EFFECT();
+	}
+
+	pass Model_Toon
+	{
+		SetRasterizerState(RS_Default);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		HullShader = NULL;
+		DomainShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_TOON();
 	}
 
 

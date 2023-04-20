@@ -253,7 +253,7 @@ HRESULT CMonster::Render()
 			if (m_bHitState)
 				m_pShaderCom->Begin(2);
 			else
-				m_pShaderCom->Begin(0);
+				m_pShaderCom->Begin(4);
 		}
 
 		m_pModelCom->Render(i);
