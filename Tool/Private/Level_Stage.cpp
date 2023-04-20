@@ -419,6 +419,9 @@ HRESULT CLevel_Stage::Ready_Layer_EnemySpawnPoint(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_EnemySpawnPoint"), LEVEL_STAGE, pLayerTag, L"SpawnPoint3", "../../Reference/Resources/Data/Scene/Stage/EnemySpawnPoint/EnemySpwanPoint2_warter01.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_EnemySpawnPoint"), LEVEL_STAGE, pLayerTag, L"SpawnPoint4", "../../Reference/Resources/Data/Scene/Stage/EnemySpawnPoint/EnemySpwanPoint3_warter01.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
 	Safe_Release(pGameInstance);
 
 	return S_OK;

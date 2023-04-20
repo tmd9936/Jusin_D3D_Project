@@ -109,9 +109,24 @@ _uint CStage_Manager::LateTick(_double TimeDelta)
 			CEnemySpawnPoint* pEnemySpawnPoint = m_enemySpawnPoints.at(nextSpawnIndex);
 			CEnemySpawnPoint::ENEMY_SPAWN_POINT_DESC desc = move(pEnemySpawnPoint->Get_EnemySpawnPointDesc());
 
-			if (CEnemySpawnPoint::TYPE::TYPE_NORMAL_APPEARANCE)
+			if (CEnemySpawnPoint::TYPE::TYPE_NORMAL_APPEARANCE == desc.m_type)
 			{
 				m_pStageMessageInfo->Open_Message(L"새로운 포켓몬이 나타났다!", 180.f);
+				m_pMainCamera->Set_Move_To_Point(pEnemySpawnPoint);
+			}
+			else if (CEnemySpawnPoint::TYPE::TYPE_SURPIRSE_APPEARANCE == desc.m_type)
+			{
+				CGameObject* pPlayer1 = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Player", L"Player1");
+				if (pPlayer1)
+				{
+					CTransform* pTransform = pPlayer1->Get_As<CTransform>();
+					XMStoreFloat3(&desc.m_position, pTransform->Get_State(CTransform::STATE_POSITION));
+				}
+				m_pStageMessageInfo->Open_Message(L"포위당했다!", 260.f);
+			}
+			else if (CEnemySpawnPoint::TYPE::TYPE_SURPIRSE_APPEARANCE == desc.m_type)
+			{
+				m_pStageMessageInfo->Open_Message(L"강해 보이는 포켓몬이 나타났다!", 150.f);
 				m_pMainCamera->Set_Move_To_Point(pEnemySpawnPoint);
 			}
 

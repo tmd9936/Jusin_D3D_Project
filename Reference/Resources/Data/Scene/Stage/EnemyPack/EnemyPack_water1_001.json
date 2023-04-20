@@ -12,18 +12,26 @@
             },
             {
                 "m_enemyFilePath": "../../Reference/Resources/Data/Scene/Stage/MonsterData/EnemyData_087_warter01.json",
-                "m_enemyNumber": 2,
+                "m_enemyNumber": 1,
                 "m_isBoss": false,
                 "m_setType": 0,
                 "m_setIndex": 1,
                 "m_spawnMode": 1
             },
             {
+                "m_enemyFilePath": "../../Reference/Resources/Data/Scene/Stage/MonsterData/EnemyData_104_warter01.json",
+                "m_enemyNumber": 1,
+                "m_isBoss": false,
+                "m_setType": 0,
+                "m_setIndex": 2,
+                "m_spawnMode": 2
+            },
+            {
                 "m_enemyFilePath": "../../Reference/Resources/Data/Scene/Stage/MonsterData/EnemyData_031_boss.json",
                 "m_enemyNumber": 1,
                 "m_isBoss": true,
                 "m_setType": 0,
-                "m_setIndex": 2,
+                "m_setIndex": 3,
                 "m_spawnMode": 3
             }
         ]
