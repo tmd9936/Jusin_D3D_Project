@@ -31,8 +31,8 @@ HRESULT CStageClearUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, vo
 
 	m_MaxSizeY = m_UIDesc.m_fSizeY;
 
-	/*if (FAILED(Insert_In_Stage_Manager()))
-		return E_FAIL;*/
+	if (FAILED(Insert_In_Stage_Manager()))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -50,8 +50,8 @@ HRESULT CStageClearUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, co
 	m_textPositionX = m_TextParts.at(0)->Get_PositionX();
 	m_message = m_TextParts.at(0)->Get_Text();
 
-	//if (FAILED(Insert_In_Stage_Manager()))
-	//	return E_FAIL;
+	if (FAILED(Insert_In_Stage_Manager()))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -106,6 +106,7 @@ void CStageClearUI::Change_State()
 			Set_TextOnParts(L"");
 			break;
 		case STATE_NO_RENDER:
+			Set_TextOnParts(L"");
 			m_eRenderId = RENDER_END;
 			break;
 		}
@@ -144,7 +145,7 @@ void CStageClearUI::Stay_Time_Check(const _double& TimeDelta)
 
 void CStageClearUI::State_Tick_Opening(const _double& TimeDelta)
 {
-	m_CurSizeY += _float(TimeDelta * m_MaxSizeY * 0.85f);
+	m_CurSizeY += _float(TimeDelta * m_MaxSizeY * 2.f);
 	if (m_CurSizeY >= m_MaxSizeY)
 	{
 		m_CurSizeY = m_MaxSizeY;
@@ -155,10 +156,10 @@ void CStageClearUI::State_Tick_Opening(const _double& TimeDelta)
 
 void CStageClearUI::State_Tick_Closing(const _double& TimeDelta)
 {
-	m_CurSizeY -= _float(TimeDelta * m_MaxSizeY * 0.85f);
-	if (m_CurSizeY <= 5.f)
+	m_CurSizeY -= _float(TimeDelta * m_MaxSizeY * 2.f);
+	if (m_CurSizeY <= 0.03f)
 	{
-		m_CurSizeY = 5.f;
+		m_CurSizeY = 0.03f;
 		m_eCurState = STATE_NO_RENDER;
 	}
 	m_pTransformCom->Set_ScaledY(m_CurSizeY);
@@ -168,6 +169,7 @@ void CStageClearUI::Set_TextOnParts(const wstring& message)
 {
 	if (m_TextParts.empty())
 		return;
+
 	m_TextParts.at(0)->Set_Text(message, m_textPositionX);
 }
 

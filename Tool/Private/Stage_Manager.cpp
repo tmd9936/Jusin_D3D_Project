@@ -228,7 +228,7 @@ _bool CStage_Manager::Request_TurnToCamera(CTransform* pTransform, const _double
 
 	_float4 vCameraPos = CGameInstance::GetInstance()->Get_CamPosition();
 
-	return pTransform->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMLoadFloat4(&vCameraPos), TimeDelta);
+	return pTransform->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMLoadFloat4(&vCameraPos), _float(TimeDelta));
 }
 
 HRESULT CStage_Manager::Init_ManagerInfo()

@@ -37,7 +37,7 @@
                 },
                 "m_FontTag": "Font_NanumBarunGothic", 
                 "m_Text": "WAVE CLEAR!",
-                "LayerTag": "Layer_UI"
+                "LayerTag": "Layer_StageMessageInfo"
             }
         ]
     }
