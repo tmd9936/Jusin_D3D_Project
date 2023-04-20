@@ -16,6 +16,7 @@ class CLight_Manager;
 class CCollider_Manager;
 class CFont_Manager;
 class CFrustum;
+class CTarget_Manager;
 
 class ENGINE_DLL CGameInstance :
     public CBase
@@ -123,6 +124,10 @@ public: /*For.Font_Manager*/
 public: /*For.Frustum*/
 	_bool  Is_In_Frustum(_fvector vPosition, _float fRange = 0.f);
 
+public: /* For.Target_Manager */
+	HRESULT Set_Shader_RTV(const _tchar* pTargetTag, class CShader* pShader, const char* pConstantName);
+
+
 private:
 	CTimer_Manager*			m_pTimer_Manager = { nullptr };
 	CGraphic_Device*		m_pGraphic_Device = { nullptr };
@@ -136,6 +141,7 @@ private:
 	CCollider_Manager*		m_pCollider_Manager = { nullptr };
 	CFont_Manager*			m_pFont_Manager = { nullptr };
 	CFrustum*				m_pFrustum = { nullptr };
+	CTarget_Manager*		m_pTarget_Manager = { nullptr };
 
 public:
 	static void Release_Engine();
