@@ -6,7 +6,7 @@
         "m_fSizeY": 80.0,
         "m_ModelPrototypLevel": 0,
         "m_ShaderLevelIndex": 0,
-        "m_DiffuseTexturePath": "./window_plane_corner.png",
+        "m_DiffuseTexturePath": "./Rectangle_Base.dds",
         "m_MaskPrototypeTag": "Prototype_Component_Button_Color_Mask",
         "m_BrushPrototypeTag": "",
         "m_ButtonName": "GO_TO_STAGE1",
@@ -32,7 +32,7 @@
                     "w": 1.0
                 },
                 "m_TextureProtoTypeLevel": 0,
-                "m_TextureProtoTypeName": "Prototype_Component_Texture_Window_Plane_Corner",
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_Rectangle_Base",
                 "LayerTag": "Layer_Stage_Info_UI"
             },
             {

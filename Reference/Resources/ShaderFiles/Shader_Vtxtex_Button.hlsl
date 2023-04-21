@@ -78,7 +78,7 @@ PS_OUT PS_MAIN(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
-	Out.vColor = g_Texture.Sample(PointSamplerNoWrap, In.vTexUV);
+	Out.vColor = g_Texture.Sample(LinearSampler, In.vTexUV);
 
 	if (Out.vColor.a < 0.1)
 		discard;
@@ -91,13 +91,13 @@ PS_OUT PS_MAIN_COLOR(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
-	Out.vColor = g_Texture.Sample(PointSamplerNoWrap, In.vTexUV);
+	Out.vColor = g_Texture.Sample(LinearSampler, In.vTexUV);
 
 	if (Out.vColor.a < 0.1)
 		discard;
 
 	float2 coords = In.vTexUV * g_Size;
-	if (ShouldDiscard(coords, g_Size, 20.f))
+	if (ShouldDiscard(coords, g_Size, 5.f))
 		discard;
 
 	Out.vColor = g_vColor;
@@ -109,13 +109,13 @@ PS_OUT PS_MAIN_ROUND(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
-	Out.vColor = g_Texture.Sample(PointSamplerNoWrap, In.vTexUV);
+	Out.vColor = g_Texture.Sample(LinearSampler, In.vTexUV);
 
 	if (Out.vColor.a < 0.1)
 		discard;
 
 	float2 coords = In.vTexUV * g_Size;
-	if (ShouldDiscard(coords, g_Size, 10.f))
+	if (ShouldDiscard(coords, g_Size, 5.f))
 		discard;
 
 	return Out;
