@@ -638,7 +638,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 			{ pos3.x, 0.f, pos3.z }, 1.7f
 		);
 
-		pSkillEffect->Init_LoopCount(5);
+		pSkillEffect->Init_LoopCount(7);
 
 		Set_AttackPower(pSkillEffect, _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f)));
 
@@ -770,13 +770,20 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 		CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
 		if (nullptr == pTransform)
 			return E_FAIL;
+
+		if (nullptr != pSkillEffect)
+		{
+			pSkillEffect->Set_Parent(pBone, pParentTransform, PivotMatrix * XMMatrixRotationAxis({ 0.f, 1.f, 0.f, 0.f }, XMConvertToRadians(180.f)));
+			pSkillEffect->Set_ParentRotateApply(true);
+		}
+
 		pTransform->LookAt(XMVectorSetW(vLook, 1.f));
 
 		CAttackEffect::ATTACK_EFFECT_DESC desc{};
 		Set_NormalAttackDesc(desc, skillType, pSkillEffect, pConditionData, 1);
 
 		_float4 pos = {};
-		XMStoreFloat4(&pos, vLook * 0.25f);
+		XMStoreFloat4(&pos, XMVectorSetW(vLook * 0.15f, 1.f));
 		pSkillEffect->Set_Pos(pos);
 
 		Set_AttackPower(pSkillEffect, _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f)));
