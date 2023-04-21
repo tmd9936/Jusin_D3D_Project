@@ -1,9 +1,9 @@
 {
     "ButtonDesc": {
         "m_fX": 400.0,
-        "m_fY": 270.0,
+        "m_fY": 230.0,
         "m_fSizeX": 100.5,
-        "m_fSizeY": 80.0,
+        "m_fSizeY": 65.0,
         "m_ModelPrototypLevel": 0,
         "m_ShaderLevelIndex": 0,
         "m_DiffuseTexturePath": "./Rectangle_Base.dds",
@@ -22,7 +22,7 @@
                 "m_fX": 0.0,
                 "m_fY": 18.0,
                 "m_fSizeX": 180.0,
-                "m_fSizeY": 110.0,
+                "m_fSizeY": 80.0,
                 "m_eType": 1,
                 "m_ShaderPass": 1,
                 "m_vColor": {
@@ -39,7 +39,7 @@
                 "m_fX": 0.0,
                 "m_fY": 20.0,
                 "m_fSizeX": 140.0,
-                "m_fSizeY": 80.0,
+                "m_fSizeY": 65.0,
                 "m_eType": 0,
                 "m_ShaderPass": 0,
                 "m_vColor": {
@@ -55,8 +55,8 @@
         ],
         "m_TextParts": [
             {
-                "m_fX": 20.0,
-                "m_fY": -35.0,
+                "m_fX": 22.0,
+                "m_fY": -25.0,
                 "m_vColor": {
                     "x": 1.0,
                     "y": 1.0,
@@ -70,15 +70,15 @@
                 },
                 "m_vScale": {
                     "x": 0.68,
-                    "y": 0.68
+                    "y": 0.58
                 },
                 "m_FontTag": "Font_NanumBarunGothic", 
                 "m_Text": "2-1",
                 "LayerTag": "Layer_Stage_Info_UI"
             },
             {
-                "m_fX": -10.0,
-                "m_fY": 60.0,
+                "m_fX": 5.0,
+                "m_fY": 51.0,
                 "m_vColor": {
                     "x": 1.0,
                     "y": 1.0,
@@ -91,8 +91,8 @@
                     "y": 0.0
                 },
                 "m_vScale": {
-                    "x": 0.95,
-                    "y": 0.8
+                    "x": 0.75,
+                    "y": 0.6
                 },
                 "m_FontTag": "Font_NanumBarunGothic", 
                 "m_Text": "1,000",

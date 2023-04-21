@@ -1483,6 +1483,10 @@ HRESULT CLoader::Loading_ForWorldMapLevel()
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/World/window_power_enemy.dds")))))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_WORLDMAP, TEXT("Prototype_Component_Texture_Window_Clearstamp"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/World/window_clearstamp.dds")))))
+		return E_FAIL;
+
 #pragma endregion
 
 #pragma region MODELS
