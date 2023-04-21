@@ -126,6 +126,13 @@ _bool CEnemyPack::Next_Spawn(_float3 vPosition, const _float& radius)
 				{
 					pHpCom->Set_CanGetDamage(true);
 				}
+
+				CAttack* pAttack = enemy->Get_As<CAttack>();
+				if (nullptr != pAttack)
+				{
+					//pHpCom->Set_CanGetDamage(true);
+					pAttack->Set_CanSkillAttack(true);
+				}
 			}
 			enemy->Be_Spawn();
 		}
