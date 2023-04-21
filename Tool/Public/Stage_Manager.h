@@ -36,6 +36,7 @@ public:
 		MANAGER_IDLE,
 		MANAGER_CLEAR,
 		MANAGER_OPEN_STATE_INFO,
+		MANAGER_FADE_OUT,
 		MANAGER_END
 	};
 
@@ -103,6 +104,8 @@ private:
 	void						Stage_Clear_Tick(const _double& TimeDelta);
 
 	void						Open_StageInfo_Tick(const _double& TimeDelta);
+
+	void						Fade_Out(const _double& TimeDelta);
 
 private:
 	WORLDMAP_MANAGER_DESC		m_Desc = {};

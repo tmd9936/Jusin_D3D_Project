@@ -484,6 +484,10 @@ void CStage_Manager::State_Tick(const _double& TimeDelta)
 	case MANAGER_OPEN_STATE_INFO:
 		Open_StageInfo_Tick(TimeDelta);
 		break;
+
+	case MANAGER_FADE_OUT:
+		Fade_Out(TimeDelta);
+		break;
 	}
 }
 
@@ -512,6 +516,8 @@ void CStage_Manager::Change_State()
 			m_eRenderId = RENDER_BLEND_UI;
 			break;
 
+		case MANAGER_FADE_OUT:
+			break;
 		}
 		m_ePreState = m_eCurState;
 	}
@@ -578,10 +584,23 @@ void CStage_Manager::Open_StageInfo_Tick(const _double& TimeDelta)
 {
 	if (m_openStateTimeAcc >= m_openStateTime)
 	{
-		m_returnToWorldMap = true;
+		m_eCurState = MANAGER_FADE_OUT;
 	}
 
 	m_openStateTimeAcc += TimeDelta;
+}
+
+void CStage_Manager::Fade_Out(const _double& TimeDelta)
+{
+	if (m_vCurrentFadeColor.x >= 1.f)
+	{
+		m_returnToWorldMap = true;
+	}
+
+	m_vCurrentFadeColor.x += (_float)TimeDelta;
+	m_vCurrentFadeColor.y += (_float)TimeDelta;
+	m_vCurrentFadeColor.z += (_float)TimeDelta;
+	m_vCurrentFadeColor.w += (_float)TimeDelta;
 }
 
 HRESULT CStage_Manager::Add_Components()
