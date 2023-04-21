@@ -178,9 +178,11 @@ _uint CMonster::Tick(_double TimeDelta)
 
 	HitTimeCheck(TimeDelta);
 
+	_uint tickResult = State_Tick(TimeDelta);
+
 	m_pAABB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
 
-	return State_Tick(TimeDelta);
+	return tickResult;
 }
 
 _uint CMonster::LateTick(_double TimeDelta)
