@@ -518,6 +518,10 @@ _uint APIENTRY Loading_BC_cauldron01()
 		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Basecamp/Fire.fbx", PivotMatrix))))
 		return	E_FAIL;
 
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_Cook_effect",
+		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Basecamp/Cook_effect.fbx", PivotMatrix))))
+		return	E_FAIL;
+
 	CThreadPool::GetInstance()->JobEnd();
 
 	return 0;
