@@ -41,7 +41,7 @@ HRESULT CTrail::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pAr
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_Scaled(_float3(1.f, 1.5f, 1.6f));
+	m_pTransformCom->Set_Scaled(_float3(1.f, 1.5f, 1.4f));
 	m_pTransformCom->Rotation(XMVectorSet(1.f, 0.f, 0.f, 0.f), XMConvertToRadians(90.0f));
 	m_pTransformCom->Set_PositionY(-0.5f);
 

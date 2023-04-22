@@ -100,7 +100,7 @@ HRESULT CVIBuffer_Trail::Initialize(void* pArg)
 		m_pIndices[i]._2 = i + 3;
 
 		m_pIndices[i + 1]._0 = i;
-		m_pIndices[i + 1]._1 = i + 2;
+		m_pIndices[i + 1]._1 = i + 3;
 		m_pIndices[i + 1]._2 = i + 1;
 	}
 
