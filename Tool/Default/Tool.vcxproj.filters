@@ -274,6 +274,12 @@
     <Filter Include="02. GameObject\Stage\StageClearUI">
       <UniqueIdentifier>{ac0c6f44-be7b-4e71-a943-02fbb7a3e024}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\BaseCamp\Cauldron">
+      <UniqueIdentifier>{dd1b83cf-de2c-43b1-b006-f28bd0320162}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\BaseCamp\AnimEnv">
+      <UniqueIdentifier>{4135fb46-b317-4cec-a00d-eb86bb2b0875}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -539,6 +545,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\StageClearUI.h">
       <Filter>02. GameObject\Stage\StageClearUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Cauldron.h">
+      <Filter>02. GameObject\BaseCamp\Cauldron</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AnimEnv.h">
+      <Filter>02. GameObject\BaseCamp\AnimEnv</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -806,6 +818,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\StageClearUI.cpp">
       <Filter>02. GameObject\Stage\StageClearUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Cauldron.cpp">
+      <Filter>02. GameObject\BaseCamp\Cauldron</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AnimEnv.cpp">
+      <Filter>02. GameObject\BaseCamp\AnimEnv</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -12,6 +12,10 @@
 
 #include "FlatTerrain.h"
 
+#include "Cauldron.h"
+
+#include "AnimEnv.h"
+
 CLevel_BaseCamp::CLevel_BaseCamp(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
 {
@@ -36,6 +40,9 @@ HRESULT CLevel_BaseCamp::Initialize()
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Env(TEXT("Layer_Env"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_Cauldron(TEXT("Layer_Cauldron"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
@@ -143,6 +150,40 @@ HRESULT CLevel_BaseCamp::Ready_Layer_Env(const _tchar* pLayerTag)
 
 	if (FAILED(pGameInstance->Add_Layer(LEVEL_BASECAMP, pLayerTag)))
 		return E_FAIL;
+
+	CAnimEnv::ANIM_ENV_DESC desc{};
+	lstrcpy(desc.ModelPrototypeTag, L"Prototype_Component_Model_Fire");
+	desc.vScale = { 1.1f, 3.0f, 1.1f };
+	desc.vPos = { 20.2f, -0.55f, 21.f };
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_AnimEnv"), LEVEL_BASECAMP, pLayerTag, nullptr, &desc)))
+		return E_FAIL;
+
+	desc.vPos = { 19.0f, -0.55f, 19.8f };
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_AnimEnv"), LEVEL_BASECAMP, pLayerTag, nullptr, &desc)))
+		return E_FAIL;
+
+	Safe_Release(pGameInstance);
+	return S_OK;
+}
+
+HRESULT CLevel_BaseCamp::Ready_Layer_Cauldron(const _tchar* pLayerTag)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_BASECAMP, pLayerTag)))
+		return E_FAIL;
+
+	CCauldron::CAULDRON_DESC desc1{};
+	desc1.eState = CCauldron::STATE_COOK;
+	desc1.vPos = { 20.2f, 0.5f, 21.f };
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Cauldron"), LEVEL_BASECAMP, pLayerTag, L"Cauldron1", &desc1)))
+		return E_FAIL;
+
+	desc1.vPos = { 19.0f, 0.5f, 19.77f };
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Cauldron"), LEVEL_BASECAMP, pLayerTag, L"Cauldron2", &desc1)))
+		return E_FAIL;
+
 
 	Safe_Release(pGameInstance);
 	return S_OK;

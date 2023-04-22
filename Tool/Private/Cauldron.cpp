@@ -36,8 +36,14 @@ HRESULT CCauldron::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* 
 	m_eCurState = (STATE)m_Desc.eState;
 
 	m_pTransformCom->Set_Pos(m_Desc.vPos.x, m_Desc.vPos.y, m_Desc.vPos.z);
+	m_pTransformCom->Set_Scaled({ 0.2f, 0.2f, 0.2f });
 
 	m_eRenderId = RENDER_NONBLEND;
+
+	if (m_eCurState != STATE_IDLE)
+	{
+		m_pModelCom->Set_Animation(0);
+	}
 
 	return S_OK;
 }
@@ -68,11 +74,11 @@ HRESULT CCauldron::Render()
 
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
-		if (m_eCurState != STATE_IDLE)
+		/*if (m_eCurState != STATE_IDLE)
 		{
 			if (FAILED(m_pModelCom->SetUp_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
 				return E_FAIL;
-		}
+		}*/
 
 		m_pShaderCom->Begin(0);
 
@@ -112,7 +118,7 @@ HRESULT CCauldron::Add_Components()
 			return E_FAIL;
 	}
 
-	switch (m_eCurState)
+	switch (m_Desc.eState)
 	{
 	case STATE_BREAK:
 		if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, LEVEL_STATIC, L"Prototype_Component_Model_BC_cauldron01_break",

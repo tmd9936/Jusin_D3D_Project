@@ -220,6 +220,19 @@ HRESULT CModel::SetUp_BoneMatrices(CShader* pShader, const char* pConstantName, 
 	return pShader->Set_MatrixArray(pConstantName, BoneMatrices, 256);
 }
 
+HRESULT CModel::SetUp_BoneMatrices(CShader* pShader, const char* pConstantName, _uint iMeshIndex, _uint iNoSetIndex)
+{
+	_float4x4		BoneMatrices[256];
+	ZeroMemory(BoneMatrices, sizeof(_float4x4) * 256);
+
+	if (iMeshIndex != iNoSetIndex)
+	{
+		m_Meshes[iMeshIndex]->Get_BoneMatrices(BoneMatrices, m_Bones, XMLoadFloat4x4(&m_PivotMatrix));
+	}
+
+	return pShader->Set_MatrixArray(pConstantName, BoneMatrices, 256);
+}
+
 void CModel::Set_Animation_Start_Time(_double TimeAcc)
 {
 	m_Animations[m_iCurrentAnimationIndex]->Set_StartTimeAcc(TimeAcc);

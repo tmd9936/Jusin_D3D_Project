@@ -29,6 +29,8 @@
 #include "StagePoint.h"
 #include "GoToStageButton.h"
 
+#include "AnimEnv.h"
+
 #include "Player.h"
 #include "GoToWorldMapButton.h"
 #include "BaseCampMonster.h"
@@ -512,6 +514,9 @@ _uint APIENTRY Loading_BC_cauldron01()
 		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Basecamp/BC_cauldron01_set.fbx", PivotMatrix))))
 		return	E_FAIL;
 
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_Fire",
+		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Basecamp/Fire.fbx", PivotMatrix))))
+		return	E_FAIL;
 
 	CThreadPool::GetInstance()->JobEnd();
 
@@ -772,6 +777,8 @@ _uint APIENTRY LoadingPokemonModel()
 
 HRESULT CLoader::Initialize(LEVEL eNextLevelID)
 {
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
 	m_eNextLevelID = eNextLevelID;
 	if (eNextLevelID == LEVEL_LOGO)
 	{
@@ -785,8 +792,11 @@ HRESULT CLoader::Initialize(LEVEL eNextLevelID)
 	}
 	else if (eNextLevelID == LEVEL_BASECAMP)
 	{
-		CThreadPool::GetInstance()->QueueJob(std::function<_uint()>(LoadingPokemonModel));
-		CThreadPool::GetInstance()->QueueJob(std::function<_uint()>(Loading_BC_cauldron01));
+		if (false == pGameInstance->Get_LevelFirstInit(LEVEL_BASECAMP))
+		{
+			CThreadPool::GetInstance()->QueueJob(std::function<_uint()>(LoadingPokemonModel));
+			CThreadPool::GetInstance()->QueueJob(std::function<_uint()>(Loading_BC_cauldron01));
+		}
 	}
 	else if (eNextLevelID == LEVEL_WORLDMAP)
 	{
@@ -1089,6 +1099,10 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_StageClearUI"),
 			CStageClearUI::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_AnimEnv"),
+			CAnimEnv::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 	}
 #pragma endregion
