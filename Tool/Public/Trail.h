@@ -40,10 +40,10 @@ public:
 
 public:
 	void	Set_Active() {
-		m_vColor.w = 0.8f;
+		m_eRenderId = RENDER_NONLIGHT;
 	}
 	void	Set_NonActive() {
-		m_vColor.w = 0.f;
+		m_eRenderId = RENDER_END;
 	}
 
 private:

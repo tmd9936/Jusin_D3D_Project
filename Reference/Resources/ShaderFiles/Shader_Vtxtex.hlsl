@@ -109,6 +109,20 @@ PS_OUT PS_MAIN_ALPHA(PS_IN In)
 	return Out;
 }
 
+PS_OUT PS_MAIN_TRAIL(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	Out.vColor = g_Texture.Sample(LinearSampler, In.vTexUV);
+
+	if (Out.vColor.a < 0.1)
+		discard;
+
+	//Out.vColor.a = g_vColor.a;
+
+	return Out;
+}
+
 PS_OUT PS_MAIN_COOLTIME_ALPHAMASK(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
@@ -231,7 +245,7 @@ technique11		DefaultTechnique
 		GeometryShader = NULL;
 		HullShader = NULL;
 		DomainShader = NULL;
-		PixelShader = compile ps_5_0 PS_MAIN_ALPHA();
+		PixelShader = compile ps_5_0 PS_MAIN_TRAIL();
 	}
 
 	pass ProgressUI
