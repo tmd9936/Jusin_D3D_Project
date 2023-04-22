@@ -6,6 +6,8 @@ vector			g_vCamPosition;
 float			g_CameraFar;
 
 vector			g_vLightDir;
+vector			g_vLightPos;
+float			g_fRange;
 vector			g_vLightDiffuse;
 vector			g_vLightAmbient;
 vector			g_vLightSpecular;
@@ -122,6 +124,60 @@ PS_OUT_LIGHT PS_MAIN_LIGHT_DIRECTIONAL(PS_IN In)
 	return Out;
 }
 
+PS_OUT_LIGHT PS_MAIN_LIGHT_POINT(PS_IN In)
+{
+	PS_OUT_LIGHT			Out = (PS_OUT_LIGHT)0;
+
+	vector	vNormalDesc = g_NormalTexture.Sample(LinearSampler, In.vTexUV);
+	vector	vDepthDesc = g_DepthTexture.Sample(LinearSampler, In.vTexUV);
+	float	fViewZ = vDepthDesc.y * 300.f;
+
+	vector	vNormal = vector(vNormalDesc.xyz * 2.f - 1.f, 0.f);
+
+	Out.vShade = g_vLightDiffuse * (saturate(dot(normalize(g_vLightDir) * -1.f, vNormal)) +
+		(g_vLightAmbient * g_vMtrlAmbient));
+
+	Out.vShade.a = 1.f;
+
+
+	vector	vWorldPos;
+
+	// uv좌표와 투영스페이스의 관계성으로 uv를 이용해서 투영의 xy 좌표를 만들고 z정보는 랜더타겟에서 가져옴
+
+	///* 월드위치 * 뷰행렬 * 투영행렬 * 1/z */
+	vWorldPos.x = In.vTexUV.x * 2.f - 1.f;
+	vWorldPos.y = In.vTexUV.y * -2.f + 1.f;
+	vWorldPos.z = vDepthDesc.x;
+	vWorldPos.w = 1.f;
+
+	///* 월드위치 * 뷰행렬 * 투영행렬 */
+	vWorldPos = vWorldPos * fViewZ;
+
+	///* 월드위치 * 뷰행렬 */
+	vWorldPos = mul(vWorldPos, g_ProjMatrixInv);
+
+	///* 월드위치 */
+	vWorldPos = mul(vWorldPos, g_ViewMatrixInv);
+
+	vector	vLightDir = vWorldPos - g_vLightPos;
+
+	/* 내 픽셀과 광원의 거리를 구하자. */
+	float	fDistance = length(vLightDir);
+
+	float	fAtt = saturate((g_fRange - fDistance) / g_fRange);
+
+	Out.vShade = Out.vShade * fAtt;
+
+	Out.vShade.a = 1.f;
+
+	//vector	vReflect = reflect(normalize(g_vLightDir), vNormal);
+	//vector	vLook = vWorldPos - g_vCamPosition;
+	//Out.vSpecular.xyz = (g_vLightSpecular * g_vMtrlSpecular) * pow(saturate(dot(normalize(vReflect) * -1.f, normalize(vLook))), 30);
+
+	return Out;
+}
+
+
 PS_OUT PS_MAIN_DEFERRED_BLEND(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
@@ -172,6 +228,16 @@ BlendState BS_Default
 	BlendEnable[0] = false;
 };
 
+BlendState BS_Add_One
+{
+	BlendEnable[0] = true;
+	BlendEnable[1] = true;
+
+	SrcBlend = one;
+	DestBlend = one;
+	BlendOp = add;
+};
+
 
 
 technique11		DefaultTechnique
@@ -193,7 +259,7 @@ technique11		DefaultTechnique
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Not_ZTest_Not_ZWrite, 0);
-		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+		SetBlendState(BS_Add_One, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
@@ -206,13 +272,13 @@ technique11		DefaultTechnique
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Not_ZTest_Not_ZWrite, 0);
-		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+		SetBlendState(BS_Add_One, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
 		HullShader = NULL;
 		DomainShader = NULL;
-		PixelShader = compile ps_5_0 PS_MAIN_LIGHT_DIRECTIONAL();
+		PixelShader = compile ps_5_0 PS_MAIN_LIGHT_POINT();
 	}
 
 	pass Deferred_Blend
