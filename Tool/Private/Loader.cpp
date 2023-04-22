@@ -33,6 +33,7 @@
 #include "GoToWorldMapButton.h"
 #include "BaseCampMonster.h"
 #include "BaseCamp_Manager.h"
+#include "Cauldron.h"
 
 #include "BuffState.h"
 //#include "Weapon.h"
@@ -462,6 +463,61 @@ _uint APIENTRY LoadingJimenEffect()
 	return 0;
 }
 
+_uint APIENTRY Loading_BC_cauldron01()
+{
+	while (!CMainApp::Get_MainAppInit()) {}
+
+	CThreadPool::GetInstance()->JobStart();
+
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	HRESULT			hr = { 0 };
+
+	_matrix PivotMatrix = XMMatrixIdentity();
+
+	PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_BC_cauldron01_break",
+		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Basecamp/BC_cauldron01_break.fbx", PivotMatrix))))
+		return	E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_BC_cauldron01_change",
+		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Basecamp/BC_cauldron01_change.fbx", PivotMatrix))))
+		return	E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_BC_cauldron01_close",
+		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Basecamp/BC_cauldron01_close.fbx", PivotMatrix))))
+		return	E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_BC_cauldron01_cook",
+		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Basecamp/BC_cauldron01_cook.fbx", PivotMatrix))))
+		return	E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_BC_cauldron01_fix",
+		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Basecamp/BC_cauldron01_fix.fbx", PivotMatrix))))
+		return	E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_BC_cauldron01_idle",
+		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/Basecamp/BC_cauldron01_idle.fbx", PivotMatrix))))
+		return	E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_BC_cauldron01_press",
+		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Basecamp/BC_cauldron01_press.fbx", PivotMatrix))))
+		return	E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_BC_cauldron01_select",
+		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Basecamp/BC_cauldron01_select.fbx", PivotMatrix))))
+		return	E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_BC_cauldron01_set",
+		CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Basecamp/BC_cauldron01_set.fbx", PivotMatrix))))
+		return	E_FAIL;
+
+
+	CThreadPool::GetInstance()->JobEnd();
+
+	return 0;
+}
+
 
 _uint APIENTRY LoadingMap()
 {
@@ -730,6 +786,7 @@ HRESULT CLoader::Initialize(LEVEL eNextLevelID)
 	else if (eNextLevelID == LEVEL_BASECAMP)
 	{
 		CThreadPool::GetInstance()->QueueJob(std::function<_uint()>(LoadingPokemonModel));
+		CThreadPool::GetInstance()->QueueJob(std::function<_uint()>(Loading_BC_cauldron01));
 	}
 	else if (eNextLevelID == LEVEL_WORLDMAP)
 	{
@@ -1447,6 +1504,11 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 		/* For.Prototype_GameObject_BaseCamp_Manager*/
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BaseCamp_Manager"),
 			CBaseCamp_Manager::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		/* For.Prototype_GameObject_Cauldron*/
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Cauldron"),
+			CCauldron::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
 	}
