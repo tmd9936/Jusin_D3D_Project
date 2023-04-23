@@ -43,6 +43,7 @@
 #include "Effect_Manager.h"
 #include "Skill.h"
 #include "Skill_Manager.h"
+#include "PokemonData.h"
 
 #include "Navigation.h"
 #include "PartTexture.h"
@@ -1170,6 +1171,11 @@ HRESULT CLoader::Loading_ForLogoLevel()
 				"../../Reference/Resources/Data/Condition_Buff_DeBuff/ConditionParameter.json"))))
 			return E_FAIL;
 
+		/* For.Prototype_GameObject_PokemonData */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_PokemonData"),
+			CPokemonData::Create(m_pDevice, m_pContext, "../../Reference/Resources/Data/Pokemon/PokemonData.json"))))
+			return E_FAIL;
+
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_StageMessageInfo"),
 			CStageMessageInfo::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
@@ -1206,6 +1212,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			return E_FAIL;
 
 		if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_ConditionData", LEVEL_STATIC, L"Layer_Manager", L"ConditionData")))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_PokemonData", LEVEL_STATIC, L"Layer_Manager", L"PokemonData")))
 			return E_FAIL;
 	}
 #pragma endregion

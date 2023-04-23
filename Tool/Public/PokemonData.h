@@ -11,47 +11,13 @@ BEGIN(Client)
 class CPokemonData final : public CGameObject
 {
 public:
-	typedef struct ConditionData_Desc
+	typedef struct PokemonData_Desc
 	{
-		_uint m_id;
-		_uint m_type;
-		_float m_Value_A;
-		_float m_Value_B;
-		_float m_time;
-		_float m_ratio;
+		_uint id;
+		wstring name;
+		wstring type;
 
-	} CONDITIONDATA_DESC;
-
-	typedef struct ConditionTypeData_Desc
-	{
-		_uint m_id;
-		_uint m_category;
-		wstring m_iconPath;
-		wstring m_iconLSizePath;
-		_uint m_effectType;
-		_uint m_resistType_1;
-		_uint m_resistType_2;
-		_uint m_groupID;
-		_uint m_force;
-
-	} CONDITIONTYPEDATA_DESC;
-
-	typedef struct ConditionParameter_Desc
-	{
-		_float m_attackRatioClampMin;
-		_float m_attackRatioClampMax;
-
-		_float m_damageRatioClampMin;
-		_float m_damageRatioClampMax;
-
-		_float m_moveSpeedClampMin;
-		_float m_moveSpeedClampMax;
-
-		_float m_resistBadConditionClampMin;
-		_float m_resistBadConditionClampMax;
-
-	} CONDITIONPARAMETER_DESC;
-
+	} POKEMONDATA_DESC;
 
 private:
 	explicit CPokemonData(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -59,55 +25,26 @@ private:
 	virtual ~CPokemonData() = default;
 
 public:
-	virtual HRESULT Initialize_Prototype(const char* conditionDataFilePath, const char* conditionTypeDataFilePath,
-		const char* conditionParameterFilePath); /* 원형객체의 초기화작업 */
-	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override; /* 사본객체의 초기화작업 */
+	virtual HRESULT Initialize_Prototype(const char* pokemonnDataFilePath); 
+	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override; 
 	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath);
 
 	virtual _uint Tick(_double TimeDelta) override;
 	virtual _uint LateTick(_double TimeDelta) override;
-
-public:
-	void	Get_ConditonData(CONDITIONDATA_DESC& out, _uint index) const {
-		auto iter = m_ConditionData_Desc.find(index);
-
-		if (m_ConditionData_Desc.end() == iter)
-			return;
-
-		out = iter->second;
-	}
-
-	CONDITIONTYPEDATA_DESC	Get_ConditonTypeData(_uint index) const {
-		return m_ConditionTypeData_Desc[index];
-	}
-
-	CONDITIONPARAMETER_DESC	Get_ConditionParameter() const {
-		return m_ConditionParameter;
-	}
 
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
 	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
 
 private:
-	_bool	Load_ConditionTypeData_JsonFile(const char* conditionTypeDataFilePath);
-	_bool	Load_ConditionParameter_JsonFile(const char* conditionParameterFilePath);
-
-private:
 	HRESULT Add_Components();
 	HRESULT Add_Components_By_File();
 
 private:
-	//vector<CONDITIONDATA_DESC>					m_ConditionData_Desc;
-	unordered_map<_uint, CONDITIONDATA_DESC>			m_ConditionData_Desc;
-
-	vector<CONDITIONTYPEDATA_DESC>		m_ConditionTypeData_Desc;
-	CONDITIONPARAMETER_DESC				m_ConditionParameter = {};
+	vector<POKEMONDATA_DESC>					m_PokemonData_Desc;
 
 public:
-	static CPokemonData* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext,
-		const char* conditionDataFilePath, const char* conditionTypeDataFilePath,
-		const char* conditionParameterFilePath);
+	static CPokemonData* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const char* pokemonnDataFilePath);
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) override;
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath = nullptr);
 	virtual void Free() override;

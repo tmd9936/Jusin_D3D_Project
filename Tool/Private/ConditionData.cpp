@@ -11,9 +11,9 @@ CConditionData::CConditionData(ID3D11Device* pDevice, ID3D11DeviceContext* pCont
 
 CConditionData::CConditionData(const CConditionData& rhs)
 	: CGameObject(rhs)
-	, m_ConditionData_Desc(rhs.m_ConditionData_Desc)
-	, m_ConditionTypeData_Desc(rhs.m_ConditionTypeData_Desc)
-	, m_ConditionParameter(rhs.m_ConditionParameter)
+	, m_ConditionData_Desc(move(rhs.m_ConditionData_Desc))
+	, m_ConditionTypeData_Desc(move(rhs.m_ConditionTypeData_Desc))
+	, m_ConditionParameter(move(rhs.m_ConditionParameter))
 {
 
 }
