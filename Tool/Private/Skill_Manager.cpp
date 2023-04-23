@@ -27,8 +27,8 @@ CSkill_Manager::CSkill_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pCont
 
 CSkill_Manager::CSkill_Manager(const CSkill_Manager& rhs)
 	: CGameObject(rhs)
-	, m_Skill_Depend_Datas(rhs.m_Skill_Depend_Datas)
-	, m_Skill_Desc_Datas(rhs.m_Skill_Desc_Datas)
+	, m_Skill_Depend_Datas(move(rhs.m_Skill_Depend_Datas))
+	, m_Skill_Desc_Datas(move(rhs.m_Skill_Desc_Datas))
 {
 
 }

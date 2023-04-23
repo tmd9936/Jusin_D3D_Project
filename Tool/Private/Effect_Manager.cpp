@@ -13,8 +13,8 @@ CEffect_Manager::CEffect_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pCo
 
 CEffect_Manager::CEffect_Manager(const CEffect_Manager& rhs)
 	: CGameObject(rhs)
-	, m_Effect_Descs(rhs.m_Effect_Descs)
-	, m_Skill_Effect_Descs(rhs.m_Skill_Effect_Descs)
+	, m_Effect_Descs(move(rhs.m_Effect_Descs))
+	, m_Skill_Effect_Descs(move(rhs.m_Skill_Effect_Descs))
 
 {
 

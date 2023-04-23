@@ -849,7 +849,6 @@ HRESULT CLoader::Initialize(LEVEL eNextLevelID)
 		CThreadPool::GetInstance()->QueueJob(std::function<_uint()>(LoadingKooriEffect));
 		CThreadPool::GetInstance()->QueueJob(std::function<_uint()>(LoadingStaticShader));
 		CThreadPool::GetInstance()->QueueJob(std::function<_uint()>(LoadingJimenEffect));
-		CThreadPool::GetInstance()->QueueJob(std::function<_uint()>(LoadingConditionEffect));
 	}
 	else if (eNextLevelID == LEVEL_BASECAMP)
 	{
@@ -857,6 +856,7 @@ HRESULT CLoader::Initialize(LEVEL eNextLevelID)
 		{
 			CThreadPool::GetInstance()->QueueJob(std::function<_uint()>(LoadingPokemonModel));
 			CThreadPool::GetInstance()->QueueJob(std::function<_uint()>(Loading_BC_cauldron01));
+			CThreadPool::GetInstance()->QueueJob(std::function<_uint()>(LoadingConditionEffect));
 		}
 	}
 	else if (eNextLevelID == LEVEL_WORLDMAP)
