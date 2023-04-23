@@ -39,10 +39,6 @@ HRESULT CRenderer::Initialize_Prototype()
 		TEXT("Target_Diffuse"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
-		TEXT("Target_BloomDiffuse"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
-		return E_FAIL;
-
 	/* For.Target_Normal */
 	/*
 	* float이 4바이트인데 2바이트인데
@@ -69,7 +65,7 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
-		TEXT("Target_BrightColor"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, _float4(1.f, 0.f, 1.f, 1.f))))
+		TEXT("Target_BrightColor"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, _float4(0.f, 0.f, 0.f, 1.f))))
 		return E_FAIL;
 
 	//if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
@@ -101,17 +97,12 @@ HRESULT CRenderer::Initialize_Prototype()
 
 
 	// === 이펙트 디퍼드
-		
-	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Effect_Deferred"), TEXT("Target_BloomDiffuse"))))
-		return E_FAIL;
-
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Effect_Deferred"), TEXT("Target_BrightColor"))))
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Bloom"), TEXT("Target_BloomColor"))))
 		return E_FAIL;
 	
-	//
 
 	XMStoreFloat4x4(&m_WorldMatrix, XMMatrixScaling(ViewportDesc.Width, ViewportDesc.Height, 1.f));
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
@@ -139,13 +130,10 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Shade"), 150.f, 50.f, 100.f, 100.f)))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomDiffuse"), 250.f, 50.f, 100.f, 100.f)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BrightColor"), 250.f, 50.f, 100.f, 100.f)))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BrightColor"), 250.f, 150.f, 100.f, 100.f)))
-		return E_FAIL;
-
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomColor"), 250.f, 250.f, 100.f, 100.f)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomColor"), 250.f, 150.f, 100.f, 100.f)))
 		return E_FAIL;
 
 	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Specular"), 150.f, 150.f, 100.f, 100.f)))
@@ -555,7 +543,10 @@ HRESULT CRenderer::Draw_DeferredNonLightBlend()
 	if (FAILED(m_pShader->Set_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_BloomDiffuse"), m_pShader, "g_DiffuseTexture")))
+	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_Diffuse"), m_pShader, "g_DiffuseTexture")))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_Shade"), m_pShader, "g_ShadeTexture")))
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_BloomColor"), m_pShader, "g_BloomTexture")))
@@ -563,8 +554,7 @@ HRESULT CRenderer::Draw_DeferredNonLightBlend()
 
 	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_BrightColor"), m_pShader, "g_BloomOriginTexture")))
 		return E_FAIL;
-	//if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_Specular"), m_pShader, "g_SpecularTexture")))
-	//	return E_FAIL;
+
 
 	m_pShader->Begin(5);
 

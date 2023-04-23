@@ -38,6 +38,13 @@ sampler LinearSampler = sampler_state
 	filter = min_mag_mip_linear;
 };
 
+sampler BlurSampler = sampler_state
+{
+	filter = min_mag_mip_linear;
+	AddressU = clamp;
+	AddressV = clamp;
+};
+
 struct VS_IN
 {
 	float3		vPosition : POSITION;
@@ -213,24 +220,19 @@ PS_OUT PS_MAIN_DEFERRED_BLEND(PS_IN In)
 }
 
 
-static const float BlurWeights[13] =
+static const float BlurWeights[7][7] =
 {
-	0.0561,
-	0.1353,
-	0.278,
-	0.4868,
-	0.07261,
-	0.9231,
-	1.0,
-	0.9231,
-	0.07261,
-	0.4868,
-	0.278,
-	0.008764,
-	0.0561,
+	{0.0000, 0.0002, 0.0011, 0.0018, 0.0011, 0.0002, 0.0000},
+	{0.0002, 0.0029, 0.0131, 0.0215, 0.0131, 0.0029, 0.0002},
+	{0.0011, 0.0131, 0.0585, 0.0965, 0.0585, 0.0131, 0.0011},
+	{0.0018, 0.0215, 0.0965, 0.1592, 0.0965, 0.0215, 0.0018},
+	{0.0011, 0.0131, 0.0585, 0.0965, 0.0585, 0.0131, 0.0011},
+	{0.0002, 0.0029, 0.0131, 0.0215, 0.0131, 0.0029, 0.0002},
+	{0.0000, 0.0002, 0.0011, 0.0018, 0.0011, 0.0002, 0.0000}
+
 };
 
-static const float vTotal = 6.2108;
+static const float vTotal = 0.9976;
 
 struct PS_OUT_BLOOM
 {
@@ -241,22 +243,39 @@ PS_OUT_BLOOM PS_MAIN_DEFERRED_BLOOM(PS_IN In)
 {
 	PS_OUT_BLOOM			Out = (PS_OUT_BLOOM)0;
 
-	vector	vBrightDesc = g_BrightTexture.Sample(LinearSampler, In.vTexUV);
+	float4	vBrightDesc = g_BrightTexture.Sample(BlurSampler, In.vTexUV);
 
-	float4 color = 0;
-	float2 texelSize = 1 / g_TexSize;
+	float4 color = float4(0.f, 0.f, 0.f, 0.f);
+	float2 texelSize = 1.f / g_TexSize;
 
 	for (int x = -3; x <= 3; ++x)
 	{
-		for (int y = -3; x <= 3; ++y)
+		for (int y = -3; y <= 3; ++y)
 		{
-			color += g_BrightTexture.Sample(LinearSampler, In.vTexUV + float2(x, y) * texelSize) * BlurWeights[6 - x - y];
+			color += BlurWeights[x + 3][y + 3] * 6.0 * g_BrightTexture.Sample(BlurSampler, In.vTexUV + float2(x * texelSize.x, y * texelSize.y));
 		}
 	}
 
-	color /= vTotal;
+	color /= vTotal * 6.0;
 
 	Out.vBloomColor = color;
+	
+
+	//float4 vColor = 0;
+	//float2 t = In.vTexUV;
+	//float2 uv = 0;
+
+	//float tu = 1.f / g_TexSize.x;
+
+	//for (int i = -6; i < 6; ++i)
+	//{
+	//	uv = t + float2(tu * i, 0);
+	//	vColor += BlurWeights[6+i] * g_BrightTexture.Sample(BlurSampler, uv);
+	//}
+
+	//vColor /= vTotal;
+
+	//Out.vBloomColor = vColor;
 
 	return Out;
 }
@@ -266,17 +285,18 @@ PS_OUT PS_MAIN_DEFERRED_BLOOM_BLEND(PS_IN In)
 	PS_OUT		Out = (PS_OUT)0;
 
 	vector		vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+	vector		vShade = g_ShadeTexture.Sample(LinearSampler, In.vTexUV);
 	vector		vBloomOriginColor = g_BloomOriginTexture.Sample(LinearSampler, In.vTexUV);
 	vector		vBloomColor = g_BloomTexture.Sample(LinearSampler, In.vTexUV);
 
-	if (vBloomOriginColor.x == 1.f && vBloomOriginColor.y == 0.f && vBloomOriginColor.z == 1.f && vBloomOriginColor.w == 1.f)
-	{
-		discard;
-	}
-
 	float4		vBloom = pow(pow(abs(vBloomColor), 2.2f) + pow(abs(vBloomOriginColor), 2.2f), 1.f / 2.2f);
 
-	Out.vColor = pow(abs(vDiffuse), 2.2f);;
+	Out.vColor = vDiffuse * vShade;
+
+	if (Out.vColor.a == 0.f)
+		discard;
+
+	Out.vColor = pow(abs(Out.vColor), 2.2f);;
 	vBloom = pow(abs(vBloom), 2.2f);
 
 	Out.vColor += vBloom;

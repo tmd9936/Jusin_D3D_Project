@@ -110,8 +110,8 @@ PS_OUT_COLOR_BRIGHT PS_MAIN_EFFECT_DEFERRED(PS_IN In)
 	if (vMtrlDiffuse.a < 0.1f)
 		discard;
 
-	float4 BrightColor = float4(1.f, 0.f, 1.f, 1.f);
-	float brightness = dot(In.vColor, vector(0.216f, 0.7152f, 0.0722f, 1.f));
+	float4 BrightColor = float4(0.f, 0.f, 0.f, 0.f);
+	float brightness = dot(In.vColor.rgb, normalize(float3(1.f, -1.f, 1.f)));
 	if (brightness > 0.99)
 		BrightColor = float4(In.vColor.rgb, 1.0);
 
