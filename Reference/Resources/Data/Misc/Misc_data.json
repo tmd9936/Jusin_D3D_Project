@@ -28,30 +28,30 @@
         },
         "m_buffStateDesces": [
             {
-                "SizeX": 15.0,
-                "SizeY": 15.0,
-                "PositionX": -50.0,
+                "SizeX": 20.0,
+                "SizeY": 20.0,
+                "PositionX": -55.0,
                 "PositionY": -80.0,
                 "PositionZ": 0.1
             },
             {
-                "SizeX": 15.0,
-                "SizeY": 15.0,
+                "SizeX": 20.0,
+                "SizeY": 20.0,
                 "PositionX": -30.0,
                 "PositionY": -80.0,
                 "PositionZ": 0.1
             },
             {
-                "SizeX": 15.0,
-                "SizeY": 15.0,
-                "PositionX": -10.0,
+                "SizeX": 20.0,
+                "SizeY": 20.0,
+                "PositionX": -5.0,
                 "PositionY": -80.0,
                 "PositionZ": 0.1
             },
             {
-                "SizeX": 15.0,
-                "SizeY": 15.0,
-                "PositionX": 10.0,
+                "SizeX": 20.0,
+                "SizeY": 20.0,
+                "PositionX": 15.0,
                 "PositionY": -80.0,
                 "PositionZ": 0.1
             }
