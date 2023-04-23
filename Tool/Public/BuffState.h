@@ -31,6 +31,9 @@ MonFSM 컴포넌트 : 몬스터 정지 시키기
 
 BEGIN(Client)
 
+class CEffect_Manager;
+class CSkillEffect;
+
 class CBuffState final : public CGameObject
 {
 public:
@@ -101,7 +104,7 @@ public:
 
 public:
 	HRESULT Set_BuffState(_uint buffType, _uint skillType, BUFF_STATE eState, const _tchar* textureName,
-		_float valueA, _float valueB, _float endTime, _float ratio);
+		_float valueA, _float valueB, _float endTime, _float ratio, _int conditionEffectType = -1);
 
 	HRESULT Change_Texture(const _tchar* prototypeTag);
 
@@ -146,6 +149,9 @@ private:
 
 	void	Set_ParentKonranSelfAttack(const _double& TimeDelta);
 
+	void	Check_ConditionEffectTick(const _double& TimeDelta);
+	void	Create_ConditionEffect();
+
 private:
 	HRESULT Add_Components();
 	HRESULT SetUp_ShaderResources();
@@ -189,6 +195,9 @@ private:
 
 	BUFF_TYPE				m_eCurBuffType = { BUFF_TYPE_NONE };
 
+	_double					m_ConditionEffectTick = { 0.1 };
+	_double					m_ConditionEffectTickAcc = { 0.0 };
+	_int					m_ConditionEffectType = { -1 };
 
 public:
 	static CBuffState* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

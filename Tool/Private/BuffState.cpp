@@ -4,6 +4,8 @@
 #include "GameInstance.h"
 #include "Bone.h"
 
+#include "Effect_Manager.h"
+#include "SkillEffect.h"
 
 /*
 https://namu.wiki/w/%ED%8F%AC%EC%BC%93%EB%AA%AC%20%ED%80%98%EC%8A%A4%ED%8A%B8/%ED%8F%AC%EC%BC%93%EB%AA%AC#toc
@@ -147,7 +149,7 @@ HRESULT CBuffState::Render()
 }
 
 HRESULT CBuffState::Set_BuffState(_uint buffType, _uint skillType, BUFF_STATE eState, const _tchar* textureName, 
-	_float valueA, _float valueB, _float endTime, _float ratio)
+	_float valueA, _float valueB, _float endTime, _float ratio, _int conditionEffectType)
 {
 	if (m_eCurBuffType == BUFF_TYPE_STATE_ABNORMAL && eState >= BUFF_STATE_MAHI && eState <= BUFF_STATE_NEMURI2)
 	{
@@ -177,6 +179,11 @@ HRESULT CBuffState::Set_BuffState(_uint buffType, _uint skillType, BUFF_STATE eS
 	m_valueB = valueB;
 	m_CurBuffType = buffType;
 	m_DeBuffTick = (_double)valueA * 2.f;
+
+	m_ConditionEffectType = conditionEffectType;
+	m_ConditionEffectTick = 1.5f;
+
+	Create_ConditionEffect();
 
 	return S_OK;
 }
@@ -229,17 +236,21 @@ void CBuffState::LateState_Tick(const _double& TimeDelta)
 		break;
 	case BUFF_STATE_DOKU:
 		Set_ParentTickDamage(TimeDelta);
+		Check_ConditionEffectTick(TimeDelta);
 		break;
 	case BUFF_STATE_MAHI:
+		Check_ConditionEffectTick(TimeDelta);
 		break;
 	case BUFF_STATE_NEMURI:
 		break;
 	case BUFF_STATE_KOORI:
+		Check_ConditionEffectTick(TimeDelta);
 		break;
 	case BUFF_STATE_YAKEDO:
 		break;
 	case BUFF_STATE_KONRAN:
 		Set_ParentKonranSelfAttack(TimeDelta);
+		Check_ConditionEffectTick(TimeDelta);
 		break;
 	case BUFF_STATE_KANASIBARI:
 		break;
@@ -354,6 +365,7 @@ void CBuffState::Change_State_Buff_On()
 	m_bCanBuffSet = false;
 	m_EndTimeAcc = 0.0;
 	m_DeBuffTickAcc = 0.0;
+	m_ConditionEffectTickAcc = 0.0;
 }
 
 void CBuffState::Set_ParentSpeedPercent(_float percent)
@@ -481,6 +493,36 @@ void CBuffState::Set_ParentKonranSelfAttack(const _double& TimeDelta)
 	}
 
 	m_DeBuffTickAcc += TimeDelta;
+}
+
+void CBuffState::Create_ConditionEffect()
+{
+	if (m_ConditionEffectType == -1)
+		return;
+
+	CGameObject* pEffectManager = CGameInstance::GetInstance()->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"Effect_Manager");
+
+	CSkillEffect* skillEffect = dynamic_cast<CEffect_Manager*>(pEffectManager)->CreateEffect(m_ConditionEffectType, L"Prototype_GameObject_SkillEffect", L"Layer_Effect", Get_Levelindex());
+
+	_float4 vPos{};
+	m_Desc.pParentTransform->Get_State(CTransform::STATE_POSITION);
+	XMStoreFloat4(&vPos, m_Desc.pParentTransform->Get_State(CTransform::STATE_POSITION));
+	vPos.y += 0.5f;
+	skillEffect->Set_Pos(vPos);
+
+	skillEffect->Set_Animation_Speed(2.5);
+
+	Safe_Release(skillEffect);
+}
+
+void CBuffState::Check_ConditionEffectTick(const _double& TimeDelta)
+{
+	if (m_ConditionEffectTickAcc >= m_ConditionEffectTick)
+	{
+		Create_ConditionEffect();
+		m_ConditionEffectTickAcc = 0.0;
+	}
+	m_ConditionEffectTickAcc += TimeDelta;
 }
 
 HRESULT CBuffState::Add_Components()

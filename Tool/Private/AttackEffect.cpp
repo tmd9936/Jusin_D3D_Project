@@ -274,8 +274,8 @@ void CAttackEffect::Do_DebuffCondition(CGameObject* pOtherOwner)
 {
 	int randomValue = rand() % 4;
 
-	if (randomValue != 0)
-		return;
+	//if (randomValue != 0)
+	//	return;
 
 	if (m_AttackEffectDesc.m_ConditionDataID == NO_DEBUFF_CONDITION)
 		return;
@@ -304,7 +304,7 @@ void CAttackEffect::Do_DebuffCondition(CGameObject* pOtherOwner)
 			CConditionData::CONDITIONTYPEDATA_DESC conditionTypeDataDesc = pConditionData->Get_ConditonTypeData(conditinoTypeID);
 			pBuffState->Set_BuffState(conditinoTypeID, 500, (CBuffState::BUFF_STATE)conditionTypeDataDesc.m_id,
 				conditionTypeDataDesc.m_iconPath.c_str(), conditionDataDesc.m_Value_A, conditionDataDesc.m_Value_B,
-				conditionDataDesc.m_time, conditionDataDesc.m_ratio);
+				conditionDataDesc.m_time, conditionDataDesc.m_ratio, conditionTypeDataDesc.m_effectType);
 		}
 	}
 	else
@@ -312,7 +312,7 @@ void CAttackEffect::Do_DebuffCondition(CGameObject* pOtherOwner)
 		CConditionData::CONDITIONTYPEDATA_DESC conditionTypeDataDesc = pConditionData->Get_ConditonTypeData(conditinoTypeID);
 		pBuffState->Set_BuffState(conditinoTypeID, 500, (CBuffState::BUFF_STATE)conditionTypeDataDesc.m_id,
 			conditionTypeDataDesc.m_iconPath.c_str(), conditionDataDesc.m_Value_A, conditionDataDesc.m_Value_B,
-			conditionDataDesc.m_time, conditionDataDesc.m_ratio);
+			conditionDataDesc.m_time, conditionDataDesc.m_ratio, conditionTypeDataDesc.m_effectType);
 	}
 }
 

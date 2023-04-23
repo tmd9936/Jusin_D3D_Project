@@ -206,8 +206,8 @@ HRESULT CRenderer::Draw_RenderGroup()
 		return E_FAIL;
 
 #ifdef DEBUG_COMPONENT_RENDER
-	if (FAILED(Draw_DebugComponent()))
-		return E_FAIL;
+	//if (FAILED(Draw_DebugComponent()))
+	//	return E_FAIL;
 #endif
 
 	if (FAILED(Draw_Back_UI()))
