@@ -60,7 +60,7 @@ _uint CStageCameraTarget::Tick(_double TimeDelta)
 
 _uint CStageCameraTarget::LateTick(_double TimeDelta)
 {
-	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
+	//m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
 
 	return _uint();
 }
