@@ -965,9 +965,9 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 	}
 	else
 	{
-		Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[1], vLook, XMVectorSet(0.f, 0.5f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
+		Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[0], vLook, XMVectorSet(0.f, 0.f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
 
-		pSkillEffect = pEffect_Manager->CreateEffect(m_Skill_Depend_Datas[skillType].m_effects[0], L"Prototype_GameObject_AttackEffect", pLayerTag, iLevelIndex);
+		pSkillEffect = pEffect_Manager->CreateEffect(m_Skill_Depend_Datas[skillType].m_effects[1], L"Prototype_GameObject_AttackEffect", pLayerTag, iLevelIndex);
 
 		CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
 		if (nullptr == pTransform)
@@ -998,7 +998,12 @@ CSkill* CSkill_Manager::Do_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _ui
 		return nullptr;
 
 	CSkill* pSkill = nullptr;
-	if (skillType <= 35 && skillType % 2 == 1) // 원거리 공격
+	if (skillType <= 35 && skillType % 2 == 0) // 근거리 공격
+	{
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState);
+	}
+	else if (skillType <= 35 && skillType % 2 == 1) // 원거리 공격
 	{
 		CreateSkill(pLayerTag, iLevelIndex, skillType, damage, 
 			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState);
