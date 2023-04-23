@@ -215,21 +215,22 @@ PS_OUT PS_MAIN_DEFERRED_BLEND(PS_IN In)
 
 static const float BlurWeights[13] =
 {
-	0.002216,
+	0.0561,
+	0.1353,
+	0.278,
+	0.4868,
+	0.07261,
+	0.9231,
+	1.0,
+	0.9231,
+	0.07261,
+	0.4868,
+	0.278,
 	0.008764,
-	0.026995,
-	0.064759,
-	0.120985,
-	0.176033,
-	0.199471,
-	0.176033,
-	0.120985,
-	0.064759,
-	0.026995,
-	0.008764,
-	0.002216,
+	0.0561,
 };
 
+static const float vTotal = 6.2108;
 
 struct PS_OUT_BLOOM
 {
@@ -253,7 +254,7 @@ PS_OUT_BLOOM PS_MAIN_DEFERRED_BLOOM(PS_IN In)
 		}
 	}
 
-	color /= 8.f;
+	color /= vTotal;
 
 	Out.vBloomColor = color;
 
