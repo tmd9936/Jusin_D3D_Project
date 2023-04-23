@@ -10,6 +10,8 @@
         },
         "moveSpeed": 7.5,
         "rotateSpeed": 1.2,
+        "m_level": 24,
+        "m_exp": 0,
         "m_monsterNo": 25,
         "m_hpBasis": 1200,
         "m_attackBasis": 300,
@@ -23,6 +25,61 @@
         "m_skillIDs": [
           58,
           57
+        ],
+        "m_stones" : [
+            {
+                "m_isOpen": true,
+                "m_type": 1,
+                "m_equip_stoneID": 0,
+                "m_state": 0
+            },
+            {
+                "m_isOpen": false,
+                "m_type": 0,
+                "m_equip_stoneID": 0,
+                "m_state": 0
+            },
+            {
+                "m_isOpen": false,
+                "m_type": 0,
+                "m_equip_stoneID": 0,
+                "m_state": 0
+            },
+            {
+                "m_isOpen": true,
+                "m_type": 0,
+                "m_equip_stoneID": 0,
+                "m_state": 0
+            },
+            {
+                "m_isOpen": true,
+                "m_type": 2,
+                "m_equip_stoneID": 0,
+                "m_state": 0
+            },            {
+                "m_isOpen": false,
+                "m_type": 1,
+                "m_equip_stoneID": 0,
+                "m_state": 0
+            },
+            {
+                "m_isOpen": true,
+                "m_type": 0,
+                "m_equip_stoneID": 0,
+                "m_state": 0
+            },
+            {
+                "m_isOpen": true,
+                "m_type": 0,
+                "m_equip_stoneID": 0,
+                "m_state": 0
+            },
+            {
+                "m_isOpen": false,
+                "m_type": 2,
+                "m_equip_stoneID": 0,
+                "m_state": 0
+            }
         ]
     }
 }

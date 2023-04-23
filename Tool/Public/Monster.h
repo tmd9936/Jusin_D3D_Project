@@ -35,11 +35,36 @@ class CBuffState;
 class CMonster abstract : public CGameObject
 {
 public:
+	enum STONE_EQUIP_TYPE
+	{
+		TYPE_DEF,
+		TYPE_ATK,
+		TYPE_TWINS,
+		TYPE_END
+	};
+
+	enum STONE_EQUIP_STATE
+	{
+		STATE_EQUIP,
+		STATE_NO_EQUIP,
+		STATE_BLOCK,
+		STATE_END
+	};
+
+public:
+	typedef struct Stone_Equip_Desc
+	{
+		_bool					m_isOpen;
+		STONE_EQUIP_TYPE		m_type;
+		_int					m_equip_stoneID;
+		STONE_EQUIP_STATE		m_state;
+	} STONE_EQUIP_DESC;
+
+public:
 	enum AI_TYPE {
 		AI_TYPE_LONG_DISTACE,
 		AI_TYPE_SHORT_DISTACE,
 		AI_TYPE_END
-
 	};
 
 	enum LAYER_TYPE {
@@ -51,38 +76,43 @@ public:
 public:
 	typedef	struct PokeMon_Desc
 	{
-		wstring			ModelPrototypeTag;
-		_uint			ModelPrototypeLevelIndex;
+		wstring						ModelPrototypeTag;
+		_uint						ModelPrototypeLevelIndex;
 
-		_float4			vPos;
+		_float4						vPos;
 
-		_float			moveSpeed;
-		_float			rotateSpeed;
+		_float						moveSpeed;
+		_float						rotateSpeed;
 
-		_uint			m_monsterNo;
-		_uint			m_hpBasis;
-		_uint			m_attackBasis;
-		_uint			m_hpGrow;
-		_uint			m_attackGrow;
-		_uint			m_type1;
-		_uint			m_type2;
-		_uint			m_visitWeightDefault;
-		_uint			m_visitWeight;
-		_uint			m_cookTableID;
-		_uint			m_color;
-		_uint			m_Rate;
-		_uint			m_isLayer;
-		_uint			m_meleePercent;
-		_uint			m_slotTypeWeightHp;
-		_uint			m_slotTypeWeightAttack;
-		_uint			m_slotTypeWeightMulti;
+		_uint						m_level;
+		_int						m_exp;
 
-		_uint			m_AIType;
-		_uint			m_layerType;
+		_uint						m_monsterNo;
+		_uint						m_hpBasis;
+		_uint						m_attackBasis;
+		_uint						m_hpGrow;
+		_uint						m_attackGrow;
+		_uint						m_type1;
+		_uint						m_type2;
+		_uint						m_visitWeightDefault;
+		_uint						m_visitWeight;
+		_uint						m_cookTableID;
+		_uint						m_color;
+		_uint						m_Rate;
+		_uint						m_isLayer;
+		_uint						m_meleePercent;
+		_uint						m_slotTypeWeightHp;
+		_uint						m_slotTypeWeightAttack;
+		_uint						m_slotTypeWeightMulti;
 
-		_uint			m_normalSkillType;
+		_uint						m_AIType;
+		_uint						m_layerType;
 
-		vector<_uint>	m_skillIDs;
+		_uint						m_normalSkillType;
+
+		vector<_uint>				m_skillIDs;
+
+		vector<STONE_EQUIP_DESC>	m_stones;
 
 	} POKEMON_DESC;
 

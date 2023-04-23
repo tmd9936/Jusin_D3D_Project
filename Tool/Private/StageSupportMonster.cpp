@@ -585,6 +585,9 @@ _bool CStageSupportMonster::Load_By_JsonFile_Impl(Document& doc)
 		m_PokemonDesc.moveSpeed = PokemonDesc["moveSpeed"].GetFloat();
 		m_PokemonDesc.rotateSpeed = PokemonDesc["rotateSpeed"].GetFloat();
 
+		m_PokemonDesc.m_level = PokemonDesc["m_level"].GetUint();
+		m_PokemonDesc.m_exp = PokemonDesc["m_exp"].GetInt();
+
 		m_PokemonDesc.m_monsterNo = PokemonDesc["m_monsterNo"].GetUint();
 		m_PokemonDesc.m_hpBasis = PokemonDesc["m_hpBasis"].GetUint();
 		m_PokemonDesc.m_attackBasis = PokemonDesc["m_attackBasis"].GetUint();
@@ -611,6 +614,19 @@ _bool CStageSupportMonster::Load_By_JsonFile_Impl(Document& doc)
 		for (SizeType i = 0; i < skillIDs.Size(); ++i)
 		{
 			m_PokemonDesc.m_skillIDs.push_back(skillIDs[i].GetInt());
+		}
+
+		const Value& m_stones = PokemonDesc["m_stones"];
+		for (SizeType i = 0; i < m_stones.Size(); ++i)
+		{
+			STONE_EQUIP_DESC desc{};
+
+			desc.m_isOpen = m_stones[i]["m_isOpen"].GetBool();
+			desc.m_type = (STONE_EQUIP_TYPE)m_stones[i]["m_type"].GetUint();
+			desc.m_equip_stoneID = m_stones[i]["m_equip_stoneID"].GetUint();
+			desc.m_state = (STONE_EQUIP_STATE)m_stones[i]["m_state"].GetUint();
+
+			m_PokemonDesc.m_stones.push_back(move(desc));
 		}
 	}
 
