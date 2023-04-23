@@ -26,6 +26,14 @@ sampler LinearSampler = sampler_state
 	AddressV = wrap;
 };
 
+sampler BlurSampler = sampler_state
+{
+	filter = min_mag_mip_linear;
+	AddressU = clamp;
+	AddressV = clamp;
+};
+
+
 /* For.Rasterizer State  */
 RasterizerState RS_Default
 {

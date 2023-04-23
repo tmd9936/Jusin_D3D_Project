@@ -9,6 +9,9 @@ float			g_Ratio;
 
 float			g_CameraFar;
 
+float2			m_TexW;
+float2			m_TexH;
+
 struct VS_IN
 {
 	float3		vPosition : POSITION;
@@ -71,6 +74,14 @@ struct PS_OUT_COLOR
 	float4		vColor : SV_TARGET0;
 };
 
+struct PS_OUT_COLOR_BRIGHT
+
+{
+	float4		vDiffuse : SV_TARGET0;
+	float4		vBrightColor : SV_TARGET1;
+
+};
+
 PS_OUT_COLOR PS_MAIN_EFFECT(PS_IN In)
 {
 	PS_OUT_COLOR			Out = (PS_OUT_COLOR)0;
@@ -90,12 +101,40 @@ PS_OUT_COLOR PS_MAIN_EFFECT(PS_IN In)
 	return Out;
 }
 
+PS_OUT_COLOR_BRIGHT PS_MAIN_EFFECT_DEFERRED(PS_IN In)
+{
+	PS_OUT_COLOR_BRIGHT			Out = (PS_OUT_COLOR_BRIGHT)0;
+
+	vector		vMtrlDiffuse = In.vColor;
+
+	if (vMtrlDiffuse.a < 0.1f)
+		discard;
+
+	float4 BrightColor = float4(1.f, 0.f, 1.f, 1.f);
+	float brightness = dot(In.vColor, vector(0.216f, 0.7152f, 0.0722f, 1.f));
+	if (brightness > 0.99)
+		BrightColor = float4(In.vColor.rgb, 1.0);
+
+	Out.vDiffuse = vMtrlDiffuse;
+	Out.vBrightColor = BrightColor;
+
+	return Out;
+}
+
 struct PS_OUT_DEFERRED
 {
 	float4		vDiffuse : SV_TARGET0;
 	float4		vNormal : SV_TARGET1;
 	float4		vDepth : SV_TARGET2;
 };
+
+struct PS_OUT_DEFERRED_EFFECT
+{
+	float4		vDiffuse : SV_TARGET0;
+	float4		vXBlur : SV_TARGET1;
+	float4		vYBlur : SV_TARGET2;
+};
+
 
 PS_OUT_DEFERRED PS_MAIN(PS_IN In)
 {
@@ -229,5 +268,16 @@ technique11		DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN_TOON();
 	}
 
+	pass Model_Color_Effect_Deferred
+	{
+		SetRasterizerState(RS_Default);
+		SetDepthStencilState(DSS_Enable_ZTest_Disable_ZWrite, 0);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		HullShader = NULL;
+		DomainShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_EFFECT_DEFERRED();
+	}
 }

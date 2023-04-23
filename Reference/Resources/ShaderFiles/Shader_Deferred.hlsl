@@ -19,9 +19,18 @@ vector			g_vMtrlSpecular = vector(1.f, 1.f, 1.f, 1.f);
 texture2D		g_Texture;
 texture2D		g_NormalTexture;
 texture2D		g_DiffuseTexture;
+texture2D		g_BrightTexture;
 texture2D		g_ShadeTexture;
 texture2D		g_DepthTexture;
 texture2D		g_SpecularTexture;
+
+texture2D		g_BlurXTexture;
+texture2D		g_BlurYTexture;
+
+texture2D		g_BloomTexture;
+texture2D		g_BloomOriginTexture;
+
+float2			g_TexSize;
 
 
 sampler LinearSampler = sampler_state
@@ -203,6 +212,79 @@ PS_OUT PS_MAIN_DEFERRED_BLEND(PS_IN In)
 	return Out;
 }
 
+
+static const float BlurWeights[13] =
+{
+	0.002216,
+	0.008764,
+	0.026995,
+	0.064759,
+	0.120985,
+	0.176033,
+	0.199471,
+	0.176033,
+	0.120985,
+	0.064759,
+	0.026995,
+	0.008764,
+	0.002216,
+};
+
+
+struct PS_OUT_BLOOM
+{
+	float4		vBloomColor : SV_TARGET0;
+};
+
+PS_OUT_BLOOM PS_MAIN_DEFERRED_BLOOM(PS_IN In)
+{
+	PS_OUT_BLOOM			Out = (PS_OUT_BLOOM)0;
+
+	vector	vBrightDesc = g_BrightTexture.Sample(LinearSampler, In.vTexUV);
+
+	float4 color = 0;
+	float2 texelSize = 1 / g_TexSize;
+
+	for (int x = -3; x <= 3; ++x)
+	{
+		for (int y = -3; x <= 3; ++y)
+		{
+			color += g_BrightTexture.Sample(LinearSampler, In.vTexUV + float2(x, y) * texelSize) * BlurWeights[6 - x - y];
+		}
+	}
+
+	color /= 8.f;
+
+	Out.vBloomColor = color;
+
+	return Out;
+}
+
+PS_OUT PS_MAIN_DEFERRED_BLOOM_BLEND(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	vector		vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+	vector		vBloomOriginColor = g_BloomOriginTexture.Sample(LinearSampler, In.vTexUV);
+	vector		vBloomColor = g_BloomTexture.Sample(LinearSampler, In.vTexUV);
+
+	if (vBloomOriginColor.x == 1.f && vBloomOriginColor.y == 0.f && vBloomOriginColor.z == 1.f && vBloomOriginColor.w == 1.f)
+	{
+		discard;
+	}
+
+	float4		vBloom = pow(pow(abs(vBloomColor), 2.2f) + pow(abs(vBloomOriginColor), 2.2f), 1.f / 2.2f);
+
+	Out.vColor = pow(abs(vDiffuse), 2.2f);;
+	vBloom = pow(abs(vBloom), 2.2f);
+
+	Out.vColor += vBloom;
+	Out.vColor = pow(abs(Out.vColor), 1 / 2.2f);
+
+	return Out;
+}
+
+
 RasterizerState RS_Default
 {
 	FillMode = solid;
@@ -292,5 +374,31 @@ technique11		DefaultTechnique
 		HullShader = NULL;
 		DomainShader = NULL;
 		PixelShader = compile ps_5_0 PS_MAIN_DEFERRED_BLEND();
+	}
+
+	pass Deferred_Bloom
+	{
+		SetRasterizerState(RS_Default);
+		SetDepthStencilState(DSS_Not_ZTest_Not_ZWrite, 0);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		HullShader = NULL;
+		DomainShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_DEFERRED_BLOOM();
+	}
+
+	pass Deferred_Bloom_Blend
+	{
+		SetRasterizerState(RS_Default);
+		SetDepthStencilState(DSS_Not_ZTest_Not_ZWrite, 0);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		HullShader = NULL;
+		DomainShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_DEFERRED_BLOOM_BLEND();
 	}
 }
