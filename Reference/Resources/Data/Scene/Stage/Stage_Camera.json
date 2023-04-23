@@ -6,8 +6,8 @@
         "m_shakeDegree": 0.800000011920929,
         "m_distanceMin": 1.0,
         "m_distanceMax": 1.8,
-        "m_moveSpeed": 0.4,
-        "m_zoomSpeed": 3.0,
+        "m_moveSpeed": 0.8,
+        "m_zoomSpeed": 4.0,
         "m_maxZoomTime": 1.0,
         "m_shakeCoolTime": 2.5,
         "m_skillZoomInCoolTime": 4.5,
@@ -42,7 +42,7 @@
         "fFar": 300.0,
         "TransformDesc": {
             "RotationPerSec": 1.5415927410125732,
-            "SpeedPerSec": 1.4
+            "SpeedPerSec": 2.4
         }
     }
 }
