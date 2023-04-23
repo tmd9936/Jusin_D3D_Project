@@ -9,8 +9,6 @@ float			g_Ratio;
 
 float			g_CameraFar;
 
-float2			m_TexW;
-float2			m_TexH;
 
 struct VS_IN
 {
