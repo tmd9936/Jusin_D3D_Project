@@ -255,11 +255,11 @@ PS_OUT_BLOOM PS_MAIN_DEFERRED_BLOOM(PS_IN In)
 	{
 		for (int y = -3; y <= 3; ++y)
 		{
-			color += BlurWeights[x + 3][y + 3] * 6 * g_BrightTexture.Sample(BlurSampler, In.vTexUV + float2(x * texelSize.x, y * texelSize.y));
+			color += BlurWeights[x + 3][y + 3] * 12 * g_BrightTexture.Sample(BlurSampler, In.vTexUV + float2(x * texelSize.x, y * texelSize.y));
 		}
 	}
 
-	color /= vTotal * 2;
+	color /= vTotal * 6;
 
 	Out.vBloomColor = color;
 	
