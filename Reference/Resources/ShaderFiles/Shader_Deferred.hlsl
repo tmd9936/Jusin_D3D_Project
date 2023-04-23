@@ -243,7 +243,7 @@ PS_OUT_BLOOM PS_MAIN_DEFERRED_BLOOM(PS_IN In)
 {
 	PS_OUT_BLOOM			Out = (PS_OUT_BLOOM)0;
 
-	float4	vBrightDesc = g_BrightTexture.Sample(LinearSampler, In.vTexUV);
+	float4	vBrightDesc = g_BrightTexture.Sample(BlurSampler, In.vTexUV);
 
 	if (vBrightDesc.a == 0.f)
 		discard;
@@ -255,11 +255,11 @@ PS_OUT_BLOOM PS_MAIN_DEFERRED_BLOOM(PS_IN In)
 	{
 		for (int y = -3; y <= 3; ++y)
 		{
-			color += BlurWeights[x + 3][y + 3] * 6 * g_BrightTexture.Sample(LinearSampler, In.vTexUV + float2(x * texelSize.x, y * texelSize.y));
+			color += BlurWeights[x + 3][y + 3] * 6 * g_BrightTexture.Sample(BlurSampler, In.vTexUV + float2(x * texelSize.x, y * texelSize.y));
 		}
 	}
 
-	color /= vTotal * 6;
+	color /= vTotal * 2;
 
 	Out.vBloomColor = color;
 	
