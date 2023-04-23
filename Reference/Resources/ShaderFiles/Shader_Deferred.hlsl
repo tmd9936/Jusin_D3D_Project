@@ -243,7 +243,10 @@ PS_OUT_BLOOM PS_MAIN_DEFERRED_BLOOM(PS_IN In)
 {
 	PS_OUT_BLOOM			Out = (PS_OUT_BLOOM)0;
 
-	float4	vBrightDesc = g_BrightTexture.Sample(BlurSampler, In.vTexUV);
+	float4	vBrightDesc = g_BrightTexture.Sample(LinearSampler, In.vTexUV);
+
+	if (vBrightDesc.a == 0.f)
+		discard;
 
 	float4 color = float4(0.f, 0.f, 0.f, 0.f);
 	float2 texelSize = 1.f / g_TexSize;
@@ -252,11 +255,11 @@ PS_OUT_BLOOM PS_MAIN_DEFERRED_BLOOM(PS_IN In)
 	{
 		for (int y = -3; y <= 3; ++y)
 		{
-			color += BlurWeights[x + 3][y + 3] * 6.0 * g_BrightTexture.Sample(BlurSampler, In.vTexUV + float2(x * texelSize.x, y * texelSize.y));
+			color += BlurWeights[x + 3][y + 3] * 6 * g_BrightTexture.Sample(LinearSampler, In.vTexUV + float2(x * texelSize.x, y * texelSize.y));
 		}
 	}
 
-	color /= vTotal * 6.0;
+	color /= vTotal * 6;
 
 	Out.vBloomColor = color;
 	
@@ -289,12 +292,12 @@ PS_OUT PS_MAIN_DEFERRED_BLOOM_BLEND(PS_IN In)
 	vector		vBloomOriginColor = g_BloomOriginTexture.Sample(LinearSampler, In.vTexUV);
 	vector		vBloomColor = g_BloomTexture.Sample(LinearSampler, In.vTexUV);
 
-	float4		vBloom = pow(pow(abs(vBloomColor), 2.2f) + pow(abs(vBloomOriginColor), 2.2f), 1.f / 2.2f);
-
 	Out.vColor = vDiffuse * vShade;
 
 	if (Out.vColor.a == 0.f)
 		discard;
+
+	float4		vBloom = pow(pow(abs(vBloomColor), 2.2f) + pow(abs(vBloomOriginColor), 2.2f), 1.f / 2.2f);
 
 	Out.vColor = pow(abs(Out.vColor), 2.2f);;
 	vBloom = pow(abs(vBloom), 2.2f);
