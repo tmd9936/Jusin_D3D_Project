@@ -280,6 +280,9 @@
     <Filter Include="02. GameObject\BaseCamp\AnimEnv">
       <UniqueIdentifier>{4135fb46-b317-4cec-a00d-eb86bb2b0875}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\Static\PokemonData">
+      <UniqueIdentifier>{ecd9f94e-21fb-4f0c-ad5a-cb445611116d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -551,6 +554,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\AnimEnv.h">
       <Filter>02. GameObject\BaseCamp\AnimEnv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PokemonData.h">
+      <Filter>02. GameObject\Static\PokemonData</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -824,6 +830,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\AnimEnv.cpp">
       <Filter>02. GameObject\BaseCamp\AnimEnv</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PokemonData.cpp">
+      <Filter>02. GameObject\Static\PokemonData</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
