@@ -226,11 +226,14 @@ PS_OUT PS_MAIN_DEFERRED_BRIGHT(PS_IN In)
 	float4		vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 	vector		vShade = g_ShadeTexture.Sample(LinearSampler, In.vTexUV);
 
-	vColor = vColor * vShade;
-
-	if (vColor.a == 0.f)
+	if (vShade.a == 1.f)
 	{
-		discard;
+		vColor = vColor * vShade;
+
+		if (vColor.a == 0.f)
+		{
+			discard;
+		}
 	}
 
 	float4 BrightColor = float4(0.f, 0.f, 0.f, 0.f);
