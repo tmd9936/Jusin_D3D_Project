@@ -53,7 +53,10 @@ public:
 	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override; /* 사본객체의 초기화작업 */
 	virtual _uint Tick(_double TimeDelta) override;
 	virtual _uint LateTick(_double TimeDelta) override;
-	virtual HRESULT Render() override;	
+	virtual HRESULT Render() override;
+
+public:
+	HRESULT Change_Texture(const _tchar* prototypeTag);
 
 public:
 	void	Set_Parent_Model(CModel* pModel) {

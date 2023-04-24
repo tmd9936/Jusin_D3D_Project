@@ -32,6 +32,14 @@ public:
 	virtual _uint Tick(_double TimeDelta) override;
 	virtual _uint LateTick(_double TimeDelta) override;
 
+public:
+	POKEMONDATA_DESC Get_PokemonDesc(const _uint& index) const {
+		if (m_PokemonData_Desc.size() <= index)
+			return POKEMONDATA_DESC();
+
+		return m_PokemonData_Desc[index];
+	}
+
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
 	virtual _bool			Load_By_JsonFile_Impl(Document& doc);

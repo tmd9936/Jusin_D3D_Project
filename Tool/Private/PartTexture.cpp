@@ -102,6 +102,16 @@ HRESULT CPartTexture::Render()
 	return S_OK;
 }
 
+HRESULT CPartTexture::Change_Texture(const _tchar* prototypeTag)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	if (FAILED(pGameInstance->Change_Component(CTexture::familyId, this, LEVEL_STATIC, prototypeTag, (CComponent**)&m_pTextureCom, nullptr)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 HRESULT CPartTexture::Add_Components()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();

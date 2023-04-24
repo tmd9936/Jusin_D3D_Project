@@ -273,8 +273,15 @@ HRESULT CLevel_BaseCamp::Ready_Layer_UI(const _tchar* pLayerTag)
 
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UI"), LEVEL_BASECAMP, pLayerTag, L"LevelNameInfo", "../../Reference/Resources/Data/Scene/BaseCamp/UI/LevelNameInfo.json", CLONE_FILEPATH)))
 		return E_FAIL;
-	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageClearUI"), LEVEL_BASECAMP, pLayerTag, L"StageClearUI", "../../Reference/Resources/Data/Scene/Stage/UI/StageClearUI.json", CLONE_FILEPATH)))
-	//	return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GoToMonStateButton"), LEVEL_BASECAMP, pLayerTag, L"GoToMonStateButton1", "../../Reference/Resources/Data/Scene/BaseCamp/Button/GoToMonsterStateButton01.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GoToMonStateButton"), LEVEL_BASECAMP, pLayerTag, L"GoToMonStateButton2", "../../Reference/Resources/Data/Scene/BaseCamp/Button/GoToMonsterStateButton02.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GoToMonStateButton"), LEVEL_BASECAMP, pLayerTag, L"GoToMonStateButton3", "../../Reference/Resources/Data/Scene/BaseCamp/Button/GoToMonsterStateButton03.json", CLONE_FILEPATH)))
+		return E_FAIL;
 
 	Safe_Release(pGameInstance);
 
@@ -404,7 +411,7 @@ HRESULT CLevel_BaseCamp::Ready_LightDesc()
 
 	LightDesc.eType = LIGHTDESC::TYPE_DIRECTIONAL;
 	LightDesc.vDirection = _float4(1.f, -1.f, 1.f, 0.f);
-	LightDesc.vDiffuse = _float4(0.6f, 0.6f, 0.6f, 0.6f);
+	LightDesc.vDiffuse = _float4(0.8f, 0.8f, 0.8f, 0.8f);
 	LightDesc.vAmbient = _float4(0.4f, 0.4f, 0.4f, 1.f);
 	LightDesc.vSpecular = _float4(1.f, 1.f, 1.f, 1.f);
 	if (FAILED(pGameInstance->Add_Light(m_pDevice, m_pContext, LightDesc)))

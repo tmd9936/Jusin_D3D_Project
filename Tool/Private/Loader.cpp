@@ -24,6 +24,7 @@
 #include "WorldMap_Manager.h"
 #include "WorldMapBackToIdel.h"
 #include "GoToBaseCampButton.h"
+#include "GoToMonStateButton.h"
 
 #include "StageInfoUI.h"
 #include "StagePoint.h"
@@ -1614,6 +1615,11 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 		/* For.Prototype_GameObject_Cauldron*/
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Cauldron"),
 			CCauldron::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		/* For.Prototype_GameObject_GoToMonStateButton*/
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_GoToMonStateButton"),
+			CGoToMonStateButton::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
 	}

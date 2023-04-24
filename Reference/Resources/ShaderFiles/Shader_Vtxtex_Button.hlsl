@@ -87,7 +87,7 @@ PS_OUT PS_MAIN(PS_IN In)
 }
 
 /* 픽셀의 색을 결정한다. */
-PS_OUT PS_MAIN_COLOR(PS_IN In)
+PS_OUT PS_MAIN_COLOR_ROUND(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
@@ -146,7 +146,7 @@ technique11		DefaultTechnique
 		GeometryShader = NULL;
 		HullShader = NULL;
 		DomainShader = NULL;
-		PixelShader = compile ps_5_0 PS_MAIN_COLOR();
+		PixelShader = compile ps_5_0 PS_MAIN_COLOR_ROUND();
 	}
 
 	pass Button_Idle_Round

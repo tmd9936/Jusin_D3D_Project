@@ -153,7 +153,7 @@ PS_OUT PS_MAIN_CLOCKWISECOOLTIME(PS_IN In)
 
 technique11		DefaultTechnique
 {
-	pass ColorBase
+	pass ColorBase // 0
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Enable_ZTest_Disable_ZWrite, 0);
@@ -166,7 +166,7 @@ technique11		DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN();
 	}
 
-	pass CornerRound
+	pass CornerRound // 1
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Enable_ZTest_Disable_ZWrite, 0);
@@ -179,7 +179,7 @@ technique11		DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN_CORNER_ROUND();
 	}
 
-	pass ColorBase_Alpha
+	pass ColorBase_Alpha // 2
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Enable_ZTest_Disable_ZWrite, 0);
@@ -192,7 +192,7 @@ technique11		DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN();
 	}
 
-	pass Hp
+	pass Hp // 3
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Enable_ZTest_Disable_ZWrite, 0);
@@ -205,7 +205,7 @@ technique11		DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN_HP();
 	}
 
-	pass ClockWiseCoolTime
+	pass ClockWiseCoolTime // 4
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Enable_ZTest_Disable_ZWrite, 0);
@@ -216,6 +216,19 @@ technique11		DefaultTechnique
 		HullShader = NULL;
 		DomainShader = NULL;
 		PixelShader = compile ps_5_0 PS_MAIN_CLOCKWISECOOLTIME();
+	}
+
+	pass ColorBase_Alpha_Corner // 5
+	{
+		SetRasterizerState(RS_Default);
+		SetDepthStencilState(DSS_Enable_ZTest_Disable_ZWrite, 0);
+		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		HullShader = NULL;
+		DomainShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_CORNER_ROUND();
 	}
 
 }

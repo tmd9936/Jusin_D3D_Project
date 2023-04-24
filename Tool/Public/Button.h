@@ -144,15 +144,6 @@ public:
 		m_bAction = bAction;
 	}
 
-protected:
-	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
-	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
-
-protected:
-	HRESULT Add_Components();
-	HRESULT Add_Components_By_File();
-
-	HRESULT SetUp_ShaderResources();
 
 protected:
 	void	Button_Motion(_double TimeDelta);
@@ -167,6 +158,16 @@ protected:
 
 protected:
 	HRESULT Common_Initialize();
+
+protected:
+	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
+	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
+
+protected:
+	HRESULT Add_Components();
+	HRESULT Add_Components_By_File();
+
+	HRESULT SetUp_ShaderResources();
 
 protected:
 	CTransform* m_pTransformCom = { nullptr };

@@ -180,6 +180,7 @@
     <ClInclude Include="..\Public\EnemyPack.h" />
     <ClInclude Include="..\Public\EnemySpawnPoint.h" />
     <ClInclude Include="..\Public\GoToBaseCampButton.h" />
+    <ClInclude Include="..\public\GoToMonStateButton.h" />
     <ClInclude Include="..\Public\GoToStageButton.h" />
     <ClInclude Include="..\Public\HommingAttackEffect.h" />
     <ClInclude Include="..\Public\Level_Stage.h" />
@@ -272,6 +273,7 @@
     <ClCompile Include="..\Private\EnemyPack.cpp" />
     <ClCompile Include="..\Private\EnemySpawnPoint.cpp" />
     <ClCompile Include="..\Private\GoToBaseCampButton.cpp" />
+    <ClCompile Include="..\Private\GoToMonStateButton.cpp" />
     <ClCompile Include="..\Private\GoToStageButton.cpp" />
     <ClCompile Include="..\Private\HommingAttackEffect.cpp" />
     <ClCompile Include="..\Private\Level_Stage.cpp" />
