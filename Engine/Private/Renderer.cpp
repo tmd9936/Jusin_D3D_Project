@@ -522,6 +522,9 @@ HRESULT CRenderer::Draw_DefferdBright()
 	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_Diffuse"), m_pShader, "g_DiffuseTexture")))
 		return E_FAIL;
 
+	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_Shade"), m_pShader, "g_ShadeTexture")))
+		return E_FAIL;
+
 	m_pShader->Begin(4);
 
 	m_pVIBuffer->Render();
