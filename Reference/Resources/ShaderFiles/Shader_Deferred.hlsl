@@ -242,7 +242,7 @@ PS_OUT PS_MAIN_DEFERRED_BRIGHT(PS_IN In)
 
 	float4 BrightColor = float4(0.f, 0.f, 0.f, 0.f);
 	float brightness = dot(vColor.rgb, float3(0.2126f, 0.7152f, 0.0722f));
-	if (brightness >= 0.9)
+	if (brightness >= 0.95)
 		BrightColor = float4(vColor.rgb, 1.0);
 
 	Out.vColor = BrightColor;
@@ -297,7 +297,7 @@ PS_OUT_BLOOM PS_MAIN_DEFERRED_BLOOM(PS_IN In)
 	{
 		for (int y = -3; y <= 3; ++y)
 		{
-			color += BlurWeights[x + 3][y + 3] * 6 * g_BrightTexture.Sample(BlurSampler, In.vTexUV + float2(x * texelSize.x, y * texelSize.y));
+			color += BlurWeights[x + 3][y + 3] * 12 * g_BrightTexture.Sample(BlurSampler, In.vTexUV + float2(x * texelSize.x, y * texelSize.y));
 		}
 	}
 
