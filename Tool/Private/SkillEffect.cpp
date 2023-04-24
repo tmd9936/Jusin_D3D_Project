@@ -56,7 +56,7 @@ HRESULT CSkillEffect::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, voi
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
-	m_eRenderId = RENDER_NONLIGHT_BLOOM;
+	m_eRenderId = RENDER_NONLIGHT;
 
 	_float3 vPos{};
 	XMStoreFloat3(&vPos, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
@@ -130,7 +130,7 @@ HRESULT CSkillEffect::Render()
 		if (FAILED(m_pModelCom->SetUp_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
 			return E_FAIL;
 
-		m_pShaderCom->Begin(5);
+		m_pShaderCom->Begin(3);
 
 		m_pModelCom->Render(i);
 	}

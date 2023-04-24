@@ -65,7 +65,7 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
-		TEXT("Target_BrightColor"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
+		TEXT("Target_BrightColor"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 1.f))))
 		return E_FAIL;
 
 	//if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
@@ -74,7 +74,7 @@ HRESULT CRenderer::Initialize_Prototype()
 
 
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
-		TEXT("Target_BloomColor"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, _float4(0.f, 0.f, 0.f, 1.f))))
+		TEXT("Target_BloomColor"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 1.f))))
 		return E_FAIL;
 
 	/* For.Target_Specular */
@@ -95,9 +95,11 @@ HRESULT CRenderer::Initialize_Prototype()
 	//if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_LightAcc"), TEXT("Target_Specular"))))
 	//	return E_FAIL;
 
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_NonLight_Deferred"), TEXT("Target_Diffuse"))))
+		return E_FAIL;
 
 	// === 이펙트 디퍼드
-	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Effect_Deferred"), TEXT("Target_BrightColor"))))
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Bright"), TEXT("Target_BrightColor"))))
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Bloom"), TEXT("Target_BloomColor"))))
@@ -193,11 +195,11 @@ HRESULT CRenderer::Draw_RenderGroup()
 	if (FAILED(Draw_NonLight_Bloom()))
 		return E_FAIL;
 
-	if (FAILED(Draw_Bloom()))
+	if (FAILED(Draw_DefferdBright()))
 		return E_FAIL;
 
-	//if (FAILED(Draw_Blur()))
-	//	return E_FAIL;
+	if (FAILED(Draw_Bloom()))
+		return E_FAIL;
 
 	if (FAILED(Draw_DeferredNonLightBlend()))
 		return E_FAIL;
@@ -282,6 +284,8 @@ HRESULT CRenderer::Draw_NonBlend()
 
 HRESULT CRenderer::Draw_NonLight()
 {
+	m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_NonLight_Deferred"));
+
 	for (auto& pGameObject : m_RenderGroups[RENDER_NONLIGHT])
 	{
 		if (nullptr != pGameObject)
@@ -291,13 +295,13 @@ HRESULT CRenderer::Draw_NonLight()
 	}
 	m_RenderGroups[RENDER_NONLIGHT].clear();
 
+	m_pTarget_Manager->End_MRT(m_pContext);
+
 	return S_OK;
 }
 
 HRESULT CRenderer::Draw_NonLight_Bloom()
 {
-	m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_Effect_Deferred"));
-
 	for (auto& pGameObject : m_RenderGroups[RENDER_NONLIGHT_BLOOM])
 	{
 		if (nullptr != pGameObject)
@@ -307,8 +311,6 @@ HRESULT CRenderer::Draw_NonLight_Bloom()
 	}
 
 	m_RenderGroups[RENDER_NONLIGHT_BLOOM].clear();
-
-	m_pTarget_Manager->End_MRT(m_pContext);
 
 	return S_OK;
 }
@@ -500,6 +502,36 @@ HRESULT CRenderer::Draw_DeferredBlend()
 //	return S_OK;
 //}
 
+HRESULT CRenderer::Draw_DefferdBright()
+{
+	if (nullptr == m_pTarget_Manager)
+		return E_FAIL;
+
+	/* Blur */
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_Bright"))))
+		return E_FAIL;
+
+	/* Shade 타겟에 그리는 작업을 수행한다. */
+	if (FAILED(m_pShader->Set_Matrix("g_WorldMatrix", &m_WorldMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_Diffuse"), m_pShader, "g_DiffuseTexture")))
+		return E_FAIL;
+
+	m_pShader->Begin(4);
+
+	m_pVIBuffer->Render();
+
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 HRESULT CRenderer::Draw_Bloom()
 {
 	if (nullptr == m_pTarget_Manager)
@@ -520,7 +552,7 @@ HRESULT CRenderer::Draw_Bloom()
 	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_BrightColor"), m_pShader, "g_BrightTexture")))
 		return E_FAIL;
 
-	m_pShader->Begin(4);
+	m_pShader->Begin(5);
 
 	m_pVIBuffer->Render();
 
@@ -556,7 +588,7 @@ HRESULT CRenderer::Draw_DeferredNonLightBlend()
 		return E_FAIL;
 
 
-	m_pShader->Begin(5);
+	m_pShader->Begin(6);
 
 	m_pVIBuffer->Render();
 

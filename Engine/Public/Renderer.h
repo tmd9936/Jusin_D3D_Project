@@ -67,7 +67,7 @@ private:
 	HRESULT Draw_DeferredBlend();
 
 private:
-	HRESULT	Draw_Blur();
+	HRESULT	Draw_DefferdBright();
 	HRESULT	Draw_Bloom();
 	HRESULT	Draw_DeferredNonLightBlend();
 

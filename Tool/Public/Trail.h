@@ -40,7 +40,7 @@ public:
 
 public:
 	void	Set_Active() {
-		m_eRenderId = RENDER_NONLIGHT;
+		m_eRenderId = RENDER_BLEND;
 	}
 	void	Set_NonActive() {
 		m_eRenderId = RENDER_END;

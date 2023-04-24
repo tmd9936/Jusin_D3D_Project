@@ -219,6 +219,27 @@ PS_OUT PS_MAIN_DEFERRED_BLEND(PS_IN In)
 	return Out;
 }
 
+PS_OUT PS_MAIN_DEFERRED_BRIGHT(PS_IN In)
+{
+	PS_OUT			Out = (PS_OUT)0;
+
+	float4	vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+
+	if (vColor.a == 0.f)
+	{
+		discard;
+	}
+
+	float4 BrightColor = float4(0.f, 0.f, 0.f, 0.f);
+	float brightness = dot(vColor.rgb, normalize(float3(1.f, -1.f, 1.f)));
+	if (brightness > 0.99)
+		BrightColor = float4(vColor.rgb, 1.0);
+
+	Out.vColor = BrightColor;
+
+	return Out;
+}
+
 
 static const float BlurWeights[7][7] =
 {
@@ -246,7 +267,9 @@ PS_OUT_BLOOM PS_MAIN_DEFERRED_BLOOM(PS_IN In)
 	float4	vBrightDesc = g_BrightTexture.Sample(BlurSampler, In.vTexUV);
 
 	if (vBrightDesc.a == 0.f)
+	{
 		discard;
+	}
 
 	float4 color = float4(0.f, 0.f, 0.f, 0.f);
 	float2 texelSize = 1.f / g_TexSize;
@@ -255,11 +278,11 @@ PS_OUT_BLOOM PS_MAIN_DEFERRED_BLOOM(PS_IN In)
 	{
 		for (int y = -3; y <= 3; ++y)
 		{
-			color += BlurWeights[x + 3][y + 3] * 12 * g_BrightTexture.Sample(BlurSampler, In.vTexUV + float2(x * texelSize.x, y * texelSize.y));
+			color += BlurWeights[x + 3][y + 3] * 6 * g_BrightTexture.Sample(BlurSampler, In.vTexUV + float2(x * texelSize.x, y * texelSize.y));
 		}
 	}
 
-	color /= vTotal * 6;
+	color = color / (vTotal * 6);
 
 	Out.vBloomColor = color;
 	
@@ -297,13 +320,16 @@ PS_OUT PS_MAIN_DEFERRED_BLOOM_BLEND(PS_IN In)
 	if (Out.vColor.a == 0.f)
 		discard;
 
-	float4		vBloom = pow(pow(abs(vBloomColor), 2.2f) + pow(abs(vBloomOriginColor), 2.2f), 1.f / 2.2f);
+	if (vBloomColor.a != 0.f)
+	{
+		float4		vBloom = pow(pow(abs(vBloomColor), 2.2f) + pow(abs(vBloomOriginColor), 2.2f), 1.f / 2.2f);
 
-	Out.vColor = pow(abs(Out.vColor), 2.2f);;
-	vBloom = pow(abs(vBloom), 2.2f);
+		Out.vColor = pow(abs(Out.vColor), 2.2f);;
+		vBloom = pow(abs(vBloom), 2.2f);
 
-	Out.vColor += vBloom;
-	Out.vColor = pow(abs(Out.vColor), 1 / 2.2f);
+		Out.vColor += vBloom;
+		Out.vColor = pow(abs(Out.vColor), 1 / 2.2f);
+	}
 
 	return Out;
 }
@@ -398,6 +424,19 @@ technique11		DefaultTechnique
 		HullShader = NULL;
 		DomainShader = NULL;
 		PixelShader = compile ps_5_0 PS_MAIN_DEFERRED_BLEND();
+	}
+
+	pass Deferred_Bright
+	{
+		SetRasterizerState(RS_Default);
+		SetDepthStencilState(DSS_Not_ZTest_Not_ZWrite, 0);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		HullShader = NULL;
+		DomainShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_DEFERRED_BRIGHT();
 	}
 
 	pass Deferred_Bloom

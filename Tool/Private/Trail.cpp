@@ -45,7 +45,7 @@ HRESULT CTrail::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pAr
 	m_pTransformCom->Rotation(XMVectorSet(1.f, 0.f, 0.f, 0.f), XMConvertToRadians(90.0f));
 	m_pTransformCom->Set_PositionY(-0.2f);
 
-	m_eRenderId = RENDER_NONLIGHT;
+	m_eRenderId = RENDER_BLEND;
 
 	return S_OK;
 }
