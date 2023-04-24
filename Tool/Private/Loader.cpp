@@ -1003,6 +1003,10 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/UI/Check_mark.dds")))))
 			return E_FAIL;
 
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_dent"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Window/dent.dds")))))
+			return E_FAIL;
+
 	}
 
 #pragma endregion
@@ -1867,6 +1871,20 @@ HRESULT CLoader::Loading_ForStageLevel()
 			CStageProgressUI::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 	}
+
+	wsprintf(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
+	m_isFinished = true;
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_ForPokemonStateLevel()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
 
 	wsprintf(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 	m_isFinished = true;

@@ -43,7 +43,7 @@ public:
 	HRESULT Loading_ForBaseCampLevel();
 	HRESULT Loading_ForWorldMapLevel();
 	HRESULT Loading_ForStageLevel();
-
+	HRESULT Loading_ForPokemonStateLevel();
 
 
 private:

@@ -68,7 +68,7 @@ private:
 	HRESULT		Add_Trail();
 
 private:
-	_uint				m_TestSkillindex = { 58 };
+	_uint				m_TestSkillindex = { 188 };
 	_double				m_fAccel = { 1.5f };
 	_int				m_SkillLoopCount = { 0 };
 	_float				m_SkillLoopDelay = { 1.f };

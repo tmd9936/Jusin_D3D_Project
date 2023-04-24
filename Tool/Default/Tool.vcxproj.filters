@@ -289,6 +289,12 @@
     <Filter Include="02. GameObject\Static\PokemonPowerInfoUI">
       <UniqueIdentifier>{467a2e8c-819f-4099-8830-c40b9ee1e7a8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Levels\PokemonState">
+      <UniqueIdentifier>{a978c60d-030f-458a-9cd6-128cc08e9bed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\PokemonInfoUI">
+      <UniqueIdentifier>{8b2bc694-7ae6-446a-9fe2-fecec5aeefce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -569,6 +575,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\PokemonPowerInfoUI.h">
       <Filter>02. GameObject\Static\PokemonPowerInfoUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_PokemonState.h">
+      <Filter>01. Levels\PokemonState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PokemonInfoUI.h">
+      <Filter>02. GameObject\Static\PokemonInfoUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -851,6 +863,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\PokemonPowerInfoUI.cpp">
       <Filter>02. GameObject\Static\PokemonPowerInfoUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_PokemonState.cpp">
+      <Filter>01. Levels\PokemonState</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PokemonInfoUI.cpp">
+      <Filter>02. GameObject\Static\PokemonInfoUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
