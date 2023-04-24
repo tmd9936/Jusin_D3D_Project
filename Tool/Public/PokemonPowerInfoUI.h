@@ -24,6 +24,8 @@ public:
 	static CPokemonPowerInfoUI* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	/* 사본 객체를 생성한다. */
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) override;
+	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath) override;
+
 	virtual void Free() override;
 };
 

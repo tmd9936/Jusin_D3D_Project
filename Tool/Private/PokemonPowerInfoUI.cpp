@@ -134,6 +134,19 @@ CGameObject* CPokemonPowerInfoUI::Clone(const _tchar* pLayerTag, _uint iLevelInd
 	return pInstance;
 }
 
+CGameObject* CPokemonPowerInfoUI::Clone(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath)
+{
+	CPokemonPowerInfoUI* pInstance = new CPokemonPowerInfoUI(*this);
+
+	if (FAILED(pInstance->Initialize(pLayerTag, iLevelIndex, filePath)))
+	{
+		MSG_BOX("Failed to Cloned CPokemonPowerInfoUI");
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
+}
+
 void CPokemonPowerInfoUI::Free()
 {
 	__super::Free();

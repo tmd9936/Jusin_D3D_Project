@@ -1475,7 +1475,7 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 			return E_FAIL;
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_window_power_pokemon"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Window/window_power_pokemon.dds")))))
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Window/Window_Pokemon_Power.dds")))))
 			return E_FAIL;
 
 	}
