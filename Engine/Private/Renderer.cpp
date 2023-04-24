@@ -190,8 +190,8 @@ HRESULT CRenderer::Draw_RenderGroup()
 	if (FAILED(Draw_LightAcc()))
 		return E_FAIL;
 
-	if (FAILED(Draw_DeferredBlend()))
-		return E_FAIL;
+	//if (FAILED(Draw_DeferredBlend()))
+	//	return E_FAIL;
 
 	if (FAILED(Draw_NonLight()))
 		return E_FAIL;
