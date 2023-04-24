@@ -482,6 +482,86 @@ _uint APIENTRY LoadingJimenEffect()
 	return 0;
 }
 
+
+_uint APIENTRY LoadingStaticManagerObject()
+{
+	while (!CMainApp::Get_MainAppInit()) {}
+
+	CThreadPool::GetInstance()->JobStart();
+
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	HRESULT			hr = { 0 };
+
+
+#pragma region GAMEOBJECTS
+	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_LOGO))
+	{
+		/* For.Prototype_GameObject_Effect_Manager */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Manager"),
+			CEffect_Manager::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), "../../Reference/Resources/Data/Effect/EffectDataSet.json"))))
+			return E_FAIL;
+
+	
+		/* For.Prototype_GameObject_Skill_Manager */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_Manager"),
+			CSkill_Manager::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), "../../Reference/Resources/Data/Skill/SkillDependDataSet.json", "../../Reference/Resources/Data/Skill/SkillDataResourcesSet.json"))))
+			return E_FAIL;
+
+		/* For.Prototype_GameObject_Mouse*/
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Mouse"),
+			CMouse::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice()))))
+			return E_FAIL;
+
+		/* For.Prototype_GameObject_MiscData */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MiscData"),
+			CMiscData::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), "../../Reference/Resources/Data/Misc/Misc_data.json"))))
+			return E_FAIL;
+
+		/* For.Prototype_GameObject_MiscData */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ConditionData"),
+			CConditionData::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(),
+				"../../Reference/Resources/Data/Condition_Buff_DeBuff/ConditionDataSet.json",
+				"../../Reference/Resources/Data/Condition_Buff_DeBuff/ConditionTypeDataSet.json",
+				"../../Reference/Resources/Data/Condition_Buff_DeBuff/ConditionParameter.json"))))
+			return E_FAIL;
+
+		/* For.Prototype_GameObject_PokemonData */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_PokemonData"),
+			CPokemonData::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), "../../Reference/Resources/Data/Pokemon/PokemonData.json"))))
+			return E_FAIL;
+
+	}
+#pragma endregion
+
+#pragma region STATIC_GAMEOBJECTS
+	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_LOGO))
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Effect_Manager"), LEVEL_STATIC, L"Layer_Manager", L"Effect_Manager")))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Skill_Manager"), LEVEL_STATIC, L"Layer_Manager", L"Skill_Manager")))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_Mouse", LEVEL_STATIC, L"Layer_Mouse", L"Mouse")))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MiscData", LEVEL_STATIC, L"Layer_Manager", L"MiscData")))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_ConditionData", LEVEL_STATIC, L"Layer_Manager", L"ConditionData")))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_PokemonData", LEVEL_STATIC, L"Layer_Manager", L"PokemonData")))
+			return E_FAIL;
+	}
+#pragma endregion
+
+	CThreadPool::GetInstance()->JobEnd();
+
+	return 0;
+}
+
 _uint APIENTRY LoadingConditionEffect()
 {
 	while (!CMainApp::Get_MainAppInit()) {}
@@ -878,6 +958,7 @@ HRESULT CLoader::Initialize(LEVEL eNextLevelID)
 		CThreadPool::GetInstance()->QueueJob(std::function<_uint()>(LoadingKooriEffect));
 		CThreadPool::GetInstance()->QueueJob(std::function<_uint()>(LoadingStaticShader));
 		CThreadPool::GetInstance()->QueueJob(std::function<_uint()>(LoadingJimenEffect));
+		CThreadPool::GetInstance()->QueueJob(std::function<_uint()>(LoadingStaticManagerObject));
 	}
 	else if (eNextLevelID == LEVEL_BASECAMP)
 	{
@@ -1149,42 +1230,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CEffect::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
-		/* For.Prototype_GameObject_Effect_Manager */
-		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Manager"),
-			CEffect_Manager::Create(m_pDevice, m_pContext, "../../Reference/Resources/Data/Effect/EffectDataSet.json"))))
-			return E_FAIL;
-
 		/* For.Prototype_GameObject_Skill */
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill"),
 			CSkill::Create(m_pDevice, m_pContext))))
-			return E_FAIL;
-
-		/* For.Prototype_GameObject_Skill_Manager */
-		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_Manager"),
-			CSkill_Manager::Create(m_pDevice, m_pContext, "../../Reference/Resources/Data/Skill/SkillDependDataSet.json", "../../Reference/Resources/Data/Skill/SkillDataResourcesSet.json"))))
-			return E_FAIL;
-
-		/* For.Prototype_GameObject_Mouse*/
-		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Mouse"),
-			CMouse::Create(m_pDevice, m_pContext))))
-			return E_FAIL;
-
-		/* For.Prototype_GameObject_MiscData */
-		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MiscData"),
-			CMiscData::Create(m_pDevice, m_pContext, "../../Reference/Resources/Data/Misc/Misc_data.json"))))
-			return E_FAIL;
-
-		/* For.Prototype_GameObject_MiscData */
-		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ConditionData"),
-			CConditionData::Create(m_pDevice, m_pContext, 
-				"../../Reference/Resources/Data/Condition_Buff_DeBuff/ConditionDataSet.json",
-				"../../Reference/Resources/Data/Condition_Buff_DeBuff/ConditionTypeDataSet.json",
-				"../../Reference/Resources/Data/Condition_Buff_DeBuff/ConditionParameter.json"))))
-			return E_FAIL;
-
-		/* For.Prototype_GameObject_PokemonData */
-		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_PokemonData"),
-			CPokemonData::Create(m_pDevice, m_pContext, "../../Reference/Resources/Data/Pokemon/PokemonData.json"))))
 			return E_FAIL;
 
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_StageMessageInfo"),
@@ -1210,23 +1258,23 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	wsprintf(m_szLoadingText, TEXT("LEVEL_STATIC °´Ã¼ ·ÎµùÁß."));
 	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_LOGO))
 	{
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Effect_Manager"), LEVEL_STATIC, L"Layer_Manager", L"Effect_Manager")))
-			return E_FAIL;
+		//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Effect_Manager"), LEVEL_STATIC, L"Layer_Manager", L"Effect_Manager")))
+		//	return E_FAIL;
 
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Skill_Manager"), LEVEL_STATIC, L"Layer_Manager", L"Skill_Manager")))
-			return E_FAIL;
+		//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Skill_Manager"), LEVEL_STATIC, L"Layer_Manager", L"Skill_Manager")))
+		//	return E_FAIL;
 
-		if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_Mouse", LEVEL_STATIC, L"Layer_Mouse", L"Mouse")))
-			return E_FAIL;
+		//if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_Mouse", LEVEL_STATIC, L"Layer_Mouse", L"Mouse")))
+		//	return E_FAIL;
 
-		if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MiscData", LEVEL_STATIC, L"Layer_Manager", L"MiscData")))
-			return E_FAIL;
+		//if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MiscData", LEVEL_STATIC, L"Layer_Manager", L"MiscData")))
+		//	return E_FAIL;
 
-		if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_ConditionData", LEVEL_STATIC, L"Layer_Manager", L"ConditionData")))
-			return E_FAIL;
+		//if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_ConditionData", LEVEL_STATIC, L"Layer_Manager", L"ConditionData")))
+		//	return E_FAIL;
 
-		if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_PokemonData", LEVEL_STATIC, L"Layer_Manager", L"PokemonData")))
-			return E_FAIL;
+		//if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_PokemonData", LEVEL_STATIC, L"Layer_Manager", L"PokemonData")))
+		//	return E_FAIL;
 	}
 #pragma endregion
 
