@@ -237,7 +237,7 @@ PS_OUT PS_MAIN_DEFERRED_BRIGHT(PS_IN In)
 	}
 
 	float4 BrightColor = float4(0.f, 0.f, 0.f, 0.f);
-	float brightness = dot(vColor.rgb, normalize(float3(1.f, -1.f, 1.f)));
+	float brightness = dot(vColor.rgb, float3(1.f, -1.f, 1.f));
 	if (brightness >= 0.99)
 		BrightColor = float4(vColor.rgb, 1.0);
 
@@ -260,6 +260,15 @@ static const float BlurWeights[7][7] =
 };
 
 static const float vTotal = 0.9976;
+
+
+static const float Weights[13] =
+{
+	0.0561, 0.1353, 0.278, 0.4868, 0.7261, 0.9231,
+	1, 0.9231, 0.7261, 0.4868, 0.278, 0.1353, 0.0561
+};
+
+static const float Total = 6.2108;
 
 struct PS_OUT_BLOOM
 {
@@ -284,28 +293,28 @@ PS_OUT_BLOOM PS_MAIN_DEFERRED_BLOOM(PS_IN In)
 	{
 		for (int y = -3; y <= 3; ++y)
 		{
-			color += BlurWeights[x + 3][y + 3] * 6 * g_BrightTexture.Sample(BlurSampler, In.vTexUV + float2(x * texelSize.x, y * texelSize.y));
+			color += BlurWeights[x + 3][y + 3] * g_BrightTexture.Sample(BlurSampler, In.vTexUV + float2(x * texelSize.x, y * texelSize.y));
 		}
 	}
 
-	color = color / (vTotal * 6);
+	color = color / (vTotal);
 
 	Out.vBloomColor = color;
 	
 
-	//float4 vColor = 0;
+	//float4 vColor = float4(0.f, 0.f, 0.f, 0.f);
 	//float2 t = In.vTexUV;
-	//float2 uv = 0;
+	//float2 uv = float2(0.f, 0.f);
 
 	//float tu = 1.f / g_TexSize.x;
 
 	//for (int i = -6; i < 6; ++i)
 	//{
 	//	uv = t + float2(tu * i, 0);
-	//	vColor += BlurWeights[6+i] * g_BrightTexture.Sample(BlurSampler, uv);
+	//	vColor += Weights[6+i] * g_BrightTexture.Sample(BlurSampler, uv);
 	//}
 
-	//vColor /= vTotal;
+	//vColor /= Total;
 
 	//Out.vBloomColor = vColor;
 
@@ -326,16 +335,14 @@ PS_OUT PS_MAIN_DEFERRED_BLOOM_BLEND(PS_IN In)
 	if (Out.vColor.a == 0.f)
 		discard;
 
-	if (vBloomColor.a != 0.f)
-	{
-		float4		vBloom = pow(pow(abs(vBloomColor), 2.2f) + pow(abs(vBloomOriginColor), 2.2f), 1.f / 2.2f);
+	float4		vBloom = pow(pow(abs(vBloomColor), 2.2f) + pow(abs(vBloomOriginColor), 2.2f), 1.f / 2.2f);
 
-		Out.vColor = pow(abs(Out.vColor), 2.2f);;
-		vBloom = pow(abs(vBloom), 2.2f);
+	Out.vColor = pow(abs(Out.vColor), 2.2f);;
+	vBloom = pow(abs(vBloom), 2.2f);
 
-		Out.vColor += vBloom;
-		Out.vColor = pow(abs(Out.vColor), 1 / 2.2f);
-	}
+	Out.vColor += vBloom;
+	Out.vColor = pow(abs(Out.vColor), 1 / 2.2f);
+	
 
 	return Out;
 }
