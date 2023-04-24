@@ -125,6 +125,9 @@ _uint APIENTRY LoadingMain(void* pArg)
 	case LEVEL_STAGE:
 		hr = pLoader->Loading_ForStageLevel();
 		break;
+	case LEVEL_POKEMONSTATE:
+		hr = pLoader->Loading_ForPokemonStateLevel();
+		break;
 	}
 
 	if (FAILED(hr))
