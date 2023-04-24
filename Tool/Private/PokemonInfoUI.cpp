@@ -32,8 +32,8 @@ HRESULT CPokemonInfoUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, v
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 		return E_FAIL;
 
-	if (FAILED(Init_PokemonData()))
-		return E_FAIL;
+	//if (FAILED(Init_PokemonData()))
+	//	return E_FAIL;
 
 	return S_OK;
 }
@@ -43,15 +43,20 @@ HRESULT CPokemonInfoUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, c
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, filePath)))
 		return E_FAIL;
 
-	if (FAILED(Init_PokemonData()))
-		return E_FAIL;
+	//if (FAILED(Init_PokemonData()))
+	//	return E_FAIL;
 
 	return S_OK;
 }
 
 
-HRESULT CPokemonInfoUI::Init_PokemonData()
+HRESULT CPokemonInfoUI::Init_PokemonData(const _uint& nowMonsterNumber)
 {
+	if (nowMonsterNumber == 0 || nowMonsterNumber > 3)
+		return E_FAIL;
+
+	m_PokemonInfo_Desc.m_nowMonsterNumber = nowMonsterNumber;
+
 	if (FAILED(Get_NowMonsterData()))
 		return E_FAIL;
 
@@ -79,7 +84,7 @@ HRESULT CPokemonInfoUI::Get_PokemonData()
 	// 아이콘 바꾸기
 	wstring textureProtoType = L"Prototype_Component_Texture_Pokemon_Icon_M";
 	textureProtoType.append(to_wstring(m_PokemonInfo_Desc.m_pokemonNo));
-	if (FAILED(m_TextureParts.at(0)->Change_Texture(textureProtoType.c_str())))
+	if (FAILED(m_TextureParts.at(m_pokemonIconTextureIndex)->Change_Texture(textureProtoType.c_str())))
 		return E_FAIL;
 
 	return S_OK;

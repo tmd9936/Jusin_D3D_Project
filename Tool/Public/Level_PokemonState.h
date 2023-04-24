@@ -19,7 +19,6 @@ public:
 	static void Set_PokemonNumber(const _uint& number);
 
 private: 
-	HRESULT Ready_Layer_BackGround(const _tchar* pLayerTag);
 	HRESULT Ready_Layer_UI(const _tchar* pLayerTag);
 
 private:

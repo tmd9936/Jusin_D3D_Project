@@ -32,8 +32,10 @@ public:
 	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override;
 	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath);
 
+public:
+	HRESULT Init_PokemonData(const _uint& nowMonsterNumber);
+
 private:
-	HRESULT Init_PokemonData();
 
 	HRESULT Get_PokemonData();
 	HRESULT Get_NowMonsterData();

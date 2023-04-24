@@ -34,7 +34,7 @@
                 "LayerTag": "Layer_UI"
             },
             {
-                "m_fX": 20.0,
+                "m_fX": 80.0,
                 "m_fY": -80.0,
                 "m_fSizeX": 150.0,
                 "m_fSizeY": 40.0,
@@ -47,14 +47,14 @@
                     "w": 1.0
                 },
                 "m_TextureProtoTypeLevel": 0,
-                "m_TextureProtoTypeName": "Prototype_Component_Texture_Pokemon_Icon_M25",
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_Rectangle_Base",
                 "LayerTag": "Layer_UI"
             }
         ],
         "m_TextParts": [
             {
-                "m_fX": 75.0,
-                "m_fY": 6.0,
+                "m_fX": 30.0,
+                "m_fY": 20.0,
                 "m_vColor": {
                     "x": 0.0,
                     "y": 0.0,
@@ -68,10 +68,32 @@
                 },
                 "m_vScale": {
                     "x": 0.48,
-                    "y": 0.48
+                    "y": 0.40
                 },
                 "m_FontTag": "Font_NanumBarunGothic", 
-                "m_Text": "이름 및 타입",
+                "m_Text": "이름",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": 60.0,
+                "m_fY": 20.0,
+                "m_vColor": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "m_Rotation": 0.0,
+                "m_vRotationOrigin": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "m_vScale": {
+                    "x": 0.48,
+                    "y": 0.40
+                },
+                "m_FontTag": "Font_NanumBarunGothic", 
+                "m_Text": "타입",
                 "LayerTag": "Layer_UI"
             }
         ]

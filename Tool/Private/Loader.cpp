@@ -90,6 +90,8 @@
 
 #include "Pokering.h"
 
+#include "PokemonInfoUI.h"
+
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
 	, m_pContext(pContext)
@@ -1636,7 +1638,9 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 			CPokemonPowerInfoUI::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
-		//PokemonPowerInfoUI
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_PokemonInfoUI"),
+			CPokemonInfoUI::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
 
 	}
 #pragma endregion

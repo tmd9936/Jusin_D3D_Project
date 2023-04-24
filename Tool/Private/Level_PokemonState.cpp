@@ -6,6 +6,7 @@
 
 #include "UI.h"
 
+#include "PokemonInfoUI.h"
 
 // 포켓몬 버튼 누르면 이거 번호 변경시키기
 _uint CLevel_PokemonState::m_PokemonNumber = 1;
@@ -19,15 +20,10 @@ HRESULT CLevel_PokemonState::Initialize()
 {
 	g_BackBufferColor = m_PokemonStateLevelBackColor;
 
-	// 포켓몬 인포 json 파일에 보여줄 포켓몬의 번호 바꾸기
-
 	CGameInstance::GetInstance()->PlayBGM(TEXT("BGM_BASE.ogg"));
 
-	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
+	if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
 		return E_FAIL;
-
-	//if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
-	//	return E_FAIL;
 
 	return S_OK;
 }
@@ -45,20 +41,6 @@ void CLevel_PokemonState::Set_PokemonNumber(const _uint& number)
 	m_PokemonNumber = number;
 }
 
-HRESULT CLevel_PokemonState::Ready_Layer_BackGround(const _tchar* pLayerTag)
-{
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
-
-	if (FAILED(pGameInstance->Add_Layer(LEVEL_POKEMONSTATE, pLayerTag)))
-		return E_FAIL;
-
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BackGround"), LEVEL_POKEMONSTATE, pLayerTag)))
-		return E_FAIL;
-
-	Safe_Release(pGameInstance);
-	return S_OK;
-}
 
 HRESULT CLevel_PokemonState::Ready_Layer_UI(const _tchar* pLayerTag)
 {
@@ -68,9 +50,15 @@ HRESULT CLevel_PokemonState::Ready_Layer_UI(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_Layer(LEVEL_POKEMONSTATE, pLayerTag)))
 		return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ModelUI"), LEVEL_POKEMONSTATE, pLayerTag)))
+	CPokemonInfoUI* pPokemonInfoUI = nullptr;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PokemonInfoUI"), LEVEL_POKEMONSTATE, pLayerTag, (CGameObject**)&pPokemonInfoUI, L"PokemonInfoUI", "../../Reference/Resources/Data/Scene/PokemonInfo/PokemonInfoUI.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
+	if (FAILED(pPokemonInfoUI->Init_PokemonData(m_PokemonNumber)))
+		return E_FAIL;
+
+	Safe_Release(pPokemonInfoUI);
 
 	Safe_Release(pGameInstance);
 
