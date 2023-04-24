@@ -7,6 +7,8 @@
 #include "PartText.h"
 #include "PartTexture.h"
 
+#include "PokemonData.h"
+
 CPokemonInfoUI::CPokemonInfoUI(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
 {
@@ -30,7 +32,7 @@ HRESULT CPokemonInfoUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, v
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 		return E_FAIL;
 
-	if (FAILED(Init_PokemonPower()))
+	if (FAILED(Init_PokemonData()))
 		return E_FAIL;
 
 	return S_OK;
@@ -41,45 +43,62 @@ HRESULT CPokemonInfoUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, c
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, filePath)))
 		return E_FAIL;
 
-	if (FAILED(Init_PokemonPower()))
+	if (FAILED(Init_PokemonData()))
 		return E_FAIL;
 
 	return S_OK;
 }
 
 
-HRESULT CPokemonInfoUI::Init_PokemonPower()
+HRESULT CPokemonInfoUI::Init_PokemonData()
 {
-	if (m_TextParts.empty())
+	if (FAILED(Get_NowMonsterData()))
 		return E_FAIL;
 
-	_uint power = 0;
-	if (FAILED(Get_PokemonPower(power, 1)))
+	if (FAILED(Get_PokemonData()))
 		return E_FAIL;
-
-	if (FAILED(Get_PokemonPower(power, 2)))
-		return E_FAIL;
-
-	if (FAILED(Get_PokemonPower(power, 3)))
-		return E_FAIL;
-
-	m_TextParts.at(0)->Set_Text(to_wstring(power));
 
 	return S_OK;
 }
 
-HRESULT CPokemonInfoUI::Get_PokemonPower(_uint& outPower, const _uint& pokemonIndex)
+HRESULT CPokemonInfoUI::Get_PokemonData()
 {
+	if (m_TextParts.empty() || m_TextureParts.empty())
+		return E_FAIL;
+
+	// 포켓몬 데이터 매니저에서 데이터 얻어오기
+	CGameObject* pPokemonData = CGameInstance::GetInstance()->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"PokemonData");
+	if (nullptr == pPokemonData)
+		return E_FAIL;
+
+	// 이름 바꾸기
+	CPokemonData::POKEMONDATA_DESC desc = dynamic_cast<CPokemonData*>(pPokemonData)->Get_PokemonDesc(m_PokemonInfo_Desc.m_pokemonNo);
+	m_TextParts.at(0)->Set_Text(desc.name);
+	m_TextParts.at(1)->Set_Text(desc.type);
+
+	// 아이콘 바꾸기
+	wstring textureProtoType = L"Prototype_Component_Texture_Pokemon_Icon_M";
+	textureProtoType.append(to_wstring(m_PokemonInfo_Desc.m_pokemonNo));
+	if (FAILED(m_TextureParts.at(0)->Change_Texture(textureProtoType.c_str())))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CPokemonInfoUI::Get_NowMonsterData()
+{
+	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
+
 	string path = "../../Reference/Resources/Data/Database/NowMonster/NowPartyMonster";
 
-	path.append(to_string(pokemonIndex));
+	path.append(to_string(m_PokemonInfo_Desc.m_nowMonsterNumber));
 	path.append(".json");
 
 	FILE* fp = fopen(path.c_str(), "rb"); // non-Windows use "r"
 
 	if (NULL == fp)
 	{
-		MSG_BOX("Load File Open Error");
+		MSG_BOX("Load File Init_PokemonData() Error");
 		return E_FAIL;
 	}
 	else
@@ -99,8 +118,11 @@ HRESULT CPokemonInfoUI::Get_PokemonPower(_uint& outPower, const _uint& pokemonIn
 
 		/* 구현부 시작 */
 		const Value& PokemonDesc = doc["PokemonDesc"].GetObj();
-		outPower += PokemonDesc["m_hpBasis"].GetUint();
-		outPower += PokemonDesc["m_attackBasis"].GetUint();
+		m_PokemonInfo_Desc.m_pokemonNo = PokemonDesc["m_monsterNo"].GetUint();
+		m_PokemonInfo_Desc.m_pokemonHP = PokemonDesc["m_hpBasis"].GetUint();
+		m_PokemonInfo_Desc.m_pokemonATK = PokemonDesc["m_attackBasis"].GetInt();
+		m_PokemonInfo_Desc.m_pokemonLevel = PokemonDesc["m_level"].GetInt();
+		m_PokemonInfo_Desc.m_curExp = PokemonDesc["m_level"].GetInt();
 
 		/* 구현부 끝 */
 		fclose(fp);
@@ -171,7 +193,7 @@ _bool CPokemonInfoUI::Load_By_JsonFile_Impl(Document& doc)
 
 	lstrcpy(m_UIDesc.m_TextureProtoTypeName, convert.from_bytes(m_TextureProtoTypeName).c_str());
 
-	m_PokemonInfo_Desc.m_pokemonNumber = UIDesc["m_pokemonNumber"].GetUint();
+	m_PokemonInfo_Desc.m_nowMonsterNumber = UIDesc["m_nowMonsterNumber"].GetUint();
 
 	const Value& TextureParts = UIDesc["m_TextureParts"].GetArray();
 	for (SizeType i = 0; i < TextureParts.Size(); ++i)

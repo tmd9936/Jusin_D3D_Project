@@ -14,6 +14,7 @@
         },
         "m_TextureProtoTypeLevel": 0,
         "m_TextureProtoTypeName" : "Prototype_Component_Texture_Rectangle_Base",
+        "m_nowMonsterNumber" : 1,
         "m_TextureParts": [
             {
                 "m_fX": -80.0,
