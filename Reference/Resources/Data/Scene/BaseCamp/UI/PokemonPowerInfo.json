@@ -18,8 +18,8 @@
         ],
         "m_TextParts": [
             {
-                "m_fX": 40.0,
-                "m_fY": 40.0,
+                "m_fX": 18.0,
+                "m_fY": 30.0,
                 "m_vColor": {
                     "x": 1.0,
                     "y": 1.0,
@@ -32,8 +32,8 @@
                     "y": 0.0
                 },
                 "m_vScale": {
-                    "x": 0.60,
-                    "y": 0.52
+                    "x": 0.75,
+                    "y": 0.62
                 },
                 "m_FontTag": "Font_NanumBarunGothic", 
                 "m_Text": "0000",
