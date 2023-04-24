@@ -286,6 +286,9 @@
     <Filter Include="02. GameObject\Static\GoToMonStateButton">
       <UniqueIdentifier>{7759c86a-b4cc-49a6-9983-ce02510ec1ac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\Static\PokemonPowerInfoUI">
+      <UniqueIdentifier>{467a2e8c-819f-4099-8830-c40b9ee1e7a8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -563,6 +566,9 @@
     </ClInclude>
     <ClInclude Include="..\public\GoToMonStateButton.h">
       <Filter>02. GameObject\Static\GoToMonStateButton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PokemonPowerInfoUI.h">
+      <Filter>02. GameObject\Static\PokemonPowerInfoUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -842,6 +848,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\GoToMonStateButton.cpp">
       <Filter>02. GameObject\Static\GoToMonStateButton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PokemonPowerInfoUI.cpp">
+      <Filter>02. GameObject\Static\PokemonPowerInfoUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,44 @@
+{
+    "UIDesc": {
+        "m_fX": 600.0,
+        "m_fY": 390.0,
+        "m_fSizeX": 150.5,
+        "m_fSizeY": 80.0,
+        "m_ShaderPass": 0,
+        "m_UIType": 0,
+        "m_vColor": {
+            "x": 0.5,
+            "y": 0.5,
+            "z": 0.5,
+            "w": 1.0
+        },
+        "m_TextureProtoTypeLevel": 0,
+        "m_TextureProtoTypeName" : "Prototype_Component_Texture_window_power_pokemon",
+        "m_TextureParts": [
+        ],
+        "m_TextParts": [
+            {
+                "m_fX": 0.0,
+                "m_fY": 0.0,
+                "m_vColor": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 2.0,
+                    "w": 1.0
+                },
+                "m_Rotation": 0.0,
+                "m_vRotationOrigin": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "m_vScale": {
+                    "x": 0.50,
+                    "y": 0.42
+                },
+                "m_FontTag": "Font_NanumBarunGothic", 
+                "m_Text": "0000",
+                "LayerTag": "Layer_UI"
+            }
+        ]
+    }
+}

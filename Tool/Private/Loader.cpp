@@ -25,6 +25,7 @@
 #include "WorldMapBackToIdel.h"
 #include "GoToBaseCampButton.h"
 #include "GoToMonStateButton.h"
+#include "PokemonPowerInfoUI.h"
 
 #include "StageInfoUI.h"
 #include "StagePoint.h"
@@ -1473,11 +1474,15 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Pokemon_Icon/button_icon_M95.dds")))))
 			return E_FAIL;
 
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_window_power_pokemon"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Window/window_power_pokemon.dds")))))
+			return E_FAIL;
+
 	}
 	wsprintf(m_szLoadingText, TEXT("텍스쳐를 로딩중입니다."));
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Texture_BaseCamp_GoToWorldMap_Button"),
-		CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/UI/BaseCamp_worldmapL_button.dds")))))
-		return E_FAIL;
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Texture_BaseCamp_GoToWorldMap_Button"),
+	//	CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/UI/BaseCamp_worldmapL_button.dds")))))
+	//	return E_FAIL;
 
 
 #pragma endregion
@@ -1621,6 +1626,13 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_GoToMonStateButton"),
 			CGoToMonStateButton::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
+
+		/* For.Prototype_GameObject_PokemonPowerInfoUI*/
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_PokemonPowerInfoUI"),
+			CPokemonPowerInfoUI::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		//PokemonPowerInfoUI
 
 	}
 #pragma endregion
