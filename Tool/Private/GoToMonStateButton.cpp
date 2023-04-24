@@ -11,6 +11,8 @@
 
 #include "PokemonData.h"
 
+#include "Level_PokemonState.h"
+
 CGoToMonStateButton::CGoToMonStateButton(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CButton(pDevice, pContext)
 {
@@ -60,7 +62,11 @@ _uint CGoToMonStateButton::On_Select()
 
 _uint CGoToMonStateButton::On_Release()
 {
-	return 0;
+	CLevel_PokemonState::Set_PokemonNumber(m_MonStateButtonDesc.m_monsterNumber);
+	if (FAILED(CGameInstance::GetInstance()->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_POKEMONSTATE))))
+		return 0;
+	else
+		return OBJ_SCENE_CHNAGE;
 }
 
 _bool CGoToMonStateButton::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator)

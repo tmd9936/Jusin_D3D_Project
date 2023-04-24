@@ -119,6 +119,9 @@ _uint CButton::Tick(_double TimeDelta)
 
 _uint CButton::LateTick(_double TimeDelta)
 {
+	if (m_TickResult == OBJ_SCENE_CHNAGE)
+		return 0;
+
 	if (m_bAction)
 	{
 		m_TransformMatrix = m_pModelCom->Get_CombinedTransformationMatrix_float4_4(1);
