@@ -522,16 +522,16 @@
     ],
     "Materials": [
         [
-            "../../Reference/Resources/Mesh/Animation/Loading/Splash.png",
-            "../../Reference/Resources/Mesh/Animation/Loading/Splash.png"
+            "../../Reference/Resources/Mesh/Animation/Loading/Splash.dds",
+            "../../Reference/Resources/Mesh/Animation/Loading/Splash.dds"
         ],
         [
             "../../Reference/Resources/Mesh/Animation/Loading/Splash_island.png",
             "../../Reference/Resources/Mesh/Animation/Loading/Splash_island.png"
         ],
         [
-            "../../Reference/Resources/Mesh/Animation/Loading/window_monsterball_mark.png",
-            "../../Reference/Resources/Mesh/Animation/Loading/window_monsterball_mark.png"
+            "../../Reference/Resources/Mesh/Animation/Loading/window_monsterball_mark.dds",
+            "../../Reference/Resources/Mesh/Animation/Loading/window_monsterball_mark.dds"
         ]
     ],
     "Animations": [
