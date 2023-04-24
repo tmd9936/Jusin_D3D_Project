@@ -39,6 +39,10 @@ HRESULT CRenderer::Initialize_Prototype()
 		TEXT("Target_Diffuse"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
+		TEXT("Target_NonLightDiffuse"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
+
 	/* For.Target_Normal */
 	/*
 	* float이 4바이트인데 2바이트인데
@@ -65,7 +69,7 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
-		TEXT("Target_BrightColor"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 1.f))))
+		TEXT("Target_BrightColor"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 
 	//if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
@@ -74,7 +78,7 @@ HRESULT CRenderer::Initialize_Prototype()
 
 
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
-		TEXT("Target_BloomColor"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 1.f))))
+		TEXT("Target_BloomColor"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 
 	/* For.Target_Specular */
@@ -95,7 +99,7 @@ HRESULT CRenderer::Initialize_Prototype()
 	//if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_LightAcc"), TEXT("Target_Specular"))))
 	//	return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_NonLight_Deferred"), TEXT("Target_Diffuse"))))
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_NonLight_Deferred"), TEXT("Target_NonLightDiffuse"))))
 		return E_FAIL;
 
 	// === 이펙트 디퍼드
@@ -519,6 +523,10 @@ HRESULT CRenderer::Draw_DefferdBright()
 	if (FAILED(m_pShader->Set_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
 
+	//g_NonLightDiffuseTexture
+	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_NonLightDiffuse"), m_pShader, "g_NonLightDiffuseTexture")))
+		return E_FAIL;
+
 	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_Diffuse"), m_pShader, "g_DiffuseTexture")))
 		return E_FAIL;
 
@@ -578,6 +586,9 @@ HRESULT CRenderer::Draw_DeferredNonLightBlend()
 	if (FAILED(m_pShader->Set_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
 
+	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_NonLightDiffuse"), m_pShader, "g_NonLightDiffuseTexture")))
+		return E_FAIL;
+
 	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_Diffuse"), m_pShader, "g_DiffuseTexture")))
 		return E_FAIL;
 
@@ -609,7 +620,7 @@ HRESULT CRenderer::Render_Debug()
 
 	m_pTarget_Manager->Render_MRT(TEXT("MRT_Deferred"), m_pShader, m_pVIBuffer);
 	m_pTarget_Manager->Render_MRT(TEXT("MRT_LightAcc"), m_pShader, m_pVIBuffer);
-	m_pTarget_Manager->Render_MRT(TEXT("MRT_Effect_Deferred"), m_pShader, m_pVIBuffer);
+	m_pTarget_Manager->Render_MRT(TEXT("MRT_Bright"), m_pShader, m_pVIBuffer);
 	m_pTarget_Manager->Render_MRT(TEXT("MRT_Bloom"), m_pShader, m_pVIBuffer);
 
 

@@ -19,6 +19,7 @@ vector			g_vMtrlSpecular = vector(1.f, 1.f, 1.f, 1.f);
 texture2D		g_Texture;
 texture2D		g_NormalTexture;
 texture2D		g_DiffuseTexture;
+texture2D		g_NonLightDiffuseTexture;
 texture2D		g_BrightTexture;
 texture2D		g_ShadeTexture;
 texture2D		g_DepthTexture;
@@ -223,22 +224,25 @@ PS_OUT PS_MAIN_DEFERRED_BRIGHT(PS_IN In)
 {
 	PS_OUT			Out = (PS_OUT)0;
 
+	float4		vNonLightColor = g_NonLightDiffuseTexture.Sample(LinearSampler, In.vTexUV);
 	float4		vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 	vector		vShade = g_ShadeTexture.Sample(LinearSampler, In.vTexUV);
 
-	if (vShade.a == 1.f)
-	{
-		vColor = vColor * vShade;
+	vector test = vColor * vShade;
 
-		if (vColor.a == 0.f)
-		{
-			discard;
-		}
+	if (test.a == 0.f)
+	{
+		discard;
+	}
+
+	if (vNonLightColor.a != 0.f)
+	{
+		vColor = vNonLightColor;
 	}
 
 	float4 BrightColor = float4(0.f, 0.f, 0.f, 0.f);
-	float brightness = dot(vColor.rgb, float3(1.f, -1.f, 1.f));
-	if (brightness >= 0.99)
+	float brightness = dot(vColor.rgb, float3(0.2126f, 0.7152f, 0.0722f));
+	if (brightness >= 0.9)
 		BrightColor = float4(vColor.rgb, 1.0);
 
 	Out.vColor = BrightColor;
@@ -293,11 +297,11 @@ PS_OUT_BLOOM PS_MAIN_DEFERRED_BLOOM(PS_IN In)
 	{
 		for (int y = -3; y <= 3; ++y)
 		{
-			color += BlurWeights[x + 3][y + 3] * g_BrightTexture.Sample(BlurSampler, In.vTexUV + float2(x * texelSize.x, y * texelSize.y));
+			color += BlurWeights[x + 3][y + 3] * 6 * g_BrightTexture.Sample(BlurSampler, In.vTexUV + float2(x * texelSize.x, y * texelSize.y));
 		}
 	}
 
-	color = color / (vTotal);
+	color = color / (vTotal * 6);
 
 	Out.vBloomColor = color;
 	
@@ -325,6 +329,7 @@ PS_OUT PS_MAIN_DEFERRED_BLOOM_BLEND(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
+	vector		vNonLightDiffuse = g_NonLightDiffuseTexture.Sample(LinearSampler, In.vTexUV);
 	vector		vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 	vector		vShade = g_ShadeTexture.Sample(LinearSampler, In.vTexUV);
 	vector		vBloomOriginColor = g_BloomOriginTexture.Sample(LinearSampler, In.vTexUV);
@@ -334,6 +339,11 @@ PS_OUT PS_MAIN_DEFERRED_BLOOM_BLEND(PS_IN In)
 
 	if (Out.vColor.a == 0.f)
 		discard;
+
+	if (vNonLightDiffuse.a != 0.f)
+	{
+		Out.vColor = vNonLightDiffuse;
+	}
 
 	float4		vBloom = pow(pow(abs(vBloomColor), 2.2f) + pow(abs(vBloomOriginColor), 2.2f), 1.f / 2.2f);
 
