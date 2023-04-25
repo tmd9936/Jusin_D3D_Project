@@ -129,6 +129,10 @@ HRESULT CPokemonInfoUI::Get_NowMonsterData()
 		m_PokemonInfo_Desc.m_pokemonLevel = PokemonDesc["m_level"].GetInt();
 		m_PokemonInfo_Desc.m_curExp = PokemonDesc["m_level"].GetInt();
 
+		m_TextParts.at(m_pokemonLevelTextIndex)->Set_Text(to_wstring(m_PokemonInfo_Desc.m_pokemonLevel));
+		m_TextParts.at(m_pokemonHPValueTextIndex)->Set_Text(to_wstring(m_PokemonInfo_Desc.m_pokemonHP));
+		m_TextParts.at(m_pokemonATKValueTextIndex)->Set_Text(to_wstring(m_PokemonInfo_Desc.m_pokemonATK));
+
 		/* 구현부 끝 */
 		fclose(fp);
 		Safe_Delete_Array(readBuffer);
