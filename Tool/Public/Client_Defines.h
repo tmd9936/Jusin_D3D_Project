@@ -18,6 +18,30 @@ namespace Client
 		EFFECT_TYPE_BUFF,
 		EFFECT_TYPE_END,
 	};
+
+	enum class STONE_EQUIP_TYPE
+	{
+		TYPE_DEF,
+		TYPE_ATK,
+		TYPE_TWINS,
+		TYPE_END
+	};
+
+	enum class STONE_EQUIP_STATE
+	{
+		STATE_EQUIP,
+		STATE_NO_EQUIP,
+		STATE_BLOCK,
+		STATE_END
+	};
+
+	typedef struct Stone_Equip_Desc
+	{
+		bool					m_isOpen;
+		STONE_EQUIP_TYPE		m_type;
+		int					m_equip_stoneID;
+		STONE_EQUIP_STATE		m_state;
+	} STONE_EQUIP_DESC;
 }
 
 

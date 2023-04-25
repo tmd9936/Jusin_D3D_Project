@@ -7,6 +7,7 @@
 #include "UI.h"
 
 #include "PokemonInfoUI.h"
+#include "PokemonSkillStoneUI.h"
 
 #include "GoToMonStateButton.h"
 
@@ -61,7 +62,13 @@ HRESULT CLevel_PokemonState::Ready_Layer_UI(const _tchar* pLayerTag)
 	if (FAILED(pPokemonInfoUI->Init_PokemonData(m_PokemonNumber)))
 		return E_FAIL;
 	Safe_Release(pPokemonInfoUI);
+
+	CPokemonSkillStoneUI* pPokemonSkillStoneUI = nullptr;
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PokemonSkillStoneUI"), LEVEL_POKEMONSTATE, pLayerTag, (CGameObject**)&pPokemonSkillStoneUI, L"PokemonSkillStoneUI", "../../Reference/Resources/Data/Scene/PokemonInfo/PokemonSkillStoneUI.json", CLONE_FILEPATH)))
+		return E_FAIL;
+	Safe_Release(pPokemonSkillStoneUI);
 	
+	// === 다른 포켓몬 정보로 이동 버튼 시작
 	_uint anotherPokemonNumber01 = 0;
 	_uint anotherPokemonNumber02 = 0;
 
@@ -94,6 +101,7 @@ HRESULT CLevel_PokemonState::Ready_Layer_UI(const _tchar* pLayerTag)
 	if (FAILED(pGoToMonStateButton02->Change_MosnterNumber(anotherPokemonNumber02, 1)))
 		return E_FAIL;
 	Safe_Release(pGoToMonStateButton02);
+	// === 다른 포켓몬 정보로 이동 버튼 끝
 
 	Safe_Release(pGameInstance);
 

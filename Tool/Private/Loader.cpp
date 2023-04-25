@@ -91,6 +91,7 @@
 #include "Pokering.h"
 
 #include "PokemonInfoUI.h"
+#include "PokemonSkillStoneUI.h"
 #include "GoToBackLevelButton.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -1694,6 +1695,10 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 			CPokemonInfoUI::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_PokemonSkillStoneUI"),
+			CPokemonSkillStoneUI::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
 	}
 #pragma endregion
 
@@ -1961,10 +1966,7 @@ HRESULT CLoader::Loading_ForPokemonStateLevel()
 			return E_FAIL;
 	}
 
-	for (_uint i = 0; i < 99999999; ++i)
-	{
-		int a = 10;
-	}
+	Sleep(250);
 
 	wsprintf(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 	m_isFinished = true;

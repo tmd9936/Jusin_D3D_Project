@@ -35,32 +35,6 @@ class CBuffState;
 class CMonster abstract : public CGameObject
 {
 public:
-	enum STONE_EQUIP_TYPE
-	{
-		TYPE_DEF,
-		TYPE_ATK,
-		TYPE_TWINS,
-		TYPE_END
-	};
-
-	enum STONE_EQUIP_STATE
-	{
-		STATE_EQUIP,
-		STATE_NO_EQUIP,
-		STATE_BLOCK,
-		STATE_END
-	};
-
-public:
-	typedef struct Stone_Equip_Desc
-	{
-		_bool					m_isOpen;
-		STONE_EQUIP_TYPE		m_type;
-		_int					m_equip_stoneID;
-		STONE_EQUIP_STATE		m_state;
-	} STONE_EQUIP_DESC;
-
-public:
 	enum AI_TYPE {
 		AI_TYPE_LONG_DISTACE,
 		AI_TYPE_SHORT_DISTACE,
