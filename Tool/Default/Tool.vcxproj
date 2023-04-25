@@ -221,6 +221,7 @@
     <ClInclude Include="..\Public\PokemonSkillButton.h" />
     <ClInclude Include="..\Public\Searcher.h" />
     <ClInclude Include="..\Public\Skill.h" />
+    <ClInclude Include="..\Public\SkillInfoUI.h" />
     <ClInclude Include="..\Public\Skill_Manager.h" />
     <ClInclude Include="..\Public\StageClearUI.h" />
     <ClInclude Include="..\Public\StageInfoUI.h" />
@@ -319,6 +320,7 @@
     <ClCompile Include="..\Private\PokemonSkillButton.cpp" />
     <ClCompile Include="..\Private\Searcher.cpp" />
     <ClCompile Include="..\Private\Skill.cpp" />
+    <ClCompile Include="..\Private\SkillInfoUI.cpp" />
     <ClCompile Include="..\Private\Skill_Manager.cpp" />
     <ClCompile Include="..\Private\StageClearUI.cpp" />
     <ClCompile Include="..\Private\StageInfoUI.cpp" />

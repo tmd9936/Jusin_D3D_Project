@@ -64,7 +64,7 @@ HRESULT CLevel_PokemonState::Ready_Layer_UI(const _tchar* pLayerTag)
 	Safe_Release(pPokemonInfoUI);
 
 	CPokemonSkillStoneUI* pPokemonSkillStoneUI = nullptr;
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PokemonSkillStoneUI"), LEVEL_POKEMONSTATE, pLayerTag, (CGameObject**)&pPokemonSkillStoneUI, L"PokemonSkillStoneUI", "../../Reference/Resources/Data/Scene/PokemonInfo/PokemonSkillStoneUI.json", CLONE_FILEPATH)))
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PokemonSkillStoneUI"), LEVEL_POKEMONSTATE, pLayerTag, (CGameObject**)&pPokemonSkillStoneUI, L"PokemonSkillStoneUI", "../../Reference/Resources/Data/Scene/PokemonInfo/SkillStoneUI/PokemonSkillStoneUI.json", CLONE_FILEPATH)))
 		return E_FAIL;
 	Safe_Release(pPokemonSkillStoneUI);
 	
