@@ -53,7 +53,9 @@ private:
 	static const _uint		m_pokemonLvTextIndex = { 2 };
 	static const _uint		m_pokemonLevelTextIndex = { 3 };
 	static const _uint		m_pokemonHPTextIndex = { 4 };
-	static const _uint		m_pokemonATKTextIndex = { 5 };
+	static const _uint		m_pokemonHPValueTextIndex = { 5 };
+	static const _uint		m_pokemonATKTextIndex = { 6 };
+	static const _uint		m_pokemonATKValueTextIndex = { 7 };
 
 private:
 	static const _uint		m_pokemonIconTextureIndex = { 0 };
