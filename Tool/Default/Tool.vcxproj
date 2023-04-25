@@ -190,6 +190,7 @@
     <ClInclude Include="..\Public\PokemonInfoUI.h" />
     <ClInclude Include="..\Public\PokemonPowerInfoUI.h" />
     <ClInclude Include="..\Public\Level_PokemonState.h" />
+    <ClInclude Include="..\Public\PokemonSkillStoneUI.h" />
     <ClInclude Include="..\Public\Pokering.h" />
     <ClInclude Include="..\Public\RushAttackEffect.h" />
     <ClInclude Include="..\Public\Effect_Sakura.h" />
@@ -286,6 +287,7 @@
     <ClCompile Include="..\Private\PokemonInfoUI.cpp" />
     <ClCompile Include="..\Private\PokemonPowerInfoUI.cpp" />
     <ClCompile Include="..\Private\Level_PokemonState.cpp" />
+    <ClCompile Include="..\Private\PokemonSkillStoneUI.cpp" />
     <ClCompile Include="..\Private\Pokering.cpp" />
     <ClCompile Include="..\Private\RushAttackEffect.cpp" />
     <ClCompile Include="..\Private\Effect_Sakura.cpp" />

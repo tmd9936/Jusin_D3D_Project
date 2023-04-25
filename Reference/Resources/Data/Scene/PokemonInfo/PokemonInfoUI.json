@@ -97,7 +97,7 @@
                     "z": 0.2,
                     "w": 0.5
                 },
-                "m_TextureProtoTypeLevel": 6,
+                "m_TextureProtoTypeLevel": 0,
                 "m_TextureProtoTypeName": "Prototype_Component_Texture_window_HP_icon",
                 "LayerTag": "Layer_UI"
             },
@@ -131,7 +131,7 @@
                     "z": 0.2,
                     "w": 0.5
                 },
-                "m_TextureProtoTypeLevel": 6,
+                "m_TextureProtoTypeLevel": 0,
                 "m_TextureProtoTypeName": "Prototype_Component_Texture_window_ATK_icon",
                 "LayerTag": "Layer_UI"
             }

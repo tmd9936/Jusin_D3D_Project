@@ -8,6 +8,8 @@
 
 #include "PokemonInfoUI.h"
 
+#include "GoToMonStateButton.h"
+
 // 포켓몬 버튼 누르면 이거 번호 변경시키기
 _uint CLevel_PokemonState::m_PokemonNumber = 1;
 
@@ -51,14 +53,44 @@ HRESULT CLevel_PokemonState::Ready_Layer_UI(const _tchar* pLayerTag)
 		return E_FAIL;
 
 	CPokemonInfoUI* pPokemonInfoUI = nullptr;
-
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PokemonInfoUI"), LEVEL_POKEMONSTATE, pLayerTag, (CGameObject**)&pPokemonInfoUI, L"PokemonInfoUI", "../../Reference/Resources/Data/Scene/PokemonInfo/PokemonInfoUI.json", CLONE_FILEPATH)))
 		return E_FAIL;
-
 	if (FAILED(pPokemonInfoUI->Init_PokemonData(m_PokemonNumber)))
 		return E_FAIL;
-
 	Safe_Release(pPokemonInfoUI);
+	
+	_uint anotherPokemonNumber01 = 0;
+	_uint anotherPokemonNumber02 = 0;
+
+	if (m_PokemonNumber == 1)
+	{
+		anotherPokemonNumber01 = 2;
+		anotherPokemonNumber02 = 3;
+	}
+	else if (m_PokemonNumber == 2)
+	{
+		anotherPokemonNumber01 = 1;
+		anotherPokemonNumber02 = 3;
+	}
+	else
+	{
+		anotherPokemonNumber01 = 1;
+		anotherPokemonNumber02 = 2;
+	}
+
+	CGoToMonStateButton* pGoToMonStateButton01 = nullptr;
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GoToMonStateButton"), LEVEL_POKEMONSTATE, pLayerTag, (CGameObject**)&pGoToMonStateButton01, L"GoToMonStateButton01", "../../Reference/Resources/Data/Scene/PokemonInfo/Button/GoToMonsterStateButton01.json", CLONE_FILEPATH)))
+		return E_FAIL;
+	if (FAILED(pGoToMonStateButton01->Change_MosnterNumber(anotherPokemonNumber01, 1)))
+		return E_FAIL;
+	Safe_Release(pGoToMonStateButton01);
+
+	CGoToMonStateButton* pGoToMonStateButton02 = nullptr;
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GoToMonStateButton"), LEVEL_POKEMONSTATE, pLayerTag, (CGameObject**)&pGoToMonStateButton02, L"GoToMonStateButton02", "../../Reference/Resources/Data/Scene/PokemonInfo/Button/GoToMonsterStateButton02.json", CLONE_FILEPATH)))
+		return E_FAIL;
+	if (FAILED(pGoToMonStateButton02->Change_MosnterNumber(anotherPokemonNumber02, 1)))
+		return E_FAIL;
+	Safe_Release(pGoToMonStateButton02);
 
 	Safe_Release(pGameInstance);
 

@@ -45,6 +45,16 @@ HRESULT CGoToMonStateButton::Initialize(const _tchar* pLayerTag, _uint iLevelInd
 	return S_OK;
 }
 
+HRESULT CGoToMonStateButton::Change_MosnterNumber(const _uint& pokemonIndex, const _uint& pokemonIconIndex)
+{
+	m_MonStateButtonDesc.m_monsterNumber = pokemonIndex;
+
+	if (FAILED(Init_Monster_Info(pokemonIconIndex)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 _uint CGoToMonStateButton::On_Idle()
 {
 	return 0;
@@ -285,9 +295,9 @@ HRESULT CGoToMonStateButton::Get_PokemonNumber(_uint& out, const _uint& pokemonI
 	return E_FAIL;
 }
 
-HRESULT CGoToMonStateButton::Init_Monster_Info()
+HRESULT CGoToMonStateButton::Init_Monster_Info(_uint pokemonIconIndex)
 {
-	if (m_TextParts.empty() || m_TextureParts.empty())
+	if (m_TextureParts.empty())
 		return E_FAIL;
 	
 	// 해당 포켓몬 넘버의 포켓몬 정보 가져오기
@@ -300,14 +310,17 @@ HRESULT CGoToMonStateButton::Init_Monster_Info()
 	if (nullptr == pPokemonData)
 		return E_FAIL;
 
-	// 이름 바꾸기
-	CPokemonData::POKEMONDATA_DESC desc = dynamic_cast<CPokemonData*>(pPokemonData)->Get_PokemonDesc(pokemonNo);
-	m_TextParts.at(0)->Set_Text(desc.name);
+	if (false == m_TextParts.empty())
+	{
+		// 이름 바꾸기
+		CPokemonData::POKEMONDATA_DESC desc = dynamic_cast<CPokemonData*>(pPokemonData)->Get_PokemonDesc(pokemonNo);
+		m_TextParts.at(0)->Set_Text(desc.name);
+	}
 
 	// 아이콘 바꾸기
 	wstring textureProtoType = L"Prototype_Component_Texture_Pokemon_Icon_M";
 	textureProtoType.append(to_wstring(pokemonNo));
-	if (FAILED(m_TextureParts.at(0)->Change_Texture(textureProtoType.c_str())))
+	if (FAILED(m_TextureParts.at(pokemonIconIndex)->Change_Texture(textureProtoType.c_str())))
 		return E_FAIL;
 
 	return S_OK;

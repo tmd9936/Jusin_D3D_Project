@@ -5,6 +5,8 @@
 
 BEGIN(Client)
 
+class CGoToMonStateButton;
+
 class CLevel_PokemonState final : public CLevel
 {
 private:

@@ -295,6 +295,12 @@
     <Filter Include="02. GameObject\Static\PokemonInfoUI">
       <UniqueIdentifier>{8b2bc694-7ae6-446a-9fe2-fecec5aeefce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\Static\PokemonSkillStoneUI">
+      <UniqueIdentifier>{5e9ab573-8115-4ea3-8c40-54ff17d15429}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\PokemonInfo">
+      <UniqueIdentifier>{a2219e27-b01b-4403-bc9b-312762477679}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -581,6 +587,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\PokemonInfoUI.h">
       <Filter>02. GameObject\Static\PokemonInfoUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PokemonSkillStoneUI.h">
+      <Filter>02. GameObject\Static\PokemonSkillStoneUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -869,6 +878,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\PokemonInfoUI.cpp">
       <Filter>02. GameObject\Static\PokemonInfoUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PokemonSkillStoneUI.cpp">
+      <Filter>02. GameObject\Static\PokemonSkillStoneUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

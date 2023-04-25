@@ -23,6 +23,9 @@ protected:
     virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override;
     virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath) override;
 
+public:
+    HRESULT Change_MosnterNumber(const _uint& pokemonIndex, const _uint& pokemonIconIndex);
+
 protected:
     virtual _uint On_Idle() override;
     virtual _uint On_Press() override;
@@ -35,7 +38,7 @@ protected:
 
 protected:
     HRESULT Get_PokemonNumber(_uint& out, const _uint& pokemonIndex);
-    HRESULT Init_Monster_Info();
+    HRESULT Init_Monster_Info(_uint pokemonIconIndex = 0);
 
 private:
     MONSTATEBUTTON_DESC  m_MonStateButtonDesc = {};
