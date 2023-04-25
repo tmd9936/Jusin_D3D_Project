@@ -91,6 +91,7 @@
 #include "Pokering.h"
 
 #include "PokemonInfoUI.h"
+#include "GoToBackLevelButton.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
@@ -1949,6 +1950,14 @@ HRESULT CLoader::Loading_ForPokemonStateLevel()
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_window_HP_icon"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Window/window_HP_icon.dds")))))
+			return E_FAIL;
+	}
+
+	wsprintf(m_szLoadingText, TEXT("객체 원형 로딩중."));
+	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_POKEMONSTATE))
+	{
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_GoToBackLevelButton"),
+			CGoToBackLevelButton::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 	}
 

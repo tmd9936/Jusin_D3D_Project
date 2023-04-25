@@ -301,6 +301,9 @@
     <Filter Include="02. GameObject\PokemonInfo">
       <UniqueIdentifier>{a2219e27-b01b-4403-bc9b-312762477679}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\PokemonInfo\GoToBackLevelButton">
+      <UniqueIdentifier>{d24e3089-f984-42a5-b18a-10c0e4c12944}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -590,6 +593,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\PokemonSkillStoneUI.h">
       <Filter>02. GameObject\Static\PokemonSkillStoneUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\GoToBackLevelButton.h">
+      <Filter>02. GameObject\PokemonInfo\GoToBackLevelButton</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -881,6 +887,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\PokemonSkillStoneUI.cpp">
       <Filter>02. GameObject\Static\PokemonSkillStoneUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\GoToBackLevelButton.cpp">
+      <Filter>02. GameObject\PokemonInfo\GoToBackLevelButton</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

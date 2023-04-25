@@ -16,6 +16,8 @@
 
 #include "AnimEnv.h"
 
+#include "GoToBackLevelButton.h"
+
 CLevel_BaseCamp::CLevel_BaseCamp(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
 {
@@ -24,6 +26,8 @@ CLevel_BaseCamp::CLevel_BaseCamp(ID3D11Device* pDevice, ID3D11DeviceContext* pCo
 
 HRESULT CLevel_BaseCamp::Initialize()
 {
+	CGoToBackLevelButton::Set_BackLevel(LEVEL_BASECAMP);
+
 	CGameInstance::GetInstance()->StopAll();
 	CGameInstance::GetInstance()->PlayBGM(TEXT("BGM_BaseCamp.ogg"));
 

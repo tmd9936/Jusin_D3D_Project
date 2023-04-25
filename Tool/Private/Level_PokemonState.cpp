@@ -52,6 +52,9 @@ HRESULT CLevel_PokemonState::Ready_Layer_UI(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_Layer(LEVEL_POKEMONSTATE, pLayerTag)))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GoToBackLevelButton"), LEVEL_POKEMONSTATE, pLayerTag, L"GoToBackLevelButton", "../../Reference/Resources/Data/Scene/PokemonInfo/Button/GoToBackLevelButton.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
 	CPokemonInfoUI* pPokemonInfoUI = nullptr;
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PokemonInfoUI"), LEVEL_POKEMONSTATE, pLayerTag, (CGameObject**)&pPokemonInfoUI, L"PokemonInfoUI", "../../Reference/Resources/Data/Scene/PokemonInfo/PokemonInfoUI.json", CLONE_FILEPATH)))
 		return E_FAIL;
