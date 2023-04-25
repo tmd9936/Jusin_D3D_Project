@@ -7,6 +7,7 @@
 #include "PartText.h"
 #include "PartTexture.h"
 
+#include "Skill_Manager.h"
 
 CSkillInfoUI::CSkillInfoUI(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
@@ -50,6 +51,22 @@ HRESULT CSkillInfoUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, con
 
 HRESULT CSkillInfoUI::Change_SkillIcon(const _uint& skillIndex)
 {
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	CGameObject* pGameObject = pGameInstance->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"Skill_Manager");
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	CSkill_Manager* pSkill_Manager = dynamic_cast<CSkill_Manager*>(pGameObject);
+	if (nullptr == pSkill_Manager)
+		return E_FAIL;
+
+	CSkill::SKILL_DESC skillDesc = pSkill_Manager->Get_Skill_Desc(skillIndex);
+	wstring prototypeTag = L"Prototype_Component_Texture_button_skill_" + skillDesc.m_iconPath;
+
+	if (FAILED(m_TextureParts.at(m_skillTextureIndex)->Change_Texture(prototypeTag.c_str())))
+		return E_FAIL;
+
 	return S_OK;
 }
 

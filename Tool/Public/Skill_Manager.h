@@ -67,6 +67,14 @@ public:
 		depend_Datas = m_Skill_Depend_Datas;
 	}
 
+public:
+	const CSkill::SKILL_DESC Get_Skill_Desc(const _uint& skillIndex) const {
+		if (skillIndex >= m_Skill_Desc_Datas.size())
+			return CSkill::SKILL_DESC();
+
+		return 	m_Skill_Desc_Datas.at(skillIndex);
+	}
+
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
 	virtual _bool			Load_By_JsonFile_Impl(Document& doc);

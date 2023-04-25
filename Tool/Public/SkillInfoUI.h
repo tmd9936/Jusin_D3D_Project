@@ -3,7 +3,7 @@
 
 BEGIN(Client)
 
-class CPokemonData;
+class CSkill_Manager;
 
 class CSkillInfoUI :
 	public CUI
