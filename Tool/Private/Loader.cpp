@@ -1961,6 +1961,11 @@ HRESULT CLoader::Loading_ForPokemonStateLevel()
 			return E_FAIL;
 	}
 
+	for (_uint i = 0; i < 99999999; ++i)
+	{
+		int a = 10;
+	}
+
 	wsprintf(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 	m_isFinished = true;
 
