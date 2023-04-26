@@ -39,6 +39,8 @@ private:
 	STATE			m_eCurState = { STATE_END };
 	STATE			m_ePreState = { STATE_END };
 
+	STONE_EQUIP_TYPE m_stoneEquipType = { STONE_EQUIP_TYPE::TYPE_ATK };
+
 public:
 	static CStone* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) override;

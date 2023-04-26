@@ -87,6 +87,10 @@ public:
 		return m_UIDesc.m_Progress;
 	}
 
+	UI_Desc	Get_UIDesc() const {
+		return m_UIDesc;
+	}
+
 private:
 	CTransform*			m_pTransformCom = { nullptr };
 	CRenderer*			m_pRendererCom = { nullptr };

@@ -22,6 +22,9 @@ public:
 	HRESULT				Init_PokemonData(const _uint& nowMonsterNumber);
 
 private:
+	HRESULT				Init_StoneDates();
+
+private:
 	HRESULT				Get_PokemonData();
 	HRESULT				Get_NowMonsterData();
 

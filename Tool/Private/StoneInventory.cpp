@@ -71,6 +71,11 @@ HRESULT CStoneInventory::Init_PokemonData(const _uint& nowMonsterNumber)
 	return S_OK;
 }
 
+HRESULT CStoneInventory::Init_StoneDates()
+{
+	return S_OK;
+}
+
 HRESULT CStoneInventory::Get_PokemonData()
 {
 	//if (m_TextParts.empty() || m_TextureParts.empty())
@@ -225,6 +230,55 @@ _bool CStoneInventory::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorT
 		m_TextureProtoTypeName.SetString(TextureProtoTypeName.c_str(), (SizeType)TextureProtoTypeName.size(), allocator);
 		UIDesc.AddMember("m_TextureProtoTypeName", m_TextureProtoTypeName, allocator);
 
+		Value TextureParts(kArrayType);
+		for (auto& iter : m_TextureParts)
+		{
+			Value Parts(kObjectType);
+			{
+				CPartTexture::UI_DESC desc = iter->Get_UIDesc();
+
+				Parts.AddMember("m_fSizeX", desc.m_fSizeX, allocator);
+				Parts.AddMember("m_fSizeY", desc.m_fSizeY, allocator);
+				Parts.AddMember("m_fX", desc.m_fX, allocator);
+				Parts.AddMember("m_fY", desc.m_fY, allocator);
+
+				Parts.AddMember("m_TextureProtoTypeLevel", desc.m_TextureProtoTypeLevel, allocator);
+				Parts.AddMember("m_UIType", desc.m_eType, allocator);
+
+				Value m_vColor(kObjectType);
+				{
+					m_vColor.AddMember("x", desc.m_vColor.x, allocator);
+					m_vColor.AddMember("y", desc.m_vColor.y, allocator);
+					m_vColor.AddMember("z", desc.m_vColor.z, allocator);
+					m_vColor.AddMember("w", desc.m_vColor.w, allocator);
+				}
+				Parts.AddMember("m_vColor", m_vColor, allocator);
+
+				wstring wTextureProtoTypeName = desc.m_TextureProtoTypeName;
+				string textureProtoTypeName = convert.to_bytes(wTextureProtoTypeName);
+				Parts.AddMember("m_TextureProtoTypeName", Value().SetString(StringRef(textureProtoTypeName.c_str())), allocator);
+
+				string layerTag = convert.to_bytes(Get_LayerTag());
+				Parts.AddMember("LayerTag", Value().SetString(StringRef(layerTag.c_str())), allocator);
+
+				Parts.AddMember("m_ShaderPass", desc.m_ShaderPass, allocator);
+			}
+
+			TextureParts.PushBack(Parts, allocator);
+		}
+		UIDesc.AddMember("m_TextureParts", TextureParts, allocator);
+
+		Value TextParts(kArrayType);
+		for (auto& iter : m_TextParts)
+		{
+			Value Parts(kObjectType);
+			{
+
+			}
+
+			TextParts.PushBack(Parts, allocator);
+		}
+		UIDesc.AddMember("m_TextParts", TextParts, allocator);
 	}
 	doc.AddMember("UIDesc", UIDesc, allocator);
 

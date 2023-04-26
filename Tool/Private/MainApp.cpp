@@ -336,10 +336,10 @@ HRESULT CMainApp::Ready_GameObject_For_Static()
 
 HRESULT CMainApp::Ready_Fonts()
 {
-	if (FAILED(m_pGameInstance->Add_Font(m_pDevice, m_pContext, TEXT("Font_NanumBarunGothic"), TEXT("../../Reference/Resources/Fonts/nanumBarunGothic.spritefont"))))
+	if (FAILED(m_pGameInstance->Add_Font(m_pDevice, m_pContext, TEXT("Font_NanumBarunGothic"), TEXT("../../Reference/Resources/Fonts/dovemayouGothic.spritefont"))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Font(m_pDevice, m_pContext, TEXT("Font_NanumBarunGothicBold"), TEXT("../../Reference/Resources/Fonts/nanumBarunGothicBold.spritefont"))))
+	if (FAILED(m_pGameInstance->Add_Font(m_pDevice, m_pContext, TEXT("Font_NanumBarunGothicBold"), TEXT("../../Reference/Resources/Fonts/dovemayouGothic.spritefont"))))
 		return E_FAIL;
 
 	return S_OK;
