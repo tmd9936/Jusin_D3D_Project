@@ -66,9 +66,9 @@ _uint CStoneEquipInfoUI::Tick(_double TimeDelta)
 
 _uint CStoneEquipInfoUI::LateTick(_double TimeDelta)
 {
-	if (m_SkillInfoUI_Desc.pParent)
+	if (m_StoneEquipUI_Desc.pParent)
 	{
-		_matrix parent = m_SkillInfoUI_Desc.pParent->Get_WorldMatrix_Matrix();
+		_matrix parent = m_StoneEquipUI_Desc.pParent->Get_WorldMatrix_Matrix();
 		REMOVE_SCALE(parent);
 
 		XMStoreFloat4x4(&m_FinalWorldMatrix, XMMatrixSet(
@@ -269,5 +269,5 @@ void CStoneEquipInfoUI::Free()
 {
 	__super::Free();
 
-	Safe_Release(m_SkillInfoUI_Desc.pParent);
+	Safe_Release(m_StoneEquipUI_Desc.pParent);
 }

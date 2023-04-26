@@ -320,6 +320,8 @@ _bool CStoneInventory::Load_By_JsonFile_Impl(Document& doc)
 		_float3 texturePosition = m_TextureParts[stoneIndex]->Get_FinalWorldMatrixPosition();
 		pStoneTransform->Set_Pos(texturePosition.x + 5.f, texturePosition.y - 5.f, texturePosition.z);
 
+		m_TextureParts[stoneIndex]->Change_Texture(L"Prototype_Component_Texture_Rectangle_Base");
+
 		m_stones[stoneIndex] = pStone;
 	}
 

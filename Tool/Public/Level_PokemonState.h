@@ -20,7 +20,12 @@ public:
 public:
 	static void Set_PokemonNumber(const _uint& number);
 
+	static _uint Get_PokemonNumber() {
+		return m_PokemonNumber;
+	}
+
 private: 
+	HRESULT Ready_Layer_Manager(const _tchar* pLayerTag);
 	HRESULT Ready_Layer_UI(const _tchar* pLayerTag);
 
 private:

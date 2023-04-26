@@ -37,9 +37,9 @@ public:
 
 public:
 	void						Set_ParentTransform(CTransform* pTransform) {
-		Safe_Release(m_SkillInfoUI_Desc.pParent);
-		m_SkillInfoUI_Desc.pParent = pTransform;
-		Safe_AddRef(m_SkillInfoUI_Desc.pParent);
+		Safe_Release(m_StoneEquipUI_Desc.pParent);
+		m_StoneEquipUI_Desc.pParent = pTransform;
+		Safe_AddRef(m_StoneEquipUI_Desc.pParent);
 	}
 
 public:
@@ -51,7 +51,7 @@ protected:
 	virtual HRESULT				SetUp_ShaderResources() override;
 
 private:
-	STONEEQUIP_INFO_UI_DESC		m_SkillInfoUI_Desc = {};
+	STONEEQUIP_INFO_UI_DESC		m_StoneEquipUI_Desc = {};
 
 private:
 	_float4x4					m_FinalWorldMatrix; /* 원점기준 (내 월드 * 부모월드) */

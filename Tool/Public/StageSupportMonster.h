@@ -51,7 +51,7 @@ protected:
 	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
 
 protected:
-	virtual		HRESULT		Load_By_Json_PreAddComponents() override;
+	virtual	HRESULT			Load_By_Json_PreAddComponents() override;
 
 private:
 	void					AI_Type_Long_Idle_Tick(const _double& TimeDelta, CTransform* pTargetTransform);

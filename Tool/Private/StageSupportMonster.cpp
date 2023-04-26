@@ -6,10 +6,6 @@
 #include "Searcher.h"
 #include "Utility.h"
 
-/*
-파티몬스터 포메이션 테스트하기
-이후 버프 디버프 테스트 하기
-*/
 
 CStageSupportMonster::CStageSupportMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CMonster(pDevice, pContext)

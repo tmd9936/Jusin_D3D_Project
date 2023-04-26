@@ -99,6 +99,8 @@
 
 #include "Stone.h"
 
+#include "PokemonState_Manager.h"
+
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
 	, m_pContext(pContext)
@@ -2056,6 +2058,10 @@ HRESULT CLoader::Loading_ForPokemonStateLevel()
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_POKEMONSTATE, TEXT("Prototype_Component_Navigation"),
+		CNavigation::Create(m_pDevice, m_pContext, "../../Reference/Resources/Data/NavMask/BaseCamp/nav.json"))))
+		return E_FAIL;
+
 	wsprintf(m_szLoadingText, TEXT("텍스쳐 로딩중."));
 	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_POKEMONSTATE))
 	{
@@ -2073,6 +2079,10 @@ HRESULT CLoader::Loading_ForPokemonStateLevel()
 	{
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_GoToBackLevelButton"),
 			CGoToBackLevelButton::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_PokemonState_Manager"),
+			CPokemonState_Manager::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 	}
 

@@ -135,15 +135,22 @@ HRESULT CPokemonSkillStoneUI::Get_NowMonsterData()
 			CSkillInfoUI* pSkillInfoUI = nullptr;
 
 			char path[MAX_PATH] = {};
+			wstring objectNameTag;
 			if (i == 0)
+			{
 				strcpy(path, "../../Reference/Resources/Data/Scene/PokemonInfo/SkillStoneUI/SkillInfoUI01.json");
+				objectNameTag = L"SkillInfoUI01";
+			}
 			else if (i == 1)
+			{
 				strcpy(path, "../../Reference/Resources/Data/Scene/PokemonInfo/SkillStoneUI/SkillInfoUI02.json");
+				objectNameTag = L"SkillInfoUI02";
+			}
 			else
 				break;
 
 			if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_SkillInfoUI"), Get_Levelindex(), Get_LayerTag().c_str(), 
-				(CGameObject**)&pSkillInfoUI, nullptr, path, CLONE_FILEPATH)))
+				(CGameObject**)&pSkillInfoUI, objectNameTag.c_str(), path, CLONE_FILEPATH)))
 				return E_FAIL;
 			if (nullptr == pSkillInfoUI)
 				return E_FAIL;
@@ -171,7 +178,7 @@ HRESULT CPokemonSkillStoneUI::Get_NowMonsterData()
 		}
 
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StoneEquipInfoUI"), Get_Levelindex(), Get_LayerTag().c_str(),
-			(CGameObject**)&m_pStoneEquipInfoUI, nullptr, "../../Reference/Resources/Data/Scene/PokemonInfo/SkillStoneUI/StoneEquipInfoUI.json", CLONE_FILEPATH)))
+			(CGameObject**)&m_pStoneEquipInfoUI, L"StoneEquipInfoUI", "../../Reference/Resources/Data/Scene/PokemonInfo/SkillStoneUI/StoneEquipInfoUI.json", CLONE_FILEPATH)))
 			return E_FAIL;
 		if (nullptr == m_pStoneEquipInfoUI)
 			return E_FAIL;

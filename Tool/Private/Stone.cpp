@@ -100,7 +100,6 @@ HRESULT CStone::Init_Text(const STONE_DESC& stoneDesc)
 	CPartText::TEXT_DESC partTextDesc{};
 
 	partTextDesc.pParent = m_pTransformCom;
-	Safe_AddRef(partTextDesc.pParent);
 
 	partTextDesc.m_fX = 10.f;
 	partTextDesc.m_fY = 28.5f;
@@ -170,7 +169,7 @@ HRESULT CStone::Init_MaskTexture(const STONE_DESC& stoneDesc)
 	if (nullptr == pTexturePart)
 		return E_FAIL;
 
-	if (stoneDesc.m_eCurState == STATE_IN_INVENTORY_EQUIP)
+	if (stoneDesc.m_eCurState == STATE_EQUIP_ON_INVENTORY)
 	{
 		pTexturePart->Set_RenderId(RENDER_UI);
 	}
@@ -208,7 +207,7 @@ HRESULT CStone::Init_PokemonIconTexture(const STONE_DESC& stoneDesc)
 	if (nullptr == pTexturePart)
 		return E_FAIL;
 
-	if (stoneDesc.m_eCurState == STATE_IN_INVENTORY_EQUIP)
+	if (stoneDesc.m_eCurState == STATE_EQUIP_ON_INVENTORY)
 	{
 		pTexturePart->Set_RenderId(RENDER_UI);
 	}
@@ -236,13 +235,15 @@ void CStone::Change_State()
 	{
 		switch (m_Desc.m_eCurState)
 		{
-		case STATE_IN_INVENTORY_NO_EQUIP:
+		case STATE_NO_EQUIP_ON_INVENTORY:
 			break;
-		case STATE_IN_INVENTORY_EQUIP:
+		case STATE_EQUIP_ON_INVENTORY:
 			break;
-		case STATE_PICKING:
+		case STATE_PICKING_ON_INVENTORY:
 			break;
-		case STATE_IN_EQUIPINFO:
+		case STATE_EQUIP_ON_EQUIPINFO:
+			break;
+		case STATE_SHOW_ON_INFO_UI:
 			break;
 		}
 
@@ -254,13 +255,15 @@ void CStone::State_Tick(const _double& TimeDelta)
 {
 	switch (m_Desc.m_eCurState)
 	{
-	case STATE_IN_INVENTORY_NO_EQUIP:
+	case STATE_NO_EQUIP_ON_INVENTORY:
 		break;
-	case STATE_IN_INVENTORY_EQUIP:
+	case STATE_EQUIP_ON_INVENTORY:
 		break;
-	case STATE_PICKING:
+	case STATE_PICKING_ON_INVENTORY:
 		break;
-	case STATE_IN_EQUIPINFO:
+	case STATE_EQUIP_ON_EQUIPINFO:
+		break;
+	case STATE_SHOW_ON_INFO_UI:
 		break;
 	}
 }
@@ -308,5 +311,6 @@ CGameObject* CStone::Clone(const _tchar* pLayerTag, _uint iLevelIndex, const cha
 void CStone::Free()
 {
 	__super::Free();
+
 	Safe_Release(m_Desc.pParent);
 }

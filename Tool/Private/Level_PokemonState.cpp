@@ -11,6 +11,7 @@
 
 #include "GoToMonStateButton.h"
 #include "StoneInventory.h"
+#include "PokemonState_Manager.h"
 
 // 포켓몬 버튼 누르면 이거 번호 변경시키기
 _uint CLevel_PokemonState::m_PokemonNumber = 1;
@@ -29,6 +30,9 @@ HRESULT CLevel_PokemonState::Initialize()
 	if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_Manager(TEXT("Layer_Manager"))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -37,14 +41,42 @@ void CLevel_PokemonState::Tick(_double TimeDelta)
 #ifdef _DEBUG
 	SetWindowText(g_hWnd, TEXT("포켓몬 상태 레벨"));
 #endif
-
-}
+	}
 
 void CLevel_PokemonState::Set_PokemonNumber(const _uint& number)
 {
 	m_PokemonNumber = number;
 }
 
+
+HRESULT CLevel_PokemonState::Ready_Layer_Manager(const _tchar* pLayerTag)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_POKEMONSTATE, L"Layer_BuffState")))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_POKEMONSTATE, L"Layer_PlayerSearcher")))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_POKEMONSTATE, L"Layer_Player")))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_POKEMONSTATE, pLayerTag)))
+		return E_FAIL;
+
+	CPokemonState_Manager* pPokemonState_Manager = nullptr;
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PokemonState_Manager"), LEVEL_POKEMONSTATE, pLayerTag, (CGameObject**)&pPokemonState_Manager,
+		L"PokemonState_Manager", "../../Reference/Resources/Data/Scene/PokemonInfo/PokemonState_Manager.json", CLONE_FILEPATH)))
+		return E_FAIL;
+	if (FAILED(pPokemonState_Manager->Init_NowMonster(m_PokemonNumber)))
+		return E_FAIL;
+	Safe_Release(pPokemonState_Manager);
+
+	Safe_Release(pGameInstance);
+	return S_OK;
+}
 
 HRESULT CLevel_PokemonState::Ready_Layer_UI(const _tchar* pLayerTag)
 {

@@ -316,6 +316,9 @@
     <Filter Include="02. GameObject\Static\Stone">
       <UniqueIdentifier>{54af381d-3a69-4069-8ba1-0b5cac8321d3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\PokemonInfo\PokemonState_Manager">
+      <UniqueIdentifier>{60c30a4e-9b55-4401-a2ff-71fbd5e669a4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -620,6 +623,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Stone.h">
       <Filter>02. GameObject\Static\Stone</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PokemonState_Manager.h">
+      <Filter>02. GameObject\PokemonInfo\PokemonState_Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -926,6 +932,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Stone.cpp">
       <Filter>02. GameObject\Static\Stone</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PokemonState_Manager.cpp">
+      <Filter>02. GameObject\PokemonInfo\PokemonState_Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
