@@ -122,12 +122,12 @@ public:
 		return m_SkillCoolTime;
 	}
 
-	void			Do_Skill_By_Index(_uint skillindex, const _tchar* pLayer);
+	void					Do_Skill_By_Index(_uint skillindex, const _tchar* pLayer);
 
 public:
-	CBuffState*		Search_NoAction_DeBuffState(const _uint& buffType);
-	_bool			Is_AbNormalState(const _uint& buffType);
-	_bool			Check_Monster_Can_GetAbNormalState(const _uint& buffType);
+	CBuffState*				Search_NoAction_DeBuffState(const _uint& buffType);
+	_bool					Is_AbNormalState(const _uint& buffType);
+	_bool					Check_Monster_Can_GetAbNormalState(const _uint& buffType);
 
 
 protected:
@@ -135,41 +135,41 @@ protected:
 	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
 
 protected:
-	virtual		HRESULT		Load_By_Json_PreAddComponents();
+	virtual	HRESULT			Load_By_Json_PreAddComponents();
 
 protected:
-	virtual HRESULT Add_MotionState();
-	virtual	HRESULT Add_TransitionRandomState() { return S_OK; }
-	virtual	_uint	State_Tick(const _double& TimeDelta) PURE;
+	virtual HRESULT			Add_MotionState();
+	virtual	HRESULT			Add_TransitionRandomState() { return S_OK; }
+	virtual	_uint			State_Tick(const _double& TimeDelta) PURE;
 
 protected:
-	HRESULT	Add_HpBar();
-	HRESULT Add_BuffState();
-	HRESULT	Add_Searcher();
-	HRESULT Add_DamageText();
+	HRESULT					Add_HpBar();
+	HRESULT					Add_BuffState();
+	HRESULT					Add_Searcher();
+	HRESULT					Add_DamageText();
 
-	_bool	Do_Skill(_uint skillType, CMonFSM::MONSTER_STATE eMotion, const _tchar* pLayer);
-	_bool	Do_Skill(_uint skillType, const _tchar* pLayer);
+	_bool					Do_Skill(_uint skillType, CMonFSM::MONSTER_STATE eMotion, const _tchar* pLayer);
+	_bool					Do_Skill(_uint skillType, const _tchar* pLayer);
 
-	void	Do_Skill_After_Set_Motion(_uint skillType, const _tchar* pLayer);
-
-protected:
-	void	CoolTimeCheck(const _double& TimeDelta);
-	void	HitTimeCheck(const _double& TimeDelta);
-	void	HitCheck();
+	void					Do_Skill_After_Set_Motion(_uint skillType, const _tchar* pLayer);
 
 protected:
-	_bool	Search_Target();
-	void	SkillCoolTime_Start();
+	void					CoolTimeCheck(const _double& TimeDelta);
+	void					HitTimeCheck(const _double& TimeDelta);
+	void					HitCheck();
 
 protected:
-	CBuffState* Search_NoAction_BuffState(const _uint& skillType);
+	_bool					Search_Target();
+	void					SkillCoolTime_Start();
 
 protected:
-	virtual HRESULT Add_Components();
-	virtual HRESULT Add_Components_By_File();
+	CBuffState*				Search_NoAction_BuffState(const _uint& skillType);
 
-	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 던진다. */
+protected:
+	virtual HRESULT			Add_Components();
+	virtual HRESULT			Add_Components_By_File();
+
+	HRESULT					SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 던진다. */
 
 protected:
 	CTransform*				m_pTransformCom = { nullptr };

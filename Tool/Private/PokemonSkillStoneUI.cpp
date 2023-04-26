@@ -8,6 +8,7 @@
 #include "PartTexture.h"
 
 #include "PokemonData.h"
+#include "SkillInfoUI.h"
 
 CPokemonSkillStoneUI::CPokemonSkillStoneUI(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
@@ -55,7 +56,7 @@ HRESULT CPokemonSkillStoneUI::Init_PokemonData(const _uint& nowMonsterNumber)
 	if (nowMonsterNumber == 0 || nowMonsterNumber > 3)
 		return E_FAIL;
 
-	//m_PokemonInfo_Desc.m_nowMonsterNumber = nowMonsterNumber;
+	m_PokemonSkillStone_Desc.m_nowMonsterNumber = nowMonsterNumber;
 
 	if (FAILED(Get_NowMonsterData()))
 		return E_FAIL;
@@ -92,53 +93,53 @@ HRESULT CPokemonSkillStoneUI::Get_PokemonData()
 
 HRESULT CPokemonSkillStoneUI::Get_NowMonsterData()
 {
-	//std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
+	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
 
-	//string path = "../../Reference/Resources/Data/Database/NowMonster/NowPartyMonster";
+	string path = "../../Reference/Resources/Data/Database/NowMonster/NowPartyMonster";
 
-	//path.append(to_string(m_PokemonInfo_Desc.m_nowMonsterNumber));
-	//path.append(".json");
+	path.append(to_string(m_PokemonSkillStone_Desc.m_nowMonsterNumber));
+	path.append(".json");
 
-	//FILE* fp = fopen(path.c_str(), "rb"); // non-Windows use "r"
+	FILE* fp = fopen(path.c_str(), "rb"); // non-Windows use "r"
 
-	//if (NULL == fp)
-	//{
-	//	MSG_BOX("Load File Init_PokemonData() Error");
-	//	return E_FAIL;
-	//}
-	//else
-	//{
-	//	char* readBuffer = new char[65536];
-	//	FileReadStream is(fp, readBuffer, sizeof(readBuffer));
+	if (NULL == fp)
+	{
+		MSG_BOX("Load File Init_PokemonData() Error");
+		return E_FAIL;
+	}
+	else
+	{
+		char* readBuffer = new char[65536];
+		FileReadStream is(fp, readBuffer, sizeof(readBuffer));
 
-	//	Document doc;
-	//	doc.ParseStream(is);
+		Document doc;
+		doc.ParseStream(is);
 
-	//	if (doc.MemberCount() <= 0)
-	//	{
-	//		fclose(fp);
-	//		Safe_Delete_Array(readBuffer);
-	//		return E_FAIL;
-	//	}
+		if (doc.MemberCount() <= 0)
+		{
+			fclose(fp);
+			Safe_Delete_Array(readBuffer);
+			return E_FAIL;
+		}
 
-	//	/* 备泅何 矫累 */
-	//	const Value& PokemonDesc = doc["PokemonDesc"].GetObj();
-	//	m_PokemonInfo_Desc.m_pokemonNo = PokemonDesc["m_monsterNo"].GetUint();
-	//	m_PokemonInfo_Desc.m_pokemonHP = PokemonDesc["m_hpBasis"].GetUint();
-	//	m_PokemonInfo_Desc.m_pokemonATK = PokemonDesc["m_attackBasis"].GetInt();
-	//	m_PokemonInfo_Desc.m_pokemonLevel = PokemonDesc["m_level"].GetInt();
-	//	m_PokemonInfo_Desc.m_curExp = PokemonDesc["m_level"].GetInt();
+		/* 备泅何 矫累 */
+		const Value& PokemonDesc = doc["PokemonDesc"].GetObj();
+		const Value& skillIDs = PokemonDesc["m_skillIDs"];
 
-	//	m_TextParts.at(m_pokemonLevelTextIndex)->Set_Text(to_wstring(m_PokemonInfo_Desc.m_pokemonLevel));
-	//	m_TextParts.at(m_pokemonHPValueTextIndex)->Set_Text(to_wstring(m_PokemonInfo_Desc.m_pokemonHP));
-	//	m_TextParts.at(m_pokemonATKValueTextIndex)->Set_Text(to_wstring(m_PokemonInfo_Desc.m_pokemonATK));
+		for (SizeType i = 0; i < skillIDs.Size(); ++i)
+		{
+			if (i > 1)
+				break;
+			//m_PokemonDesc.m_skillIDs.push_back(skillIDs[i].GetInt());
 
-	//	/* 备泅何 场 */
-	//	fclose(fp);
-	//	Safe_Delete_Array(readBuffer);
+		}
 
-	//	return S_OK;
-	//}
+		/* 备泅何 场 */
+		fclose(fp);
+		Safe_Delete_Array(readBuffer);
+
+		return S_OK;
+	}
 
 	return E_FAIL;
 }

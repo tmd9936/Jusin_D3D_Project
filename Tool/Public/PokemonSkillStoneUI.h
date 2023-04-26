@@ -4,11 +4,11 @@
 BEGIN(Client)
 
 class CPokemonData;
+class CSkillInfoUI;
 
 class CPokemonSkillStoneUI :
 	public CUI
 {
-
 public:
 	typedef struct PokemonSkillStone_Desc
 	{
@@ -81,6 +81,9 @@ private:
 //private:
 	// 스킬 창 1, 2 백터로 만들고 초기화시 포켓몬 정보에 따라 가져오고 그리기
 	// 스톤 정보 UI (칸 1개당 1객체) 만들어서 현재 UI에 나타낼 포켓몬의 정보 받아와서 Initialize해주고 그리기
+
+private:
+	vector<CSkillInfoUI*>			m_skillInfoUIs;
 
 public:
 	static CPokemonSkillStoneUI* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

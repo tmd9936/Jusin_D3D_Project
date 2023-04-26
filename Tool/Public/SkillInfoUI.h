@@ -1,6 +1,10 @@
 #pragma once
 #include "UI.h"
 
+BEGIN(Engine)
+class CTransform;
+END
+
 BEGIN(Client)
 
 class CSkill_Manager;
@@ -12,6 +16,8 @@ class CSkillInfoUI :
 public:
 	typedef struct Skill_Info_UI_Desc
 	{
+		CTransform*		pParent = { nullptr }; // 기준이 되는 부모
+
 		_uint			m_skillIndex;
 		_uint			m_emuletType;
 
@@ -23,15 +29,27 @@ private:
 	virtual ~CSkillInfoUI() = default;
 
 public:
-	virtual HRESULT Initialize_Prototype() override;
-	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override;
-	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath);
+	virtual HRESULT				Initialize_Prototype() override;
+	virtual HRESULT				Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override;
+	virtual HRESULT				Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath);
 
 public:
-	HRESULT	Change_SkillIcon(const _uint& skillIndex);
+	virtual _uint				Tick(_double TimeDelta) override;
+	virtual _uint				LateTick(_double TimeDelta) override;
+	virtual HRESULT				Render() override;
+
+public:
+	HRESULT						Change_SkillIcon(const _uint& skillIndex);
+
+protected:
+	virtual HRESULT				SetUp_ShaderResources() override;
 
 private:
 	SKILLINFO_UI_DESC			m_SkillInfoUI_Desc = {};
+
+
+private:
+	_float4x4					m_FinalWorldMatrix; /* 원점기준 (내 월드 * 부모월드) */
 
 private:
 	static const _uint			m_skillBaseTextureIndex = { 0 };

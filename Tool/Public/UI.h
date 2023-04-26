@@ -59,37 +59,37 @@ public:
 	}
 
 protected:
-	CTransform* m_pTransformCom = { nullptr };
-	CRenderer* m_pRendererCom = { nullptr };
-	CShader* m_pShaderCom = { nullptr };
-	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
-	CTexture* m_pTextureCom = { nullptr };
+	CTransform*				m_pTransformCom = { nullptr };
+	CRenderer*				m_pRendererCom = { nullptr };
+	CShader*				m_pShaderCom = { nullptr };
+	CVIBuffer_Rect*			m_pVIBufferCom = { nullptr };
+	CTexture*				m_pTextureCom = { nullptr };
 
 protected:
-	UI_DESC		m_UIDesc = {};
-	_float4x4	m_ViewMatrix = {};
-	_float4x4	m_ProjMatrix = {};
+	UI_DESC					m_UIDesc = {};
+	_float4x4				m_ViewMatrix = {};
+	_float4x4				m_ProjMatrix = {};
 
 protected:
 	vector<CPartTexture*>	m_TextureParts;
 	vector<CPartText*>		m_TextParts;
 
 protected:
-	_uint		m_TextureNumber = { 0 };
+	_uint					m_TextureNumber = { 0 };
 
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
 	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
 
-	HRESULT SetUp_ShaderResources();
+protected:
+	virtual HRESULT SetUp_ShaderResources();
+
 private:
 	HRESULT Add_Components();
 	HRESULT Add_Components_By_File();
 
-
 public:
 	static CUI* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) override;
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath = nullptr);
 	virtual void Free() override;

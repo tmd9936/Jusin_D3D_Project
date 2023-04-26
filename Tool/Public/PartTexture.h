@@ -88,33 +88,30 @@ public:
 	}
 
 private:
-	CTransform* m_pTransformCom = { nullptr };
-	CRenderer* m_pRendererCom = { nullptr };
-	CShader* m_pShaderCom = { nullptr };
-	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
-	CTexture* m_pTextureCom = { nullptr };
+	CTransform*			m_pTransformCom = { nullptr };
+	CRenderer*			m_pRendererCom = { nullptr };
+	CShader*			m_pShaderCom = { nullptr };
+	CVIBuffer_Rect*		m_pVIBufferCom = { nullptr };
+	CTexture*			m_pTextureCom = { nullptr };
 
 private:
-	UI_DESC		m_UIDesc = {};
-	_float4x4	m_ViewMatrix = {};
-	_float4x4	m_ProjMatrix = {};
+	UI_DESC				m_UIDesc = {};
+	_float4x4			m_ViewMatrix = {};
+	_float4x4			m_ProjMatrix = {};
 
-	_float4x4	m_FinalWorldMatrix; /* 원점기준 (내 월드 * 부모월드) */
+	_float4x4			m_FinalWorldMatrix; /* 원점기준 (내 월드 * 부모월드) */
 
-	TYPE		m_eType = { TYPE_END };
+	TYPE				m_eType = { TYPE_END };
 
 private:
-	_uint		m_TextureNumber = { 0 };
+	_uint				m_TextureNumber = { 0 };
 
 private:
 	HRESULT Add_Components();
 	HRESULT SetUp_ShaderResources();
 
 public:
-	/* Prototype */
-	/* 원형 객체를 생성한다. */
 	static CPartTexture* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	/* 사본 객체를 생성한다. */
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) override;
 	virtual void Free() override;
 };
