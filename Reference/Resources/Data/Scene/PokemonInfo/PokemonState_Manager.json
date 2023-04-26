@@ -15,23 +15,6 @@
         "m_TextureProtoTypeLevel": 0,
         "m_TextureProtoTypeName" : "Prototype_Component_Texture_Window_Plane_Corner_Waku_Mini",
         "m_TextureParts": [
-            {
-                "m_fX": 0.0,
-                "m_fY": 0.0,
-                "m_fSizeX": 45.0,
-                "m_fSizeY": 45.0,
-                "m_eType": 0,
-                "m_ShaderPass": 2,
-                "m_vColor": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0,
-                    "w": 0.0
-                },
-                "m_TextureProtoTypeLevel": 0,
-                "m_TextureProtoTypeName": "Prototype_Component_Texture_UI_Pstone_defense",
-                "LayerTag": "Layer_UI"
-            }
         ],
         "m_TextParts": [
         ]

@@ -46,9 +46,8 @@ HRESULT CPokemonState_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelI
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, filePath)))
 		return E_FAIL;
 
-
-	//if (FAILED(Init_NowMonster()))
-	//	return E_FAIL;
+	if (FAILED(Init_PickingStone()))
+		return E_FAIL;
 
 	if (FAILED(Init_PokemonInfoUI()))
 		return E_FAIL;
@@ -94,143 +93,6 @@ HRESULT CPokemonState_Manager::Render()
 	return S_OK;
 }
 
-
-_bool CPokemonState_Manager::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator)
-{
-	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
-
-	Value UIDesc(kObjectType);
-	{
-		UIDesc.AddMember("m_fX", m_UIDesc.m_fX, allocator);
-		UIDesc.AddMember("m_fY", m_UIDesc.m_fY, allocator);
-
-		UIDesc.AddMember("m_fSizeX", m_UIDesc.m_fSizeX, allocator);
-		UIDesc.AddMember("m_fSizeY", m_UIDesc.m_fSizeY, allocator);
-		UIDesc.AddMember("m_TextureProtoTypeLevel", m_UIDesc.m_TextureProtoTypeLevel, allocator);
-		UIDesc.AddMember("m_UIType", m_UIDesc.m_UIType, allocator);
-
-		Value m_vColor(kObjectType);
-		{
-			m_vColor.AddMember("x", m_UIDesc.m_vColor.x, allocator);
-			m_vColor.AddMember("y", m_UIDesc.m_vColor.y, allocator);
-			m_vColor.AddMember("z", m_UIDesc.m_vColor.z, allocator);
-			m_vColor.AddMember("w", m_UIDesc.m_vColor.w, allocator);
-		}
-		UIDesc.AddMember("m_vColor", m_vColor, allocator);
-
-		Value m_TextureProtoTypeName;
-		string TextureProtoTypeName = convert.to_bytes(m_UIDesc.m_TextureProtoTypeName);
-		m_TextureProtoTypeName.SetString(TextureProtoTypeName.c_str(), (SizeType)TextureProtoTypeName.size(), allocator);
-		UIDesc.AddMember("m_TextureProtoTypeName", m_TextureProtoTypeName, allocator);
-
-	}
-	doc.AddMember("UIDesc", UIDesc, allocator);
-
-	return true;
-}
-
-_bool CPokemonState_Manager::Load_By_JsonFile_Impl(Document& doc)
-{
-	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
-
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-
-	Value& UIDesc = doc["UIDesc"];
-
-	m_UIDesc.m_fX = UIDesc["m_fX"].GetFloat();
-	m_UIDesc.m_fY = UIDesc["m_fY"].GetFloat();
-	m_UIDesc.m_fSizeX = UIDesc["m_fSizeX"].GetFloat();
-	m_UIDesc.m_fSizeY = UIDesc["m_fSizeY"].GetFloat();
-
-	m_UIDesc.m_TextureProtoTypeLevel = UIDesc["m_TextureProtoTypeLevel"].GetUint();
-	m_UIDesc.m_UIType = UIDesc["m_UIType"].GetUint();
-
-	const Value& m_vColor = UIDesc["m_vColor"];
-	m_UIDesc.m_vColor = _float4(m_vColor["x"].GetFloat(), m_vColor["y"].GetFloat(), m_vColor["z"].GetFloat(), m_vColor["w"].GetFloat());
-
-	string m_TextureProtoTypeName = UIDesc["m_TextureProtoTypeName"].GetString();
-
-	m_UIDesc.m_ShaderPass = UIDesc["m_ShaderPass"].GetUint();
-
-	lstrcpy(m_UIDesc.m_TextureProtoTypeName, convert.from_bytes(m_TextureProtoTypeName).c_str());
-
-	const Value& TextureParts = UIDesc["m_TextureParts"].GetArray();
-	for (SizeType i = 0; i < TextureParts.Size(); ++i)
-	{
-		CPartTexture* pTexturePart = nullptr;
-
-		CPartTexture::UI_DESC desc{};
-		desc.pParent = m_pTransformCom;
-		desc.m_fSizeX = TextureParts[i]["m_fSizeX"].GetFloat();
-		desc.m_fSizeY = TextureParts[i]["m_fSizeY"].GetFloat();
-		desc.m_fX = TextureParts[i]["m_fX"].GetFloat();
-		desc.m_fY = TextureParts[i]["m_fY"].GetFloat();
-		desc.m_TextureProtoTypeLevel = TextureParts[i]["m_TextureProtoTypeLevel"].GetUint();
-
-		desc.m_eType = TextureParts[i]["m_eType"].GetUint();
-
-		const Value& m_vPartColor = TextureParts[i]["m_vColor"];
-		desc.m_vColor = _float4(m_vPartColor["x"].GetFloat(), m_vPartColor["y"].GetFloat(), m_vPartColor["z"].GetFloat(), m_vPartColor["w"].GetFloat());
-
-		desc.m_ShaderPass = TextureParts[i]["m_ShaderPass"].GetUint();
-
-		string textureProtoTypeName = TextureParts[i]["m_TextureProtoTypeName"].GetString();
-		lstrcpy(desc.m_TextureProtoTypeName, convert.from_bytes(textureProtoTypeName).c_str());
-
-		string szLayerTag = TextureParts[i]["LayerTag"].GetString();
-		wstring layerTag = convert.from_bytes(szLayerTag);
-
-		pGameInstance->Clone_GameObject(layerTag.c_str(), m_iLevelindex, TEXT("Prototype_GameObject_PartTexture"), (CGameObject**)&pTexturePart, &desc);
-		if (nullptr == pTexturePart)
-			return false;
-
-		m_TextureParts.push_back(pTexturePart);
-	}
-
-	const Value& TextParts = UIDesc["m_TextParts"].GetArray();
-	for (SizeType i = 0; i < TextParts.Size(); ++i)
-	{
-		CPartText* pTextPart = nullptr;
-
-		CPartText::TEXT_DESC desc{};
-
-		desc.pParent = m_pTransformCom;
-		desc.m_fX = TextParts[i]["m_fX"].GetFloat();
-		desc.m_fY = TextParts[i]["m_fY"].GetFloat();
-
-		const Value& m_vPartColor = TextParts[i]["m_vColor"];
-		desc.m_vColor = _float4(m_vPartColor["x"].GetFloat(), m_vPartColor["y"].GetFloat(), m_vPartColor["z"].GetFloat(), m_vPartColor["w"].GetFloat());
-
-		desc.m_Rotation = TextParts[i]["m_Rotation"].GetFloat();
-
-		const Value& m_vRotationOrigin = TextParts[i]["m_vRotationOrigin"];
-		desc.m_vRotationOrigin = _float2(m_vRotationOrigin["x"].GetFloat(), m_vRotationOrigin["y"].GetFloat());
-
-		const Value& m_vScale = TextParts[i]["m_vScale"];
-		desc.m_vScale = _float2(m_vScale["x"].GetFloat(), m_vScale["y"].GetFloat());
-
-		string fontTag = TextParts[i]["m_FontTag"].GetString();
-		lstrcpy(desc.m_FontTag, convert.from_bytes(fontTag).c_str());
-
-		string m_Text = TextParts[i]["m_Text"].GetString();
-		lstrcpy(desc.m_Text, convert.from_bytes(m_Text).c_str());
-
-		string szLayerTag = TextParts[i]["LayerTag"].GetString();
-		_tchar layerTag[MAX_PATH];
-		lstrcpy(layerTag, convert.from_bytes(szLayerTag).c_str());
-
-		pGameInstance->Clone_GameObject(layerTag, m_iLevelindex, TEXT("Prototype_GameObject_PartText"), (CGameObject**)&pTextPart, &desc);
-		if (nullptr == pTextPart)
-			return false;
-
-		pTextPart->Set_Text(convert.from_bytes(m_Text));
-
-		m_TextParts.push_back(pTextPart);
-	}
-
-	return true;
-}
-
 HRESULT CPokemonState_Manager::Init_NowMonster(const _uint& nowMonsterNumber)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
@@ -260,6 +122,33 @@ HRESULT CPokemonState_Manager::Init_NowMonster(const _uint& nowMonsterNumber)
 	}
 
 	pGameInstance->Layer_Tick_State_Change(L"Layer_Player", LEVEL_POKEMONSTATE, false);
+
+	return S_OK;
+}
+
+HRESULT CPokemonState_Manager::Init_PickingStone()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	CStone::STONE_DESC stoneDesc{};
+
+	stoneDesc.m_eCurState = CStone::STATE_PICKING_FOLLOW_MOUSE;
+	stoneDesc.m_stoneType = CStone::TYPE_ATK;
+	stoneDesc.value = 100;
+	stoneDesc.m_pokemonIconNumber = 25;
+
+	stoneDesc.m_UIDesc.m_fSizeX = 45.f;
+	stoneDesc.m_UIDesc.m_fSizeY = 45.f;
+	stoneDesc.m_UIDesc.m_fX = 0.f;
+	stoneDesc.m_UIDesc.m_fY = 0.f;
+	stoneDesc.m_UIDesc.m_ShaderPass = 0;
+	stoneDesc.m_UIDesc.m_TextureProtoTypeLevel = 0;
+	stoneDesc.m_UIDesc.m_UIType = 0;
+	lstrcpy(stoneDesc.m_UIDesc.m_TextureProtoTypeName, L"Prototype_Component_Texture_UI_Pstone_attack");
+
+	pGameInstance->Clone_GameObject(L"Layer_UI", m_iLevelindex, TEXT("Prototype_GameObject_Stone"), (CGameObject**)&m_pPickingInfoStone, &stoneDesc);
+	if (nullptr == m_pPickingInfoStone)
+		return false;
 
 	return S_OK;
 }
@@ -447,6 +336,8 @@ CGameObject* CPokemonState_Manager::Clone(const _tchar* pLayerTag, _uint iLevelI
 void CPokemonState_Manager::Free()
 {
 	__super::Free();
+
+	Safe_Release(m_pPickingInfoStone);
 
 	Safe_Release(m_pNowMonster);
 	Safe_Release(m_pPokemonSkillStoneUI);

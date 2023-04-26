@@ -6,11 +6,7 @@
 #include "UI.h"
 
 BEGIN(Engine)
-class CVIBuffer_Rect;
-class CRenderer;
-class CShader;
-class CTexture;
-class CTransform;
+
 END
 
 BEGIN(Client)
@@ -56,11 +52,8 @@ public:
 public:
 	HRESULT							Init_NowMonster(const _uint& nowMonsterNumber);
 
-protected:
-	virtual _bool					Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
-	virtual _bool					Load_By_JsonFile_Impl(Document& doc);
-
 private:
+	HRESULT							Init_PickingStone();
 	HRESULT							Init_PokemonInfoUI();
 	HRESULT							Init_PokemonSkillStoneUI();
 	HRESULT							Init_PokemonSkillInfoUI();
@@ -79,6 +72,9 @@ private:
 	POKEMONSTATE_MANAGER_DESC		m_Desc = {};
 	POKEMONSTATE_MANAGER_STATE		m_ePreState = { MANAGER_END };
 	POKEMONSTATE_MANAGER_STATE		m_eCurState = { MANAGER_IDLE };
+
+private:
+	CStone*							m_pPickingInfoStone = { nullptr };
 
 private:
 	CMonster*						m_pNowMonster			= { nullptr };
