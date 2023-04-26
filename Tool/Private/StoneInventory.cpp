@@ -127,6 +127,12 @@ _bool CStoneInventory::Change_StoneIndex(const _uint& originIndex, const POINT& 
 				m_stones[originIndex] = m_stones[i];
 				m_stones[i] = pTemp;
 
+				m_TextureParts[i]->Change_Texture(L"Prototype_Component_Texture_Rectangle_Base");
+				if (nullptr == m_stones[originIndex])
+				{
+					m_TextureParts[originIndex]->Change_Texture(L"Prototype_Component_Texture_Window_Plane_Corner_Waku_Mini");
+				}
+
 				return true;
 			}
 		}
