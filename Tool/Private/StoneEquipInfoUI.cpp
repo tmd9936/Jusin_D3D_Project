@@ -139,6 +139,8 @@ HRESULT CStoneEquipInfoUI::Init_StoneEquipInfo(vector<STONE_EQUIP_DESC>& desc)
 		HRESULT hr = E_FAIL;
 		if (false == desc[i].m_isOpen)
 		{
+			m_TextureParts.at(i * 2 + 1)->Set_RenderId(RENDER_END);
+
 			if (STONE_EQUIP_TYPE::TYPE_ATK == desc[i].m_type)
 			{
 				hr = m_TextureParts.at(i * 2)->Change_Texture(L"Prototype_Component_Texture_window_pcharm_hibi_ATK");
@@ -151,32 +153,32 @@ HRESULT CStoneEquipInfoUI::Init_StoneEquipInfo(vector<STONE_EQUIP_DESC>& desc)
 			{
 				hr = m_TextureParts.at(i * 2)->Change_Texture(L"Prototype_Component_Texture_window_pcharm_hibi_ATKHP");
 			}
-
-			m_TextureParts.at(i * 2 + 1)->Set_RenderId(RENDER_END);
 		}
 		else
 		{
+			m_TextureParts.at(i * 2 + 1)->Set_RenderId(RENDER_UI);
+
+			hr = m_TextureParts.at(i * 2)->Change_Texture(L"Prototype_Component_Texture_window_pcharm_blank1");
+
 			if (STONE_EQUIP_TYPE::TYPE_ATK == desc[i].m_type)
 			{
-				hr = m_TextureParts.at(i * 2)->Change_Texture(L"Prototype_Component_Texture_window_pcharm_blank_ATK");
+				hr = m_TextureParts.at(i * 2 + 1)->Change_Texture(L"Prototype_Component_Texture_window_pcharm_blank_ATK");
 			}
 			else if (STONE_EQUIP_TYPE::TYPE_HP == desc[i].m_type)
 			{
-				hr = m_TextureParts.at(i * 2)->Change_Texture(L"Prototype_Component_Texture_window_pcharm_blank_HP");
+				hr = m_TextureParts.at(i * 2 + 1)->Change_Texture(L"Prototype_Component_Texture_window_pcharm_blank_HP");
 			}
 			else
 			{
-				hr = m_TextureParts.at(i * 2)->Change_Texture(L"Prototype_Component_Texture_window_pcharm_blank_ATKHP");
+				hr = m_TextureParts.at(i * 2 + 1)->Change_Texture(L"Prototype_Component_Texture_window_pcharm_blank_ATKHP");
 			}
 
-			if (STONE_EQUIP_STATE::STATE_EQUIP == desc[i].m_state)
-			{
-				m_TextureParts.at(i * 2 + 1)->Set_RenderId(RENDER_UI);
-			}
-			else
-			{
-				m_TextureParts.at(i * 2 + 1)->Set_RenderId(RENDER_END);
-			}
+			//if (STONE_EQUIP_STATE::STATE_EQUIP == desc[i].m_state)
+			//{
+			//}
+			//else
+			//{
+			//}
 		}
 
 		if (hr == E_FAIL)
