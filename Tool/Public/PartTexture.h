@@ -91,6 +91,11 @@ public:
 		return m_UIDesc;
 	}
 
+	const _float3 Get_FinalWorldMatrixPosition() const;
+
+public:
+	void	Update_FinalMatrix();
+
 private:
 	CTransform*			m_pTransformCom = { nullptr };
 	CRenderer*			m_pRendererCom = { nullptr };

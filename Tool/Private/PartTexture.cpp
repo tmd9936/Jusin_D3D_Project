@@ -49,41 +49,7 @@ _uint CPartTexture::Tick(_double TimeDelta)
 
 _uint CPartTexture::LateTick(_double TimeDelta)
 {
-	if (m_UIDesc.pParent && m_UIDesc.pParentModel)
-	{
-		_matrix parent = m_UIDesc.pParent->Get_WorldMatrix_Matrix();
-		REMOVE_SCALE(parent);
-
-		_float4x4 vParentCombinedMatrix = m_UIDesc.pParentModel->Get_CombinedTransformationMatrix_float4_4(1);
-
-		_float3 vScale = m_pTransformCom->Get_Scaled();
-		XMStoreFloat4x4(&m_FinalWorldMatrix, XMMatrixSet(
-			vScale.x, 0.f, 0.f, 0.f,
-			0.f, vScale.y, 0.f, 0.f,
-			0.f, 0.f, 1.f, 0.f,
-			m_UIDesc.m_fX, -m_UIDesc.m_fY, 0.f, 1.f
-		));
-
-		XMStoreFloat4x4(&m_FinalWorldMatrix, XMLoadFloat4x4(&m_FinalWorldMatrix) * 
-			XMMatrixScaling(vParentCombinedMatrix.m[0][0], vParentCombinedMatrix.m[1][1], 1.f) * parent);
-	}
-
-	else if (m_UIDesc.pParent && !m_UIDesc.pParentModel)
-	{
-		_matrix parent = m_UIDesc.pParent->Get_WorldMatrix_Matrix();
-		REMOVE_SCALE(parent);
-
-		_float3 vScale = m_pTransformCom->Get_Scaled();
-		XMStoreFloat4x4(&m_FinalWorldMatrix, XMMatrixSet(
-			vScale.x, 0.f, 0.f, 0.f,
-			0.f, vScale.y, 0.f, 0.f,
-			0.f, 0.f, 1.f, 0.f,
-			m_UIDesc.m_fX, -m_UIDesc.m_fY, 0.f, 1.f
-		));
-
-		XMStoreFloat4x4(&m_FinalWorldMatrix, XMLoadFloat4x4(&m_FinalWorldMatrix) *
-			  parent);
-	}
+	Update_FinalMatrix();
 
 	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
 
@@ -110,6 +76,51 @@ HRESULT CPartTexture::Change_Texture(const _tchar* prototypeTag)
 		return E_FAIL;
 
 	return S_OK;
+}
+
+const _float3 CPartTexture::Get_FinalWorldMatrixPosition() const
+{
+	_float3 result = { m_FinalWorldMatrix.m[3][0], m_FinalWorldMatrix.m[3][1], m_FinalWorldMatrix.m[3][2] };
+	return result;
+}
+
+void CPartTexture::Update_FinalMatrix()
+{
+	if (m_UIDesc.pParent && m_UIDesc.pParentModel)
+	{
+		_matrix parent = m_UIDesc.pParent->Get_WorldMatrix_Matrix();
+		REMOVE_SCALE(parent);
+
+		_float4x4 vParentCombinedMatrix = m_UIDesc.pParentModel->Get_CombinedTransformationMatrix_float4_4(1);
+
+		_float3 vScale = m_pTransformCom->Get_Scaled();
+		XMStoreFloat4x4(&m_FinalWorldMatrix, XMMatrixSet(
+			vScale.x, 0.f, 0.f, 0.f,
+			0.f, vScale.y, 0.f, 0.f,
+			0.f, 0.f, 1.f, 0.f,
+			m_UIDesc.m_fX, -m_UIDesc.m_fY, 0.f, 1.f
+		));
+
+		XMStoreFloat4x4(&m_FinalWorldMatrix, XMLoadFloat4x4(&m_FinalWorldMatrix) *
+			XMMatrixScaling(vParentCombinedMatrix.m[0][0], vParentCombinedMatrix.m[1][1], 1.f) * parent);
+	}
+
+	else if (m_UIDesc.pParent && !m_UIDesc.pParentModel)
+	{
+		_matrix parent = m_UIDesc.pParent->Get_WorldMatrix_Matrix();
+		REMOVE_SCALE(parent);
+
+		_float3 vScale = m_pTransformCom->Get_Scaled();
+		XMStoreFloat4x4(&m_FinalWorldMatrix, XMMatrixSet(
+			vScale.x, 0.f, 0.f, 0.f,
+			0.f, vScale.y, 0.f, 0.f,
+			0.f, 0.f, 1.f, 0.f,
+			m_UIDesc.m_fX, -m_UIDesc.m_fY, 0.f, 1.f
+		));
+
+		XMStoreFloat4x4(&m_FinalWorldMatrix, XMLoadFloat4x4(&m_FinalWorldMatrix) *
+			parent);
+	}
 }
 
 HRESULT CPartTexture::Add_Components()

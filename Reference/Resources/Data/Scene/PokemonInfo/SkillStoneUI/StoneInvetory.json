@@ -366,6 +366,36 @@
             }
         ],
         "m_TextParts": [
+        ],
+        "m_stones": [
+            {
+                "m_index": 0,
+                "m_eCurState": 0,
+                "m_stoneType": 0,
+                "value": 251,
+                "m_pokemonIconNumber": 25
+            },
+            {
+                "m_index": 1,
+                "m_eCurState": 0,
+                "m_stoneType": 1,
+                "value": 335,
+                "m_pokemonIconNumber": 25
+            },
+            {
+                "m_index": 2,
+                "m_eCurState": 0,
+                "m_stoneType": 1,
+                "value": 164,
+                "m_pokemonIconNumber": 25
+            },
+            {
+                "m_index": 3,
+                "m_eCurState": 0,
+                "m_stoneType": 0,
+                "value": 192,
+                "m_pokemonIconNumber": 25
+            }
         ]
     }
 }

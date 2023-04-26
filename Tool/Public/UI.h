@@ -44,19 +44,32 @@ protected:
 	virtual ~CUI() = default;
 
 public:
-	virtual HRESULT Initialize_Prototype() override; /* 원형객체의 초기화작업 */
-	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override; /* 사본객체의 초기화작업 */
-	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath);
+	virtual HRESULT			Initialize_Prototype() override; 
+	virtual HRESULT			Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override; 
+	virtual HRESULT			Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath);
 
 public:
-	virtual _uint Tick(_double TimeDelta) override;
-	virtual _uint LateTick(_double TimeDelta) override;
-	virtual HRESULT Render() override;
+	virtual _uint			Tick(_double TimeDelta) override;
+	virtual _uint			LateTick(_double TimeDelta) override;
+	virtual HRESULT			Render() override;
 
 public:
-	void	Set_Color(_float4 vColor) {
+	void					Set_Color(_float4 vColor) {
 		m_UIDesc.m_vColor = vColor;
 	}
+
+	HRESULT					Change_Texture(const _tchar* pPrototypeTag);
+
+protected:
+	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
+	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
+
+protected:
+	virtual HRESULT			SetUp_ShaderResources();
+
+private:
+	HRESULT					Add_Components();
+	HRESULT					Add_Components_By_File();
 
 protected:
 	CTransform*				m_pTransformCom = { nullptr };
@@ -76,17 +89,6 @@ protected:
 
 protected:
 	_uint					m_TextureNumber = { 0 };
-
-protected:
-	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
-	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
-
-protected:
-	virtual HRESULT SetUp_ShaderResources();
-
-private:
-	HRESULT Add_Components();
-	HRESULT Add_Components_By_File();
 
 public:
 	static CUI* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

@@ -19,14 +19,9 @@ public:
 	virtual HRESULT		Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath);
 
 public:
-	HRESULT				Init_PokemonData(const _uint& nowMonsterNumber);
-
-private:
-	HRESULT				Init_StoneDates();
-
-private:
-	HRESULT				Get_PokemonData();
-	HRESULT				Get_NowMonsterData();
+	virtual _uint			Tick(_double TimeDelta) override;
+	virtual _uint			LateTick(_double TimeDelta) override;
+	virtual HRESULT			Render() override;
 
 protected:
 	virtual _bool		Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);

@@ -127,6 +127,16 @@ HRESULT CUI::Render()
 	return S_OK;
 }
 
+HRESULT CUI::Change_Texture(const _tchar* pPrototypeTag)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	if (FAILED(pGameInstance->Change_Component(CTexture::familyId, this, LEVEL_STATIC, pPrototypeTag, (CComponent**)&m_pTextureCom, nullptr)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 _bool CUI::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator)
 {
 	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;

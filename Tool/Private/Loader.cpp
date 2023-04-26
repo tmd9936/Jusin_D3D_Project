@@ -97,6 +97,8 @@
 #include "StoneEquipInfoUI.h"
 #include "StoneInventory.h"
 
+#include "Stone.h"
+
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
 	, m_pContext(pContext)
@@ -1522,6 +1524,14 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Window/window_pcharm_pipe_skill.dds")))))
 			return E_FAIL;
 
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_UI_Pstone_attack"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Pstone/UI_Pstone_attack_3_4.dds")))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_UI_Pstone_defense"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Pstone/UI_Pstone_defense_3_4.dds")))))
+			return E_FAIL;
+
 	}
 
 
@@ -1794,6 +1804,10 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_StoneInventory"),
 			CStoneInventory::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Stone"),
+			CStone::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 	}
 #pragma endregion

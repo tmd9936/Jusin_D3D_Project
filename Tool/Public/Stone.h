@@ -7,6 +7,14 @@ class CStone :
 	public CUI
 {
 public:
+	enum TYPE
+	{
+		TYPE_ATK,
+		TYPE_HP,
+		TYPE_END
+	};
+
+public:
 	enum STATE
 	{
 		STATE_IN_INVENTORY_NO_EQUIP,
@@ -15,6 +23,19 @@ public:
 		STATE_IN_EQUIPINFO,
 		STATE_END
 	};
+
+public:
+	typedef struct Stone_Desc
+	{
+		CTransform*		pParent = nullptr;
+		STATE			m_eCurState = { STATE_END };
+		STATE			m_ePreState = { STATE_END };
+		TYPE			m_stoneType;
+		_uint			value;
+		_uint			m_pokemonIconNumber;
+
+		UI_DESC			m_UIDesc;
+	} STONE_DESC;
 
 private:
 	explicit CStone(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -31,15 +52,27 @@ public:
 	virtual _uint LateTick(_double TimeDelta) override;
 	virtual HRESULT Render() override;
 
-private:
-	void			Change_State();
-	void			State_Tick(const _double& TimeDelta);
+public:
+	HRESULT Init_Stone(const STONE_DESC& stoneDesc);
+	HRESULT Init_Text(const STONE_DESC& stoneDesc);
+	HRESULT Init_Texture(const STONE_DESC& stoneDesc);
+	HRESULT	Init_MaskTexture(const STONE_DESC& stoneDesc);
+	HRESULT	Init_PokemonIconTexture(const STONE_DESC& stoneDesc);
+
+	void	Change_Value(const wstring& text);
+
+	void	Set_ParentTransform(CTransform* pTransform) {
+		Safe_Release(m_Desc.pParent);
+		m_Desc.pParent = pTransform;
+		Safe_AddRef(m_Desc.pParent);
+	}
 
 private:
-	STATE			m_eCurState = { STATE_END };
-	STATE			m_ePreState = { STATE_END };
+	void				Change_State();
+	void				State_Tick(const _double& TimeDelta);
 
-	STONE_EQUIP_TYPE m_stoneEquipType = { STONE_EQUIP_TYPE::TYPE_ATK };
+private:
+	STONE_DESC			m_Desc = {};
 
 public:
 	static CStone* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
