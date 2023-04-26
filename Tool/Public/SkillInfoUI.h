@@ -39,6 +39,13 @@ public:
 	virtual HRESULT				Render() override;
 
 public:
+	void						Set_ParentTransform(CTransform* pTransform) {
+		Safe_Release(m_SkillInfoUI_Desc.pParent);
+		m_SkillInfoUI_Desc.pParent = pTransform;
+		Safe_AddRef(m_SkillInfoUI_Desc.pParent);
+	}
+
+public:
 	HRESULT						Change_SkillIcon(const _uint& skillIndex);
 
 protected:

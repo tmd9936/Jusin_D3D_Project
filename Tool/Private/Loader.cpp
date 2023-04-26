@@ -93,6 +93,7 @@
 #include "PokemonInfoUI.h"
 #include "PokemonSkillStoneUI.h"
 #include "GoToBackLevelButton.h"
+#include "SkillInfoUI.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
@@ -1775,6 +1776,10 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_PokemonSkillStoneUI"),
 			CPokemonSkillStoneUI::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SkillInfoUI"),
+			CSkillInfoUI::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
 	}

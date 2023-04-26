@@ -95,6 +95,8 @@ _uint CSkillInfoUI::LateTick(_double TimeDelta)
 	{
 		part->LateTick(TimeDelta);
 	}
+
+	return _uint();
 }
 
 HRESULT CSkillInfoUI::Render()
@@ -210,4 +212,6 @@ CGameObject* CSkillInfoUI::Clone(const _tchar* pLayerTag, _uint iLevelIndex, con
 void CSkillInfoUI::Free()
 {
 	__super::Free();
+
+	Safe_Release(m_SkillInfoUI_Desc.pParent);
 }

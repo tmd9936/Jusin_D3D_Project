@@ -61,8 +61,8 @@ HRESULT CPokemonSkillStoneUI::Init_PokemonData(const _uint& nowMonsterNumber)
 	if (FAILED(Get_NowMonsterData()))
 		return E_FAIL;
 
-	if (FAILED(Get_PokemonData()))
-		return E_FAIL;
+	//if (FAILED(Get_PokemonData()))
+	//	return E_FAIL;
 
 	return S_OK;
 }
@@ -93,6 +93,8 @@ HRESULT CPokemonSkillStoneUI::Get_PokemonData()
 
 HRESULT CPokemonSkillStoneUI::Get_NowMonsterData()
 {
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
 	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
 
 	string path = "../../Reference/Resources/Data/Database/NowMonster/NowPartyMonster";
@@ -128,13 +130,32 @@ HRESULT CPokemonSkillStoneUI::Get_NowMonsterData()
 
 		for (SizeType i = 0; i < skillIDs.Size(); ++i)
 		{
-			if (i > 1)
+			_int skillIndex = skillIDs[i].GetInt();
+			CSkillInfoUI* pSkillInfoUI = nullptr;
+
+			char path[MAX_PATH] = {};
+			if (i == 0)
+				strcpy(path, "../../Reference/Resources/Data/Scene/PokemonInfo/SkillStoneUI/SkillInfoUI01.json");
+			else if (i == 1)
+				strcpy(path, "../../Reference/Resources/Data/Scene/PokemonInfo/SkillStoneUI/SkillInfoUI02.json");
+			else
 				break;
-			//m_PokemonDesc.m_skillIDs.push_back(skillIDs[i].GetInt());
 
+			if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_SkillInfoUI"), Get_Levelindex(), Get_LayerTag().c_str(), 
+				(CGameObject**)&pSkillInfoUI, nullptr, path, CLONE_FILEPATH)))
+				return E_FAIL;
+			if (nullptr == pSkillInfoUI)
+				return E_FAIL;
+
+			if (FAILED(pSkillInfoUI->Change_SkillIcon(skillIndex)))
+				return E_FAIL;
+
+			pSkillInfoUI->Set_ParentTransform(m_pTransformCom);
+
+			m_skillInfoUIs.push_back(pSkillInfoUI);
 		}
-
 		/* 구현부 끝 */
+
 		fclose(fp);
 		Safe_Delete_Array(readBuffer);
 
@@ -325,4 +346,9 @@ CGameObject* CPokemonSkillStoneUI::Clone(const _tchar* pLayerTag, _uint iLevelIn
 void CPokemonSkillStoneUI::Free()
 {
 	__super::Free();
+
+	for (auto& iter : m_skillInfoUIs)
+	{
+		Safe_Release(iter);
+	}
 }

@@ -1,22 +1,22 @@
 {
     "UIDesc": {
-        "m_fX": 210.0,
-        "m_fY": 187.0,
+        "m_fX": 80.0,
+        "m_fY": -98.0,
         "m_fSizeX": 160.5,
-        "m_fSizeY": 63.0,
+        "m_fSizeY": 50.0,
         "m_ShaderPass": 2,
         "m_UIType": 1,
         "m_vColor": {
             "x": 1.0,
             "y": 0.53333,
             "z": 0.44313,
-            "w": 0.5
+            "w": 0.0
         },
         "m_TextureProtoTypeLevel": 0,
         "m_TextureProtoTypeName" : "Prototype_Component_Texture_Rectangle_Base",
         "m_TextureParts": [
             {
-                "m_fX": -70.0,
+                "m_fX": -50.0,
                 "m_fY": 0.0,
                 "m_fSizeX": 50.0,
                 "m_fSizeY": 50.0,
@@ -33,10 +33,10 @@
                 "LayerTag": "Layer_UI"
             },
             {
-                "m_fX": -70.0,
+                "m_fX": -50.0,
                 "m_fY": 0.0,
-                "m_fSizeX": 50.0,
-                "m_fSizeY": 50.0,
+                "m_fSizeX": 43.0,
+                "m_fSizeY": 43.0,
                 "m_eType": 0,
                 "m_ShaderPass": 0,
                 "m_vColor": {
@@ -50,7 +50,7 @@
                 "LayerTag": "Layer_UI"
             },
             {
-                "m_fX": 10.0,
+                "m_fX": 16.0,
                 "m_fY": 0.0,
                 "m_fSizeX": 50.0,
                 "m_fSizeY": 50.0,
@@ -67,7 +67,7 @@
                 "LayerTag": "Layer_UI"
             },
             {
-                "m_fX": 10.0,
+                "m_fX": 16.0,
                 "m_fY": 0.0,
                 "m_fSizeX": 50.0,
                 "m_fSizeY": 50.0,
@@ -84,10 +84,10 @@
                 "LayerTag": "Layer_UI"
             },
             {
-                "m_fX": 0.0,
+                "m_fX": -15.0,
                 "m_fY": 0.0,
                 "m_fSizeX": 24.0,
-                "m_fSizeY": 24.0,
+                "m_fSizeY": 16.0,
                 "m_eType": 0,
                 "m_ShaderPass": 0,
                 "m_vColor": {
