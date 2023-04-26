@@ -80,6 +80,8 @@ _uint CPokemonState_Manager::Tick(_double TimeDelta)
 
 _uint CPokemonState_Manager::LateTick(_double TimeDelta)
 {
+	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
+
 	if (m_pPickingInfoStone)
 		m_pPickingInfoStone->LateTick(TimeDelta);
 
@@ -272,8 +274,11 @@ void CPokemonState_Manager::Change_State()
 		switch (m_eCurState)
 		{
 		case MANAGER_IDLE:
+			m_pPickingInfoStone->Set_State(CStone::STATE_NO_SHOW);
+			m_eRenderId = RENDER_END;
 			break;
 		case MANAGER_INVENTORY_STONE_PICKING:
+			m_eRenderId = RENDER_UI;
 			break;
 		}
 
@@ -283,11 +288,15 @@ void CPokemonState_Manager::Change_State()
 
 void CPokemonState_Manager::Picking()
 {
+	POINT pt{};
+	GetCursorPos(&pt);
+	ScreenToClient(g_hWnd, &pt);
+
+	m_pPickingInfoStone->Set_Pos({ (_float)pt.x - g_iWinSizeX * 0.5f, -(_float)pt.y + g_iWinSizeY * 0.5f, 0.f });
+	Set_Pos({ (_float)pt.x - g_iWinSizeX * 0.5f, -(_float)pt.y + g_iWinSizeY * 0.5f, 0.f });
+
 	if (MOUSE_TAB(MOUSE::LBTN) && CClient_Utility::Mouse_Pos_In_Platform() && m_eCurState == MANAGER_IDLE)
 	{
-		POINT pt{};
-		GetCursorPos(&pt);
-		ScreenToClient(g_hWnd, &pt);
 
 		if (m_pStoneInventory->Check_Is_In(pt))
 		{
@@ -318,6 +327,8 @@ void CPokemonState_Manager::Inventory_Stone_Picking_Tick()
 		ScreenToClient(g_hWnd, &pt);
 
 		m_pPickingInfoStone->Set_Pos({ (_float)pt.x - g_iWinSizeX * 0.5f, -(_float)pt.y + g_iWinSizeY * 0.5f, 0.f });
+
+		Set_Pos({ (_float)pt.x - g_iWinSizeX * 0.5f, -(_float)pt.y + g_iWinSizeY * 0.5f, 0.f });
 	}
 	else if (MOUSE_AWAY(MOUSE::LBTN))
 	{

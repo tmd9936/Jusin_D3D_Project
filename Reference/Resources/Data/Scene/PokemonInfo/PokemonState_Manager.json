@@ -2,8 +2,8 @@
     "UIDesc": {
         "m_fX": 0.0,
         "m_fY": 0.0,
-        "m_fSizeX": 50.0,
-        "m_fSizeY": 50.0,
+        "m_fSizeX": 60.0,
+        "m_fSizeY": 60.0,
         "m_ShaderPass": 2,
         "m_UIType": 0,
         "m_vColor": {
