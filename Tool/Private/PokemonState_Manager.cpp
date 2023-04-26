@@ -71,7 +71,6 @@ _uint CPokemonState_Manager::Tick(_double TimeDelta)
 {
 	State_Tick(TimeDelta);
 	Change_State();
-	Picking();
 
 	return _uint();
 }
@@ -149,6 +148,8 @@ HRESULT CPokemonState_Manager::Init_PickingStone()
 	pGameInstance->Clone_GameObject(L"Layer_UI", m_iLevelindex, TEXT("Prototype_GameObject_Stone"), (CGameObject**)&m_pPickingInfoStone, &stoneDesc);
 	if (nullptr == m_pPickingInfoStone)
 		return false;
+
+	m_pPickingInfoStone->Set_RenderId(RENDER_END);
 
 	return S_OK;
 }
@@ -246,7 +247,15 @@ HRESULT CPokemonState_Manager::Init_StoneInventory()
 
 void CPokemonState_Manager::State_Tick(const _double& TimeDelta)
 {
-
+	switch (m_eCurState)
+	{
+	case MANAGER_IDLE:
+		Picking();
+		break;
+	case MANAGER_PIKING_STONE:
+		ShowPickingStone();
+		break;
+	}
 
 }
 
@@ -254,6 +263,13 @@ void CPokemonState_Manager::Change_State()
 {
 	if (m_eCurState != m_ePreState)
 	{
+		switch (m_eCurState)
+		{
+		case MANAGER_IDLE:
+			break;
+		case MANAGER_PIKING_STONE:
+			break;
+		}
 
 		m_ePreState = m_eCurState;
 	}
@@ -263,11 +279,51 @@ void CPokemonState_Manager::Picking()
 {
 	if (MOUSE_TAB(MOUSE::LBTN) && CClient_Utility::Mouse_Pos_In_Platform() && m_eCurState == MANAGER_IDLE)
 	{
-		// 마우스가 인벤토리 안에 있는지 확인
-		// 존재하는 스톤칸에 있는지 확인
-		// 맞으면 피킹상태로 변환
-		// 스톤이랑 마우스 따라다니는 텍스쳐 만들기
-		// 텍스쳐 바꾸기
+		POINT pt{};
+		GetCursorPos(&pt);
+		ScreenToClient(g_hWnd, &pt);
+
+		if (m_pStoneInventory->Check_Is_In(pt))
+		{
+			// 마우스가 인벤토리 안에 있는지 확인
+			// 존재하는 스톤칸에 있는지 확인
+			// 맞으면 피킹상태로 변환
+			// 스톤이랑 마우스 따라다니는 텍스쳐 만들기
+			// 텍스쳐 바꾸기
+
+			CStone::STONE_DESC stoneDesc{};
+			if (m_pStoneInventory->Check_Exist_Stone_Is_In(stoneDesc, pt))
+			{
+				m_pPickingInfoStone->Change_StoneType(stoneDesc.m_stoneType);
+				m_pPickingInfoStone->Change_Value(to_wstring(stoneDesc.value));
+				m_pPickingInfoStone->Set_RenderId(RENDER_UI);
+				m_eCurState = MANAGER_PIKING_STONE;
+
+				// 픽킹된곳 색상변경
+			}
+		}
+	}
+}
+
+void CPokemonState_Manager::ShowPickingStone()
+{
+	if (MOUSE_HOLD(MOUSE::LBTN))
+	{
+		POINT pt{};
+		GetCursorPos(&pt);
+		ScreenToClient(g_hWnd, &pt);
+
+		CTransform* pTransform = m_pPickingInfoStone->Get_As<CTransform>();
+		pTransform->Set_PositinoX((_float)pt.x);
+		pTransform->Set_PositionY((_float)pt.y);
+	}
+	else if (MOUSE_AWAY(MOUSE::LBTN))
+	{
+		// 인벤토리안에 비어있는 다른 칸 인지 확인 (좌표 보내주고 확인)
+		// 스톤 장착칸인지?
+
+		m_pPickingInfoStone->Set_RenderId(RENDER_END);
+		m_eCurState = MANAGER_IDLE;
 	}
 }
 

@@ -25,6 +25,8 @@ public:
 
 public:
 	_bool				Check_Exist_Stone_Is_In(CStone::STONE_DESC& output);
+	_bool				Check_Exist_Stone_Is_In(CStone::STONE_DESC& output, const POINT& mousePt);
+
 
 protected:
 	virtual _bool		Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);

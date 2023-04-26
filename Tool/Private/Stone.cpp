@@ -229,6 +229,23 @@ void CStone::Change_Value(const wstring& text)
 	m_TextParts.at(0)->Set_Text(text);
 }
 
+HRESULT CStone::Change_StoneType(TYPE eType)
+{
+	m_Desc.m_stoneType = eType;
+	if (m_Desc.m_stoneType == TYPE_ATK)
+	{
+		if (FAILED(Change_Texture(L"Prototype_Component_Texture_UI_Pstone_attack")))
+			return E_FAIL;
+	}
+	else if (m_Desc.m_stoneType == TYPE_HP)
+	{
+		if (FAILED(Change_Texture(L"Prototype_Component_Texture_UI_Pstone_defense")))
+			return E_FAIL;
+	}
+
+	return S_OK;
+}
+
 void CStone::Change_State()
 {
 	if (m_Desc.m_eCurState != m_Desc.m_ePreState)

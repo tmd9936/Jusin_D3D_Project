@@ -137,6 +137,13 @@ HRESULT CUI::Change_Texture(const _tchar* pPrototypeTag)
 	return S_OK;
 }
 
+void CUI::Set_Pos(const _float3& vPos)
+{
+	m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
+	m_UIDesc.m_fX = vPos.x + g_iWinSizeX * 0.5f;
+	m_UIDesc.m_fY = -vPos.y + g_iWinSizeY * 0.5f;
+}
+
 _bool CUI::Check_Is_In()
 {
 	RECT uiRect{ LONG(m_UIDesc.m_fX - m_UIDesc.m_fSizeX * 0.5f), LONG(m_UIDesc.m_fY - m_UIDesc.m_fSizeY * 0.5f)
@@ -147,6 +154,22 @@ _bool CUI::Check_Is_In()
 	ScreenToClient(g_hWnd, &pt);
 
 	RECT mouseRect{ pt.x - m_mouseInterSize, pt.y - m_mouseInterSize, pt.x + m_mouseInterSize, pt.y + m_mouseInterSize };
+
+	RECT result{};
+	if (IntersectRect(&result, &uiRect, &mouseRect))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+_bool CUI::Check_Is_In(const POINT& mousePT)
+{
+	RECT uiRect{ LONG(m_UIDesc.m_fX - m_UIDesc.m_fSizeX * 0.5f), LONG(m_UIDesc.m_fY - m_UIDesc.m_fSizeY * 0.5f)
+,	LONG(m_UIDesc.m_fX + m_UIDesc.m_fSizeX * 0.5f),  LONG(m_UIDesc.m_fY + m_UIDesc.m_fSizeY * 0.5f) };
+
+	RECT mouseRect{ mousePT.x - m_mouseInterSize, mousePT.y - m_mouseInterSize, mousePT.x + m_mouseInterSize, mousePT.y + m_mouseInterSize };
 
 	RECT result{};
 	if (IntersectRect(&result, &uiRect, &mouseRect))

@@ -63,7 +63,10 @@ private:
 private:
 	void							State_Tick(const _double& TimeDelta);
 	void							Change_State();
+
+private:
 	void							Picking();
+	void							ShowPickingStone();
 
 private:
 	HRESULT							SetUp_ShaderResources(); 

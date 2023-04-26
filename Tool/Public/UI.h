@@ -61,7 +61,11 @@ public:
 	HRESULT					Change_Texture(const _tchar* pPrototypeTag);
 
 public:
+	void					Set_Pos(const _float3& vPos);
+
+public:
 	_bool					Check_Is_In();
+	_bool					Check_Is_In(const POINT& mousePT);
 
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
@@ -94,7 +98,7 @@ protected:
 	_uint					m_TextureNumber = { 0 };
 
 protected:
-	const LONG				m_mouseInterSize = { 5 };
+	const LONG				m_mouseInterSize = { 10 };
 
 public:
 	static CUI* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

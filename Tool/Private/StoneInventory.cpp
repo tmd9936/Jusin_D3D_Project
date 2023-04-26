@@ -75,12 +75,8 @@ _uint CStoneInventory::LateTick(_double TimeDelta)
 	{
 		if (nullptr != m_stones[i])
 		{
-			CTransform* pStoneTransform = m_stones[i]->Get_As<CTransform>();
-			if (nullptr == pStoneTransform)
-				return false;
-
 			_float3 texturePosition = m_TextureParts[i]->Get_FinalWorldMatrixPosition();
-			pStoneTransform->Set_Pos(texturePosition.x, texturePosition.y, texturePosition.z);
+			m_stones[i]->Set_Pos({ texturePosition.x, texturePosition.y, texturePosition.z });
 		}
 	}
 
@@ -100,13 +96,13 @@ HRESULT CStoneInventory::Render()
 	return __super::Render();
 }
 
-_bool CStoneInventory::Check_Exist_Stone_Is_In(CStone::STONE_DESC& output)
+_bool CStoneInventory::Check_Exist_Stone_Is_In(CStone::STONE_DESC& output, const POINT& mousePt)
 {
 	for (auto& iter : m_stones)
 	{
 		if (nullptr != iter)
 		{
-			if (iter->Check_Is_In())
+			if (iter->Check_Is_In(mousePt))
 			{
 				output.m_stoneType = iter->Get_StoneType();
 				output.value = iter->Get_Value();

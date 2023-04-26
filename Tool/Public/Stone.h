@@ -70,6 +70,9 @@ public:
 	}
 
 public:
+	HRESULT	Change_StoneType(TYPE eType);
+
+public:
 	const TYPE				Get_StoneType() const {
 		return m_Desc.m_stoneType;
 	}
