@@ -299,8 +299,8 @@ _bool CStoneInventory::Load_By_JsonFile_Impl(Document& doc)
 		stoneDesc.value = stones[i]["value"].GetUint();
 		stoneDesc.m_pokemonIconNumber = stones[i]["m_pokemonIconNumber"].GetUint();
 
-		stoneDesc.m_UIDesc.m_fSizeX = 41.f;
-		stoneDesc.m_UIDesc.m_fSizeY = 41.f;
+		stoneDesc.m_UIDesc.m_fSizeX = 45.f;
+		stoneDesc.m_UIDesc.m_fSizeY = 45.f;
 		stoneDesc.m_UIDesc.m_fX = 0.f;
 		stoneDesc.m_UIDesc.m_fY = 0.f;
 		stoneDesc.m_UIDesc.m_ShaderPass = 0;

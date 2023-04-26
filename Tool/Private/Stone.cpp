@@ -82,8 +82,8 @@ HRESULT CStone::Init_Stone(const STONE_DESC& stoneDesc)
 	m_Desc.value = stoneDesc.value;
 	m_Desc.m_stoneType = stoneDesc.m_stoneType;
 
-	/*if (FAILED(Init_Text(stoneDesc)))
-		return E_FAIL;*/
+	if (FAILED(Init_Text(stoneDesc)))
+		return E_FAIL;
 
 	if (FAILED(Init_Texture(stoneDesc)))
 		return E_FAIL;
@@ -103,16 +103,16 @@ HRESULT CStone::Init_Text(const STONE_DESC& stoneDesc)
 	Safe_AddRef(partTextDesc.pParent);
 
 	partTextDesc.m_fX = 10.f;
-	partTextDesc.m_fY = 20.f;
+	partTextDesc.m_fY = 28.5f;
 
 	partTextDesc.m_vColor = _float4(1.f, 1.f, 1.f, 1.f);
 
 	partTextDesc.m_Rotation = 0.f;
 	partTextDesc.m_vRotationOrigin = _float2(0.f, 0.f);
-	partTextDesc.m_vScale = _float2(42.f, 35.f);
+	partTextDesc.m_vScale = _float2(0.32f, 0.26f);
 
 	lstrcpy(partTextDesc.m_FontTag, L"Font_NanumBarunGothic");
-	lstrcpy(partTextDesc.m_Text, to_wstring(stoneDesc.value).c_str());
+	//lstrcpy(partTextDesc.m_Text, to_wstring(stoneDesc.value).c_str());
 
 	pGameInstance->Clone_GameObject(Get_LayerTag().c_str(), m_iLevelindex, TEXT("Prototype_GameObject_PartText"), (CGameObject**)&pTextPart, &partTextDesc);
 	if (nullptr == pTextPart)
