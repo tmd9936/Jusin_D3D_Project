@@ -172,11 +172,11 @@ HRESULT CStone::Init_MaskTexture(const STONE_DESC& stoneDesc)
 
 	if (stoneDesc.m_eCurState == STATE_IN_INVENTORY_EQUIP)
 	{
-		//pTexturePart->Set_RenderId(RENDER_UI);
+		pTexturePart->Set_RenderId(RENDER_UI);
 	}
 	else
 	{
-		//pTexturePart->Set_RenderId(RENDER_END);
+		pTexturePart->Set_RenderId(RENDER_END);
 	}
 
 	m_TextureParts.push_back(pTexturePart);
@@ -210,11 +210,11 @@ HRESULT CStone::Init_PokemonIconTexture(const STONE_DESC& stoneDesc)
 
 	if (stoneDesc.m_eCurState == STATE_IN_INVENTORY_EQUIP)
 	{
-		//pTexturePart->Set_RenderId(RENDER_UI);
+		pTexturePart->Set_RenderId(RENDER_UI);
 	}
 	else
 	{
-		//pTexturePart->Set_RenderId(RENDER_END);
+		pTexturePart->Set_RenderId(RENDER_END);
 	}
 
 	m_TextureParts.push_back(pTexturePart);
