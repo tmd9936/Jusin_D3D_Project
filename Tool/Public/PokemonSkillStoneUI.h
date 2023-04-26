@@ -5,6 +5,7 @@ BEGIN(Client)
 
 class CPokemonData;
 class CSkillInfoUI;
+class CStoneEquipInfoUI;
 
 class CPokemonSkillStoneUI :
 	public CUI
@@ -89,6 +90,7 @@ private:
 
 private:
 	vector<CSkillInfoUI*>			m_skillInfoUIs;
+	CStoneEquipInfoUI*				m_pStoneEquipInfoUI = { nullptr };
 
 public:
 	static CPokemonSkillStoneUI* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

@@ -616,7 +616,7 @@ _bool CStageSupportMonster::Load_By_JsonFile_Impl(Document& doc)
 			m_PokemonDesc.m_skillIDs.push_back(skillIDs[i].GetInt());
 		}
 
-		const Value& m_stones = PokemonDesc["m_stones"];
+		const Value& m_stones = PokemonDesc["m_stones"].GetArray();
 		for (SizeType i = 0; i < m_stones.Size(); ++i)
 		{
 			STONE_EQUIP_DESC desc{};

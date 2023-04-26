@@ -151,6 +151,8 @@ HRESULT CStoneEquipInfoUI::Init_StoneEquipInfo(vector<STONE_EQUIP_DESC>& desc)
 			{
 				hr = m_TextureParts.at(i * 2)->Change_Texture(L"Prototype_Component_Texture_window_pcharm_hibi_ATKHP");
 			}
+
+			m_TextureParts.at(i * 2 + 1)->Set_RenderId(RENDER_END);
 		}
 		else
 		{
@@ -165,6 +167,15 @@ HRESULT CStoneEquipInfoUI::Init_StoneEquipInfo(vector<STONE_EQUIP_DESC>& desc)
 			else
 			{
 				hr = m_TextureParts.at(i * 2)->Change_Texture(L"Prototype_Component_Texture_window_pcharm_blank_ATKHP");
+			}
+
+			if (STONE_EQUIP_STATE::STATE_EQUIP == desc[i].m_state)
+			{
+				m_TextureParts.at(i * 2 + 1)->Set_RenderId(RENDER_UI);
+			}
+			else
+			{
+				m_TextureParts.at(i * 2 + 1)->Set_RenderId(RENDER_END);
 			}
 		}
 

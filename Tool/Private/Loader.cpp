@@ -94,6 +94,7 @@
 #include "PokemonSkillStoneUI.h"
 #include "GoToBackLevelButton.h"
 #include "SkillInfoUI.h"
+#include "StoneEquipInfoUI.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
@@ -1596,6 +1597,10 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/skill_Icon/button_skill_denki_borutekkaa.dds")))))
 			return E_FAIL;
 
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_button_skill_denki_supaaku"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/skill_Icon/button_skill_denki_supaaku.dds")))))
+			return E_FAIL;
+
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_button_skill_denki_zyuumanboruto"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/skill_Icon/button_skill_denki_zyuumanboruto.dds")))))
 			return E_FAIL;
@@ -1782,6 +1787,9 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 			CSkillInfoUI::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_StoneEquipInfoUI"),
+			CStoneEquipInfoUI::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
 	}
 #pragma endregion
 
