@@ -96,21 +96,41 @@ HRESULT CStoneInventory::Render()
 	return __super::Render();
 }
 
-_bool CStoneInventory::Check_Exist_Stone_Is_In(CStone::STONE_DESC& output, const POINT& mousePt)
+_bool CStoneInventory::Check_Exist_Stone_Is_In(CStone::STONE_DESC& output, _uint& pickingStoneIndex, const POINT& mousePt)
 {
-	for (auto& iter : m_stones)
+	for (size_t i = 0; i < m_stones.size(); ++i)
 	{
-		if (nullptr != iter)
+		if (nullptr != m_stones[i])
 		{
-			if (iter->Check_Is_In(mousePt))
+			if (m_stones[i]->Check_Is_In(mousePt))
 			{
-				output.m_stoneType = iter->Get_StoneType();
-				output.value = iter->Get_Value();
+				output.m_stoneType = m_stones[i]->Get_StoneType();
+				output.value = m_stones[i]->Get_Value();
+				pickingStoneIndex = i;
 				return true;
 			}
 		}
 	}
 
+	return false;
+}
+
+_bool CStoneInventory::Change_StoneIndex(const _uint& originIndex, const POINT& mousePt)
+{
+	for (size_t i = 0; i < m_TextureParts.size(); ++i)
+	{
+		if (m_TextureParts[i]->Check_Is_In(mousePt))
+		{
+			if (i != originIndex)
+			{
+				CStone* pTemp = m_stones[originIndex];
+				m_stones[originIndex] = m_stones[i];
+				m_stones[i] = pTemp;
+
+				return true;
+			}
+		}
+	}
 	return false;
 }
 

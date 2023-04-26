@@ -292,22 +292,17 @@ void CPokemonState_Manager::Picking()
 	GetCursorPos(&pt);
 	ScreenToClient(g_hWnd, &pt);
 
-	m_pPickingInfoStone->Set_Pos({ (_float)pt.x - g_iWinSizeX * 0.5f, -(_float)pt.y + g_iWinSizeY * 0.5f, 0.f });
-	Set_Pos({ (_float)pt.x - g_iWinSizeX * 0.5f, -(_float)pt.y + g_iWinSizeY * 0.5f, 0.f });
+	m_pPickingInfoStone->Set_Pos({ (_float)pt.x - g_iWinSizeX * 0.5f, -(_float)pt.y - 20.f + g_iWinSizeY * 0.5f, 0.f });
+	Set_Pos({ (_float)pt.x - g_iWinSizeX * 0.5f, -(_float)pt.y - 20.f + g_iWinSizeY * 0.5f, 0.f });
 
 	if (MOUSE_TAB(MOUSE::LBTN) && CClient_Utility::Mouse_Pos_In_Platform() && m_eCurState == MANAGER_IDLE)
 	{
 
 		if (m_pStoneInventory->Check_Is_In(pt))
 		{
-			// 마우스가 인벤토리 안에 있는지 확인
-			// 존재하는 스톤칸에 있는지 확인
-			// 맞으면 피킹상태로 변환
-			// 스톤이랑 마우스 따라다니는 텍스쳐 만들기
-			// 텍스쳐 바꾸기
-
 			CStone::STONE_DESC stoneDesc{};
-			if (m_pStoneInventory->Check_Exist_Stone_Is_In(stoneDesc, pt))
+			
+			if (m_pStoneInventory->Check_Exist_Stone_Is_In(stoneDesc, m_pickingStoneIndex, pt))
 			{
 				m_pPickingInfoStone->Change_StoneType(stoneDesc.m_stoneType);
 				m_pPickingInfoStone->Change_Value(to_wstring(stoneDesc.value));
@@ -320,20 +315,23 @@ void CPokemonState_Manager::Picking()
 
 void CPokemonState_Manager::Inventory_Stone_Picking_Tick()
 {
+	POINT pt{};
+	GetCursorPos(&pt);
+	ScreenToClient(g_hWnd, &pt);
+
 	if (MOUSE_HOLD(MOUSE::LBTN))
 	{
-		POINT pt{};
-		GetCursorPos(&pt);
-		ScreenToClient(g_hWnd, &pt);
-
-		m_pPickingInfoStone->Set_Pos({ (_float)pt.x - g_iWinSizeX * 0.5f, -(_float)pt.y + g_iWinSizeY * 0.5f, 0.f });
-
-		Set_Pos({ (_float)pt.x - g_iWinSizeX * 0.5f, -(_float)pt.y + g_iWinSizeY * 0.5f, 0.f });
+		m_pPickingInfoStone->Set_Pos({ (_float)pt.x- g_iWinSizeX * 0.5f, -(_float)pt.y - 20.f + g_iWinSizeY * 0.5f, 0.f });
+		Set_Pos({ (_float)pt.x - g_iWinSizeX * 0.5f, -(_float)pt.y - 20.f + g_iWinSizeY * 0.5f, 0.f });
 	}
 	else if (MOUSE_AWAY(MOUSE::LBTN))
 	{
 		// 인벤토리안에 비어있는 다른 칸 인지 확인 (좌표 보내주고 확인)
 		// 스톤 장착칸인지?
+		if (m_pStoneInventory->Check_Is_In(pt))
+		{
+			m_pStoneInventory->Change_StoneIndex(m_pickingStoneIndex, pt);
+		}
 
 		m_pPickingInfoStone->Set_State(CStone::STATE_NO_SHOW);
 		m_eCurState = MANAGER_IDLE;

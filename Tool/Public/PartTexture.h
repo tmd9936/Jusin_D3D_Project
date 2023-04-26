@@ -96,6 +96,8 @@ public:
 public:
 	void	Update_FinalMatrix();
 
+	_bool Check_Is_In(const POINT& mousePT);
+
 private:
 	CTransform*			m_pTransformCom = { nullptr };
 	CRenderer*			m_pRendererCom = { nullptr };

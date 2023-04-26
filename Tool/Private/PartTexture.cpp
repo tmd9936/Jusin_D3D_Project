@@ -123,6 +123,24 @@ void CPartTexture::Update_FinalMatrix()
 	}
 }
 
+_bool CPartTexture::Check_Is_In(const POINT& mousePT)
+{
+	RECT uiRect{ LONG(m_FinalWorldMatrix.m[3][0] + g_iWinSizeX * 0.5f - m_UIDesc.m_fSizeX * 0.5f), 
+				LONG(-m_FinalWorldMatrix.m[3][1] + g_iWinSizeY * 0.5f - m_UIDesc.m_fSizeY * 0.5f),
+				LONG(m_FinalWorldMatrix.m[3][0] + g_iWinSizeX * 0.5f + m_UIDesc.m_fSizeX * 0.5f),  
+				LONG(-m_FinalWorldMatrix.m[3][1] + g_iWinSizeY * 0.5f + m_UIDesc.m_fSizeY * 0.5f) };
+
+	RECT mouseRect{ mousePT.x - 10, mousePT.y - 10, mousePT.x + 10, mousePT.y + 10 };
+
+	RECT result{};
+	if (IntersectRect(&result, &uiRect, &mouseRect))
+	{
+		return true;
+	}
+
+	return false;
+}
+
 HRESULT CPartTexture::Add_Components()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();

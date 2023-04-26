@@ -24,9 +24,10 @@ public:
 	virtual HRESULT		Render() override;
 
 public:
-	_bool				Check_Exist_Stone_Is_In(CStone::STONE_DESC& output);
-	_bool				Check_Exist_Stone_Is_In(CStone::STONE_DESC& output, const POINT& mousePt);
+	_bool				Check_Exist_Stone_Is_In(CStone::STONE_DESC& output, _uint& pickingStoneIndex, const POINT& mousePt);
 
+public:
+	_bool				Change_StoneIndex(const _uint& originIndex, const POINT& mousePt);
 
 protected:
 	virtual _bool		Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);

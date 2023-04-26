@@ -88,6 +88,9 @@ private:
 	CStoneInventory*				m_pStoneInventory		= { nullptr };
 	CPokemonInfoUI*					m_pPokemonInfoUI		= { nullptr };
 
+private:
+	_uint							m_pickingStoneIndex = { 0 };
+
 public:
 	static CPokemonState_Manager* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) override;
