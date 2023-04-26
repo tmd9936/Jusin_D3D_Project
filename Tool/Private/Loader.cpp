@@ -95,6 +95,7 @@
 #include "GoToBackLevelButton.h"
 #include "SkillInfoUI.h"
 #include "StoneEquipInfoUI.h"
+#include "StoneInventory.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
@@ -1789,6 +1790,10 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_StoneEquipInfoUI"),
 			CStoneEquipInfoUI::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_StoneInventory"),
+			CStoneInventory::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 	}
 #pragma endregion

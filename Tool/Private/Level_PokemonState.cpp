@@ -10,6 +10,7 @@
 #include "PokemonSkillStoneUI.h"
 
 #include "GoToMonStateButton.h"
+#include "StoneInventory.h"
 
 // 포켓몬 버튼 누르면 이거 번호 변경시키기
 _uint CLevel_PokemonState::m_PokemonNumber = 1;
@@ -105,6 +106,11 @@ HRESULT CLevel_PokemonState::Ready_Layer_UI(const _tchar* pLayerTag)
 		return E_FAIL;
 	Safe_Release(pGoToMonStateButton02);
 	// === 다른 포켓몬 정보로 이동 버튼 끝
+
+	CStoneInventory* pStoneInventory = nullptr;
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StoneInventory"), LEVEL_POKEMONSTATE, pLayerTag, (CGameObject**)&pStoneInventory, L"StoneInvetory", "../../Reference/Resources/Data/Scene/PokemonInfo/SkillStoneUI/StoneInvetory.json", CLONE_FILEPATH)))
+		return E_FAIL;
+	Safe_Release(pStoneInventory);
 
 	Safe_Release(pGameInstance);
 
