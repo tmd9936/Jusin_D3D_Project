@@ -72,11 +72,17 @@ _uint CPokemonState_Manager::Tick(_double TimeDelta)
 	State_Tick(TimeDelta);
 	Change_State();
 
+	if (m_pPickingInfoStone)
+		m_pPickingInfoStone->Tick(TimeDelta);
+
 	return _uint();
 }
 
 _uint CPokemonState_Manager::LateTick(_double TimeDelta)
 {
+	if (m_pPickingInfoStone)
+		m_pPickingInfoStone->LateTick(TimeDelta);
+
 	return _uint();
 }
 
@@ -252,8 +258,8 @@ void CPokemonState_Manager::State_Tick(const _double& TimeDelta)
 	case MANAGER_IDLE:
 		Picking();
 		break;
-	case MANAGER_PIKING_STONE:
-		ShowPickingStone();
+	case MANAGER_INVENTORY_STONE_PICKING:
+		Inventory_Stone_Picking_Tick();
 		break;
 	}
 
@@ -267,7 +273,7 @@ void CPokemonState_Manager::Change_State()
 		{
 		case MANAGER_IDLE:
 			break;
-		case MANAGER_PIKING_STONE:
+		case MANAGER_INVENTORY_STONE_PICKING:
 			break;
 		}
 
@@ -296,16 +302,14 @@ void CPokemonState_Manager::Picking()
 			{
 				m_pPickingInfoStone->Change_StoneType(stoneDesc.m_stoneType);
 				m_pPickingInfoStone->Change_Value(to_wstring(stoneDesc.value));
-				m_pPickingInfoStone->Set_RenderId(RENDER_UI);
-				m_eCurState = MANAGER_PIKING_STONE;
-
-				// 픽킹된곳 색상변경
+				m_pPickingInfoStone->Set_State(CStone::STATE_PICKING_FOLLOW_MOUSE);
+				m_eCurState = MANAGER_INVENTORY_STONE_PICKING;
 			}
 		}
 	}
 }
 
-void CPokemonState_Manager::ShowPickingStone()
+void CPokemonState_Manager::Inventory_Stone_Picking_Tick()
 {
 	if (MOUSE_HOLD(MOUSE::LBTN))
 	{
@@ -313,16 +317,14 @@ void CPokemonState_Manager::ShowPickingStone()
 		GetCursorPos(&pt);
 		ScreenToClient(g_hWnd, &pt);
 
-		CTransform* pTransform = m_pPickingInfoStone->Get_As<CTransform>();
-		pTransform->Set_PositinoX((_float)pt.x);
-		pTransform->Set_PositionY((_float)pt.y);
+		m_pPickingInfoStone->Set_Pos({ (_float)pt.x - g_iWinSizeX * 0.5f, -(_float)pt.y + g_iWinSizeY * 0.5f, 0.f });
 	}
 	else if (MOUSE_AWAY(MOUSE::LBTN))
 	{
 		// 인벤토리안에 비어있는 다른 칸 인지 확인 (좌표 보내주고 확인)
 		// 스톤 장착칸인지?
 
-		m_pPickingInfoStone->Set_RenderId(RENDER_END);
+		m_pPickingInfoStone->Set_State(CStone::STATE_NO_SHOW);
 		m_eCurState = MANAGER_IDLE;
 	}
 }

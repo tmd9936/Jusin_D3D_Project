@@ -31,7 +31,7 @@ public:
 public:
 	enum POKEMONSTATE_MANAGER_STATE {
 		MANAGER_IDLE,
-		MANAGER_PIKING_STONE,
+		MANAGER_INVENTORY_STONE_PICKING,
 		MANAGER_END
 	};
 
@@ -66,7 +66,7 @@ private:
 
 private:
 	void							Picking();
-	void							ShowPickingStone();
+	void							Inventory_Stone_Picking_Tick();
 
 private:
 	HRESULT							SetUp_ShaderResources(); 

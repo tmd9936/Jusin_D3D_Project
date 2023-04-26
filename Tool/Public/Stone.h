@@ -23,6 +23,7 @@ public:
 		STATE_EQUIP_ON_EQUIPINFO,
 		STATE_SHOW_ON_INFO_UI,
 		STATE_PICKING_FOLLOW_MOUSE,
+		STATE_NO_SHOW,
 		STATE_END
 	};
 
@@ -70,7 +71,11 @@ public:
 	}
 
 public:
+
 	HRESULT	Change_StoneType(TYPE eType);
+
+public:
+	void Set_State(STATE eState);
 
 public:
 	const TYPE				Get_StoneType() const {

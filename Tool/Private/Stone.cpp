@@ -246,6 +246,11 @@ HRESULT CStone::Change_StoneType(TYPE eType)
 	return S_OK;
 }
 
+void CStone::Set_State(STATE eState)
+{
+	m_Desc.m_eCurState = eState;
+}
+
 void CStone::Change_State()
 {
 	if (m_Desc.m_eCurState != m_Desc.m_ePreState)
@@ -263,6 +268,12 @@ void CStone::Change_State()
 		case STATE_SHOW_ON_INFO_UI:
 			break;
 		case STATE_PICKING_FOLLOW_MOUSE:
+			m_eRenderId = RENDER_UI;
+			m_TextParts.at(0)->Set_RenderId(RENDER_UI);
+			break;
+		case STATE_NO_SHOW:
+			m_eRenderId = RENDER_END;
+			m_TextParts.at(0)->Set_RenderId(RENDER_END);
 			break;
 		}
 
@@ -285,6 +296,8 @@ void CStone::State_Tick(const _double& TimeDelta)
 	case STATE_SHOW_ON_INFO_UI:
 		break;
 	case STATE_PICKING_FOLLOW_MOUSE:
+		break;
+	case STATE_NO_SHOW:
 		break;
 	}
 }
