@@ -22,6 +22,7 @@ class CSkillInfoUI;
 class CStoneEquipInfoUI;
 class CPokemonInfoUI;
 class CStoneInventory;
+class CStone;
 
 class CPokemonState_Manager final : public CUI
 {

@@ -22,6 +22,7 @@ public:
 		STATE_PICKING_ON_INVENTORY,
 		STATE_EQUIP_ON_EQUIPINFO,
 		STATE_SHOW_ON_INFO_UI,
+		STATE_PICKING_FOLLOW_MOUSE,
 		STATE_END
 	};
 
@@ -66,6 +67,15 @@ public:
 		Safe_Release(m_Desc.pParent);
 		m_Desc.pParent = pTransform;
 		Safe_AddRef(m_Desc.pParent);
+	}
+
+public:
+	const TYPE				Get_StoneType() const {
+		return m_Desc.m_stoneType;
+	}
+
+	const _uint				Get_Value() const {
+		return m_Desc.value;
 	}
 
 private:

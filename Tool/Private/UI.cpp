@@ -137,6 +137,26 @@ HRESULT CUI::Change_Texture(const _tchar* pPrototypeTag)
 	return S_OK;
 }
 
+_bool CUI::Check_Is_In()
+{
+	RECT uiRect{ LONG(m_UIDesc.m_fX - m_UIDesc.m_fSizeX * 0.5f), LONG(m_UIDesc.m_fY - m_UIDesc.m_fSizeY * 0.5f)
+,	LONG(m_UIDesc.m_fX + m_UIDesc.m_fSizeX * 0.5f),  LONG(m_UIDesc.m_fY + m_UIDesc.m_fSizeY * 0.5f) };
+
+	POINT pt{};
+	GetCursorPos(&pt);
+	ScreenToClient(g_hWnd, &pt);
+
+	RECT mouseRect{ pt.x - m_mouseInterSize, pt.y - m_mouseInterSize, pt.x + m_mouseInterSize, pt.y + m_mouseInterSize };
+
+	RECT result{};
+	if (IntersectRect(&result, &uiRect, &mouseRect))
+	{
+		return true;
+	}
+
+	return false;
+}
+
 _bool CUI::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator)
 {
 	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;

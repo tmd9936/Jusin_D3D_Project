@@ -1,9 +1,9 @@
 #pragma once
 #include "UI.h"
 
-BEGIN(Client)
+#include "Stone.h"
 
-class CStone;
+BEGIN(Client)
 
 class CStoneInventory :
 	public CUI
@@ -19,9 +19,12 @@ public:
 	virtual HRESULT		Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath);
 
 public:
-	virtual _uint			Tick(_double TimeDelta) override;
-	virtual _uint			LateTick(_double TimeDelta) override;
-	virtual HRESULT			Render() override;
+	virtual _uint		Tick(_double TimeDelta) override;
+	virtual _uint		LateTick(_double TimeDelta) override;
+	virtual HRESULT		Render() override;
+
+public:
+	_bool				Check_Exist_Stone_Is_In(CStone::STONE_DESC& output);
 
 protected:
 	virtual _bool		Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);

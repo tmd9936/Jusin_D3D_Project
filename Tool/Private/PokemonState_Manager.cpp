@@ -14,6 +14,8 @@
 #include "StoneInventory.h"
 #include "PokemonInfoUI.h"
 
+#include "Stone.h"
+
 CPokemonState_Manager::CPokemonState_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
 {
@@ -375,6 +377,8 @@ void CPokemonState_Manager::Picking()
 		// 마우스가 인벤토리 안에 있는지 확인
 		// 존재하는 스톤칸에 있는지 확인
 		// 맞으면 피킹상태로 변환
+		// 스톤이랑 마우스 따라다니는 텍스쳐 만들기
+		// 텍스쳐 바꾸기
 	}
 }
 

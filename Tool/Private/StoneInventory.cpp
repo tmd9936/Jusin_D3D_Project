@@ -7,8 +7,6 @@
 #include "PartText.h"
 #include "PartTexture.h"
 
-#include "Stone.h"
-
 
 CStoneInventory::CStoneInventory(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
@@ -101,6 +99,25 @@ HRESULT CStoneInventory::Render()
 {
 	return __super::Render();
 }
+
+_bool CStoneInventory::Check_Exist_Stone_Is_In(CStone::STONE_DESC& output)
+{
+	for (auto& iter : m_stones)
+	{
+		if (nullptr != iter)
+		{
+			if (iter->Check_Is_In())
+			{
+				output.m_stoneType = iter->Get_StoneType();
+				output.value = iter->Get_Value();
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
 
 _bool CStoneInventory::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator)
 {

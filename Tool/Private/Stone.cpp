@@ -245,6 +245,8 @@ void CStone::Change_State()
 			break;
 		case STATE_SHOW_ON_INFO_UI:
 			break;
+		case STATE_PICKING_FOLLOW_MOUSE:
+			break;
 		}
 
 		m_Desc.m_ePreState = m_Desc.m_eCurState;
@@ -264,6 +266,8 @@ void CStone::State_Tick(const _double& TimeDelta)
 	case STATE_EQUIP_ON_EQUIPINFO:
 		break;
 	case STATE_SHOW_ON_INFO_UI:
+		break;
+	case STATE_PICKING_FOLLOW_MOUSE:
 		break;
 	}
 }
