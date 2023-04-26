@@ -21,7 +21,7 @@ namespace Client
 
 	enum class STONE_EQUIP_TYPE
 	{
-		TYPE_DEF,
+		TYPE_HP,
 		TYPE_ATK,
 		TYPE_TWINS,
 		TYPE_END
@@ -39,7 +39,7 @@ namespace Client
 	{
 		bool					m_isOpen;
 		STONE_EQUIP_TYPE		m_type;
-		int					m_equip_stoneID;
+		int						m_equip_stoneID;
 		STONE_EQUIP_STATE		m_state;
 	} STONE_EQUIP_DESC;
 }

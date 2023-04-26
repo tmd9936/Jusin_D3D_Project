@@ -154,6 +154,22 @@ HRESULT CPokemonSkillStoneUI::Get_NowMonsterData()
 
 			m_skillInfoUIs.push_back(pSkillInfoUI);
 		}
+
+		//const Value& m_stones = PokemonDesc["m_stones"];
+		//vector<STONE_EQUIP_DESC> stoneEquipInfos;
+		//for (SizeType i = 0; i < m_stones.Size(); ++i)
+		//{
+		//	STONE_EQUIP_DESC desc{};
+
+		//	desc.m_isOpen = m_stones[i]["m_isOpen"].GetBool();
+		//	desc.m_type = (STONE_EQUIP_TYPE)m_stones[i]["m_type"].GetUint();
+		//	desc.m_equip_stoneID = m_stones[i]["m_equip_stoneID"].GetUint();
+		//	desc.m_state = (STONE_EQUIP_STATE)m_stones[i]["m_state"].GetUint();
+		//	
+		//	stoneEquipInfos.push_back(desc);
+		//}
+
+
 		/* 구현부 끝 */
 
 		fclose(fp);
