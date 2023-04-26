@@ -49,6 +49,57 @@
                 "m_TextureProtoTypeLevel": 0,
                 "m_TextureProtoTypeName": "Prototype_Component_Texture_Rectangle_Base",
                 "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": -169.0,
+                "m_fY": 0.5,
+                "m_fSizeX": 32.0,
+                "m_fSizeY": 35.0,
+                "m_eType": 0,
+                "m_ShaderPass": 0,
+                "m_vColor": {
+                    "x": 0.45098,
+                    "y": 0.43921,
+                    "z": 0.3803,
+                    "w": 1.0
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_window_pcharm_bingo",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": -169.0,
+                "m_fY": 45.5,
+                "m_fSizeX": 32.0,
+                "m_fSizeY": 35.0,
+                "m_eType": 0,
+                "m_ShaderPass": 0,
+                "m_vColor": {
+                    "x": 0.45098,
+                    "y": 0.43921,
+                    "z": 0.3803,
+                    "w": 1.0
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_window_pcharm_bingo",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": -169.0,
+                "m_fY": 90.5,
+                "m_fSizeX": 32.0,
+                "m_fSizeY": 35.0,
+                "m_eType": 0,
+                "m_ShaderPass": 0,
+                "m_vColor": {
+                    "x": 0.45098,
+                    "y": 0.43921,
+                    "z": 0.3803,
+                    "w": 1.0
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_window_pcharm_bingo",
+                "LayerTag": "Layer_UI"
             }
         ],
         "m_TextParts": [

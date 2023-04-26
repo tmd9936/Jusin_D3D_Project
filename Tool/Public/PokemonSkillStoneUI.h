@@ -22,20 +22,20 @@ private:
 	virtual ~CPokemonSkillStoneUI() = default;
 
 public:
-	virtual HRESULT Initialize_Prototype() override;
-	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override;
-	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath);
+	virtual HRESULT		Initialize_Prototype() override;
+	virtual HRESULT		Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override;
+	virtual HRESULT		Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath);
 
 public:
-	HRESULT Init_PokemonData(const _uint& nowMonsterNumber);
+	HRESULT				Init_PokemonData(const _uint& nowMonsterNumber);
 
 private:
-	HRESULT Get_PokemonData();
-	HRESULT Get_NowMonsterData();
+	HRESULT				Get_PokemonData();
+	HRESULT				Get_NowMonsterData();
 
 protected:
-	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
-	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
+	virtual _bool		Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
+	virtual _bool		Load_By_JsonFile_Impl(Document& doc);
 
 private:
 	POKEMONSKILLSTONE_UI_DESC	m_PokemonSkillStone_Desc = {};
@@ -43,6 +43,11 @@ private:
 private:
 	static const _uint			m_skillBaseTextureIndex = { 0 };
 	static const _uint			m_stoneBaseTextureIndex = { 1 };
+
+	static const _uint			m_bingo1TextureIndex = { 0 };
+	static const _uint			m_bingo2TextureIndex = { 1 };
+	static const _uint			m_bingo3TextureIndex = { 1 };
+
 
 	//static const _uint			m_skill1BaseTextureIndex = { 3 };
 	//static const _uint			m_skill1TextureIndex = { 4 };
