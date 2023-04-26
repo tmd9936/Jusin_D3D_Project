@@ -1,7 +1,7 @@
 {
     "UIDesc": {
-        "m_fX": 30.0,
-        "m_fY": 100.0,
+        "m_fX": 60.0,
+        "m_fY": 70.0,
         "m_fSizeX": 170.5,
         "m_fSizeY": 220.0,
         "m_ShaderPass": 2,
@@ -16,7 +16,7 @@
         "m_TextureProtoTypeName" : "Prototype_Component_Texture_Rectangle_Base",
         "m_TextureParts": [
             {
-                "m_fX": -70.0,
+                "m_fX": -100.0,
                 "m_fY": -100.0,
                 "m_fSizeX": 45.0,
                 "m_fSizeY": 45.0,
@@ -33,7 +33,7 @@
                 "LayerTag": "Layer_UI"
             },
             {
-                "m_fX": -70.0,
+                "m_fX": -100.0,
                 "m_fY": -100.0,
                 "m_fSizeX": 41.0,
                 "m_fSizeY": 41.0,
@@ -50,7 +50,7 @@
                 "LayerTag": "Layer_UI"
             },
             {
-                "m_fX": -20.0,
+                "m_fX": -40.0,
                 "m_fY": -100.0,
                 "m_fSizeX": 45.0,
                 "m_fSizeY": 45.0,
@@ -67,7 +67,7 @@
                 "LayerTag": "Layer_UI"
             },
             {
-                "m_fX": -20.0,
+                "m_fX": -40.0,
                 "m_fY": -100.0,
                 "m_fSizeX": 41.0,
                 "m_fSizeY": 41.0,
@@ -84,7 +84,7 @@
                 "LayerTag": "Layer_UI"
             },
             {
-                "m_fX": 30.0,
+                "m_fX": 20.0,
                 "m_fY": -100.0,
                 "m_fSizeX": 45.0,
                 "m_fSizeY": 45.0,
@@ -101,7 +101,7 @@
                 "LayerTag": "Layer_UI"
             },
             {
-                "m_fX": 30.0,
+                "m_fX": 20.0,
                 "m_fY": -100.0,
                 "m_fSizeX": 41.0,
                 "m_fSizeY": 41.0,
@@ -122,8 +122,8 @@
 
 
             {
-                "m_fX": -70.0,
-                "m_fY": -50.0,
+                "m_fX": -100.0,
+                "m_fY": -40.0,
                 "m_fSizeX": 45.0,
                 "m_fSizeY": 45.0,
                 "m_eType": 0,
@@ -139,8 +139,8 @@
                 "LayerTag": "Layer_UI"
             },
             {
-                "m_fX": -70.0,
-                "m_fY": -50.0,
+                "m_fX": -100.0,
+                "m_fY": -40.0,
                 "m_fSizeX": 41.0,
                 "m_fSizeY": 41.0,
                 "m_eType": 0,
@@ -156,8 +156,8 @@
                 "LayerTag": "Layer_UI"
             },
             {
-                "m_fX": -20.0,
-                "m_fY": -50.0,
+                "m_fX": -40.0,
+                "m_fY": -40.0,
                 "m_fSizeX": 45.0,
                 "m_fSizeY": 45.0,
                 "m_eType": 0,
@@ -173,8 +173,8 @@
                 "LayerTag": "Layer_UI"
             },
             {
-                "m_fX": -20.0,
-                "m_fY": -50.0,
+                "m_fX": -40.0,
+                "m_fY": -40.0,
                 "m_fSizeX": 41.0,
                 "m_fSizeY": 41.0,
                 "m_eType": 0,
@@ -190,8 +190,8 @@
                 "LayerTag": "Layer_UI"
             },
             {
-                "m_fX": 30.0,
-                "m_fY": -50.0,
+                "m_fX": 20.0,
+                "m_fY": -40.0,
                 "m_fSizeX": 45.0,
                 "m_fSizeY": 45.0,
                 "m_eType": 0,
@@ -207,8 +207,8 @@
                 "LayerTag": "Layer_UI"
             },
             {
-                "m_fX": 30.0,
-                "m_fY": -50.0,
+                "m_fX": 20.0,
+                "m_fY": -40.0,
                 "m_fSizeX": 41.0,
                 "m_fSizeY": 41.0,
                 "m_eType": 0,
@@ -227,8 +227,8 @@
 
 
             {
-                "m_fX": -70.0,
-                "m_fY": 0.0,
+                "m_fX": -100.0,
+                "m_fY": 20.0,
                 "m_fSizeX": 45.0,
                 "m_fSizeY": 45.0,
                 "m_eType": 0,
@@ -244,8 +244,8 @@
                 "LayerTag": "Layer_UI"
             },
             {
-                "m_fX": -70.0,
-                "m_fY": 0.0,
+                "m_fX": -100.0,
+                "m_fY": 20.0,
                 "m_fSizeX": 41.0,
                 "m_fSizeY": 41.0,
                 "m_eType": 0,
@@ -261,8 +261,8 @@
                 "LayerTag": "Layer_UI"
             },
             {
-                "m_fX": -20.0,
-                "m_fY": 0.0,
+                "m_fX": -40.0,
+                "m_fY": 20.0,
                 "m_fSizeX": 45.0,
                 "m_fSizeY": 45.0,
                 "m_eType": 0,
@@ -278,8 +278,8 @@
                 "LayerTag": "Layer_UI"
             },
             {
-                "m_fX": -20.0,
-                "m_fY": 0.0,
+                "m_fX": -40.0,
+                "m_fY": 20.0,
                 "m_fSizeX": 41.0,
                 "m_fSizeY": 41.0,
                 "m_eType": 0,
@@ -295,8 +295,8 @@
                 "LayerTag": "Layer_UI"
             },
             {
-                "m_fX": 30.0,
-                "m_fY": 0.0,
+                "m_fX": 20.0,
+                "m_fY": 20.0,
                 "m_fSizeX": 45.0,
                 "m_fSizeY": 45.0,
                 "m_eType": 0,
@@ -312,8 +312,8 @@
                 "LayerTag": "Layer_UI"
             },
             {
-                "m_fX": 30.0,
-                "m_fY": 0.0,
+                "m_fX": 20.0,
+                "m_fY": 20.0,
                 "m_fSizeX": 41.0,
                 "m_fSizeY": 41.0,
                 "m_eType": 0,
