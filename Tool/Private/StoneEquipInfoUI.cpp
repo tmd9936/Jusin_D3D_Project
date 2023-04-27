@@ -176,12 +176,17 @@ HRESULT CStoneEquipInfoUI::Init_StoneEquipInfo(vector<STONE_EQUIP_DESC>& desc)
 				hr = m_TextureParts.at(i * 2 + 1)->Change_Texture(L"Prototype_Component_Texture_window_pcharm_blank_ATKHP");
 			}
 
-			//if (STONE_EQUIP_STATE::STATE_EQUIP == desc[i].m_state)
-			//{
-			//}
-			//else
-			//{
-			//}
+			if (m_stoneEquipDeses[i].m_state == STONE_EQUIP_STATE::STATE_NO_EQUIP)
+			{
+				m_stones[i]->Set_State(CStone::STATE_NO_SHOW);
+			}
+			else
+			{
+				m_stones[i]->Set_State(CStone::STATE_EQUIP_ON_EQUIPINFO);
+				m_stones[i]->Change_StoneType((CStone::TYPE)m_stoneEquipDeses[i].m_stoneType);
+				m_stones[i]->Change_Value(to_wstring(m_stoneEquipDeses[i].m_value));
+				m_stones[i]->Set_InventoryIndex(m_stoneEquipDeses[i].m_equip_stoneID);
+			}
 		}
 
 		if (hr == E_FAIL)
@@ -223,8 +228,6 @@ HRESULT CStoneEquipInfoUI::Init_StoneDatas()
 
 		if (nullptr == pStoneTransform)
 			return false;
-
-		pStone->Set_State(CStone::STATE_NO_SHOW);
 
 		m_stones[i] = pStone;
 	}
