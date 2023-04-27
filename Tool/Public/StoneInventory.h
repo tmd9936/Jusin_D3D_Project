@@ -41,6 +41,12 @@ private:
 
 private:
 	const _uint			m_InventoryNums = 20;
+	
+	const _float3		m_eqiupScale = { 55.f, 55.f, 1.f };
+	const wstring		m_equipTextureProtoTypeTag = { L"Prototype_Component_Texture_Rectangle_Base" };
+
+	const _float3		m_nonEqiupScale = { 45.f, 45.f, 1.f };
+	const wstring		m_nonEquipTextureProtoTypeTag = { L"Prototype_Component_Texture_Window_Plane_Corner_Waku_Mini" };
 
 public:
 	static CStoneInventory* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
