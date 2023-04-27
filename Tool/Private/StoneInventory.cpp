@@ -77,14 +77,8 @@ _uint CStoneInventory::LateTick(_double TimeDelta)
 		{
 			_float3 texturePosition = m_TextureParts[i]->Get_FinalWorldMatrixPosition();
 			m_stones[i]->Set_Pos({ texturePosition.x, texturePosition.y, texturePosition.z });
-		}
-	}
 
-	for (auto& iter : m_stones)
-	{
-		if (nullptr != iter)
-		{
-			iter->LateTick(TimeDelta);
+			m_stones[i]->LateTick(TimeDelta);
 		}
 	}
 

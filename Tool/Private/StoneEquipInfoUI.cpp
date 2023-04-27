@@ -34,10 +34,10 @@ HRESULT CStoneEquipInfoUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 		return E_FAIL;
 
-	//if (FAILED(Init_PokemonData()))
-	//	return E_FAIL;
-
 	m_stoneDatas.resize(9);
+
+	if (FAILED(Init_StoneDatas()))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -47,9 +47,10 @@ HRESULT CStoneEquipInfoUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, filePath)))
 		return E_FAIL;
 
-	//if (FAILED(Init_PokemonData()))
-	//	return E_FAIL;
 	m_stoneDatas.resize(9);
+
+	if (FAILED(Init_StoneDatas()))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -64,6 +65,11 @@ _uint CStoneEquipInfoUI::Tick(_double TimeDelta)
 	for (auto& part : m_TextParts)
 	{
 		part->Tick(TimeDelta);
+	}
+
+	for (auto& stone : m_stoneDatas)
+	{
+		stone->Tick(TimeDelta);
 	}
 
 	return _uint();
@@ -99,6 +105,17 @@ _uint CStoneEquipInfoUI::LateTick(_double TimeDelta)
 	for (auto& part : m_TextParts)
 	{
 		part->LateTick(TimeDelta);
+	}
+
+	for (size_t i = 0; i < m_stoneDatas.size(); ++i)
+	{
+		if (nullptr != m_stoneDatas[i])
+		{
+			_float3 texturePosition = m_TextureParts[i]->Get_FinalWorldMatrixPosition();
+			m_stoneDatas[i]->Set_Pos({ texturePosition.x, texturePosition.y, texturePosition.z });
+
+			m_stoneDatas[i]->LateTick(TimeDelta);
+		}
 	}
 
 	return _uint();
@@ -174,13 +191,53 @@ HRESULT CStoneEquipInfoUI::Init_StoneEquipInfo(vector<STONE_EQUIP_DESC>& desc)
 	return S_OK;
 }
 
+HRESULT CStoneEquipInfoUI::Init_StoneDatas()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	for (size_t i = 0; i < m_stoneDatas.size(); ++i)
+	{
+		CStone* pStone = nullptr;
+
+		CStone::STONE_DESC stoneDesc{};
+
+		stoneDesc.m_eCurState = (CStone::STATE_NO_SHOW);
+		stoneDesc.m_stoneType = (CStone::TYPE_ATK);
+		stoneDesc.value = 0;
+		stoneDesc.m_pokemonIconNumber = 25;
+
+		stoneDesc.m_UIDesc.m_fSizeX = 45.f;
+		stoneDesc.m_UIDesc.m_fSizeY = 45.f;
+		stoneDesc.m_UIDesc.m_fX = 0.f;
+		stoneDesc.m_UIDesc.m_fY = 0.f;
+		stoneDesc.m_UIDesc.m_ShaderPass = 0;
+		stoneDesc.m_UIDesc.m_TextureProtoTypeLevel = 0;
+		stoneDesc.m_UIDesc.m_UIType = 0;
+		lstrcpy(stoneDesc.m_UIDesc.m_TextureProtoTypeName, L"Prototype_Component_Texture_UI_Pstone_attack");
+
+		pGameInstance->Clone_GameObject(Get_LayerTag().c_str(), m_iLevelindex, TEXT("Prototype_GameObject_Stone"), (CGameObject**)&pStone, &stoneDesc);
+		if (nullptr == pStone)
+			return false;
+
+		CTransform* pStoneTransform = pStone->Get_As<CTransform>();
+
+		if (nullptr == pStoneTransform)
+			return false;
+
+		pStone->Set_State(CStone::STATE_NO_SHOW);
+
+		m_stoneDatas[i] = pStone;
+	}
+	return S_OK;
+}
+
 _bool CStoneEquipInfoUI::Equip(const POINT& mousePT, const CStone::STONE_DESC& stoneDesc)
 {
 	for (size_t i = 0; i < m_stoneEquipDeses.size(); ++i)
 	{
 		if (m_TextureParts[i * 2]->Check_Is_In(mousePT))
 		{
-			if (m_stoneEquipDeses[i].m_isOpen && stoneDesc.m_stoneType)
+			if (m_stoneEquipDeses[i].m_isOpen && (_uint)stoneDesc.m_stoneType == (_uint)m_stoneEquipDeses[i].m_type)
 			{
 
 			}
@@ -272,4 +329,9 @@ void CStoneEquipInfoUI::Free()
 	__super::Free();
 
 	Safe_Release(m_StoneEquipUI_Desc.pParent);
+
+	for (auto& iter : m_stoneDatas)
+	{
+		Safe_Release(iter);
+	}
 }

@@ -45,6 +45,7 @@ public:
 
 public:
 	HRESULT						Init_StoneEquipInfo(vector<STONE_EQUIP_DESC>& desc);
+	HRESULT						Init_StoneDatas();
 
 public:
 	_bool						Equip(const POINT& mousePT, const CStone::STONE_DESC& stoneDesc);
