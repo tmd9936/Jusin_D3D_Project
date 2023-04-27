@@ -245,6 +245,12 @@ _bool CStoneEquipInfoUI::Equip(const POINT& mousePT, const CStone::STONE_DESC& s
 				m_stones[i]->Change_Value(to_wstring(stoneDesc.value));
 				m_stones[i]->Set_State(CStone::STATE_EQUIP_ON_EQUIPINFO);
 				m_stones[i]->Set_InventoryIndex(stoneDesc.m_inventoyIndex);
+
+				m_stoneEquipDeses[i].m_equip_stoneID = stoneDesc.m_inventoyIndex;
+				m_stoneEquipDeses[i].m_state = STONE_EQUIP_STATE::STATE_EQUIP;
+				m_stoneEquipDeses[i].m_value = stoneDesc.value;
+				m_stoneEquipDeses[i].m_stoneType = (STONE_TYPE)stoneDesc.m_stoneType;
+
 				return true;
 			}
 		}
@@ -263,6 +269,9 @@ _bool CStoneEquipInfoUI::UnEquip(const POINT& mousePT, CStone::STONE_DESC& outSt
 			{
 				outStoneDesc = m_stones[i]->Get_StoneDesc();
 				m_stones[i]->Set_State(CStone::STATE_NO_SHOW);
+
+				m_stoneEquipDeses[i].m_state = STONE_EQUIP_STATE::STATE_NO_EQUIP;
+
 				return true;
 			}
 		}
@@ -286,10 +295,30 @@ _bool CStoneEquipInfoUI::Change_StoneIndex(const POINT& mousePT, const _uint& or
 					CStone* pTemp = m_stones[originIndex];
 					m_stones[originIndex] = m_stones[i];
 					m_stones[i] = pTemp;
+
 					m_stones[i]->Change_StoneType(stoneDesc.m_stoneType);
 					m_stones[i]->Change_Value(to_wstring(stoneDesc.value));
 					m_stones[i]->Set_State(CStone::STATE_EQUIP_ON_EQUIPINFO);
 					m_stones[i]->Set_InventoryIndex(stoneDesc.m_inventoyIndex);
+
+					m_stoneEquipDeses[i].m_equip_stoneID = stoneDesc.m_inventoyIndex;
+					m_stoneEquipDeses[i].m_state = STONE_EQUIP_STATE::STATE_EQUIP;
+					m_stoneEquipDeses[i].m_value = stoneDesc.value;
+					m_stoneEquipDeses[i].m_stoneType = (STONE_TYPE)stoneDesc.m_stoneType;
+
+					if (nullptr == m_stones[originIndex])
+					{
+						m_stoneEquipDeses[originIndex].m_state = STONE_EQUIP_STATE::STATE_NO_EQUIP;
+					}
+					else
+					{
+						CStone::STONE_DESC originIndexDesc = m_stones[originIndex]->Get_StoneDesc();
+
+						m_stoneEquipDeses[originIndex].m_equip_stoneID = originIndexDesc.m_inventoyIndex;
+						m_stoneEquipDeses[originIndex].m_state = STONE_EQUIP_STATE::STATE_EQUIP;
+						m_stoneEquipDeses[originIndex].m_value = originIndexDesc.value;
+						m_stoneEquipDeses[originIndex].m_stoneType = (STONE_TYPE)originIndexDesc.m_stoneType;
+					}
 					return true;
 				}
 			}
