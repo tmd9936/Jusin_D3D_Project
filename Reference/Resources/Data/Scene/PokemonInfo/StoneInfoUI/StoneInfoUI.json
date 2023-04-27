@@ -1,0 +1,96 @@
+{
+    "UIDesc": {
+        "m_fX": 440.0,
+        "m_fY": 80.0,
+        "m_fSizeX": 395.5,
+        "m_fSizeY": 120.0,
+        "m_ShaderPass": 1,
+        "m_UIType": 1,
+        "m_vColor": {
+            "x": 1.0,
+            "y": 0.91764,
+            "z": 0.2862,
+            "w": 1.0
+        },
+        "m_TextureProtoTypeLevel": 0,
+        "m_TextureProtoTypeName" : "Prototype_Component_Texture_Rectangle_Base",
+        "m_nowMonsterNumber" : 1,
+        "m_TextureParts": [
+            {
+                "m_fX": -140.0,
+                "m_fY": 0.0,
+                "m_fSizeX": 80.0,
+                "m_fSizeY": 80.0,
+                "m_eType": 0,
+                "m_ShaderPass": 0,
+                "m_vColor": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_UI_Pstone_attack",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": 40.0,
+                "m_fY": 0.0,
+                "m_fSizeX": 300.0,
+                "m_fSizeY": 100.0,
+                "m_eType": 0,
+                "m_ShaderPass": 0,
+                "m_vColor": {
+                    "x": 0.69411,
+                    "y": 0.62352,
+                    "z": 0.66666,
+                    "w": 1.0
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_UI_Pstone_attack",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": 40.0,
+                "m_fY": 0.0,
+                "m_fSizeX": 290.0,
+                "m_fSizeY": 90.0,
+                "m_eType": 0,
+                "m_ShaderPass": 0,
+                "m_vColor": {
+                    "x": 0.2549,
+                    "y": 0.44705,
+                    "z": 0.49019,
+                    "w": 1.0
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_UI_Pstone_attack",
+                "LayerTag": "Layer_UI"
+            }
+        ],
+        "m_TextParts": [
+            {
+                "m_fX": -140.0,
+                "m_fY": 30.0,
+                "m_vColor": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "m_Rotation": 0.0,
+                "m_vRotationOrigin": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "m_vScale": {
+                    "x": 0.63,
+                    "y": 0.56
+                },
+                "m_FontTag": "Font_NanumBarunGothic", 
+                "m_Text": "100",
+                "LayerTag": "Layer_UI"
+            }
+        ]
+    }
+}

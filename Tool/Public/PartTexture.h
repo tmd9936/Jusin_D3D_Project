@@ -82,6 +82,10 @@ public:
 		m_UIDesc.m_vColor.w = alpha;
 	}
 
+	void Set_Color(const _float4& vColor) {
+		m_UIDesc.m_vColor = vColor;
+	}
+
 public:
 	void	Set_Scaled(const _float3& vScale);
 
