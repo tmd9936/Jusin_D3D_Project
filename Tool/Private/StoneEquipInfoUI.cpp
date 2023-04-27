@@ -271,6 +271,25 @@ _bool CStoneEquipInfoUI::UnEquip(const POINT& mousePT, CStone::STONE_DESC& outSt
 	return false;
 }
 
+_bool CStoneEquipInfoUI::Check_Exist_Stone_Is_In(const POINT& mousePT, _uint& pickingStoneIndex, CStone::STONE_DESC& outStoneDesc)
+{
+	for (size_t i = 0; i < m_stoneEquipDeses.size(); ++i)
+	{
+		if (m_TextureParts[i * 2 + 1]->Check_Is_In(mousePT))
+		{
+			if (m_stoneEquipDeses[i].m_isOpen && m_stoneDatas[i]->Get_StoneState() == CStone::STATE_EQUIP_ON_EQUIPINFO)
+			{
+				outStoneDesc = m_stoneDatas[i]->Get_StoneDesc();
+				m_stoneDatas[i]->Set_State(CStone::STATE_NO_SHOW);
+				pickingStoneIndex = i;
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
 _bool CStoneEquipInfoUI::Check_Is_In(const POINT& mousePT)
 {
 	RECT uiRect{ LONG(m_FinalWorldMatrix.m[3][0] + g_iWinSizeX * 0.5f - m_UIDesc.m_fSizeX * 0.5f),

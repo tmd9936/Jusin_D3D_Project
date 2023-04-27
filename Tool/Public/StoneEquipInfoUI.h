@@ -52,6 +52,9 @@ public:
 	_bool						UnEquip(const POINT& mousePT, CStone::STONE_DESC& outStoneDesc);
 
 public:
+	_bool						Check_Exist_Stone_Is_In(const POINT& mousePT, _uint& pickingStoneIndex, CStone::STONE_DESC& outStoneDesc);
+
+public:
 	virtual _bool				Check_Is_In(const POINT& mousePT) override;
 
 protected:

@@ -32,6 +32,7 @@ public:
 	enum POKEMONSTATE_MANAGER_STATE {
 		MANAGER_IDLE,
 		MANAGER_INVENTORY_STONE_PICKING,
+		MANAGER_EQUIPINFO_STONE_PICKING,
 		MANAGER_END
 	};
 
@@ -67,9 +68,13 @@ private:
 private:
 	void							Picking();
 	void							Inventory_Stone_Picking_Tick();
+	void							Equip_Info_Stone_Picking_Tick();
 
 private:
 	HRESULT							SetUp_ShaderResources(); 
+
+private:
+	_bool							UnEquip(const POINT& pt);
 
 private:
 	POKEMONSTATE_MANAGER_DESC		m_Desc = {};

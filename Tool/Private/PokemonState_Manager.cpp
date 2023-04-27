@@ -262,6 +262,9 @@ void CPokemonState_Manager::State_Tick(const _double& TimeDelta)
 	case MANAGER_INVENTORY_STONE_PICKING:
 		Inventory_Stone_Picking_Tick();
 		break;
+	case MANAGER_EQUIPINFO_STONE_PICKING:
+		Equip_Info_Stone_Picking_Tick();
+		break;
 	}
 
 }
@@ -277,6 +280,9 @@ void CPokemonState_Manager::Change_State()
 			m_eRenderId = RENDER_END;
 			break;
 		case MANAGER_INVENTORY_STONE_PICKING:
+			m_eRenderId = RENDER_UI;
+			break;
+		case MANAGER_EQUIPINFO_STONE_PICKING:
 			m_eRenderId = RENDER_UI;
 			break;
 		}
@@ -296,7 +302,6 @@ void CPokemonState_Manager::Picking()
 
 	if (MOUSE_TAB(MOUSE::LBTN) && CClient_Utility::Mouse_Pos_In_Platform() && m_eCurState == MANAGER_IDLE)
 	{
-
 		if (m_pStoneInventory->Check_Is_In(pt))
 		{
 			CStone::STONE_DESC stoneDesc{};
@@ -308,6 +313,18 @@ void CPokemonState_Manager::Picking()
 				m_pPickingInfoStone->Set_State(CStone::STATE_PICKING_FOLLOW_MOUSE);
 				m_pPickingInfoStone->Set_InventoryIndex(stoneDesc.m_inventoyIndex);
 				m_eCurState = MANAGER_INVENTORY_STONE_PICKING;
+			}
+		}
+		else if (m_pStoneEquipInfoUI->Check_Is_In(pt))
+		{
+			CStone::STONE_DESC stoneDesc{};
+			if (m_pStoneEquipInfoUI->Check_Exist_Stone_Is_In(pt, m_pickingStoneIndex, stoneDesc))
+			{
+				m_pPickingInfoStone->Change_StoneType(stoneDesc.m_stoneType);
+				m_pPickingInfoStone->Change_Value(to_wstring(stoneDesc.value));
+				m_pPickingInfoStone->Set_State(CStone::STATE_PICKING_FOLLOW_MOUSE);
+				m_pPickingInfoStone->Set_InventoryIndex(stoneDesc.m_inventoyIndex);
+				m_eCurState = MANAGER_EQUIPINFO_STONE_PICKING;
 			}
 		}
 	}
@@ -334,19 +351,7 @@ void CPokemonState_Manager::Inventory_Stone_Picking_Tick()
 		{
 			CStone::STONE_DESC pickingStoneDesc = m_pPickingInfoStone->Get_StoneDesc();
 
-			CStone::STONE_DESC outUnEqiupstoneDesc{};
-			if (m_pStoneEquipInfoUI->UnEquip(pt, outUnEqiupstoneDesc))
-			{
-				m_pStoneInventory->Change_StoneState_To_UnEquip(outUnEqiupstoneDesc.m_inventoyIndex);
-				if (outUnEqiupstoneDesc.m_stoneType == CStone::TYPE_ATK)
-				{
-					m_pPokemonInfoUI->Add_ATK(-(_int)outUnEqiupstoneDesc.value);
-				}
-				else if (outUnEqiupstoneDesc.m_stoneType == CStone::TYPE_HP)
-				{
-					m_pPokemonInfoUI->Add_HP(-(_int)outUnEqiupstoneDesc.value);
-				}
-			}
+			UnEquip(pt);
 
 			if (m_pStoneEquipInfoUI->Equip(pt, pickingStoneDesc))
 			{
@@ -366,6 +371,64 @@ void CPokemonState_Manager::Inventory_Stone_Picking_Tick()
 		m_pPickingInfoStone->Set_State(CStone::STATE_NO_SHOW);
 		m_eCurState = MANAGER_IDLE;
 	}
+}
+
+void CPokemonState_Manager::Equip_Info_Stone_Picking_Tick()
+{
+	POINT pt{};
+	GetCursorPos(&pt);
+	ScreenToClient(g_hWnd, &pt);
+	if (MOUSE_HOLD(MOUSE::LBTN))
+	{
+		m_pPickingInfoStone->Set_Pos({ (_float)pt.x - g_iWinSizeX * 0.5f, -(_float)pt.y - 20.f + g_iWinSizeY * 0.5f, 0.f });
+		Set_Pos({ (_float)pt.x - g_iWinSizeX * 0.5f, -(_float)pt.y - 20.f + g_iWinSizeY * 0.5f, 0.f });
+	}
+	else if (MOUSE_AWAY(MOUSE::LBTN))
+	{
+		if (m_pStoneInventory->Check_Is_In(pt))
+		{
+			CStone::STONE_DESC pickingStoneDesc = m_pPickingInfoStone->Get_StoneDesc();
+
+			m_pStoneInventory->Change_StoneState_To_UnEquip(pickingStoneDesc.m_inventoyIndex);
+			if (pickingStoneDesc.m_stoneType == CStone::TYPE_ATK)
+			{
+				m_pPokemonInfoUI->Add_ATK(-(_int)pickingStoneDesc.value);
+			}
+			else if (pickingStoneDesc.m_stoneType == CStone::TYPE_HP)
+			{
+				m_pPokemonInfoUI->Add_HP(-(_int)pickingStoneDesc.value);
+			}
+		}
+		else if (m_pStoneEquipInfoUI->Check_Is_In(pt))
+		{
+			// 그 칸이 스톤을 넣을 수 있는 타입인지 확인
+			// 스톤이 없으면 넣기만 하기 
+		}
+
+		m_pPickingInfoStone->Set_State(CStone::STATE_NO_SHOW);
+		m_eCurState = MANAGER_IDLE;
+	}
+}
+
+_bool CPokemonState_Manager::UnEquip(const POINT& pt)
+{
+	CStone::STONE_DESC outUnEqiupstoneDesc{};
+	if (m_pStoneEquipInfoUI->UnEquip(pt, outUnEqiupstoneDesc))
+	{
+		m_pStoneInventory->Change_StoneState_To_UnEquip(outUnEqiupstoneDesc.m_inventoyIndex);
+		if (outUnEqiupstoneDesc.m_stoneType == CStone::TYPE_ATK)
+		{
+			m_pPokemonInfoUI->Add_ATK(-(_int)outUnEqiupstoneDesc.value);
+		}
+		else if (outUnEqiupstoneDesc.m_stoneType == CStone::TYPE_HP)
+		{
+			m_pPokemonInfoUI->Add_HP(-(_int)outUnEqiupstoneDesc.value);
+		}
+
+		return true;
+	}
+
+	return false;
 }
 
 HRESULT CPokemonState_Manager::SetUp_ShaderResources()
