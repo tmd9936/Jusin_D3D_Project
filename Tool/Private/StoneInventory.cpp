@@ -237,6 +237,27 @@ _bool CStoneInventory::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorT
 			TextParts.PushBack(Parts, allocator);
 		}
 		UIDesc.AddMember("m_TextParts", TextParts, allocator);
+
+		Value Stones(kArrayType);
+		for (size_t i = 0; i < m_stones.size(); ++i)
+		{
+			if (nullptr == m_stones[i])
+				continue;
+
+			Value stone(kObjectType);
+			{
+				CStone::Stone_Desc stoneDesc = m_stones[i]->Get_StoneDesc();
+				stone.AddMember("m_inventoyIndex", stoneDesc.m_inventoyIndex, allocator);
+				stone.AddMember("m_eCurState", stoneDesc.m_eCurState, allocator);
+				stone.AddMember("m_stoneType", stoneDesc.m_stoneType, allocator);
+				stone.AddMember("value", stoneDesc.value, allocator);
+				stone.AddMember("m_pokemonIconNumber", stoneDesc.m_pokemonIconNumber, allocator);
+			}
+
+			Stones.PushBack(stone, allocator);
+		}
+		UIDesc.AddMember("m_stones", Stones, allocator);
+
 	}
 	doc.AddMember("UIDesc", UIDesc, allocator);
 
@@ -351,7 +372,7 @@ _bool CStoneInventory::Load_By_JsonFile_Impl(Document& doc)
 
 		CStone::STONE_DESC stoneDesc{};
 
-		_uint stoneIndex = stones[i]["m_index"].GetUint();
+		stoneDesc.m_inventoyIndex = stones[i]["m_inventoyIndex"].GetUint();
 		stoneDesc.m_eCurState = (CStone::STATE)stones[i]["m_eCurState"].GetUint();
 		stoneDesc.m_stoneType = (CStone::TYPE)stones[i]["m_stoneType"].GetUint();
 		stoneDesc.value = stones[i]["value"].GetUint();
@@ -375,13 +396,13 @@ _bool CStoneInventory::Load_By_JsonFile_Impl(Document& doc)
 		if (nullptr == pStoneTransform)
 			return false;
 
-		_float3 texturePosition = m_TextureParts[stoneIndex]->Get_FinalWorldMatrixPosition();
+		_float3 texturePosition = m_TextureParts[stoneDesc.m_inventoyIndex]->Get_FinalWorldMatrixPosition();
 		pStoneTransform->Set_Pos(texturePosition.x + 5.f, texturePosition.y - 5.f, texturePosition.z);
 
-		m_TextureParts[stoneIndex]->Change_Texture(m_equipTextureProtoTypeTag.c_str());
-		m_TextureParts[stoneIndex]->Set_Scaled(m_eqiupScale);
+		m_TextureParts[stoneDesc.m_inventoyIndex]->Change_Texture(m_equipTextureProtoTypeTag.c_str());
+		m_TextureParts[stoneDesc.m_inventoyIndex]->Set_Scaled(m_eqiupScale);
 
-		m_stones[stoneIndex] = pStone;
+		m_stones[stoneDesc.m_inventoyIndex] = pStone;
 	}
 
 	return true;

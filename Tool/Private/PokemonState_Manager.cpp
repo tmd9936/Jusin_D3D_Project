@@ -14,6 +14,9 @@
 #include "StoneInventory.h"
 #include "PokemonInfoUI.h"
 
+// 레벨 끝나면
+// 포켓몬 능력치 및 스톤 장착 정보 업데이트
+// 인벤토리 업데이트
 
 CPokemonState_Manager::CPokemonState_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
