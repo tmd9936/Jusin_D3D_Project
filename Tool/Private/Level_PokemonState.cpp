@@ -27,6 +27,9 @@ HRESULT CLevel_PokemonState::Initialize()
 
 	CGameInstance::GetInstance()->PlayBGM(TEXT("BGM_BASE.ogg"));
 
+	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
 		return E_FAIL;
 
@@ -54,15 +57,6 @@ HRESULT CLevel_PokemonState::Ready_Layer_Manager(const _tchar* pLayerTag)
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	if (FAILED(pGameInstance->Add_Layer(LEVEL_POKEMONSTATE, L"Layer_BuffState")))
-		return E_FAIL;
-
-	if (FAILED(pGameInstance->Add_Layer(LEVEL_POKEMONSTATE, L"Layer_PlayerSearcher")))
-		return E_FAIL;
-
-	if (FAILED(pGameInstance->Add_Layer(LEVEL_POKEMONSTATE, L"Layer_Player")))
-		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Layer(LEVEL_POKEMONSTATE, pLayerTag)))
 		return E_FAIL;
 
@@ -82,9 +76,6 @@ HRESULT CLevel_PokemonState::Ready_Layer_UI(const _tchar* pLayerTag)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
-
-	if (FAILED(pGameInstance->Add_Layer(LEVEL_POKEMONSTATE, pLayerTag)))
-		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GoToBackLevelButton"), LEVEL_POKEMONSTATE, pLayerTag, L"GoToBackLevelButton", "../../Reference/Resources/Data/Scene/PokemonInfo/Button/GoToBackLevelButton.json", CLONE_FILEPATH)))
 		return E_FAIL;
@@ -146,6 +137,44 @@ HRESULT CLevel_PokemonState::Ready_Layer_UI(const _tchar* pLayerTag)
 
 	Safe_Release(pGameInstance);
 
+	return S_OK;
+}
+
+HRESULT CLevel_PokemonState::Ready_Layer_Player(const _tchar* pLayerTag)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_POKEMONSTATE, L"Layer_UI")))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_POKEMONSTATE, pLayerTag)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_POKEMONSTATE, L"Layer_BuffState")))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_POKEMONSTATE, L"Layer_PlayerSearcher")))
+		return E_FAIL;
+
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Player"), LEVEL_POKEMONSTATE, L"Layer_Player",  L"Player1", "../../Reference/Resources/Data/Database/NowMonster/NowPartyMonster1.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	if (m_PokemonNumber == 2)
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageSupportMonster"), LEVEL_POKEMONSTATE, L"Layer_Player",  L"Player2", "../../Reference/Resources/Data/Database/NowMonster/NowPartyMonster2.json", CLONE_FILEPATH)))
+			return E_FAIL;
+	}
+	else if (m_PokemonNumber == 3)
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageSupportMonster"), LEVEL_POKEMONSTATE, L"Layer_Player", L"Player3", "../../Reference/Resources/Data/Database/NowMonster/NowPartyMonster3.json", CLONE_FILEPATH)))
+			return E_FAIL;
+	}
+
+	pGameInstance->Layer_Tick_State_Change(L"Layer_Player", LEVEL_POKEMONSTATE, false);
+
+	Safe_Release(pGameInstance);
 	return S_OK;
 }
 

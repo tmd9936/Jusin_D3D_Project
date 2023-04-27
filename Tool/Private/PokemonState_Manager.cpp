@@ -108,29 +108,37 @@ HRESULT CPokemonState_Manager::Init_NowMonster(const _uint& nowMonsterNumber)
 
 	m_Desc.m_nowMonsterNumber = nowMonsterNumber;
 
+	CGameObject* pObject = nullptr;
+
 	if (m_Desc.m_nowMonsterNumber == 1)
 	{
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Player"), LEVEL_POKEMONSTATE, L"Layer_Player", (CGameObject**)&m_pNowMonster, L"Player1", "../../Reference/Resources/Data/Database/NowMonster/NowPartyMonster1.json", CLONE_FILEPATH)))
+		pObject = pGameInstance->Get_Object(LEVEL_POKEMONSTATE, L"Layer_Player", L"Player1");
+		if (nullptr == pObject)
 			return E_FAIL;
+
+		m_pNowMonster = dynamic_cast<CPlayer*>(pObject);
 	}
 	else if (m_Desc.m_nowMonsterNumber == 2)
 	{
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Player"), LEVEL_POKEMONSTATE, L"Layer_Player", L"Player1", "../../Reference/Resources/Data/Database/NowMonster/NowPartyMonster1.json", CLONE_FILEPATH)))
+		pObject = pGameInstance->Get_Object(LEVEL_POKEMONSTATE, L"Layer_Player", L"Player2");
+		if (nullptr == pObject)
 			return E_FAIL;
 
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageSupportMonster"), LEVEL_POKEMONSTATE, L"Layer_Player", (CGameObject**)&m_pNowMonster, L"Player2", "../../Reference/Resources/Data/Database/NowMonster/NowPartyMonster2.json", CLONE_FILEPATH)))
-			return E_FAIL;
+		m_pNowMonster = dynamic_cast<CStageSupportMonster*>(pObject);
 	}
 	else if (m_Desc.m_nowMonsterNumber == 3)
 	{
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Player"), LEVEL_POKEMONSTATE, L"Layer_Player", L"Player1", "../../Reference/Resources/Data/Database/NowMonster/NowPartyMonster1.json", CLONE_FILEPATH)))
+		pObject = pGameInstance->Get_Object(LEVEL_POKEMONSTATE, L"Layer_Player", L"Player3");
+		if (nullptr == pObject)
 			return E_FAIL;
 
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageSupportMonster"), LEVEL_POKEMONSTATE, L"Layer_Player", (CGameObject**)&m_pNowMonster, L"Player3", "../../Reference/Resources/Data/Database/NowMonster/NowPartyMonster3.json", CLONE_FILEPATH)))
-			return E_FAIL;
+		m_pNowMonster = dynamic_cast<CStageSupportMonster*>(pObject);
 	}
 
-	pGameInstance->Layer_Tick_State_Change(L"Layer_Player", LEVEL_POKEMONSTATE, false);
+	if (nullptr == m_pNowMonster)
+		return E_FAIL;
+
+	Safe_AddRef(m_pNowMonster);
 
 	return S_OK;
 }

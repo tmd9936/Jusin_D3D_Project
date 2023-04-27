@@ -24,7 +24,8 @@ public:
 		return m_PokemonNumber;
 	}
 
-private: 
+private:
+	HRESULT Ready_Layer_Player(const _tchar* pLayerTag);
 	HRESULT Ready_Layer_Manager(const _tchar* pLayerTag);
 	HRESULT Ready_Layer_UI(const _tchar* pLayerTag);
 
