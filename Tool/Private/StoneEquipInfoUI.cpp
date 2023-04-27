@@ -9,6 +9,8 @@
 
 #include "Skill_Manager.h"
 
+#include "Stone.h"
+
 CStoneEquipInfoUI::CStoneEquipInfoUI(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
 {
@@ -35,6 +37,8 @@ HRESULT CStoneEquipInfoUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex
 	//if (FAILED(Init_PokemonData()))
 	//	return E_FAIL;
 
+	m_stoneDatas.resize(9);
+
 	return S_OK;
 }
 
@@ -45,6 +49,7 @@ HRESULT CStoneEquipInfoUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex
 
 	//if (FAILED(Init_PokemonData()))
 	//	return E_FAIL;
+	m_stoneDatas.resize(9);
 
 	return S_OK;
 }
@@ -111,29 +116,10 @@ HRESULT CStoneEquipInfoUI::Render()
 	return S_OK;
 }
 
-HRESULT CStoneEquipInfoUI::Change_SkillIcon(const _uint& skillIndex)
-{
-	//CGameInstance* pGameInstance = CGameInstance::GetInstance();
-
-	//CGameObject* pGameObject = pGameInstance->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"Skill_Manager");
-	//if (nullptr == pGameObject)
-	//	return E_FAIL;
-
-	//CSkill_Manager* pSkill_Manager = dynamic_cast<CSkill_Manager*>(pGameObject);
-	//if (nullptr == pSkill_Manager)
-	//	return E_FAIL;
-
-	//CSkill::SKILL_DESC skillDesc = pSkill_Manager->Get_Skill_Desc(skillIndex);
-	//wstring prototypeTag = L"Prototype_Component_Texture_button_skill_" + skillDesc.m_iconPath;
-
-	//if (FAILED(m_TextureParts.at(m_skillTextureIndex)->Change_Texture(prototypeTag.c_str())))
-	//	return E_FAIL;
-
-	return S_OK;
-}
-
 HRESULT CStoneEquipInfoUI::Init_StoneEquipInfo(vector<STONE_EQUIP_DESC>& desc)
 {
+	m_stoneEquipDeses = desc;
+
 	for (size_t i = 0; i < desc.size(); ++i)
 	{
 		HRESULT hr = E_FAIL;
@@ -186,6 +172,22 @@ HRESULT CStoneEquipInfoUI::Init_StoneEquipInfo(vector<STONE_EQUIP_DESC>& desc)
 	}
 
 	return S_OK;
+}
+
+_bool CStoneEquipInfoUI::Equip(const POINT& mousePT, const CStone::STONE_DESC& stoneDesc)
+{
+	for (size_t i = 0; i < m_stoneEquipDeses.size(); ++i)
+	{
+		if (m_TextureParts[i * 2]->Check_Is_In(mousePT))
+		{
+			if (m_stoneEquipDeses[i].m_isOpen && stoneDesc.m_stoneType)
+			{
+
+			}
+		}
+	}
+
+	return true;
 }
 
 HRESULT CStoneEquipInfoUI::SetUp_ShaderResources()

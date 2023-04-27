@@ -547,6 +547,7 @@ _bool CPlayer::Load_By_JsonFile_Impl(Document& doc)
 			desc.m_type = (STONE_EQUIP_TYPE)m_stones[i]["m_type"].GetUint();
 			desc.m_equip_stoneID = m_stones[i]["m_equip_stoneID"].GetUint();
 			desc.m_state = (STONE_EQUIP_STATE)m_stones[i]["m_state"].GetUint();
+			desc.m_value = m_stones[i]["m_state"].GetInt();
 
 			m_PokemonDesc.m_stones.push_back(move(desc));
 		}

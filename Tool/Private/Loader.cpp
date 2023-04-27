@@ -506,6 +506,11 @@ _uint APIENTRY LoadingStaticManagerObject()
 #pragma region GAMEOBJECTS
 	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_LOGO))
 	{
+		_matrix PivotMatrix = XMMatrixIdentity();
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Mouse"),
+			CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_ANIM, "../../Reference/Resources/Mesh/Animation/Logo/touch_marker.fbx", PivotMatrix))))
+			return E_FAIL;
+
 		/* For.Prototype_GameObject_Effect_Manager */
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Manager"),
 			CEffect_Manager::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), "../../Reference/Resources/Data/Effect/EffectDataSet.json"))))
@@ -1177,10 +1182,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	wsprintf(m_szLoadingText, TEXT("모델을 로딩중입니다."));
 	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_LOGO))
 	{
-		_matrix PivotMatrix = XMMatrixIdentity();
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Mouse"),
-			CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../../Reference/Resources/Mesh/Animation/Logo/touch_marker.fbx", PivotMatrix))))
-			return E_FAIL;
+
 	}
 
 #pragma endregion

@@ -35,8 +35,8 @@
             {
                 "m_fX": -60.0,
                 "m_fY": -60.0,
-                "m_fSizeX": 41.0,
-                "m_fSizeY": 41.0,
+                "m_fSizeX": 37.0,
+                "m_fSizeY": 37.0,
                 "m_eType": 0,
                 "m_ShaderPass": 0,
                 "m_vColor": {
@@ -69,8 +69,8 @@
             {
                 "m_fX": 0.0,
                 "m_fY": -60.0,
-                "m_fSizeX": 41.0,
-                "m_fSizeY": 41.0,
+                "m_fSizeX": 37.0,
+                "m_fSizeY": 37.0,
                 "m_eType": 0,
                 "m_ShaderPass": 0,
                 "m_vColor": {
@@ -103,8 +103,8 @@
             {
                 "m_fX": 60.0,
                 "m_fY": -60.0,
-                "m_fSizeX": 41.0,
-                "m_fSizeY": 41.0,
+                "m_fSizeX": 37.0,
+                "m_fSizeY": 37.0,
                 "m_eType": 0,
                 "m_ShaderPass": 0,
                 "m_vColor": {
@@ -141,8 +141,8 @@
             {
                 "m_fX": -60.0,
                 "m_fY": 0.0,
-                "m_fSizeX": 41.0,
-                "m_fSizeY": 41.0,
+                "m_fSizeX": 37.0,
+                "m_fSizeY": 37.0,
                 "m_eType": 0,
                 "m_ShaderPass": 0,
                 "m_vColor": {
@@ -175,8 +175,8 @@
             {
                 "m_fX": 0.0,
                 "m_fY": 0.0,
-                "m_fSizeX": 41.0,
-                "m_fSizeY": 41.0,
+                "m_fSizeX": 37.0,
+                "m_fSizeY": 37.0,
                 "m_eType": 0,
                 "m_ShaderPass": 0,
                 "m_vColor": {
@@ -209,8 +209,8 @@
             {
                 "m_fX": 60.0,
                 "m_fY": 0.0,
-                "m_fSizeX": 41.0,
-                "m_fSizeY": 41.0,
+                "m_fSizeX": 37.0,
+                "m_fSizeY": 37.0,
                 "m_eType": 0,
                 "m_ShaderPass": 0,
                 "m_vColor": {
@@ -246,8 +246,8 @@
             {
                 "m_fX": -60.0,
                 "m_fY": 60.0,
-                "m_fSizeX": 41.0,
-                "m_fSizeY": 41.0,
+                "m_fSizeX": 37.0,
+                "m_fSizeY": 37.0,
                 "m_eType": 0,
                 "m_ShaderPass": 0,
                 "m_vColor": {
@@ -280,8 +280,8 @@
             {
                 "m_fX": 0.0,
                 "m_fY": 60.0,
-                "m_fSizeX": 41.0,
-                "m_fSizeY": 41.0,
+                "m_fSizeX": 37.0,
+                "m_fSizeY": 37.0,
                 "m_eType": 0,
                 "m_ShaderPass": 0,
                 "m_vColor": {
@@ -314,8 +314,8 @@
             {
                 "m_fX": 60.0,
                 "m_fY": 60.0,
-                "m_fSizeX": 41.0,
-                "m_fSizeY": 41.0,
+                "m_fSizeX": 37.0,
+                "m_fSizeY": 37.0,
                 "m_eType": 0,
                 "m_ShaderPass": 0,
                 "m_vColor": {

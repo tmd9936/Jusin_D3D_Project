@@ -265,15 +265,19 @@ _bool CNavigation::Move_OnNavigation(_fvector vPosition)
 	}
 }
 
-_bool CNavigation::Move_OnNavigation_Sliding(_fvector vPosition, _fvector vLook, _vector& vOutSlidLook, _vector& vAxis)
+_bool CNavigation::Move_OnNavigation_Sliding(_fvector vPosition, _fvector vLook, _vector& vOutSlidLook, _vector& vAxis, _float& fY)
 {
 	if (m_NaviDesc.iIndex >= m_Cells.size())
 		return false;
 
 	_int		iNeighborIndex = { 0 };
 
+	_float3 ComputePosition{};
+	XMStoreFloat3(&ComputePosition, vPosition);
+
 	if (true == m_Cells[m_NaviDesc.iIndex]->isIn(vPosition, iNeighborIndex))
 	{
+		m_Cells[m_NaviDesc.iIndex]->Compute_Height(ComputePosition, fY);
 		return true;
 	}
 	else /* 쎌 밖으로 움직였어. */
@@ -301,6 +305,7 @@ _bool CNavigation::Move_OnNavigation_Sliding(_fvector vPosition, _fvector vLook,
 				if (true == m_Cells[iNeighborIndex]->isIn(vPosition, iNeighborIndex))
 				{
 					m_NaviDesc.iIndex = iNeighborIndex;
+					m_Cells[m_NaviDesc.iIndex]->Compute_Height(ComputePosition, fY);
 					break;
 				}
 			}

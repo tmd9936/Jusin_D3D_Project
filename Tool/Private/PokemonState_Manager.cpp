@@ -14,7 +14,6 @@
 #include "StoneInventory.h"
 #include "PokemonInfoUI.h"
 
-#include "Stone.h"
 
 CPokemonState_Manager::CPokemonState_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
@@ -331,6 +330,10 @@ void CPokemonState_Manager::Inventory_Stone_Picking_Tick()
 		if (m_pStoneInventory->Check_Is_In(pt))
 		{
 			m_pStoneInventory->Change_StoneIndex(m_pickingStoneIndex, pt);
+		}
+		else if (m_pStoneEquipInfoUI->Check_Is_In(pt))
+		{
+
 		}
 
 		m_pPickingInfoStone->Set_State(CStone::STATE_NO_SHOW);

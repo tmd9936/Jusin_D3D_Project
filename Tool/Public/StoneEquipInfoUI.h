@@ -8,6 +8,7 @@ END
 BEGIN(Client)
 
 class CSkill_Manager;
+class CStone;
 
 class CStoneEquipInfoUI :
 	public CUI
@@ -43,9 +44,10 @@ public:
 	}
 
 public:
-	HRESULT						Change_SkillIcon(const _uint& skillIndex);
-
 	HRESULT						Init_StoneEquipInfo(vector<STONE_EQUIP_DESC>& desc);
+
+public:
+	_bool						Equip(const POINT& mousePT, const CStone::STONE_DESC& stoneDesc);
 
 protected:
 	virtual HRESULT				SetUp_ShaderResources() override;
@@ -83,6 +85,10 @@ private:
 
 	static const _uint			m_stone22BaseTextureIndex = { 16 };
 	static const _uint			m_stone22TextureIndex = { 17 };
+
+private:
+	vector<STONE_EQUIP_DESC>	m_stoneEquipDeses;
+	vector<CStone*>				m_stoneDatas;
 
 public:
 	static CStoneEquipInfoUI* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
