@@ -333,9 +333,9 @@ void CEnemyPack::Set_WaveProgress()
 		if (nullptr != pStageClearUI)
 		{
 			if (waveIndex < 2)
-				dynamic_cast<CStageClearUI*>(pStageClearUI)->Open_Message(L"WAVE CLEAR!", 330.f);
+				dynamic_cast<CStageClearUI*>(pStageClearUI)->Open_Message(L"WAVE CLEAR!", 310.f);
 			else
-				dynamic_cast<CStageClearUI*>(pStageClearUI)->Open_Message(L"STAGE CLEAR!", 305.f);
+				dynamic_cast<CStageClearUI*>(pStageClearUI)->Open_Message(L"STAGE CLEAR!", 295.f);
 		}
 	}
 }

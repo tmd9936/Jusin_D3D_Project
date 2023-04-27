@@ -56,11 +56,11 @@ _uint APIENTRY Ready_Font()
 	HRESULT			hr = { 0 };
 
 	if (FAILED(pGameInstance->Add_Font(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(),
-		TEXT("Font_NanumBarunGothic"), TEXT("../../Reference/Resources/Fonts/nanumBarunGothic.spritefont"))))
+		TEXT("Font_NanumBarunGothic"), TEXT("../../Reference/Resources/Fonts/kotra.spritefont"))))
 		return hr;
 
 	if (FAILED(pGameInstance->Add_Font(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(),
-		TEXT("Font_NanumBarunGothicBold"), TEXT("../../Reference/Resources/Fonts/nanumBarunGothicBold.spritefont"))))
+		TEXT("Font_NanumBarunGothicBold"), TEXT("../../Reference/Resources/Fonts/kotra.spritefont"))))
 		return hr;
 
 	return hr;
