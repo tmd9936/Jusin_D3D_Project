@@ -306,6 +306,7 @@ void CPokemonState_Manager::Picking()
 				m_pPickingInfoStone->Change_StoneType(stoneDesc.m_stoneType);
 				m_pPickingInfoStone->Change_Value(to_wstring(stoneDesc.value));
 				m_pPickingInfoStone->Set_State(CStone::STATE_PICKING_FOLLOW_MOUSE);
+				m_pPickingInfoStone->Set_InventoryIndex(stoneDesc.m_inventoyIndex);
 				m_eCurState = MANAGER_INVENTORY_STONE_PICKING;
 			}
 		}
@@ -331,18 +332,33 @@ void CPokemonState_Manager::Inventory_Stone_Picking_Tick()
 		}
 		else if (m_pStoneEquipInfoUI->Check_Is_In(pt))
 		{
-			CStone::STONE_DESC stoneDesc = m_pPickingInfoStone->Get_StoneDesc();
-			if (m_pStoneEquipInfoUI->Equip(pt, stoneDesc))
+			CStone::STONE_DESC pickingStoneDesc = m_pPickingInfoStone->Get_StoneDesc();
+
+			CStone::STONE_DESC outUnEqiupstoneDesc{};
+			if (m_pStoneEquipInfoUI->UnEquip(pt, outUnEqiupstoneDesc))
+			{
+				m_pStoneInventory->Change_StoneState_To_UnEquip(outUnEqiupstoneDesc.m_inventoyIndex);
+				if (outUnEqiupstoneDesc.m_stoneType == CStone::TYPE_ATK)
+				{
+					m_pPokemonInfoUI->Add_ATK(-(_int)outUnEqiupstoneDesc.value);
+				}
+				else if (outUnEqiupstoneDesc.m_stoneType == CStone::TYPE_HP)
+				{
+					m_pPokemonInfoUI->Add_HP(-(_int)outUnEqiupstoneDesc.value);
+				}
+			}
+
+			if (m_pStoneEquipInfoUI->Equip(pt, pickingStoneDesc))
 			{
 				_uint pokemonNo = m_pPokemonInfoUI->Get_PokemonNo();
 				m_pStoneInventory->Change_StoneState_To_Equip(m_pickingStoneIndex, pokemonNo);
-				if (stoneDesc.m_stoneType == CStone::TYPE_ATK)
+				if (pickingStoneDesc.m_stoneType == CStone::TYPE_ATK)
 				{
-					m_pPokemonInfoUI->Add_ATK(stoneDesc.value);
+					m_pPokemonInfoUI->Add_ATK(pickingStoneDesc.value);
 				}
-				else if (stoneDesc.m_stoneType == CStone::TYPE_HP)
+				else if (pickingStoneDesc.m_stoneType == CStone::TYPE_HP)
 				{
-					m_pPokemonInfoUI->Add_HP(stoneDesc.value);
+					m_pPokemonInfoUI->Add_HP(pickingStoneDesc.value);
 				}
 			}
 		}

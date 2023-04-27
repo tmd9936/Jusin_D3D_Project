@@ -244,6 +244,25 @@ _bool CStoneEquipInfoUI::Equip(const POINT& mousePT, const CStone::STONE_DESC& s
 				m_stoneDatas[i]->Change_StoneType(stoneDesc.m_stoneType);
 				m_stoneDatas[i]->Change_Value(to_wstring(stoneDesc.value));
 				m_stoneDatas[i]->Set_State(CStone::STATE_EQUIP_ON_EQUIPINFO);
+				m_stoneDatas[i]->Set_InventoryIndex(stoneDesc.m_inventoyIndex);
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+_bool CStoneEquipInfoUI::UnEquip(const POINT& mousePT, CStone::STONE_DESC& outStoneDesc)
+{
+	for (size_t i = 0; i < m_stoneEquipDeses.size(); ++i)
+	{
+		if (m_TextureParts[i * 2 + 1]->Check_Is_In(mousePT))
+		{
+			if (m_stoneEquipDeses[i].m_isOpen && m_stoneDatas[i]->Get_StoneState() == CStone::STATE_EQUIP_ON_EQUIPINFO)
+			{
+				outStoneDesc = m_stoneDatas[i]->Get_StoneDesc();
+				m_stoneDatas[i]->Set_State(CStone::STATE_NO_SHOW);
 				return true;
 			}
 		}

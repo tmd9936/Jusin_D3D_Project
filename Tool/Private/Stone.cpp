@@ -271,6 +271,10 @@ void CStone::Change_State()
 		switch (m_Desc.m_eCurState)
 		{
 		case STATE_NO_EQUIP_ON_INVENTORY:
+			m_eRenderId = RENDER_UI;
+			m_TextParts.at(0)->Set_RenderId(RENDER_UI);
+			m_TextureParts.at(m_maskTextureIndex)->Set_RenderId(RENDER_END);
+			m_TextureParts.at(m_pokemonIconTextureIndex)->Set_RenderId(RENDER_END);
 			break;
 		case STATE_EQUIP_ON_INVENTORY:
 			m_TextureParts.at(m_maskTextureIndex)->Set_RenderId(RENDER_UI);

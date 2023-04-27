@@ -49,6 +49,7 @@ public:
 
 public:
 	_bool						Equip(const POINT& mousePT, const CStone::STONE_DESC& stoneDesc);
+	_bool						UnEquip(const POINT& mousePT, CStone::STONE_DESC& outStoneDesc);
 
 public:
 	virtual _bool				Check_Is_In(const POINT& mousePT) override;

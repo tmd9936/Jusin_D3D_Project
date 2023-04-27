@@ -92,7 +92,7 @@ HRESULT CStoneInventory::Render()
 
 _bool CStoneInventory::Check_Exist_Stone_Is_In(CStone::STONE_DESC& output, _uint& pickingStoneIndex, const POINT& mousePt)
 {
-	for (size_t i = 0; i < m_stones.size(); ++i)
+	for (_uint i = 0; i < m_stones.size(); ++i)
 	{
 		if (nullptr != m_stones[i])
 		{
@@ -100,7 +100,9 @@ _bool CStoneInventory::Check_Exist_Stone_Is_In(CStone::STONE_DESC& output, _uint
 			{
 				output.m_stoneType = m_stones[i]->Get_StoneType();
 				output.value = m_stones[i]->Get_Value();
+				output.m_inventoyIndex = i;
 				pickingStoneIndex = i;
+
 				return true;
 			}
 		}
@@ -144,7 +146,17 @@ _bool CStoneInventory::Change_StoneState_To_Equip(const _uint& index, const _uin
 	m_stones[index]->Set_State(CStone::STATE_EQUIP_ON_INVENTORY);
 	m_stones[index]->Change_PokemonIcon(pokemonNo);
 
-	return _bool();
+	return true;
+}
+
+_bool CStoneInventory::Change_StoneState_To_UnEquip(const _uint& index)
+{
+	if (index >= m_stones.size())
+		return false;
+
+	m_stones[index]->Set_State(CStone::STATE_NO_EQUIP_ON_INVENTORY);
+
+	return true;
 }
 
 

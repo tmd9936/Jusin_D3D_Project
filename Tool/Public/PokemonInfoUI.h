@@ -41,8 +41,8 @@ public:
 	}
 
 public:
-	void	Add_ATK(const _uint& value);
-	void	Add_HP(const _uint& value);
+	void	Add_ATK(const _int& value);
+	void	Add_HP(const _int& value);
 
 private:
 	HRESULT Get_PokemonData();

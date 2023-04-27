@@ -65,6 +65,7 @@ public:
 	HRESULT	Init_MaskTexture(const STONE_DESC& stoneDesc);
 	HRESULT	Init_PokemonIconTexture(const STONE_DESC& stoneDesc);
 
+public:
 	void	Change_Value(const wstring& text);
 
 	void	Set_ParentTransform(CTransform* pTransform) {
@@ -79,6 +80,9 @@ public:
 
 public:
 	void Set_State(STATE eState);
+	void Set_InventoryIndex(const _uint& index) {
+		m_Desc.m_inventoyIndex = index;
+	}
 
 public:
 	const TYPE				Get_StoneType() const {
@@ -95,6 +99,10 @@ public:
 
 	const STATE				Get_StoneState() const {
 		return m_Desc.m_eCurState;
+	}
+
+	const _uint				Get_InventoryIndex() const {
+		return m_Desc.m_inventoyIndex;
 	}
 
 private:
