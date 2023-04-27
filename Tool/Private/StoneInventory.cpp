@@ -113,7 +113,7 @@ _bool CStoneInventory::Check_Exist_Stone_Is_In(CStone::STONE_DESC& output, _uint
 
 _bool CStoneInventory::Change_StoneIndex(const _uint& originIndex, const POINT& mousePt)
 {
-	for (size_t i = 0; i < m_TextureParts.size(); ++i)
+	for (_uint i = 0; i < m_TextureParts.size(); ++i)
 	{
 		if (m_TextureParts[i]->Check_Is_In(mousePt))
 		{

@@ -19,6 +19,13 @@ namespace Client
 		EFFECT_TYPE_END,
 	};
 
+	enum class STONE_TYPE
+	{
+		TYPE_ATK,
+		TYPE_HP,
+		TYPE_END
+	};
+
 	enum class STONE_EQUIP_TYPE
 	{
 		TYPE_ATK,
@@ -42,6 +49,7 @@ namespace Client
 		int						m_equip_stoneID;
 		int						m_value;
 		STONE_EQUIP_STATE		m_state;
+		STONE_TYPE				m_stoneType;
 	} STONE_EQUIP_DESC;
 }
 

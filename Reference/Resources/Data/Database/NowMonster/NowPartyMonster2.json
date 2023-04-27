@@ -39,63 +39,72 @@
               "m_type": 1,
               "m_equip_stoneID": 0,
               "m_state": 1,
-              "m_value": 111
+              "m_value": 111,
+              "m_stoneType": 0
           },
           {
               "m_isOpen": true,
               "m_type": 0,
               "m_equip_stoneID": 0,
               "m_state": 1,
-              "m_value": 111
+              "m_value": 111,
+              "m_stoneType": 0
           },
           {
               "m_isOpen": false,
               "m_type": 0,
               "m_equip_stoneID": 0,
               "m_state": 1,
-              "m_value": 111
+              "m_value": 111,
+              "m_stoneType": 0
           },
           {
               "m_isOpen": true,
               "m_type": 1,
               "m_equip_stoneID": 0,
               "m_state": 1,
-              "m_value": 111
+              "m_value": 111,
+              "m_stoneType": 0
           },
           {
               "m_isOpen": true,
               "m_type": 2,
               "m_equip_stoneID": 0,
               "m_state": 1,
-              "m_value": 111
+              "m_value": 111,
+              "m_stoneType": 0
           },            
           {
               "m_isOpen": false,
               "m_type": 1,
               "m_equip_stoneID": 0,
               "m_state": 1,
-              "m_value": 111
+              "m_value": 111,
+              "m_stoneType": 0
           },
           {
               "m_isOpen": true,
               "m_type": 0,
               "m_equip_stoneID": 0,
               "m_state": 1,
-              "m_value": 111
+              "m_value": 111,
+              "m_stoneType": 0
           },
           {
               "m_isOpen": true,
               "m_type": 1,
               "m_equip_stoneID": 0,
               "m_state": 1,
-              "m_value": 111
+              "m_value": 111,
+              "m_stoneType": 0
           },
           {
               "m_isOpen": true,
               "m_type": 2,
               "m_equip_stoneID": 0,
               "m_state": 1,
-              "m_value": 111
+              "m_value": 111,
+              "m_stoneType": 0
           }
       ]
     }

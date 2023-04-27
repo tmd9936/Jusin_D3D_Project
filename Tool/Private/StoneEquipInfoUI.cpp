@@ -34,7 +34,7 @@ HRESULT CStoneEquipInfoUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 		return E_FAIL;
 
-	m_stoneDatas.resize(9);
+	m_stones.resize(9);
 
 	if (FAILED(Init_StoneDatas()))
 		return E_FAIL;
@@ -47,7 +47,7 @@ HRESULT CStoneEquipInfoUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, filePath)))
 		return E_FAIL;
 
-	m_stoneDatas.resize(9);
+	m_stones.resize(9);
 
 	if (FAILED(Init_StoneDatas()))
 		return E_FAIL;
@@ -67,7 +67,7 @@ _uint CStoneEquipInfoUI::Tick(_double TimeDelta)
 		part->Tick(TimeDelta);
 	}
 
-	for (auto& stone : m_stoneDatas)
+	for (auto& stone : m_stones)
 	{
 		stone->Tick(TimeDelta);
 	}
@@ -107,14 +107,14 @@ _uint CStoneEquipInfoUI::LateTick(_double TimeDelta)
 		part->LateTick(TimeDelta);
 	}
 
-	for (size_t i = 0; i < m_stoneDatas.size(); ++i)
+	for (size_t i = 0; i < m_stones.size(); ++i)
 	{
-		if (nullptr != m_stoneDatas[i])
+		if (nullptr != m_stones[i])
 		{
 			_float3 texturePosition = m_TextureParts[i * 2]->Get_FinalWorldMatrixPosition();
-			m_stoneDatas[i]->Set_Pos({ texturePosition.x, texturePosition.y, texturePosition.z });
+			m_stones[i]->Set_Pos({ texturePosition.x, texturePosition.y, texturePosition.z });
 
-			m_stoneDatas[i]->LateTick(TimeDelta);
+			m_stones[i]->LateTick(TimeDelta);
 		}
 	}
 
@@ -195,7 +195,7 @@ HRESULT CStoneEquipInfoUI::Init_StoneDatas()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
-	for (size_t i = 0; i < m_stoneDatas.size(); ++i)
+	for (size_t i = 0; i < m_stones.size(); ++i)
 	{
 		CStone* pStone = nullptr;
 
@@ -226,7 +226,7 @@ HRESULT CStoneEquipInfoUI::Init_StoneDatas()
 
 		pStone->Set_State(CStone::STATE_NO_SHOW);
 
-		m_stoneDatas[i] = pStone;
+		m_stones[i] = pStone;
 	}
 	return S_OK;
 }
@@ -241,10 +241,10 @@ _bool CStoneEquipInfoUI::Equip(const POINT& mousePT, const CStone::STONE_DESC& s
 				((_uint)stoneDesc.m_stoneType == (_uint)m_stoneEquipDeses[i].m_type 
 					|| m_stoneEquipDeses[i].m_type == STONE_EQUIP_TYPE::TYPE_TWINS))
 			{
-				m_stoneDatas[i]->Change_StoneType(stoneDesc.m_stoneType);
-				m_stoneDatas[i]->Change_Value(to_wstring(stoneDesc.value));
-				m_stoneDatas[i]->Set_State(CStone::STATE_EQUIP_ON_EQUIPINFO);
-				m_stoneDatas[i]->Set_InventoryIndex(stoneDesc.m_inventoyIndex);
+				m_stones[i]->Change_StoneType(stoneDesc.m_stoneType);
+				m_stones[i]->Change_Value(to_wstring(stoneDesc.value));
+				m_stones[i]->Set_State(CStone::STATE_EQUIP_ON_EQUIPINFO);
+				m_stones[i]->Set_InventoryIndex(stoneDesc.m_inventoyIndex);
 				return true;
 			}
 		}
@@ -259,10 +259,10 @@ _bool CStoneEquipInfoUI::UnEquip(const POINT& mousePT, CStone::STONE_DESC& outSt
 	{
 		if (m_TextureParts[i * 2 + 1]->Check_Is_In(mousePT))
 		{
-			if (m_stoneEquipDeses[i].m_isOpen && m_stoneDatas[i]->Get_StoneState() == CStone::STATE_EQUIP_ON_EQUIPINFO)
+			if (m_stoneEquipDeses[i].m_isOpen && m_stones[i]->Get_StoneState() == CStone::STATE_EQUIP_ON_EQUIPINFO)
 			{
-				outStoneDesc = m_stoneDatas[i]->Get_StoneDesc();
-				m_stoneDatas[i]->Set_State(CStone::STATE_NO_SHOW);
+				outStoneDesc = m_stones[i]->Get_StoneDesc();
+				m_stones[i]->Set_State(CStone::STATE_NO_SHOW);
 				return true;
 			}
 		}
@@ -283,13 +283,13 @@ _bool CStoneEquipInfoUI::Change_StoneIndex(const POINT& mousePT, const _uint& or
 					((_uint)stoneDesc.m_stoneType == (_uint)m_stoneEquipDeses[i].m_type 
 						|| m_stoneEquipDeses[i].m_type == STONE_EQUIP_TYPE::TYPE_TWINS))
 				{
-					CStone* pTemp = m_stoneDatas[originIndex];
-					m_stoneDatas[originIndex] = m_stoneDatas[i];
-					m_stoneDatas[i] = pTemp;
-					m_stoneDatas[i]->Change_StoneType(stoneDesc.m_stoneType);
-					m_stoneDatas[i]->Change_Value(to_wstring(stoneDesc.value));
-					m_stoneDatas[i]->Set_State(CStone::STATE_EQUIP_ON_EQUIPINFO);
-					m_stoneDatas[i]->Set_InventoryIndex(stoneDesc.m_inventoyIndex);
+					CStone* pTemp = m_stones[originIndex];
+					m_stones[originIndex] = m_stones[i];
+					m_stones[i] = pTemp;
+					m_stones[i]->Change_StoneType(stoneDesc.m_stoneType);
+					m_stones[i]->Change_Value(to_wstring(stoneDesc.value));
+					m_stones[i]->Set_State(CStone::STATE_EQUIP_ON_EQUIPINFO);
+					m_stones[i]->Set_InventoryIndex(stoneDesc.m_inventoyIndex);
 					return true;
 				}
 			}
@@ -300,14 +300,14 @@ _bool CStoneEquipInfoUI::Change_StoneIndex(const POINT& mousePT, const _uint& or
 
 _bool CStoneEquipInfoUI::Check_Exist_Stone_Is_In(const POINT& mousePT, _uint& pickingStoneIndex, CStone::STONE_DESC& outStoneDesc)
 {
-	for (size_t i = 0; i < m_stoneEquipDeses.size(); ++i)
+	for (_uint i = 0; i < m_stoneEquipDeses.size(); ++i)
 	{
 		if (m_TextureParts[i * 2 + 1]->Check_Is_In(mousePT))
 		{
-			if (m_stoneEquipDeses[i].m_isOpen && m_stoneDatas[i]->Get_StoneState() == CStone::STATE_EQUIP_ON_EQUIPINFO)
+			if (m_stoneEquipDeses[i].m_isOpen && m_stones[i]->Get_StoneState() == CStone::STATE_EQUIP_ON_EQUIPINFO)
 			{
-				outStoneDesc = m_stoneDatas[i]->Get_StoneDesc();
-				m_stoneDatas[i]->Set_State(CStone::STATE_NO_SHOW);
+				outStoneDesc = m_stones[i]->Get_StoneDesc();
+				m_stones[i]->Set_State(CStone::STATE_NO_SHOW);
 				pickingStoneIndex = i;
 				return true;
 			}
@@ -419,7 +419,7 @@ void CStoneEquipInfoUI::Free()
 
 	Safe_Release(m_StoneEquipUI_Desc.pParent);
 
-	for (auto& iter : m_stoneDatas)
+	for (auto& iter : m_stones)
 	{
 		Safe_Release(iter);
 	}

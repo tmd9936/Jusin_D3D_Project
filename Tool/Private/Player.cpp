@@ -466,7 +466,11 @@ _bool CPlayer::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& all
 			PokemonDesc.AddMember("moveSpeed", m_PokemonDesc.moveSpeed, allocator);
 			PokemonDesc.AddMember("rotateSpeed", m_PokemonDesc.rotateSpeed, allocator);
 
+			PokemonDesc.AddMember("m_level", m_PokemonDesc.m_level, allocator);
+			PokemonDesc.AddMember("m_exp", m_PokemonDesc.m_exp, allocator);
+
 			PokemonDesc.AddMember("m_monsterNo", m_PokemonDesc.m_monsterNo, allocator);
+			PokemonDesc.AddMember("m_hpBasis", m_PokemonDesc.m_hpBasis, allocator);
 			PokemonDesc.AddMember("m_attackBasis", m_PokemonDesc.m_attackBasis, allocator);
 			PokemonDesc.AddMember("m_hpGrow", m_PokemonDesc.m_hpGrow, allocator);
 			PokemonDesc.AddMember("m_attackGrow", m_PokemonDesc.m_attackGrow, allocator);
@@ -497,6 +501,7 @@ _bool CPlayer::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& all
 						StoneDesc.AddMember("m_equip_stoneID", m_PokemonDesc.m_stones[i].m_equip_stoneID, allocator);
 						StoneDesc.AddMember("m_state", (_uint)m_PokemonDesc.m_stones[i].m_state, allocator);
 						StoneDesc.AddMember("m_value", m_PokemonDesc.m_stones[i].m_value, allocator);
+						StoneDesc.AddMember("m_stoneType", (_uint)m_PokemonDesc.m_stones[i].m_stoneType, allocator);
 					}
 					m_stones.PushBack(StoneDesc, allocator);
 				}
@@ -565,6 +570,7 @@ _bool CPlayer::Load_By_JsonFile_Impl(Document& doc)
 			desc.m_equip_stoneID = m_stones[i]["m_equip_stoneID"].GetUint();
 			desc.m_state = (STONE_EQUIP_STATE)m_stones[i]["m_state"].GetUint();
 			desc.m_value = m_stones[i]["m_value"].GetInt();
+			desc.m_stoneType = (STONE_TYPE)m_stones[i]["m_stoneType"].GetUint();
 
 			m_PokemonDesc.m_stones.push_back(move(desc));
 		}

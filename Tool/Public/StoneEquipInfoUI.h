@@ -97,7 +97,7 @@ private:
 
 private:
 	vector<STONE_EQUIP_DESC>	m_stoneEquipDeses;
-	vector<CStone*>				m_stoneDatas;
+	vector<CStone*>				m_stones;
 
 public:
 	static CStoneEquipInfoUI* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

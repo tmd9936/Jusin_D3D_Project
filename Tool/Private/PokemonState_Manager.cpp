@@ -369,6 +369,8 @@ void CPokemonState_Manager::Inventory_Stone_Picking_Tick()
 					m_pPokemonInfoUI->Add_HP(pickingStoneDesc.value);
 				}
 			}
+
+			
 		}
 
 		m_pPickingInfoStone->Set_State(CStone::STATE_NO_SHOW);
