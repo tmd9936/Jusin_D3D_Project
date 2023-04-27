@@ -86,6 +86,10 @@ public:
 		return m_Desc.value;
 	}
 
+	const STONE_DESC		Get_StoneDesc() const {
+		return m_Desc;
+	}
+
 private:
 	void				Change_State();
 	void				State_Tick(const _double& TimeDelta);

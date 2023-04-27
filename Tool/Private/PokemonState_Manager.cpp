@@ -333,7 +333,8 @@ void CPokemonState_Manager::Inventory_Stone_Picking_Tick()
 		}
 		else if (m_pStoneEquipInfoUI->Check_Is_In(pt))
 		{
-
+			CStone::STONE_DESC stoneDesc = m_pPickingInfoStone->Get_StoneDesc();
+			m_pStoneEquipInfoUI->Equip(pt, stoneDesc);
 		}
 
 		m_pPickingInfoStone->Set_State(CStone::STATE_NO_SHOW);

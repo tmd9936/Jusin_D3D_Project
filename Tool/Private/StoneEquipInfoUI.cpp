@@ -237,14 +237,37 @@ _bool CStoneEquipInfoUI::Equip(const POINT& mousePT, const CStone::STONE_DESC& s
 	{
 		if (m_TextureParts[i * 2]->Check_Is_In(mousePT))
 		{
-			if (m_stoneEquipDeses[i].m_isOpen && (_uint)stoneDesc.m_stoneType == (_uint)m_stoneEquipDeses[i].m_type)
+			if (m_stoneEquipDeses[i].m_isOpen && 
+				((_uint)stoneDesc.m_stoneType == (_uint)m_stoneEquipDeses[i].m_type 
+					|| m_stoneEquipDeses[i].m_type == STONE_EQUIP_TYPE::TYPE_TWINS))
 			{
-
+				m_stoneDatas[i]->Change_StoneType(stoneDesc.m_stoneType);
+				m_stoneDatas[i]->Change_Value(to_wstring(stoneDesc.value));
+				m_stoneDatas[i]->Set_State(CStone::STATE_EQUIP_ON_EQUIPINFO);
 			}
 		}
 	}
 
 	return true;
+}
+
+_bool CStoneEquipInfoUI::Check_Is_In(const POINT& mousePT)
+{
+	RECT uiRect{ LONG(m_FinalWorldMatrix.m[3][0] + g_iWinSizeX * 0.5f - m_UIDesc.m_fSizeX * 0.5f),
+					LONG(-m_FinalWorldMatrix.m[3][1] + g_iWinSizeY * 0.5f - m_UIDesc.m_fSizeY * 0.5f),
+					LONG(m_FinalWorldMatrix.m[3][0] + g_iWinSizeX * 0.5f + m_UIDesc.m_fSizeX * 0.5f),
+					LONG(-m_FinalWorldMatrix.m[3][1] + g_iWinSizeY * 0.5f + m_UIDesc.m_fSizeY * 0.5f) };
+
+	RECT mouseRect{ mousePT.x - m_mouseInterSize, mousePT.y - m_mouseInterSize, 
+		mousePT.x + m_mouseInterSize, mousePT.y + m_mouseInterSize };
+
+	RECT result{};
+	if (IntersectRect(&result, &uiRect, &mouseRect))
+	{
+		return true;
+	}
+
+	return false;
 }
 
 HRESULT CStoneEquipInfoUI::SetUp_ShaderResources()

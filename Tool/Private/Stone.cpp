@@ -264,6 +264,8 @@ void CStone::Change_State()
 		case STATE_PICKING_ON_INVENTORY:
 			break;
 		case STATE_EQUIP_ON_EQUIPINFO:
+			m_eRenderId = RENDER_UI;
+			m_TextParts.at(0)->Set_RenderId(RENDER_UI);
 			break;
 		case STATE_SHOW_ON_INFO_UI:
 			break;

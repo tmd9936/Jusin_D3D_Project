@@ -50,6 +50,9 @@ public:
 public:
 	_bool						Equip(const POINT& mousePT, const CStone::STONE_DESC& stoneDesc);
 
+public:
+	virtual _bool				Check_Is_In(const POINT& mousePT) override;
+
 protected:
 	virtual HRESULT				SetUp_ShaderResources() override;
 

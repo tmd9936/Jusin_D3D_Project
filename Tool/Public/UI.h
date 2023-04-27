@@ -64,8 +64,8 @@ public:
 	void					Set_Pos(const _float3& vPos);
 
 public:
-	_bool					Check_Is_In();
-	_bool					Check_Is_In(const POINT& mousePT);
+	virtual _bool			Check_Is_In();
+	virtual _bool			Check_Is_In(const POINT& mousePT);
 
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
