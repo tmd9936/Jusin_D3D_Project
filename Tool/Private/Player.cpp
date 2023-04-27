@@ -486,6 +486,23 @@ _bool CPlayer::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& all
 			}
 			PokemonDesc.AddMember("m_skillIDs", m_skillIDs, allocator);
 
+			Value m_stones(kArrayType);
+			{
+				for (size_t i = 0; i < m_PokemonDesc.m_stones.size(); ++i)
+				{
+					Value StoneDesc(kObjectType);
+					{
+						StoneDesc.AddMember("m_isOpen", m_PokemonDesc.m_stones[i].m_isOpen, allocator);
+						StoneDesc.AddMember("m_type", m_PokemonDesc.m_stones[i].m_type, allocator);
+						StoneDesc.AddMember("m_equip_stoneID", m_PokemonDesc.m_stones[i].m_equip_stoneID, allocator);
+						StoneDesc.AddMember("m_state", m_PokemonDesc.m_stones[i].m_state, allocator);
+						StoneDesc.AddMember("m_value", m_PokemonDesc.m_stones[i].m_value, allocator);
+					}
+					m_stones.PushBack(StoneDesc, allocator);
+				}
+			}
+			PokemonDesc.AddMember("m_stones", m_stones, allocator);
+
 		}
 		doc.AddMember("PokemonDesc", PokemonDesc, allocator);
 	}
@@ -547,7 +564,7 @@ _bool CPlayer::Load_By_JsonFile_Impl(Document& doc)
 			desc.m_type = (STONE_EQUIP_TYPE)m_stones[i]["m_type"].GetUint();
 			desc.m_equip_stoneID = m_stones[i]["m_equip_stoneID"].GetUint();
 			desc.m_state = (STONE_EQUIP_STATE)m_stones[i]["m_state"].GetUint();
-			desc.m_value = m_stones[i]["m_state"].GetInt();
+			desc.m_value = m_stones[i]["m_value"].GetInt();
 
 			m_PokemonDesc.m_stones.push_back(move(desc));
 		}
