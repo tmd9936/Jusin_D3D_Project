@@ -29,6 +29,9 @@ public:
 public:
 	_bool				Change_StoneIndex(const _uint& originIndex, const POINT& mousePt);
 
+public:
+	_bool				Change_StoneState_To_Equip(const _uint& index, const _uint& pokemonNo);
+
 protected:
 	virtual _bool		Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
 	virtual _bool		Load_By_JsonFile_Impl(Document& doc);

@@ -134,6 +134,17 @@ _bool CStoneInventory::Change_StoneIndex(const _uint& originIndex, const POINT& 
 	return false;
 }
 
+_bool CStoneInventory::Change_StoneState_To_Equip(const _uint& index, const _uint& pokemonNo)
+{
+	if (index >= m_stones.size())
+		return false;
+
+	m_stones[index]->Set_State(CStone::STATE_EQUIP_ON_INVENTORY);
+	m_stones[index]->Change_PokemonIcon(pokemonNo);
+
+	return _bool();
+}
+
 
 _bool CStoneInventory::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator)
 {

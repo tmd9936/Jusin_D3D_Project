@@ -334,7 +334,11 @@ void CPokemonState_Manager::Inventory_Stone_Picking_Tick()
 		else if (m_pStoneEquipInfoUI->Check_Is_In(pt))
 		{
 			CStone::STONE_DESC stoneDesc = m_pPickingInfoStone->Get_StoneDesc();
-			m_pStoneEquipInfoUI->Equip(pt, stoneDesc);
+			if (m_pStoneEquipInfoUI->Equip(pt, stoneDesc))
+			{
+				_uint pokemonNo = m_pPokemonInfoUI->Get_PokemonNo();
+				m_pStoneInventory->Change_StoneState_To_Equip(m_pickingStoneIndex, pokemonNo);
+			}
 		}
 
 		m_pPickingInfoStone->Set_State(CStone::STATE_NO_SHOW);

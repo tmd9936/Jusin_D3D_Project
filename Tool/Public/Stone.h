@@ -3,6 +3,8 @@
 
 BEGIN(Client)
 
+class CLevel_PokemonState;
+
 class CStone :
 	public CUI
 {
@@ -71,8 +73,8 @@ public:
 	}
 
 public:
-
 	HRESULT	Change_StoneType(TYPE eType);
+	HRESULT Change_PokemonIcon(const _uint& pokemonNo);
 
 public:
 	void Set_State(STATE eState);
@@ -96,6 +98,10 @@ private:
 
 private:
 	STONE_DESC			m_Desc = {};
+
+	const	_uint       m_maskTextureIndex = { 0 };
+	const	_uint       m_pokemonIconTextureIndex = { 1 };
+
 
 public:
 	static CStone* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

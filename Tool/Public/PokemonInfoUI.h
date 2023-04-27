@@ -35,8 +35,12 @@ public:
 public:
 	HRESULT Init_PokemonData(const _uint& nowMonsterNumber);
 
-private:
+public:
+	const _uint	Get_PokemonNo() const {
+		return m_PokemonInfo_Desc.m_pokemonNo;
+	}
 
+private:
 	HRESULT Get_PokemonData();
 	HRESULT Get_NowMonsterData();
 

@@ -4,6 +4,8 @@
 
 #include "GameInstance.h"
 
+#include "Level_PokemonState.h"
+
 CStone::CStone(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
 {
@@ -248,6 +250,15 @@ HRESULT CStone::Change_StoneType(TYPE eType)
 	return S_OK;
 }
 
+HRESULT CStone::Change_PokemonIcon(const _uint& pokemonNo)
+{
+	wstring iconPrototypeTag = L"Prototype_Component_Texture_Pokemon_Icon_M";
+	iconPrototypeTag.append(to_wstring(pokemonNo));
+	m_TextureParts.at(m_pokemonIconTextureIndex)->Change_Texture(iconPrototypeTag.c_str());
+
+	return S_OK;
+}
+
 void CStone::Set_State(STATE eState)
 {
 	m_Desc.m_eCurState = eState;
@@ -262,22 +273,31 @@ void CStone::Change_State()
 		case STATE_NO_EQUIP_ON_INVENTORY:
 			break;
 		case STATE_EQUIP_ON_INVENTORY:
+			m_TextureParts.at(m_maskTextureIndex)->Set_RenderId(RENDER_UI);
+			m_TextureParts.at(m_pokemonIconTextureIndex)->Set_RenderId(RENDER_UI);
+			m_eRenderId = RENDER_UI;
 			break;
 		case STATE_PICKING_ON_INVENTORY:
 			break;
 		case STATE_EQUIP_ON_EQUIPINFO:
 			m_eRenderId = RENDER_UI;
 			m_TextParts.at(0)->Set_RenderId(RENDER_UI);
+			m_TextureParts.at(m_maskTextureIndex)->Set_RenderId(RENDER_END);
+			m_TextureParts.at(m_pokemonIconTextureIndex)->Set_RenderId(RENDER_END);
 			break;
 		case STATE_SHOW_ON_INFO_UI:
 			break;
 		case STATE_PICKING_FOLLOW_MOUSE:
 			m_eRenderId = RENDER_UI;
 			m_TextParts.at(0)->Set_RenderId(RENDER_UI);
+			m_TextureParts.at(m_maskTextureIndex)->Set_RenderId(RENDER_END);
+			m_TextureParts.at(m_pokemonIconTextureIndex)->Set_RenderId(RENDER_END);
 			break;
 		case STATE_NO_SHOW:
 			m_eRenderId = RENDER_END;
 			m_TextParts.at(0)->Set_RenderId(RENDER_END);
+			m_TextureParts.at(m_maskTextureIndex)->Set_RenderId(RENDER_END);
+			m_TextureParts.at(m_pokemonIconTextureIndex)->Set_RenderId(RENDER_END);
 			break;
 		}
 
