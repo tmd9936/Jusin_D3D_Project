@@ -111,7 +111,7 @@ _uint CStoneEquipInfoUI::LateTick(_double TimeDelta)
 	{
 		if (nullptr != m_stoneDatas[i])
 		{
-			_float3 texturePosition = m_TextureParts[i]->Get_FinalWorldMatrixPosition();
+			_float3 texturePosition = m_TextureParts[i * 2]->Get_FinalWorldMatrixPosition();
 			m_stoneDatas[i]->Set_Pos({ texturePosition.x, texturePosition.y, texturePosition.z });
 
 			m_stoneDatas[i]->LateTick(TimeDelta);
@@ -235,7 +235,7 @@ _bool CStoneEquipInfoUI::Equip(const POINT& mousePT, const CStone::STONE_DESC& s
 {
 	for (size_t i = 0; i < m_stoneEquipDeses.size(); ++i)
 	{
-		if (m_TextureParts[i * 2]->Check_Is_In(mousePT))
+		if (m_TextureParts[i * 2 + 1]->Check_Is_In(mousePT))
 		{
 			if (m_stoneEquipDeses[i].m_isOpen && 
 				((_uint)stoneDesc.m_stoneType == (_uint)m_stoneEquipDeses[i].m_type 
@@ -244,11 +244,12 @@ _bool CStoneEquipInfoUI::Equip(const POINT& mousePT, const CStone::STONE_DESC& s
 				m_stoneDatas[i]->Change_StoneType(stoneDesc.m_stoneType);
 				m_stoneDatas[i]->Change_Value(to_wstring(stoneDesc.value));
 				m_stoneDatas[i]->Set_State(CStone::STATE_EQUIP_ON_EQUIPINFO);
+				return true;
 			}
 		}
 	}
 
-	return true;
+	return false;
 }
 
 _bool CStoneEquipInfoUI::Check_Is_In(const POINT& mousePT)
@@ -258,8 +259,8 @@ _bool CStoneEquipInfoUI::Check_Is_In(const POINT& mousePT)
 					LONG(m_FinalWorldMatrix.m[3][0] + g_iWinSizeX * 0.5f + m_UIDesc.m_fSizeX * 0.5f),
 					LONG(-m_FinalWorldMatrix.m[3][1] + g_iWinSizeY * 0.5f + m_UIDesc.m_fSizeY * 0.5f) };
 
-	RECT mouseRect{ mousePT.x - m_mouseInterSize, mousePT.y - m_mouseInterSize, 
-		mousePT.x + m_mouseInterSize, mousePT.y + m_mouseInterSize };
+	RECT mouseRect{ mousePT.x - 5, mousePT.y - 5, 
+		mousePT.x + 5, mousePT.y + 5 };
 
 	RECT result{};
 	if (IntersectRect(&result, &uiRect, &mouseRect))

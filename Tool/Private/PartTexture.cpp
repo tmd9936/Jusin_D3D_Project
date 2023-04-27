@@ -130,7 +130,7 @@ _bool CPartTexture::Check_Is_In(const POINT& mousePT)
 				LONG(m_FinalWorldMatrix.m[3][0] + g_iWinSizeX * 0.5f + m_UIDesc.m_fSizeX * 0.5f),  
 				LONG(-m_FinalWorldMatrix.m[3][1] + g_iWinSizeY * 0.5f + m_UIDesc.m_fSizeY * 0.5f) };
 
-	RECT mouseRect{ mousePT.x - 10, mousePT.y - 10, mousePT.x + 10, mousePT.y + 10 };
+	RECT mouseRect{ mousePT.x - 5, mousePT.y - 5, mousePT.x + 5, mousePT.y + 5 };
 
 	RECT result{};
 	if (IntersectRect(&result, &uiRect, &mouseRect))
