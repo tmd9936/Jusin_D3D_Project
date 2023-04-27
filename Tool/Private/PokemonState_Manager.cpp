@@ -401,8 +401,12 @@ void CPokemonState_Manager::Equip_Info_Stone_Picking_Tick()
 		}
 		else if (m_pStoneEquipInfoUI->Check_Is_In(pt))
 		{
+			CStone::STONE_DESC pickingStoneDesc = m_pPickingInfoStone->Get_StoneDesc();
+
+			m_pStoneEquipInfoUI->Change_StoneIndex(pt, m_pickingStoneIndex, pickingStoneDesc);
 			// 그 칸이 스톤을 넣을 수 있는 타입인지 확인
 			// 스톤이 없으면 넣기만 하기 
+			// 스톤이 이미 존재하면 바꾸기
 		}
 
 		m_pPickingInfoStone->Set_State(CStone::STATE_NO_SHOW);
