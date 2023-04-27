@@ -40,6 +40,10 @@ public:
 		return m_PokemonInfo_Desc.m_pokemonNo;
 	}
 
+public:
+	void	Add_ATK(const _uint& value);
+	void	Add_HP(const _uint& value);
+
 private:
 	HRESULT Get_PokemonData();
 	HRESULT Get_NowMonsterData();

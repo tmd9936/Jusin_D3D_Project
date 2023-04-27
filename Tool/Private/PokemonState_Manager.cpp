@@ -325,8 +325,6 @@ void CPokemonState_Manager::Inventory_Stone_Picking_Tick()
 	}
 	else if (MOUSE_AWAY(MOUSE::LBTN))
 	{
-		// 인벤토리안에 비어있는 다른 칸 인지 확인 (좌표 보내주고 확인)
-		// 스톤 장착칸인지?
 		if (m_pStoneInventory->Check_Is_In(pt))
 		{
 			m_pStoneInventory->Change_StoneIndex(m_pickingStoneIndex, pt);
@@ -338,6 +336,14 @@ void CPokemonState_Manager::Inventory_Stone_Picking_Tick()
 			{
 				_uint pokemonNo = m_pPokemonInfoUI->Get_PokemonNo();
 				m_pStoneInventory->Change_StoneState_To_Equip(m_pickingStoneIndex, pokemonNo);
+				if (stoneDesc.m_stoneType == CStone::TYPE_ATK)
+				{
+					m_pPokemonInfoUI->Add_ATK(stoneDesc.value);
+				}
+				else if (stoneDesc.m_stoneType == CStone::TYPE_HP)
+				{
+					m_pPokemonInfoUI->Add_HP(stoneDesc.value);
+				}
 			}
 		}
 

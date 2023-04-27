@@ -66,6 +66,18 @@ HRESULT CPokemonInfoUI::Init_PokemonData(const _uint& nowMonsterNumber)
 	return S_OK;
 }
 
+void CPokemonInfoUI::Add_ATK(const _uint& value)
+{
+	m_PokemonInfo_Desc.m_pokemonATK += value;
+	m_TextParts.at(m_pokemonATKValueTextIndex)->Set_Text(to_wstring(m_PokemonInfo_Desc.m_pokemonATK));
+}
+
+void CPokemonInfoUI::Add_HP(const _uint& value)
+{
+	m_PokemonInfo_Desc.m_pokemonHP += value;
+	m_TextParts.at(m_pokemonHPValueTextIndex)->Set_Text(to_wstring(m_PokemonInfo_Desc.m_pokemonHP));
+}
+
 HRESULT CPokemonInfoUI::Get_PokemonData()
 {
 	if (m_TextParts.empty() || m_TextureParts.empty())
