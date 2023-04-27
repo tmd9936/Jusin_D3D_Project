@@ -92,6 +92,10 @@ public:
 		return m_Desc;
 	}
 
+	const STATE				Get_StoneState() const {
+		return m_Desc.m_eCurState;
+	}
+
 private:
 	void				Change_State();
 	void				State_Tick(const _double& TimeDelta);

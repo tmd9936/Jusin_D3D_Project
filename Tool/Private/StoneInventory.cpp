@@ -96,7 +96,7 @@ _bool CStoneInventory::Check_Exist_Stone_Is_In(CStone::STONE_DESC& output, _uint
 	{
 		if (nullptr != m_stones[i])
 		{
-			if (m_stones[i]->Check_Is_In(mousePt))
+			if (m_stones[i]->Check_Is_In(mousePt) && m_stones[i]->Get_StoneState() == CStone::STATE_NO_EQUIP_ON_INVENTORY)
 			{
 				output.m_stoneType = m_stones[i]->Get_StoneType();
 				output.value = m_stones[i]->Get_Value();
