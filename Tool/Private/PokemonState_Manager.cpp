@@ -504,6 +504,17 @@ void CPokemonState_Manager::Free()
 	if (nullptr != m_pStoneInventory)
 		m_pStoneInventory->Save_By_JsonFile(m_pStoneInventory->Get_JsonPath().c_str());
 
+	if (nullptr != m_pPokemonInfoUI && nullptr != m_pNowMonster && nullptr != m_pStoneEquipInfoUI)
+	{
+		_int hpBasis = m_pPokemonInfoUI->Get_PokemonHP();
+		_int attackBasis = m_pPokemonInfoUI->Get_PokemonATK();
+
+		m_pNowMonster->Set_HpBasis(hpBasis);
+		m_pNowMonster->Set_AttackBasis(attackBasis);
+		m_pNowMonster->Set_StoneDesses(m_pStoneEquipInfoUI->Get_StoneEquipDesc());
+		m_pNowMonster->Save_By_JsonFile(m_pNowMonster->Get_JsonPath().c_str());
+	}
+
 	__super::Free();
 
 	Safe_Release(m_pPickingInfoStone);

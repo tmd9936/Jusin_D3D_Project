@@ -44,6 +44,15 @@ public:
 	void	Add_ATK(const _int& value);
 	void	Add_HP(const _int& value);
 
+public:
+	const _int Get_PokemonHP() const {
+		return m_PokemonInfo_Desc.m_pokemonHP;
+	}
+
+	const _int Get_PokemonATK() const {
+		return m_PokemonInfo_Desc.m_pokemonATK;
+	}
+
 private:
 	HRESULT Get_PokemonData();
 	HRESULT Get_NowMonsterData();

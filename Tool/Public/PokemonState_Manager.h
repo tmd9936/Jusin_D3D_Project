@@ -11,6 +11,7 @@ END
 
 BEGIN(Client)
 
+class CMonster;
 class CStageSupportMonster; 
 class CPlayer;
 class CPokemonSkillStoneUI;

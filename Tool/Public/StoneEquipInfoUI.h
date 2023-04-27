@@ -58,6 +58,11 @@ public:
 public:
 	virtual _bool				Check_Is_In(const POINT& mousePT) override;
 
+public:
+	const vector<STONE_EQUIP_DESC>& Get_StoneEquipDesc() const {
+		return m_stoneEquipDeses;
+	}
+
 protected:
 	virtual HRESULT				SetUp_ShaderResources() override;
 
