@@ -51,6 +51,9 @@ public:
 	_bool						Equip(const POINT& mousePT, const CStone::STONE_DESC& stoneDesc);
 	_bool						UnEquip(const POINT& mousePT, CStone::STONE_DESC& outStoneDesc);
 	_bool						Change_StoneIndex(const POINT& mousePT, const _uint& originIndex, const CStone::STONE_DESC& stoneDesc);
+	_bool						Set_StoneDesc(const _uint& index, const CStone::STONE_DESC& stoneDesc);
+
+	void						Set_StoneStateShow(const _uint& index);
 
 public:
 	_bool						Check_Exist_Stone_Is_In(const POINT& mousePT, _uint& pickingStoneIndex, CStone::STONE_DESC& outStoneDesc);

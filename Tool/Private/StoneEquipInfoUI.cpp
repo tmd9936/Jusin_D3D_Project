@@ -295,39 +295,80 @@ _bool CStoneEquipInfoUI::Change_StoneIndex(const POINT& mousePT, const _uint& or
 					((_uint)stoneDesc.m_stoneType == (_uint)m_stoneEquipDeses[i].m_type 
 						|| m_stoneEquipDeses[i].m_type == STONE_EQUIP_TYPE::TYPE_TWINS))
 				{
-					CStone* pTemp = m_stones[originIndex];
-					m_stones[originIndex] = m_stones[i];
-					m_stones[i] = pTemp;
-
-					m_stones[i]->Change_StoneType(stoneDesc.m_stoneType);
-					m_stones[i]->Change_Value(to_wstring(stoneDesc.value));
-					m_stones[i]->Set_State(CStone::STATE_EQUIP_ON_EQUIPINFO);
-					m_stones[i]->Set_InventoryIndex(stoneDesc.m_inventoyIndex);
-
-					m_stoneEquipDeses[i].m_equip_stoneID = stoneDesc.m_inventoyIndex;
-					m_stoneEquipDeses[i].m_state = STONE_EQUIP_STATE::STATE_EQUIP;
-					m_stoneEquipDeses[i].m_value = stoneDesc.value;
-					m_stoneEquipDeses[i].m_stoneType = (STONE_TYPE)stoneDesc.m_stoneType;
-
-					if (nullptr == m_stones[originIndex])
+					if (m_stones[i]->Get_StoneState() == CStone::STATE_EQUIP_ON_EQUIPINFO)
 					{
-						m_stoneEquipDeses[originIndex].m_state = STONE_EQUIP_STATE::STATE_NO_EQUIP;
+						if (m_stoneEquipDeses[originIndex].m_isOpen &&
+							((_uint)m_stones[i]->Get_StoneType() == (_uint)m_stoneEquipDeses[originIndex].m_type
+								|| m_stoneEquipDeses[originIndex].m_type == STONE_EQUIP_TYPE::TYPE_TWINS))
+						{
+							CStone* pTemp = m_stones[originIndex];
+							m_stones[originIndex] = m_stones[i];
+							m_stones[i] = pTemp;
+
+							m_stones[i]->Change_StoneType(stoneDesc.m_stoneType);
+							m_stones[i]->Change_Value(to_wstring(stoneDesc.value));
+							m_stones[i]->Set_State(CStone::STATE_EQUIP_ON_EQUIPINFO);
+							m_stones[i]->Set_InventoryIndex(stoneDesc.m_inventoyIndex);
+
+							m_stoneEquipDeses[i].m_equip_stoneID = stoneDesc.m_inventoyIndex;
+							m_stoneEquipDeses[i].m_state = STONE_EQUIP_STATE::STATE_EQUIP;
+							m_stoneEquipDeses[i].m_value = stoneDesc.value;
+							m_stoneEquipDeses[i].m_stoneType = (STONE_TYPE)stoneDesc.m_stoneType;
+
+							CStone::STONE_DESC originIndexDesc = m_stones[originIndex]->Get_StoneDesc();
+
+							m_stoneEquipDeses[originIndex].m_equip_stoneID = originIndexDesc.m_inventoyIndex;
+							m_stoneEquipDeses[originIndex].m_state = STONE_EQUIP_STATE::STATE_EQUIP;
+							m_stoneEquipDeses[originIndex].m_value = originIndexDesc.value;
+							m_stoneEquipDeses[originIndex].m_stoneType = (STONE_TYPE)originIndexDesc.m_stoneType;
+
+							return true;
+						}
+						else
+						{
+							return false;
+						}
 					}
 					else
 					{
-						CStone::STONE_DESC originIndexDesc = m_stones[originIndex]->Get_StoneDesc();
+						CStone* pTemp = m_stones[originIndex];
+						m_stones[originIndex] = m_stones[i];
+						m_stones[i] = pTemp;
 
-						m_stoneEquipDeses[originIndex].m_equip_stoneID = originIndexDesc.m_inventoyIndex;
-						m_stoneEquipDeses[originIndex].m_state = STONE_EQUIP_STATE::STATE_EQUIP;
-						m_stoneEquipDeses[originIndex].m_value = originIndexDesc.value;
-						m_stoneEquipDeses[originIndex].m_stoneType = (STONE_TYPE)originIndexDesc.m_stoneType;
+						m_stones[i]->Change_StoneType(stoneDesc.m_stoneType);
+						m_stones[i]->Change_Value(to_wstring(stoneDesc.value));
+						m_stones[i]->Set_State(CStone::STATE_EQUIP_ON_EQUIPINFO);
+						m_stones[i]->Set_InventoryIndex(stoneDesc.m_inventoyIndex);
+
+						m_stoneEquipDeses[i].m_equip_stoneID = stoneDesc.m_inventoyIndex;
+						m_stoneEquipDeses[i].m_state = STONE_EQUIP_STATE::STATE_EQUIP;
+						m_stoneEquipDeses[i].m_value = stoneDesc.value;
+						m_stoneEquipDeses[i].m_stoneType = (STONE_TYPE)stoneDesc.m_stoneType;
+
+						m_stoneEquipDeses[originIndex].m_state = STONE_EQUIP_STATE::STATE_NO_EQUIP;
+						return true;
 					}
-					return true;
+				
 				}
 			}
 		}
 	}
 	return false;
+}
+
+_bool CStoneEquipInfoUI::Set_StoneDesc(const _uint& index, const CStone::STONE_DESC& stoneDesc)
+{
+	m_stones[index]->Change_StoneType(stoneDesc.m_stoneType);
+	m_stones[index]->Change_Value(to_wstring(stoneDesc.value));
+	m_stones[index]->Set_State(CStone::STATE_EQUIP_ON_EQUIPINFO);
+	m_stones[index]->Set_InventoryIndex(stoneDesc.m_inventoyIndex);
+
+	return true;
+}
+
+void CStoneEquipInfoUI::Set_StoneStateShow(const _uint& index)
+{
+	m_stones[index]->Set_State(CStone::STATE_EQUIP_ON_EQUIPINFO);
 }
 
 _bool CStoneEquipInfoUI::Check_Exist_Stone_Is_In(const POINT& mousePT, _uint& pickingStoneIndex, CStone::STONE_DESC& outStoneDesc)

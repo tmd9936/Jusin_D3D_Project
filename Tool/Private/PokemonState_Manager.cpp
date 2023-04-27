@@ -416,7 +416,18 @@ void CPokemonState_Manager::Equip_Info_Stone_Picking_Tick()
 		{
 			CStone::STONE_DESC pickingStoneDesc = m_pPickingInfoStone->Get_StoneDesc();
 
-			m_pStoneEquipInfoUI->Change_StoneIndex(pt, m_pickingStoneIndex, pickingStoneDesc);
+			if (m_pStoneEquipInfoUI->Change_StoneIndex(pt, m_pickingStoneIndex, pickingStoneDesc))
+			{
+
+			}
+			else
+			{
+				m_pStoneEquipInfoUI->Set_StoneStateShow(m_pickingStoneIndex);
+			}
+		}
+		else
+		{
+			m_pStoneEquipInfoUI->Set_StoneStateShow(m_pickingStoneIndex);
 		}
 
 		m_pPickingInfoStone->Set_State(CStone::STATE_NO_SHOW);
