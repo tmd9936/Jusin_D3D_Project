@@ -80,6 +80,10 @@ public:
 		}
 	}
 
+	const string			Get_JsonPath() const {
+		return m_strSaveJsonPath;
+	}
+
 public:
 	const _bool					Is_Dead() const { 
 		return m_bDead; 

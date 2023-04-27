@@ -499,6 +499,9 @@ CGameObject* CPokemonState_Manager::Clone(const _tchar* pLayerTag, _uint iLevelI
 
 void CPokemonState_Manager::Free()
 {
+	if (nullptr != m_pStoneInventory)
+		m_pStoneInventory->Save_By_JsonFile(m_pStoneInventory->Get_JsonPath().c_str());
+
 	__super::Free();
 
 	Safe_Release(m_pPickingInfoStone);

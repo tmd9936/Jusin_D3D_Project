@@ -493,9 +493,9 @@ _bool CPlayer::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& all
 					Value StoneDesc(kObjectType);
 					{
 						StoneDesc.AddMember("m_isOpen", m_PokemonDesc.m_stones[i].m_isOpen, allocator);
-						StoneDesc.AddMember("m_type", m_PokemonDesc.m_stones[i].m_type, allocator);
+						StoneDesc.AddMember("m_type", (_uint)m_PokemonDesc.m_stones[i].m_type, allocator);
 						StoneDesc.AddMember("m_equip_stoneID", m_PokemonDesc.m_stones[i].m_equip_stoneID, allocator);
-						StoneDesc.AddMember("m_state", m_PokemonDesc.m_stones[i].m_state, allocator);
+						StoneDesc.AddMember("m_state", (_uint)m_PokemonDesc.m_stones[i].m_state, allocator);
 						StoneDesc.AddMember("m_value", m_PokemonDesc.m_stones[i].m_value, allocator);
 					}
 					m_stones.PushBack(StoneDesc, allocator);

@@ -122,6 +122,7 @@ _bool CStoneInventory::Change_StoneIndex(const _uint& originIndex, const POINT& 
 				CStone* pTemp = m_stones[originIndex];
 				m_stones[originIndex] = m_stones[i];
 				m_stones[i] = pTemp;
+				m_stones[i]->Set_InventoryIndex(i);
 
 				m_TextureParts[i]->Change_Texture(m_equipTextureProtoTypeTag.c_str());
 				m_TextureParts[i]->Set_Scaled(m_eqiupScale);
@@ -129,6 +130,10 @@ _bool CStoneInventory::Change_StoneIndex(const _uint& originIndex, const POINT& 
 				{
 					m_TextureParts[originIndex]->Change_Texture(m_nonEquipTextureProtoTypeTag.c_str());
 					m_TextureParts[originIndex]->Set_Scaled(m_nonEqiupScale);
+				}
+				else
+				{
+					m_stones[originIndex]->Set_InventoryIndex(originIndex);
 				}
 
 				return true;
@@ -171,7 +176,7 @@ _bool CStoneInventory::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorT
 
 		UIDesc.AddMember("m_fSizeX", m_UIDesc.m_fSizeX, allocator);
 		UIDesc.AddMember("m_fSizeY", m_UIDesc.m_fSizeY, allocator);
-		UIDesc.AddMember("m_TextureProtoTypeLevel", m_UIDesc.m_TextureProtoTypeLevel, allocator);
+		UIDesc.AddMember("m_ShaderPass", m_UIDesc.m_ShaderPass, allocator);
 		UIDesc.AddMember("m_UIType", m_UIDesc.m_UIType, allocator);
 
 		Value m_vColor(kObjectType);
@@ -183,6 +188,7 @@ _bool CStoneInventory::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorT
 		}
 		UIDesc.AddMember("m_vColor", m_vColor, allocator);
 
+		UIDesc.AddMember("m_TextureProtoTypeLevel", m_UIDesc.m_TextureProtoTypeLevel, allocator);
 		Value m_TextureProtoTypeName;
 		string TextureProtoTypeName = convert.to_bytes(m_UIDesc.m_TextureProtoTypeName);
 		m_TextureProtoTypeName.SetString(TextureProtoTypeName.c_str(), (SizeType)TextureProtoTypeName.size(), allocator);
@@ -195,13 +201,12 @@ _bool CStoneInventory::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorT
 			{
 				CPartTexture::UI_DESC desc = iter->Get_UIDesc();
 
-				Parts.AddMember("m_fSizeX", desc.m_fSizeX, allocator);
-				Parts.AddMember("m_fSizeY", desc.m_fSizeY, allocator);
 				Parts.AddMember("m_fX", desc.m_fX, allocator);
 				Parts.AddMember("m_fY", desc.m_fY, allocator);
-
-				Parts.AddMember("m_TextureProtoTypeLevel", desc.m_TextureProtoTypeLevel, allocator);
-				Parts.AddMember("m_UIType", desc.m_eType, allocator);
+				Parts.AddMember("m_fSizeX", desc.m_fSizeX, allocator);
+				Parts.AddMember("m_fSizeY", desc.m_fSizeY, allocator);
+				Parts.AddMember("m_eType", desc.m_eType, allocator);
+				Parts.AddMember("m_ShaderPass", desc.m_ShaderPass, allocator);
 
 				Value m_vColor(kObjectType);
 				{
@@ -212,14 +217,17 @@ _bool CStoneInventory::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorT
 				}
 				Parts.AddMember("m_vColor", m_vColor, allocator);
 
-				wstring wTextureProtoTypeName = desc.m_TextureProtoTypeName;
-				string textureProtoTypeName = convert.to_bytes(wTextureProtoTypeName);
-				Parts.AddMember("m_TextureProtoTypeName", Value().SetString(StringRef(textureProtoTypeName.c_str())), allocator);
+				Parts.AddMember("m_TextureProtoTypeLevel", desc.m_TextureProtoTypeLevel, allocator);
 
+				Value valTextureProtoTypeName;
+				string textureProtoTypeName = convert.to_bytes(desc.m_TextureProtoTypeName);
+				valTextureProtoTypeName.SetString(textureProtoTypeName.c_str(), (SizeType)textureProtoTypeName.size(), allocator);
+				Parts.AddMember("m_TextureProtoTypeName", valTextureProtoTypeName, allocator);
+
+				Value valLayer;
 				string layerTag = convert.to_bytes(Get_LayerTag());
-				Parts.AddMember("LayerTag", Value().SetString(StringRef(layerTag.c_str())), allocator);
-
-				Parts.AddMember("m_ShaderPass", desc.m_ShaderPass, allocator);
+				valLayer.SetString(layerTag.c_str(), (SizeType)layerTag.size(), allocator);
+				Parts.AddMember("LayerTag", valLayer, allocator);
 			}
 
 			TextureParts.PushBack(Parts, allocator);
@@ -227,15 +235,6 @@ _bool CStoneInventory::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorT
 		UIDesc.AddMember("m_TextureParts", TextureParts, allocator);
 
 		Value TextParts(kArrayType);
-		for (auto& iter : m_TextParts)
-		{
-			Value Parts(kObjectType);
-			{
-
-			}
-
-			TextParts.PushBack(Parts, allocator);
-		}
 		UIDesc.AddMember("m_TextParts", TextParts, allocator);
 
 		Value Stones(kArrayType);
@@ -248,8 +247,8 @@ _bool CStoneInventory::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorT
 			{
 				CStone::Stone_Desc stoneDesc = m_stones[i]->Get_StoneDesc();
 				stone.AddMember("m_inventoyIndex", stoneDesc.m_inventoyIndex, allocator);
-				stone.AddMember("m_eCurState", stoneDesc.m_eCurState, allocator);
-				stone.AddMember("m_stoneType", stoneDesc.m_stoneType, allocator);
+				stone.AddMember("m_eCurState", (_uint)stoneDesc.m_eCurState, allocator);
+				stone.AddMember("m_stoneType", (_uint)stoneDesc.m_stoneType, allocator);
 				stone.AddMember("value", stoneDesc.value, allocator);
 				stone.AddMember("m_pokemonIconNumber", stoneDesc.m_pokemonIconNumber, allocator);
 			}
