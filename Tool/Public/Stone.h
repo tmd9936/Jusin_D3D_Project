@@ -38,6 +38,7 @@ public:
 		TYPE			m_stoneType;
 		_uint			value;
 		_uint			m_pokemonIconNumber;
+		_uint			m_inventoyIndex;
 
 		UI_DESC			m_UIDesc;
 	} STONE_DESC;
