@@ -122,9 +122,11 @@ _bool CStoneInventory::Change_StoneIndex(const _uint& originIndex, const POINT& 
 				m_stones[i] = pTemp;
 
 				m_TextureParts[i]->Change_Texture(L"Prototype_Component_Texture_Rectangle_Base");
+				m_TextureParts[i]->Set_Scaled({ 55.f, 55.f, 1.f });
 				if (nullptr == m_stones[originIndex])
 				{
 					m_TextureParts[originIndex]->Change_Texture(L"Prototype_Component_Texture_Window_Plane_Corner_Waku_Mini");
+					m_TextureParts[originIndex]->Set_Scaled({ 45.f, 45.f, 1.f });
 				}
 
 				return true;
@@ -365,6 +367,7 @@ _bool CStoneInventory::Load_By_JsonFile_Impl(Document& doc)
 		pStoneTransform->Set_Pos(texturePosition.x + 5.f, texturePosition.y - 5.f, texturePosition.z);
 
 		m_TextureParts[stoneIndex]->Change_Texture(L"Prototype_Component_Texture_Rectangle_Base");
+		m_TextureParts[stoneIndex]->Set_Scaled({ 55.f, 55.f, 1.f });
 
 		m_stones[stoneIndex] = pStone;
 	}

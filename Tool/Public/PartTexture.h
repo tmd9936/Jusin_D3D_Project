@@ -83,6 +83,9 @@ public:
 	}
 
 public:
+	void	Set_Scaled(const _float3& vScale);
+
+public:
 	const _float Get_Progress() const {
 		return m_UIDesc.m_Progress;
 	}

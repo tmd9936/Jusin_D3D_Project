@@ -78,6 +78,14 @@ HRESULT CPartTexture::Change_Texture(const _tchar* prototypeTag)
 	return S_OK;
 }
 
+void CPartTexture::Set_Scaled(const _float3& vScale)
+{
+	m_pTransformCom->Set_Scaled(vScale);
+
+	m_UIDesc.m_fSizeX = vScale.x;
+	m_UIDesc.m_fSizeY = vScale.y;
+}
+
 const _float3 CPartTexture::Get_FinalWorldMatrixPosition() const
 {
 	_float3 result = { m_FinalWorldMatrix.m[3][0], m_FinalWorldMatrix.m[3][1], m_FinalWorldMatrix.m[3][2] };
