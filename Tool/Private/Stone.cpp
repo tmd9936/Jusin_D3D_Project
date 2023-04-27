@@ -226,6 +226,8 @@ void CStone::Change_Value(const wstring& text)
 	if (m_TextParts.empty())
 		return;
 
+	m_Desc.value = stoi(text);
+
 	m_TextParts.at(0)->Set_Text(text);
 }
 
