@@ -252,6 +252,8 @@ HRESULT CStone::Change_StoneType(TYPE eType)
 
 HRESULT CStone::Change_PokemonIcon(const _uint& pokemonNo)
 {
+	m_Desc.m_pokemonIconNumber = pokemonNo;
+
 	wstring iconPrototypeTag = L"Prototype_Component_Texture_Pokemon_Icon_M";
 	iconPrototypeTag.append(to_wstring(pokemonNo));
 	m_TextureParts.at(m_pokemonIconTextureIndex)->Change_Texture(iconPrototypeTag.c_str());
