@@ -20,6 +20,7 @@ class CStoneEquipInfoUI;
 class CPokemonInfoUI;
 class CStoneInventory;
 class CStone;
+class CStoneInfoUI;
 
 class CPokemonState_Manager final : public CUI
 {
@@ -61,6 +62,8 @@ private:
 	HRESULT							Init_PokemonSkillInfoUI();
 	HRESULT							Init_StoneEquipInfoUI();
 	HRESULT							Init_StoneInventory();
+	HRESULT							Init_StoneInfoUI();
+
 
 private:
 	void							State_Tick(const _double& TimeDelta);
@@ -93,6 +96,7 @@ private:
 	CStoneEquipInfoUI*				m_pStoneEquipInfoUI		= { nullptr };
 	CStoneInventory*				m_pStoneInventory		= { nullptr };
 	CPokemonInfoUI*					m_pPokemonInfoUI		= { nullptr };
+	CStoneInfoUI*					m_pStoneInfoUI			= { nullptr };
 
 private:
 	_uint							m_pickingStoneIndex = { 0 };

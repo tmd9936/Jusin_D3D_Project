@@ -13,6 +13,7 @@
 #include "StoneEquipInfoUI.h"
 #include "StoneInventory.h"
 #include "PokemonInfoUI.h"
+#include "StoneInfoUI.h"
 
 // 레벨 끝나면
 // 포켓몬 능력치 및 스톤 장착 정보 업데이트
@@ -64,6 +65,9 @@ HRESULT CPokemonState_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelI
 		return E_FAIL;
 
 	if (FAILED(Init_StoneInventory()))
+		return E_FAIL;
+
+	if (FAILED(Init_StoneInfoUI()))
 		return E_FAIL;
 
 	return S_OK;
@@ -259,6 +263,22 @@ HRESULT CPokemonState_Manager::Init_StoneInventory()
 	if (nullptr == m_pStoneInventory)
 		return E_FAIL;
 	Safe_AddRef(m_pStoneInventory);
+
+	return S_OK;
+}
+
+HRESULT CPokemonState_Manager::Init_StoneInfoUI()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	CGameObject* pObject = pGameInstance->Get_Object(LEVEL_POKEMONSTATE, L"Layer_UI", L"StoneInfoUI");
+	if (nullptr == pObject)
+		return E_FAIL;
+
+	m_pStoneInfoUI = dynamic_cast<CStoneInfoUI*>(pObject);
+	if (nullptr == m_pStoneInfoUI)
+		return E_FAIL;
+	Safe_AddRef(m_pStoneInfoUI);
 
 	return S_OK;
 }
@@ -545,4 +565,5 @@ void CPokemonState_Manager::Free()
 	Safe_Release(m_pStoneEquipInfoUI);
 	Safe_Release(m_pStoneInventory);
 	Safe_Release(m_pPokemonInfoUI);
+	Safe_Release(m_pStoneInfoUI);
 }

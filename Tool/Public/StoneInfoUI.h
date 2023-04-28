@@ -5,13 +5,13 @@
 
 BEGIN(Client)
 
-class StoneInfoUI :
+class CStoneInfoUI :
 	public CUI
 {
 private:
-	explicit StoneInfoUI(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	explicit StoneInfoUI(const StoneInfoUI& rhs);
-	virtual ~StoneInfoUI() = default;
+	explicit CStoneInfoUI(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CStoneInfoUI(const CStoneInfoUI& rhs);
+	virtual ~CStoneInfoUI() = default;
 
 private:
 	virtual HRESULT Initialize_Prototype() override;
@@ -27,7 +27,7 @@ public:
 	HRESULT			Change_StoneInfo(const CStone::STONE_DESC& desc);
 
 private:
-	_bool			m_bShowStoneInfo = { false };
+	_bool			m_bShowStoneInfo = { true };
 
 private:
 	const _uint		m_StoneTextureIndex = { 0 };
@@ -43,7 +43,7 @@ private:
 
 
 public:
-	static StoneInfoUI* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CStoneInfoUI* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) override;
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath = nullptr) override;
 	virtual void Free() override;

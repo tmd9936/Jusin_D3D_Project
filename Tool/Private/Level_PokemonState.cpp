@@ -135,6 +135,9 @@ HRESULT CLevel_PokemonState::Ready_Layer_UI(const _tchar* pLayerTag)
 		return E_FAIL;
 	Safe_Release(pStoneInventory);
 
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StoneInfoUI"), LEVEL_POKEMONSTATE, pLayerTag,  L"StoneInfoUI", "../../Reference/Resources/Data/Scene/PokemonInfo/StoneInfoUI/StoneInfoUI.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
 	Safe_Release(pGameInstance);
 
 	return S_OK;

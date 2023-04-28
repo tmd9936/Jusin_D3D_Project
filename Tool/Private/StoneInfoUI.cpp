@@ -5,17 +5,17 @@
 #include "PartText.h"
 #include "PartTexture.h"
 
-StoneInfoUI::StoneInfoUI(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CStoneInfoUI::CStoneInfoUI(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
 {
 }
 
-StoneInfoUI::StoneInfoUI(const StoneInfoUI& rhs)
+CStoneInfoUI::CStoneInfoUI(const CStoneInfoUI& rhs)
 	: CUI(rhs)
 {
 }
 
-HRESULT StoneInfoUI::Initialize_Prototype()
+HRESULT CStoneInfoUI::Initialize_Prototype()
 {
 	if (FAILED(__super::Initialize_Prototype()))
 		return E_FAIL;
@@ -23,7 +23,7 @@ HRESULT StoneInfoUI::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT StoneInfoUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
+HRESULT CStoneInfoUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 		return E_FAIL;
@@ -31,7 +31,7 @@ HRESULT StoneInfoUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void
 	return S_OK;
 }
 
-HRESULT StoneInfoUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath)
+HRESULT CStoneInfoUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath)
 {
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, filePath)))
 		return E_FAIL;
@@ -39,7 +39,7 @@ HRESULT StoneInfoUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, cons
 	return S_OK;
 }
 
-_uint StoneInfoUI::Tick(_double TimeDelta)
+_uint CStoneInfoUI::Tick(_double TimeDelta)
 {
 	if (m_bShowStoneInfo)
 	{
@@ -57,7 +57,7 @@ _uint StoneInfoUI::Tick(_double TimeDelta)
 	return _uint();
 }
 
-_uint StoneInfoUI::LateTick(_double TimeDelta)
+_uint CStoneInfoUI::LateTick(_double TimeDelta)
 {
 	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
 
@@ -77,12 +77,12 @@ _uint StoneInfoUI::LateTick(_double TimeDelta)
 	return _uint();
 }
 
-HRESULT StoneInfoUI::Render()
+HRESULT CStoneInfoUI::Render()
 {
 	return __super::Render();
 }
 
-HRESULT StoneInfoUI::Change_StoneInfo(const CStone::STONE_DESC& desc)
+HRESULT CStoneInfoUI::Change_StoneInfo(const CStone::STONE_DESC& desc)
 {
 	m_bShowStoneInfo = true;
 
@@ -111,46 +111,46 @@ HRESULT StoneInfoUI::Change_StoneInfo(const CStone::STONE_DESC& desc)
 	return S_OK;
 }
 
-StoneInfoUI* StoneInfoUI::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CStoneInfoUI* CStoneInfoUI::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	StoneInfoUI* pInstance = new StoneInfoUI(pDevice, pContext);
+	CStoneInfoUI* pInstance = new CStoneInfoUI(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed to Created StoneInfoUI");
+		MSG_BOX("Failed to Created CStoneInfoUI");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* StoneInfoUI::Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
+CGameObject* CStoneInfoUI::Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
-	StoneInfoUI* pInstance = new StoneInfoUI(*this);
+	CStoneInfoUI* pInstance = new CStoneInfoUI(*this);
 
 	if (FAILED(pInstance->Initialize(pLayerTag, iLevelIndex, pArg)))
 	{
-		MSG_BOX("Failed to Cloned StoneInfoUI");
+		MSG_BOX("Failed to Cloned CStoneInfoUI");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* StoneInfoUI::Clone(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath)
+CGameObject* CStoneInfoUI::Clone(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath)
 {
-	StoneInfoUI* pInstance = new StoneInfoUI(*this);
+	CStoneInfoUI* pInstance = new CStoneInfoUI(*this);
 
 	if (FAILED(pInstance->Initialize(pLayerTag, iLevelIndex, filePath)))
 	{
-		MSG_BOX("Failed to Cloned StoneInfoUI");
+		MSG_BOX("Failed to Cloned CStoneInfoUI");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void StoneInfoUI::Free()
+void CStoneInfoUI::Free()
 {
 	__super::Free();
 }

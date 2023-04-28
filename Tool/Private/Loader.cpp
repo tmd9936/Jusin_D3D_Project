@@ -96,6 +96,7 @@
 #include "SkillInfoUI.h"
 #include "StoneEquipInfoUI.h"
 #include "StoneInventory.h"
+#include "StoneInfoUI.h"
 
 #include "Stone.h"
 
@@ -2085,6 +2086,10 @@ HRESULT CLoader::Loading_ForPokemonStateLevel()
 
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_PokemonState_Manager"),
 			CPokemonState_Manager::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_StoneInfoUI"),
+			CStoneInfoUI::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 	}
 
