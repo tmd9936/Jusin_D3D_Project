@@ -297,11 +297,11 @@ PS_OUT_BLOOM PS_MAIN_DEFERRED_BLOOM(PS_IN In)
 	{
 		for (int y = -3; y <= 3; ++y)
 		{
-			color += BlurWeights[x + 3][y + 3] * 36 * g_BrightTexture.Sample(BlurSampler, In.vTexUV + float2(x * texelSize.x, y * texelSize.y));
+			color += BlurWeights[x + 3][y + 3] * 256 * g_BrightTexture.Sample(BlurSampler, In.vTexUV + float2(x * texelSize.x, y * texelSize.y));
 		}
 	}
 
-	color = color / (vTotal * 6);
+	color = color / (vTotal * 256);
 
 	Out.vBloomColor = color;
 	
@@ -343,15 +343,15 @@ PS_OUT PS_MAIN_DEFERRED_BLOOM_BLEND(PS_IN In)
 	if (vNonLightDiffuse.a != 0.f)
 	{
 		Out.vColor = vNonLightDiffuse;
+		float4		vBloom = pow(pow(abs(vBloomColor), 4.2f) + pow(abs(vBloomOriginColor), 4.2f), 1.f / 4.2f);
+
+		Out.vColor = pow(abs(Out.vColor), 4.2f);;
+		vBloom = pow(abs(vBloom), 4.2f);
+
+		Out.vColor += vBloom;
+		Out.vColor = pow(abs(Out.vColor), 1 / 4.2f);
 	}
 
-	float4		vBloom = pow(pow(abs(vBloomColor), 4.2f) + pow(abs(vBloomOriginColor), 4.2f), 1.f / 4.2f);
-
-	Out.vColor = pow(abs(Out.vColor), 4.2f);;
-	vBloom = pow(abs(vBloom), 4.2f);
-
-	Out.vColor += vBloom;
-	Out.vColor = pow(abs(Out.vColor), 1 / 4.2f);
 	
 
 	return Out;
