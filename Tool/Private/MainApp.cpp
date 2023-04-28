@@ -234,7 +234,7 @@ HRESULT CMainApp::Render()
 
 HRESULT CMainApp::RenderFPS()
 {
-#ifdef _IMGUITOOL
+#ifdef _FPS
 	++m_dwNumDraw;
 
 	if (m_TimeAcc >= 1.0)
