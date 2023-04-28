@@ -301,7 +301,7 @@ PS_OUT_BLOOM PS_MAIN_DEFERRED_BLOOM(PS_IN In)
 		}
 	}
 
-	color = color / (vTotal * 256);
+	color = color / (vTotal * 64);
 
 	Out.vBloomColor = color;
 	
