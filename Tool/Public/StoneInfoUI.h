@@ -27,7 +27,7 @@ public:
 	HRESULT			Change_StoneInfo(const CStone::STONE_DESC& desc);
 
 private:
-	_bool			m_bShowStoneInfo = { true };
+	_bool			m_bShowStoneInfo = { false };
 
 private:
 	const _uint		m_StoneTextureIndex = { 0 };

@@ -339,6 +339,8 @@ void CPokemonState_Manager::Picking()
 			
 			if (m_pStoneInventory->Check_Exist_Stone_Is_In(stoneDesc, m_pickingStoneIndex, pt))
 			{
+				m_pStoneInfoUI->Change_StoneInfo(stoneDesc);
+
 				m_pPickingInfoStone->Change_StoneType(stoneDesc.m_stoneType);
 				m_pPickingInfoStone->Change_Value(to_wstring(stoneDesc.value));
 				m_pPickingInfoStone->Set_State(CStone::STATE_PICKING_FOLLOW_MOUSE);
@@ -351,6 +353,8 @@ void CPokemonState_Manager::Picking()
 			CStone::STONE_DESC stoneDesc{};
 			if (m_pStoneEquipInfoUI->Check_Exist_Stone_Is_In(pt, m_pickingStoneIndex, stoneDesc))
 			{
+				m_pStoneInfoUI->Change_StoneInfo(stoneDesc);
+
 				m_pPickingInfoStone->Change_StoneType(stoneDesc.m_stoneType);
 				m_pPickingInfoStone->Change_Value(to_wstring(stoneDesc.value));
 				m_pPickingInfoStone->Set_State(CStone::STATE_PICKING_FOLLOW_MOUSE);
