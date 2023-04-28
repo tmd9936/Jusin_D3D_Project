@@ -393,7 +393,7 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 		{
 			//m_pTransformCom->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta * 1.5));
 
-			if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta * 1.2f), 1.2f, m_pNavigationCom))
+			if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta * 1.2f), 1.3f, m_pNavigationCom))
 			{
 				if (m_bCanAttack)
 				{
