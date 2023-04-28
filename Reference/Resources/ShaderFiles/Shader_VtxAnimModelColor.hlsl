@@ -72,11 +72,10 @@ struct PS_OUT_COLOR
 	float4		vColor : SV_TARGET0;
 };
 
-struct PS_OUT_COLOR_BRIGHT
+struct PS_OUT_COLOR_EFFECT
 
 {
 	float4		vDiffuse : SV_TARGET0;
-	float4		vBrightColor : SV_TARGET1;
 
 };
 
@@ -99,22 +98,16 @@ PS_OUT_COLOR PS_MAIN_EFFECT(PS_IN In)
 	return Out;
 }
 
-PS_OUT_COLOR_BRIGHT PS_MAIN_EFFECT_DEFERRED(PS_IN In)
+PS_OUT_COLOR_EFFECT PS_MAIN_EFFECT_DEFERRED(PS_IN In)
 {
-	PS_OUT_COLOR_BRIGHT			Out = (PS_OUT_COLOR_BRIGHT)0;
+	PS_OUT_COLOR_EFFECT			Out = (PS_OUT_COLOR_EFFECT)0;
 
 	vector		vMtrlDiffuse = In.vColor;
 
 	if (vMtrlDiffuse.a < 0.1f)
 		discard;
 
-	float4 BrightColor = float4(0.f, 0.f, 0.f, 0.f);
-	float brightness = dot(In.vColor.rgb, normalize(float3(1.f, -1.f, 1.f)));
-	if (brightness > 0.99)
-		BrightColor = float4(In.vColor.rgb, 1.0);
-
 	Out.vDiffuse = vMtrlDiffuse;
-	Out.vBrightColor = BrightColor;
 
 	return Out;
 }

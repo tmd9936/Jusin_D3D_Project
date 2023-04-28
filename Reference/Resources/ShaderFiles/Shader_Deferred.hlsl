@@ -225,25 +225,13 @@ PS_OUT PS_MAIN_DEFERRED_BRIGHT(PS_IN In)
 	PS_OUT			Out = (PS_OUT)0;
 
 	float4		vNonLightColor = g_NonLightDiffuseTexture.Sample(LinearSampler, In.vTexUV);
-	float4		vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
-	vector		vShade = g_ShadeTexture.Sample(LinearSampler, In.vTexUV);
-
-	vColor = vColor * vShade;
-
-	if (vColor.a == 0.f)
-	{
-		discard;
-	}
-
-	if (vNonLightColor.a != 0.f)
-	{
-		vColor = vNonLightColor;
-	}
+	//float4		vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+	//vector		vShade = g_ShadeTexture.Sample(LinearSampler, In.vTexUV);
 
 	float4 BrightColor = float4(0.f, 0.f, 0.f, 0.f);
-	float brightness = dot(vColor.rgb, float3(0.2126f, 0.7152f, 0.0722f));
+	float brightness = dot(vNonLightColor.rgb, float3(0.2126f, 0.7152f, 0.0722f));
 	if (brightness >= 0.95)
-		BrightColor = float4(vColor.rgb, 1.0);
+		BrightColor = float4(vNonLightColor.rgb, 1.0);
 
 	Out.vColor = BrightColor;
 
@@ -279,48 +267,71 @@ struct PS_OUT_BLOOM
 	float4		vBloomColor : SV_TARGET0;
 };
 
-PS_OUT_BLOOM PS_MAIN_DEFERRED_BLOOM(PS_IN In)
+PS_OUT_BLOOM PS_MAIN_DEFERRED_BLURX(PS_IN In)
 {
 	PS_OUT_BLOOM			Out = (PS_OUT_BLOOM)0;
 
-	float4	vBrightDesc = g_BrightTexture.Sample(BlurSampler, In.vTexUV);
+	//float4	vBrightDesc = g_BrightTexture.Sample(BlurSampler, In.vTexUV);
 
-	if (vBrightDesc.a == 0.f)
-	{
-		discard;
-	}
-
-	float4 color = float4(0.f, 0.f, 0.f, 0.f);
-	float2 texelSize = 1.f / g_TexSize;
-
-	for (int x = -3; x <= 3; ++x)
-	{
-		for (int y = -3; y <= 3; ++y)
-		{
-			color += BlurWeights[x + 3][y + 3] * 256 * g_BrightTexture.Sample(BlurSampler, In.vTexUV + float2(x * texelSize.x, y * texelSize.y));
-		}
-	}
-
-	color = color / (vTotal * 64);
-
-	Out.vBloomColor = color;
-	
-
-	//float4 vColor = float4(0.f, 0.f, 0.f, 0.f);
-	//float2 t = In.vTexUV;
-	//float2 uv = float2(0.f, 0.f);
-
-	//float tu = 1.f / g_TexSize.x;
-
-	//for (int i = -6; i < 6; ++i)
+	//if (vBrightDesc.a == 0.f)
 	//{
-	//	uv = t + float2(tu * i, 0);
-	//	vColor += Weights[6+i] * g_BrightTexture.Sample(BlurSampler, uv);
+	//	discard;
 	//}
 
-	//vColor /= Total;
+	//float4 color = float4(0.f, 0.f, 0.f, 0.f);
+	//float2 texelSize = 1.f / g_TexSize;
 
-	//Out.vBloomColor = vColor;
+	//for (int x = -3; x <= 3; ++x)
+	//{
+	//	for (int y = -3; y <= 3; ++y)
+	//	{
+	//		color += BlurWeights[x + 3][y + 3] * 256 * g_BrightTexture.Sample(BlurSampler, In.vTexUV + float2(x * texelSize.x, y * texelSize.y));
+	//	}
+	//}
+
+	//color = color / (vTotal * 64);
+
+	//Out.vBloomColor = color;
+	
+
+	float4 vColor = float4(0.f, 0.f, 0.f, 0.f);
+	float2 t = In.vTexUV;
+	float2 uv = float2(0.f, 0.f);
+
+	float tu = 1.f / g_TexSize.x;
+
+	for (int i = -6; i < 6; ++i)
+	{
+		uv = t + float2(tu * i, 0.f);
+		vColor += Weights[6+i] * g_BrightTexture.Sample(BlurSampler, uv);
+	}
+
+	vColor /= Total;
+
+	Out.vBloomColor = vColor;
+
+	return Out;
+}
+
+PS_OUT_BLOOM PS_MAIN_DEFERRED_BLURY(PS_IN In)
+{
+	PS_OUT_BLOOM			Out = (PS_OUT_BLOOM)0;
+
+	float4 vColor = float4(0.f, 0.f, 0.f, 0.f);
+	float2 t = In.vTexUV;
+	float2 uv = float2(0.f, 0.f);
+
+	float tv = 1.f / (g_TexSize.y * 0.5f);
+
+	for (int i = -6; i < 6; ++i)
+	{
+		uv = t + float2(0.f, tv * i);
+		vColor += Weights[6 + i] * g_BlurXTexture.Sample(BlurSampler, uv);
+	}
+
+	vColor /= Total;
+
+	Out.vBloomColor = vColor;
 
 	return Out;
 }
@@ -343,13 +354,13 @@ PS_OUT PS_MAIN_DEFERRED_BLOOM_BLEND(PS_IN In)
 	if (vNonLightDiffuse.a != 0.f)
 	{
 		Out.vColor = vNonLightDiffuse;
-		float4		vBloom = pow(pow(abs(vBloomColor), 4.2f) + pow(abs(vBloomOriginColor), 4.2f), 1.f / 4.2f);
+		float4		vBloom = pow(pow(abs(vBloomColor), 2.2f) + pow(abs(vBloomOriginColor), 2.2f), 1.f / 2.2f);
 
-		Out.vColor = pow(abs(Out.vColor), 4.2f);;
-		vBloom = pow(abs(vBloom), 4.2f);
+		Out.vColor = pow(abs(Out.vColor), 2.2f);;
+		vBloom = pow(abs(vBloom), 2.2f);
 
 		Out.vColor += vBloom;
-		Out.vColor = pow(abs(Out.vColor), 1 / 4.2f);
+		Out.vColor = pow(abs(Out.vColor), 1 / 2.2f);
 	}
 
 	
@@ -462,7 +473,7 @@ technique11		DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN_DEFERRED_BRIGHT();
 	}
 
-	pass Deferred_Bloom
+	pass Deferred_BlurX
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Not_ZTest_Not_ZWrite, 0);
@@ -472,7 +483,20 @@ technique11		DefaultTechnique
 		GeometryShader = NULL;
 		HullShader = NULL;
 		DomainShader = NULL;
-		PixelShader = compile ps_5_0 PS_MAIN_DEFERRED_BLOOM();
+		PixelShader = compile ps_5_0 PS_MAIN_DEFERRED_BLURX();
+	}
+
+	pass Deferred_BlurY
+	{
+		SetRasterizerState(RS_Default);
+		SetDepthStencilState(DSS_Not_ZTest_Not_ZWrite, 0);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		HullShader = NULL;
+		DomainShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_DEFERRED_BLURY();
 	}
 
 	pass Deferred_Bloom_Blend

@@ -72,14 +72,17 @@ HRESULT CRenderer::Initialize_Prototype()
 		TEXT("Target_BrightColor"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 
-	//if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
-	//	TEXT("Target_Blur"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, _float4(0.f, 0.f, 0.f, 1.f))))
-	//	return E_FAIL;
-
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
+		TEXT("Target_BlurX"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
-		TEXT("Target_BloomColor"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
+		TEXT("Target_BlurY"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
+
+	//if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
+	//	TEXT("Target_BloomColor"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
+	//	return E_FAIL;
 
 	/* For.Target_Specular */
 	/* 스펙큘러 값을 저장해서 받아오는 타겟 */
@@ -106,7 +109,10 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Bright"), TEXT("Target_BrightColor"))))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Bloom"), TEXT("Target_BloomColor"))))
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_BlurX"), TEXT("Target_BlurX"))))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_BlurY"), TEXT("Target_BlurY"))))
 		return E_FAIL;
 	
 
@@ -136,10 +142,13 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Shade"), 150.f, 50.f, 100.f, 100.f)))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BrightColor"), 250.f, 50.f, 100.f, 100.f)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BlurX"), 250.f, 50.f, 100.f, 100.f)))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BloomColor"), 250.f, 150.f, 100.f, 100.f)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BlurY"), 250.f, 150.f, 100.f, 100.f)))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BrightColor"), 250.f, 250.f, 100.f, 100.f)))
 		return E_FAIL;
 
 	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Specular"), 150.f, 150.f, 100.f, 100.f)))
@@ -202,7 +211,10 @@ HRESULT CRenderer::Draw_RenderGroup()
 	if (FAILED(Draw_DefferdBright()))
 		return E_FAIL;
 
-	if (FAILED(Draw_Bloom()))
+	if (FAILED(Draw_BlurX()))
+		return E_FAIL;
+
+	if (FAILED(Draw_BlurY()))
 		return E_FAIL;
 
 	if (FAILED(Draw_DeferredNonLightBlend()))
@@ -506,6 +518,7 @@ HRESULT CRenderer::Draw_DeferredBlend()
 //	return S_OK;
 //}
 
+
 HRESULT CRenderer::Draw_DefferdBright()
 {
 	if (nullptr == m_pTarget_Manager)
@@ -527,11 +540,11 @@ HRESULT CRenderer::Draw_DefferdBright()
 	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_NonLightDiffuse"), m_pShader, "g_NonLightDiffuseTexture")))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_Diffuse"), m_pShader, "g_DiffuseTexture")))
-		return E_FAIL;
+	//if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_Diffuse"), m_pShader, "g_DiffuseTexture")))
+	//	return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_Shade"), m_pShader, "g_ShadeTexture")))
-		return E_FAIL;
+	//if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_Shade"), m_pShader, "g_ShadeTexture")))
+	//	return E_FAIL;
 
 	m_pShader->Begin(4);
 
@@ -543,13 +556,13 @@ HRESULT CRenderer::Draw_DefferdBright()
 	return S_OK;
 }
 
-HRESULT CRenderer::Draw_Bloom()
+HRESULT CRenderer::Draw_BlurX()
 {
 	if (nullptr == m_pTarget_Manager)
 		return E_FAIL;
 
 	/* Blur */
-	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_Bloom"))))
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BlurX"))))
 		return E_FAIL;
 
 	/* Shade 타겟에 그리는 작업을 수행한다. */
@@ -573,6 +586,36 @@ HRESULT CRenderer::Draw_Bloom()
 	return S_OK;
 }
 
+HRESULT CRenderer::Draw_BlurY()
+{
+	if (nullptr == m_pTarget_Manager)
+		return E_FAIL;
+
+	/* Blur */
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BlurY"))))
+		return E_FAIL;
+
+	/* Shade 타겟에 그리는 작업을 수행한다. */
+	if (FAILED(m_pShader->Set_Matrix("g_WorldMatrix", &m_WorldMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_BlurX"), m_pShader, "g_BlurXTexture")))
+		return E_FAIL;
+
+	m_pShader->Begin(6);
+
+	m_pVIBuffer->Render();
+
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 HRESULT CRenderer::Draw_DeferredNonLightBlend()
 {
 	if (nullptr == m_pVIBuffer)
@@ -586,8 +629,8 @@ HRESULT CRenderer::Draw_DeferredNonLightBlend()
 	if (FAILED(m_pShader->Set_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_NonLightDiffuse"), m_pShader, "g_NonLightDiffuseTexture")))
-		return E_FAIL;
+	//if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_NonLightDiffuse"), m_pShader, "g_NonLightDiffuseTexture")))
+	//	return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_Diffuse"), m_pShader, "g_DiffuseTexture")))
 		return E_FAIL;
@@ -595,14 +638,14 @@ HRESULT CRenderer::Draw_DeferredNonLightBlend()
 	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_Shade"), m_pShader, "g_ShadeTexture")))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_BloomColor"), m_pShader, "g_BloomTexture")))
+	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_BlurY"), m_pShader, "g_BloomTexture")))
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_BrightColor"), m_pShader, "g_BloomOriginTexture")))
 		return E_FAIL;
 
 
-	m_pShader->Begin(6);
+	m_pShader->Begin(7);
 
 	m_pVIBuffer->Render();
 
@@ -621,7 +664,8 @@ HRESULT CRenderer::Render_Debug()
 	m_pTarget_Manager->Render_MRT(TEXT("MRT_Deferred"), m_pShader, m_pVIBuffer);
 	m_pTarget_Manager->Render_MRT(TEXT("MRT_LightAcc"), m_pShader, m_pVIBuffer);
 	m_pTarget_Manager->Render_MRT(TEXT("MRT_Bright"), m_pShader, m_pVIBuffer);
-	m_pTarget_Manager->Render_MRT(TEXT("MRT_Bloom"), m_pShader, m_pVIBuffer);
+	m_pTarget_Manager->Render_MRT(TEXT("MRT_BlurX"), m_pShader, m_pVIBuffer);
+	m_pTarget_Manager->Render_MRT(TEXT("MRT_BlurY"), m_pShader, m_pVIBuffer);
 
 
 	return S_OK;
