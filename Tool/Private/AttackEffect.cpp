@@ -272,10 +272,10 @@ void CAttackEffect::Set_ManualCollisionState(CGameObject* pOtherOwner, CManualCo
 
 void CAttackEffect::Do_DebuffCondition(CGameObject* pOtherOwner)
 {
-	int randomValue = rand() % 4;
+	int randomValue = rand() % 2;
 
-	//if (randomValue != 0)
-	//	return;
+	if (randomValue != 0)
+		return;
 
 	if (m_AttackEffectDesc.m_ConditionDataID == NO_DEBUFF_CONDITION)
 		return;
