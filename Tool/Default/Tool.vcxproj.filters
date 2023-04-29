@@ -322,6 +322,12 @@
     <Filter Include="02. GameObject\PokemonInfo\StoneInfoUI">
       <UniqueIdentifier>{62913c45-0d73-45bc-99af-aca1b4e6943a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\Stage\GetItemShowUI">
+      <UniqueIdentifier>{b29f7f36-4384-49e4-806f-9ef91b94d188}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Food">
+      <UniqueIdentifier>{5663aa29-4f40-44bd-91cf-4f5ff1a9d4a9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -632,6 +638,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\StoneInfoUI.h">
       <Filter>02. GameObject\PokemonInfo\StoneInfoUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\GetItemShowUI.h">
+      <Filter>02. GameObject\Stage\GetItemShowUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Food.h">
+      <Filter>02. GameObject\Static\Food</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -944,6 +956,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\StoneInfoUI.cpp">
       <Filter>02. GameObject\PokemonInfo\StoneInfoUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\GetItemShowUI.cpp">
+      <Filter>02. GameObject\Stage\GetItemShowUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Food.cpp">
+      <Filter>02. GameObject\Static\Food</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

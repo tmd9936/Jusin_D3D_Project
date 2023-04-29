@@ -67,6 +67,12 @@ public:
 	virtual _bool			Check_Is_In();
 	virtual _bool			Check_Is_In(const POINT& mousePT);
 
+public:
+	_bool					Move_To_ViewPortPositoin(const _double& TimeDelta, _fvector vAlivePosition, const _float2& interval);
+	const _float2			Get_Position() const {
+		return _float2(m_UIDesc.m_fX, m_UIDesc.m_fY);
+	}
+
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
 	virtual _bool			Load_By_JsonFile_Impl(Document& doc);

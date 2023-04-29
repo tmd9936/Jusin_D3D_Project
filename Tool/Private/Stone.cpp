@@ -50,6 +50,9 @@ HRESULT CStone::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const cha
 
 _uint CStone::Tick(_double TimeDelta)
 {
+	if (Is_Dead())
+		return OBJ_DEAD;
+
 	State_Tick(TimeDelta);
 
 	Change_State();

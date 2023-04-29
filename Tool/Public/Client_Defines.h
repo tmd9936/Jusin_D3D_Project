@@ -51,6 +51,12 @@ namespace Client
 		STONE_EQUIP_STATE		m_state;
 		STONE_TYPE				m_stoneType;
 	} STONE_EQUIP_DESC;
+
+	typedef struct Food_Desc
+	{
+		STONE_EQUIP_TYPE		m_type;
+		int						m_nums;
+	} FOOD_DESC;
 }
 
 

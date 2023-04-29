@@ -7,6 +7,7 @@
 #include "PartText.h"
 #include "PartTexture.h"
 
+#include "Stone.h"
 
 CStoneInventory::CStoneInventory(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)

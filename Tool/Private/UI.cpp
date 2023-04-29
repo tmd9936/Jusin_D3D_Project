@@ -180,6 +180,39 @@ _bool CUI::Check_Is_In(const POINT& mousePT)
 	return false;
 }
 
+_bool CUI::Move_To_ViewPortPositoin(const _double& TimeDelta, _fvector vAlivePosition, const _float2& interval)
+{
+	_vector vPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	_vector vDir = vAlivePosition - vPosition;
+
+	vPosition += XMVector3Normalize(vDir) * (_float)TimeDelta * 10.f;
+
+	_float3 vPos = {};
+
+	XMStoreFloat3(&vPos, vPosition);
+
+	m_pTransformCom->Set_Pos(vPos.x, vPos.y, 1.f);
+	m_UIDesc.m_fX = vPos.x + g_iWinSizeX * 0.5f;
+	m_UIDesc.m_fY = -vPos.y + g_iWinSizeY * 0.5f;
+
+	RECT uiRect{ LONG(m_UIDesc.m_fX - m_UIDesc.m_fSizeX * 0.5f), LONG(m_UIDesc.m_fY - m_UIDesc.m_fSizeY * 0.5f)
+,	LONG(m_UIDesc.m_fX + m_UIDesc.m_fSizeX * 0.5f),  LONG(m_UIDesc.m_fY + m_UIDesc.m_fSizeY * 0.5f) };
+
+	RECT alivePositionRect{ 
+		LONG(XMVectorGetX(vAlivePosition) - interval.x), 
+		LONG(XMVectorGetY(vAlivePosition) - interval.y),
+		LONG(XMVectorGetX(vAlivePosition) + interval.x),
+		LONG(XMVectorGetY(vAlivePosition) + interval.y) };
+
+	RECT result{};
+	if (IntersectRect(&result, &uiRect, &alivePositionRect))
+	{
+		return true;
+	}
+
+	return false;
+}
+
 _bool CUI::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator)
 {
 	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;

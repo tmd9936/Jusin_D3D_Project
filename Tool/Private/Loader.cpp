@@ -39,6 +39,8 @@
 #include "BaseCamp_Manager.h"
 #include "Cauldron.h"
 
+#include "Food.h"
+
 #include "BuffState.h"
 //#include "Weapon.h"
 #include "Effect.h"
@@ -101,6 +103,7 @@
 #include "Stone.h"
 
 #include "PokemonState_Manager.h"
+#include "GetItemShowUI.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
@@ -1108,6 +1111,36 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Window/dent.dds")))))
 			return E_FAIL;
 
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Item_Blue_UC"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Item/Item_Blue_UC.dds")))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Item_Grey_UC"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Item/Item_Grey_UC.dds")))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Item_Red_UC"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Item/Item_Red_UC.dds")))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Item_Yellow_UC"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Item/Item_Yellow_UC.dds")))))
+			return E_FAIL;
+
+		/* For.Prototype_Component_Texture_DropUI_Base */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_DropUI_Base"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/drop/DropUI_Base.dds")))))
+			return E_FAIL;
+
+		/* For.Prototype_Component_Texture_drop_icon_stone */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_drop_icon_stone"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/drop/drop_icon_stone.dds")))))
+			return E_FAIL;
+
+		/* For.Prototype_Component_Texture_drop_icon_kinomi */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_drop_icon_kinomi"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/drop/drop_icon_kinomi.dds")))))
+			return E_FAIL;
 	}
 
 #pragma endregion
@@ -1814,6 +1847,14 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Stone"),
 			CStone::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Food"),
+			CFood::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_GetItemShowUI"),
+			CGetItemShowUI::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
 	}
 #pragma endregion
 
@@ -1968,28 +2009,34 @@ HRESULT CLoader::Loading_ForStageLevel()
 	wsprintf(m_szLoadingText, TEXT("모델를 로딩중입니다."));
 
 	// TODO 나중에 선택한 스테이지 마다 다르게 나와야함
-		_matrix		PivotMatrix = XMMatrixIdentity();
+	_matrix		PivotMatrix = XMMatrixIdentity();
 
-		/* For.Prototype_Component_Calculator */
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Calculator"),
-			CCalculator::Create(m_pDevice, m_pContext))))
+	/* For.Prototype_Component_Calculator */
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Calculator"),
+		CCalculator::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_STAGE))
+	{
+		PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_PokeringA"),
+			CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Resident/PokeringA.fbx", PivotMatrix))))
 			return E_FAIL;
 
-		if (false == pGameInstance->Get_LevelFirstInit(LEVEL_STAGE))
-		{
-			PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
-			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_PokeringA"),
-				CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Resident/PokeringA.fbx", PivotMatrix))))
-				return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_PokeringB"),
+			CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Resident/PokeringB.fbx", PivotMatrix))))
+			return E_FAIL;
 
-			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_PokeringB"),
-				CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Resident/PokeringB.fbx", PivotMatrix))))
-				return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_PokeringC"),
+			CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Resident/PokeringC.fbx", PivotMatrix))))
+			return E_FAIL;
+	}
 
-			if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_PokeringC"),
-				CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Resident/PokeringC.fbx", PivotMatrix))))
-				return E_FAIL;
-		}
+	wsprintf(m_szLoadingText, TEXT("텍스쳐를 로딩중입니다."));
+	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_STAGE))
+	{
+
+	}
 
 	///* For.Prototype_Component_Model_Stage_LD */
 	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_LD"),
@@ -2012,7 +2059,6 @@ HRESULT CLoader::Loading_ForStageLevel()
 	//	return E_FAIL;
 
 	wsprintf(m_szLoadingText, TEXT("객체원형을 로딩중."));
-
 	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_STAGE))
 	{
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_PokemonSkillButton"),

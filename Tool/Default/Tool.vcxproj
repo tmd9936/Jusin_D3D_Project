@@ -179,6 +179,8 @@
     <ClInclude Include="..\Public\DamageText.h" />
     <ClInclude Include="..\Public\EnemyPack.h" />
     <ClInclude Include="..\Public\EnemySpawnPoint.h" />
+    <ClInclude Include="..\Public\Food.h" />
+    <ClInclude Include="..\Public\GetItemShowUI.h" />
     <ClInclude Include="..\Public\GoToBackLevelButton.h" />
     <ClInclude Include="..\Public\GoToBaseCampButton.h" />
     <ClInclude Include="..\public\GoToMonStateButton.h" />
@@ -283,6 +285,8 @@
     <ClCompile Include="..\Private\DamageText.cpp" />
     <ClCompile Include="..\Private\EnemyPack.cpp" />
     <ClCompile Include="..\Private\EnemySpawnPoint.cpp" />
+    <ClCompile Include="..\Private\Food.cpp" />
+    <ClCompile Include="..\Private\GetItemShowUI.cpp" />
     <ClCompile Include="..\Private\GoToBackLevelButton.cpp" />
     <ClCompile Include="..\Private\GoToBaseCampButton.cpp" />
     <ClCompile Include="..\Private\GoToMonStateButton.cpp" />

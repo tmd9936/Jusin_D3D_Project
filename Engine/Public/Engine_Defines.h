@@ -38,6 +38,7 @@
 #include <iostream>
 #include <cstdio>
 #include <codecvt>
+#include <queue>
 
 #include <DirectXMath.h>
 #include <Process.h>

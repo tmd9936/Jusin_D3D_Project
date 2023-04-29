@@ -98,6 +98,10 @@ public:
 		return m_UIDesc;
 	}
 
+	const _float2 Get_UISize() const {
+		return _float2(m_UIDesc.m_fSizeX, m_UIDesc.m_fSizeY);
+	}
+
 	const _float3 Get_FinalWorldMatrixPosition() const;
 
 public:
