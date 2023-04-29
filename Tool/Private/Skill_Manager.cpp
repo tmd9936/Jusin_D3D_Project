@@ -765,7 +765,10 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 	}
 	else if (skillType == 164) // µ¹Áø
 	{
-		pSkillEffect = pEffect_Manager->CreateEffect(m_Skill_Depend_Datas[skillType].m_effects[0], L"Prototype_GameObject_AttackEffect", pLayerTag, iLevelIndex);
+		//Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[0], vLook, XMVectorSet(0.f, 0.5f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
+
+		pSkillEffect = pEffect_Manager->CreateEffect(m_Skill_Depend_Datas[skillType].m_effects[0], 
+			L"Prototype_GameObject_AttackEffect", pLayerTag, iLevelIndex);
 
 		CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
 		if (nullptr == pTransform)
@@ -777,7 +780,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 			pSkillEffect->Set_ParentRotateApply(true);
 		}
 
-		pTransform->LookAt(XMVectorSetW(vLook, 1.f));
+		//pTransform->LookAt(XMVectorSetW(vLook, 1.f));
 
 		CAttackEffect::ATTACK_EFFECT_DESC desc{};
 		Set_NormalAttackDesc(desc, skillType, pSkillEffect, pConditionData, 1);
