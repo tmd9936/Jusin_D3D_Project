@@ -308,6 +308,12 @@ void CStone::Change_State()
 			m_TextureParts.at(m_maskTextureIndex)->Set_RenderId(RENDER_END);
 			m_TextureParts.at(m_pokemonIconTextureIndex)->Set_RenderId(RENDER_END);
 			break;
+		case STATE_STAGE_VIEW:
+			m_eRenderId = RENDER_UI;
+			m_TextParts.at(0)->Set_RenderId(RENDER_END);
+			m_TextureParts.at(m_maskTextureIndex)->Set_RenderId(RENDER_END);
+			m_TextureParts.at(m_pokemonIconTextureIndex)->Set_RenderId(RENDER_END);
+			break;
 		}
 
 		m_Desc.m_ePreState = m_Desc.m_eCurState;
@@ -331,6 +337,8 @@ void CStone::State_Tick(const _double& TimeDelta)
 	case STATE_PICKING_FOLLOW_MOUSE:
 		break;
 	case STATE_NO_SHOW:
+		break;
+	case STATE_STAGE_VIEW:
 		break;
 	}
 }

@@ -1141,6 +1141,14 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_drop_icon_kinomi"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/drop/drop_icon_kinomi.dds")))))
 			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_window_ATK_icon"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Window/window_ATK_icon.dds")))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_window_HP_icon"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Window/window_HP_icon.dds")))))
+			return E_FAIL;
 	}
 
 #pragma endregion
@@ -2114,13 +2122,7 @@ HRESULT CLoader::Loading_ForPokemonStateLevel()
 	wsprintf(m_szLoadingText, TEXT("텍스쳐 로딩중."));
 	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_POKEMONSTATE))
 	{
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_window_ATK_icon"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Window/window_ATK_icon.dds")))))
-			return E_FAIL;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_window_HP_icon"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Window/window_HP_icon.dds")))))
-			return E_FAIL;
 	}
 
 	wsprintf(m_szLoadingText, TEXT("객체 원형 로딩중."));

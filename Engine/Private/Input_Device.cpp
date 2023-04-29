@@ -30,6 +30,9 @@ _int g_arrDIK[(_int)KEY::LAST] =
 	DIK_K,
 	DIK_L,
 
+	DIK_O,
+	DIK_P,
+
 	DIK_TAB,
 	DIK_LALT,
 	DIK_LCONTROL,

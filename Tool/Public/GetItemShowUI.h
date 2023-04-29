@@ -57,8 +57,6 @@ private:
 	list<CFood*>				m_GetFoods;
 
 private:
-
-
 	const _uint					m_canMaxGetStoneNum = { 3 };
 
 public:

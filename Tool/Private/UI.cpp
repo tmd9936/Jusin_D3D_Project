@@ -185,7 +185,7 @@ _bool CUI::Move_To_ViewPortPositoin(const _double& TimeDelta, _fvector vAlivePos
 	_vector vPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	_vector vDir = vAlivePosition - vPosition;
 
-	vPosition += XMVector3Normalize(vDir) * (_float)TimeDelta * 10.f;
+	vPosition += XMVector3Normalize(XMVectorSetZ(vDir, 0.f)) * (_float)TimeDelta * 10.f;
 
 	_float3 vPos = {};
 
