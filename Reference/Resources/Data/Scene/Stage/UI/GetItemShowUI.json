@@ -1,0 +1,134 @@
+{
+    "UIDesc": {
+        "m_fX": 150.0,
+        "m_fY": 34.0,
+        "m_fSizeX": 200.5,
+        "m_fSizeY": 45.0,
+        "m_UIType": 1,
+        "m_ShaderPass": 2,
+        "m_vColor": {
+            "x": 1.0,
+            "y": 0.81235,
+            "z": 0.2,
+            "w": 0.1
+        },
+        "m_TextureProtoTypeLevel": 0,
+        "m_TextureProtoTypeName" : "Prototype_Component_Texture_Rectangle_Base",
+        "m_TextureParts": [
+            {
+                "m_fX": -60.0,
+                "m_fY": 0.0,
+                "m_fSizeX": 100.0,
+                "m_fSizeY": 37.5,
+                "m_eType": 0,
+                "m_ShaderPass": 0,
+                "m_vColor": {
+                    "x": 0.81568,
+                    "y": 0.36862745,
+                    "z": 0.223529,
+                    "w": 1.0
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_DropUI_Base",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": -90.0,
+                "m_fY": 0.0,
+                "m_fSizeX": 30.0,
+                "m_fSizeY": 30.0,
+                "m_eType": 0,
+                "m_ShaderPass": 0,
+                "m_vColor": {
+                    "x": 0.81568,
+                    "y": 0.36862745,
+                    "z": 0.223529,
+                    "w": 1.0
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_drop_icon_stone",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": 50.0,
+                "m_fY": 0.0,
+                "m_fSizeX": 100.0,
+                "m_fSizeY": 37.5,
+                "m_eType": 0,
+                "m_ShaderPass": 0,
+                "m_vColor": {
+                    "x": 0.81568,
+                    "y": 0.36862745,
+                    "z": 0.223529,
+                    "w": 1.0
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_DropUI_Base",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": 20.0,
+                "m_fY": 0.0,
+                "m_fSizeX": 30.0,
+                "m_fSizeY": 30.0,
+                "m_eType": 0,
+                "m_ShaderPass": 0,
+                "m_vColor": {
+                    "x": 0.81568,
+                    "y": 0.36862745,
+                    "z": 0.223529,
+                    "w": 1.0
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_drop_icon_kinomi",
+                "LayerTag": "Layer_UI"
+            }
+        ],
+        "m_TextParts": [
+            {
+                "m_fX": 45.0,
+                "m_fY": 9.0,
+                "m_vColor": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "m_Rotation": 0.0,
+                "m_vRotationOrigin": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "m_vScale": {
+                    "x": 0.7,
+                    "y": 0.6
+                },
+                "m_FontTag": "Font_NanumBarunGothic", 
+                "m_Text": "0",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": 152.0,
+                "m_fY": 9.0,
+                "m_vColor": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "m_Rotation": 0.0,
+                "m_vRotationOrigin": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "m_vScale": {
+                    "x": 0.7,
+                    "y": 0.6
+                },
+                "m_FontTag": "Font_NanumBarunGothic", 
+                "m_Text": "0",
+                "LayerTag": "Layer_UI"
+            }
+        ]
+    }
+}

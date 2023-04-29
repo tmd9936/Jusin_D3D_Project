@@ -275,8 +275,8 @@ HRESULT CLevel_BaseCamp::Ready_Layer_UI(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GoToWorldMapButton"), LEVEL_BASECAMP, pLayerTag, L"GoToWorldMapButton", "../../Reference/Resources/Data/Scene/BaseCamp/Button/GoToMap_Button_data.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UI"), LEVEL_BASECAMP, pLayerTag, L"LevelNameInfo", "../../Reference/Resources/Data/Scene/BaseCamp/UI/LevelNameInfo.json", CLONE_FILEPATH)))
-		return E_FAIL;
+	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UI"), LEVEL_BASECAMP, pLayerTag, L"LevelNameInfo", "../../Reference/Resources/Data/Scene/BaseCamp/UI/LevelNameInfo.json", CLONE_FILEPATH)))
+	//	return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GoToMonStateButton"), LEVEL_BASECAMP, pLayerTag, L"GoToMonStateButton1", "../../Reference/Resources/Data/Scene/BaseCamp/Button/GoToMonsterStateButton01.json", CLONE_FILEPATH)))
 		return E_FAIL;
@@ -288,6 +288,9 @@ HRESULT CLevel_BaseCamp::Ready_Layer_UI(const _tchar* pLayerTag)
 		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PokemonPowerInfoUI"), LEVEL_BASECAMP, pLayerTag, L"PokemonPowerInfoUI", "../../Reference/Resources/Data/Scene/BaseCamp/UI/PokemonPowerInfo.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GetItemShowUI"), LEVEL_BASECAMP, pLayerTag, L"GetItemShowUI", "../../Reference/Resources/Data/Scene/Stage/UI/GetItemShowUI.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);

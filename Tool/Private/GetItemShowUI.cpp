@@ -233,12 +233,12 @@ void CGetItemShowUI::Free()
 {
 	__super::Free();
 
-	for (auto& iter : m_TextureParts)
+	for (auto& iter : m_GetStones)
 	{
 		Safe_Release(iter);
 	}
 
-	for (auto& iter : m_TextParts)
+	for (auto& iter : m_GetFoods)
 	{
 		Safe_Release(iter);
 	}
