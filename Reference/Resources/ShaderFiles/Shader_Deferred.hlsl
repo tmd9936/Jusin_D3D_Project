@@ -230,7 +230,7 @@ PS_OUT PS_MAIN_DEFERRED_BRIGHT(PS_IN In)
 
 	float4 BrightColor = float4(0.f, 0.f, 0.f, 0.f);
 	float brightness = dot(vNonLightColor.rgb, float3(0.2126f, 0.7152f, 0.0722f));
-	if (brightness >= 0.95)
+	if (brightness >= 0.8)
 		BrightColor = float4(vNonLightColor.rgb, 1.0);
 
 	Out.vColor = BrightColor;
@@ -254,13 +254,10 @@ static const float BlurWeights[7][7] =
 static const float vTotal = 0.9976;
 
 
-static const float Weights[13] =
-{
-	0.0561, 0.1353, 0.278, 0.4868, 0.7261, 0.9231,
-	1, 0.9231, 0.7261, 0.4868, 0.278, 0.1353, 0.0561
-};
+static const float Weights[15] =
+{ 0.01f, 0.03f, 0.04f, 0.05f, 0.07f, 0.1f, 0.1f, 0.2f, 0.1f, 0.1f, 0.07f, 0.05f, 0.04f, 0.03f, 0.01f };
 
-static const float Total = 6.2108;
+static const float Total = 1.f;
 
 struct PS_OUT_BLOOM
 {
@@ -300,13 +297,13 @@ PS_OUT_BLOOM PS_MAIN_DEFERRED_BLURX(PS_IN In)
 
 	float tu = 1.f / g_TexSize.x;
 
-	for (int i = -6; i < 6; ++i)
+	for (int i = -7; i < 7; ++i)
 	{
 		uv = t + float2(tu * i, 0.f);
-		vColor += Weights[6+i] * g_BrightTexture.Sample(BlurSampler, uv);
+		vColor += Weights[7 + i] * g_BrightTexture.Sample(BlurSampler, uv);
 	}
 
-	vColor /= Total;
+	vColor /= (Total);
 
 	Out.vBloomColor = vColor;
 
@@ -323,13 +320,13 @@ PS_OUT_BLOOM PS_MAIN_DEFERRED_BLURY(PS_IN In)
 
 	float tv = 1.f / (g_TexSize.y * 0.5f);
 
-	for (int i = -6; i < 6; ++i)
+	for (int i = -7; i < 7; ++i)
 	{
 		uv = t + float2(0.f, tv * i);
-		vColor += Weights[6 + i] * g_BlurXTexture.Sample(BlurSampler, uv);
+		vColor += Weights[7 + i] * g_BlurXTexture.Sample(BlurSampler, uv);
 	}
 
-	vColor /= Total;
+	vColor /= (Total);
 
 	Out.vBloomColor = vColor;
 
@@ -362,8 +359,6 @@ PS_OUT PS_MAIN_DEFERRED_BLOOM_BLEND(PS_IN In)
 		Out.vColor += vBloom;
 		Out.vColor = pow(abs(Out.vColor), 1 / 2.2f);
 	}
-
-	
 
 	return Out;
 }

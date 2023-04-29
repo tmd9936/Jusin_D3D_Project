@@ -142,13 +142,13 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Shade"), 150.f, 50.f, 100.f, 100.f)))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BlurX"), 250.f, 50.f, 100.f, 100.f)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BrightColor"), 250.f, 50.f, 100.f, 100.f)))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BlurY"), 250.f, 150.f, 100.f, 100.f)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BlurX"), 250.f, 150.f, 100.f, 100.f)))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BrightColor"), 250.f, 250.f, 100.f, 100.f)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BlurY"), 250.f, 250.f, 100.f, 100.f)))
 		return E_FAIL;
 
 	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Specular"), 150.f, 150.f, 100.f, 100.f)))
