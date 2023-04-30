@@ -52,8 +52,8 @@ HRESULT CStage_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, v
 	if (FAILED(Init_GetItemShowUI()))
 		return E_FAIL;
 
-	//if (FAILED(Init_StageStoneResult()))
-	//	return E_FAIL;
+	if (FAILED(Init_StageStoneResult()))
+		return E_FAIL;
 
 	m_enemySpawnPoints.reserve(10);
 
@@ -80,8 +80,8 @@ HRESULT CStage_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, c
 	if (FAILED(Init_GetItemShowUI()))
 		return E_FAIL;
 
-	//if (FAILED(Init_StageStoneResult()))
-	//	return E_FAIL;
+	if (FAILED(Init_StageStoneResult()))
+		return E_FAIL;
 
 	m_enemySpawnPoints.reserve(10);
 
@@ -614,10 +614,11 @@ void CStage_Manager::Change_State()
 			break;
 
 		case MANAGER_OPEN_STATE_INFO:
-			m_eRenderId = RENDER_BLEND_UI;
+			m_eRenderId = RENDER_BACK_UI;
 			break;
 
 		case MANAGER_FADE_OUT:
+			m_eRenderId = RENDER_BLEND_UI;
 			break;
 		}
 		m_ePreState = m_eCurState;

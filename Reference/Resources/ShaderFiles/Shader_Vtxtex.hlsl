@@ -217,7 +217,7 @@ PS_OUT PS_MAIN_CORNER_INSIDE_ALPHA(PS_IN In)
 
 technique11		DefaultTechnique
 {
-	pass BackGround //1
+	pass BackGround //0
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Enable_ZTest_Disable_ZWrite, 0);
@@ -230,7 +230,7 @@ technique11		DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN();
 	}
 
-	pass WorldPartUI //2
+	pass WorldPartUI //1
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Enable_ZTest_Disable_ZWrite, 0);
@@ -243,7 +243,7 @@ technique11		DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN_ROUND();
 	}
 
-	pass Alpha //3
+	pass Alpha //2
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Enable_ZTest_Disable_ZWrite, 0);
@@ -256,7 +256,7 @@ technique11		DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN_ALPHA();
 	}
 
-	pass CoolTimeAlphaMask //4
+	pass CoolTimeAlphaMask //3
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Enable_ZTest_Disable_ZWrite, 0);
@@ -269,7 +269,7 @@ technique11		DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN_COOLTIME_ALPHAMASK();
 	}
 
-	pass Trail //5
+	pass Trail //4
 	{
 		SetRasterizerState(RS_Solid_NoCull);
 		SetDepthStencilState(DSS_Enable_ZTest_Disable_ZWrite, 0);
@@ -282,7 +282,7 @@ technique11		DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN_TRAIL();
 	}
 
-	pass ProgressUI //6
+	pass ProgressUI //5
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Enable_ZTest_Disable_ZWrite, 0);
@@ -295,7 +295,7 @@ technique11		DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN_PROGRESS_ROUND();
 	}
 
-	pass Alpha_Blend //7
+	pass Alpha_Blend //6
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Enable_ZTest_Disable_ZWrite, 0);
@@ -308,7 +308,7 @@ technique11		DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN_ALPHA_BLEND();
 	}
 
-	pass Corner_Inside_Alpha //8
+	pass Corner_Inside_Alpha //7
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Enable_ZTest_Disable_ZWrite, 0);

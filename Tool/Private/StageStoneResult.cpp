@@ -34,6 +34,18 @@ HRESULT CStageStoneResult::Initialize(const _tchar* pLayerTag, _uint iLevelIndex
 	if (FAILED(Init_StoneInfoUIs()))
 		return E_FAIL;
 
+	m_eRenderId = RENDER_BACK_UI;
+
+	for (auto& part : m_TextureParts)
+	{
+		part->Set_RenderId(RENDER_BACK_UI);
+	}
+
+	for (auto& part : m_TextParts)
+	{
+		part->Set_RenderId(RENDER_BACK_UI);
+	}
+
 	return S_OK;
 }
 
@@ -44,6 +56,18 @@ HRESULT CStageStoneResult::Initialize(const _tchar* pLayerTag, _uint iLevelIndex
 
 	if (FAILED(Init_StoneInfoUIs()))
 		return E_FAIL;
+
+	m_eRenderId = RENDER_BACK_UI;
+
+	for (auto& part : m_TextureParts)
+	{
+		part->Set_RenderId(RENDER_BACK_UI);
+	}
+
+	for (auto& part : m_TextParts)
+	{
+		part->Set_RenderId(RENDER_BACK_UI);
+	}
 
 	return S_OK;
 }
@@ -119,6 +143,7 @@ HRESULT CStageStoneResult::Init_StoneInfoUIs()
 	stoneDesc.m_UIDesc.m_ShaderPass = 0;
 
 	m_pStoneInfoUI01->Change_StoneInfo(stoneDesc);
+
 	Safe_AddRef(m_pStoneInfoUI01);
 
 	//pObject = pGameInstance->Get_Object(LEVEL_STAGE, L"Layer_StageResultUI", L"StoneInfoUI02");
