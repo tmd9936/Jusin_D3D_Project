@@ -94,6 +94,31 @@ HRESULT CStageStoneResult::Init_StoneInfoUIs()
 	m_pStoneInfoUI01 = dynamic_cast<CStoneInfoUI*>(pObject);
 	if (nullptr == m_pStoneInfoUI01)
 		return E_FAIL;
+	
+	CStone::STONE_DESC stoneDesc{};
+
+	_int stoneTypeRandomValue = rand() % 2;
+	if (stoneTypeRandomValue == 0)
+	{
+		stoneDesc.m_stoneType = CStone::TYPE_ATK;
+		lstrcpy(stoneDesc.m_UIDesc.m_TextureProtoTypeName, L"Prototype_Component_Texture_window_ATK_icon");
+	}
+	else
+	{
+		stoneDesc.m_stoneType = CStone::TYPE_HP;
+		lstrcpy(stoneDesc.m_UIDesc.m_TextureProtoTypeName, L"Prototype_Component_Texture_window_HP_icon");
+	}
+
+	_int stonePowerRandomValue = rand() % 150;
+	stoneDesc.value = 150 + stonePowerRandomValue;
+	stoneDesc.m_pokemonIconNumber = 25;
+	stoneDesc.m_UIDesc.m_fSizeX = 30.f;
+	stoneDesc.m_UIDesc.m_fSizeY = 30.f;
+	stoneDesc.m_UIDesc.m_TextureProtoTypeLevel = LEVEL_STATIC;
+	stoneDesc.m_UIDesc.m_UIType = 0;
+	stoneDesc.m_UIDesc.m_ShaderPass = 0;
+
+	m_pStoneInfoUI01->Change_StoneInfo(stoneDesc);
 	Safe_AddRef(m_pStoneInfoUI01);
 
 	//pObject = pGameInstance->Get_Object(LEVEL_STAGE, L"Layer_StageResultUI", L"StoneInfoUI02");
@@ -181,7 +206,7 @@ void CStageStoneResult::Free()
 {
 	__super::Free();
 
-	Safe_AddRef(m_pStoneInfoUI01);
-	Safe_AddRef(m_pStoneInfoUI02);
-	Safe_AddRef(m_pStoneInfoUI03);
+	Safe_Release(m_pStoneInfoUI01);
+	Safe_Release(m_pStoneInfoUI02);
+	Safe_Release(m_pStoneInfoUI03);
 }

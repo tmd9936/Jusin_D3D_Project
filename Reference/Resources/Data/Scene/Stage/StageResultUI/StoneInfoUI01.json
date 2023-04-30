@@ -1,26 +1,26 @@
 {
     "UIDesc": {
-        "m_fX": 310.0,
-        "m_fY": 120.0,
+        "m_fX": 230.0,
+        "m_fY": 130.0,
         "m_fSizeX": 320.5,
         "m_fSizeY": 100.0,
-        "m_ShaderPass": 1,
+        "m_ShaderPass": 2,
         "m_UIType": 1,
         "m_vColor": {
             "x": 1.0,
             "y": 0.91764,
             "z": 0.2862,
-            "w": 0.1
+            "w": 0.0
         },
         "m_TextureProtoTypeLevel": 0,
         "m_TextureProtoTypeName" : "Prototype_Component_Texture_Rectangle_Base",
         "m_nowMonsterNumber" : 1,
         "m_TextureParts": [
             {
-                "m_fX": -120.0,
+                "m_fX": -119.0,
                 "m_fY": 0.0,
-                "m_fSizeX": 70.0,
-                "m_fSizeY": 70.0,
+                "m_fSizeX": 60.0,
+                "m_fSizeY": 60.0,
                 "m_eType": 0,
                 "m_ShaderPass": 0,
                 "m_vColor": {
@@ -34,9 +34,9 @@
                 "LayerTag": "Layer_StageResultUI"
             },
             {
-                "m_fX": 45.0,
+                "m_fX": 60.0,
                 "m_fY": 0.0,
-                "m_fSizeX": 255.0,
+                "m_fSizeX": 100.0,
                 "m_fSizeY": 80.0,
                 "m_eType": 1,
                 "m_ShaderPass": 1,
@@ -51,10 +51,10 @@
                 "LayerTag": "Layer_StageResultUI"
             },
             {
-                "m_fX": 45.0,
+                "m_fX": 35.0,
                 "m_fY": 0.0,
-                "m_fSizeX": 245.0,
-                "m_fSizeY": 280.0,
+                "m_fSizeX": 225.0,
+                "m_fSizeY": 80.0,
                 "m_eType": 1,
                 "m_ShaderPass": 1,
                 "m_vColor": {
@@ -68,9 +68,9 @@
                 "LayerTag": "Layer_StageResultUI"
             },
             {
-                "m_fX": 45.0,
-                "m_fY": -27.0,
-                "m_fSizeX": 245.0,
+                "m_fX": 35.0,
+                "m_fY": -22.0,
+                "m_fSizeX": 222.0,
                 "m_fSizeY": 32.0,
                 "m_eType": 1,
                 "m_ShaderPass": 1,
@@ -85,10 +85,10 @@
                 "LayerTag": "Layer_StageResultUI"
             },
             {
-                "m_fX": 120.0,
-                "m_fY": -27.0,
+                "m_fX": 90.0,
+                "m_fY": -20.5,
                 "m_fSizeX": 100.0,
-                "m_fSizeY": 32.0,
+                "m_fSizeY": 30.0,
                 "m_eType": 1,
                 "m_ShaderPass": 5,
                 "m_vColor": {
@@ -104,8 +104,8 @@
         ],
         "m_TextParts": [
             {
-                "m_fX": 38.0,
-                "m_fY": 70.0,
+                "m_fX": 26.0,
+                "m_fY": 58.5,
                 "m_vColor": {
                     "x": 1.0,
                     "y": 1.0,
@@ -118,59 +118,15 @@
                     "y": 0.0
                 },
                 "m_vScale": {
-                    "x": 0.50,
-                    "y": 0.45
+                    "x": 0.40,
+                    "y": 0.32
                 },
                 "m_FontTag": "Font_NanumBarunGothic", 
                 "m_Text": "100",
                 "LayerTag": "Layer_StageResultUI"
             },
             {
-                "m_fX": 120.0,
-                "m_fY": 22.5,
-                "m_vColor": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0,
-                    "w": 1.0
-                },
-                "m_Rotation": 0.0,
-                "m_vRotationOrigin": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "m_vScale": {
-                    "x": 0.45,
-                    "y": 0.40
-                },
-                "m_FontTag": "Font_NanumBarunGothic", 
-                "m_Text": "터프니스스톤",
-                "LayerTag": "Layer_StageResultUI"
-            },
-            {
-                "m_fX": 262.0,
-                "m_fY": 24.5,
-                "m_vColor": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0,
-                    "w": 1.0
-                },
-                "m_Rotation": 0.0,
-                "m_vRotationOrigin": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "m_vScale": {
-                    "x": 0.36,
-                    "y": 0.30
-                },
-                "m_FontTag": "Font_NanumBarunGothic", 
-                "m_Text": "HP",
-                "LayerTag": "Layer_StageResultUI"
-            },
-            {
-                "m_fX": 302.0,
+                "m_fX": 90.0,
                 "m_fY": 20.5,
                 "m_vColor": {
                     "x": 1.0,
@@ -184,8 +140,52 @@
                     "y": 0.0
                 },
                 "m_vScale": {
-                    "x": 0.60,
-                    "y": 0.55
+                    "x": 0.42,
+                    "y": 0.38
+                },
+                "m_FontTag": "Font_NanumBarunGothic", 
+                "m_Text": "터프니스스톤",
+                "LayerTag": "Layer_StageResultUI"
+            },
+            {
+                "m_fX": 203.0,
+                "m_fY": 22.5,
+                "m_vColor": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "m_Rotation": 0.0,
+                "m_vRotationOrigin": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "m_vScale": {
+                    "x": 0.33,
+                    "y": 0.28
+                },
+                "m_FontTag": "Font_NanumBarunGothic", 
+                "m_Text": "HP",
+                "LayerTag": "Layer_StageResultUI"
+            },
+            {
+                "m_fX": 241.0,
+                "m_fY": 19.5,
+                "m_vColor": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "m_Rotation": 0.0,
+                "m_vRotationOrigin": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "m_vScale": {
+                    "x": 0.48,
+                    "y": 0.42
                 },
                 "m_FontTag": "Font_NanumBarunGothic", 
                 "m_Text": "+100",
