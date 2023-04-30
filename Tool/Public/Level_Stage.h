@@ -35,6 +35,8 @@ private:
 	HRESULT Ready_Layer_Player(const _tchar* pLayerTag);
 	HRESULT Ready_Layer_UI(const _tchar* pLayerTag);
 
+	HRESULT Ready_Layer_StageResultUI(const _tchar* pLayerTag);
+
 	HRESULT Ready_Layer_CameraTarget(const _tchar* pLayerTag);
 
 	HRESULT Ready_Layer_EnemySpawnPoint(const _tchar* pLayerTag);

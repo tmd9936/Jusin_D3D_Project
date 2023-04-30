@@ -234,6 +234,7 @@
     <ClInclude Include="..\Public\StageCamera.h" />
     <ClInclude Include="..\Public\StageCameraTarget.h" />
     <ClInclude Include="..\Public\StageProgressUI.h" />
+    <ClInclude Include="..\Public\StageStoneResult.h" />
     <ClInclude Include="..\Public\StageSupportMonster.h" />
     <ClInclude Include="..\Public\Stage_Manager.h" />
     <ClInclude Include="..\Public\Stone.h" />
@@ -340,6 +341,7 @@
     <ClCompile Include="..\Private\StageCamera.cpp" />
     <ClCompile Include="..\Private\StageCameraTarget.cpp" />
     <ClCompile Include="..\Private\StageProgressUI.cpp" />
+    <ClCompile Include="..\Private\StageStoneResult.cpp" />
     <ClCompile Include="..\Private\StageSupportMonster.cpp" />
     <ClCompile Include="..\Private\Stage_Manager.cpp" />
     <ClCompile Include="..\Private\Stone.cpp" />

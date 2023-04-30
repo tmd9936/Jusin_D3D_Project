@@ -14,6 +14,7 @@
 #include "StageMessageInfo.h"
 #include "StageClearUI.h"
 #include "GetItemShowUI.h"
+#include "StageStoneResult.h"
 
 #include "Level_Loading.h"
 
@@ -51,6 +52,9 @@ HRESULT CStage_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, v
 	if (FAILED(Init_GetItemShowUI()))
 		return E_FAIL;
 
+	//if (FAILED(Init_StageStoneResult()))
+	//	return E_FAIL;
+
 	m_enemySpawnPoints.reserve(10);
 
 	return S_OK;
@@ -75,6 +79,9 @@ HRESULT CStage_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, c
 
 	if (FAILED(Init_GetItemShowUI()))
 		return E_FAIL;
+
+	//if (FAILED(Init_StageStoneResult()))
+	//	return E_FAIL;
 
 	m_enemySpawnPoints.reserve(10);
 
@@ -479,6 +486,23 @@ HRESULT CStage_Manager::Init_GetItemShowUI()
 	return S_OK;
 }
 
+HRESULT CStage_Manager::Init_StageStoneResult()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	CGameObject* pObject = pGameInstance->Get_Object(LEVEL_STAGE, L"Layer_StageResultUI", L"StageStoneResult");
+	if (nullptr == pObject)
+		return E_FAIL;
+
+	m_pStageStoneResult = dynamic_cast<CStageStoneResult*>(pObject);
+	if (nullptr == m_pStageStoneResult)
+		return E_FAIL;
+
+	Safe_AddRef(m_pStageStoneResult);
+
+	return S_OK;
+}
+
 void CStage_Manager::Fade_In(const _double& TimeDelta)
 {
 	if (m_Desc.m_FadeSecond <= m_fCurrentFadeTime)
@@ -821,12 +845,10 @@ void CStage_Manager::Free()
 	}
 
 	Safe_Release(m_pStageMessageInfo);
-
 	Safe_Release(m_pEnemyPack);
-
 	Safe_Release(m_pMainCamera);
-
 	Safe_Release(m_pGetItemShowUI);
+	Safe_Release(m_pStageStoneResult);
 
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pTransformCom);

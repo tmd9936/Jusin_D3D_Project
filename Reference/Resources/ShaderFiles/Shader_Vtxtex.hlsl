@@ -193,9 +193,31 @@ PS_OUT PS_MAIN_ALPHA_BLEND(PS_IN In)
 	return Out;
 }
 
+PS_OUT PS_MAIN_CORNER_INSIDE_ALPHA(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	Out.vColor = g_Texture.Sample(LinearSampler, In.vTexUV);
+
+	float2 coords = In.vTexUV * g_Size;
+	if (ShouldDiscard(coords, g_Size, 5.f))
+		discard;
+
+	if (Out.vColor.a > 0.1)
+	{
+		return Out;
+	}
+	else
+	{
+		Out.vColor = g_vColor;
+	}
+
+	return Out;
+}
+
 technique11		DefaultTechnique
 {
-	pass BackGround
+	pass BackGround //1
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Enable_ZTest_Disable_ZWrite, 0);
@@ -208,7 +230,7 @@ technique11		DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN();
 	}
 
-	pass WorldPartUI
+	pass WorldPartUI //2
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Enable_ZTest_Disable_ZWrite, 0);
@@ -221,7 +243,7 @@ technique11		DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN_ROUND();
 	}
 
-	pass Alpha
+	pass Alpha //3
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Enable_ZTest_Disable_ZWrite, 0);
@@ -234,7 +256,7 @@ technique11		DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN_ALPHA();
 	}
 
-	pass CoolTimeAlphaMask
+	pass CoolTimeAlphaMask //4
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Enable_ZTest_Disable_ZWrite, 0);
@@ -247,7 +269,7 @@ technique11		DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN_COOLTIME_ALPHAMASK();
 	}
 
-	pass Trail
+	pass Trail //5
 	{
 		SetRasterizerState(RS_Solid_NoCull);
 		SetDepthStencilState(DSS_Enable_ZTest_Disable_ZWrite, 0);
@@ -260,7 +282,7 @@ technique11		DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN_TRAIL();
 	}
 
-	pass ProgressUI
+	pass ProgressUI //6
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Enable_ZTest_Disable_ZWrite, 0);
@@ -273,7 +295,7 @@ technique11		DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN_PROGRESS_ROUND();
 	}
 
-	pass Alpha_Blend
+	pass Alpha_Blend //7
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Enable_ZTest_Disable_ZWrite, 0);
@@ -284,5 +306,18 @@ technique11		DefaultTechnique
 		HullShader = NULL;
 		DomainShader = NULL;
 		PixelShader = compile ps_5_0 PS_MAIN_ALPHA_BLEND();
+	}
+
+	pass Corner_Inside_Alpha //8
+	{
+		SetRasterizerState(RS_Default);
+		SetDepthStencilState(DSS_Enable_ZTest_Disable_ZWrite, 0);
+		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		HullShader = NULL;
+		DomainShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_CORNER_INSIDE_ALPHA();
 	}
 }

@@ -30,6 +30,7 @@ class CLevel_Loading;
 class CGetItemShowUI;
 class CStone;
 class CFood;
+class CStageStoneResult;
 
 class CStage_Manager final : public CGameObject
 {
@@ -87,6 +88,7 @@ private:
 	HRESULT						Init_ManagerInfo();
 	HRESULT						Init_PlayersPos();
 	HRESULT						Init_GetItemShowUI();
+	HRESULT						Init_StageStoneResult();
 
 private:
 	void						Fade_In(const _double& TimeDelta);
@@ -124,6 +126,7 @@ private:
 	CStageClearUI*				m_pStageClearUI = { nullptr };
 	CGetItemShowUI*				m_pGetItemShowUI = { nullptr };
 	vector<CEnemySpawnPoint*>	m_enemySpawnPoints;
+	CStageStoneResult*			m_pStageStoneResult = { nullptr };
 
 	_int						m_CurrentEnemyCount = { 0 };
 

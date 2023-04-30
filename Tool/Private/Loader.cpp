@@ -64,6 +64,7 @@
 #include "StageMessageInfo.h"
 #include "StageProgressUI.h"
 #include "StageClearUI.h"
+#include "StageStoneResult.h"
 
 #include "HP.h"
 #include "HpBar.h"
@@ -1099,6 +1100,10 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/UI/Worldmap_Icon.dds")))))
 			return E_FAIL;
 
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Stage_result_Icon"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/UI/Stage_result_Icon.dds")))))
+			return E_FAIL;
+
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Trail"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Trail/effecttrail.dds")))))
 			return E_FAIL;
@@ -1219,6 +1224,10 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CManualCollisionState::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_StageStoneResult"),
+			CStageStoneResult::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
 	}
 
 	wsprintf(m_szLoadingText, TEXT("모델을 로딩중입니다."));
@@ -1303,6 +1312,10 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_AnimEnv"),
 			CAnimEnv::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_StoneInfoUI"),
+			CStoneInfoUI::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 	}
 #pragma endregion
@@ -2134,10 +2147,6 @@ HRESULT CLoader::Loading_ForPokemonStateLevel()
 
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_PokemonState_Manager"),
 			CPokemonState_Manager::Create(m_pDevice, m_pContext))))
-			return E_FAIL;
-
-		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_StoneInfoUI"),
-			CStoneInfoUI::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 	}
 
