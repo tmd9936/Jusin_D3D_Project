@@ -46,51 +46,7 @@ HRESULT CGetItemShowUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, c
 
 _uint CGetItemShowUI::Tick(_double TimeDelta)
 {
-	if (KEY_TAB(KEY::O))
-	{
-		CGameObject* pPlayer1 = CGameInstance::GetInstance()->Get_Object(m_iLevelindex, L"Layer_Player", L"Player1");
-		if (nullptr != pPlayer1)
-		{
-			CTransform* pTransform = pPlayer1->Get_As<CTransform>();
-			_matrix vMatrix = pTransform->Get_WorldMatrix_Matrix();
-
-			CStone::STONE_DESC stoneDesc{};
-
-			stoneDesc.m_stoneType = CStone::TYPE_ATK;
-			stoneDesc.value = 123;
-			stoneDesc.m_pokemonIconNumber = 25;
-			stoneDesc.m_UIDesc.m_fSizeX = 40.f;
-			stoneDesc.m_UIDesc.m_fSizeY = 40.f;
-			stoneDesc.m_UIDesc.m_TextureProtoTypeLevel = LEVEL_STATIC;
-			stoneDesc.m_UIDesc.m_UIType = 0;
-			stoneDesc.m_UIDesc.m_ShaderPass = 0;
-			lstrcpy(stoneDesc.m_UIDesc.m_TextureProtoTypeName, L"Prototype_Component_Texture_window_ATK_icon");
-
-			Add_Stone(stoneDesc, vMatrix);
-		}
-
-	}
-	else if (KEY_TAB(KEY::P))
-	{
-		CGameObject* pPlayer1 = CGameInstance::GetInstance()->Get_Object(m_iLevelindex, L"Layer_Player", L"Player1");
-		if (nullptr != pPlayer1)
-		{
-			CTransform* pTransform = pPlayer1->Get_As<CTransform>();
-			_matrix vMatrix = pTransform->Get_WorldMatrix_Matrix();
-
-			CFood::Food_Desc foodDesc{};
-
-			_int randValue = rand() % 4;
-			foodDesc.m_foodType = CFood::TYPE(randValue);
-			foodDesc.m_UIDesc.m_fSizeX = 40.f;
-			foodDesc.m_UIDesc.m_fSizeY = 40.f;
-			foodDesc.m_UIDesc.m_TextureProtoTypeLevel = LEVEL_STATIC;
-			foodDesc.m_UIDesc.m_UIType = 0;
-			foodDesc.m_UIDesc.m_ShaderPass = 0;
-
-			Add_Food(foodDesc, vMatrix);
-		}
-	}
+	TestCreateItem();
 
 	GetStonesTick(TimeDelta);
 	GetFoodsTick(TimeDelta);
@@ -132,8 +88,8 @@ HRESULT CGetItemShowUI::Render()
 
 HRESULT CGetItemShowUI::Add_Stone(const CStone::STONE_DESC& stoneDesc, _fmatrix vStartWorldMatrix)
 {
-	//if (m_StoneNum >= m_canMaxGetStoneNum)
-	//	return E_FAIL;
+	if (m_StoneNum >= m_canMaxGetStoneNum)
+		return E_FAIL;
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
@@ -214,7 +170,7 @@ _uint CGetItemShowUI::GetStonesTick(const _double& TimeDelta)
 		{
 			(*iter)->Tick(TimeDelta);
 
-			if ((*iter)->Move_To_ViewPortPositoin(TimeDelta, XMLoadFloat3(&alivePos), vUISize))
+			if ((*iter)->Move_To_ViewPortPositoin(TimeDelta * 3.0, XMLoadFloat3(&alivePos), vUISize))
 			{
 				m_TextParts.at(m_StoneNumTextIndex)->Set_Text(to_wstring(m_StoneNum));
 
@@ -241,7 +197,7 @@ _uint CGetItemShowUI::GetFoodsTick(const _double& TimeDelta)
 		{
 			(*iter)->Tick(TimeDelta);
 
-			if ((*iter)->Move_To_ViewPortPositoin(TimeDelta, XMLoadFloat3(&alivePos), vUISize))
+			if ((*iter)->Move_To_ViewPortPositoin(TimeDelta * 3.0, XMLoadFloat3(&alivePos), vUISize))
 			{
 				m_TextParts.at(m_FoodNumTextIndex)->Set_Text(to_wstring(m_FoodNum));
 
@@ -255,6 +211,55 @@ _uint CGetItemShowUI::GetFoodsTick(const _double& TimeDelta)
 	}
 
 	return _uint();
+}
+
+void CGetItemShowUI::TestCreateItem()
+{
+	if (KEY_TAB(KEY::O))
+	{
+		CGameObject* pPlayer1 = CGameInstance::GetInstance()->Get_Object(m_iLevelindex, L"Layer_Player", L"Player1");
+		if (nullptr != pPlayer1)
+		{
+			CTransform* pTransform = pPlayer1->Get_As<CTransform>();
+			_matrix vMatrix = pTransform->Get_WorldMatrix_Matrix();
+
+			CStone::STONE_DESC stoneDesc{};
+
+			stoneDesc.m_stoneType = CStone::TYPE_ATK;
+			stoneDesc.value = 123;
+			stoneDesc.m_pokemonIconNumber = 25;
+			stoneDesc.m_UIDesc.m_fSizeX = 30.f;
+			stoneDesc.m_UIDesc.m_fSizeY = 30.f;
+			stoneDesc.m_UIDesc.m_TextureProtoTypeLevel = LEVEL_STATIC;
+			stoneDesc.m_UIDesc.m_UIType = 0;
+			stoneDesc.m_UIDesc.m_ShaderPass = 0;
+			lstrcpy(stoneDesc.m_UIDesc.m_TextureProtoTypeName, L"Prototype_Component_Texture_window_ATK_icon");
+
+			Add_Stone(stoneDesc, vMatrix);
+		}
+
+	}
+	else if (KEY_TAB(KEY::P))
+	{
+		CGameObject* pPlayer1 = CGameInstance::GetInstance()->Get_Object(m_iLevelindex, L"Layer_Player", L"Player1");
+		if (nullptr != pPlayer1)
+		{
+			CTransform* pTransform = pPlayer1->Get_As<CTransform>();
+			_matrix vMatrix = pTransform->Get_WorldMatrix_Matrix();
+
+			CFood::Food_Desc foodDesc{};
+
+			_int randValue = rand() % 4;
+			foodDesc.m_foodType = CFood::TYPE(randValue);
+			foodDesc.m_UIDesc.m_fSizeX = 30.f;
+			foodDesc.m_UIDesc.m_fSizeY = 30.f;
+			foodDesc.m_UIDesc.m_TextureProtoTypeLevel = LEVEL_STATIC;
+			foodDesc.m_UIDesc.m_UIType = 0;
+			foodDesc.m_UIDesc.m_ShaderPass = 0;
+
+			Add_Food(foodDesc, vMatrix);
+		}
+	}
 }
 
 CGetItemShowUI* CGetItemShowUI::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

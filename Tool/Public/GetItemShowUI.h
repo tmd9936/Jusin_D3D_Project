@@ -37,6 +37,9 @@ private:
 	_uint						GetFoodsTick(const _double& TimeDelta);
 
 private:
+	void						TestCreateItem();
+
+private:
 	_uint						m_StoneNum = { 0 };
 	_uint						m_FoodNum = { 0 };
 	
