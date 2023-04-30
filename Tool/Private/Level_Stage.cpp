@@ -383,6 +383,9 @@ HRESULT CLevel_Stage::Ready_Layer_UI(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageProgressUI"), LEVEL_STAGE, pLayerTag, L"StageProgressUI", "../../Reference/Resources/Data/Scene/Stage/UI/StageProgressUI.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GetItemShowUI"), LEVEL_STAGE, pLayerTag, L"GetItemShowUI", "../../Reference/Resources/Data/Scene/Stage/UI/GetItemShowUI.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
 	Safe_Release(pGameInstance);
 
 	return S_OK;

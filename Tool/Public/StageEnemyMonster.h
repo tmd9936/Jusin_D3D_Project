@@ -55,6 +55,9 @@ private:
 	void					TurnToCameraRequest(const _double& TimeDelta);
 
 private:
+	void					Create_Get_Item();
+
+private:
 	_bool		m_bTurn = { false };
 
 	_vector		m_vTargetPos = {};

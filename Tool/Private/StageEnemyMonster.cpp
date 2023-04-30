@@ -90,7 +90,10 @@ _uint CStageEnemyMonster::Tick(_double TimeDelta)
 	if (false == m_StaySpawn)
 	{
 		if (m_bDead)
+		{
+			Create_Get_Item();
 			return OBJ_DEAD;
+		}
 
 		Dead_Check();
 
@@ -312,6 +315,18 @@ void CStageEnemyMonster::TurnToCameraRequest(const _double& TimeDelta)
 	{
 		m_pMonFSM->Transit_MotionState(CMonFSM::ROAR, m_pModelCom);
 	}
+}
+
+void CStageEnemyMonster::Create_Get_Item()
+{
+	CGameObject* pManager = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Manager", L"Stage_Manager");
+
+	if (nullptr == pManager)
+		return;
+
+	_matrix mat = m_pTransformCom->Get_WorldMatrix_Matrix();
+
+	dynamic_cast<CStage_Manager*>(pManager)->Create_Get_Item(mat);
 }
 
 _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)

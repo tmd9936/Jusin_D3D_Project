@@ -13,8 +13,12 @@
 #include "EnemyPack.h"
 #include "StageMessageInfo.h"
 #include "StageClearUI.h"
+#include "GetItemShowUI.h"
 
 #include "Level_Loading.h"
+
+#include "Stone.h"
+#include "Food.h"
 
 CStage_Manager::CStage_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
@@ -44,6 +48,9 @@ HRESULT CStage_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, v
 	if (FAILED(Init_ManagerInfo()))
 		return E_FAIL;
 
+	if (FAILED(Init_GetItemShowUI()))
+		return E_FAIL;
+
 	m_enemySpawnPoints.reserve(10);
 
 	return S_OK;
@@ -64,6 +71,9 @@ HRESULT CStage_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, c
 		return E_FAIL;
 
 	if (FAILED(Init_ManagerInfo()))
+		return E_FAIL;
+
+	if (FAILED(Init_GetItemShowUI()))
 		return E_FAIL;
 
 	m_enemySpawnPoints.reserve(10);
@@ -229,6 +239,57 @@ void CStage_Manager::Set_StageClearUI(CStageClearUI* pStageClearUI)
 
 	m_pStageClearUI = pStageClearUI;
 	Safe_AddRef(m_pStageClearUI);
+}
+
+HRESULT CStage_Manager::Create_Get_Item(_fmatrix vStartWorldMatrix)
+{
+	_int randValue = rand() % 2;
+
+	if (randValue == 0)
+	{
+		CStone::STONE_DESC stoneDesc{};
+
+		_int stoneTypeRandomValue = rand() % 2;
+		if (stoneTypeRandomValue == 0)
+		{
+			stoneDesc.m_stoneType = CStone::TYPE_ATK;
+			lstrcpy(stoneDesc.m_UIDesc.m_TextureProtoTypeName, L"Prototype_Component_Texture_window_ATK_icon");
+		}
+		else
+		{
+			stoneDesc.m_stoneType = CStone::TYPE_HP;
+			lstrcpy(stoneDesc.m_UIDesc.m_TextureProtoTypeName, L"Prototype_Component_Texture_window_HP_icon");
+		}
+
+		_int stonePowerRandomValue = rand() % 150;
+		stoneDesc.value = 150 + stonePowerRandomValue;
+		stoneDesc.m_pokemonIconNumber = 25;
+		stoneDesc.m_UIDesc.m_fSizeX = 30.f;
+		stoneDesc.m_UIDesc.m_fSizeY = 30.f;
+		stoneDesc.m_UIDesc.m_TextureProtoTypeLevel = LEVEL_STATIC;
+		stoneDesc.m_UIDesc.m_UIType = 0;
+		stoneDesc.m_UIDesc.m_ShaderPass = 0;
+
+		if (FAILED(m_pGetItemShowUI->Add_Stone(stoneDesc, vStartWorldMatrix)))
+			return E_FAIL;
+	}
+	else
+	{
+		CFood::FOOD_DESC foodDesc{};
+
+		_int randValue = rand() % 4;
+		foodDesc.m_foodType = CFood::TYPE(randValue);
+		foodDesc.m_UIDesc.m_fSizeX = 30.f;
+		foodDesc.m_UIDesc.m_fSizeY = 30.f;
+		foodDesc.m_UIDesc.m_TextureProtoTypeLevel = LEVEL_STATIC;
+		foodDesc.m_UIDesc.m_UIType = 0;
+		foodDesc.m_UIDesc.m_ShaderPass = 0;
+
+		if (FAILED(m_pGetItemShowUI->Add_Food(foodDesc, vStartWorldMatrix)))
+			return E_FAIL;
+	}
+
+	return S_OK;
 }
 
 _bool CStage_Manager::Request_TurnToCamera(CTransform* pTransform, const _double& TimeDelta)
@@ -397,7 +458,23 @@ HRESULT CStage_Manager::Init_PlayersPos()
 		pTransform = pCameraTarget->Get_As<CTransform>();
 		pTransform->Set_Pos(30.54f, 0.5f, 19.28f);
 	}
-	
+
+	return S_OK;
+}
+
+HRESULT CStage_Manager::Init_GetItemShowUI()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	CGameObject* pObject = pGameInstance->Get_Object(LEVEL_STAGE, L"Layer_UI", L"GetItemShowUI");
+	if (nullptr == pObject)
+		return E_FAIL;
+
+	m_pGetItemShowUI = dynamic_cast<CGetItemShowUI*>(pObject);
+	if (nullptr == m_pGetItemShowUI)
+		return E_FAIL;
+
+	Safe_AddRef(m_pGetItemShowUI);
 
 	return S_OK;
 }
@@ -748,6 +825,8 @@ void CStage_Manager::Free()
 	Safe_Release(m_pEnemyPack);
 
 	Safe_Release(m_pMainCamera);
+
+	Safe_Release(m_pGetItemShowUI);
 
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pTransformCom);

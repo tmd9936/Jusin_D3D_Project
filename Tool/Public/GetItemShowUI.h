@@ -28,7 +28,7 @@ public:
 	virtual _uint				LateTick(_double TimeDelta) override;
 	virtual HRESULT				Render() override;
 
-private:
+public:
 	HRESULT						Add_Stone(const CStone::STONE_DESC& stoneDesc, _fmatrix vStartWorldMatrix);
 	HRESULT						Add_Food(const CFood::FOOD_DESC& foodDesc, _fmatrix vStartWorldMatrix);
 

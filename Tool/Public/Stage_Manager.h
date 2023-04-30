@@ -27,6 +27,9 @@ class CEnemyPack;
 class CStageMessageInfo;
 class CStageClearUI;
 class CLevel_Loading;
+class CGetItemShowUI;
+class CStone;
+class CFood;
 
 class CStage_Manager final : public CGameObject
 {
@@ -68,7 +71,6 @@ public:
 		m_eCurState = MANAGER_IDLE;
 	}
 
-	// 여기서 보스 죽은거로 판별하고 스테이지 끝내기
 	void						Boss_DeadEffect(_bool isEnd, _fvector vPos);
 	void						Add_EnemySpawnPoint(CEnemySpawnPoint* pEnemySpawnPoint);
 	void						Set_EnemyPack(CEnemyPack* pEnemyPack);
@@ -76,11 +78,15 @@ public:
 	void						Set_StageClearUI(CStageClearUI* pStageClearUI);
 
 public:
+	HRESULT						Create_Get_Item(_fmatrix vStartWorldMatrix);
+
+public:
 	_bool						Request_TurnToCamera(CTransform* pTransform, const _double& TimeDelta);
 
 private:
 	HRESULT						Init_ManagerInfo();
 	HRESULT						Init_PlayersPos();
+	HRESULT						Init_GetItemShowUI();
 
 private:
 	void						Fade_In(const _double& TimeDelta);
@@ -116,6 +122,7 @@ private:
 	CEnemyPack*					m_pEnemyPack = { nullptr };
 	CStageMessageInfo*			m_pStageMessageInfo = { nullptr };
 	CStageClearUI*				m_pStageClearUI = { nullptr };
+	CGetItemShowUI*				m_pGetItemShowUI = { nullptr };
 	vector<CEnemySpawnPoint*>	m_enemySpawnPoints;
 
 	_int						m_CurrentEnemyCount = { 0 };
