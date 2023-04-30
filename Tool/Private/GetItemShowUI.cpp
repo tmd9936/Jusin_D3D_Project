@@ -218,11 +218,12 @@ _uint CGetItemShowUI::GetStonesTick(const _double& TimeDelta)
 			{
 				m_TextParts.at(m_StoneNumTextIndex)->Set_Text(to_wstring(m_StoneNum));
 
-				//Safe_Release(*iter);
-				//iter = m_GetStones.erase(iter);
-				//continue;
+				Safe_Release(*iter);
+				iter = m_GetStones.erase(iter);
+				continue;
 			}
-			++iter;
+			else
+				++iter;
 		}
 	}
 
@@ -244,11 +245,12 @@ _uint CGetItemShowUI::GetFoodsTick(const _double& TimeDelta)
 			{
 				m_TextParts.at(m_FoodNumTextIndex)->Set_Text(to_wstring(m_FoodNum));
 
-				//Safe_Release(*iter);
-				//iter = m_GetFoods.erase(iter);
-				//continue;
+				Safe_Release(*iter);
+				iter = m_GetFoods.erase(iter);
+				continue;
 			}
-			++iter;
+			else
+				++iter;
 		}
 	}
 

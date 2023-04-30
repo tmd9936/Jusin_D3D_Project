@@ -199,10 +199,10 @@ _bool CUI::Move_To_ViewPortPositoin(const _double& TimeDelta, _fvector vAlivePos
 ,	LONG(m_UIDesc.m_fX + m_UIDesc.m_fSizeX * 0.5f),  LONG(m_UIDesc.m_fY + m_UIDesc.m_fSizeY * 0.5f) };
 
 	RECT alivePositionRect{ 
-		LONG(XMVectorGetX(vAlivePosition) - interval.x), 
-		LONG(XMVectorGetY(vAlivePosition) - interval.y),
-		LONG(XMVectorGetX(vAlivePosition) + interval.x),
-		LONG(XMVectorGetY(vAlivePosition) + interval.y) };
+		LONG(XMVectorGetX(vAlivePosition) + g_iWinSizeX * 0.5f - 50.f * 0.5f),
+		LONG(-XMVectorGetY(vAlivePosition) + g_iWinSizeY * 0.5f - 50.f * 0.5f),
+		LONG(XMVectorGetX(vAlivePosition) + g_iWinSizeX * 0.5f + 50.f * 0.5f),
+		LONG(-XMVectorGetY(vAlivePosition) + g_iWinSizeY * 0.5f + 50.f * 0.5f) };
 
 	RECT result{};
 	if (IntersectRect(&result, &uiRect, &alivePositionRect))
