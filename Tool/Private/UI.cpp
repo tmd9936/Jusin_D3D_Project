@@ -183,15 +183,15 @@ _bool CUI::Check_Is_In(const POINT& mousePT)
 _bool CUI::Move_To_ViewPortPositoin(const _double& TimeDelta, _fvector vAlivePosition, const _float2& interval)
 {
 	_vector vPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	_vector vDir = vAlivePosition - vPosition;
+	_vector vDir = XMVectorSetZ(vAlivePosition, 0.f) - XMVectorSetZ(vPosition, 0.f);
 
-	vPosition += XMVector3Normalize(XMVectorSetZ(vDir, 0.f)) * (_float)TimeDelta * 10.f;
+	vPosition += vDir * (_float)TimeDelta;
 
 	_float3 vPos = {};
 
 	XMStoreFloat3(&vPos, vPosition);
 
-	m_pTransformCom->Set_Pos(vPos.x, vPos.y, 1.f);
+	m_pTransformCom->Set_Pos(vPos.x, vPos.y, 0.1f);
 	m_UIDesc.m_fX = vPos.x + g_iWinSizeX * 0.5f;
 	m_UIDesc.m_fY = -vPos.y + g_iWinSizeY * 0.5f;
 

@@ -132,8 +132,8 @@ HRESULT CGetItemShowUI::Render()
 
 HRESULT CGetItemShowUI::Add_Stone(const CStone::STONE_DESC& stoneDesc, _fmatrix vStartWorldMatrix)
 {
-	if (m_StoneNum >= m_canMaxGetStoneNum)
-		return E_FAIL;
+	//if (m_StoneNum >= m_canMaxGetStoneNum)
+	//	return E_FAIL;
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
@@ -214,16 +214,15 @@ _uint CGetItemShowUI::GetStonesTick(const _double& TimeDelta)
 		{
 			(*iter)->Tick(TimeDelta);
 
-			//if ((*iter)->Move_To_ViewPortPositoin(TimeDelta, XMLoadFloat3(&alivePos), vUISize))
-			//{
-			//	m_TextParts.at(m_StoneNumTextIndex)->Set_Text(to_wstring(m_StoneNum));
+			if ((*iter)->Move_To_ViewPortPositoin(TimeDelta, XMLoadFloat3(&alivePos), vUISize))
+			{
+				m_TextParts.at(m_StoneNumTextIndex)->Set_Text(to_wstring(m_StoneNum));
 
-			//	Safe_Release(*iter);
-			//	iter = m_GetStones.erase(iter);
-			//	continue;
-			//}
-			//else
-				++iter;
+				//Safe_Release(*iter);
+				//iter = m_GetStones.erase(iter);
+				//continue;
+			}
+			++iter;
 		}
 	}
 
@@ -241,16 +240,15 @@ _uint CGetItemShowUI::GetFoodsTick(const _double& TimeDelta)
 		{
 			(*iter)->Tick(TimeDelta);
 
-			//if ((*iter)->Move_To_ViewPortPositoin(TimeDelta, XMLoadFloat3(&alivePos), vUISize))
-			//{
-			//	m_TextParts.at(m_FoodNumTextIndex)->Set_Text(to_wstring(m_FoodNum));
+			if ((*iter)->Move_To_ViewPortPositoin(TimeDelta, XMLoadFloat3(&alivePos), vUISize))
+			{
+				m_TextParts.at(m_FoodNumTextIndex)->Set_Text(to_wstring(m_FoodNum));
 
-			//	Safe_Release(*iter);
-			//	iter = m_GetFoods.erase(iter);
-			//	continue;
-			//}
-			//else
-				++iter;
+				//Safe_Release(*iter);
+				//iter = m_GetFoods.erase(iter);
+				//continue;
+			}
+			++iter;
 		}
 	}
 
