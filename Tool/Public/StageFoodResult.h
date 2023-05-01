@@ -1,5 +1,7 @@
 #pragma once
+
 #include "UI.h"
+#include "Food.h"
 
 BEGIN(Client)
 
@@ -24,17 +26,17 @@ private:
 	virtual ~CStageFoodResult() = default;
 
 public:
-	virtual HRESULT Initialize_Prototype() override;
-	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override;
-	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath);
+	virtual HRESULT			Initialize_Prototype() override;
+	virtual HRESULT			Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override;
+	virtual HRESULT			Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath);
 
 public:
-	virtual _uint Tick(_double TimeDelta) override;
-	virtual _uint LateTick(_double TimeDelta) override;
-	virtual HRESULT Render() override;
+	virtual _uint			Tick(_double TimeDelta) override;
+	virtual _uint			LateTick(_double TimeDelta) override;
+	virtual HRESULT			Render() override;
 
 public:
-	void					OpenUI();
+	void					OpenUI(const vector<_uint>& foods);
 
 public:
 	HRESULT					Init_FoodInfoUIs();
@@ -53,7 +55,7 @@ private:
 	void					Stay_Tick(const _double& TimeDelta);
 
 private:
-	STATE					m_eCurState = { STATE_OPEN };
+	STATE					m_eCurState = { STATE_END };
 	STATE					m_ePreState = { STATE_END };
 
 	const _double			m_showTime = { 0.5 };

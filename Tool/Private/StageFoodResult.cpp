@@ -107,8 +107,12 @@ HRESULT CStageFoodResult::Render()
 	return __super::Render();
 }
 
-void CStageFoodResult::OpenUI()
+void CStageFoodResult::OpenUI(const vector<_uint>& foods)
 {
+	for (size_t i = 0; i < CFood::TYPE_END; ++i)
+	{
+
+	}
 	m_eCurState = STATE_OPEN;
 }
 

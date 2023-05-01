@@ -107,8 +107,13 @@ HRESULT CStageStoneResult::Render()
 	return __super::Render();
 }
 
-void CStageStoneResult::OpenUI()
+void CStageStoneResult::OpenUI(vector<CStone::STONE_DESC>& stoneDesces)
 {
+	for (size_t i = 0; i < stoneDesces.size(); ++i)
+	{
+		m_StoneInfoUIs.at(i)->Change_StoneInfo(stoneDesces.at(i));
+	}
+
 	m_eCurState = STATE_OPEN;
 }
 

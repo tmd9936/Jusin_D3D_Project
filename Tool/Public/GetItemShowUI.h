@@ -32,6 +32,15 @@ public:
 	HRESULT						Add_Stone(const CStone::STONE_DESC& stoneDesc, _fmatrix vStartWorldMatrix);
 	HRESULT						Add_Food(const CFood::FOOD_DESC& foodDesc, _fmatrix vStartWorldMatrix);
 
+public:
+	vector<CStone::STONE_DESC>	Get_StoneDatas() const {
+		return m_stones;
+	}
+
+	vector<_uint>				Get_FoodDatas() const {
+		return m_foods;
+	}
+
 private:
 	_uint						GetStonesTick(const _double& TimeDelta);
 	_uint						GetFoodsTick(const _double& TimeDelta);

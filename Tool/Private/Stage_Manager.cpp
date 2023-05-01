@@ -632,6 +632,7 @@ void CStage_Manager::Change_State()
 			break;
 
 		case MANAGER_OPEN_STATE_INFO:
+			Change_State_Open_State_Info();
 			m_eRenderId = RENDER_BACK_UI;
 			break;
 
@@ -721,6 +722,11 @@ void CStage_Manager::Fade_Out(const _double& TimeDelta)
 	m_vCurrentFadeColor.y += (_float)TimeDelta;
 	m_vCurrentFadeColor.z += (_float)TimeDelta;
 	m_vCurrentFadeColor.w += (_float)TimeDelta;
+}
+
+void CStage_Manager::Change_State_Open_State_Info()
+{
+	// GetItemShowUI에서 데이터 가져와서 StageFoodResult랑 StageStoneResult에 데이터 각각 넣어주기 
 }
 
 HRESULT CStage_Manager::Add_Components()

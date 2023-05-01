@@ -1,5 +1,6 @@
 #pragma once
 #include "UI.h"
+#include "Stone.h"
 
 BEGIN(Client)
 
@@ -34,7 +35,7 @@ public:
 	virtual HRESULT			Render() override;
 
 public:
-	void					OpenUI();
+	void					OpenUI(vector<CStone::STONE_DESC>& stoneDesces);
 
 public:
 	STATE					Get_CurrentState() const {
