@@ -79,6 +79,7 @@ private:
 
 private:
 	_bool							UnEquip(const POINT& pt);
+	void							TestKeyInput();
 
 private:
 	POKEMONSTATE_MANAGER_DESC		m_Desc = {};

@@ -165,6 +165,37 @@ _bool CStoneInventory::Change_StoneState_To_UnEquip(const _uint& index)
 	return true;
 }
 
+HRESULT CStoneInventory::Add_StoneData(CStone::STONE_DESC& stoneData)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	CStone* pStone = nullptr;
+
+	_int emptyIndex = -1;
+
+	for (size_t i = 0; i < m_stones.size(); ++i)
+	{
+		if (nullptr == m_stones.at(i))
+		{
+			emptyIndex = (_int)i;
+			break;
+		}
+	}
+
+	if (-1 == emptyIndex)
+		return E_FAIL;
+
+	pGameInstance->Clone_GameObject(Get_LayerTag().c_str(), m_iLevelindex, 
+		TEXT("Prototype_GameObject_Stone"), (CGameObject**)&pStone, &stoneData);
+	if (nullptr == pStone)
+		return E_FAIL;
+
+	pStone->Set_InventoryIndex(emptyIndex);
+	m_stones[emptyIndex] = pStone;
+
+	return S_OK;
+}
+
 
 _bool CStoneInventory::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator)
 {

@@ -15,9 +15,6 @@
 #include "PokemonInfoUI.h"
 #include "StoneInfoUI.h"
 
-// 레벨 끝나면
-// 포켓몬 능력치 및 스톤 장착 정보 업데이트
-// 인벤토리 업데이트
 
 CPokemonState_Manager::CPokemonState_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUI(pDevice, pContext)
@@ -77,6 +74,8 @@ _uint CPokemonState_Manager::Tick(_double TimeDelta)
 {
 	State_Tick(TimeDelta);
 	Change_State();
+
+	TestKeyInput();
 
 	if (m_pPickingInfoStone)
 		m_pPickingInfoStone->Tick(TimeDelta);
@@ -478,6 +477,34 @@ _bool CPokemonState_Manager::UnEquip(const POINT& pt)
 	}
 
 	return false;
+}
+
+void CPokemonState_Manager::TestKeyInput()
+{
+	if (KEY_TAB(KEY::A))
+	{
+		CStone::STONE_DESC stoneDesc{};
+
+		stoneDesc.m_eCurState = CStone::STATE_NO_EQUIP_ON_INVENTORY;
+		int ranvalue = rand() % 2;
+		if (ranvalue == 0)
+			stoneDesc.m_stoneType = CStone::TYPE_ATK;
+		if (ranvalue == 1)
+			stoneDesc.m_stoneType = CStone::TYPE_HP;
+		stoneDesc.value = 100 + rand() % 200;
+		stoneDesc.m_pokemonIconNumber = 25;
+
+		stoneDesc.m_UIDesc.m_fSizeX = 45.f;
+		stoneDesc.m_UIDesc.m_fSizeY = 45.f;
+		stoneDesc.m_UIDesc.m_fX = 0.f;
+		stoneDesc.m_UIDesc.m_fY = 0.f;
+		stoneDesc.m_UIDesc.m_ShaderPass = 0;
+		stoneDesc.m_UIDesc.m_TextureProtoTypeLevel = 0;
+		stoneDesc.m_UIDesc.m_UIType = 0;
+		lstrcpy(stoneDesc.m_UIDesc.m_TextureProtoTypeName, L"Prototype_Component_Texture_UI_Pstone_attack");
+
+		m_pStoneInventory->Add_StoneData(stoneDesc);
+	}
 }
 
 HRESULT CPokemonState_Manager::SetUp_ShaderResources()

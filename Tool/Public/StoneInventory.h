@@ -33,6 +33,9 @@ public:
 	_bool				Change_StoneState_To_Equip(const _uint& index, const _uint& pokemonNo);
 	_bool				Change_StoneState_To_UnEquip(const _uint& index);
 
+public:
+	HRESULT				Add_StoneData(CStone::STONE_DESC& stoneData);
+
 protected:
 	virtual _bool		Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
 	virtual _bool		Load_By_JsonFile_Impl(Document& doc);
