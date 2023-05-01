@@ -118,8 +118,31 @@ HRESULT CStageFoodResult::Init_FoodInfoUIs()
 	m_pFoodInfoUI01 = dynamic_cast<CFoodInfoUI*>(pObject);
 	if (nullptr == m_pFoodInfoUI01)
 		return E_FAIL;
-
 	Safe_AddRef(m_pFoodInfoUI01);
+
+	pObject = pGameInstance->Get_Object(LEVEL_STAGE, L"Layer_StageResultUI", L"FoodInfoUI02");
+	if (nullptr == pObject)
+		return E_FAIL;
+	m_pFoodInfoUI02 = dynamic_cast<CFoodInfoUI*>(pObject);
+	if (nullptr == m_pFoodInfoUI02)
+		return E_FAIL;
+	Safe_AddRef(m_pFoodInfoUI02);
+
+	pObject = pGameInstance->Get_Object(LEVEL_STAGE, L"Layer_StageResultUI", L"FoodInfoUI03");
+	if (nullptr == pObject)
+		return E_FAIL;
+	m_pFoodInfoUI03 = dynamic_cast<CFoodInfoUI*>(pObject);
+	if (nullptr == m_pFoodInfoUI03)
+		return E_FAIL;
+	Safe_AddRef(m_pFoodInfoUI03);
+
+	pObject = pGameInstance->Get_Object(LEVEL_STAGE, L"Layer_StageResultUI", L"FoodInfoUI04");
+	if (nullptr == pObject)
+		return E_FAIL;
+	m_pFoodInfoUI04 = dynamic_cast<CFoodInfoUI*>(pObject);
+	if (nullptr == m_pFoodInfoUI04)
+		return E_FAIL;
+	Safe_AddRef(m_pFoodInfoUI04);
 
 	return S_OK;
 }

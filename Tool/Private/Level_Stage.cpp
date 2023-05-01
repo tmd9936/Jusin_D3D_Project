@@ -420,6 +420,15 @@ HRESULT CLevel_Stage::Ready_Layer_StageResultUI(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_FoodInfoUI"), LEVEL_STAGE, pLayerTag, L"FoodInfoUI01", "../../Reference/Resources/Data/Scene/Stage/StageResultUI/FoodInfoUI01.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_FoodInfoUI"), LEVEL_STAGE, pLayerTag, L"FoodInfoUI02", "../../Reference/Resources/Data/Scene/Stage/StageResultUI/FoodInfoUI02.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_FoodInfoUI"), LEVEL_STAGE, pLayerTag, L"FoodInfoUI03", "../../Reference/Resources/Data/Scene/Stage/StageResultUI/FoodInfoUI03.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_FoodInfoUI"), LEVEL_STAGE, pLayerTag, L"FoodInfoUI04", "../../Reference/Resources/Data/Scene/Stage/StageResultUI/FoodInfoUI04.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageFoodResult"), LEVEL_STAGE, pLayerTag, L"StageFoodResult", "../../Reference/Resources/Data/Scene/Stage/StageResultUI/StageFoodResult.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
