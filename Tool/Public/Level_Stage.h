@@ -36,6 +36,7 @@ private:
 	HRESULT Ready_Layer_UI(const _tchar* pLayerTag);
 
 	HRESULT Ready_Layer_StageResultUI(const _tchar* pLayerTag);
+	HRESULT Ready_Layer_Inventory(const _tchar* pLayerTag);
 
 	HRESULT Ready_Layer_CameraTarget(const _tchar* pLayerTag);
 

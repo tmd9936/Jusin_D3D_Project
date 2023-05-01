@@ -70,16 +70,20 @@ _uint CStoneInventory::Tick(_double TimeDelta)
 
 _uint CStoneInventory::LateTick(_double TimeDelta)
 {
-	_uint result = __super::LateTick(TimeDelta);
-
-	for (size_t i = 0; i < m_stones.size(); ++i)
+	_uint result = 0;
+	if (m_lateTickState)
 	{
-		if (nullptr != m_stones[i])
-		{
-			_float3 texturePosition = m_TextureParts[i]->Get_FinalWorldMatrixPosition();
-			m_stones[i]->Set_Pos({ texturePosition.x, texturePosition.y, texturePosition.z });
+		result = __super::LateTick(TimeDelta);
 
-			m_stones[i]->LateTick(TimeDelta);
+		for (size_t i = 0; i < m_stones.size(); ++i)
+		{
+			if (nullptr != m_stones[i])
+			{
+				_float3 texturePosition = m_TextureParts[i]->Get_FinalWorldMatrixPosition();
+				m_stones[i]->Set_Pos({ texturePosition.x, texturePosition.y, texturePosition.z });
+
+				m_stones[i]->LateTick(TimeDelta);
+			}
 		}
 	}
 
@@ -163,6 +167,28 @@ _bool CStoneInventory::Change_StoneState_To_UnEquip(const _uint& index)
 	m_stones[index]->Set_State(CStone::STATE_NO_EQUIP_ON_INVENTORY);
 
 	return true;
+}
+
+void CStoneInventory::All_Object_RenderOff()
+{
+	for (auto& part : m_TextureParts)
+	{
+		part->Set_RenderId(RENDER_END);
+	}
+
+	for (auto& part : m_TextParts)
+	{
+		part->Set_RenderId(RENDER_END);
+	}
+
+	for (_uint i = 0; i < m_stones.size(); ++i)
+	{
+		if (nullptr != m_stones.at(i))
+		{
+			m_stones.at(i)->Set_RenderId(RENDER_END);
+			m_stones.at(i)->All_Object_RenderOff();
+		}
+	}
 }
 
 HRESULT CStoneInventory::Add_StoneData(CStone::STONE_DESC& stoneData)

@@ -16,6 +16,7 @@
 #include "GetItemShowUI.h"
 #include "StageStoneResult.h"
 #include "StageFoodResult.h"
+#include "StoneInventory.h"
 
 #include "Level_Loading.h"
 
@@ -59,6 +60,9 @@ HRESULT CStage_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, v
 	if (FAILED(Init_StageFoodResult()))
 		return E_FAIL;
 
+	if (FAILED(Init_StoneInventory()))
+		return E_FAIL;
+
 	m_enemySpawnPoints.reserve(10);
 
 	return S_OK;
@@ -88,6 +92,9 @@ HRESULT CStage_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, c
 		return E_FAIL;
 
 	if (FAILED(Init_StageFoodResult()))
+		return E_FAIL;
+
+	if (FAILED(Init_StoneInventory()))
 		return E_FAIL;
 
 	m_enemySpawnPoints.reserve(10);
@@ -267,12 +274,12 @@ HRESULT CStage_Manager::Create_Get_Item(_fmatrix vStartWorldMatrix)
 		if (stoneTypeRandomValue == 0)
 		{
 			stoneDesc.m_stoneType = CStone::TYPE_ATK;
-			lstrcpy(stoneDesc.m_UIDesc.m_TextureProtoTypeName, L"Prototype_Component_Texture_window_ATK_icon");
+			lstrcpy(stoneDesc.m_UIDesc.m_TextureProtoTypeName, L"Prototype_Component_Texture_UI_Pstone_attack");
 		}
 		else
 		{
 			stoneDesc.m_stoneType = CStone::TYPE_HP;
-			lstrcpy(stoneDesc.m_UIDesc.m_TextureProtoTypeName, L"Prototype_Component_Texture_window_HP_icon");
+			lstrcpy(stoneDesc.m_UIDesc.m_TextureProtoTypeName, L"Prototype_Component_Texture_UI_Pstone_defense");
 		}
 
 		_int stonePowerRandomValue = rand() % 150;
@@ -527,6 +534,27 @@ HRESULT CStage_Manager::Init_StageFoodResult()
 	return S_OK;
 }
 
+HRESULT CStage_Manager::Init_StoneInventory()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	CGameObject* pObject = pGameInstance->Get_Object(LEVEL_STAGE, L"Layer_UI", L"StoneInvetory");
+	if (nullptr == pObject)
+		return E_FAIL;
+
+	m_pStoneInventory = dynamic_cast<CStoneInventory*>(pObject);
+	if (nullptr == m_pStoneInventory)
+		return E_FAIL;
+
+	m_pStoneInventory->All_Object_RenderOff();
+	m_pStoneInventory->Set_RenderId(RENDER_END);
+	m_pStoneInventory->Set_LateTickState(false);
+
+	Safe_AddRef(m_pStoneInventory);
+
+	return S_OK;
+}
+
 void CStage_Manager::Fade_In(const _double& TimeDelta)
 {
 	if (m_Desc.m_FadeSecond <= m_fCurrentFadeTime)
@@ -751,6 +779,15 @@ void CStage_Manager::Change_State_Open_State_Info()
 
 	m_pStageStoneResult->OpenUI(stoneDatas);
 	m_pStageFoodResult->OpenUI(foodDatas);
+
+	for (auto& iter : stoneDatas)
+	{
+		iter.m_eCurState = CStone::STATE_NO_EQUIP_ON_INVENTORY;
+		m_pStoneInventory->Add_StoneData(iter);
+	}
+	//pGameInstance->Layer_Tick_State_Change(L"Layer_Inventory", LEVEL_STAGE, true);
+	//m_pStoneInventory->All_Object_RenderOff();
+	//m_pStoneInventory->Set_RenderId(RENDER_END);
 }
 
 HRESULT CStage_Manager::Add_Components()
@@ -886,6 +923,11 @@ CGameObject* CStage_Manager::Clone(const _tchar* pLayerTag, _uint iLevelIndex, c
 
 void CStage_Manager::Free()
 {
+	if (nullptr != m_pStoneInventory)
+	{
+		m_pStoneInventory->Save_By_JsonFile(m_pStoneInventory->Get_JsonPath().c_str());
+	}
+
 	__super::Free();
 
 	for (auto& point : m_enemySpawnPoints)
@@ -899,6 +941,7 @@ void CStage_Manager::Free()
 	Safe_Release(m_pGetItemShowUI);
 	Safe_Release(m_pStageStoneResult);
 	Safe_Release(m_pStageFoodResult);
+	Safe_Release(m_pStoneInventory);
 
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pTransformCom);

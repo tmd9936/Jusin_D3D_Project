@@ -33,6 +33,9 @@ HRESULT CLevel_Stage::Initialize()
 	if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_Inventory(TEXT("Layer_Inventory"))))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_StageResultUI(TEXT("Layer_StageResultUI"))))
 		return E_FAIL;
 
@@ -389,6 +392,10 @@ HRESULT CLevel_Stage::Ready_Layer_UI(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GetItemShowUI"), LEVEL_STAGE, pLayerTag, L"GetItemShowUI", "../../Reference/Resources/Data/Scene/Stage/UI/GetItemShowUI.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StoneInventory"), LEVEL_STAGE, pLayerTag,
+		L"StoneInvetory", "../../Reference/Resources/Data/Scene/PokemonInfo/SkillStoneUI/StoneInvetory.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
 	Safe_Release(pGameInstance);
 
 	return S_OK;
@@ -434,6 +441,20 @@ HRESULT CLevel_Stage::Ready_Layer_StageResultUI(const _tchar* pLayerTag)
 
 	pGameInstance->Layer_Tick_State_Change(pLayerTag, LEVEL_STAGE, false);
 
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CLevel_Stage::Ready_Layer_Inventory(const _tchar* pLayerTag)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(pGameInstance->Add_Layer(LEVEL_STAGE, pLayerTag)))
+		return E_FAIL;
+
+	//pGameInstance->Layer_Tick_State_Change(pLayerTag, LEVEL_STAGE, false);
 	Safe_Release(pGameInstance);
 
 	return S_OK;

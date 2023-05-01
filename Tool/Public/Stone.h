@@ -106,6 +106,8 @@ public:
 		return m_Desc.m_inventoyIndex;
 	}
 
+	void All_Object_RenderOff();
+
 private:
 	void				Change_State();
 	void				State_Tick(const _double& TimeDelta);

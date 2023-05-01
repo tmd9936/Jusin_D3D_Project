@@ -32,9 +32,15 @@ public:
 public:
 	_bool				Change_StoneState_To_Equip(const _uint& index, const _uint& pokemonNo);
 	_bool				Change_StoneState_To_UnEquip(const _uint& index);
+	void				All_Object_RenderOff();
 
 public:
 	HRESULT				Add_StoneData(CStone::STONE_DESC& stoneData);
+
+public:
+	void				Set_LateTickState(const _bool& lateTickState) {
+		m_lateTickState = lateTickState;
+	}
 
 protected:
 	virtual _bool		Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
@@ -42,6 +48,9 @@ protected:
 
 private:
 	vector<CStone*>		m_stones;
+
+private:
+	_bool				m_lateTickState = { true };
 
 private:
 	const _uint			m_InventoryNums = 20;

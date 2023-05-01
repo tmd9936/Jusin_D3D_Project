@@ -269,6 +269,19 @@ void CStone::Set_State(STATE eState)
 	m_Desc.m_eCurState = eState;
 }
 
+void CStone::All_Object_RenderOff()
+{
+	for (auto& part : m_TextureParts)
+	{
+		part->Set_RenderId(RENDER_END);
+	}
+
+	for (auto& part : m_TextParts)
+	{
+		part->Set_RenderId(RENDER_END);
+	}
+}
+
 void CStone::Change_State()
 {
 	if (m_Desc.m_eCurState != m_Desc.m_ePreState)
