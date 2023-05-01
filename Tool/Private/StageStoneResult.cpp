@@ -146,21 +146,55 @@ HRESULT CStageStoneResult::Init_StoneInfoUIs()
 
 	Safe_AddRef(m_pStoneInfoUI01);
 
-	//pObject = pGameInstance->Get_Object(LEVEL_STAGE, L"Layer_StageResultUI", L"StoneInfoUI02");
-	//if (nullptr == pObject)
-	//	return E_FAIL;
-	//m_pStoneInfoUI02 = dynamic_cast<CStoneInfoUI*>(pObject);
-	//if (nullptr == m_pStoneInfoUI02)
-	//	return E_FAIL;
-	//Safe_AddRef(m_pStoneInfoUI02);
+	stoneTypeRandomValue = rand() % 2;
+	stonePowerRandomValue = rand() % 150;
+	stoneDesc.value = 150 + stonePowerRandomValue;
+	if (stoneTypeRandomValue == 0)
+	{
+		stoneDesc.m_stoneType = CStone::TYPE_ATK;
+		lstrcpy(stoneDesc.m_UIDesc.m_TextureProtoTypeName, L"Prototype_Component_Texture_window_ATK_icon");
+	}
+	else
+	{
+		stoneDesc.m_stoneType = CStone::TYPE_HP;
+		lstrcpy(stoneDesc.m_UIDesc.m_TextureProtoTypeName, L"Prototype_Component_Texture_window_HP_icon");
+	}
 
-	//pObject = pGameInstance->Get_Object(LEVEL_STAGE, L"Layer_StageResultUI", L"StoneInfoUI03");
-	//if (nullptr == pObject)
-	//	return E_FAIL;
-	//m_pStoneInfoUI03 = dynamic_cast<CStoneInfoUI*>(pObject);
-	//if (nullptr == m_pStoneInfoUI03)
-	//	return E_FAIL;
-	//Safe_AddRef(m_pStoneInfoUI03);
+	pObject = pGameInstance->Get_Object(LEVEL_STAGE, L"Layer_StageResultUI", L"StoneInfoUI02");
+	if (nullptr == pObject)
+		return E_FAIL;
+	m_pStoneInfoUI02 = dynamic_cast<CStoneInfoUI*>(pObject);
+	if (nullptr == m_pStoneInfoUI02)
+		return E_FAIL;
+
+	m_pStoneInfoUI02->Change_StoneInfo(stoneDesc);
+
+	Safe_AddRef(m_pStoneInfoUI02);
+
+	stoneTypeRandomValue = rand() % 2;
+	stonePowerRandomValue = rand() % 150;
+	stoneDesc.value = 150 + stonePowerRandomValue;
+	if (stoneTypeRandomValue == 0)
+	{
+		stoneDesc.m_stoneType = CStone::TYPE_ATK;
+		lstrcpy(stoneDesc.m_UIDesc.m_TextureProtoTypeName, L"Prototype_Component_Texture_window_ATK_icon");
+	}
+	else
+	{
+		stoneDesc.m_stoneType = CStone::TYPE_HP;
+		lstrcpy(stoneDesc.m_UIDesc.m_TextureProtoTypeName, L"Prototype_Component_Texture_window_HP_icon");
+	}
+
+	pObject = pGameInstance->Get_Object(LEVEL_STAGE, L"Layer_StageResultUI", L"StoneInfoUI03");
+	if (nullptr == pObject)
+		return E_FAIL;
+	m_pStoneInfoUI03 = dynamic_cast<CStoneInfoUI*>(pObject);
+	if (nullptr == m_pStoneInfoUI03)
+		return E_FAIL;
+
+	m_pStoneInfoUI03->Change_StoneInfo(stoneDesc);
+
+	Safe_AddRef(m_pStoneInfoUI03);
 
 	return S_OK;
 }
@@ -173,6 +207,10 @@ void CStageStoneResult::Change_State()
 		{
 		case STATE_OPEN:
 			break;
+		case STATE_STAY:
+			break;
+		case STATE_CLOSE:
+			break;
 		}
 
 		m_ePreState = m_eCurState;
@@ -184,6 +222,10 @@ void CStageStoneResult::State_Tick(const _double& TimeDelta)
 	switch (m_eCurState)
 	{
 	case STATE_OPEN:
+		break;
+	case STATE_STAY:
+		break;
+	case STATE_CLOSE:
 		break;
 	}
 }

@@ -13,6 +13,8 @@ public:
 	enum STATE
 	{
 		STATE_OPEN,
+		STATE_STAY,
+		STATE_CLOSE,
 		STATE_END
 	};
 

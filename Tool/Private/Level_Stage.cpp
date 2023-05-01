@@ -408,11 +408,11 @@ HRESULT CLevel_Stage::Ready_Layer_StageResultUI(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StoneInfoUI"), LEVEL_STAGE, pLayerTag, L"StoneInfoUI01", "../../Reference/Resources/Data/Scene/Stage/StageResultUI/StoneInfoUI01.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
-	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StoneInfoUI"), LEVEL_STAGE, pLayerTag, L"StoneInfoUI02", "../../Reference/Resources/Data/Scene/Stage/StageResultUI/StoneInfoUI02.json", CLONE_FILEPATH)))
-	//	return E_FAIL;
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StoneInfoUI"), LEVEL_STAGE, pLayerTag, L"StoneInfoUI02", "../../Reference/Resources/Data/Scene/Stage/StageResultUI/StoneInfoUI02.json", CLONE_FILEPATH)))
+		return E_FAIL;
 
-	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StoneInfoUI"), LEVEL_STAGE, pLayerTag, L"StoneInfoUI03", "../../Reference/Resources/Data/Scene/Stage/StageResultUI/StoneInfoUI03.json", CLONE_FILEPATH)))
-	//	return E_FAIL;
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StoneInfoUI"), LEVEL_STAGE, pLayerTag, L"StoneInfoUI03", "../../Reference/Resources/Data/Scene/Stage/StageResultUI/StoneInfoUI03.json", CLONE_FILEPATH)))
+		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageStoneResult"), LEVEL_STAGE, pLayerTag, L"StageStoneResult", "../../Reference/Resources/Data/Scene/Stage/StageResultUI/StageStoneResult.json", CLONE_FILEPATH)))
 		return E_FAIL;
