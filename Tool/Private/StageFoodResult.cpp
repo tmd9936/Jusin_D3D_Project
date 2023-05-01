@@ -119,6 +119,8 @@ HRESULT CStageFoodResult::Init_FoodInfoUIs()
 	if (nullptr == m_pFoodInfoUI01)
 		return E_FAIL;
 
+	Safe_AddRef(m_pFoodInfoUI01);
+
 	return S_OK;
 }
 

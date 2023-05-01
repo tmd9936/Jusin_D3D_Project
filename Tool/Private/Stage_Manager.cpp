@@ -15,6 +15,7 @@
 #include "StageClearUI.h"
 #include "GetItemShowUI.h"
 #include "StageStoneResult.h"
+#include "StageFoodResult.h"
 
 #include "Level_Loading.h"
 
@@ -503,6 +504,23 @@ HRESULT CStage_Manager::Init_StageStoneResult()
 	return S_OK;
 }
 
+HRESULT CStage_Manager::Init_StageFoodResult()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	CGameObject* pObject = pGameInstance->Get_Object(LEVEL_STAGE, L"Layer_StageResultUI", L"StageFoodResult");
+	if (nullptr == pObject)
+		return E_FAIL;
+
+	m_pStageFoodResult = dynamic_cast<CStageFoodResult*>(pObject);
+	if (nullptr == m_pStageFoodResult)
+		return E_FAIL;
+
+	Safe_AddRef(m_pStageFoodResult);
+
+	return S_OK;
+}
+
 void CStage_Manager::Fade_In(const _double& TimeDelta)
 {
 	if (m_Desc.m_FadeSecond <= m_fCurrentFadeTime)
@@ -850,6 +868,7 @@ void CStage_Manager::Free()
 	Safe_Release(m_pMainCamera);
 	Safe_Release(m_pGetItemShowUI);
 	Safe_Release(m_pStageStoneResult);
+	Safe_Release(m_pStageFoodResult);
 
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pTransformCom);

@@ -27,17 +27,7 @@ HRESULT CFoodInfoUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 		return E_FAIL;
 
-	m_eRenderId = RENDER_BACK_UI;
-
-	for (auto& part : m_TextureParts)
-	{
-		part->Set_RenderId(RENDER_BACK_UI);
-	}
-
-	for (auto& part : m_TextParts)
-	{
-		part->Set_RenderId(RENDER_BACK_UI);
-	}
+	m_eRenderId = RENDER_UI;
 
 	return S_OK;
 }
@@ -47,17 +37,7 @@ HRESULT CFoodInfoUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, cons
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, filePath)))
 		return E_FAIL;
 
-	m_eRenderId = RENDER_BACK_UI;
-
-	for (auto& part : m_TextureParts)
-	{
-		part->Set_RenderId(RENDER_BACK_UI);
-	}
-
-	for (auto& part : m_TextParts)
-	{
-		part->Set_RenderId(RENDER_BACK_UI);
-	}
+	m_eRenderId = RENDER_UI;
 
 	return S_OK;
 }
