@@ -56,6 +56,9 @@ HRESULT CStage_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, v
 	if (FAILED(Init_StageStoneResult()))
 		return E_FAIL;
 
+	if (FAILED(Init_StageFoodResult()))
+		return E_FAIL;
+
 	m_enemySpawnPoints.reserve(10);
 
 	return S_OK;
@@ -82,6 +85,9 @@ HRESULT CStage_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, c
 		return E_FAIL;
 
 	if (FAILED(Init_StageStoneResult()))
+		return E_FAIL;
+
+	if (FAILED(Init_StageFoodResult()))
 		return E_FAIL;
 
 	m_enemySpawnPoints.reserve(10);
@@ -703,12 +709,21 @@ void CStage_Manager::Stage_Clear_Tick(const _double& TimeDelta)
 
 void CStage_Manager::Open_StageInfo_Tick(const _double& TimeDelta)
 {
-	if (m_openStateTimeAcc >= m_openStateTime)
+	//if (m_openStateTimeAcc >= m_openStateTime)
+	//{
+	//	m_eCurState = MANAGER_FADE_OUT;
+	//}
+
+	//m_openStateTimeAcc += TimeDelta;
+
+	CStageStoneResult::STATE stoneResultState =  m_pStageStoneResult->Get_CurrentState();
+	CStageFoodResult::STATE foodResultState = m_pStageFoodResult->Get_CurrentState();
+
+	if (stoneResultState == CStageStoneResult::STATE_CLOSE
+		&& foodResultState == CStageFoodResult::STATE_CLOSE)
 	{
 		m_eCurState = MANAGER_FADE_OUT;
 	}
-
-	m_openStateTimeAcc += TimeDelta;
 }
 
 void CStage_Manager::Fade_Out(const _double& TimeDelta)
@@ -726,7 +741,11 @@ void CStage_Manager::Fade_Out(const _double& TimeDelta)
 
 void CStage_Manager::Change_State_Open_State_Info()
 {
-	// GetItemShowUI에서 데이터 가져와서 StageFoodResult랑 StageStoneResult에 데이터 각각 넣어주기 
+	vector<CStone::STONE_DESC> stoneDatas = m_pGetItemShowUI->Get_StoneDatas();
+	vector<_uint>	foodDatas = m_pGetItemShowUI->Get_FoodDatas();
+
+	m_pStageStoneResult->OpenUI(stoneDatas);
+	m_pStageFoodResult->OpenUI(foodDatas);
 }
 
 HRESULT CStage_Manager::Add_Components()
