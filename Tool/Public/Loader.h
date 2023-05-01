@@ -44,6 +44,7 @@ public:
 	HRESULT Loading_ForWorldMapLevel();
 	HRESULT Loading_ForStageLevel();
 	HRESULT Loading_ForPokemonStateLevel();
+	HRESULT Loading_ForFeedingLevel();
 
 
 private:

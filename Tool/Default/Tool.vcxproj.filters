@@ -337,6 +337,9 @@
     <Filter Include="02. GameObject\Static\FoodInfoUI">
       <UniqueIdentifier>{77c1dbbd-32db-40f1-a1d0-a905ebef4631}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Levels\Feeding">
+      <UniqueIdentifier>{1559d35a-3c6d-444d-a3fb-247c601be8bd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -662,6 +665,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\FoodInfoUI.h">
       <Filter>02. GameObject\Static\FoodInfoUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Feeding.h">
+      <Filter>01. Levels\Feeding</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -989,6 +995,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\FoodInfoUI.cpp">
       <Filter>02. GameObject\Static\FoodInfoUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Feeding.cpp">
+      <Filter>01. Levels\Feeding</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

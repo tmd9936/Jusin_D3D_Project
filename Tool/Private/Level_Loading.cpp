@@ -12,6 +12,7 @@
 #include "Level_WorldMap.h"
 #include "Level_Stage.h"
 #include "Level_PokemonState.h"
+#include "Level_Feeding.h"
 
 #include "ModelUI.h"
 #include "ThreadPool.h"
@@ -95,6 +96,11 @@ void CLevel_Loading::Tick(_double TimeDelta)
 			case LEVEL_POKEMONSTATE:
 				pNewLevel = CLevel_PokemonState::Create(m_pDevice, m_pContext);
 				break;
+
+			case LEVEL_FEEDING:
+				pNewLevel = CLevel_Feeding::Create(m_pDevice, m_pContext);
+				break;
+
 			}
 
 			if (nullptr == pNewLevel)

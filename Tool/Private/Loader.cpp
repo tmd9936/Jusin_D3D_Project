@@ -145,6 +145,9 @@ _uint APIENTRY LoadingMain(void* pArg)
 	case LEVEL_POKEMONSTATE:
 		hr = pLoader->Loading_ForPokemonStateLevel();
 		break;
+	case LEVEL_FEEDING:
+		hr = pLoader->Loading_ForFeedingLevel();
+		break;
 	}
 
 	if (FAILED(hr))
@@ -1891,6 +1894,10 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_GetItemShowUI"),
 			CGetItemShowUI::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_GoToBackLevelButton"),
+			CGoToBackLevelButton::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
 	}
 #pragma endregion
 
@@ -2143,6 +2150,7 @@ HRESULT CLoader::Loading_ForPokemonStateLevel()
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
+	/* 데이터 저장용으로 몬스터 생성시 안 넣으면 오류 출력이 되어서 어쩔수 없이 넣음*/
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_POKEMONSTATE, TEXT("Prototype_Component_Navigation"),
 		CNavigation::Create(m_pDevice, m_pContext, "../../Reference/Resources/Data/NavMask/BaseCamp/nav.json"))))
 		return E_FAIL;
@@ -2156,13 +2164,43 @@ HRESULT CLoader::Loading_ForPokemonStateLevel()
 	wsprintf(m_szLoadingText, TEXT("객체 원형 로딩중."));
 	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_POKEMONSTATE))
 	{
-		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_GoToBackLevelButton"),
-			CGoToBackLevelButton::Create(m_pDevice, m_pContext))))
-			return E_FAIL;
-
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_PokemonState_Manager"),
 			CPokemonState_Manager::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
+	}
+
+	Sleep(250);
+
+	wsprintf(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
+	m_isFinished = true;
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_ForFeedingLevel()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	/* 데이터 저장용으로 몬스터 생성시 안 넣으면 오류 출력이 되어서 어쩔수 없이 넣음*/
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_FEEDING, TEXT("Prototype_Component_Navigation"),
+		CNavigation::Create(m_pDevice, m_pContext, "../../Reference/Resources/Data/NavMask/BaseCamp/nav.json"))))
+		return E_FAIL;
+
+	wsprintf(m_szLoadingText, TEXT("텍스쳐 로딩중."));
+	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_FEEDING))
+	{
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Feeding_Icon"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/UI/Feeding_Icon.dds")))))
+			return E_FAIL;
+	}
+
+	wsprintf(m_szLoadingText, TEXT("객체 원형 로딩중."));
+	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_FEEDING))
+	{
+
 	}
 
 	Sleep(250);
