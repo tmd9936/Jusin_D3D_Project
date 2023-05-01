@@ -111,7 +111,7 @@ void CStageFoodResult::OpenUI(const vector<_uint>& foods)
 {
 	for (size_t i = 0; i < CFood::TYPE_END; ++i)
 	{
-
+		m_FoodInfoUIs.at(i)->Set_FoodInfo(foods.at(i));
 	}
 	m_eCurState = STATE_OPEN;
 }

@@ -93,6 +93,13 @@ HRESULT CFoodInfoUI::Set_FoodInfo(CFood::TYPE eType, const _uint& foodNum)
 	return S_OK;
 }
 
+HRESULT CFoodInfoUI::Set_FoodInfo(const _uint& foodNum)
+{
+	m_TextParts.at(m_FoodNumTextIndex)->Set_Text(to_wstring(foodNum));
+
+	return S_OK;
+}
+
 
 CFoodInfoUI* CFoodInfoUI::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {

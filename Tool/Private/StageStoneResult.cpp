@@ -219,6 +219,7 @@ void CStageStoneResult::Change_State()
 		{
 		case STATE_OPEN:
 			m_showTimeAcc = 0.0;
+			m_eRenderId = RENDER_BACK_UI;
 			break;
 		case STATE_STAY:
 			m_stayTimeAcc = 0.0;

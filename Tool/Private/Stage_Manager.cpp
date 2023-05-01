@@ -741,8 +741,13 @@ void CStage_Manager::Fade_Out(const _double& TimeDelta)
 
 void CStage_Manager::Change_State_Open_State_Info()
 {
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	
 	vector<CStone::STONE_DESC> stoneDatas = m_pGetItemShowUI->Get_StoneDatas();
-	vector<_uint>	foodDatas = m_pGetItemShowUI->Get_FoodDatas();
+	vector<_uint>			   foodDatas = m_pGetItemShowUI->Get_FoodDatas();
+
+	pGameInstance->Layer_Tick_State_Change(L"Layer_StageResultUI", LEVEL_STAGE, true);
+	pGameInstance->Layer_Tick_State_Change(L"Layer_UI", LEVEL_STAGE, false);
 
 	m_pStageStoneResult->OpenUI(stoneDatas);
 	m_pStageFoodResult->OpenUI(foodDatas);

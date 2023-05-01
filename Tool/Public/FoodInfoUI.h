@@ -26,6 +26,7 @@ public:
 
 public:
 	HRESULT			Set_FoodInfo(CFood::TYPE eType, const _uint& foodNum);
+	HRESULT			Set_FoodInfo(const _uint& foodNum);
 
 private:
 	const _uint		m_FoodTextureIndex = { 0 };
