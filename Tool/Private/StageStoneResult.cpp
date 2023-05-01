@@ -46,6 +46,8 @@ HRESULT CStageStoneResult::Initialize(const _tchar* pLayerTag, _uint iLevelIndex
 		part->Set_RenderId(RENDER_BACK_UI);
 	}
 
+	m_StoneInfoUIs.reserve(3);
+
 	return S_OK;
 }
 
@@ -68,6 +70,8 @@ HRESULT CStageStoneResult::Initialize(const _tchar* pLayerTag, _uint iLevelIndex
 	{
 		part->Set_RenderId(RENDER_BACK_UI);
 	}
+
+	m_StoneInfoUIs.reserve(3);
 
 	return S_OK;
 }
@@ -115,7 +119,7 @@ HRESULT CStageStoneResult::Init_StoneInfoUIs()
 	CGameObject* pObject = pGameInstance->Get_Object(LEVEL_STAGE, L"Layer_StageResultUI", L"StoneInfoUI01");
 	if (nullptr == pObject)
 		return E_FAIL;
-	m_pStoneInfoUI01 = dynamic_cast<CStoneInfoUI*>(pObject);
+	CStoneInfoUI* m_pStoneInfoUI01 = dynamic_cast<CStoneInfoUI*>(pObject);
 	if (nullptr == m_pStoneInfoUI01)
 		return E_FAIL;
 	
@@ -143,7 +147,8 @@ HRESULT CStageStoneResult::Init_StoneInfoUIs()
 	stoneDesc.m_UIDesc.m_ShaderPass = 0;
 
 	m_pStoneInfoUI01->Change_StoneInfo(stoneDesc);
-
+	m_StoneInfoUIs.push_back(m_pStoneInfoUI01);
+	m_pStoneInfoUI01->Set_RenderId(RENDER_END);
 	Safe_AddRef(m_pStoneInfoUI01);
 
 	stoneTypeRandomValue = rand() % 2;
@@ -163,12 +168,13 @@ HRESULT CStageStoneResult::Init_StoneInfoUIs()
 	pObject = pGameInstance->Get_Object(LEVEL_STAGE, L"Layer_StageResultUI", L"StoneInfoUI02");
 	if (nullptr == pObject)
 		return E_FAIL;
-	m_pStoneInfoUI02 = dynamic_cast<CStoneInfoUI*>(pObject);
+	CStoneInfoUI* m_pStoneInfoUI02 = dynamic_cast<CStoneInfoUI*>(pObject);
 	if (nullptr == m_pStoneInfoUI02)
 		return E_FAIL;
 
 	m_pStoneInfoUI02->Change_StoneInfo(stoneDesc);
-
+	m_StoneInfoUIs.push_back(m_pStoneInfoUI02);
+	m_pStoneInfoUI02->Set_RenderId(RENDER_END);
 	Safe_AddRef(m_pStoneInfoUI02);
 
 	stoneTypeRandomValue = rand() % 2;
@@ -188,12 +194,13 @@ HRESULT CStageStoneResult::Init_StoneInfoUIs()
 	pObject = pGameInstance->Get_Object(LEVEL_STAGE, L"Layer_StageResultUI", L"StoneInfoUI03");
 	if (nullptr == pObject)
 		return E_FAIL;
-	m_pStoneInfoUI03 = dynamic_cast<CStoneInfoUI*>(pObject);
+	CStoneInfoUI* m_pStoneInfoUI03 = dynamic_cast<CStoneInfoUI*>(pObject);
 	if (nullptr == m_pStoneInfoUI03)
 		return E_FAIL;
 
 	m_pStoneInfoUI03->Change_StoneInfo(stoneDesc);
-
+	m_StoneInfoUIs.push_back(m_pStoneInfoUI03);
+	m_pStoneInfoUI03->Set_RenderId(RENDER_END);
 	Safe_AddRef(m_pStoneInfoUI03);
 
 	return S_OK;
@@ -206,8 +213,10 @@ void CStageStoneResult::Change_State()
 		switch (m_eCurState)
 		{
 		case STATE_OPEN:
+			m_showTimeAcc = 0.0;
 			break;
 		case STATE_STAY:
+			m_stayTimeAcc = 0.0;
 			break;
 		case STATE_CLOSE:
 			break;
@@ -222,12 +231,40 @@ void CStageStoneResult::State_Tick(const _double& TimeDelta)
 	switch (m_eCurState)
 	{
 	case STATE_OPEN:
+		Open_Tick(TimeDelta);
 		break;
 	case STATE_STAY:
+		Stay_Tick(TimeDelta);
 		break;
 	case STATE_CLOSE:
 		break;
 	}
+}
+
+void CStageStoneResult::Open_Tick(const _double& TimeDelta)
+{
+	if (m_curShowStoneInfoUI >= m_maxShowStoneInfoUI)
+	{
+		m_eCurState = STATE_STAY;
+		return;
+	}
+	if (m_showTime <= m_showTimeAcc)
+	{
+		m_StoneInfoUIs.at(m_curShowStoneInfoUI++)->Set_RenderId(RENDER_UI);
+		m_showTimeAcc = 0.0;
+	}
+
+	m_showTimeAcc += TimeDelta;
+}
+
+void CStageStoneResult::Stay_Tick(const _double& TimeDelta)
+{
+	if (m_stayTime <= m_stayTimeAcc)
+	{
+		m_eCurState = STATE_CLOSE;
+	}
+
+	m_stayTimeAcc += TimeDelta;
 }
 
 CStageStoneResult* CStageStoneResult::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -273,7 +310,8 @@ void CStageStoneResult::Free()
 {
 	__super::Free();
 
-	Safe_Release(m_pStoneInfoUI01);
-	Safe_Release(m_pStoneInfoUI02);
-	Safe_Release(m_pStoneInfoUI03);
+	for (auto& iter : m_StoneInfoUIs)
+	{
+		Safe_Release(iter);
+	}
 }

@@ -432,7 +432,7 @@ HRESULT CLevel_Stage::Ready_Layer_StageResultUI(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageFoodResult"), LEVEL_STAGE, pLayerTag, L"StageFoodResult", "../../Reference/Resources/Data/Scene/Stage/StageResultUI/StageFoodResult.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
-	//pGameInstance->Layer_Tick_State_Change(pLayerTag, LEVEL_STAGE, false);
+	pGameInstance->Layer_Tick_State_Change(pLayerTag, LEVEL_STAGE, false);
 
 	Safe_Release(pGameInstance);
 
