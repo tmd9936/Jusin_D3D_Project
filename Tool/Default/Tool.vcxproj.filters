@@ -331,6 +331,12 @@
     <Filter Include="02. GameObject\Stage\StageStoneResult">
       <UniqueIdentifier>{5ae522b3-0cba-40db-bb7a-7f4431146ac0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\Stage\StageFoodResult">
+      <UniqueIdentifier>{a3fee9a4-fd82-4657-9feb-9932ccd7262e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\FoodInfoUI">
+      <UniqueIdentifier>{77c1dbbd-32db-40f1-a1d0-a905ebef4631}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -650,6 +656,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\StageStoneResult.h">
       <Filter>02. GameObject\Stage\StageStoneResult</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\StageFoodResult.h">
+      <Filter>02. GameObject\Stage\StageFoodResult</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\FoodInfoUI.h">
+      <Filter>02. GameObject\Static\FoodInfoUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -971,6 +983,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\StageStoneResult.cpp">
       <Filter>02. GameObject\Stage\StageStoneResult</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\StageFoodResult.cpp">
+      <Filter>02. GameObject\Stage\StageFoodResult</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\FoodInfoUI.cpp">
+      <Filter>02. GameObject\Static\FoodInfoUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

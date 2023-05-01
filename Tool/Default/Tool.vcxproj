@@ -180,6 +180,7 @@
     <ClInclude Include="..\Public\EnemyPack.h" />
     <ClInclude Include="..\Public\EnemySpawnPoint.h" />
     <ClInclude Include="..\Public\Food.h" />
+    <ClInclude Include="..\Public\FoodInfoUI.h" />
     <ClInclude Include="..\Public\GetItemShowUI.h" />
     <ClInclude Include="..\Public\GoToBackLevelButton.h" />
     <ClInclude Include="..\Public\GoToBaseCampButton.h" />
@@ -227,6 +228,7 @@
     <ClInclude Include="..\Public\SkillInfoUI.h" />
     <ClInclude Include="..\Public\Skill_Manager.h" />
     <ClInclude Include="..\Public\StageClearUI.h" />
+    <ClInclude Include="..\Public\StageFoodResult.h" />
     <ClInclude Include="..\Public\StageInfoUI.h" />
     <ClInclude Include="..\Public\StageEnemyMonster.h" />
     <ClInclude Include="..\Public\StageMessageInfo.h" />
@@ -287,6 +289,7 @@
     <ClCompile Include="..\Private\EnemyPack.cpp" />
     <ClCompile Include="..\Private\EnemySpawnPoint.cpp" />
     <ClCompile Include="..\Private\Food.cpp" />
+    <ClCompile Include="..\Private\FoodInfoUI.cpp" />
     <ClCompile Include="..\Private\GetItemShowUI.cpp" />
     <ClCompile Include="..\Private\GoToBackLevelButton.cpp" />
     <ClCompile Include="..\Private\GoToBaseCampButton.cpp" />
@@ -334,6 +337,7 @@
     <ClCompile Include="..\Private\SkillInfoUI.cpp" />
     <ClCompile Include="..\Private\Skill_Manager.cpp" />
     <ClCompile Include="..\Private\StageClearUI.cpp" />
+    <ClCompile Include="..\Private\StageFoodResult.cpp" />
     <ClCompile Include="..\Private\StageInfoUI.cpp" />
     <ClCompile Include="..\Private\StageEnemyMonster.cpp" />
     <ClCompile Include="..\Private\StageMessageInfo.cpp" />

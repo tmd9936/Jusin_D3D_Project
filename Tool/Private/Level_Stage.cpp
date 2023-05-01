@@ -417,6 +417,12 @@ HRESULT CLevel_Stage::Ready_Layer_StageResultUI(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageStoneResult"), LEVEL_STAGE, pLayerTag, L"StageStoneResult", "../../Reference/Resources/Data/Scene/Stage/StageResultUI/StageStoneResult.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_FoodInfoUI"), LEVEL_STAGE, pLayerTag, L"FoodInfoUI01", "../../Reference/Resources/Data/Scene/Stage/StageResultUI/FoodInfoUI01.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StageFoodResult"), LEVEL_STAGE, pLayerTag, L"StageFoodResult", "../../Reference/Resources/Data/Scene/Stage/StageResultUI/StageFoodResult.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
 	//pGameInstance->Layer_Tick_State_Change(pLayerTag, LEVEL_STAGE, false);
 
 	Safe_Release(pGameInstance);

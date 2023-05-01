@@ -106,6 +106,9 @@
 #include "PokemonState_Manager.h"
 #include "GetItemShowUI.h"
 
+#include "FoodInfoUI.h"
+#include "StageFoodResult.h"
+
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
 	, m_pContext(pContext)
@@ -1320,6 +1323,14 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_StoneInfoUI"),
 			CStoneInfoUI::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_FoodInfoUI"),
+			CFoodInfoUI::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_StageFoodResult"),
+			CStageFoodResult::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 	}
 #pragma endregion
