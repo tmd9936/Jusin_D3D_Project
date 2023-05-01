@@ -110,7 +110,7 @@ HRESULT CLevel_BaseCamp::Initialize()
 void CLevel_BaseCamp::Tick(_double TimeDelta)
 {
 #ifdef _DEBUG
-	SetWindowText(g_hWnd, TEXT("게임플레이레벨임"));
+	SetWindowText(g_hWnd, TEXT("포켓몬 퀘스트"));
 #endif
 }
 

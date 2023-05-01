@@ -74,7 +74,7 @@ HRESULT CLevel_WorldMap::Initialize()
 void CLevel_WorldMap::Tick(_double TimeDelta)
 {
 #ifdef _DEBUG
-	SetWindowText(g_hWnd, TEXT("월드맵 레벨임"));
+	SetWindowText(g_hWnd, TEXT("포켓몬 퀘스트"));
 #endif
 }
 

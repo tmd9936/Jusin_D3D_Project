@@ -42,9 +42,9 @@ HRESULT CLevel_PokemonState::Initialize()
 void CLevel_PokemonState::Tick(_double TimeDelta)
 {
 #ifdef _DEBUG
-	SetWindowText(g_hWnd, TEXT("포켓몬 상태 레벨"));
+	SetWindowText(g_hWnd, TEXT("포켓몬 퀘스트"));
 #endif
-	}
+}
 
 void CLevel_PokemonState::Set_PokemonNumber(const _uint& number)
 {

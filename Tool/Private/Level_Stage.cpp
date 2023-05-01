@@ -85,7 +85,7 @@ HRESULT CLevel_Stage::Initialize()
 void CLevel_Stage::Tick(_double TimeDelta)
 {
 #ifdef _DEBUG
-	SetWindowText(g_hWnd, TEXT("스테이지 레벨임"));
+	SetWindowText(g_hWnd, TEXT("포켓몬 퀘스트"));
 #endif
 }
 
