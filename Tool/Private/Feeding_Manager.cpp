@@ -330,7 +330,11 @@ void CFeeding_Manager::Evolution_Tick(const _double& TimeDelta)
 	m_pNowMonsters.at(m_evolutionPokemonIndex)->Add_HpBasis(_int(88 + rand() % 150));
 	m_pNowMonsters.at(m_evolutionPokemonIndex)->LevelUp();
 
-	m_pNowMonsters.at(m_evolutionPokemonIndex)->Save_By_JsonFile(m_pNowMonsters.at(m_evolutionPokemonIndex)->Get_JsonPath().c_str());
+	for (size_t i = 0; i < m_pNowMonsters.size(); ++i)
+	{
+		m_pNowMonsters.at(i)->Save_By_JsonFile(m_pNowMonsters.at(i)->Get_JsonPath().c_str());
+	}
+	//m_pNowMonsters.at(m_evolutionPokemonIndex)->Save_By_JsonFile(m_pNowMonsters.at(m_evolutionPokemonIndex)->Get_JsonPath().c_str());
 
 	m_pPokemonInfoUIs.at(m_evolutionPokemonIndex)->StartDisolve();
 	m_pPokemonInfoUIs.at(m_evolutionPokemonIndex)->Init_PokemonData(m_evolutionPokemonIndex + 1);
