@@ -36,6 +36,8 @@ public:
 
 public:
 	virtual _uint			Tick(_double TimeDelta) override;
+	virtual _uint			LateTick(_double TimeDelta) override;
+
 
 public:
 	HRESULT Init_PokemonData(const _uint& nowMonsterNumber);
@@ -67,7 +69,7 @@ public:
 	}
 
 public:
-	void StartDisolve() {
+	void		StartDisolve() {
 		m_UIDesc.m_ShaderPass = 6;
 		m_bDisolve = true;
 		m_vMtrlDif = 1.f;
@@ -76,20 +78,24 @@ public:
 	}
 
 public:
-	_bool	Check_CanEvolution();
-	void	Add_Exp(const _int& exp);
-	void	Set_Exp(const _int& exp) {
+	_bool					Check_CanEvolution();
+	void					Add_Exp(const _int& exp);
+	void					Set_Exp(const _int& exp) {
 		m_PokemonInfo_Desc.m_exp = exp;
 	}
+
+public:
+	void					All_Render_Off();
+	void					All_Render_ON();
 
 protected:
 	virtual HRESULT			SetUp_ShaderResources();
 
 private:
-	HRESULT Get_PokemonData();
-	HRESULT Get_NowMonsterData();
+	HRESULT					Get_PokemonData();
+	HRESULT					Get_NowMonsterData();
 
-	HRESULT Init_DisolveMask();
+	HRESULT					Init_DisolveMask();
 
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);

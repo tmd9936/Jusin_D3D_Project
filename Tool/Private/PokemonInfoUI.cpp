@@ -65,6 +65,40 @@ _uint CPokemonInfoUI::Tick(_double TimeDelta)
 	return __super::Tick(TimeDelta);
 }
 
+_uint CPokemonInfoUI::LateTick(_double TimeDelta)
+{
+	if (false == m_bDisolve)
+	{
+		m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
+
+		for (auto& part : m_TextureParts)
+		{
+			part->LateTick(TimeDelta);
+		}
+
+		for (auto& part : m_TextParts)
+		{
+			part->LateTick(TimeDelta);
+		}
+	}
+	else
+	{
+		for (auto& part : m_TextureParts)
+		{
+			part->LateTick(TimeDelta);
+		}
+
+		for (auto& part : m_TextParts)
+		{
+			part->LateTick(TimeDelta);
+		}
+
+		m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
+	}
+
+	return _uint();
+}
+
 
 HRESULT CPokemonInfoUI::Init_PokemonData(const _uint& nowMonsterNumber)
 {
@@ -106,6 +140,34 @@ _bool CPokemonInfoUI::Check_CanEvolution()
 		return true;
 
 	return false;
+}
+
+void CPokemonInfoUI::All_Render_Off()
+{
+	m_eRenderId = RENDER_END;
+	for (auto& part : m_TextureParts)
+	{
+		part->Set_RenderId(RENDER_END);
+	}
+
+	for (auto& part : m_TextParts)
+	{
+		part->Set_RenderId(RENDER_END);
+	}
+}
+
+void CPokemonInfoUI::All_Render_ON()
+{
+	m_eRenderId = RENDER_UI;
+	for (auto& part : m_TextureParts)
+	{
+		part->Set_RenderId(RENDER_UI);
+	}
+
+	for (auto& part : m_TextParts)
+	{
+		part->Set_RenderId(RENDER_UI);
+	}
 }
 
 HRESULT CPokemonInfoUI::SetUp_ShaderResources()
@@ -435,4 +497,6 @@ CGameObject* CPokemonInfoUI::Clone(const _tchar* pLayerTag, _uint iLevelIndex, c
 void CPokemonInfoUI::Free()
 {
 	__super::Free();
+
+	Safe_Release(m_pDisolveTexture);
 }
