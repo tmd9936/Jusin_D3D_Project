@@ -18,6 +18,8 @@ public:
 private:
 	HRESULT Ready_Layer_BackGround(const _tchar* pLayerTag);
 	HRESULT Ready_Layer_UI(const _tchar* pLayerTag);
+	HRESULT Ready_Layer_Player(const _tchar* pLayerTag);
+	HRESULT Ready_Layer_Manager(const _tchar* pLayerTag);
 
 private:
 	MYFLOAT4			m_FeedingBackBufferColor = { 0.9221f, 0.85607f, 0.67843f, 1.f };

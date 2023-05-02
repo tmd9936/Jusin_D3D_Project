@@ -179,6 +179,7 @@
     <ClInclude Include="..\Public\DamageText.h" />
     <ClInclude Include="..\Public\EnemyPack.h" />
     <ClInclude Include="..\Public\EnemySpawnPoint.h" />
+    <ClInclude Include="..\Public\Feeding_Manager.h" />
     <ClInclude Include="..\Public\Food.h" />
     <ClInclude Include="..\Public\FoodInfoUI.h" />
     <ClInclude Include="..\Public\GetItemShowUI.h" />
@@ -290,6 +291,7 @@
     <ClCompile Include="..\Private\DamageText.cpp" />
     <ClCompile Include="..\Private\EnemyPack.cpp" />
     <ClCompile Include="..\Private\EnemySpawnPoint.cpp" />
+    <ClCompile Include="..\Private\Feeding_Manager.cpp" />
     <ClCompile Include="..\Private\Food.cpp" />
     <ClCompile Include="..\Private\FoodInfoUI.cpp" />
     <ClCompile Include="..\Private\GetItemShowUI.cpp" />

@@ -97,12 +97,16 @@ void CFood::Change_State()
 		switch (m_Desc.m_eCurState)
 		{
 		case STATE_PICKING:
+			m_eRenderId = RENDER_UI;
 			break;
 		case STATE_FOODBOX:
+			m_eRenderId = RENDER_UI;
 			break;
 		case STATE_STAGE_VIEW:
+			m_eRenderId = RENDER_UI;
 			break;
 		case STATE_NO_SHOW:
+			m_eRenderId = RENDER_END;
 			break;
 		}
 

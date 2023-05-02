@@ -109,6 +109,7 @@
 
 #include "FoodInfoUI.h"
 #include "StageFoodResult.h"
+#include "Feeding_Manager.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
@@ -2205,7 +2206,9 @@ HRESULT CLoader::Loading_ForFeedingLevel()
 	wsprintf(m_szLoadingText, TEXT("객체 원형 로딩중."));
 	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_FEEDING))
 	{
-
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Feeding_Manager"),
+			CFeeding_Manager::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
 	}
 
 	Sleep(250);
