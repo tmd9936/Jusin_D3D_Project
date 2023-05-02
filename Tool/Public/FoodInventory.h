@@ -35,7 +35,7 @@ public:
 public:
 	_bool				Check_Exist_Food_Is_In(CFood::TYPE& eFoodType, const POINT& mousePt);
 
-	void				Add_FoodNums(CFood::TYPE& eFoodType, const _int& nums);
+	void				Add_FoodNums(const CFood::TYPE& eFoodType, const _int& nums);
 
 protected:
 	virtual _bool		Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);

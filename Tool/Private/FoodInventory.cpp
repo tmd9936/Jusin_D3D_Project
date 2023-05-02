@@ -119,7 +119,7 @@ _bool CFoodInventory::Check_Exist_Food_Is_In(CFood::TYPE& eFoodType, const POINT
 	return false;
 }
 
-void CFoodInventory::Add_FoodNums(CFood::TYPE& eFoodType, const _int& nums)
+void CFoodInventory::Add_FoodNums(const CFood::TYPE& eFoodType, const _int& nums)
 {
 	_int foodNum = (_int)m_foodInfos.at(size_t(eFoodType))->Get_FoodNum() + nums;
 

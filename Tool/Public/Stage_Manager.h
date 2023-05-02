@@ -33,6 +33,7 @@ class CFood;
 class CStageStoneResult;
 class CStageFoodResult;
 class CStoneInventory;
+class CFoodInventory;
 
 class CStage_Manager final : public CGameObject
 {
@@ -93,6 +94,7 @@ private:
 	HRESULT						Init_StageStoneResult();
 	HRESULT						Init_StageFoodResult();
 	HRESULT						Init_StoneInventory();
+	HRESULT						Init_FoodInventory();
 
 private:
 	void						Fade_In(const _double& TimeDelta);
@@ -136,6 +138,7 @@ private:
 	CStageStoneResult*			m_pStageStoneResult = { nullptr };
 	CStageFoodResult*			m_pStageFoodResult = { nullptr };
 	CStoneInventory*			m_pStoneInventory = { nullptr };
+	CFoodInventory*				m_pFoodInventory = { nullptr };
 
 	_int						m_CurrentEnemyCount = { 0 };
 

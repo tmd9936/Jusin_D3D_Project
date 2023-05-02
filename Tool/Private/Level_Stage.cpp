@@ -396,6 +396,10 @@ HRESULT CLevel_Stage::Ready_Layer_UI(const _tchar* pLayerTag)
 		L"StoneInvetory", "../../Reference/Resources/Data/Scene/PokemonInfo/SkillStoneUI/StoneInvetory.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_FoodInventory"), LEVEL_STAGE, pLayerTag,
+		L"FoodInventory", "../../Reference/Resources/Data/Scene/Feeding/FoodInventory.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
 	Safe_Release(pGameInstance);
 
 	return S_OK;

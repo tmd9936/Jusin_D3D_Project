@@ -17,6 +17,7 @@
 #include "StageStoneResult.h"
 #include "StageFoodResult.h"
 #include "StoneInventory.h"
+#include "FoodInventory.h"
 
 #include "Level_Loading.h"
 
@@ -63,6 +64,9 @@ HRESULT CStage_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, v
 	if (FAILED(Init_StoneInventory()))
 		return E_FAIL;
 
+	if (FAILED(Init_FoodInventory()))
+		return E_FAIL;
+
 	m_enemySpawnPoints.reserve(10);
 
 	return S_OK;
@@ -95,6 +99,9 @@ HRESULT CStage_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, c
 		return E_FAIL;
 
 	if (FAILED(Init_StoneInventory()))
+		return E_FAIL;
+
+	if (FAILED(Init_FoodInventory()))
 		return E_FAIL;
 
 	m_enemySpawnPoints.reserve(10);
@@ -555,6 +562,27 @@ HRESULT CStage_Manager::Init_StoneInventory()
 	return S_OK;
 }
 
+HRESULT CStage_Manager::Init_FoodInventory()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	CGameObject* pObject = pGameInstance->Get_Object(LEVEL_STAGE, L"Layer_UI", L"FoodInventory");
+	if (nullptr == pObject)
+		return E_FAIL;
+
+	m_pFoodInventory = dynamic_cast<CFoodInventory*>(pObject);
+	if (nullptr == m_pFoodInventory)
+		return E_FAIL;
+
+	m_pFoodInventory->All_Object_RenderOff();
+	m_pFoodInventory->Set_RenderId(RENDER_END);
+	m_pFoodInventory->Set_LateTickState(false);
+
+	Safe_AddRef(m_pFoodInventory);
+
+	return S_OK;
+}
+
 void CStage_Manager::Fade_In(const _double& TimeDelta)
 {
 	if (m_Desc.m_FadeSecond <= m_fCurrentFadeTime)
@@ -785,6 +813,13 @@ void CStage_Manager::Change_State_Open_State_Info()
 		iter.m_eCurState = CStone::STATE_NO_EQUIP_ON_INVENTORY;
 		m_pStoneInventory->Add_StoneData(iter);
 	}
+
+
+	for (size_t i = 0; i < foodDatas.size(); ++i)
+	{
+		m_pFoodInventory->Add_FoodNums(CFood::TYPE(i), foodDatas.at(i));
+	}
+
 	//pGameInstance->Layer_Tick_State_Change(L"Layer_Inventory", LEVEL_STAGE, true);
 	//m_pStoneInventory->All_Object_RenderOff();
 	//m_pStoneInventory->Set_RenderId(RENDER_END);
@@ -928,6 +963,11 @@ void CStage_Manager::Free()
 		m_pStoneInventory->Save_By_JsonFile(m_pStoneInventory->Get_JsonPath().c_str());
 	}
 
+	if (nullptr != m_pFoodInventory)
+	{
+		m_pFoodInventory->Save_By_JsonFile(m_pFoodInventory->Get_JsonPath().c_str());
+	}
+
 	__super::Free();
 
 	for (auto& point : m_enemySpawnPoints)
@@ -942,6 +982,7 @@ void CStage_Manager::Free()
 	Safe_Release(m_pStageStoneResult);
 	Safe_Release(m_pStageFoodResult);
 	Safe_Release(m_pStoneInventory);
+	Safe_Release(m_pFoodInventory);
 
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pTransformCom);
