@@ -1167,6 +1167,18 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_window_HP_icon"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Window/window_HP_icon.dds")))))
 			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Feeding_Icon"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/UI/Feeding_Icon.dds")))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_BC_cauldron_base2"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/UI/BC_cauldron_base2.dds")))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_BC_cauldron_futa2"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/UI/BC_cauldron_futa2.dds")))))
+			return E_FAIL;
 	}
 
 #pragma endregion
@@ -2203,17 +2215,6 @@ HRESULT CLoader::Loading_ForFeedingLevel()
 	wsprintf(m_szLoadingText, TEXT("텍스쳐 로딩중."));
 	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_FEEDING))
 	{
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Feeding_Icon"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/UI/Feeding_Icon.dds")))))
-			return E_FAIL;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_BC_cauldron_base2"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/UI/BC_cauldron_base2.dds")))))
-			return E_FAIL;
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_BC_cauldron_futa2"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/UI/BC_cauldron_futa2.dds")))))
-			return E_FAIL;
 	}
 
 	wsprintf(m_szLoadingText, TEXT("객체 원형 로딩중."));

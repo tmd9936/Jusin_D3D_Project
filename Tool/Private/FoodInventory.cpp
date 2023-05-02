@@ -310,8 +310,47 @@ _bool CFoodInventory::Load_By_JsonFile_Impl(Document& doc)
 
 HRESULT CFoodInventory::Init_FoodInfoUIs()
 {
-	//CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	//m_foodInfos.reserve(m_maxFoodInfo);
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	m_foodInfos.reserve(m_maxFoodInfo);
+	
+	CGameObject* pObject = pGameInstance->Get_Object(LEVEL_FEEDING, L"Layer_UI", L"FoodInfoUI01");
+	if (nullptr == pObject)
+		return E_FAIL;
+	CFoodInfoUI* pFoodInfoUI01 = dynamic_cast<CFoodInfoUI*>(pObject);
+	if (nullptr == pFoodInfoUI01)
+		return E_FAIL;
+	Safe_AddRef(pFoodInfoUI01);
+	m_foodInfos.push_back(pFoodInfoUI01);
+
+	pObject = pGameInstance->Get_Object(LEVEL_FEEDING, L"Layer_UI", L"FoodInfoUI02");
+	if (nullptr == pObject)
+		return E_FAIL;
+	CFoodInfoUI* pFoodInfoUI02 = dynamic_cast<CFoodInfoUI*>(pObject);
+	if (nullptr == pFoodInfoUI02)
+		return E_FAIL;
+	Safe_AddRef(pFoodInfoUI02);
+	m_foodInfos.push_back(pFoodInfoUI02);
+
+	pObject = pGameInstance->Get_Object(LEVEL_FEEDING, L"Layer_UI", L"FoodInfoUI03");
+	if (nullptr == pObject)
+		return E_FAIL;
+	CFoodInfoUI* pFoodInfoUI03 = dynamic_cast<CFoodInfoUI*>(pObject);
+	if (nullptr == pFoodInfoUI03)
+		return E_FAIL;
+	Safe_AddRef(pFoodInfoUI03);
+	m_foodInfos.push_back(pFoodInfoUI03);
+
+	pObject = pGameInstance->Get_Object(LEVEL_FEEDING, L"Layer_UI", L"FoodInfoUI04");
+	if (nullptr == pObject)
+		return E_FAIL;
+	CFoodInfoUI* pFoodInfoUI04 = dynamic_cast<CFoodInfoUI*>(pObject);
+	if (nullptr == pFoodInfoUI04)
+		return E_FAIL;
+	Safe_AddRef(pFoodInfoUI04);
+	m_foodInfos.push_back(pFoodInfoUI04);
+
+
+	// 레벨 생성시 만들고 GetObejct이용해서 따로 가져오기
 
 	//for (size_t i = 0; i < m_maxFoodInfo; ++i)
 	//{
