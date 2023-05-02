@@ -302,8 +302,11 @@ _bool CFoodInventory::Load_By_JsonFile_Impl(Document& doc)
 	for (SizeType i = 0; i < foodInfos.Size(); ++i)
 	{
 		_uint foodNums = foodInfos[i].GetUint();
+		m_allItemNums += foodNums;
 		m_foodInfos.at(i)->Set_FoodInfo(CFood::TYPE(i), foodNums);
 	}
+
+	m_TextParts.at(m_itemNumsTextIndex)->Set_Text(to_wstring(m_allItemNums));
 
 	return true;
 }
@@ -348,31 +351,6 @@ HRESULT CFoodInventory::Init_FoodInfoUIs()
 		return E_FAIL;
 	Safe_AddRef(pFoodInfoUI04);
 	m_foodInfos.push_back(pFoodInfoUI04);
-
-
-	// 레벨 생성시 만들고 GetObejct이용해서 따로 가져오기
-
-	//for (size_t i = 0; i < m_maxFoodInfo; ++i)
-	//{
-	//	CFoodInfoUI::FOODINFOUI_DESC desc{};
-
-	//	desc.m_UIDesc.m_fSizeX = 50.f;
-	//	desc.m_UIDesc.m_fSizeY = 50.f;
-	//	desc.m_UIDesc.m_fX = 0.f;
-	//	desc.m_UIDesc.m_fY = 0.f;
-	//	desc.m_UIDesc.m_ShaderPass = 0;
-	//	desc.m_UIDesc.m_TextureProtoTypeLevel = 0;
-	//	desc.m_UIDesc.m_UIType = 0;
-	//	lstrcpy(desc.m_UIDesc.m_TextureProtoTypeName, L"")
-
-	//	CFoodInfoUI* pFoodInfoUI = nullptr;
-
-	//	pGameInstance->Clone_GameObject(Get_LayerTag().c_str(), m_iLevelindex, TEXT("Prototype_GameObject_FoodInfoUI"), (CGameObject**)&pFoodInfoUI, &desc);
-	//	if (nullptr == pFoodInfoUI)
-	//		return E_FAIL;
-
-	//	m_foodInfos.push_back(pFoodInfoUI);
-	//}
 
 	return S_OK;
 }

@@ -46,6 +46,19 @@ private:
 	_bool						m_lateTickState = { true };
 	const _uint					m_maxFoodInfo = { CFood::TYPE_END };
 
+	_uint						m_allItemNums = { 0 };
+
+private:
+	const _uint					m_foodTextureBase01Index = { 0 };
+	const _uint					m_foodTextureBase02Index = { 1 };
+	const _uint					m_foodTextureBase03Index = { 2 };
+	const _uint					m_foodTextureBase04Index = { 3 };
+	const _uint					m_cauldronHeadTextureIndex = { 4 };
+
+private:
+	const _uint					m_itemNumHeadTextIndex = { 0 };
+	const _uint					m_itemNumsTextIndex = { 1 };
+
 public:
 	static CFoodInventory* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) override;
