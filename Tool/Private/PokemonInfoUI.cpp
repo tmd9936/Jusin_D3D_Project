@@ -53,9 +53,9 @@ _uint CPokemonInfoUI::Tick(_double TimeDelta)
 {
 	if (m_bDisolve)
 	{
-		m_vMtrlDif += (_float)TimeDelta;
+		m_vMtrlDif -= (_float)TimeDelta;
 
-		if (1.f <= m_vMtrlDif)
+		if (0.f >= m_vMtrlDif)
 		{
 			m_bDisolve = false;
 			m_UIDesc.m_ShaderPass = 1;
@@ -131,11 +131,22 @@ HRESULT CPokemonInfoUI::SetUp_ShaderResources()
 		_float	radius = 3.f;
 		m_pShaderCom->Set_RawValue("g_Radius", &radius, sizeof(_float));
 
-		if (FAILED(m_pDisolveTexture->Set_ShaderResource(m_pShaderCom, "g_EffectTex1", m_TextureNumber)))
+		if (FAILED(m_pDisolveTexture->Set_ShaderResource(m_pShaderCom, "g_DissolveTexture", m_TextureNumber)))
 			return E_FAIL;
 
-		_float4 gvMtrColor = { 0.f, 0.f, 0.f, sinf(m_vMtrlDif) };
+		_float4 gvMtrColor = { 0.f, 0.f, 0.f, m_vMtrlDif };
 		m_pShaderCom->Set_RawValue("g_vMtrlDif", &gvMtrColor, sizeof(_float4));
+
+		m_fDissolveAmount += 1.f / 120.f;
+		m_fThreshold		= 1.f - (m_fDissolveAmount * 1.875f);
+
+		if (FAILED(m_pShaderCom->Set_RawValue("g_Threshold",
+			&m_fThreshold, sizeof _float)))
+			return E_FAIL;
+		if (FAILED(m_pShaderCom->Set_RawValue("g_DissolveAmount",
+			&m_fDissolveAmount, sizeof _float)))
+			return E_FAIL;
+
 	}
 	_float2	size = { m_UIDesc.m_fSizeX, m_UIDesc.m_fSizeY };
 	m_pShaderCom->Set_RawValue("g_Size", &size, sizeof(_float2));

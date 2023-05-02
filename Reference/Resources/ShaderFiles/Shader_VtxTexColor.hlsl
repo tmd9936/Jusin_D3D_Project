@@ -12,8 +12,10 @@ float			g_Progress;
 
 float4			g_vAddColor;
 
-texture2D		g_EffectTex1;
+texture2D		g_DissolveTexture;
+float           g_DissolveAmount = 0.5f;
 float4			g_vMtrlDif;
+float			g_Threshold = 0.f;
 
 struct VS_IN
 {
@@ -156,41 +158,29 @@ PS_OUT PS_MAIN_CLOCKWISECOOLTIME(PS_IN In)
 
 PS_OUT PS_MAIN_PAPER_BURN(PS_IN In)
 {
-	PS_OUT		Out = (PS_OUT)0;
+	PS_OUT         Out = (PS_OUT)0;
 
-	float4	vColor = (float4)0.f;
+	vector      vMtrlDiffuse = g_Texture.Sample(LinearSampler, In.vTexUV);
+	vector      vDissolveDiffuse = g_DissolveTexture.Sample(LinearSampler, In.vTexUV);
 
-	vColor = g_Texture.Sample(PointSampler, In.vTexUV);
+	float Threshold = g_vMtrlDif.a + g_DissolveAmount * vDissolveDiffuse.g;
 
-	if (Out.vColor.a < 0.1)
+	if (vMtrlDiffuse.a < 0.1)
 		discard;
 
-	vColor = g_vColor;
+	float4 vColor = g_vColor;
 
-	float4 vFX_tex = g_EffectTex1.Sample(LinearSampler, In.vTexUV);
+	if (vDissolveDiffuse.b >= Threshold)
+	{
+		vColor = 0.0f;
+	}
+	else if (vDissolveDiffuse.b < Threshold && vDissolveDiffuse.b + 0.0375f >= Threshold)
+	{
+		vColor = float4(1, 0, 0, 1);
+	}
 
-	if (vColor.a == 0.f)
-		clip(-1);
-
-	if (vFX_tex.r >= g_vMtrlDif.a)
-		vColor.a = 1;
-	else
-		vColor.a = 0;
-
-	if (vFX_tex.r >= g_vMtrlDif.a - 0.05 && vFX_tex.r <= g_vMtrlDif.a + 0.05)
-		vColor = float4(1, 0, 0, 1); // »¡
-	else
-		;
-
-	if (vFX_tex.r >= g_vMtrlDif.a - 0.03 && vFX_tex.r <= g_vMtrlDif.a + 0.03)
-		vColor = float4(1, 1, 0, 1); // ³ë
-	else
-		;
-
-	if (vFX_tex.r >= g_vMtrlDif.a - 0.025 && vFX_tex.r <= g_vMtrlDif.a + 0.025)
-		vColor = float4(1, 1, 1, 1); // Èò
-	else
-		;
+	if (vColor.a < 0.1f)
+		discard;
 
 	Out.vColor = vColor;
 

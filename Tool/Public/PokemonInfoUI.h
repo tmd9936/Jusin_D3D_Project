@@ -70,7 +70,9 @@ public:
 	void StartDisolve() {
 		m_UIDesc.m_ShaderPass = 6;
 		m_bDisolve = true;
-		m_vMtrlDif = 0.f;
+		m_vMtrlDif = 1.f;
+		m_fDissolveAmount = 0.f;
+		m_fThreshold = 0.f;
 	}
 
 public:
@@ -101,6 +103,9 @@ private:
 	_float					m_vMtrlDif = { 0.f };
 
 	_bool					m_bDisolve = { false };
+
+	_float					m_fDissolveAmount = { 0.f };
+	_float					m_fThreshold = { 0.f };
 
 private:
 	static const _uint		m_pokemonNameTextIndex = { 0 };
