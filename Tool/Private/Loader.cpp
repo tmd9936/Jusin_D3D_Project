@@ -889,12 +889,12 @@ _uint APIENTRY LoadingPokemonModel()
 			CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), "../../Reference/Resources/Mesh/Animation/Pokemon/PM8.json", CModel::TYPE_MESH_COLOR_ANIM, PivotMatrix))))
 			return E_FAIL;
 
-		//// °ÅºÏ¿Õ
-		//modelName = L"Prototype_Component_Model_Pokemon_PM9";
-		//PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f) * XMMatrixRotationY(XMConvertToRadians(180.f));
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, modelName.c_str(),
-		//	CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), "../../Reference/Resources/Mesh/Animation/Pokemon/PM9.json", CModel::TYPE_MESH_COLOR_ANIM, PivotMatrix))))
-		//	return E_FAIL;
+		// °ÅºÏ¿Õ
+		modelName = L"Prototype_Component_Model_Pokemon_PM9";
+		PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, modelName.c_str(),
+			CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), "../../Reference/Resources/Mesh/Animation/Pokemon/PM9.json", CModel::TYPE_MESH_COLOR_ANIM, PivotMatrix))))
+			return E_FAIL;
 
 		// ÇÇÄ«Ãò
 		modelName = L"Prototype_Component_Model_Pokemon_PM25";
@@ -903,12 +903,12 @@ _uint APIENTRY LoadingPokemonModel()
 			CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), "../../Reference/Resources/Mesh/Animation/Pokemon/PM25.json", CModel::TYPE_MESH_COLOR_ANIM, PivotMatrix))))
 			return E_FAIL;
 
-		//// ¶óÀÌÃò
-		//modelName = L"Prototype_Component_Model_Pokemon_PM26";
-		//PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f) * XMMatrixRotationY(XMConvertToRadians(180.f));
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, modelName.c_str(),
-		//	CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), "../../Reference/Resources/Mesh/Animation/Pokemon/PM26.json", CModel::TYPE_MESH_COLOR_ANIM, PivotMatrix))))
-		//	return E_FAIL;
+		// ¶óÀÌÃò
+		modelName = L"Prototype_Component_Model_Pokemon_PM26";
+		PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, modelName.c_str(),
+			CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), "../../Reference/Resources/Mesh/Animation/Pokemon/PM26.json", CModel::TYPE_MESH_COLOR_ANIM, PivotMatrix))))
+			return E_FAIL;
 
 		// ´Ïµå·±
 		modelName = L"Prototype_Component_Model_Pokemon_PM32";
@@ -931,12 +931,12 @@ _uint APIENTRY LoadingPokemonModel()
 			CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), "../../Reference/Resources/Mesh/Animation/Pokemon/PM75.json", CModel::TYPE_MESH_COLOR_ANIM, PivotMatrix))))
 			return E_FAIL;
 
-		//// µü±¸¸®
-		//modelName = L"Prototype_Component_Model_Pokemon_PM76";
-		//PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f) * XMMatrixRotationY(XMConvertToRadians(180.f));
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, modelName.c_str(),
-		//	CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), "../../Reference/Resources/Mesh/Animation/Pokemon/PM76.json", CModel::TYPE_MESH_COLOR_ANIM, PivotMatrix))))
-		//	return E_FAIL;
+		// µü±¸¸®
+		modelName = L"Prototype_Component_Model_Pokemon_PM76";
+		PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, modelName.c_str(),
+			CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), "../../Reference/Resources/Mesh/Animation/Pokemon/PM76.json", CModel::TYPE_MESH_COLOR_ANIM, PivotMatrix))))
+			return E_FAIL;
 
 		// Áê·¹°ï
 		modelName = L"Prototype_Component_Model_Pokemon_PM87";
@@ -1676,12 +1676,24 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Pokemon_Icon/button_icon_M8.dds")))))
 			return E_FAIL;
 
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Pokemon_Icon_M9"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Pokemon_Icon/button_icon_M9.dds")))))
+			return E_FAIL;
+
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Pokemon_Icon_M25"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Pokemon_Icon/button_icon_M25.dds")))))
 			return E_FAIL;
 
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Pokemon_Icon_M26"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Pokemon_Icon/button_icon_M26.dds")))))
+			return E_FAIL;
+
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Pokemon_Icon_M75"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Pokemon_Icon/button_icon_M75.dds")))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Pokemon_Icon_M76"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Pokemon_Icon/button_icon_M76.dds")))))
 			return E_FAIL;
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Pokemon_Icon_M91"),
