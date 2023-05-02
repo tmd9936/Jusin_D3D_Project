@@ -163,18 +163,26 @@ PS_OUT PS_MAIN_PAPER_BURN(PS_IN In)
 	vector      vMtrlDiffuse = g_Texture.Sample(LinearSampler, In.vTexUV);
 	vector      vDissolveDiffuse = g_DissolveTexture.Sample(LinearSampler, In.vTexUV);
 
-	float Threshold = g_vMtrlDif.a + g_DissolveAmount * vDissolveDiffuse.g;
+	float Threshold = g_vMtrlDif.a + g_DissolveAmount * vDissolveDiffuse.r;
 
 	if (vMtrlDiffuse.a < 0.1)
 		discard;
 
 	float4 vColor = g_vColor;
 
-	if (vDissolveDiffuse.b >= Threshold)
+	if (vDissolveDiffuse.r >= Threshold)
 	{
 		vColor = 0.0f;
 	}
-	else if (vDissolveDiffuse.b < Threshold && vDissolveDiffuse.b + 0.0375f >= Threshold)
+	else if (vDissolveDiffuse.r - 0.035f < Threshold && vDissolveDiffuse.r + 0.035f >= Threshold)
+	{
+		vColor = float4(1, 1, 1, 1);
+	}
+	else if (vDissolveDiffuse.r - 0.045f < Threshold && vDissolveDiffuse.r + 0.045f >= Threshold)
+	{
+		vColor = float4(1, 1, 0, 1);
+	}
+	else if (vDissolveDiffuse.r - 0.07f < Threshold && vDissolveDiffuse.r + 0.07f >= Threshold)
 	{
 		vColor = float4(1, 0, 0, 1);
 	}
