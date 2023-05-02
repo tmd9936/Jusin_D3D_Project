@@ -301,7 +301,7 @@ void CFeeding_Manager::Inventory_Food_Picking_Tick()
 
 				if (m_pPokemonInfoUIs.at(i)->Check_CanEvolution())
 				{
-					m_evolutionPokemonIndex = i + 1;
+					m_evolutionPokemonIndex = i;
 					m_eCurState = MANAGER_EVOLUTION;
 					return;
 				}
@@ -316,11 +316,13 @@ void CFeeding_Manager::Inventory_Food_Picking_Tick()
 void CFeeding_Manager::Evolution_Tick(const _double& TimeDelta)
 {
 	_uint pokemonNo = m_pPokemonInfoUIs.at(m_evolutionPokemonIndex)->Get_PokemonNo();
-	m_pNowMonsters.at(m_evolutionPokemonIndex)->Set_PokemonNo(pokemonNo);
+
+	m_pNowMonsters.at(m_evolutionPokemonIndex)->Set_PokemonNo(pokemonNo + 1);
 	m_pNowMonsters.at(m_evolutionPokemonIndex)->Add_AttackBasis(_int(61 + rand() % 50));
 	m_pNowMonsters.at(m_evolutionPokemonIndex)->Add_HpBasis(_int(88 + rand() % 150));
+	m_pNowMonsters.at(m_evolutionPokemonIndex)->LevelUp();
 
-	m_pPokemonInfoUIs.at(m_evolutionPokemonIndex)->Init_PokemonData(m_evolutionPokemonIndex);
+	m_pPokemonInfoUIs.at(m_evolutionPokemonIndex)->Init_PokemonData(m_evolutionPokemonIndex + 1);
 	// 나우몬스터를 먼저 바꾸고
 	// 그다음에 포켓몬 인포 UI를 바꾸기
 

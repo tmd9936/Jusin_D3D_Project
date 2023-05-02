@@ -157,6 +157,10 @@ public:
 		m_PokemonDesc.m_attackBasis += attackBasis;
 	}
 
+	void		LevelUp() {
+		m_PokemonDesc.m_level += 1;
+	}
+
 public:
 	void					Do_Skill_By_Index(_uint skillindex, const _tchar* pLayer);
 

@@ -51,7 +51,7 @@ private:
 	_bool						m_lateTickState = { true };
 	const _uint					m_maxFoodInfo = { CFood::TYPE_END };
 
-	_uint						m_allItemNums = { 0 };
+	_uint						m_allFoodNums = { 0 };
 
 private:
 	const _uint					m_foodTextureBase01Index = { 0 };

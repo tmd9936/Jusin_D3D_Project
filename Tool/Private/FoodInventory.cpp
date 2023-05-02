@@ -127,6 +127,14 @@ void CFoodInventory::Add_FoodNums(CFood::TYPE& eFoodType, const _int& nums)
 		return;
 
 	m_foodInfos.at(size_t(eFoodType))->Set_FoodInfo(_uint(foodNum));
+
+	m_allFoodNums = 0;
+	for (_uint i = 0; i < m_foodInfos.size(); ++i)
+	{
+		m_allFoodNums += m_foodInfos.at(i)->Get_FoodNum();
+	}
+
+	m_TextParts.at(m_itemNumsTextIndex)->Set_Text(to_wstring(m_allFoodNums));
 }
 
 _bool CFoodInventory::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator)
@@ -320,15 +328,17 @@ _bool CFoodInventory::Load_By_JsonFile_Impl(Document& doc)
 	if (FAILED(Init_FoodInfoUIs()))
 		return false;
 
+	m_allFoodNums = 0;
+
 	const Value& foodInfos = UIDesc["m_foodInfos"].GetArray();
 	for (SizeType i = 0; i < foodInfos.Size(); ++i)
 	{
 		_uint foodNums = foodInfos[i].GetUint();
-		m_allItemNums += foodNums;
+		m_allFoodNums += foodNums;
 		m_foodInfos.at(i)->Set_FoodInfo(CFood::TYPE(i), foodNums);
 	}
 
-	m_TextParts.at(m_itemNumsTextIndex)->Set_Text(to_wstring(m_allItemNums));
+	m_TextParts.at(m_itemNumsTextIndex)->Set_Text(to_wstring(m_allFoodNums));
 
 	return true;
 }
