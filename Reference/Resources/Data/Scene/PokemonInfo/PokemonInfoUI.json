@@ -204,8 +204,8 @@
                 "LayerTag": "Layer_UI"
             },
             {
-                "m_fX": 120.5,
-                "m_fY": 72.0,
+                "m_fX": 124.0,
+                "m_fY": 68.0,
                 "m_vColor": {
                     "x": 1.0,
                     "y": 1.0,
@@ -218,8 +218,8 @@
                     "y": 0.0
                 },
                 "m_vScale": {
-                    "x": 0.80,
-                    "y": 0.72
+                    "x": 0.70,
+                    "y": 0.63
                 },
                 "m_FontTag": "Font_NanumBarunGothicBold", 
                 "m_Text": "99",
@@ -311,6 +311,72 @@
                 },
                 "m_FontTag": "Font_NanumBarunGothicBold", 
                 "m_Text": "1500",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": 127.5,
+                "m_fY": 95.0,
+                "m_vColor": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "m_Rotation": 0.0,
+                "m_vRotationOrigin": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "m_vScale": {
+                    "x": 0.40,
+                    "y": 0.32
+                },
+                "m_FontTag": "Font_NanumBarunGothicBold", 
+                "m_Text": "0",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": 139.5,
+                "m_fY": 95.0,
+                "m_vColor": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "m_Rotation": 0.0,
+                "m_vRotationOrigin": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "m_vScale": {
+                    "x": 0.40,
+                    "y": 0.32
+                },
+                "m_FontTag": "Font_NanumBarunGothicBold", 
+                "m_Text": "/",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": 149.5,
+                "m_fY": 95.0,
+                "m_vColor": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "m_Rotation": 0.0,
+                "m_vRotationOrigin": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "m_vScale": {
+                    "x": 0.40,
+                    "y": 0.32
+                },
+                "m_FontTag": "Font_NanumBarunGothicBold", 
+                "m_Text": "3",
                 "LayerTag": "Layer_UI"
             }
         ]
