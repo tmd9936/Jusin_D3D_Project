@@ -74,13 +74,13 @@ _uint CFeeding_Manager::Tick(_double TimeDelta)
 	State_Tick(TimeDelta);
 	Change_State();
 
-	if (KEY_TAB(KEY::J))
-	{
-		for (auto& iter : m_pPokemonInfoUIs)
-		{
-			iter->StartDisolve();
-		}
-	}
+	//if (KEY_TAB(KEY::J))
+	//{
+	//	for (auto& iter : m_pPokemonInfoUIs)
+	//	{
+	//		iter->StartDisolve();
+	//	}
+	//}
 
 	if (m_pPickingFood)
 		m_pPickingFood->Tick(TimeDelta);
@@ -332,6 +332,7 @@ void CFeeding_Manager::Evolution_Tick(const _double& TimeDelta)
 
 	m_pNowMonsters.at(m_evolutionPokemonIndex)->Save_By_JsonFile(m_pNowMonsters.at(m_evolutionPokemonIndex)->Get_JsonPath().c_str());
 
+	m_pPokemonInfoUIs.at(m_evolutionPokemonIndex)->StartDisolve();
 	m_pPokemonInfoUIs.at(m_evolutionPokemonIndex)->Init_PokemonData(m_evolutionPokemonIndex + 1);
 	// 나우몬스터를 먼저 바꾸고
 	// 그다음에 포켓몬 인포 UI를 바꾸기
