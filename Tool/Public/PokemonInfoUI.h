@@ -19,7 +19,9 @@ public:
 		_uint  			m_pokemonLevel;
 		_int			m_pokemonHP;
 		_int			m_pokemonATK;
-		_int			m_curExp;
+		_int			m_exp;
+		_int			m_maxExp;
+
 	} POKEMONINFO_UI_DESC;
 
 private:
@@ -73,6 +75,10 @@ private:
 	static const _uint		m_pokemonHPValueTextIndex = { 5 };
 	static const _uint		m_pokemonATKTextIndex = { 6 };
 	static const _uint		m_pokemonATKValueTextIndex = { 7 };
+
+	static const _uint		m_pokemonExpValueTextIndex = { 8 };
+	static const _uint		m_pokemonDivTextIndex = { 9 };
+	static const _uint		m_pokemonMaxExpValueTextIndex = { 10 };
 
 private:
 	static const _uint		m_pokemonIconTextureIndex = { 0 };

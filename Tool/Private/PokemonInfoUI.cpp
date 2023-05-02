@@ -139,11 +139,15 @@ HRESULT CPokemonInfoUI::Get_NowMonsterData()
 		m_PokemonInfo_Desc.m_pokemonHP = PokemonDesc["m_hpBasis"].GetUint();
 		m_PokemonInfo_Desc.m_pokemonATK = PokemonDesc["m_attackBasis"].GetInt();
 		m_PokemonInfo_Desc.m_pokemonLevel = PokemonDesc["m_level"].GetInt();
-		m_PokemonInfo_Desc.m_curExp = PokemonDesc["m_level"].GetInt();
+		m_PokemonInfo_Desc.m_exp = PokemonDesc["m_exp"].GetInt();
+		m_PokemonInfo_Desc.m_maxExp = PokemonDesc["m_maxExp"].GetInt();
 
 		m_TextParts.at(m_pokemonLevelTextIndex)->Set_Text(to_wstring(m_PokemonInfo_Desc.m_pokemonLevel));
 		m_TextParts.at(m_pokemonHPValueTextIndex)->Set_Text(to_wstring(m_PokemonInfo_Desc.m_pokemonHP));
 		m_TextParts.at(m_pokemonATKValueTextIndex)->Set_Text(to_wstring(m_PokemonInfo_Desc.m_pokemonATK));
+
+		m_TextParts.at(m_pokemonExpValueTextIndex)->Set_Text(to_wstring(m_PokemonInfo_Desc.m_exp));
+		m_TextParts.at(m_pokemonMaxExpValueTextIndex)->Set_Text(to_wstring(m_PokemonInfo_Desc.m_maxExp));
 
 		/* 구현부 끝 */
 		fclose(fp);
