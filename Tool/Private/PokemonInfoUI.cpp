@@ -32,8 +32,8 @@ HRESULT CPokemonInfoUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, v
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 		return E_FAIL;
 
-	//if (FAILED(Init_PokemonData()))
-	//	return E_FAIL;
+	if (FAILED(Init_DisolveMask()))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -43,10 +43,26 @@ HRESULT CPokemonInfoUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, c
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, filePath)))
 		return E_FAIL;
 
-	//if (FAILED(Init_PokemonData()))
-	//	return E_FAIL;
+	if (FAILED(Init_DisolveMask()))
+		return E_FAIL;
 
 	return S_OK;
+}
+
+_uint CPokemonInfoUI::Tick(_double TimeDelta)
+{
+	if (m_bDisolve)
+	{
+		m_vMtrlDif += (_float)TimeDelta;
+
+		if (1.f <= m_vMtrlDif)
+		{
+			m_bDisolve = false;
+			m_UIDesc.m_ShaderPass = 1;
+		}
+	}
+
+	return __super::Tick(TimeDelta);
 }
 
 
@@ -90,6 +106,48 @@ _bool CPokemonInfoUI::Check_CanEvolution()
 		return true;
 
 	return false;
+}
+
+HRESULT CPokemonInfoUI::SetUp_ShaderResources()
+{
+	if (FAILED(m_pShaderCom->Set_Matrix("g_WorldMatrix", &m_pTransformCom->Get_WorldMatrix())))
+		return E_FAIL;
+
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(m_pShaderCom->Set_Matrix("g_ViewMatrix",
+		&m_ViewMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Set_Matrix("g_ProjMatrix",
+		&m_ProjMatrix)))
+		return E_FAIL;
+
+	if (FAILED(m_pTextureCom->Set_ShaderResource(m_pShaderCom, "g_Texture", m_TextureNumber)))
+		return E_FAIL;
+
+	if (m_UIDesc.m_UIType == UI_TYPE_COLOR_TEXTURE)
+	{
+		_float	radius = 3.f;
+		m_pShaderCom->Set_RawValue("g_Radius", &radius, sizeof(_float));
+
+		if (FAILED(m_pDisolveTexture->Set_ShaderResource(m_pShaderCom, "g_EffectTex1", m_TextureNumber)))
+			return E_FAIL;
+
+		_float4 gvMtrColor = { 0.f, 0.f, 0.f, sinf(m_vMtrlDif) };
+		m_pShaderCom->Set_RawValue("g_vMtrlDif", &gvMtrColor, sizeof(_float4));
+	}
+	_float2	size = { m_UIDesc.m_fSizeX, m_UIDesc.m_fSizeY };
+	m_pShaderCom->Set_RawValue("g_Size", &size, sizeof(_float2));
+
+	m_pShaderCom->Set_RawValue("g_vColor", &m_UIDesc.m_vColor, sizeof(_float4));
+
+	_float	g_Progress = 0.f;
+	m_pShaderCom->Set_RawValue("g_Progress", &g_Progress, sizeof(_float));
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
 }
 
 HRESULT CPokemonInfoUI::Get_PokemonData()
@@ -171,6 +229,18 @@ HRESULT CPokemonInfoUI::Get_NowMonsterData()
 	}
 
 	return E_FAIL;
+}
+
+HRESULT CPokemonInfoUI::Init_DisolveMask()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	/* For.Com_Texture */
+	if (FAILED(pGameInstance->Add_Component(FAMILY_ID_TEXTURE_MASK, this, LEVEL_STATIC, L"Prototype_Component_Texture_disolveMask",
+		(CComponent**)&m_pDisolveTexture, nullptr)))
+		return E_FAIL;
+
+	return S_OK;
 }
 
 _bool CPokemonInfoUI::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator)

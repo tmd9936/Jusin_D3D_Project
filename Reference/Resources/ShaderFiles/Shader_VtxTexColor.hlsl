@@ -12,6 +12,9 @@ float			g_Progress;
 
 float4			g_vAddColor;
 
+texture2D		g_EffectTex1;
+float4			g_vMtrlDif;
+
 struct VS_IN
 {
 	float3		vPosition : POSITION;
@@ -151,6 +154,49 @@ PS_OUT PS_MAIN_CLOCKWISECOOLTIME(PS_IN In)
 
 }
 
+PS_OUT PS_MAIN_PAPER_BURN(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	float4	vColor = (float4)0.f;
+
+	vColor = g_Texture.Sample(PointSampler, In.vTexUV);
+
+	if (Out.vColor.a < 0.1)
+		discard;
+
+	vColor = g_vColor;
+
+	float4 vFX_tex = g_EffectTex1.Sample(LinearSampler, In.vTexUV);
+
+	if (vColor.a == 0.f)
+		clip(-1);
+
+	if (vFX_tex.r >= g_vMtrlDif.a)
+		vColor.a = 1;
+	else
+		vColor.a = 0;
+
+	if (vFX_tex.r >= g_vMtrlDif.a - 0.05 && vFX_tex.r <= g_vMtrlDif.a + 0.05)
+		vColor = float4(1, 0, 0, 1); // »¡
+	else
+		;
+
+	if (vFX_tex.r >= g_vMtrlDif.a - 0.03 && vFX_tex.r <= g_vMtrlDif.a + 0.03)
+		vColor = float4(1, 1, 0, 1); // ³ë
+	else
+		;
+
+	if (vFX_tex.r >= g_vMtrlDif.a - 0.025 && vFX_tex.r <= g_vMtrlDif.a + 0.025)
+		vColor = float4(1, 1, 1, 1); // Èò
+	else
+		;
+
+	Out.vColor = vColor;
+
+	return Out;
+}
+
 technique11		DefaultTechnique
 {
 	pass ColorBase // 0
@@ -229,6 +275,19 @@ technique11		DefaultTechnique
 		HullShader = NULL;
 		DomainShader = NULL;
 		PixelShader = compile ps_5_0 PS_MAIN_CORNER_ROUND();
+	}
+
+	pass ColorBase_Paper_Burn // 6
+	{
+		SetRasterizerState(RS_Default);
+		SetDepthStencilState(DSS_Enable_ZTest_Disable_ZWrite, 0);
+		SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		HullShader = NULL;
+		DomainShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_PAPER_BURN();
 	}
 
 }

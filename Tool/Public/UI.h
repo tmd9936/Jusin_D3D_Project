@@ -62,6 +62,9 @@ public:
 
 public:
 	void					Set_Pos(const _float3& vPos);
+	void					Set_ShaderPass(const _uint& shaderPass) {
+		m_UIDesc.m_ShaderPass = shaderPass;
+	}
 
 public:
 	virtual _bool			Check_Is_In();

@@ -74,6 +74,14 @@ _uint CFeeding_Manager::Tick(_double TimeDelta)
 	State_Tick(TimeDelta);
 	Change_State();
 
+	if (KEY_TAB(KEY::J))
+	{
+		for (auto& iter : m_pPokemonInfoUIs)
+		{
+			iter->StartDisolve();
+		}
+	}
+
 	if (m_pPickingFood)
 		m_pPickingFood->Tick(TimeDelta);
 

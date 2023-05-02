@@ -35,6 +35,9 @@ public:
 	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath);
 
 public:
+	virtual _uint			Tick(_double TimeDelta) override;
+
+public:
 	HRESULT Init_PokemonData(const _uint& nowMonsterNumber);
 
 public:
@@ -64,22 +67,40 @@ public:
 	}
 
 public:
+	void StartDisolve() {
+		m_UIDesc.m_ShaderPass = 6;
+		m_bDisolve = true;
+		m_vMtrlDif = 0.f;
+	}
+
+public:
 	_bool	Check_CanEvolution();
 	void	Add_Exp(const _int& exp);
 	void	Set_Exp(const _int& exp) {
 		m_PokemonInfo_Desc.m_exp = exp;
 	}
 
+protected:
+	virtual HRESULT			SetUp_ShaderResources();
+
 private:
 	HRESULT Get_PokemonData();
 	HRESULT Get_NowMonsterData();
+
+	HRESULT Init_DisolveMask();
 
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
 	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
 
 private:
+	CTexture*				m_pDisolveTexture = { nullptr };
+
+private:
 	POKEMONINFO_UI_DESC		m_PokemonInfo_Desc = {};
+	_float					m_vMtrlDif = { 0.f };
+
+	_bool					m_bDisolve = { false };
 
 private:
 	static const _uint		m_pokemonNameTextIndex = { 0 };

@@ -1179,6 +1179,10 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_BC_cauldron_futa2"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/UI/BC_cauldron_futa2.dds")))))
 			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_disolveMask"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Effect/disolveMask.dds")))))
+			return E_FAIL;
 	}
 
 #pragma endregion
