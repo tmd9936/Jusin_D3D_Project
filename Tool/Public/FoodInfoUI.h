@@ -8,6 +8,11 @@ BEGIN(Client)
 class CFoodInfoUI :
 	public CUI
 {
+public:
+	typedef struct FoodInfoUI_Desc
+	{
+		UI_DESC	m_UIDesc;
+	} FOODINFOUI_DESC;
 
 private:
 	explicit CFoodInfoUI(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -28,11 +33,23 @@ public:
 	HRESULT			Set_FoodInfo(CFood::TYPE eType, const _uint& foodNum);
 	HRESULT			Set_FoodInfo(const _uint& foodNum);
 
+public:
+	const _uint		Get_FoodNum() const {
+		return m_foodNum;
+	}
+
+public:
+	void			All_Object_RenderOff();
+
 private:
+	FOODINFOUI_DESC m_FoodInfoUIDesc = {};
+
 	const _uint		m_FoodTextureIndex = { 0 };
 
 	const _uint		m_XMartTextIndex = { 0 };
 	const _uint		m_FoodNumTextIndex = { 1 };
+
+	_uint			m_foodNum = { 0 };
 
 public:
 	static CFoodInfoUI* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

@@ -110,6 +110,7 @@
 #include "FoodInfoUI.h"
 #include "StageFoodResult.h"
 #include "Feeding_Manager.h"
+#include "FoodInventory.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
@@ -1904,6 +1905,10 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_GoToFeedingButton"),
 			CGoToFeedingButton::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_FoodInventory"),
+			CFoodInventory::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
 	}
 #pragma endregion
 
@@ -2200,6 +2205,14 @@ HRESULT CLoader::Loading_ForFeedingLevel()
 	{
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Feeding_Icon"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/UI/Feeding_Icon.dds")))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_BC_cauldron_base2"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/UI/BC_cauldron_base2.dds")))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_BC_cauldron_futa2"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/UI/BC_cauldron_futa2.dds")))))
 			return E_FAIL;
 	}
 

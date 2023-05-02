@@ -182,6 +182,7 @@
     <ClInclude Include="..\Public\Feeding_Manager.h" />
     <ClInclude Include="..\Public\Food.h" />
     <ClInclude Include="..\Public\FoodInfoUI.h" />
+    <ClInclude Include="..\Public\FoodInventory.h" />
     <ClInclude Include="..\Public\GetItemShowUI.h" />
     <ClInclude Include="..\Public\GoToBackLevelButton.h" />
     <ClInclude Include="..\Public\GoToBaseCampButton.h" />
@@ -294,6 +295,7 @@
     <ClCompile Include="..\Private\Feeding_Manager.cpp" />
     <ClCompile Include="..\Private\Food.cpp" />
     <ClCompile Include="..\Private\FoodInfoUI.cpp" />
+    <ClCompile Include="..\Private\FoodInventory.cpp" />
     <ClCompile Include="..\Private\GetItemShowUI.cpp" />
     <ClCompile Include="..\Private\GoToBackLevelButton.cpp" />
     <ClCompile Include="..\Private\GoToBaseCampButton.cpp" />

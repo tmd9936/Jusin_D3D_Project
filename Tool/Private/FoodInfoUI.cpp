@@ -24,7 +24,12 @@ HRESULT CFoodInfoUI::Initialize_Prototype()
 
 HRESULT CFoodInfoUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
-	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
+	if (nullptr != pArg)
+	{
+		m_FoodInfoUIDesc = (*(FOODINFOUI_DESC*)(pArg));
+	}
+
+	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, &m_FoodInfoUIDesc.m_UIDesc)))
 		return E_FAIL;
 
 	m_eRenderId = RENDER_UI;
@@ -72,6 +77,8 @@ HRESULT CFoodInfoUI::Render()
 
 HRESULT CFoodInfoUI::Set_FoodInfo(CFood::TYPE eType, const _uint& foodNum)
 {
+	m_foodNum = foodNum;
+
 	switch (eType)
 	{
 	case Client::CFood::TYPE_BLUE:
@@ -95,11 +102,25 @@ HRESULT CFoodInfoUI::Set_FoodInfo(CFood::TYPE eType, const _uint& foodNum)
 
 HRESULT CFoodInfoUI::Set_FoodInfo(const _uint& foodNum)
 {
+	m_foodNum = foodNum;
+
 	m_TextParts.at(m_FoodNumTextIndex)->Set_Text(to_wstring(foodNum));
 
 	return S_OK;
 }
 
+void CFoodInfoUI::All_Object_RenderOff()
+{
+	for (auto& part : m_TextureParts)
+	{
+		part->Set_RenderId(RENDER_END);
+	}
+
+	for (auto& part : m_TextParts)
+	{
+		part->Set_RenderId(RENDER_END);
+	}
+}
 
 CFoodInfoUI* CFoodInfoUI::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {

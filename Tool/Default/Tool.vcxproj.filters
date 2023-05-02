@@ -346,6 +346,12 @@
     <Filter Include="02. GameObject\Feeding">
       <UniqueIdentifier>{c759635c-d839-42a8-a587-f0ee622bfdb2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\Feeding\FoodInventory">
+      <UniqueIdentifier>{77f24bc9-b8b8-4bb4-a020-d28d39ef652a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Feeding\Feeding_Manager">
+      <UniqueIdentifier>{5de53d96-99b5-4268-85af-e3a33768fa5f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -679,7 +685,10 @@
       <Filter>02. GameObject\BaseCamp\Button\GoToFeedingButton</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Feeding_Manager.h">
-      <Filter>02. GameObject\Feeding</Filter>
+      <Filter>02. GameObject\Feeding\Feeding_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\FoodInventory.h">
+      <Filter>02. GameObject\Feeding\FoodInventory</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1015,7 +1024,10 @@
       <Filter>02. GameObject\BaseCamp\Button\GoToFeedingButton</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Feeding_Manager.cpp">
-      <Filter>02. GameObject\Feeding</Filter>
+      <Filter>02. GameObject\Feeding\Feeding_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\FoodInventory.cpp">
+      <Filter>02. GameObject\Feeding\FoodInventory</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
