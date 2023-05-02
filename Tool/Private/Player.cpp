@@ -468,6 +468,7 @@ _bool CPlayer::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& all
 
 			PokemonDesc.AddMember("m_level", m_PokemonDesc.m_level, allocator);
 			PokemonDesc.AddMember("m_exp", m_PokemonDesc.m_exp, allocator);
+			PokemonDesc.AddMember("m_maxExp", m_PokemonDesc.m_maxExp, allocator);
 
 			PokemonDesc.AddMember("m_monsterNo", m_PokemonDesc.m_monsterNo, allocator);
 			PokemonDesc.AddMember("m_hpBasis", m_PokemonDesc.m_hpBasis, allocator);
@@ -540,6 +541,7 @@ _bool CPlayer::Load_By_JsonFile_Impl(Document& doc)
 
 		m_PokemonDesc.m_level = PokemonDesc["m_level"].GetUint();
 		m_PokemonDesc.m_exp = PokemonDesc["m_exp"].GetInt();
+		m_PokemonDesc.m_maxExp = PokemonDesc["m_maxExp"].GetInt();
 
 		m_PokemonDesc.m_monsterNo = PokemonDesc["m_monsterNo"].GetUint();
 		m_PokemonDesc.m_hpBasis = PokemonDesc["m_hpBasis"].GetUint();

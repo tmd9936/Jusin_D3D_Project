@@ -60,6 +60,7 @@ public:
 
 		_uint						m_level;
 		_int						m_exp;
+		_int						m_maxExp;
 
 		_uint						m_monsterNo;
 		_uint						m_hpBasis;

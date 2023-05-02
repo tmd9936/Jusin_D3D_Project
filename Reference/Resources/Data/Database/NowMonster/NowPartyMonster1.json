@@ -12,6 +12,7 @@
         "rotateSpeed": 1.2000000476837158,
         "m_level": 24,
         "m_exp": 0,
+        "m_maxExp": 3,
         "m_monsterNo": 25,
         "m_hpBasis": 1200,
         "m_attackBasis": 500,
