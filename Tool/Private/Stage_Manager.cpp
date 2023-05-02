@@ -273,7 +273,7 @@ HRESULT CStage_Manager::Create_Get_Item(_fmatrix vStartWorldMatrix)
 {
 	_int randValue = rand() % 2;
 
-	if (randValue == 3)
+	if (randValue == 0)
 	{
 		CStone::STONE_DESC stoneDesc{};
 
