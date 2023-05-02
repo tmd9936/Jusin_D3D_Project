@@ -51,6 +51,8 @@ private:
 
 	_uint			m_foodNum = { 0 };
 
+	_bool			m_bLateTick = { true };
+
 public:
 	static CFoodInfoUI* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) override;

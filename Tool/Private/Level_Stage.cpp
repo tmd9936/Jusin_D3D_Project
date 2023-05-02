@@ -396,6 +396,18 @@ HRESULT CLevel_Stage::Ready_Layer_UI(const _tchar* pLayerTag)
 		L"StoneInvetory", "../../Reference/Resources/Data/Scene/PokemonInfo/SkillStoneUI/StoneInvetory.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_FoodInfoUI"), LEVEL_STAGE, pLayerTag, L"FoodInfoUI01", "../../Reference/Resources/Data/Scene/Feeding/UI/FoodInfoUI01.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_FoodInfoUI"), LEVEL_STAGE, pLayerTag, L"FoodInfoUI02", "../../Reference/Resources/Data/Scene/Feeding/UI/FoodInfoUI02.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_FoodInfoUI"), LEVEL_STAGE, pLayerTag, L"FoodInfoUI03", "../../Reference/Resources/Data/Scene/Feeding/UI/FoodInfoUI03.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_FoodInfoUI"), LEVEL_STAGE, pLayerTag, L"FoodInfoUI04", "../../Reference/Resources/Data/Scene/Feeding/UI/FoodInfoUI04.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_FoodInventory"), LEVEL_STAGE, pLayerTag,
 		L"FoodInventory", "../../Reference/Resources/Data/Scene/Feeding/FoodInventory.json", CLONE_FILEPATH)))
 		return E_FAIL;

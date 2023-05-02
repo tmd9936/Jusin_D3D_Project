@@ -75,6 +75,11 @@ public:
 		return m_Text_Desc.m_fX;
 	}
 
+public:
+	const TEXT_DESC Get_Desc() const {
+		return m_Text_Desc;
+	}
+
 private:
 	CTransform* m_pTransformCom = { nullptr };
 	CRenderer* m_pRendererCom = { nullptr };

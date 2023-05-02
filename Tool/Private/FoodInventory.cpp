@@ -97,11 +97,8 @@ void CFoodInventory::All_Object_RenderOff()
 
 	for (_uint i = 0; i < m_foodInfos.size(); ++i)
 	{
-		if (nullptr != m_foodInfos.at(i))
-		{
-			m_foodInfos.at(i)->Set_RenderId(RENDER_END);
-			m_foodInfos.at(i)->All_Object_RenderOff();
-		}
+		m_foodInfos.at(i)->Set_RenderId(RENDER_END);
+		m_foodInfos.at(i)->All_Object_RenderOff();
 	}
 }
 
@@ -207,6 +204,58 @@ _bool CFoodInventory::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorTy
 		UIDesc.AddMember("m_TextureParts", TextureParts, allocator);
 
 		Value TextParts(kArrayType);
+		for (auto& iter : m_TextParts)
+		{
+			Value Parts(kObjectType);
+			{
+				CPartText::TEXT_DESC desc = iter->Get_Desc();
+
+				Parts.AddMember("m_fX", desc.m_fX, allocator);
+				Parts.AddMember("m_fY", desc.m_fY, allocator);
+
+				Parts.AddMember("m_Rotation", desc.m_Rotation, allocator);
+
+				Value m_vRotationOrigin(kObjectType);
+				{
+					m_vRotationOrigin.AddMember("x", desc.m_vRotationOrigin.x, allocator);
+					m_vRotationOrigin.AddMember("y", desc.m_vRotationOrigin.y, allocator);
+				}
+				Parts.AddMember("m_vRotationOrigin", m_vRotationOrigin, allocator);
+
+				Value m_vScale(kObjectType);
+				{
+					m_vScale.AddMember("x", desc.m_vScale.x, allocator);
+					m_vScale.AddMember("y", desc.m_vScale.y, allocator);
+				}
+				Parts.AddMember("m_vScale", m_vScale, allocator);
+
+				Value m_vColor(kObjectType);
+				{
+					m_vColor.AddMember("x", desc.m_vColor.x, allocator);
+					m_vColor.AddMember("y", desc.m_vColor.y, allocator);
+					m_vColor.AddMember("z", desc.m_vColor.z, allocator);
+					m_vColor.AddMember("w", desc.m_vColor.w, allocator);
+				}
+				Parts.AddMember("m_vColor", m_vColor, allocator);
+
+				Value valFontTag;
+				string fontTag = convert.to_bytes(desc.m_FontTag);
+				valFontTag.SetString(fontTag.c_str(), (SizeType)fontTag.size(), allocator);
+				Parts.AddMember("m_FontTag", valFontTag, allocator);
+
+				Value valText;
+				string textString = convert.to_bytes(desc.m_Text);
+				valText.SetString(textString.c_str(), (SizeType)textString.size(), allocator);
+				Parts.AddMember("m_Text", valText, allocator);
+
+				Value valLayer;
+				string layerTag = convert.to_bytes(Get_LayerTag());
+				valLayer.SetString(layerTag.c_str(), (SizeType)layerTag.size(), allocator);
+				Parts.AddMember("LayerTag", valLayer, allocator);
+			}
+
+			TextParts.PushBack(Parts, allocator);
+		}
 		UIDesc.AddMember("m_TextParts", TextParts, allocator);
 
 		Value FoodInfos(kArrayType);
@@ -348,7 +397,7 @@ HRESULT CFoodInventory::Init_FoodInfoUIs()
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	m_foodInfos.reserve(m_maxFoodInfo);
 	
-	CGameObject* pObject = pGameInstance->Get_Object(LEVEL_FEEDING, L"Layer_UI", L"FoodInfoUI01");
+	CGameObject* pObject = pGameInstance->Get_Object(m_iLevelindex, L"Layer_UI", L"FoodInfoUI01");
 	if (nullptr == pObject)
 		return E_FAIL;
 	CFoodInfoUI* pFoodInfoUI01 = dynamic_cast<CFoodInfoUI*>(pObject);
@@ -357,7 +406,7 @@ HRESULT CFoodInventory::Init_FoodInfoUIs()
 	Safe_AddRef(pFoodInfoUI01);
 	m_foodInfos.push_back(pFoodInfoUI01);
 
-	pObject = pGameInstance->Get_Object(LEVEL_FEEDING, L"Layer_UI", L"FoodInfoUI02");
+	pObject = pGameInstance->Get_Object(m_iLevelindex, L"Layer_UI", L"FoodInfoUI02");
 	if (nullptr == pObject)
 		return E_FAIL;
 	CFoodInfoUI* pFoodInfoUI02 = dynamic_cast<CFoodInfoUI*>(pObject);
@@ -366,7 +415,7 @@ HRESULT CFoodInventory::Init_FoodInfoUIs()
 	Safe_AddRef(pFoodInfoUI02);
 	m_foodInfos.push_back(pFoodInfoUI02);
 
-	pObject = pGameInstance->Get_Object(LEVEL_FEEDING, L"Layer_UI", L"FoodInfoUI03");
+	pObject = pGameInstance->Get_Object(m_iLevelindex, L"Layer_UI", L"FoodInfoUI03");
 	if (nullptr == pObject)
 		return E_FAIL;
 	CFoodInfoUI* pFoodInfoUI03 = dynamic_cast<CFoodInfoUI*>(pObject);
@@ -375,7 +424,7 @@ HRESULT CFoodInventory::Init_FoodInfoUIs()
 	Safe_AddRef(pFoodInfoUI03);
 	m_foodInfos.push_back(pFoodInfoUI03);
 
-	pObject = pGameInstance->Get_Object(LEVEL_FEEDING, L"Layer_UI", L"FoodInfoUI04");
+	pObject = pGameInstance->Get_Object(m_iLevelindex, L"Layer_UI", L"FoodInfoUI04");
 	if (nullptr == pObject)
 		return E_FAIL;
 	CFoodInfoUI* pFoodInfoUI04 = dynamic_cast<CFoodInfoUI*>(pObject);

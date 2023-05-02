@@ -55,16 +55,19 @@ _uint CFoodInfoUI::Tick(_double TimeDelta)
 
 _uint CFoodInfoUI::LateTick(_double TimeDelta)
 {
-	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
-
-	for (auto& part : m_TextureParts)
+	if (m_bLateTick)
 	{
-		part->LateTick(TimeDelta);
-	}
+		m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
 
-	for (auto& part : m_TextParts)
-	{
-		part->LateTick(TimeDelta);
+		for (auto& part : m_TextureParts)
+		{
+			part->LateTick(TimeDelta);
+		}
+
+		for (auto& part : m_TextParts)
+		{
+			part->LateTick(TimeDelta);
+		}
 	}
 
 	return _uint();
@@ -111,6 +114,8 @@ HRESULT CFoodInfoUI::Set_FoodInfo(const _uint& foodNum)
 
 void CFoodInfoUI::All_Object_RenderOff()
 {
+	m_bLateTick = false;
+
 	for (auto& part : m_TextureParts)
 	{
 		part->Set_RenderId(RENDER_END);
