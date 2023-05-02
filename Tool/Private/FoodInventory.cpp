@@ -106,6 +106,28 @@ void CFoodInventory::All_Object_RenderOff()
 }
 
 
+_bool CFoodInventory::Check_Exist_Food_Is_In(CFood::TYPE& eFoodType, const POINT& mousePt)
+{
+	for (_uint i = 0; i < m_foodInfos.size(); ++i)
+	{
+		if (m_foodInfos.at(i)->Check_Is_In(mousePt) && m_foodInfos.at(i)->Get_FoodNum() > 0)
+		{
+			eFoodType = CFood::TYPE(i);
+			return true;
+		}
+	}
+	return false;
+}
+
+void CFoodInventory::Add_FoodNums(CFood::TYPE& eFoodType, const _int& nums)
+{
+	_int foodNum = (_int)m_foodInfos.at(size_t(eFoodType))->Get_FoodNum() + nums;
+
+	if (foodNum < 0)
+		return;
+
+	m_foodInfos.at(size_t(eFoodType))->Set_FoodInfo(_uint(foodNum));
+}
 
 _bool CFoodInventory::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator)
 {

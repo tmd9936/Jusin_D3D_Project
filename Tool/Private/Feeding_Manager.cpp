@@ -9,7 +9,7 @@
 #include "Player.h"
 #include "StageSupportMonster.h"
 #include "PokemonInfoUI.h"
-#include "Food.h"
+#include "FoodInventory.h"
 
 
 CFeeding_Manager::CFeeding_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -43,6 +43,9 @@ HRESULT CFeeding_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex,
 	if (FAILED(Init_PokemonInfoUI()))
 		return E_FAIL;
 
+	if (FAILED(Init_FoodInventory()))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -58,6 +61,9 @@ HRESULT CFeeding_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex,
 		return E_FAIL;
 
 	if (FAILED(Init_PokemonInfoUI()))
+		return E_FAIL;
+
+	if (FAILED(Init_FoodInventory()))
 		return E_FAIL;
 
 	return S_OK;
@@ -154,7 +160,7 @@ HRESULT CFeeding_Manager::Init_PickingFood()
 	if (nullptr == m_pPickingFood)
 		return E_FAIL;
 
-	//m_pPickingFood->Set_RenderId(RENDER_END);
+	m_pPickingFood->Set_RenderId(RENDER_END);
 
 	return S_OK;
 }
@@ -194,6 +200,20 @@ HRESULT CFeeding_Manager::Init_PokemonInfoUI()
 	return S_OK;
 }
 
+HRESULT CFeeding_Manager::Init_FoodInventory()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	CGameObject* pObject = pGameInstance->Get_Object(LEVEL_FEEDING, L"Layer_UI", L"FoodInventory");
+	if (nullptr == pObject)
+		return E_FAIL;
+	m_pFoodInventory = dynamic_cast<CFoodInventory*>(pObject);
+	if (nullptr == m_pFoodInventory)
+		return E_FAIL;
+	Safe_AddRef(m_pFoodInventory);
+
+	return S_OK;
+}
 
 void CFeeding_Manager::State_Tick(const _double& TimeDelta)
 {
@@ -203,8 +223,10 @@ void CFeeding_Manager::State_Tick(const _double& TimeDelta)
 		Picking();
 		break;
 	case MANAGER_FOOD_PICKING:
+		Inventory_Food_Picking_Tick();
 		break;
 	case MANAGER_EVOLUTION:
+		Evolution_Tick(TimeDelta);
 		break;
 	}
 
@@ -217,10 +239,16 @@ void CFeeding_Manager::Change_State()
 		switch (m_eCurState)
 		{
 		case MANAGER_IDLE:
+			m_eRenderId = RENDER_END;
+			m_pPickingFood->Set_RenderId(RENDER_END);
 			break;
 		case MANAGER_FOOD_PICKING:
+			m_eRenderId = RENDER_UI;
+			m_pPickingFood->Set_RenderId(RENDER_UI);
 			break;
 		case MANAGER_EVOLUTION:
+			m_eRenderId = RENDER_END;
+			m_pPickingFood->Set_RenderId(RENDER_END);
 			break;
 		}
 
@@ -239,35 +267,14 @@ void CFeeding_Manager::Picking()
 
 	if (MOUSE_TAB(MOUSE::LBTN) && CClient_Utility::Mouse_Pos_In_Platform() && m_eCurState == MANAGER_IDLE)
 	{
-		/*if (m_pStoneInventory->Check_Is_In(pt))
+		if (m_pFoodInventory->Check_Is_In(pt))
 		{
-			CStone::STONE_DESC stoneDesc{};
-
-			if (m_pStoneInventory->Check_Exist_Stone_Is_In(stoneDesc, m_pickingStoneIndex, pt))
+			if (m_pFoodInventory->Check_Exist_Food_Is_In(m_ePickingFoodType, pt))
 			{
-				m_pStoneInfoUI->Change_StoneInfo(stoneDesc);
-
-				m_pPickingInfoStone->Change_StoneType(stoneDesc.m_stoneType);
-				m_pPickingInfoStone->Change_Value(to_wstring(stoneDesc.value));
-				m_pPickingInfoStone->Set_State(CStone::STATE_PICKING_FOLLOW_MOUSE);
-				m_pPickingInfoStone->Set_InventoryIndex(stoneDesc.m_inventoyIndex);
-				m_eCurState = MANAGER_INVENTORY_STONE_PICKING;
+				m_pPickingFood->Change_FoodType(m_ePickingFoodType);
+				m_eCurState = MANAGER_FOOD_PICKING;
 			}
 		}
-		else if (m_pStoneEquipInfoUI->Check_Is_In(pt))
-		{
-			CStone::STONE_DESC stoneDesc{};
-			if (m_pStoneEquipInfoUI->Check_Exist_Stone_Is_In(pt, m_pickingStoneIndex, stoneDesc))
-			{
-				m_pStoneInfoUI->Change_StoneInfo(stoneDesc);
-
-				m_pPickingInfoStone->Change_StoneType(stoneDesc.m_stoneType);
-				m_pPickingInfoStone->Change_Value(to_wstring(stoneDesc.value));
-				m_pPickingInfoStone->Set_State(CStone::STATE_PICKING_FOLLOW_MOUSE);
-				m_pPickingInfoStone->Set_InventoryIndex(stoneDesc.m_inventoyIndex);
-				m_eCurState = MANAGER_EQUIPINFO_STONE_PICKING;
-			}
-		}*/
 	}
 }
 
@@ -284,35 +291,40 @@ void CFeeding_Manager::Inventory_Food_Picking_Tick()
 	}
 	else if (MOUSE_AWAY(MOUSE::LBTN))
 	{
-		/*if (m_pStoneInventory->Check_Is_In(pt))
+		for (_uint i = 0; i < m_pPokemonInfoUIs.size(); ++i)
 		{
-			m_pStoneInventory->Change_StoneIndex(m_pickingStoneIndex, pt);
-		}
-		else if (m_pStoneEquipInfoUI->Check_Is_In(pt))
-		{
-			CStone::STONE_DESC pickingStoneDesc = m_pPickingInfoStone->Get_StoneDesc();
-
-			UnEquip(pt);
-
-			if (m_pStoneEquipInfoUI->Equip(pt, pickingStoneDesc))
+			if (m_pPokemonInfoUIs.at(i)->Check_Is_In(pt))
 			{
-				_uint pokemonNo = m_pPokemonInfoUI->Get_PokemonNo();
-				m_pStoneInventory->Change_StoneState_To_Equip(m_pickingStoneIndex, pokemonNo);
-				if (pickingStoneDesc.m_stoneType == CStone::TYPE_ATK)
-				{
-					m_pPokemonInfoUI->Add_ATK(pickingStoneDesc.value);
-				}
-				else if (pickingStoneDesc.m_stoneType == CStone::TYPE_HP)
-				{
-					m_pPokemonInfoUI->Add_HP(pickingStoneDesc.value);
-				}
-			}*/
+				m_pPokemonInfoUIs.at(i)->Add_Exp((_int)1);
 
-		//}
+				m_pFoodInventory->Add_FoodNums(m_ePickingFoodType, -1);
 
-		 //m_pPickingInfoStone->Set_State(CStone::STATE_NO_SHOW);
+				if (m_pPokemonInfoUIs.at(i)->Check_CanEvolution())
+				{
+					m_evolutionPokemonIndex = i + 1;
+					m_eCurState = MANAGER_EVOLUTION;
+					return;
+				}
+				break;
+			}
+		}
+
 		m_eCurState = MANAGER_IDLE;
 	}
+}
+
+void CFeeding_Manager::Evolution_Tick(const _double& TimeDelta)
+{
+	_uint pokemonNo = m_pPokemonInfoUIs.at(m_evolutionPokemonIndex)->Get_PokemonNo();
+	m_pNowMonsters.at(m_evolutionPokemonIndex)->Set_PokemonNo(pokemonNo);
+	m_pNowMonsters.at(m_evolutionPokemonIndex)->Add_AttackBasis(_int(61 + rand() % 50));
+	m_pNowMonsters.at(m_evolutionPokemonIndex)->Add_HpBasis(_int(88 + rand() % 150));
+
+	m_pPokemonInfoUIs.at(m_evolutionPokemonIndex)->Init_PokemonData(m_evolutionPokemonIndex);
+	// 나우몬스터를 먼저 바꾸고
+	// 그다음에 포켓몬 인포 UI를 바꾸기
+
+	m_eCurState = MANAGER_IDLE;
 }
 
 
@@ -381,6 +393,8 @@ CGameObject* CFeeding_Manager::Clone(const _tchar* pLayerTag, _uint iLevelIndex,
 void CFeeding_Manager::Free()
 {
 	__super::Free();
+
+	Safe_Release(m_pFoodInventory);
 
 	for (auto& iter : m_pNowMonsters)
 	{

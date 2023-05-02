@@ -90,6 +90,28 @@ HRESULT CFood::Render()
 	return __super::Render();
 }
 
+void CFood::Change_FoodType(const TYPE& eType)
+{
+	m_Desc.m_foodType = eType;
+
+	switch (eType)
+	{
+	case TYPE_BLUE:
+		Change_Texture(L"Prototype_Component_Texture_Item_Blue_UC");
+		break;
+	case TYPE_GREY:
+		Change_Texture(L"Prototype_Component_Texture_Item_Grey_UC");
+		break;
+	case TYPE_YELLOW:
+		Change_Texture(L"Prototype_Component_Texture_Item_Yellow_UC");
+		break;
+	case TYPE_RED:
+		Change_Texture(L"Prototype_Component_Texture_Item_Red_UC");
+		break;
+	}
+
+}
+
 void CFood::Change_State()
 {
 	if (m_Desc.m_ePreState != m_Desc.m_eCurState)

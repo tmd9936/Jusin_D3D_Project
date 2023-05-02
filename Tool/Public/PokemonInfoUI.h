@@ -63,6 +63,13 @@ public:
 		return m_PokemonInfo_Desc.m_pokemonLevel;
 	}
 
+public:
+	_bool	Check_CanEvolution();
+	void	Add_Exp(const _int& exp);
+	void	Set_Exp(const _int& exp) {
+		m_PokemonInfo_Desc.m_exp = exp;
+	}
+
 private:
 	HRESULT Get_PokemonData();
 	HRESULT Get_NowMonsterData();

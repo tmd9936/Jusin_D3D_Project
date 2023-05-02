@@ -78,6 +78,20 @@ void CPokemonInfoUI::Add_HP(const _int& value)
 	m_TextParts.at(m_pokemonHPValueTextIndex)->Set_Text(to_wstring(m_PokemonInfo_Desc.m_pokemonHP));
 }
 
+void CPokemonInfoUI::Add_Exp(const _int& exp)
+{
+	m_PokemonInfo_Desc.m_exp += exp;
+	m_TextParts.at(m_pokemonExpValueTextIndex)->Set_Text(to_wstring(m_PokemonInfo_Desc.m_exp));
+}
+
+_bool CPokemonInfoUI::Check_CanEvolution()
+{
+	if (m_PokemonInfo_Desc.m_exp == m_PokemonInfo_Desc.m_maxExp)
+		return true;
+
+	return false;
+}
+
 HRESULT CPokemonInfoUI::Get_PokemonData()
 {
 	if (m_TextParts.empty() || m_TextureParts.empty())

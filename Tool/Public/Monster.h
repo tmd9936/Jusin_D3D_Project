@@ -149,6 +149,15 @@ public:
 	}
 
 public:
+	void		Add_HpBasis(const _uint& hpBasis) {
+		m_PokemonDesc.m_hpBasis += hpBasis;
+	}
+
+	void		Add_AttackBasis(const _uint& attackBasis) {
+		m_PokemonDesc.m_attackBasis += attackBasis;
+	}
+
+public:
 	void					Do_Skill_By_Index(_uint skillindex, const _tchar* pLayer);
 
 public:

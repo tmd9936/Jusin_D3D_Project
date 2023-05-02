@@ -4,6 +4,7 @@
 #include "GameObject.h"
 
 #include "UI.h"
+#include "Food.h"
 
 BEGIN(Engine)
 
@@ -14,8 +15,8 @@ BEGIN(Client)
 class CMonster;
 class CStageSupportMonster;
 class CPlayer;
-class CFood;
 class CPokemonInfoUI;
+class CFoodInventory;
 
 class CFeeding_Manager final : public CUI
 {
@@ -47,6 +48,7 @@ public:
 private:
 	HRESULT							Init_PickingFood();
 	HRESULT							Init_PokemonInfoUI();
+	HRESULT							Init_FoodInventory();
 
 private:
 	void							State_Tick(const _double& TimeDelta);
@@ -59,6 +61,9 @@ private:
 	void							Inventory_Food_Picking_Tick();
 
 private:
+	void							Evolution_Tick(const _double& TimeDelta);
+
+private:
 	HRESULT							SetUp_ShaderResources();
 
 private:
@@ -66,10 +71,15 @@ private:
 	FEEDING_MANAGER_STATE			m_eCurState = { MANAGER_IDLE };
 
 private:
-	vector<CMonster*>				m_pNowMonsters = { nullptr };
-	vector<CPokemonInfoUI*>			m_pPokemonInfoUIs = { nullptr };
+	vector<CMonster*>				m_pNowMonsters;
+	vector<CPokemonInfoUI*>			m_pPokemonInfoUIs;
 
 	CFood*							m_pPickingFood = { nullptr };
+	CFoodInventory*					m_pFoodInventory = { nullptr };
+
+	CFood::TYPE						m_ePickingFoodType = { CFood::TYPE_BLUE };
+
+	_uint							m_evolutionPokemonIndex = { 0 };
 
 public:
 	static CFeeding_Manager* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

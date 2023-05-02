@@ -52,9 +52,11 @@ public:
 	virtual HRESULT		Render() override;
 
 public:
-	const TYPE				Get_FoodType() const {
+	const TYPE			Get_FoodType() const {
 		return m_Desc.m_foodType;
 	}
+
+	void				Change_FoodType(const TYPE& eType);
 
 private:
 	void				Change_State();
