@@ -2,16 +2,16 @@
 
 #include "Button.h"
 
-class CGoToWorldMapButton :
+class CGoToFeedingButton :
     public CButton
 {
 protected:
-    CGoToWorldMapButton(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-    CGoToWorldMapButton(const CGoToWorldMapButton& rhs);
-    virtual ~CGoToWorldMapButton() = default;
+    CGoToFeedingButton(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+    CGoToFeedingButton(const CGoToFeedingButton& rhs);
+    virtual ~CGoToFeedingButton() = default;
 
 protected:
-    virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override; 
+    virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override;
     virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath) override;
 
 protected:
@@ -21,7 +21,7 @@ protected:
     virtual _uint On_Release() override;
 
 public:
-    static CGoToWorldMapButton* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+    static CGoToFeedingButton* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
     virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) override;
     virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath) override;
     virtual void Free() override;

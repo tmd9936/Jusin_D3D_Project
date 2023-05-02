@@ -340,6 +340,9 @@
     <Filter Include="01. Levels\Feeding">
       <UniqueIdentifier>{1559d35a-3c6d-444d-a3fb-247c601be8bd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\BaseCamp\Button\GoToFeedingButton">
+      <UniqueIdentifier>{298cbaf1-2ce0-477e-96be-aef98053263d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -668,6 +671,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Level_Feeding.h">
       <Filter>01. Levels\Feeding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\GoToFeedingButton.h">
+      <Filter>02. GameObject\BaseCamp\Button\GoToFeedingButton</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -998,6 +1004,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Level_Feeding.cpp">
       <Filter>01. Levels\Feeding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\GoToFeedingButton.cpp">
+      <Filter>02. GameObject\BaseCamp\Button\GoToFeedingButton</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

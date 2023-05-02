@@ -184,6 +184,7 @@
     <ClInclude Include="..\Public\GetItemShowUI.h" />
     <ClInclude Include="..\Public\GoToBackLevelButton.h" />
     <ClInclude Include="..\Public\GoToBaseCampButton.h" />
+    <ClInclude Include="..\Public\GoToFeedingButton.h" />
     <ClInclude Include="..\public\GoToMonStateButton.h" />
     <ClInclude Include="..\Public\GoToStageButton.h" />
     <ClInclude Include="..\Public\HommingAttackEffect.h" />
@@ -294,6 +295,7 @@
     <ClCompile Include="..\Private\GetItemShowUI.cpp" />
     <ClCompile Include="..\Private\GoToBackLevelButton.cpp" />
     <ClCompile Include="..\Private\GoToBaseCampButton.cpp" />
+    <ClCompile Include="..\Private\GoToFeedingButton.cpp" />
     <ClCompile Include="..\Private\GoToMonStateButton.cpp" />
     <ClCompile Include="..\Private\GoToStageButton.cpp" />
     <ClCompile Include="..\Private\HommingAttackEffect.cpp" />

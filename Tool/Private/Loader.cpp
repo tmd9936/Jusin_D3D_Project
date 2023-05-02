@@ -96,6 +96,7 @@
 #include "PokemonInfoUI.h"
 #include "PokemonSkillStoneUI.h"
 #include "GoToBackLevelButton.h"
+#include "GoToFeedingButton.h"
 #include "SkillInfoUI.h"
 #include "StoneEquipInfoUI.h"
 #include "StoneInventory.h"
@@ -1897,6 +1898,10 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_GoToBackLevelButton"),
 			CGoToBackLevelButton::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_GoToFeedingButton"),
+			CGoToFeedingButton::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 	}
 #pragma endregion

@@ -272,7 +272,13 @@ HRESULT CLevel_BaseCamp::Ready_Layer_UI(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UI"), LEVEL_BASECAMP, pLayerTag, L"BaseUI02", "../../Reference/Resources/Data/Scene/BaseCamp/UI/BaseUI02.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UI"), LEVEL_BASECAMP, pLayerTag, L"BaseUI03", "../../Reference/Resources/Data/Scene/BaseCamp/UI/BaseUI03.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GoToWorldMapButton"), LEVEL_BASECAMP, pLayerTag, L"GoToWorldMapButton", "../../Reference/Resources/Data/Scene/BaseCamp/Button/GoToMap_Button_data.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GoToFeedingButton"), LEVEL_BASECAMP, pLayerTag, L"GoToFeedingButton", "../../Reference/Resources/Data/Scene/BaseCamp/Button/GoToFeedingButton.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UI"), LEVEL_BASECAMP, pLayerTag, L"LevelNameInfo", "../../Reference/Resources/Data/Scene/BaseCamp/UI/LevelNameInfo.json", CLONE_FILEPATH)))

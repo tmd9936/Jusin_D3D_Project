@@ -3,18 +3,18 @@
         "ModelPrototypeTag": "Prototype_Component_Model_Pokemon_PM8",
         "ModelPrototypeLevelIndex": 0,
         "vPos": {
-            "x": 15.0,
+            "x": 14.01038646697998,
             "y": 0.5,
             "z": 24.0,
             "w": 1.0
         },
-        "moveSpeed": 1.8,
-        "rotateSpeed": 1.2,
+        "moveSpeed": 1.7999999523162842,
+        "rotateSpeed": 1.2000000476837158,
         "m_level": 35,
         "m_exp": 100,
         "m_monsterNo": 8,
         "m_hpBasis": 1300,
-        "m_attackBasis": 65,
+        "m_attackBasis": 565,
         "m_hpGrow": 1,
         "m_attackGrow": 1,
         "m_type1": 10,
@@ -23,17 +23,17 @@
         "m_AIType": 0,
         "m_layerType": 0,
         "m_relativePosition": {
-          "x": 0.8,
-          "y": 0.0,
-          "z": -1.0,
-          "w": 0.0
+            "x": 0.800000011920929,
+            "y": 0.0,
+            "z": -1.0,
+            "w": 0.0
         },
         "m_FormationChanger": false,
         "m_skillIDs": [
             72,
             116
         ],
-        "m_stones" : [
+        "m_stones": [
             {
                 "m_isOpen": false,
                 "m_type": 1,
@@ -73,7 +73,7 @@
                 "m_state": 1,
                 "m_value": 111,
                 "m_stoneType": 0
-            },            
+            },
             {
                 "m_isOpen": true,
                 "m_type": 1,
