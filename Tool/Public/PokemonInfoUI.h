@@ -55,6 +55,14 @@ public:
 		return m_PokemonInfo_Desc.m_pokemonATK;
 	}
 
+	const _int Get_Exp() const {
+		return m_PokemonInfo_Desc.m_exp;
+	}
+
+	const _int Get_Level() const {
+		return m_PokemonInfo_Desc.m_pokemonLevel;
+	}
+
 private:
 	HRESULT Get_PokemonData();
 	HRESULT Get_NowMonsterData();

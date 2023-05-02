@@ -578,9 +578,16 @@ void CPokemonState_Manager::Free()
 	{
 		_int hpBasis = m_pPokemonInfoUI->Get_PokemonHP();
 		_int attackBasis = m_pPokemonInfoUI->Get_PokemonATK();
+		_int exp = m_pPokemonInfoUI->Get_Exp();
+		_int level = m_pPokemonInfoUI->Get_Level();
+		_uint pokemonNo = m_pPokemonInfoUI->Get_PokemonNo();
 
 		m_pNowMonster->Set_HpBasis(hpBasis);
 		m_pNowMonster->Set_AttackBasis(attackBasis);
+		m_pNowMonster->Set_Exp(exp);
+		m_pNowMonster->Set_Level(level);
+		m_pNowMonster->Set_PokemonNo(pokemonNo);
+
 		m_pNowMonster->Set_StoneDesses(m_pStoneEquipInfoUI->Get_StoneEquipDesc());
 		m_pNowMonster->Save_By_JsonFile(m_pNowMonster->Get_JsonPath().c_str());
 	}

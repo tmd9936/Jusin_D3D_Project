@@ -136,6 +136,18 @@ public:
 		m_PokemonDesc.m_stones = stones;
 	}
 
+	void		Set_Exp(const _uint& exp) {
+		m_PokemonDesc.m_exp = exp;
+	}
+
+	void		Set_Level(const _uint& level) {
+		m_PokemonDesc.m_level = level;
+	}
+
+	void		Set_PokemonNo(const _uint& pokemonNo) {
+		m_PokemonDesc.m_monsterNo = pokemonNo;
+	}
+
 public:
 	void					Do_Skill_By_Index(_uint skillindex, const _tchar* pLayer);
 
