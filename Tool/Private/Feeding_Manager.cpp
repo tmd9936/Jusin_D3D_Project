@@ -322,6 +322,8 @@ void CFeeding_Manager::Evolution_Tick(const _double& TimeDelta)
 	m_pNowMonsters.at(m_evolutionPokemonIndex)->Add_HpBasis(_int(88 + rand() % 150));
 	m_pNowMonsters.at(m_evolutionPokemonIndex)->LevelUp();
 
+	m_pNowMonsters.at(m_evolutionPokemonIndex)->Save_By_JsonFile(m_pNowMonsters.at(m_evolutionPokemonIndex)->Get_JsonPath().c_str());
+
 	m_pPokemonInfoUIs.at(m_evolutionPokemonIndex)->Init_PokemonData(m_evolutionPokemonIndex + 1);
 	// 나우몬스터를 먼저 바꾸고
 	// 그다음에 포켓몬 인포 UI를 바꾸기
