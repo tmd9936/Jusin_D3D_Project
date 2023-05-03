@@ -172,6 +172,9 @@ _uint CGetItemShowUI::GetStonesTick(const _double& TimeDelta)
 
 			if ((*iter)->Move_To_ViewPortPositoin(TimeDelta * 3.0, XMLoadFloat3(&alivePos), vUISize))
 			{
+				CGameInstance::GetInstance()->StopSound(SOUND_UI);
+				CGameInstance::GetInstance()->PlaySoundW(L"SE_SYS_STONE_REMOVE.ogg", Engine::SOUND_UI);
+
 				m_TextParts.at(m_StoneNumTextIndex)->Set_Text(to_wstring(m_StoneNum));
 
 				Safe_Release(*iter);
