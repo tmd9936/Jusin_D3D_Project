@@ -137,6 +137,8 @@ _uint CStage_Manager::LateTick(_double TimeDelta)
 			return 0; 
 		}
 
+		CGameInstance::GetInstance()->PlaySoundW(L"SE_BATTLE_MESSAGE_IN.ogg", Engine::SOUND_STAGE_UI);
+
 		if (nextSpawnIndex == 0)
 		{
 			if (m_pStageMessageInfo->Is_NoMessageState())
@@ -145,6 +147,8 @@ _uint CStage_Manager::LateTick(_double TimeDelta)
 				CEnemySpawnPoint::ENEMY_SPAWN_POINT_DESC desc = move(pEnemySpawnPoint->Get_EnemySpawnPointDesc());
 				if (nullptr != pEnemySpawnPoint)
 				{
+					CGameInstance::GetInstance()->PlaySoundW(L"SE_BATTLE_SPAWN.ogg", Engine::SOUND_STAGE_INFO);
+
 					m_pEnemyPack->Next_Spawn(desc.m_position, desc.m_spawnRadius);
 					m_pStageMessageInfo->Open_Message(L"야생 포켓몬이다!", 245.f);
 				}
@@ -169,6 +173,8 @@ _uint CStage_Manager::LateTick(_double TimeDelta)
 					CTransform* pTransform = pPlayer1->Get_As<CTransform>();
 					XMStoreFloat3(&desc.m_position, pTransform->Get_State(CTransform::STATE_POSITION));
 				}
+				CGameInstance::GetInstance()->PlaySoundW(L"SE_BATTLE_SPAWN.ogg", Engine::SOUND_STAGE_INFO);
+
 				m_pStageMessageInfo->Open_Message(L"포위당했다!", 260.f);
 			}
 			else if (CEnemySpawnPoint::TYPE::TYPE_BOSS_APPEARANCE == desc.m_type)
@@ -213,7 +219,10 @@ void CStage_Manager::Boss_DeadEffect(_bool isEnd, _fvector vPos)
 	CSkillEffect* pSkillEffect = nullptr;
 
 	if (false == isEnd)
+	{
+		CGameInstance::GetInstance()->PlaySoundW(L"SE_BATTLE_BOSS_DEAD.ogg", Engine::SOUND_EFFECT);
 		pSkillEffect = pEffect_Manager->CreateEffect(CEffect_Manager::m_damageBoss, L"Prototype_GameObject_SkillEffect", Get_LayerTag().c_str(), Get_Levelindex());
+	}
 	else
 	{
 		//m_pStageClearUI->Open_Message(L"STAGE CLEAR!", 290.f);
@@ -280,11 +289,14 @@ HRESULT CStage_Manager::Create_Get_Item(_fmatrix vStartWorldMatrix)
 		_int stoneTypeRandomValue = rand() % 2;
 		if (stoneTypeRandomValue == 0)
 		{
+			CGameInstance::GetInstance()->PlaySoundW(L"SE_BATTLE_PSTONE_GET_1.ogg", Engine::SOUND_ITEM_GET1);
 			stoneDesc.m_stoneType = CStone::TYPE_ATK;
 			lstrcpy(stoneDesc.m_UIDesc.m_TextureProtoTypeName, L"Prototype_Component_Texture_UI_Pstone_attack");
 		}
 		else
 		{
+			CGameInstance::GetInstance()->PlaySoundW(L"SE_BATTLE_PSTONE_GET_2.ogg", Engine::SOUND_ITEM_GET1);
+
 			stoneDesc.m_stoneType = CStone::TYPE_HP;
 			lstrcpy(stoneDesc.m_UIDesc.m_TextureProtoTypeName, L"Prototype_Component_Texture_UI_Pstone_defense");
 		}
@@ -303,6 +315,7 @@ HRESULT CStage_Manager::Create_Get_Item(_fmatrix vStartWorldMatrix)
 	}
 	else
 	{
+		CGameInstance::GetInstance()->PlaySoundW(L"SE_BATTLE_ITEM_GET_1.ogg", Engine::SOUND_ITEM_GET2);
 		CFood::FOOD_DESC foodDesc{};
 
 		_int randValue = rand() % 4;
