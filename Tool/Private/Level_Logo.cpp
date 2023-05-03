@@ -16,7 +16,7 @@ HRESULT CLevel_Logo::Initialize()
 {
 	g_BackBufferColor = m_LogoBackBufferColor;
 
-	CGameInstance::GetInstance()->PlayBGM(TEXT("BGM_BASE.ogg"));
+	CGameInstance::GetInstance()->PlayBGM(TEXT("BGM_Title.ogg"));
 
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 		return E_FAIL;
@@ -29,27 +29,38 @@ HRESULT CLevel_Logo::Initialize()
 
 void CLevel_Logo::Tick(_double TimeDelta)
 {
-	// ¾ÀÀÌµ¿
-	if (GetKeyState(VK_SPACE) & 0x8000)
+	if (m_bStartGoToBaseCamp)
 	{
-		CGameInstance* pGameInstance = CGameInstance::GetInstance();
-		Safe_AddRef(pGameInstance);
+		if (m_GoToBaseCampTimeTick >= m_GoToBaseCampTime)
+		{
+			CGameInstance* pGameInstance = CGameInstance::GetInstance();
+			Safe_AddRef(pGameInstance);
 
-		if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_BASECAMP))))
-			return;
+			if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_BASECAMP))))
+				return;
 
-		Safe_Release(pGameInstance);
+			Safe_Release(pGameInstance);
+		}
+
+		m_GoToBaseCampTimeTick += TimeDelta;
 	}
 
-	else if (MOUSE_TAB(MOUSE::LBTN))
+	if (!m_bStartGoToBaseCamp)
 	{
-		CGameInstance* pGameInstance = CGameInstance::GetInstance();
-		Safe_AddRef(pGameInstance);
+		// ¾ÀÀÌµ¿
+		if (GetKeyState(VK_SPACE) & 0x8000)
+		{
+			CGameInstance::GetInstance()->PlaySoundW(L"SE_GAME_START.ogg", Engine::SOUND_UI);
 
-		if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_BASECAMP))))
-			return;
+			m_bStartGoToBaseCamp = true;
+		}
 
-		Safe_Release(pGameInstance);
+		else if (MOUSE_TAB(MOUSE::LBTN))
+		{
+			CGameInstance::GetInstance()->PlaySoundW(L"SE_GAME_START.ogg", Engine::SOUND_UI);
+
+			m_bStartGoToBaseCamp = true;
+		}
 	}
 
 #ifdef _DEBUG

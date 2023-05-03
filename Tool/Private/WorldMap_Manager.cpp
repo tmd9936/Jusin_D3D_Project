@@ -305,7 +305,7 @@ void CWorldMap_Manager::Picking()
 
 		m_eCurState = MANAGER_OPEN_STATE_INFO;
 
-		CGameInstance::GetInstance()->PlaySoundW(L"SE_SYS_TOUCH_1.ogg", SOUND_UI_TEXTBOX);
+		CGameInstance::GetInstance()->PlaySoundW(L"SE_SYS_TOUCH_1.ogg", SOUND_UI);
 	}
 }
 
