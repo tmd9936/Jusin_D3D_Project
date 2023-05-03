@@ -38,6 +38,9 @@ protected:
 	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
 
 private:
+	void					Play_SignitureSound();
+
+private:
 	_float					m_MotionChangeDelay = { 3.f };
 	_float					m_CurMotionChangeDelayTime = { 0.f };
 
