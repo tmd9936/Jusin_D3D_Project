@@ -42,7 +42,7 @@ void CAABB::Tick(_fmatrix TransformMatrix)
 
 void CAABB::Draw(_vector vColor)
 {
-#ifdef _DEBUG
+#ifdef DEBUG_COMPONENT_RENDER
     DX::Draw(m_pBatch, *m_pAABB, vColor);
 #endif
 }

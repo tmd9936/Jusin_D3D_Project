@@ -3,9 +3,9 @@
         "ModelPrototypeTag": "Prototype_Component_Model_Pokemon_PM75",
         "ModelPrototypeLevelIndex": 0,
         "vPos": {
-            "x": 14.01162052154541,
+            "x": 21.01162052154541,
             "y": 0.5,
-            "z": 24.0,
+            "z": 18.0,
             "w": 1.0
         },
         "moveSpeed": 1.7999999523162842,

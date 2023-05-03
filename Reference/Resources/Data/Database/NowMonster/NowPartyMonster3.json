@@ -3,9 +3,9 @@
         "ModelPrototypeTag": "Prototype_Component_Model_Pokemon_PM8",
         "ModelPrototypeLevelIndex": 0,
         "vPos": {
-            "x": 14.01038646697998,
+            "x": 22.01038646697998,
             "y": 0.5,
-            "z": 24.0,
+            "z": 23.0,
             "w": 1.0
         },
         "moveSpeed": 1.7999999523162842,

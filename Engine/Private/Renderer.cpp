@@ -252,8 +252,8 @@ HRESULT CRenderer::Draw_RenderGroup()
 	//if (FAILED(Draw_GrayBlurY()))
 	//	return E_FAIL;
 
-	if (FAILED(Draw_Laplacian()))
-		return E_FAIL;
+	//if (FAILED(Draw_Laplacian()))
+	//	return E_FAIL;
 
 	if (FAILED(Draw_NonLight()))
 		return E_FAIL;
