@@ -26,6 +26,9 @@ public:
 public:
 	HRESULT			Change_StoneInfo(const CStone::STONE_DESC& desc);
 
+public:
+	void			Set_ShowStoneInfo(const _bool& bShowInfo);
+
 private:
 	_bool			m_bShowStoneInfo = { false };
 

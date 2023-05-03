@@ -111,6 +111,11 @@ HRESULT CStoneInfoUI::Change_StoneInfo(const CStone::STONE_DESC& desc)
 	return S_OK;
 }
 
+void CStoneInfoUI::Set_ShowStoneInfo(const _bool& bShowInfo)
+{
+	m_bShowStoneInfo = bShowInfo;
+}
+
 CStoneInfoUI* CStoneInfoUI::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 	CStoneInfoUI* pInstance = new CStoneInfoUI(pDevice, pContext);

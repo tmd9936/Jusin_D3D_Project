@@ -109,6 +109,11 @@ HRESULT CStageStoneResult::Render()
 
 void CStageStoneResult::OpenUI(vector<CStone::STONE_DESC>& stoneDesces)
 {
+	for (size_t i = 0; i < m_StoneInfoUIs.size(); ++i)
+	{
+		m_StoneInfoUIs.at(i)->Set_ShowStoneInfo(false);
+	}
+
 	for (size_t i = 0; i < stoneDesces.size(); ++i)
 	{
 		m_StoneInfoUIs.at(i)->Change_StoneInfo(stoneDesces.at(i));
