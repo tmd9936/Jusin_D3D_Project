@@ -365,7 +365,9 @@ PS_OUT PS_MAIN_DEFERRED_BLOOM_BLEND(PS_IN In)
 	}
 
 	if (vLaplacian.a >= 0.49f)
+	{
 		Out.vColor = vLaplacian;
+	}
 
 	return Out;
 }
@@ -375,11 +377,19 @@ PS_OUT PS_MAIN_DEFERRED_GRAY(PS_IN In)
 {
 	PS_OUT			Out = (PS_OUT)0;
 	
-	vector		vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+	vector		vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+	vector		vShade = g_ShadeTexture.Sample(LinearSampler, In.vTexUV);
 
-	float gray = dot(vColor.rgb, float3(0.299, 0.587, 0.114));
+	Out.vColor = vDiffuse * vShade;
 
-	Out.vColor = float4(gray, gray, gray, 1.f);
+	if (Out.vColor.a == 0.f)
+	{
+		Out.vColor = vDiffuse;
+	}
+
+	float gray = dot(Out.vColor.rgb, float3(0.299, 0.587, 0.114));
+
+	Out.vColor = float4(gray, gray, gray, 0.f);
 
 	return Out;
 }
@@ -396,7 +406,7 @@ float3 convolve(float3x3 kernel, texture2D tex, float2 uv)
 	{
 		for (int j = -1; j <= 1; j++)
 		{
-			result += tex.Sample(LinearSampler, uv + float2(i, j)) * kernel[i + 1][j + 1];
+			result += tex.Sample(BlurSampler, uv + float2(i / g_TexSize.x, j/ g_TexSize.y)) * kernel[i + 1][j + 1];
 		}
 	}
 	return result;
@@ -407,6 +417,10 @@ PS_OUT PS_MAIN_DEFERRED_LAPLACIAN(PS_IN In)
 	PS_OUT			Out = (PS_OUT)0;
 
 	//vector	vColor = g_BlurYTexture.Sample(LinearSampler, In.vTexUV);
+	vector		vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+	vector		vShade = g_ShadeTexture.Sample(LinearSampler, In.vTexUV);
+
+	Out.vColor = vDiffuse * vShade;
 
 	float3 result = convolve(Laplaciankernel, g_BlurYTexture, In.vTexUV);
 
@@ -421,7 +435,7 @@ PS_OUT PS_MAIN_DEFERRED_LAPLACIAN(PS_IN In)
 	{
 		outputColor = float4(0, 0, 0, 1); // set pixel to white (strong edge)
 	}
-	else if (edgeStrength > 0.03)
+	else if (edgeStrength > 0.05)
 	{
 		outputColor = float4(0, 0, 0, 1); // set pixel to gray (weak edge)
 	}

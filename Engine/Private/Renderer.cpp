@@ -748,6 +748,9 @@ HRESULT CRenderer::Draw_Gray()
 	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_Diffuse"), m_pShader, "g_DiffuseTexture")))
 		return E_FAIL;
 
+	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_Shade"), m_pShader, "g_ShadeTexture")))
+		return E_FAIL;
+
 	m_pShader->Begin(8);
 
 	m_pVIBuffer->Render();
@@ -866,7 +869,11 @@ HRESULT CRenderer::Draw_Laplacian()
 	if (FAILED(m_pShader->Set_RawValue("g_TexSize", &g_TexSize, sizeof(_float2))))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_GrayBlurY"), m_pShader, "g_BlurYTexture")))
+	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_Gray"), m_pShader, "g_BlurYTexture")))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_Diffuse"), m_pShader, "g_DiffuseTexture")))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_Shade"), m_pShader, "g_ShadeTexture")))
 		return E_FAIL;
 
 	m_pShader->Begin(9);

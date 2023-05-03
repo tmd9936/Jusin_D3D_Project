@@ -13,7 +13,7 @@
             "w": 1.0
         },
         "m_TextureProtoTypeLevel": 0,
-        "m_TextureProtoTypeName" : "Prototype_Component_Texture_BC_cauldron_base2",
+        "m_TextureProtoTypeName": "Prototype_Component_Texture_BC_cauldron_base2",
         "m_TextureParts": [
             {
                 "m_fX": -110.0,
@@ -23,8 +23,8 @@
                 "m_eType": 1,
                 "m_ShaderPass": 2,
                 "m_vColor": {
-                    "x": 0.2549,
-                    "y": 0.1098,
+                    "x": 0.2549000084400177,
+                    "y": 0.10980000346899033,
                     "z": 0.0,
                     "w": 1.0
                 },
@@ -40,8 +40,8 @@
                 "m_eType": 1,
                 "m_ShaderPass": 2,
                 "m_vColor": {
-                    "x": 0.2549,
-                    "y": 0.1098,
+                    "x": 0.2549000084400177,
+                    "y": 0.10980000346899033,
                     "z": 0.0,
                     "w": 1.0
                 },
@@ -57,8 +57,8 @@
                 "m_eType": 1,
                 "m_ShaderPass": 2,
                 "m_vColor": {
-                    "x": 0.2549,
-                    "y": 0.1098,
+                    "x": 0.2549000084400177,
+                    "y": 0.10980000346899033,
                     "z": 0.0,
                     "w": 1.0
                 },
@@ -74,8 +74,8 @@
                 "m_eType": 1,
                 "m_ShaderPass": 2,
                 "m_vColor": {
-                    "x": 0.2549,
-                    "y": 0.1098,
+                    "x": 0.2549000084400177,
+                    "y": 0.10980000346899033,
                     "z": 0.0,
                     "w": 1.0
                 },
@@ -91,8 +91,8 @@
                 "m_eType": 0,
                 "m_ShaderPass": 0,
                 "m_vColor": {
-                    "x": 0.2549,
-                    "y": 0.1098,
+                    "x": 0.2549000084400177,
+                    "y": 0.10980000346899033,
                     "z": 0.0,
                     "w": 1.0
                 },
@@ -105,49 +105,49 @@
             {
                 "m_fX": 45.0,
                 "m_fY": -75.0,
-                "m_vColor": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0,
-                    "w": 1.0
-                },
                 "m_Rotation": 0.0,
                 "m_vRotationOrigin": {
                     "x": 0.0,
                     "y": 0.0
                 },
                 "m_vScale": {
-                    "x": 0.68,
-                    "y": 0.60
+                    "x": 0.6800000071525574,
+                    "y": 0.6000000238418579
                 },
-                "m_FontTag": "Font_NanumBarunGothic", 
+                "m_vColor": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "m_FontTag": "Font_NanumBarunGothic",
                 "m_Text": "총 아이템 개수",
                 "LayerTag": "Layer_UI"
             },
             {
                 "m_fX": 270.0,
                 "m_fY": -75.0,
-                "m_vColor": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0,
-                    "w": 1.0
-                },
                 "m_Rotation": 0.0,
                 "m_vRotationOrigin": {
                     "x": 0.0,
                     "y": 0.0
                 },
                 "m_vScale": {
-                    "x": 0.70,
-                    "y": 0.62
+                    "x": 0.699999988079071,
+                    "y": 0.6200000047683716
                 },
-                "m_FontTag": "Font_NanumBarunGothic", 
-                "m_Text": "11",
+                "m_vColor": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "m_FontTag": "Font_NanumBarunGothic",
+                "m_Text": "10",
                 "LayerTag": "Layer_UI"
             }
         ],
-        "m_foodInfos" : [
+        "m_foodInfos": [
             4,
             2,
             3,
