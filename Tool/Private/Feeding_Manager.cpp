@@ -249,7 +249,7 @@ void CFeeding_Manager::Change_State()
 		case MANAGER_IDLE:
 			if (m_ePreState == MANAGER_EVOLUTION)
 			{
-				CGameInstance::GetInstance()->PlaySoundW(L"JGL_SHINKA_After.ogg", Engine::SOUND_UI);
+				CGameInstance::GetInstance()->PlaySoundW(L"JGL_SHINKA_After.ogg", Engine::SOUND_EFFECT);
 			}
 			m_eRenderId = RENDER_END;
 			m_pPickingFood->Set_RenderId(RENDER_END);
@@ -282,6 +282,8 @@ void CFeeding_Manager::Picking()
 		{
 			if (m_pFoodInventory->Check_Exist_Food_Is_In(m_ePickingFoodType, pt))
 			{
+				CGameInstance::GetInstance()->PlaySoundW(L"SE_SYS_TOUCH_2.ogg", SOUND_EFFECT);
+
 				m_pPickingFood->Change_FoodType(m_ePickingFoodType);
 				m_eCurState = MANAGER_FOOD_PICKING;
 			}
@@ -309,6 +311,8 @@ void CFeeding_Manager::Inventory_Food_Picking_Tick()
 				m_pPokemonInfoUIs.at(i)->Add_Exp((_int)1);
 
 				m_pFoodInventory->Add_FoodNums(m_ePickingFoodType, -1);
+
+				CGameInstance::GetInstance()->PlaySoundW(L"SE_SYS_FEED.ogg", SOUND_UI);
 
 				if (m_pPokemonInfoUIs.at(i)->Check_CanEvolution())
 				{

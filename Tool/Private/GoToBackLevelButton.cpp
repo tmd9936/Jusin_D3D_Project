@@ -42,6 +42,7 @@ _uint CGoToBackLevelButton::On_Idle()
 
 _uint CGoToBackLevelButton::On_Press()
 {
+	CGameInstance::GetInstance()->PlaySoundW(L"SE_SYS_SCENE_CHANGE_SHORT.ogg", SOUND_UI);
 	return 0;
 }
 

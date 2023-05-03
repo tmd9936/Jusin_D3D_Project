@@ -43,6 +43,7 @@ _uint CGoToWorldMapButton::On_Idle()
 
 _uint CGoToWorldMapButton::On_Press()
 {
+	CGameInstance::GetInstance()->PlaySoundW(L"SE_SYS_SCENE_CHANGE.ogg", SOUND_UI);
 	return 0;
 }
 
