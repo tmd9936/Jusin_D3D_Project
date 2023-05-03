@@ -61,6 +61,7 @@ private:
 	void							Inventory_Food_Picking_Tick();
 
 private:
+	void							Evolution_Change_State();
 	void							Evolution_Tick(const _double& TimeDelta);
 
 private:
@@ -80,6 +81,9 @@ private:
 	CFood::TYPE						m_ePickingFoodType = { CFood::TYPE_BLUE };
 
 	_uint							m_evolutionPokemonIndex = { 0 };
+
+	_double							m_evolutionTick = { 1.0 };
+	_double							m_evolutionTickAcc = { 0.0 };
 
 public:
 	static CFeeding_Manager* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

@@ -247,6 +247,10 @@ void CFeeding_Manager::Change_State()
 		switch (m_eCurState)
 		{
 		case MANAGER_IDLE:
+			if (m_ePreState == MANAGER_EVOLUTION)
+			{
+				CGameInstance::GetInstance()->PlaySoundW(L"JGL_SHINKA_After.ogg", Engine::SOUND_UI);
+			}
 			m_eRenderId = RENDER_END;
 			m_pPickingFood->Set_RenderId(RENDER_END);
 			break;
@@ -255,8 +259,7 @@ void CFeeding_Manager::Change_State()
 			m_pPickingFood->Set_RenderId(RENDER_UI);
 			break;
 		case MANAGER_EVOLUTION:
-			m_eRenderId = RENDER_END;
-			m_pPickingFood->Set_RenderId(RENDER_END);
+			Evolution_Change_State();
 			break;
 		}
 
@@ -321,8 +324,13 @@ void CFeeding_Manager::Inventory_Food_Picking_Tick()
 	}
 }
 
-void CFeeding_Manager::Evolution_Tick(const _double& TimeDelta)
+void CFeeding_Manager::Evolution_Change_State()
 {
+	CGameInstance::GetInstance()->PlaySoundW(L"JGL_SHINKA_SE.ogg", Engine::SOUND_UI);
+	m_eRenderId = RENDER_END;
+	m_pPickingFood->Set_RenderId(RENDER_END);
+	m_evolutionTickAcc = 0.0;
+
 	_uint pokemonNo = m_pPokemonInfoUIs.at(m_evolutionPokemonIndex)->Get_PokemonNo();
 
 	m_pNowMonsters.at(m_evolutionPokemonIndex)->Set_PokemonNo(pokemonNo + 1);
@@ -337,8 +345,17 @@ void CFeeding_Manager::Evolution_Tick(const _double& TimeDelta)
 
 	m_pPokemonInfoUIs.at(m_evolutionPokemonIndex)->StartDisolve();
 	m_pPokemonInfoUIs.at(m_evolutionPokemonIndex)->Init_PokemonData(m_evolutionPokemonIndex + 1);
+}
 
-	m_eCurState = MANAGER_IDLE;
+void CFeeding_Manager::Evolution_Tick(const _double& TimeDelta)
+{
+	if (m_evolutionTickAcc >= m_evolutionTick)
+	{
+		m_eCurState = MANAGER_IDLE;
+
+	}
+
+	m_evolutionTickAcc += TimeDelta;
 }
 
 
