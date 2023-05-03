@@ -304,6 +304,8 @@ void CWorldMap_Manager::Picking()
 		m_FocusPosition = _float4(stagePointDesc.vPos.x, stagePointDesc.vPos.y, stagePointDesc.vPos.z, 1.f);
 
 		m_eCurState = MANAGER_OPEN_STATE_INFO;
+
+		CGameInstance::GetInstance()->PlaySoundW(L"SE_SYS_TOUCH_1.ogg", SOUND_UI_TEXTBOX);
 	}
 }
 

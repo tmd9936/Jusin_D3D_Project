@@ -44,6 +44,7 @@ _uint CGoToStageButton::On_Idle()
 
 _uint CGoToStageButton::On_Press()
 {
+	CGameInstance::GetInstance()->PlaySoundW(L"SE_WORLD_STAGE_ENTER.ogg", SOUND_UI);
 
 	return 0;
 }
