@@ -1751,6 +1751,10 @@ HRESULT CLoader::Loading_ForBaseCampLevel()
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/skill_Icon/button_skill_iwa_rokkukatto.dds")))))
 			return E_FAIL;
 
+		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_skura_Trail"),
+		//	CTexture::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/Texture/Trail/skura_Trail.dds")))))
+		//	return E_FAIL;
+
 	}
 	wsprintf(m_szLoadingText, TEXT("텍스쳐를 로딩중입니다."));
 	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_BASECAMP, TEXT("Prototype_Component_Texture_BaseCamp_GoToWorldMap_Button"),

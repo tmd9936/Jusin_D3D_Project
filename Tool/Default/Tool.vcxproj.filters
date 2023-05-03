@@ -241,9 +241,6 @@
     <Filter Include="02. GameObject\Stage\Stage_Manager">
       <UniqueIdentifier>{f9181186-3e40-444d-844c-59f79f2504a3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\BaseCamp\Effect">
-      <UniqueIdentifier>{bb4e3f47-2239-4e6e-a6b8-0d3cc108fad7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\Static\ConditionData">
       <UniqueIdentifier>{02f09a0a-3dc9-4d41-aa08-88c11b8a79ab}</UniqueIdentifier>
     </Filter>
@@ -351,6 +348,9 @@
     </Filter>
     <Filter Include="02. GameObject\Feeding\Feeding_Manager">
       <UniqueIdentifier>{5de53d96-99b5-4268-85af-e3a33768fa5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\BaseCamp\InstanceEffect">
+      <UniqueIdentifier>{bb4e3f47-2239-4e6e-a6b8-0d3cc108fad7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -586,7 +586,7 @@
       <Filter>02. GameObject\Stage\Stage_Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Effect_Sakura.h">
-      <Filter>02. GameObject\BaseCamp\Effect</Filter>
+      <Filter>02. GameObject\BaseCamp\InstanceEffect</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\ConditionData.h">
       <Filter>02. GameObject\Static\ConditionData</Filter>
@@ -925,7 +925,7 @@
       <Filter>02. GameObject\Stage\Stage_Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Effect_Sakura.cpp">
-      <Filter>02. GameObject\BaseCamp\Effect</Filter>
+      <Filter>02. GameObject\BaseCamp\InstanceEffect</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\ConditionData.cpp">
       <Filter>02. GameObject\Static\ConditionData</Filter>
