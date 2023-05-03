@@ -406,7 +406,7 @@ float3 convolve(float3x3 kernel, texture2D tex, float2 uv)
 	{
 		for (int j = -1; j <= 1; j++)
 		{
-			result += tex.Sample(BlurSampler, uv + float2(i / g_TexSize.x, j/ g_TexSize.y)) * kernel[i + 1][j + 1];
+			result += tex.Sample(LinearSampler, uv + float2(i / g_TexSize.x, j/ g_TexSize.y)) * kernel[i + 1][j + 1];
 		}
 	}
 	return result;
@@ -427,11 +427,11 @@ PS_OUT PS_MAIN_DEFERRED_LAPLACIAN(PS_IN In)
 	float edgeStrength = length(result);
 
 	float4 outputColor;
-	if (edgeStrength > 0.1)
+	if (edgeStrength > 0.2)
 	{
 		outputColor = float4(0, 0, 0, 0); // set pixel to black (non-edge)
 	}
-	else if (edgeStrength > 0.09)
+	else if (edgeStrength > 0.15)
 	{
 		outputColor = float4(0, 0, 0, 1); // set pixel to white (strong edge)
 	}
@@ -610,7 +610,7 @@ technique11		DefaultTechnique
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Not_ZTest_Not_ZWrite, 0);
-		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+		SetBlendState(BS_Add_One, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
