@@ -137,7 +137,6 @@ _uint CStage_Manager::LateTick(_double TimeDelta)
 			return 0; 
 		}
 
-		CGameInstance::GetInstance()->PlaySoundW(L"SE_BATTLE_MESSAGE_IN.ogg", Engine::SOUND_STAGE_UI);
 
 		if (nextSpawnIndex == 0)
 		{
@@ -147,7 +146,7 @@ _uint CStage_Manager::LateTick(_double TimeDelta)
 				CEnemySpawnPoint::ENEMY_SPAWN_POINT_DESC desc = move(pEnemySpawnPoint->Get_EnemySpawnPointDesc());
 				if (nullptr != pEnemySpawnPoint)
 				{
-					CGameInstance::GetInstance()->PlaySoundW(L"SE_BATTLE_SPAWN.ogg", Engine::SOUND_STAGE_INFO);
+					CGameInstance::GetInstance()->PlaySoundW(L"SE_BATTLE_MESSAGE_IN.ogg", Engine::SOUND_STAGE_UI);
 
 					m_pEnemyPack->Next_Spawn(desc.m_position, desc.m_spawnRadius);
 					m_pStageMessageInfo->Open_Message(L"야생 포켓몬이다!", 245.f);
@@ -162,6 +161,8 @@ _uint CStage_Manager::LateTick(_double TimeDelta)
 
 			if (CEnemySpawnPoint::TYPE::TYPE_NORMAL_APPEARANCE == desc.m_type)
 			{
+				CGameInstance::GetInstance()->PlaySoundW(L"SE_BATTLE_MESSAGE_IN.ogg", Engine::SOUND_STAGE_UI);
+
 				m_pStageMessageInfo->Open_Message(L"새로운 포켓몬이 나타났다!", 180.f);
 				m_pMainCamera->Set_Move_To_Point(pEnemySpawnPoint, false);
 			}
@@ -173,12 +174,15 @@ _uint CStage_Manager::LateTick(_double TimeDelta)
 					CTransform* pTransform = pPlayer1->Get_As<CTransform>();
 					XMStoreFloat3(&desc.m_position, pTransform->Get_State(CTransform::STATE_POSITION));
 				}
+				CGameInstance::GetInstance()->PlaySoundW(L"SE_BATTLE_MESSAGE_IN.ogg", Engine::SOUND_STAGE_UI);
 				CGameInstance::GetInstance()->PlaySoundW(L"SE_BATTLE_SPAWN.ogg", Engine::SOUND_STAGE_INFO);
 
 				m_pStageMessageInfo->Open_Message(L"포위당했다!", 260.f);
 			}
 			else if (CEnemySpawnPoint::TYPE::TYPE_BOSS_APPEARANCE == desc.m_type)
 			{
+				CGameInstance::GetInstance()->PlaySoundW(L"SE_BATTLE_MESSAGE_IN.ogg", Engine::SOUND_STAGE_UI);
+
 				m_pStageMessageInfo->Open_Message(L"강해 보이는 포켓몬이 나타났다!", 150.f);
 				m_pMainCamera->Set_Move_To_Point(pEnemySpawnPoint, true);
 			}
