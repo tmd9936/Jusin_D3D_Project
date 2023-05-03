@@ -387,7 +387,7 @@ PS_OUT PS_MAIN_DEFERRED_GRAY(PS_IN In)
 		Out.vColor = vDiffuse;
 	}
 
-	float gray = dot(Out.vColor.rgb, float3(0.299, 0.587, 0.114));
+	float gray = dot(vDiffuse.rgb, float3(0.299, 0.587, 0.114));
 
 	Out.vColor = float4(gray, gray, gray, 0.f);
 
@@ -406,7 +406,7 @@ float3 convolve(float3x3 kernel, texture2D tex, float2 uv)
 	{
 		for (int j = -1; j <= 1; j++)
 		{
-			result += tex.Sample(LinearSampler, uv + float2(i / g_TexSize.x, j/ g_TexSize.y)) * kernel[i + 1][j + 1];
+			result += tex.Sample(LinearSampler, uv + float2(i / (g_TexSize.x), j/ (g_TexSize.y))) * kernel[i + 1][j + 1];
 		}
 	}
 	return result;
@@ -427,17 +427,17 @@ PS_OUT PS_MAIN_DEFERRED_LAPLACIAN(PS_IN In)
 	float edgeStrength = length(result);
 
 	float4 outputColor;
-	if (edgeStrength > 0.2)
+	if (edgeStrength > 0.03)
 	{
-		outputColor = float4(0, 0, 0, 0); // set pixel to black (non-edge)
+		outputColor = float4(0, 0, 0, 1); // set pixel to black (non-edge)
 	}
-	else if (edgeStrength > 0.15)
+	else if (edgeStrength > 0.09)
 	{
-		outputColor = float4(0, 0, 0, 1); // set pixel to white (strong edge)
+		outputColor = float4(0.1, 0.1, 0.1, 1); // set pixel to white (strong edge)
 	}
-	else if (edgeStrength > 0.05)
+	else if (edgeStrength > 0.1)
 	{
-		outputColor = float4(0, 0, 0, 1); // set pixel to gray (weak edge)
+		outputColor = float4(0, 0, 0, 0); // set pixel to gray (weak edge)
 	}
 	else
 	{
@@ -610,7 +610,7 @@ technique11		DefaultTechnique
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Not_ZTest_Not_ZWrite, 0);
-		SetBlendState(BS_Add_One, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;

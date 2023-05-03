@@ -246,11 +246,11 @@ HRESULT CRenderer::Draw_RenderGroup()
 	if (FAILED(Draw_Gray()))
 		return E_FAIL;
 
-	if (FAILED(Draw_GrayBlurX()))
-		return E_FAIL;
+	//if (FAILED(Draw_GrayBlurX()))
+	//	return E_FAIL;
 
-	if (FAILED(Draw_GrayBlurY()))
-		return E_FAIL;
+	//if (FAILED(Draw_GrayBlurY()))
+	//	return E_FAIL;
 
 	if (FAILED(Draw_Laplacian()))
 		return E_FAIL;
@@ -694,6 +694,16 @@ HRESULT CRenderer::Draw_DeferredNonLightBlend()
 	if (nullptr == m_pVIBuffer)
 		return E_FAIL;
 
+	_uint				iNumViewports = 1;
+	D3D11_VIEWPORT		ViewportDesc;
+	ZeroMemory(&ViewportDesc, sizeof ViewportDesc);
+
+	m_pContext->RSGetViewports(&iNumViewports, &ViewportDesc);
+
+	XMStoreFloat4x4(&m_WorldMatrix, XMMatrixScaling(ViewportDesc.Width, ViewportDesc.Height, 1.f));
+	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
+	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(ViewportDesc.Width, ViewportDesc.Height, 0.0f, 1.f));
+
 	/* 백버퍼에 그린다. */
 	if (FAILED(m_pShader->Set_Matrix("g_WorldMatrix", &m_WorldMatrix)))
 		return E_FAIL;
@@ -847,6 +857,16 @@ HRESULT CRenderer::Draw_Laplacian()
 	if (nullptr == m_pTarget_Manager)
 		return E_FAIL;
 
+	_uint				iNumViewports = 1;
+	D3D11_VIEWPORT		ViewportDesc;
+	ZeroMemory(&ViewportDesc, sizeof ViewportDesc);
+
+	m_pContext->RSGetViewports(&iNumViewports, &ViewportDesc);
+
+	XMStoreFloat4x4(&m_WorldMatrix, XMMatrixScaling(ViewportDesc.Width * 3.f, ViewportDesc.Height * 3.f, 1.f));
+	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
+	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(ViewportDesc.Width * 3.f, ViewportDesc.Height * 3.f, 0.0f, 1.f));
+
 	/* Blur */
 	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_Laplacian"))))
 		return E_FAIL;
@@ -859,13 +879,7 @@ HRESULT CRenderer::Draw_Laplacian()
 	if (FAILED(m_pShader->Set_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
 
-	_uint				iNumViewports = 1;
-	D3D11_VIEWPORT		ViewportDesc;
-	ZeroMemory(&ViewportDesc, sizeof ViewportDesc);
-
-	m_pContext->RSGetViewports(&iNumViewports, &ViewportDesc);
-
-	_float2 g_TexSize = { ViewportDesc.Width, ViewportDesc.Height };
+	_float2 g_TexSize = { ViewportDesc.Width * 3.f, ViewportDesc.Height * 3.f };
 	if (FAILED(m_pShader->Set_RawValue("g_TexSize", &g_TexSize, sizeof(_float2))))
 		return E_FAIL;
 
