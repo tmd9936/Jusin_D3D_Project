@@ -33,6 +33,9 @@ texture2D		g_BloomOriginTexture;
 
 float2			g_TexSize;
 
+texture2D		g_GrayTexture;
+texture2D		g_LaplacianTexture;
+
 
 sampler LinearSampler = sampler_state
 {
@@ -342,6 +345,7 @@ PS_OUT PS_MAIN_DEFERRED_BLOOM_BLEND(PS_IN In)
 	vector		vShade = g_ShadeTexture.Sample(LinearSampler, In.vTexUV);
 	vector		vBloomOriginColor = g_BloomOriginTexture.Sample(LinearSampler, In.vTexUV);
 	vector		vBloomColor = g_BloomTexture.Sample(LinearSampler, In.vTexUV);
+	vector		vLaplacian = g_LaplacianTexture.Sample(LinearSampler, In.vTexUV);
 
 	Out.vColor = vDiffuse * vShade;
 
@@ -360,9 +364,77 @@ PS_OUT PS_MAIN_DEFERRED_BLOOM_BLEND(PS_IN In)
 		Out.vColor = pow(abs(Out.vColor), 1 / 2.2f);
 	}
 
+	if (vLaplacian.a >= 0.49f)
+		Out.vColor = vLaplacian;
+
 	return Out;
 }
 
+
+PS_OUT PS_MAIN_DEFERRED_GRAY(PS_IN In)
+{
+	PS_OUT			Out = (PS_OUT)0;
+	
+	vector		vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+
+	float gray = dot(vColor.rgb, float3(0.299, 0.587, 0.114));
+
+	Out.vColor = float4(gray, gray, gray, 1.f);
+
+	return Out;
+}
+
+float3x3 Laplaciankernel = float3x3(
+	0, -1, 0,
+	-1, 4, -1,
+	0, -1, 0);
+
+float3 convolve(float3x3 kernel, texture2D tex, float2 uv)
+{
+	float3 result = 0;
+	for (int i = -1; i <= 1; i++)
+	{
+		for (int j = -1; j <= 1; j++)
+		{
+			result += tex.Sample(LinearSampler, uv + float2(i, j)) * kernel[i + 1][j + 1];
+		}
+	}
+	return result;
+}
+
+PS_OUT PS_MAIN_DEFERRED_LAPLACIAN(PS_IN In)
+{
+	PS_OUT			Out = (PS_OUT)0;
+
+	//vector	vColor = g_BlurYTexture.Sample(LinearSampler, In.vTexUV);
+
+	float3 result = convolve(Laplaciankernel, g_BlurYTexture, In.vTexUV);
+
+	float edgeStrength = length(result);
+
+	float4 outputColor;
+	if (edgeStrength > 0.1)
+	{
+		outputColor = float4(0, 0, 0, 0); // set pixel to black (non-edge)
+	}
+	else if (edgeStrength > 0.09)
+	{
+		outputColor = float4(0, 0, 0, 1); // set pixel to white (strong edge)
+	}
+	else if (edgeStrength > 0.03)
+	{
+		outputColor = float4(0, 0, 0, 1); // set pixel to gray (weak edge)
+	}
+	else
+	{
+		outputColor = float4(0, 0, 0, 0); // set pixel to black (non-edge)
+	}
+
+
+	Out.vColor = outputColor;
+
+	return Out;
+}
 
 RasterizerState RS_Default
 {
@@ -403,7 +475,7 @@ BlendState BS_Add_One
 
 technique11		DefaultTechnique
 {
-	pass Debug
+	pass Debug // 0
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Default, 0);
@@ -416,7 +488,7 @@ technique11		DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN();
 	}
 
-	pass LightAcc_Directional
+	pass LightAcc_Directional // 1
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Not_ZTest_Not_ZWrite, 0);
@@ -429,7 +501,7 @@ technique11		DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN_LIGHT_DIRECTIONAL();
 	}
 
-	pass LightAcc_Point
+	pass LightAcc_Point  // 2
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Not_ZTest_Not_ZWrite, 0);
@@ -442,7 +514,7 @@ technique11		DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN_LIGHT_POINT();
 	}
 
-	pass Deferred_Blend
+	pass Deferred_Blend  // 3
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Not_ZTest_Not_ZWrite, 0);
@@ -455,7 +527,7 @@ technique11		DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN_DEFERRED_BLEND();
 	}
 
-	pass Deferred_Bright
+	pass Deferred_Bright  // 4
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Not_ZTest_Not_ZWrite, 0);
@@ -468,7 +540,7 @@ technique11		DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN_DEFERRED_BRIGHT();
 	}
 
-	pass Deferred_BlurX
+	pass Deferred_BlurX  // 5
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Not_ZTest_Not_ZWrite, 0);
@@ -481,7 +553,7 @@ technique11		DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN_DEFERRED_BLURX();
 	}
 
-	pass Deferred_BlurY
+	pass Deferred_BlurY  // 6
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Not_ZTest_Not_ZWrite, 0);
@@ -494,7 +566,7 @@ technique11		DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN_DEFERRED_BLURY();
 	}
 
-	pass Deferred_Bloom_Blend
+	pass Deferred_Bloom_Blend  // 7
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Not_ZTest_Not_ZWrite, 0);
@@ -506,4 +578,31 @@ technique11		DefaultTechnique
 		DomainShader = NULL;
 		PixelShader = compile ps_5_0 PS_MAIN_DEFERRED_BLOOM_BLEND();
 	}
+
+	pass Deferred_Gray  // 8
+	{
+		SetRasterizerState(RS_Default);
+		SetDepthStencilState(DSS_Not_ZTest_Not_ZWrite, 0);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		HullShader = NULL;
+		DomainShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_DEFERRED_GRAY();
+	}
+
+	pass Deferred_Laplacian  // 9
+	{
+		SetRasterizerState(RS_Default);
+		SetDepthStencilState(DSS_Not_ZTest_Not_ZWrite, 0);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		HullShader = NULL;
+		DomainShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_DEFERRED_LAPLACIAN();
+	}
+
 }

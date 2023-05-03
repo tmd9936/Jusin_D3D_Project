@@ -43,6 +43,22 @@ HRESULT CRenderer::Initialize_Prototype()
 		TEXT("Target_NonLightDiffuse"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
+		TEXT("Target_Gray"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
+		TEXT("Target_GrayBlurX"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
+		TEXT("Target_GrayBlurY"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
+		TEXT("Target_Laplacian"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
+
 	/* For.Target_Normal */
 	/*
 	* float이 4바이트인데 2바이트인데
@@ -114,6 +130,21 @@ HRESULT CRenderer::Initialize_Prototype()
 
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_BlurY"), TEXT("Target_BlurY"))))
 		return E_FAIL;
+
+	// ==  외곽선 검출
+
+	// === 이펙트 디퍼드
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Gray"), TEXT("Target_Gray"))))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GrayBlurX"), TEXT("Target_GrayBlurX"))))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GrayBlurY"), TEXT("Target_GrayBlurY"))))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Laplacian"), TEXT("Target_Laplacian"))))
+		return E_FAIL;
 	
 
 	XMStoreFloat4x4(&m_WorldMatrix, XMMatrixScaling(ViewportDesc.Width, ViewportDesc.Height, 1.f));
@@ -133,26 +164,39 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Diffuse"), 50.f, 50.f, 100.f, 100.f)))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Normal"), 50.f, 150.f, 100.f, 100.f)))
-		return E_FAIL;
+	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Normal"), 50.f, 150.f, 100.f, 100.f)))
+	//	return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Depth"), 50.f, 250.f, 100.f, 100.f)))
-		return E_FAIL;
+	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Depth"), 50.f, 250.f, 100.f, 100.f)))
+	//	return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Shade"), 150.f, 50.f, 100.f, 100.f)))
-		return E_FAIL;
+	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Shade"), 150.f, 50.f, 100.f, 100.f)))
+	//	return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BrightColor"), 250.f, 50.f, 100.f, 100.f)))
-		return E_FAIL;
+	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BrightColor"), 250.f, 50.f, 100.f, 100.f)))
+	//	return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BlurX"), 250.f, 150.f, 100.f, 100.f)))
-		return E_FAIL;
+	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BlurX"), 250.f, 150.f, 100.f, 100.f)))
+	//	return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BlurY"), 250.f, 250.f, 100.f, 100.f)))
-		return E_FAIL;
+	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BlurY"), 250.f, 250.f, 100.f, 100.f)))
+	//	return E_FAIL;
 
 	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Specular"), 150.f, 150.f, 100.f, 100.f)))
 	//	return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Gray"), 50.f, 150.f, 100.f, 100.f)))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_GrayBlurX"), 50.f, 250.f, 100.f, 100.f)))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_GrayBlurY"), 50.f, 350.f, 100.f, 100.f)))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Laplacian"), 150.f, 50.f, 100.f, 100.f)))
+		return E_FAIL;
+
 #endif // _DEBUG
 
 	return S_OK;
@@ -199,8 +243,17 @@ HRESULT CRenderer::Draw_RenderGroup()
 	if (FAILED(Draw_LightAcc()))
 		return E_FAIL;
 
-	//if (FAILED(Draw_DeferredBlend()))
-	//	return E_FAIL;
+	if (FAILED(Draw_Gray()))
+		return E_FAIL;
+
+	if (FAILED(Draw_GrayBlurX()))
+		return E_FAIL;
+
+	if (FAILED(Draw_GrayBlurY()))
+		return E_FAIL;
+
+	if (FAILED(Draw_Laplacian()))
+		return E_FAIL;
 
 	if (FAILED(Draw_NonLight()))
 		return E_FAIL;
@@ -573,6 +626,16 @@ HRESULT CRenderer::Draw_BlurX()
 	if (FAILED(m_pShader->Set_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
 
+	_uint				iNumViewports = 1;
+	D3D11_VIEWPORT		ViewportDesc;
+	ZeroMemory(&ViewportDesc, sizeof ViewportDesc);
+
+	m_pContext->RSGetViewports(&iNumViewports, &ViewportDesc);
+
+	_float2 g_TexSize = { ViewportDesc.Width, ViewportDesc.Height };
+	if (FAILED(m_pShader->Set_RawValue("g_TexSize", &g_TexSize, sizeof(_float2))))
+		return E_FAIL;
+
 	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_BrightColor"), m_pShader, "g_BrightTexture")))
 		return E_FAIL;
 
@@ -601,6 +664,16 @@ HRESULT CRenderer::Draw_BlurY()
 	if (FAILED(m_pShader->Set_Matrix("g_ViewMatrix", &m_ViewMatrix)))
 		return E_FAIL;
 	if (FAILED(m_pShader->Set_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+		return E_FAIL;
+
+	_uint				iNumViewports = 1;
+	D3D11_VIEWPORT		ViewportDesc;
+	ZeroMemory(&ViewportDesc, sizeof ViewportDesc);
+
+	m_pContext->RSGetViewports(&iNumViewports, &ViewportDesc);
+
+	_float2 g_TexSize = { ViewportDesc.Width, ViewportDesc.Height };
+	if (FAILED(m_pShader->Set_RawValue("g_TexSize", &g_TexSize, sizeof(_float2))))
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_BlurX"), m_pShader, "g_BlurXTexture")))
@@ -644,10 +717,164 @@ HRESULT CRenderer::Draw_DeferredNonLightBlend()
 	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_BrightColor"), m_pShader, "g_BloomOriginTexture")))
 		return E_FAIL;
 
+	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_Laplacian"), m_pShader, "g_LaplacianTexture")))
+		return E_FAIL;
+
 
 	m_pShader->Begin(7);
 
 	m_pVIBuffer->Render();
+
+	return S_OK;
+}
+
+HRESULT CRenderer::Draw_Gray()
+{
+	if (nullptr == m_pTarget_Manager)
+		return E_FAIL;
+
+	/* Blur */
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_Gray"))))
+		return E_FAIL;
+
+	/* Shade 타겟에 그리는 작업을 수행한다. */
+	if (FAILED(m_pShader->Set_Matrix("g_WorldMatrix", &m_WorldMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_Diffuse"), m_pShader, "g_DiffuseTexture")))
+		return E_FAIL;
+
+	m_pShader->Begin(8);
+
+	m_pVIBuffer->Render();
+
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CRenderer::Draw_GrayBlurX()
+{
+	if (nullptr == m_pTarget_Manager)
+		return E_FAIL;
+
+	/* Blur */
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_GrayBlurX"))))
+		return E_FAIL;
+
+	/* Shade 타겟에 그리는 작업을 수행한다. */
+	if (FAILED(m_pShader->Set_Matrix("g_WorldMatrix", &m_WorldMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+		return E_FAIL;
+
+	_uint				iNumViewports = 1;
+	D3D11_VIEWPORT		ViewportDesc;
+	ZeroMemory(&ViewportDesc, sizeof ViewportDesc);
+
+	m_pContext->RSGetViewports(&iNumViewports, &ViewportDesc);
+
+	_float2 g_TexSize = { ViewportDesc.Width, ViewportDesc.Height };
+	if (FAILED(m_pShader->Set_RawValue("g_TexSize", &g_TexSize, sizeof(_float2))))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_Gray"), m_pShader, "g_BrightTexture")))
+		return E_FAIL;
+
+	m_pShader->Begin(5);
+
+	m_pVIBuffer->Render();
+
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CRenderer::Draw_GrayBlurY()
+{
+	if (nullptr == m_pTarget_Manager)
+		return E_FAIL;
+
+	/* Blur */
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_GrayBlurY"))))
+		return E_FAIL;
+
+	/* Shade 타겟에 그리는 작업을 수행한다. */
+	if (FAILED(m_pShader->Set_Matrix("g_WorldMatrix", &m_WorldMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+		return E_FAIL;
+
+	_uint				iNumViewports = 1;
+	D3D11_VIEWPORT		ViewportDesc;
+	ZeroMemory(&ViewportDesc, sizeof ViewportDesc);
+
+	m_pContext->RSGetViewports(&iNumViewports, &ViewportDesc);
+
+	_float2 g_TexSize = { ViewportDesc.Width, ViewportDesc.Height };
+	if (FAILED(m_pShader->Set_RawValue("g_TexSize", &g_TexSize, sizeof(_float2))))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_GrayBlurX"), m_pShader, "g_BlurXTexture")))
+		return E_FAIL;
+
+	m_pShader->Begin(6);
+
+	m_pVIBuffer->Render();
+
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+
+HRESULT CRenderer::Draw_Laplacian()
+{
+	if (nullptr == m_pTarget_Manager)
+		return E_FAIL;
+
+	/* Blur */
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_Laplacian"))))
+		return E_FAIL;
+
+	/* Shade 타겟에 그리는 작업을 수행한다. */
+	if (FAILED(m_pShader->Set_Matrix("g_WorldMatrix", &m_WorldMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+		return E_FAIL;
+
+	_uint				iNumViewports = 1;
+	D3D11_VIEWPORT		ViewportDesc;
+	ZeroMemory(&ViewportDesc, sizeof ViewportDesc);
+
+	m_pContext->RSGetViewports(&iNumViewports, &ViewportDesc);
+
+	_float2 g_TexSize = { ViewportDesc.Width, ViewportDesc.Height };
+	if (FAILED(m_pShader->Set_RawValue("g_TexSize", &g_TexSize, sizeof(_float2))))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_GrayBlurY"), m_pShader, "g_BlurYTexture")))
+		return E_FAIL;
+
+	m_pShader->Begin(9);
+
+	m_pVIBuffer->Render();
+
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -662,11 +889,15 @@ HRESULT CRenderer::Render_Debug()
 	m_pShader->Set_Matrix("g_ProjMatrix", &m_ProjMatrix);
 
 	m_pTarget_Manager->Render_MRT(TEXT("MRT_Deferred"), m_pShader, m_pVIBuffer);
-	m_pTarget_Manager->Render_MRT(TEXT("MRT_LightAcc"), m_pShader, m_pVIBuffer);
-	m_pTarget_Manager->Render_MRT(TEXT("MRT_Bright"), m_pShader, m_pVIBuffer);
-	m_pTarget_Manager->Render_MRT(TEXT("MRT_BlurX"), m_pShader, m_pVIBuffer);
-	m_pTarget_Manager->Render_MRT(TEXT("MRT_BlurY"), m_pShader, m_pVIBuffer);
+	//m_pTarget_Manager->Render_MRT(TEXT("MRT_LightAcc"), m_pShader, m_pVIBuffer);
+	//m_pTarget_Manager->Render_MRT(TEXT("MRT_Bright"), m_pShader, m_pVIBuffer);
+	//m_pTarget_Manager->Render_MRT(TEXT("MRT_BlurX"), m_pShader, m_pVIBuffer);
+	//m_pTarget_Manager->Render_MRT(TEXT("MRT_BlurY"), m_pShader, m_pVIBuffer);
 
+	m_pTarget_Manager->Render_MRT(TEXT("MRT_Gray"), m_pShader, m_pVIBuffer);
+	m_pTarget_Manager->Render_MRT(TEXT("MRT_GrayBlurX"), m_pShader, m_pVIBuffer);
+	m_pTarget_Manager->Render_MRT(TEXT("MRT_GrayBlurY"), m_pShader, m_pVIBuffer);
+	m_pTarget_Manager->Render_MRT(TEXT("MRT_Laplacian"), m_pShader, m_pVIBuffer);
 
 	return S_OK;
 }

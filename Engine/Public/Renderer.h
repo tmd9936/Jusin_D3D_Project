@@ -72,6 +72,12 @@ private:
 	HRESULT	Draw_BlurY();
 	HRESULT	Draw_DeferredNonLightBlend();
 
+private:
+	HRESULT	Draw_Gray();
+	HRESULT	Draw_GrayBlurX();
+	HRESULT	Draw_GrayBlurY();
+
+	HRESULT	Draw_Laplacian();
 
 #ifdef _DEBUG
 private:
