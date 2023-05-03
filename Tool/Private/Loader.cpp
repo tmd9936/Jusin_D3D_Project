@@ -805,6 +805,11 @@ _uint APIENTRY LoadingStaticShader()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxInstance"),
 			CShader::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxInstance.hlsl"), VTXINSTANCE_DECLARATION::Elements, VTXINSTANCE_DECLARATION::iNumElements))))
 			return E_FAIL;
+
+		/* For.Prototype_Component_Shader_VtxInstance */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxPointInstance"),
+			CShader::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), TEXT("../../Reference/Resources/ShaderFiles/Shader_VtxPointInstance.hlsl"), VTXPOINTINSTANCE_DECLARATION::Elements, VTXPOINTINSTANCE_DECLARATION::iNumElements))))
+			return E_FAIL;
 	}
 	
 	CThreadPool::GetInstance()->JobEnd();
@@ -1240,6 +1245,12 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		/* For.Prototype_Component_VIBuffer_Rect_Instance */
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect_Instance"),
 			CVIBuffer_Rect_Instance::Create(m_pDevice, m_pContext, 100))))
+			return E_FAIL;
+
+
+		/* For.Prototype_Component_VIBuffer_Point_Instance */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Point_Instance"),
+			CVIBuffer_Point_Instance::Create(m_pDevice, m_pContext, 300))))
 			return E_FAIL;
 
 		/* For.Prototype_Component_VIBuffer_Trail */

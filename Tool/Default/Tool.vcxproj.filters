@@ -1067,6 +1067,9 @@
     <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_Deferred.hlsl">
       <Filter>97. ShaderFiles</Filter>
     </FxCompile>
+    <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_VtxPointInstance.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\imgui\CMakeLists.txt">

@@ -184,6 +184,9 @@
     <Filter Include="01. Utility\03. Component\VIBuffer\Trail">
       <UniqueIdentifier>{34dc9d5e-48b2-4ecb-8643-0e43e17477ff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\03. Component\VIBuffer\Instancing\Point">
+      <UniqueIdentifier>{d374c90e-a5ff-4bf8-9a28-f40ba26c41bb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Engine_Defines.h">
@@ -375,6 +378,9 @@
     <ClInclude Include="..\Public\VIBuffer_Trail.h">
       <Filter>01. Utility\03. Component\VIBuffer\Trail</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_Point_Instance.h">
+      <Filter>01. Utility\03. Component\VIBuffer\Instancing\Point</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -550,6 +556,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_Trail.cpp">
       <Filter>01. Utility\03. Component\VIBuffer\Trail</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_Point_Instance.cpp">
+      <Filter>01. Utility\03. Component\VIBuffer\Instancing\Point</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
