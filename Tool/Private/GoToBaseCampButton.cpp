@@ -43,6 +43,9 @@ _uint CGoToBaseCampButton::On_Idle()
 
 _uint CGoToBaseCampButton::On_Press()
 {
+	CGameInstance::GetInstance()->PlaySoundW(L"SE_SYS_SCENE_CHANGE.ogg", SOUND_UI);
+	CGameInstance::GetInstance()->PlaySoundW(L"SE_SYS_TOUCH_1.ogg", SOUND_UI_TEXTBOX);
+
 	return 0;
 }
 

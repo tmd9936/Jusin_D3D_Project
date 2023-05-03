@@ -65,7 +65,6 @@ _uint CGoToMonStateButton::On_Press()
 	CGameInstance::GetInstance()->PlaySoundW(L"SE_SYS_SCENE_CHANGE_SHORT_MB.ogg", SOUND_UI);
 	CGameInstance::GetInstance()->PlaySoundW(L"SE_SYS_TOUCH_1.ogg", SOUND_UI_TEXTBOX);
 
-
 	return 0;
 }
 
