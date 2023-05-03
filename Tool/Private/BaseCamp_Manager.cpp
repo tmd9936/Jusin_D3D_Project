@@ -47,6 +47,8 @@ HRESULT CBaseCamp_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex
 		pTransform->Set_Pos(22.f, 0.5f, 13.5f);
 	}
 
+	m_CookSoundTimeTick = 14.0;
+
 	return S_OK;
 }
 
@@ -75,6 +77,8 @@ HRESULT CBaseCamp_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex
 		CTransform* pTransform = pPlayer1->Get_As<CTransform>();
 		pTransform->Set_Pos(22.f, 0.5f, 13.5f);
 	}
+
+	m_CookSoundTimeTick = 14.0;
 
 	return S_OK;
 }
@@ -178,6 +182,7 @@ void CBaseCamp_Manager::State_Tick(const _double& TimeDelta)
 	switch (m_eCurState)
 	{
 	case MANAGER_IDLE:
+		Cook_SoundTick(TimeDelta);
 		break;
 	case MANAGER_CAMERA_FOCUS_IN:
 		Focus_In(TimeDelta);
@@ -198,6 +203,7 @@ void CBaseCamp_Manager::Change_State()
 		switch (m_eCurState)
 		{
 		case MANAGER_IDLE:
+			//m_CookSoundTimeTick = 0.0;
 			p_MainCamera->Control_On();
 			break;
 		case MANAGER_CAMERA_FOCUS_IN:
@@ -244,6 +250,17 @@ void CBaseCamp_Manager::Picking()
 
 		m_eCurState = MANAGER_CAMERA_FOCUS_IN;
 	}
+}
+
+void CBaseCamp_Manager::Cook_SoundTick(const _double& TimeDelta)
+{
+	if (m_CookSoundTimeTick >= m_CookSoundTime)
+	{
+		CGameInstance::GetInstance()->PlaySoundW(L"SE_BASE_COOK_METER.ogg", SOUND_EFFECT);
+		m_CookSoundTimeTick = 0.0;
+	}
+
+	m_CookSoundTimeTick += TimeDelta;
 }
 
 HRESULT CBaseCamp_Manager::Add_Components()

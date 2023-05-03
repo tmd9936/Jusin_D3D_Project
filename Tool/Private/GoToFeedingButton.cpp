@@ -40,7 +40,7 @@ _uint CGoToFeedingButton::On_Idle()
 
 _uint CGoToFeedingButton::On_Press()
 {
-	CGameInstance::GetInstance()->PlaySoundW(L"SE_SYS_SCENE_CHANGE_SHORT_MB.ogg", SOUND_UI);
+	CGameInstance::GetInstance()->PlaySoundW(L"SE_BASE_COOK_MENU_SE.ogg", SOUND_UI);
 	return 0;
 }
 
