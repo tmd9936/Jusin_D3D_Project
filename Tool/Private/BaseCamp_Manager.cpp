@@ -218,7 +218,7 @@ void CBaseCamp_Manager::Picking()
 {
 	if (MOUSE_TAB(MOUSE::LBTN) && CClient_Utility::Mouse_Pos_In_Platform() && m_eCurState == MANAGER_IDLE)
 	{
-		m_pPickingObject = m_pCalculator->Picking_Environment_Object(g_hWnd, L"Layer_Monster", LEVEL_BASECAMP);
+		m_pPickingObject = m_pCalculator->Picking_Environment_Object(g_hWnd, L"Layer_Player", LEVEL_BASECAMP);
 		if (nullptr == m_pPickingObject)
 			return;
 
@@ -227,6 +227,20 @@ void CBaseCamp_Manager::Picking()
 			return;
 
 		XMStoreFloat4(&m_FocusPosition, pTransform->Get_State(CTransform::STATE_POSITION));
+
+		CMonFSM* pMonFSM = m_pPickingObject->Get_As<CMonFSM>();
+		if (nullptr == pMonFSM)
+			return;
+
+		CModel* pModel = m_pPickingObject->Get_As<CModel>();
+		if (nullptr == pModel)
+			return;
+
+		_int randValue = rand() % 2;
+		if (0 == randValue)
+			pMonFSM->Transit_MotionState(CMonFSM::JOY, pModel);
+		else
+			pMonFSM->Transit_MotionState(CMonFSM::ROAR, pModel);
 
 		m_eCurState = MANAGER_CAMERA_FOCUS_IN;
 	}

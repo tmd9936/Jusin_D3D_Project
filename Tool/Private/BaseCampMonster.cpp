@@ -113,6 +113,11 @@ void CBaseCampMonster::Change_State_FSM(_uint eState)
 		Set_MovePosition();
 		break;
 
+	case CMonFSM::ROAR:
+		break;
+
+	case CMonFSM::JOY:
+		break;
 	//case CMonFSM::ROTATE_LOOP:
 	//	m_bTurn = true;
 	//	Set_MovePosition();
@@ -261,7 +266,20 @@ _uint CBaseCampMonster::State_Tick(const _double& TimeDelta)
 			Set_Dead();
 		}
 		break;
-
+	case CMonFSM::ROAR:
+		if (m_pModelCom->Play_Animation(TimeDelta))
+		{
+			MotionChange_Random();
+			Init_RandomMotionChangeDelay();
+		}
+		break;
+	case CMonFSM::JOY:
+		if (m_pModelCom->Play_Animation(TimeDelta))
+		{
+			MotionChange_Random();
+			Init_RandomMotionChangeDelay();
+		}
+		break;
 	//case CMonFSM::ROTATE_LOOP:
 	//	Go_To_RandomPosition(TimeDelta);
 	//	Check_Do_Change_RandomMotion(TimeDelta);
