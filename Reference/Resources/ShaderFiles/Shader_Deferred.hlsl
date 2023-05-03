@@ -352,6 +352,11 @@ PS_OUT PS_MAIN_DEFERRED_BLOOM_BLEND(PS_IN In)
 	if (Out.vColor.a == 0.f)
 		discard;
 
+	if (vLaplacian.a >= 0.49f)
+	{
+		Out.vColor = vLaplacian;
+	}
+	
 	if (vNonLightDiffuse.a != 0.f)
 	{
 		Out.vColor = vNonLightDiffuse;
@@ -364,10 +369,6 @@ PS_OUT PS_MAIN_DEFERRED_BLOOM_BLEND(PS_IN In)
 		Out.vColor = pow(abs(Out.vColor), 1 / 2.2f);
 	}
 
-	if (vLaplacian.a >= 0.49f)
-	{
-		Out.vColor = vLaplacian;
-	}
 
 	return Out;
 }
@@ -384,20 +385,30 @@ PS_OUT PS_MAIN_DEFERRED_GRAY(PS_IN In)
 
 	if (Out.vColor.a == 0.f)
 	{
-		Out.vColor = vDiffuse;
+		discard;
 	}
 
-	float gray = dot(vDiffuse.rgb, float3(0.299, 0.587, 0.114));
+	float gray = dot(vDiffuse.rgb, normalize(float3(1, -1, 1)));
 
 	Out.vColor = float4(gray, gray, gray, 0.f);
 
 	return Out;
 }
 
-float3x3 Laplaciankernel = float3x3(
+float3x3 Laplaciankernel1 = float3x3(
 	0, -1, 0,
 	-1, 4, -1,
 	0, -1, 0);
+
+float3x3 Laplaciankernel2 = float3x3(
+	0, -1, 0,
+	-1, 8, -1,
+	0, -1, 0);
+
+float3x3 Laplaciankernel3 = float3x3(
+	-1, -1, -1,
+	-1, 4, -1,
+	-1, -1, -1);
 
 float3 convolve(float3x3 kernel, texture2D tex, float2 uv)
 {
@@ -422,20 +433,20 @@ PS_OUT PS_MAIN_DEFERRED_LAPLACIAN(PS_IN In)
 
 	Out.vColor = vDiffuse * vShade;
 
-	float3 result = convolve(Laplaciankernel, g_BlurYTexture, In.vTexUV);
+	float3 result = convolve(Laplaciankernel1, g_BlurYTexture, In.vTexUV);
 
 	float edgeStrength = length(result);
 
 	float4 outputColor;
-	if (edgeStrength > 0.03)
+	if (edgeStrength > 0.05)
 	{
 		outputColor = float4(0, 0, 0, 1); // set pixel to black (non-edge)
 	}
-	else if (edgeStrength > 0.09)
+	else if (edgeStrength > 0.10)
 	{
 		outputColor = float4(0.1, 0.1, 0.1, 1); // set pixel to white (strong edge)
 	}
-	else if (edgeStrength > 0.1)
+	else if (edgeStrength > 0.15)
 	{
 		outputColor = float4(0, 0, 0, 0); // set pixel to gray (weak edge)
 	}
