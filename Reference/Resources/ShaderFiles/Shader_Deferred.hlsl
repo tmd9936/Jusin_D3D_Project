@@ -38,6 +38,9 @@ texture2D		g_LaplacianTexture;
 
 float4			g_bLaplacian;
 
+float			g_laplacianThesholdLow;
+float			g_laplacianThesholdHigh;
+
 sampler LinearSampler = sampler_state
 {
 	filter = min_mag_mip_linear;
@@ -442,7 +445,7 @@ PS_OUT PS_MAIN_DEFERRED_LAPLACIAN(PS_IN In)
 	float edgeStrength = length(result);
 
 	float4 outputColor;
-	if (edgeStrength > 0.05)
+	if (edgeStrength > g_laplacianThesholdLow)
 	{
 		outputColor = float4(0, 0, 0, 1); // set pixel to black (non-edge)
 	}
@@ -450,7 +453,7 @@ PS_OUT PS_MAIN_DEFERRED_LAPLACIAN(PS_IN In)
 	{
 		outputColor = float4(0.1, 0.1, 0.1, 1); // set pixel to white (strong edge)
 	}
-	else if (edgeStrength > 0.15)
+	else if (edgeStrength > g_laplacianThesholdHigh)
 	{
 		outputColor = float4(0, 0, 0, 0); // set pixel to gray (weak edge)
 	}

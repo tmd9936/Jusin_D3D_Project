@@ -10,6 +10,9 @@
 #include "PipeLine.h"
 
 _bool		CRenderer::m_bLaplacian = false;
+_float		CRenderer::m_laplacianThesholdLow = 0.03f;
+_float		CRenderer::m_laplacianThesholdHigh = 0.25f;
+
 
 CRenderer::CRenderer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner)
 	: CComponent(pDevice, pContext)
@@ -887,6 +890,12 @@ HRESULT CRenderer::Draw_Laplacian()
 
 	_float4 g_Laplacian = { 0.f, 0.f, 0.f, _float(m_bLaplacian) };
 	if (FAILED(m_pShader->Set_RawValue("g_bLaplacian", &g_Laplacian, sizeof(_float4))))
+		return E_FAIL;
+
+	if (FAILED(m_pShader->Set_RawValue("g_laplacianThesholdLow", &m_laplacianThesholdLow, sizeof(_float))))
+		return E_FAIL;
+
+	if (FAILED(m_pShader->Set_RawValue("g_laplacianThesholdHigh", &m_laplacianThesholdHigh, sizeof(_float))))
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_Gray"), m_pShader, "g_BlurYTexture")))

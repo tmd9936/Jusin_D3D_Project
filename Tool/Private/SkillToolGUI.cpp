@@ -119,6 +119,15 @@ void CSkillToolGUI::View_Debug()
 		{
 			CRenderer::m_bLaplacian = !CRenderer::m_bLaplacian;
 		}
+		if (ImGui::DragFloat("laplacianThesholdLow", &CRenderer::m_laplacianThesholdLow, 0.01f, 0.f, 1.f))
+		{
+			
+		}
+
+		if (ImGui::DragFloat("laplacianThesholdHigh", &CRenderer::m_laplacianThesholdHigh, 0.01f, 0.f, 1.f))
+		{
+			
+		}
 
 	}
 	ImGui::End();

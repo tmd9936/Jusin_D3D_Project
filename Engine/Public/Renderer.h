@@ -86,6 +86,8 @@ private:
 
 public:
 	static _bool				m_bLaplacian;
+	static _float				m_laplacianThesholdLow;
+	static _float				m_laplacianThesholdHigh;
 
 public:
 	static CRenderer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
