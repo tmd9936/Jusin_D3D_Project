@@ -39,7 +39,7 @@ HRESULT CHpBar::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pAr
 	XMStoreFloat4x4(&m_ProjMatrix,
 		XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
 
-	m_eRenderId = RENDER_UI;
+	m_eRenderId = RENDER_WORLD_UI;
 
 	return S_OK;
 }
