@@ -313,6 +313,7 @@ void CFeeding_Manager::Inventory_Food_Picking_Tick()
 				m_pFoodInventory->Add_FoodNums(m_ePickingFoodType, -1);
 
 				CGameInstance::GetInstance()->PlaySoundW(L"SE_SYS_FEED.ogg", SOUND_UI);
+				CGameInstance::GetInstance()->PlaySoundW(L"SE_SYS_EAT.ogg", SOUND_STAGE_UI);
 
 				if (m_pPokemonInfoUIs.at(i)->Check_CanEvolution())
 				{
