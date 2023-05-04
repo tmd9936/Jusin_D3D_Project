@@ -227,12 +227,16 @@ HRESULT CRenderer::Add_RenderGroup(RENDERGROUP eRenderGroup, CGameObject* pGameO
 
 HRESULT CRenderer::Add_DebugRenderGroup(CComponent* pComponent)
 {
+#ifdef DEBUG_COMPONENT_RENDER
+
 	if (nullptr == pComponent)
 		return E_FAIL;
 
 	m_DebugGroup.push_back(pComponent);
 
 	Safe_AddRef(pComponent);
+
+#endif
 
 	return S_OK;
 }
@@ -285,6 +289,9 @@ HRESULT CRenderer::Draw_RenderGroup()
 	//if (FAILED(Draw_DebugComponent()))
 	//	return E_FAIL;
 #endif
+
+	if (FAILED(Draw_World_UI()))
+		return E_FAIL;
 
 	if (FAILED(Draw_Back_UI()))
 		return E_FAIL;
@@ -404,6 +411,21 @@ HRESULT CRenderer::Draw_Blend()
 	return S_OK;
 }
 
+HRESULT CRenderer::Draw_World_UI()
+{
+	for (auto& pGameObject : m_RenderGroups[RENDER_WORLD_UI])
+	{
+		if (nullptr != pGameObject)
+			pGameObject->Render();
+
+		Safe_Release(pGameObject);
+	}
+
+	m_RenderGroups[RENDER_WORLD_UI].clear();
+
+	return S_OK;
+}
+
 HRESULT CRenderer::Draw_Back_UI()
 {
 	for (auto& pGameObject : m_RenderGroups[RENDER_BACK_UI])
@@ -451,12 +473,16 @@ HRESULT CRenderer::Draw_Blend_UI()
 
 HRESULT CRenderer::Draw_DebugComponent()
 {
+#ifdef DEBUG_COMPONENT_RENDER
+
+
 	for (auto& pDebugCom : m_DebugGroup)
 	{
 		pDebugCom->Render();
 		Safe_Release(pDebugCom);
 	}
 	m_DebugGroup.clear();
+#endif
 
 	return S_OK;
 }

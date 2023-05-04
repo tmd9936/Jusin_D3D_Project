@@ -15,7 +15,7 @@
         "m_maxExp": 3,
         "m_monsterNo": 8,
         "m_hpBasis": 1300,
-        "m_attackBasis": 565,
+        "m_attackBasis": 75,
         "m_hpGrow": 1,
         "m_attackGrow": 1,
         "m_type1": 10,

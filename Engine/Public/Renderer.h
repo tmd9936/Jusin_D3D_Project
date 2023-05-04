@@ -56,6 +56,9 @@ private: /* 그리는 그룹들에 따라 셋팅이 바뀌어야할 필요가 생길 수 있기때문에 그�
 	HRESULT Draw_NonLight_Bloom();
 
 	HRESULT Draw_Blend();
+
+	HRESULT Draw_World_UI();
+
 	HRESULT Draw_Back_UI();
 	HRESULT Draw_UI();
 	HRESULT Draw_Blend_UI();

@@ -195,11 +195,11 @@ void CStageEnemyMonster::On_CollisionEnter(CCollider* pOther, const _float& fX, 
 		{
 			if (fY > 0)
 			{
-				m_pTransformCom->Go_Left_ByNavigation(0.01666f, m_pNavigationCom);
+				m_pTransformCom->Go_Left_ByNavigation(0.008333f, m_pNavigationCom);
 			}
 			else if (fY < 0)
 			{
-				m_pTransformCom->Go_Right_ByNavigation(0.01666f, m_pNavigationCom);
+				m_pTransformCom->Go_Right_ByNavigation(0.008333f, m_pNavigationCom);
 			}
 		}
 
@@ -220,11 +220,11 @@ void CStageEnemyMonster::On_Collision(CCollider* pOther, const _float& fX, const
 		{
 			if (fY > 0)
 			{
-				m_pTransformCom->Go_Left_ByNavigation(0.01666f, m_pNavigationCom);
+				m_pTransformCom->Go_Left_ByNavigation(0.008333f, m_pNavigationCom);
 			}
 			else if (fY < 0)
 			{
-				m_pTransformCom->Go_Right_ByNavigation(0.01666f, m_pNavigationCom);
+				m_pTransformCom->Go_Right_ByNavigation(0.008333f, m_pNavigationCom);
 			}
 		}
 		Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
