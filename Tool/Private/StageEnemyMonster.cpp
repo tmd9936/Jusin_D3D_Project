@@ -191,6 +191,7 @@ void CStageEnemyMonster::On_CollisionEnter(CCollider* pOther, const _float& fX, 
 
 	if (pOtherOwner->Get_LayerTag().compare(L"Layer_Monster") == 0)
 	{
+		Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
 		if (false == m_StaySpawn)
 		{
 			if (fY > 0)
@@ -203,7 +204,6 @@ void CStageEnemyMonster::On_CollisionEnter(CCollider* pOther, const _float& fX, 
 			}
 		}
 
-		Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
 	}
 }
 
@@ -218,6 +218,7 @@ void CStageEnemyMonster::On_Collision(CCollider* pOther, const _float& fX, const
 	{
 		if (false == m_StaySpawn)
 		{
+			Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
 			if (fY > 0)
 			{
 				m_pTransformCom->Go_Left_ByNavigation(0.008333f, m_pNavigationCom);
@@ -227,7 +228,6 @@ void CStageEnemyMonster::On_Collision(CCollider* pOther, const _float& fX, const
 				m_pTransformCom->Go_Right_ByNavigation(0.008333f, m_pNavigationCom);
 			}
 		}
-		Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
 	}
 }
 
@@ -257,7 +257,7 @@ void CStageEnemyMonster::AI_Type_Long_Idle_Tick(const _double& TimeDelta, CTrans
 		if (targetToDistance <= 0.8f)
 		{
 			if (m_pTransformCom->Go_BackWard_Look_Pos(pTargetTransform->Get_State(CTransform::STATE_POSITION), m_pTransformCom->Get_State(CTransform::STATE_POSITION)
-				+ m_pTransformCom->Get_State(CTransform::STATE_LOOK) * -1.5f, _float(TimeDelta * 1.5), 1.1f, m_pNavigationCom))
+				+ m_pTransformCom->Get_State(CTransform::STATE_LOOK) * -1.5f, _float(TimeDelta * 1.5), 1.2f, m_pNavigationCom))
 			{
 			}
 		}
@@ -355,7 +355,7 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 				
 				if (m_PokemonDesc.m_AIType == AI_TYPE_SHORT_DISTACE)
 				{
-					if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta), 2.8f, m_pNavigationCom))
+					if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta), 2.6f, m_pNavigationCom))
 					{
 						m_pMonFSM->Transit_MotionState(CMonFSM::IDLE_GROUND, m_pModelCom);
 					}
@@ -408,7 +408,7 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 		{
 			//m_pTransformCom->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta * 1.5));
 
-			if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta * 1.2f), 1.3f, m_pNavigationCom))
+			if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta * 1.2f), 1.5f, m_pNavigationCom))
 			{
 				if (m_bCanAttack)
 				{

@@ -398,7 +398,7 @@ void CTransform::Go_Left_ByNavigation(_float TimeDelta, CNavigation* pNavigation
 			_vector vSlidePosition = Get_State(STATE_POSITION);
 			vSlidePosition -= vSlideLook * TimeDelta * m_TransformDesc.SpeedPerSec * m_SpeedPercent * 1.5f;
 
-			isMove = pNavigation->Move_OnNavigation(vSlidePosition);
+			isMove = pNavigation->Move_OnNavigation_Set_Y(vSlidePosition, computefY);
 			if (true == isMove)
 			{
 				Set_State(CTransform::STATE_POSITION, XMVectorSetY(vPosition, computefY + 0.5f));
@@ -410,7 +410,7 @@ void CTransform::Go_Left_ByNavigation(_float TimeDelta, CNavigation* pNavigation
 				_vector vSlidePosition = Get_State(STATE_POSITION);
 				vSlidePosition -= vSlideLook * TimeDelta * m_TransformDesc.SpeedPerSec * m_SpeedPercent * 1.5f;
 
-				isMove = pNavigation->Move_OnNavigation(vSlidePosition);
+				isMove = pNavigation->Move_OnNavigation_Set_Y(vSlidePosition, computefY);
 				if (true == isMove)
 				{
 					Set_State(CTransform::STATE_POSITION, XMVectorSetY(vPosition, computefY + 0.5f));

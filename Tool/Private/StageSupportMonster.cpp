@@ -130,14 +130,14 @@ void CStageSupportMonster::On_CollisionEnter(CCollider* pOther, const _float& fX
 	{
 		Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
 
-		if (fX > 0)
-		{
-			m_pTransformCom->Go_Left_ByNavigation(0.008333f, m_pNavigationCom);
-		}
-		else if (fX < 0)
-		{
-			m_pTransformCom->Go_Right_ByNavigation(0.008333f, m_pNavigationCom);
-		}
+		//if (fX > 0)
+		//{
+		//	m_pTransformCom->Go_Left_ByNavigation(0.008333f, m_pNavigationCom);
+		//}
+		//else if (fX < 0)
+		//{
+		//	m_pTransformCom->Go_Right_ByNavigation(0.008333f, m_pNavigationCom);
+		//}
 
 		if (m_FormationChanger)
 		{
@@ -162,14 +162,14 @@ void CStageSupportMonster::On_Collision(CCollider* pOther, const _float& fX, con
 	{
 		Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
 
-		if (fY > 0)
-		{
-			m_pTransformCom->Go_Left_ByNavigation(0.008333f, m_pNavigationCom);
-		}
-		else if (fY < 0)
-		{
-			m_pTransformCom->Go_Right_ByNavigation(0.008333f, m_pNavigationCom);
-		}
+		//if (fY > 0)
+		//{
+		//	m_pTransformCom->Go_Left_ByNavigation(0.008333f, m_pNavigationCom);
+		//}
+		//else if (fY < 0)
+		//{
+		//	m_pTransformCom->Go_Right_ByNavigation(0.008333f, m_pNavigationCom);
+		//}
 
 		if (m_FormationChanger)
 		{
@@ -284,6 +284,11 @@ _uint CStageSupportMonster::State_Tick(const _double& TimeDelta)
 	{
 	case CMonFSM::FORMATION_NORMAL:
 		m_pModelCom->Play_Animation(TimeDelta);
+		if (1.2f >= m_pTransformCom->Get_DistanceFromTarget(m_pMainPlayerTransform->Get_State(CTransform::STATE_POSITION) + m_pFormationCom->Get_RelativePos()))
+		{
+			break;
+		}
+
 		if (2.0f <= m_pTransformCom->Get_DistanceFromTarget(m_pMainPlayerTransform->Get_State(CTransform::STATE_POSITION) + m_pFormationCom->Get_RelativePos()))
 		{
 			m_pMonFSM->Transit_MotionState(CMonFSM::FORMATION_RUN, m_pModelCom);
@@ -350,7 +355,7 @@ _uint CStageSupportMonster::State_Tick(const _double& TimeDelta)
 		{
 			//m_pTransformCom->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta * 1.5));
 
-			if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta * 1.2f), 1.4f, m_pNavigationCom))
+			if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta * 1.2f), 1.6f, m_pNavigationCom))
 			{
 				if (m_bCanAttack)
 				{

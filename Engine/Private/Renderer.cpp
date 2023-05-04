@@ -9,9 +9,9 @@
 
 #include "PipeLine.h"
 
-_bool		CRenderer::m_bLaplacian = false;
-_float		CRenderer::m_laplacianThesholdLow = 0.03f;
-_float		CRenderer::m_laplacianThesholdHigh = 0.25f;
+_bool		CRenderer::m_bLaplacian = true;
+_float		CRenderer::m_laplacianThesholdLow = 0.39f;
+_float		CRenderer::m_laplacianThesholdHigh = 0.71f;
 
 
 CRenderer::CRenderer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner)
