@@ -71,12 +71,16 @@ void CSearcher::On_Collision(CCollider* pOther, const _float& fX, const _float& 
 
 void CSearcher::On_CollisionEnter(CCollider* pOther,  const _float& fX, const _float& fY, const _float& fZ)
 {
-	m_eCollisionState = COLLISION_STATE_ENTER;
+	if (nullptr != pOther)
+	{
+		m_pTarget = pOther->Get_Owner();
+		m_eCollisionState = COLLISION_STATE_ENTER;
+	}
 }
 
 void CSearcher::On_CollisionExit(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
 {
-	m_eCollisionState = COLLISION_STATE_EXIT;
+		m_eCollisionState = COLLISION_STATE_EXIT;
 }
 
 

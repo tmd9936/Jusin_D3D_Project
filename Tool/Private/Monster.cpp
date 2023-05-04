@@ -587,7 +587,9 @@ _bool CMonster::Search_Target()
 {
 	if (nullptr == m_pSearcher)
 		return false;
-	if (CSearcher::COLLISION_STATE_ENTER == m_pSearcher->Get_Collision_State() || CSearcher::COLLISION_STATE_ON == m_pSearcher->Get_Collision_State())
+	if (CSearcher::COLLISION_STATE_ENTER == m_pSearcher->Get_Collision_State() 
+		|| CSearcher::COLLISION_STATE_ON == m_pSearcher->Get_Collision_State()
+		|| CSearcher::COLLISION_STATE_EXIT == m_pSearcher->Get_Collision_State())
 	{
 		return true;
 	}
