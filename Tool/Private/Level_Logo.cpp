@@ -16,7 +16,7 @@ HRESULT CLevel_Logo::Initialize()
 {
 	g_BackBufferColor = m_LogoBackBufferColor;
 
-	CGameInstance::GetInstance()->PlayBGM(TEXT("BGM_Title.ogg"));
+	//CGameInstance::GetInstance()->PlayBGM(TEXT("BGM_Title.ogg"));
 
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 		return E_FAIL;

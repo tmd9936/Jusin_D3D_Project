@@ -43,7 +43,7 @@ HRESULT CBackGround::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void
 	XMStoreFloat4x4(&m_ProjMatrix,
 		XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
 
-	CGameInstance::GetInstance()->StopAll();
+	//CGameInstance::GetInstance()->StopAll();
 
 	return S_OK;
 }

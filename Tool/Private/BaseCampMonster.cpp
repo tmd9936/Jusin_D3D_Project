@@ -239,7 +239,7 @@ void CBaseCampMonster::Play_SignitureSound()
 	}
 	sound += L".ogg";
 
-	CGameInstance::GetInstance()->PlaySoundW(sound.c_str(), SOUND_MONSTER);
+	CGameInstance::GetInstance()->PlaySoundW(sound.c_str(), SOUND_PLAYER);
 
 }
 

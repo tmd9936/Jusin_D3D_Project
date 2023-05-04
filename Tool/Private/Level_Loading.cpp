@@ -48,6 +48,11 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevelID)
 		Safe_Release(pGameInstance);
 	}
 
+	if (CGameInstance::GetInstance()->Get_Sound_Ready_Finish())
+	{
+		CGameInstance::GetInstance()->StopAll();
+	}
+
 	if (FAILED(Ready_Layer_UI(L"Layer_UI")))
 		return E_FAIL;
 
@@ -135,8 +140,6 @@ HRESULT CLevel_Loading::Ready_Layer_UI(const _tchar* pLayerTag)
 
 	if (FAILED(pGameInstance->Add_Layer(LEVEL_LOADING, pLayerTag)))
 		return E_FAIL;
-
-	CGameInstance::GetInstance()->StopAll();
 
 	CModelUI::UI_DESC desc = {};
 	desc.m_fSizeX = g_iWinSizeX >> 1;
