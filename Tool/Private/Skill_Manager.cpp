@@ -443,6 +443,8 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 			return E_FAIL;
 		pTransform->LookAt(XMVectorSetW(vLook, 1.f));
 
+		CGameInstance::GetInstance()->PlaySoundW(L"SE_SKILL_Zyumanborruto.ogg", Engine::SOUND_SKILL_EFFECT0);
+
 		Safe_Release(pSkillEffect);
 	}
 	else if (skillType == 58) // ½ºÆÄÅ©
@@ -469,6 +471,8 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 		Set_AttackPower(pSkillEffect, _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f)));
 
 		Safe_Release(pSkillEffect);
+
+		CGameInstance::GetInstance()->PlaySoundW(L"SE_SKILL_Spark.ogg", Engine::SOUND_SKILL_EFFECT0);
 	}
 	else if (skillType == 72) // ³Ãµ¿ºö
 	{
@@ -965,6 +969,8 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 		Set_AttackPower(pSkillEffect, _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f)));
 
 		Safe_Release(pSkillEffect);
+
+		CGameInstance::GetInstance()->PlaySoundW(L"SE_SKILL_Borutotakkuru.ogg", Engine::SOUND_SKILL_EFFECT3);
 	}
 	else
 	{
