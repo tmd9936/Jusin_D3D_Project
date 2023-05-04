@@ -60,6 +60,8 @@ private:
 
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 던진다. */
 
+	void	Play_Sound(const _uint& effectType);
+
 public:
 	constexpr static _uint m_damageEffect00 = 31;
 	constexpr static _uint m_damageEffect01 = 32;

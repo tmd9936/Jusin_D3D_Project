@@ -188,6 +188,7 @@ CSkillEffect* CEffect_Manager::CreateEffect(_uint effectType, const _tchar* pEff
 	wstring	FilePath = m_EffectFilePath + effect_Desc.m_effectPath + L".fbx";
 	effect_Desc.m_ProtoTypeTag = L"Prototype_Component_Model_" + effect_Desc.m_effectPath;
 
+
 	//std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
 	//if (false == pGameInstance->Check_Prototype(effect_Desc.m_ProtoTypeTag))
 	//{
@@ -203,6 +204,7 @@ CSkillEffect* CEffect_Manager::CreateEffect(_uint effectType, const _tchar* pEff
 		(CGameObject**)&pSkillEffect, nullptr, &effect_Desc)))
 		return nullptr;
 
+	Play_Sound(effectType);
 	Safe_Release(pGameInstance);
 
 	return pSkillEffect;
@@ -327,6 +329,31 @@ HRESULT CEffect_Manager::SetUp_ShaderResources()
 {
 
 	return S_OK;
+}
+
+void CEffect_Manager::Play_Sound(const _uint& effectType)
+{
+	switch (effectType)
+	{
+	case 188:
+		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_Mahi.ogg", Engine::SOUND_GET_DEBUFF2);
+		break;
+	case 189:
+		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_Doku.ogg", Engine::SOUND_GET_DEBUFF3);
+		break;
+	case 193:
+		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_Buff.ogg", Engine::SOUND_GET_BUFF);
+		break;
+	case 194:
+		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_DeBuff.ogg", Engine::SOUND_GET_DEBUFF1);
+		break;
+	case 202:
+		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_Conran.ogg", Engine::SOUND_GET_DEBUFF0);
+		break;
+	case 203:
+		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_Freeze.ogg", Engine::SOUND_GET_DEBUFF0);
+		break;
+	}
 }
 
 CEffect_Manager* CEffect_Manager::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const char* filePath)

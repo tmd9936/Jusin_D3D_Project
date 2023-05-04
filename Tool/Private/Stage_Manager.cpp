@@ -831,12 +831,12 @@ void CStage_Manager::Change_State_Open_State_Info()
 		m_pStoneInventory->Add_StoneData(iter);
 	}
 
-
 	for (size_t i = 0; i < foodDatas.size(); ++i)
 	{
 		m_pFoodInventory->Add_FoodNums(CFood::TYPE(i), foodDatas.at(i));
 	}
 
+	CGameInstance::GetInstance()->PlaySoundW(L"SE_SYS_WINDOW.ogg", Engine::SOUND_STAGE_INFO);
 	//pGameInstance->Layer_Tick_State_Change(L"Layer_Inventory", LEVEL_STAGE, true);
 	//m_pStoneInventory->All_Object_RenderOff();
 	//m_pStoneInventory->Set_RenderId(RENDER_END);
