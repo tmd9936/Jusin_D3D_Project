@@ -114,6 +114,12 @@ void CSkillToolGUI::View_Debug()
 		Reload_Skill_Data(); ImGui::SameLine();
 		Reload_Effect_Data();
 		View_PlayerPos();
+
+		if (ImGui::Button("Laplacian[ON/OFF]"))
+		{
+			CRenderer::m_bLaplacian = !CRenderer::m_bLaplacian;
+		}
+
 	}
 	ImGui::End();
 }

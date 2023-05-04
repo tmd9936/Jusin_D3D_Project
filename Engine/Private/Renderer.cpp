@@ -9,6 +9,8 @@
 
 #include "PipeLine.h"
 
+_bool		CRenderer::m_bLaplacian = false;
+
 CRenderer::CRenderer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner)
 	: CComponent(pDevice, pContext)
 	, m_pTarget_Manager(CTarget_Manager::GetInstance())
@@ -252,9 +254,9 @@ HRESULT CRenderer::Draw_RenderGroup()
 	//if (FAILED(Draw_GrayBlurY()))
 	//	return E_FAIL;
 
-	//if (FAILED(Draw_Laplacian()))
-	//	return E_FAIL;
-
+	if (FAILED(Draw_Laplacian()))
+		return E_FAIL;
+	
 	if (FAILED(Draw_NonLight()))
 		return E_FAIL;
 
@@ -881,6 +883,10 @@ HRESULT CRenderer::Draw_Laplacian()
 
 	_float2 g_TexSize = { ViewportDesc.Width * 3.f, ViewportDesc.Height * 3.f };
 	if (FAILED(m_pShader->Set_RawValue("g_TexSize", &g_TexSize, sizeof(_float2))))
+		return E_FAIL;
+
+	_float4 g_Laplacian = { 0.f, 0.f, 0.f, _float(m_bLaplacian) };
+	if (FAILED(m_pShader->Set_RawValue("g_bLaplacian", &g_Laplacian, sizeof(_float4))))
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_Gray"), m_pShader, "g_BlurYTexture")))

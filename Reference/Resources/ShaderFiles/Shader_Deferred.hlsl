@@ -36,6 +36,7 @@ float2			g_TexSize;
 texture2D		g_GrayTexture;
 texture2D		g_LaplacianTexture;
 
+float4			g_bLaplacian;
 
 sampler LinearSampler = sampler_state
 {
@@ -352,9 +353,12 @@ PS_OUT PS_MAIN_DEFERRED_BLOOM_BLEND(PS_IN In)
 	if (Out.vColor.a == 0.f)
 		discard;
 
-	if (vLaplacian.a >= 0.49f)
+	if (g_bLaplacian.a >= 0.5f)
 	{
-		Out.vColor = vLaplacian;
+		if (vLaplacian.a >= 0.49f)
+		{
+			Out.vColor = vLaplacian;
+		}
 	}
 	
 	if (vNonLightDiffuse.a != 0.f)
