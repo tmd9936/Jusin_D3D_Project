@@ -40,6 +40,8 @@ HRESULT CBaseCampMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex,
 	//m_pTransformCom->Set_PositinoX(_float(rand() % 5 + 17.5f));
 	//m_pTransformCom->Set_PositionZ(_float(rand() % 5 + 17.5f));
 
+	m_pTransformCom->Set_TransforDesc({ 0.5f, 1.2f });
+
 	m_pHpBar->Set_RenderId(RENDER_END);
 	return S_OK;
 }
@@ -54,6 +56,8 @@ HRESULT CBaseCampMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex,
 	/*m_pTransformCom->Set_PositionY(0.5f);
 	m_pTransformCom->Set_PositinoX(_float(rand() % 5 + 20.5f));
 	m_pTransformCom->Set_PositionZ(_float(rand() % 5 + 20.5f));*/
+
+	m_pTransformCom->Set_TransforDesc({ 0.5f, 1.2f });
 
 	m_pHpBar->Set_RenderId(RENDER_END);
 
