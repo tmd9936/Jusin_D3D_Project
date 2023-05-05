@@ -94,6 +94,12 @@ BlendState BS_AlphaBlend
 	BlendOp = add;
 };
 
+/* For.Blend State  */
+BlendState BS_Shadow
+{
+	BlendEnable[0] = false;
+	RenderTargetWriteMask[0] = 0;
+};
 
 bool ShouldDiscard(float2 coords, float2 dimensions, float radius)
 {

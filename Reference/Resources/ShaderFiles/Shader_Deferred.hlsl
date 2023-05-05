@@ -50,7 +50,7 @@ float			g_laplacianThesholdHigh;
 
 sampler ShadowDepthSampler = sampler_state
 {
-	filter = min_mag_point_mip_linear;
+	filter = min_mag_linear_mip_point;
 
 	AddressU = clamp;
 	AddressV = clamp;
@@ -697,7 +697,7 @@ PS_OUT PS_MAIN_DEFERRED_BLOOM_BLEND(PS_IN In)
 
 	vector		vShadowDepthInfo = g_ShadowDepthTexture.Sample(ShadowDepthSampler, vNewUV);
 
-	if (vPosition.z - 0.1f > vShadowDepthInfo.r * 500.f)
+	if (vPosition.z - 0.1f > vShadowDepthInfo.r * g_CameraFar)
 		Out.vColor = float4(0.15f, 0.15f, 0.15f, 1.f);
 
 	if (g_bLaplacian.a >= 0.5f)

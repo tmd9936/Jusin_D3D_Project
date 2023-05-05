@@ -86,7 +86,7 @@ HRESULT CTarget_Manager::Begin_MRT(ID3D11DeviceContext* pContext, const _tchar* 
 HRESULT CTarget_Manager::End_MRT(ID3D11DeviceContext* pContext)
 {
 	/*https://rockeracer.tistory.com/58 텍스쳐 해제 경고 해결*/
-	ID3D11ShaderResourceView* pSRV[8] = { nullptr };
+	ID3D11ShaderResourceView* pSRV[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 	pContext->PSSetShaderResources(0, m_CurBeginRederTargetNum, pSRV);
 
 	pContext->OMSetRenderTargets(1, &m_pBackBufferView, m_pDepthStencilView);
