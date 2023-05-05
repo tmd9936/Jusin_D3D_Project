@@ -849,6 +849,11 @@ HRESULT CMonster::SetUp_ShaderResources()
 		&cameraFar, sizeof(_float))))
 		return E_FAIL;
 
+	_float shadow = 1.f;
+	if (FAILED(m_pShaderCom->Set_RawValue("g_shadow",
+		&shadow, sizeof(_float))))
+		return E_FAIL;
+
 	Safe_Release(pGameInstance);
 
 	return S_OK;
@@ -868,6 +873,7 @@ HRESULT CMonster::SetUp_Shadow_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_Matrix("g_ProjMatrix",
 		&pGameInstance->Get_LightProjMatrix())))
 		return E_FAIL;
+
 
 	Safe_Release(pGameInstance);
 

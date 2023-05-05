@@ -10,6 +10,8 @@ float			g_Ratio;
 float			g_CameraFar;
 float			g_LightFar = 500.f;
 
+float			g_shadow = 0.f;
+
 struct VS_IN
 {
 	float3		vPosition : POSITION;
@@ -159,7 +161,7 @@ PS_OUT_DEFERRED PS_MAIN_TOON(PS_IN In)
 	Out.vDiffuse = In.vColor * diffuse;
 
 	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f); // 디퍼드 셰이더에서 노말의 값을 0~1로 받기 때문에 이와같이 노말의 값을 변경함
-	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / g_CameraFar, 0.f, 0.f);
+	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / g_CameraFar, g_shadow, 0.f);
 
 	return Out;
 }
@@ -230,7 +232,7 @@ PS_OUT_SHADOW PS_MAIN_SHADOW(PS_IN_SHADOW In)
 
 	Out.vLightDepth.r = In.vProjPos.w / g_LightFar;
 
-	Out.vLightDepth.a = 1.f;
+	//Out.vLightDepth = In.vProjPos;
 
 	return Out;
 }

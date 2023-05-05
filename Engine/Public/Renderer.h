@@ -98,6 +98,13 @@ public:
 	static _float				m_laplacianThesholdLow;
 	static _float				m_laplacianThesholdHigh;
 
+private:
+	_uint						m_iOriginCX = { 0 };
+	_uint						m_iOriginCY = { 0 };
+
+	_uint						m_iShadowMapCX = { 0 };
+	_uint						m_iShadowMapCY = { 0 };
+
 public:
 	static CRenderer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CComponent* Clone(CGameObject* pOwner, void* pArg = nullptr) override;

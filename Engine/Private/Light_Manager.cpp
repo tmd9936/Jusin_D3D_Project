@@ -9,13 +9,13 @@ CLight_Manager::CLight_Manager()
 
 void CLight_Manager::Initialize()
 {
-    _vector	    vLightEye = XMVectorSet(5.f, -15.f, 5.f, 1.f);
-    _vector		vLightAt = XMVectorSet(60.f, 0.f, 60.f, 1.f);
+    _vector	    vLightEye = XMVectorSet(-50.f, 100.f, -50.f, 1.f);
+    _vector		vLightAt = XMVectorSet(20.f, 0.f, 20.f, 1.f);
     _vector		vLightUp = XMVectorSet(0.f, 1.f, 0.f, 0.f);
 
     XMStoreFloat4x4(&m_shadowDepthLightView, XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp));
 
-    XMStoreFloat4x4(&m_shadowDepthLightProj, XMMatrixPerspectiveFovLH(XMConvertToRadians(120.f), 930.f / 432.f, 10.0f, 500.f));
+    XMStoreFloat4x4(&m_shadowDepthLightProj, XMMatrixPerspectiveFovLH(XMConvertToRadians(90.f), 930.f / 432.f, 0.2f, 500.f));
 }
 
 _matrix CLight_Manager::Get_ShadowDepthLightView_Matrix() const

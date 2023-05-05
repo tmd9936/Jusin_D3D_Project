@@ -3,6 +3,7 @@
 
 #include "Target_Manager.h"
 #include "Light_Manager.h"
+#include "Graphic_Device.h"
 
 #include "Shader.h"
 #include "VIBuffer_Rect.h"
@@ -40,6 +41,10 @@ HRESULT CRenderer::Initialize_Prototype()
 	알파를 0.f으로 처리하고 디퍼드 셰이드를 할 때 알파가 0.f인 부분을 discard함, 빛 계산으로 알파가 0.f이 된 부분이 있을 수 있으니
 	그때는 알파를 1.f로 살림*/
 	/* For.Target_Diffuse */
+
+	m_iOriginCX = ViewportDesc.Width;
+	m_iOriginCY = ViewportDesc.Height;
+
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
 		TEXT("Target_Diffuse"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
@@ -101,13 +106,13 @@ HRESULT CRenderer::Initialize_Prototype()
 		TEXT("Target_BlurY"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 
-	_uint		iShadowMapCX = (_uint)ViewportDesc.Width;
-	_uint		iShadowMapCY = (_uint)ViewportDesc.Height;
+	m_iShadowMapCX = (_uint)ViewportDesc.Width * 10;
+	m_iShadowMapCY = (_uint)ViewportDesc.Height * 10;
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
-		TEXT("Target_ShadowDepth"), iShadowMapCX, iShadowMapCY, DXGI_FORMAT_R32G32B32A32_FLOAT, _float4(1.f, 1.f, 1.f, 1.f))))
+		TEXT("Target_ShadowDepth"), m_iShadowMapCX, m_iShadowMapCY, DXGI_FORMAT_R32G32B32A32_FLOAT, _float4(1.f, 1.f, 1.f, 1.f))))
 		return E_FAIL;
 
-	if (FAILED(Ready_DepthStencilRenderTargetView(iShadowMapCX, iShadowMapCY)))
+	if (FAILED(Ready_DepthStencilRenderTargetView(m_iShadowMapCX, m_iShadowMapCY)))
 		return E_FAIL;
 
 	//if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
@@ -261,10 +266,10 @@ HRESULT CRenderer::Draw_RenderGroup()
 	if (FAILED(Draw_Priority()))
 		return E_FAIL;
 
-	if (FAILED(Draw_NonBlend()))
+	if (FAILED(Draw_ShadowDepth()))
 		return E_FAIL;
 
-	if (FAILED(Draw_ShadowDepth()))
+	if (FAILED(Draw_NonBlend()))
 		return E_FAIL;
 
 	if (FAILED(Draw_LightAcc()))
@@ -344,6 +349,17 @@ HRESULT CRenderer::Draw_ShadowDepth()
 {
 	m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_LightDepth"), m_pShadow_DS_Surface);
 
+	D3D11_VIEWPORT ViewPortDesc;
+	ZeroMemory(&ViewPortDesc, sizeof(D3D11_VIEWPORT));
+	ViewPortDesc.TopLeftX = 0;
+	ViewPortDesc.TopLeftY = 0;
+	ViewPortDesc.Width = (_float)m_iShadowMapCX;
+	ViewPortDesc.Height = (_float)m_iShadowMapCY;
+	ViewPortDesc.MinDepth = 0.f;
+	ViewPortDesc.MaxDepth = 1.f;
+
+	m_pContext->RSSetViewports(1, &ViewPortDesc);
+
 	m_pContext->ClearDepthStencilView(m_pShadow_DS_Surface, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 
 	for (auto& pGameObject : m_RenderGroups[RENDER_SHADOWDEPTH])
@@ -384,6 +400,19 @@ HRESULT CRenderer::Draw_NonBlend()
 	//m_RenderGroups[RENDER_NONBLEND].clear();
 
 	m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_Deferred"));
+
+
+	D3D11_VIEWPORT ViewPortDesc;
+	ZeroMemory(&ViewPortDesc, sizeof(D3D11_VIEWPORT));
+	ViewPortDesc.TopLeftX = 0;
+	ViewPortDesc.TopLeftY = 0;
+	ViewPortDesc.Width = (_float)m_iOriginCX;
+	ViewPortDesc.Height = (_float)m_iOriginCY;
+	ViewPortDesc.MinDepth = 0.f;
+	ViewPortDesc.MaxDepth = 1.f;
+
+	m_pContext->RSSetViewports(1, &ViewPortDesc);
+
 
 	for (auto& pGameObject : m_RenderGroups[RENDER_NONBLEND])
 	{
@@ -593,30 +622,9 @@ HRESULT CRenderer::Draw_LightAcc()
 
 	Safe_Release(pPipeLine);
 
-	_uint				iNumViewports = 1;
-	D3D11_VIEWPORT		ViewportDesc;
-	ZeroMemory(&ViewportDesc, sizeof ViewportDesc);
-
-	m_pContext->RSGetViewports(&iNumViewports, &ViewportDesc);
-
-	_float2 g_TexSize = { ViewportDesc.Width, ViewportDesc.Height };
-	if (FAILED(m_pShader->Set_RawValue("g_TexSize", &g_TexSize, sizeof(_float2))))
-		return E_FAIL;
-
-	_float4x4 lightView = m_pLight_Manager->Get_ShadowDepthLightView();
-	_float4x4 lightProj = m_pLight_Manager->Get_ShadowDepthLightProj();
-
-	if (FAILED(m_pShader->Set_Matrix("g_matLightView", &lightView)))
-		return E_FAIL;
-
-	if (FAILED(m_pShader->Set_Matrix("g_matLightProj", &lightProj)))
-		return E_FAIL;
-
 	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_Normal"), m_pShader, "g_NormalTexture")))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_Depth"), m_pShader, "g_DepthTexture")))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_ShadowDepth"), m_pShader, "g_ShadowDepthTexture")))
 		return E_FAIL;
 
 	m_pLight_Manager->Render(m_pShader, m_pVIBuffer);
@@ -852,6 +860,40 @@ HRESULT CRenderer::Draw_DeferredNonLightBlend()
 	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_Laplacian"), m_pShader, "g_LaplacianTexture")))
 		return E_FAIL;
 
+	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_ShadowDepth"), m_pShader, "g_ShadowDepthTexture")))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_Depth"), m_pShader, "g_DepthTexture")))
+		return E_FAIL;
+
+	CPipeLine* pPipeLine = CPipeLine::GetInstance();
+	Safe_AddRef(pPipeLine);
+
+	if (FAILED(m_pShader->Set_Matrix("g_ViewMatrixInv", &pPipeLine->Get_Transform_Float4x4_Inverse(CPipeLine::D3DTS_VIEW))))
+		return E_FAIL;
+
+	if (FAILED(m_pShader->Set_Matrix("g_ProjMatrixInv", &pPipeLine->Get_Transform_Float4x4_Inverse(CPipeLine::D3DTS_PROJ))))
+		return E_FAIL;
+
+	if (FAILED(m_pShader->Set_RawValue("g_vCamPosition", &pPipeLine->Get_CamPosition(), sizeof(_float4))))
+		return E_FAIL;
+
+	_float cameraFar = pPipeLine->Get_CameraFar();
+	if (FAILED(m_pShader->Set_RawValue("g_CameraFar", &cameraFar, sizeof(_float))))
+		return E_FAIL;
+
+	Safe_Release(pPipeLine);
+
+
+	_float4x4 lightView = m_pLight_Manager->Get_ShadowDepthLightView();
+	_float4x4 lightProj = m_pLight_Manager->Get_ShadowDepthLightProj();
+
+	if (FAILED(m_pShader->Set_Matrix("g_matLightView", &lightView)))
+		return E_FAIL;
+
+	if (FAILED(m_pShader->Set_Matrix("g_matLightProj", &lightProj)))
+		return E_FAIL;
+
 
 	m_pShader->Begin(7);
 
@@ -1082,6 +1124,7 @@ HRESULT CRenderer::Ready_DepthStencilRenderTargetView(_uint iWinCX, _uint iWinCY
 	TextureDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL /*| D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE*/;
 	TextureDesc.CPUAccessFlags = 0;
 	TextureDesc.MiscFlags = 0;
+	
 
 	if (FAILED(m_pDevice->CreateTexture2D(&TextureDesc, nullptr, &pDepthStencilTexture)))
 		return E_FAIL;

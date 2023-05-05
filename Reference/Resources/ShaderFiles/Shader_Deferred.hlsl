@@ -36,6 +36,7 @@ texture2D		g_BloomTexture;
 texture2D		g_BloomOriginTexture;
 
 texture2D		g_ShadowDepthTexture;
+float			g_fSunWidth = 2.f;
 
 float2			g_TexSize;
 
@@ -46,6 +47,43 @@ float4			g_bLaplacian;
 
 float			g_laplacianThesholdLow;
 float			g_laplacianThesholdHigh;
+
+sampler ShadowDepthSampler = sampler_state
+{
+	filter = min_mag_point_mip_linear;
+
+	AddressU = clamp;
+	AddressV = clamp;
+};
+
+sampler PointSampler = sampler_state
+{
+	filter = min_mag_mip_point;
+
+	AddressU = border;
+	AddressV = border;
+	AddressW = border;
+	MipLODBias = 0.f;
+	MaxAnisotropy = 1;
+	ComparisonFunc = always;
+	BorderColor = float4(1.f, 1.f, 1.f, 1.f);
+	MinLOD = 0;
+	MaxLOD = 3.4e+38;
+};
+
+SamplerComparisonState  PointSamplerCmp
+{
+	filter = COMPARISON_MIN_MAG_LINEAR_MIP_POINT;
+	AddressU = border;
+	AddressV = border;
+	AddressW = border;
+	MipLODBias = 0.f;
+	MaxAnisotropy = 1;
+	ComparisonFunc = less_equal;
+	BorderColor = float4(1.f, 1.f, 1.f, 1.f);
+	MinLOD = 0;
+	MaxLOD = 3.4e+38;
+};
 
 sampler LinearSampler = sampler_state
 {
@@ -113,41 +151,298 @@ struct PS_OUT_LIGHT
 	//float4		vSpecular : SV_TARGET1;
 };
 
+
+#define FILTER_SIZE    11
+#define FS  FILTER_SIZE
+#define FS2 ( FILTER_SIZE / 2 )
+
+// 4 control matrices for a dynamic cubic bezier filter weights matrix
+
+static const float C3[11][11] =
+{ { 1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0 },
+  { 1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0 },
+  { 1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0 },
+  { 1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0 },
+  { 1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0 },
+  { 1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0 },
+  { 1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0 },
+  { 1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0 },
+  { 1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0 },
+  { 1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0 },
+  { 1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0 },
+};
+
+static const float C2[11][11] =
+{ { 0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0 },
+  { 0.0,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.0 },
+  { 0.0,0.2,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.2,0.0 },
+  { 0.0,0.2,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.2,0.0 },
+  { 0.0,0.2,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.2,0.0 },
+  { 0.0,0.2,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.2,0.0 },
+  { 0.0,0.2,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.2,0.0 },
+  { 0.0,0.2,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.2,0.0 },
+  { 0.0,0.2,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.2,0.0 },
+  { 0.0,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.0 },
+  { 0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0 },
+};
+
+static const float C1[11][11] =
+{ { 0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0 },
+  { 0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0 },
+  { 0.0,0.0,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.0,0.0 },
+  { 0.0,0.0,0.2,1.0,1.0,1.0,1.0,1.0,0.2,0.0,0.0 },
+  { 0.0,0.0,0.2,1.0,1.0,1.0,1.0,1.0,0.2,0.0,0.0 },
+  { 0.0,0.0,0.2,1.0,1.0,1.0,1.0,1.0,0.2,0.0,0.0 },
+  { 0.0,0.0,0.2,1.0,1.0,1.0,1.0,1.0,0.2,0.0,0.0 },
+  { 0.0,0.0,0.2,1.0,1.0,1.0,1.0,1.0,0.2,0.0,0.0 },
+  { 0.0,0.0,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.0,0.0 },
+  { 0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0 },
+  { 0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0 },
+};
+
+static const float C0[11][11] =
+{ { 0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0 },
+  { 0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0 },
+  { 0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0 },
+  { 0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0 },
+  { 0.0,0.0,0.0,0.0,0.8,0.8,0.8,0.0,0.0,0.0,0.0 },
+  { 0.0,0.0,0.0,0.0,0.8,1.0,0.8,0.0,0.0,0.0,0.0 },
+  { 0.0,0.0,0.0,0.0,0.8,0.8,0.8,0.0,0.0,0.0,0.0 },
+  { 0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0 },
+  { 0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0 },
+  { 0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0 },
+  { 0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0 },
+};
+
+// compute dynamic weight at a certain row, column of the matrix
+float Fw(int r, int c, float fL)
+{
+	return (1.0 - fL) * (1.0 - fL) * (1.0 - fL) * C0[r][c] +
+		fL * fL * fL * C3[r][c] +
+		3.0f * (1.0 - fL) * (1.0 - fL) * fL * C1[r][c] +
+		3.0f * fL * fL * (1.0 - fL) * C2[r][c];
+}
+
+#define BLOCKER_FILTER_SIZE    11
+#define BFS  BLOCKER_FILTER_SIZE
+#define BFS2 ( BLOCKER_FILTER_SIZE / 2 )
+
+#define SUN_WIDTH g_fSunWidth
+
+//======================================================================================
+// This shader computes the contact hardening shadow filter
+//======================================================================================
+float shadow(float3 tc)
+{
+	float2 texelSize = float2(1.f / g_TexSize.x, 1.f / g_TexSize.y);
+	float  s = 0.0f;
+	float2 stc = (g_TexSize.xy * tc.xy) + float2(0.5, 0.5);
+	float2 tcs = floor(stc);
+	float2 fc;
+	int    row;
+	int    col;
+	float  w = 0.0;
+	float  avgBlockerDepth = 0;
+	float  blockerCount = 0;
+	float  fRatio;
+	float4 v1[FS2 + 1];
+	float2 v0[FS2 + 1];
+	float2 off;
+
+	fc = stc - tcs;
+	tc.xy = tc - (fc * texelSize);
+
+	// find number of blockers and sum up blocker depth
+	for (row = -BFS2; row <= BFS2; row += 2)
+	{
+		for (col = -BFS2; col <= BFS2; col += 2)
+		{
+			float4 d4 = g_ShadowDepthTexture.GatherRed(PointSampler, tc.xy, int2(col, row));
+			float4 b4 = (tc.zzzz <= d4) ? (0.0).xxxx : (1.0).xxxx;
+
+			blockerCount += dot(b4, (1.0).xxxx);
+			avgBlockerDepth += dot(d4, b4);
+		}
+	}
+
+	// compute ratio using formulas from PCSS
+	if (blockerCount > 0.0)
+	{
+		avgBlockerDepth /= blockerCount;
+		fRatio = saturate(((tc.z - avgBlockerDepth) * SUN_WIDTH) / avgBlockerDepth);
+		fRatio *= fRatio;
+	}
+	else
+	{
+		fRatio = 0.0;
+	}
+
+	// sum up weights of dynamic filter matrix
+	for (row = 0; row < FS; ++row)
+	{
+		for (col = 0; col < FS; ++col)
+		{
+			w += Fw(row, col, fRatio);
+		}
+	}
+
+	// filter shadow map samples using the dynamic weights
+	[unroll(FILTER_SIZE)] for (row = -FS2; row <= FS2; row += 2)
+	{
+		for (col = -FS2; col <= FS2; col += 2)
+		{
+			v1[(col + FS2) / 2] = g_ShadowDepthTexture.GatherCmpRed(PointSamplerCmp, tc.xy, tc.z,
+				int2(col, row));
+
+			if (col == -FS2)
+			{
+				s += (1 - fc.y) * (v1[0].w * (Fw(row + FS2, 0, fRatio) -
+					Fw(row + FS2, 0, fRatio) * fc.x) + v1[0].z *
+					(fc.x * (Fw(row + FS2, 0, fRatio) -
+						Fw(row + FS2, 1, fRatio)) +
+						Fw(row + FS2, 1, fRatio)));
+				s += (fc.y) * (v1[0].x * (Fw(row + FS2, 0, fRatio) -
+					Fw(row + FS2, 0, fRatio) * fc.x) +
+					v1[0].y * (fc.x * (Fw(row + FS2, 0, fRatio) -
+						Fw(row + FS2, 1, fRatio)) +
+						Fw(row + FS2, 1, fRatio)));
+				if (row > -FS2)
+				{
+					s += (1 - fc.y) * (v0[0].x * (Fw(row + FS2 - 1, 0, fRatio) -
+						Fw(row + FS2 - 1, 0, fRatio) * fc.x) + v0[0].y *
+						(fc.x * (Fw(row + FS2 - 1, 0, fRatio) -
+							Fw(row + FS2 - 1, 1, fRatio)) +
+							Fw(row + FS2 - 1, 1, fRatio)));
+					s += (fc.y) * (v1[0].w * (Fw(row + FS2 - 1, 0, fRatio) -
+						Fw(row + FS2 - 1, 0, fRatio) * fc.x) + v1[0].z *
+						(fc.x * (Fw(row + FS2 - 1, 0, fRatio) -
+							Fw(row + FS2 - 1, 1, fRatio)) +
+							Fw(row + FS2 - 1, 1, fRatio)));
+				}
+			}
+			else if (col == FS2)
+			{
+				s += (1 - fc.y) * (v1[FS2].w * (fc.x * (Fw(row + FS2, FS - 2, fRatio) -
+					Fw(row + FS2, FS - 1, fRatio)) +
+					Fw(row + FS2, FS - 1, fRatio)) + v1[FS2].z * fc.x *
+					Fw(row + FS2, FS - 1, fRatio));
+				s += (fc.y) * (v1[FS2].x * (fc.x * (Fw(row + FS2, FS - 2, fRatio) -
+					Fw(row + FS2, FS - 1, fRatio)) +
+					Fw(row + FS2, FS - 1, fRatio)) + v1[FS2].y * fc.x *
+					Fw(row + FS2, FS - 1, fRatio));
+				if (row > -FS2)
+				{
+					s += (1 - fc.y) * (v0[FS2].x * (fc.x *
+						(Fw(row + FS2 - 1, FS - 2, fRatio) -
+							Fw(row + FS2 - 1, FS - 1, fRatio)) +
+						Fw(row + FS2 - 1, FS - 1, fRatio)) +
+						v0[FS2].y * fc.x * Fw(row + FS2 - 1, FS - 1, fRatio));
+					s += (fc.y) * (v1[FS2].w * (fc.x *
+						(Fw(row + FS2 - 1, FS - 2, fRatio) -
+							Fw(row + FS2 - 1, FS - 1, fRatio)) +
+						Fw(row + FS2 - 1, FS - 1, fRatio)) +
+						v1[FS2].z * fc.x * Fw(row + FS2 - 1, FS - 1, fRatio));
+				}
+			}
+			else
+			{
+				s += (1 - fc.y) * (v1[(col + FS2) / 2].w * (fc.x *
+					(Fw(row + FS2, col + FS2 - 1, fRatio) -
+						Fw(row + FS2, col + FS2 + 0, fRatio)) +
+					Fw(row + FS2, col + FS2 + 0, fRatio)) +
+					v1[(col + FS2) / 2].z * (fc.x *
+						(Fw(row + FS2, col + FS2 - 0, fRatio) -
+							Fw(row + FS2, col + FS2 + 1, fRatio)) +
+						Fw(row + FS2, col + FS2 + 1, fRatio)));
+				s += (fc.y) * (v1[(col + FS2) / 2].x * (fc.x *
+					(Fw(row + FS2, col + FS2 - 1, fRatio) -
+						Fw(row + FS2, col + FS2 + 0, fRatio)) +
+					Fw(row + FS2, col + FS2 + 0, fRatio)) +
+					v1[(col + FS2) / 2].y * (fc.x *
+						(Fw(row + FS2, col + FS2 - 0, fRatio) -
+							Fw(row + FS2, col + FS2 + 1, fRatio)) +
+						Fw(row + FS2, col + FS2 + 1, fRatio)));
+				if (row > -FS2)
+				{
+					s += (1 - fc.y) * (v0[(col + FS2) / 2].x * (fc.x *
+						(Fw(row + FS2 - 1, col + FS2 - 1, fRatio) -
+							Fw(row + FS2 - 1, col + FS2 + 0, fRatio)) +
+						Fw(row + FS2 - 1, col + FS2 + 0, fRatio)) +
+						v0[(col + FS2) / 2].y * (fc.x *
+							(Fw(row + FS2 - 1, col + FS2 - 0, fRatio) -
+								Fw(row + FS2 - 1, col + FS2 + 1, fRatio)) +
+							Fw(row + FS2 - 1, col + FS2 + 1, fRatio)));
+					s += (fc.y) * (v1[(col + FS2) / 2].w * (fc.x *
+						(Fw(row + FS2 - 1, col + FS2 - 1, fRatio) -
+							Fw(row + FS2 - 1, col + FS2 + 0, fRatio)) +
+						Fw(row + FS2 - 1, col + FS2 + 0, fRatio)) +
+						v1[(col + FS2) / 2].z * (fc.x *
+							(Fw(row + FS2 - 1, col + FS2 - 0, fRatio) -
+								Fw(row + FS2 - 1, col + FS2 + 1, fRatio)) +
+							Fw(row + FS2 - 1, col + FS2 + 1, fRatio)));
+				}
+			}
+
+			if (row != FS2)
+			{
+				v0[(col + FS2) / 2] = v1[(col + FS2) / 2].xy;
+			}
+		}
+	}
+
+	return s / w;
+}
+
 PS_OUT_LIGHT PS_MAIN_LIGHT_DIRECTIONAL(PS_IN In)
 {
 	PS_OUT_LIGHT			Out = (PS_OUT_LIGHT)0;
 
 	vector	vNormalDesc = g_NormalTexture.Sample(LinearSampler, In.vTexUV);
-	vector	vShadowDepth = g_ShadowDepthTexture.Sample(LinearSampler, In.vTexUV);
-	vector	vDepthDesc = g_DepthTexture.Sample(LinearSampler, In.vTexUV);
+	//vector	vDepthDesc = g_DepthTexture.Sample(LinearSampler, In.vTexUV);
 
-	float	fViewZ = vDepthDesc.y * g_CameraFar;
-	
+	//float	fViewZ = vDepthDesc.y * g_CameraFar;
+	//
 	vector	vNormal = vector(vNormalDesc.xyz * 2.f - 1.f, 0.f);
+
+	//vector	vWorldPos;
+
+	//// uv좌표와 투영스페이스의 관계성으로 uv를 이용해서 투영의 xy 좌표를 만들고 z정보는 랜더타겟에서 가져옴
+	//
+	/////* 월드위치 * 뷰행렬 * 투영행렬 * 1/z */
+	//vWorldPos.x = In.vTexUV.x * 2.f - 1.f;
+	//vWorldPos.y = In.vTexUV.y * -2.f + 1.f;
+	//vWorldPos.z = vDepthDesc.x;
+	//vWorldPos.w = 1.f;
+
+	/////* 월드위치 * 뷰행렬 * 투영행렬 */
+	//vWorldPos = vWorldPos * fViewZ;
+
+	/////* 월드위치 * 뷰행렬 */
+	//vWorldPos = mul(vWorldPos, g_ProjMatrixInv);
+
+	/////* 월드위치 */
+	//vWorldPos = mul(vWorldPos, g_ViewMatrixInv);
+
+	//vector		vPosition;
+
+	//vPosition = mul(vWorldPos, g_matLightView);
+
+	//vector		vUVPos = mul(vPosition, g_matLightProj);
+	//float2		vNewUV;
+
+	//vNewUV.x = ((vUVPos.x / vUVPos.w) * 0.5f + 0.5f);
+	//vNewUV.y = ((vUVPos.y / vUVPos.w) * -0.5f + 0.5f);
+
+	//vector	vShadowDepthInfo = g_ShadowDepthTexture.Sample(ShadowDepthSampler, vNewUV);
+
+	//float3 f3TC = float3(vNewUV, vPosition.z - 0.005f);
+
+	//float fShadow = shadow(f3TC);
 
 	Out.vShade = g_vLightDiffuse * (saturate(dot(normalize(g_vLightDir) * -1.f, vNormal)) +
 		(g_vLightAmbient * g_vMtrlAmbient));
 
-	Out.vShade.a = 1.f; 
-
-	vector	vWorldPos;
-
-	// uv좌표와 투영스페이스의 관계성으로 uv를 이용해서 투영의 xy 좌표를 만들고 z정보는 랜더타겟에서 가져옴
-	
-	///* 월드위치 * 뷰행렬 * 투영행렬 * 1/z */
-	vWorldPos.x = In.vTexUV.x * 2.f - 1.f;
-	vWorldPos.y = In.vTexUV.y * -2.f + 1.f;
-	vWorldPos.z = vDepthDesc.x;
-	vWorldPos.w = 1.f;
-
-	///* 월드위치 * 뷰행렬 * 투영행렬 */
-	vWorldPos = vWorldPos * fViewZ;
-
-	///* 월드위치 * 뷰행렬 */
-	vWorldPos = mul(vWorldPos, g_ProjMatrixInv);
-
-	///* 월드위치 */
-	vWorldPos = mul(vWorldPos, g_ViewMatrixInv);
+	Out.vShade.a = 1.f;
 
 	//vector	vReflect = reflect(normalize(g_vLightDir), vNormal);
 	//vector	vLook = vWorldPos - g_vCamPosition;
@@ -357,11 +652,53 @@ PS_OUT PS_MAIN_DEFERRED_BLOOM_BLEND(PS_IN In)
 	vector		vBloomOriginColor = g_BloomOriginTexture.Sample(LinearSampler, In.vTexUV);
 	vector		vBloomColor = g_BloomTexture.Sample(LinearSampler, In.vTexUV);
 	vector		vLaplacian = g_LaplacianTexture.Sample(LinearSampler, In.vTexUV);
+	vector		vDepthDesc = g_DepthTexture.Sample(LinearSampler, In.vTexUV);
 
 	Out.vColor = vDiffuse * vShade;
 
 	if (Out.vColor.a == 0.f)
 		discard;
+
+	vector	vWorldPos;
+
+	// uv좌표와 투영스페이스의 관계성으로 uv를 이용해서 투영의 xy 좌표를 만들고 z정보는 랜더타겟에서 가져옴
+	float	fViewZ = vDepthDesc.y * g_CameraFar;
+
+	///* 월드위치 * 뷰행렬 * 투영행렬 * 1/z */
+	vWorldPos.x = In.vTexUV.x * 2.f - 1.f;
+	vWorldPos.y = In.vTexUV.y * -2.f + 1.f;
+	vWorldPos.z = vDepthDesc.x;
+	vWorldPos.w = 1.f;
+
+	///* 월드위치 * 뷰행렬 * 투영행렬 */
+	vWorldPos = vWorldPos * fViewZ;
+
+	///* 월드위치 * 뷰행렬 */
+	vWorldPos = mul(vWorldPos, g_ProjMatrixInv);
+
+	///* 월드위치 */
+	vWorldPos = mul(vWorldPos, g_ViewMatrixInv);
+
+	vector		vPosition;
+
+	vPosition = mul(vWorldPos, g_matLightView);
+
+	vector		vUVPos = mul(vPosition, g_matLightProj);
+	float2		vNewUV;
+
+	vNewUV.x = ((vUVPos.x / vUVPos.w) * 0.5f + 0.5f);
+	vNewUV.y = ((vUVPos.y / vUVPos.w) * -0.5f + 0.5f);
+
+	//float3 f3TC = float3(vNewUV, (vUVPos.z / vUVPos.w) - 0.005f);
+
+	//float fShadow = shadow(f3TC);
+	//
+	//Out.vColor = Out.vColor * fShadow;
+
+	vector		vShadowDepthInfo = g_ShadowDepthTexture.Sample(ShadowDepthSampler, vNewUV);
+
+	if (vPosition.z - 0.1f > vShadowDepthInfo.r * 500.f)
+		Out.vColor = float4(0.15f, 0.15f, 0.15f, 1.f);
 
 	if (g_bLaplacian.a >= 0.5f)
 	{
@@ -382,7 +719,6 @@ PS_OUT PS_MAIN_DEFERRED_BLOOM_BLEND(PS_IN In)
 		Out.vColor += vBloom;
 		Out.vColor = pow(abs(Out.vColor), 1 / 2.2f);
 	}
-
 
 	return Out;
 }
