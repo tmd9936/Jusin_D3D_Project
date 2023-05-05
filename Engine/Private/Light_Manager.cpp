@@ -7,6 +7,37 @@ CLight_Manager::CLight_Manager()
 {
 }
 
+void CLight_Manager::Initialize()
+{
+    _vector	    vLightEye = XMVectorSet(5.f, -15.f, 5.f, 1.f);
+    _vector		vLightAt = XMVectorSet(60.f, 0.f, 60.f, 1.f);
+    _vector		vLightUp = XMVectorSet(0.f, 1.f, 0.f, 0.f);
+
+    XMStoreFloat4x4(&m_shadowDepthLightView, XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp));
+
+    XMStoreFloat4x4(&m_shadowDepthLightProj, XMMatrixPerspectiveFovLH(XMConvertToRadians(120.f), 930.f / 432.f, 10.0f, 500.f));
+}
+
+_matrix CLight_Manager::Get_ShadowDepthLightView_Matrix() const
+{
+    return XMLoadFloat4x4(&m_shadowDepthLightView);
+}
+
+_matrix CLight_Manager::Get_ShadowDepthLightProj_Matrix() const
+{
+    return XMLoadFloat4x4(&m_shadowDepthLightProj);
+}
+
+_float4x4 CLight_Manager::Get_ShadowDepthLightView() const
+{
+    return m_shadowDepthLightView;
+}
+
+_float4x4 CLight_Manager::Get_ShadowDepthLightProj() const
+{
+    return m_shadowDepthLightProj;
+}
+
 const LIGHTDESC* CLight_Manager::Get_Light(_uint iIndex)
 {
     auto	iter = m_Lights.begin();

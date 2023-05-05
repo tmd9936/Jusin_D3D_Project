@@ -1,6 +1,9 @@
 matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 matrix			g_ViewMatrixInv, g_ProjMatrixInv;
 
+matrix			g_matLightView;
+matrix			g_matLightProj;
+
 vector			g_vCamPosition;
 
 float			g_CameraFar;
@@ -12,6 +15,7 @@ vector			g_vLightDiffuse;
 vector			g_vLightAmbient;
 vector			g_vLightSpecular;
 
+float			g_LightFar = 500.f;
 
 vector			g_vMtrlAmbient = vector(1.f, 1.f, 1.f, 1.f);
 vector			g_vMtrlSpecular = vector(1.f, 1.f, 1.f, 1.f);
@@ -30,6 +34,8 @@ texture2D		g_BlurYTexture;
 
 texture2D		g_BloomTexture;
 texture2D		g_BloomOriginTexture;
+
+texture2D		g_ShadowDepthTexture;
 
 float2			g_TexSize;
 
@@ -112,8 +118,10 @@ PS_OUT_LIGHT PS_MAIN_LIGHT_DIRECTIONAL(PS_IN In)
 	PS_OUT_LIGHT			Out = (PS_OUT_LIGHT)0;
 
 	vector	vNormalDesc = g_NormalTexture.Sample(LinearSampler, In.vTexUV);
-	//vector	vDepthDesc = g_DepthTexture.Sample(LinearSampler, In.vTexUV);
-	//float	fViewZ = vDepthDesc.y * g_CameraFar;
+	vector	vShadowDepth = g_ShadowDepthTexture.Sample(LinearSampler, In.vTexUV);
+	vector	vDepthDesc = g_DepthTexture.Sample(LinearSampler, In.vTexUV);
+
+	float	fViewZ = vDepthDesc.y * g_CameraFar;
 	
 	vector	vNormal = vector(vNormalDesc.xyz * 2.f - 1.f, 0.f);
 
@@ -122,24 +130,24 @@ PS_OUT_LIGHT PS_MAIN_LIGHT_DIRECTIONAL(PS_IN In)
 
 	Out.vShade.a = 1.f; 
 
-	//vector	vWorldPos;
+	vector	vWorldPos;
 
 	// uv좌표와 투영스페이스의 관계성으로 uv를 이용해서 투영의 xy 좌표를 만들고 z정보는 랜더타겟에서 가져옴
 	
 	///* 월드위치 * 뷰행렬 * 투영행렬 * 1/z */
-	//vWorldPos.x = In.vTexUV.x * 2.f - 1.f;
-	//vWorldPos.y = In.vTexUV.y * -2.f + 1.f;
-	//vWorldPos.z = vDepthDesc.x;
-	//vWorldPos.w = 1.f;
+	vWorldPos.x = In.vTexUV.x * 2.f - 1.f;
+	vWorldPos.y = In.vTexUV.y * -2.f + 1.f;
+	vWorldPos.z = vDepthDesc.x;
+	vWorldPos.w = 1.f;
 
 	///* 월드위치 * 뷰행렬 * 투영행렬 */
-	//vWorldPos = vWorldPos * fViewZ;
+	vWorldPos = vWorldPos * fViewZ;
 
 	///* 월드위치 * 뷰행렬 */
-	//vWorldPos = mul(vWorldPos, g_ProjMatrixInv);
+	vWorldPos = mul(vWorldPos, g_ProjMatrixInv);
 
 	///* 월드위치 */
-	//vWorldPos = mul(vWorldPos, g_ViewMatrixInv);
+	vWorldPos = mul(vWorldPos, g_ViewMatrixInv);
 
 	//vector	vReflect = reflect(normalize(g_vLightDir), vNormal);
 	//vector	vLook = vWorldPos - g_vCamPosition;
@@ -154,7 +162,7 @@ PS_OUT_LIGHT PS_MAIN_LIGHT_POINT(PS_IN In)
 
 	vector	vNormalDesc = g_NormalTexture.Sample(LinearSampler, In.vTexUV);
 	vector	vDepthDesc = g_DepthTexture.Sample(LinearSampler, In.vTexUV);
-	float	fViewZ = vDepthDesc.y * 300.f;
+	float	fViewZ = vDepthDesc.y * g_CameraFar;
 
 	vector	vNormal = vector(vNormalDesc.xyz * 2.f - 1.f, 0.f);
 
@@ -344,7 +352,6 @@ PS_OUT PS_MAIN_DEFERRED_BLOOM_BLEND(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
-	vector		vNonLightDiffuse = g_NonLightDiffuseTexture.Sample(LinearSampler, In.vTexUV);
 	vector		vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 	vector		vShade = g_ShadeTexture.Sample(LinearSampler, In.vTexUV);
 	vector		vBloomOriginColor = g_BloomOriginTexture.Sample(LinearSampler, In.vTexUV);
@@ -363,10 +370,10 @@ PS_OUT PS_MAIN_DEFERRED_BLOOM_BLEND(PS_IN In)
 			Out.vColor = vLaplacian;
 		}
 	}
-	
-	if (vNonLightDiffuse.a != 0.f)
+
+	if (vBloomOriginColor.a != 0.f)
 	{
-		Out.vColor = vNonLightDiffuse;
+		Out.vColor = vBloomOriginColor;
 		float4		vBloom = pow(pow(abs(vBloomColor), 2.2f) + pow(abs(vBloomOriginColor), 2.2f), 1.f / 2.2f);
 
 		Out.vColor = pow(abs(Out.vColor), 2.2f);;
@@ -468,12 +475,29 @@ PS_OUT PS_MAIN_DEFERRED_LAPLACIAN(PS_IN In)
 	return Out;
 }
 
+PS_OUT PS_MAIN_DEFERRED_SHADOWDEPTH(PS_IN In)
+{
+	PS_OUT			Out = (PS_OUT)0;
+
+	vector	vDepthDesc = g_DepthTexture.Sample(LinearSampler, In.vTexUV);
+
+	if (vDepthDesc.z < 1.f)
+	{
+		Out.vColor = float4(1.f, 1.f, 1.f, 0.f);
+	}
+	else
+		Out.vColor = float4(0.f, 0.f, 0.f, 1.f);
+
+	//if (vPos.z - 0.1f > )
+
+	return Out;
+}
+
+
 RasterizerState RS_Default
 {
 	FillMode = solid;
 };
-
-
 
 DepthStencilState DSS_Default
 {
@@ -637,4 +661,17 @@ technique11		DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN_DEFERRED_LAPLACIAN();
 	}
 
+
+	pass Deferred_ShadowDepth  // 10
+	{
+		SetRasterizerState(RS_Default);
+		SetDepthStencilState(DSS_Not_ZTest_Not_ZWrite, 0);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		HullShader = NULL;
+		DomainShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_DEFERRED_SHADOWDEPTH();
+	}
 }

@@ -101,6 +101,15 @@ HRESULT CRenderer::Initialize_Prototype()
 		TEXT("Target_BlurY"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 
+	_uint		iShadowMapCX = (_uint)ViewportDesc.Width;
+	_uint		iShadowMapCY = (_uint)ViewportDesc.Height;
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
+		TEXT("Target_ShadowDepth"), iShadowMapCX, iShadowMapCY, DXGI_FORMAT_R32G32B32A32_FLOAT, _float4(1.f, 1.f, 1.f, 1.f))))
+		return E_FAIL;
+
+	if (FAILED(Ready_DepthStencilRenderTargetView(iShadowMapCX, iShadowMapCY)))
+		return E_FAIL;
+
 	//if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
 	//	TEXT("Target_BloomColor"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
 	//	return E_FAIL;
@@ -122,6 +131,9 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 	//if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_LightAcc"), TEXT("Target_Specular"))))
 	//	return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_LightDepth"), TEXT("Target_ShadowDepth"))))
+		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_NonLight_Deferred"), TEXT("Target_NonLightDiffuse"))))
 		return E_FAIL;
@@ -190,16 +202,19 @@ HRESULT CRenderer::Initialize_Prototype()
 	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Specular"), 150.f, 150.f, 100.f, 100.f)))
 	//	return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Gray"), 50.f, 150.f, 100.f, 100.f)))
-		return E_FAIL;
+	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Gray"), 50.f, 150.f, 100.f, 100.f)))
+	//	return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_GrayBlurX"), 50.f, 250.f, 100.f, 100.f)))
+	/*if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_GrayBlurX"), 50.f, 250.f, 100.f, 100.f)))
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_GrayBlurY"), 50.f, 350.f, 100.f, 100.f)))
-		return E_FAIL;
+		return E_FAIL;*/
 
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Laplacian"), 150.f, 50.f, 100.f, 100.f)))
+	//if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Laplacian"), 150.f, 50.f, 100.f, 100.f)))
+	//	return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_ShadowDepth"), 150.f, 50.f, 100.f, 100.f)))
 		return E_FAIL;
 
 #endif // _DEBUG
@@ -249,6 +264,9 @@ HRESULT CRenderer::Draw_RenderGroup()
 	if (FAILED(Draw_NonBlend()))
 		return E_FAIL;
 
+	if (FAILED(Draw_ShadowDepth()))
+		return E_FAIL;
+
 	if (FAILED(Draw_LightAcc()))
 		return E_FAIL;
 
@@ -265,9 +283,6 @@ HRESULT CRenderer::Draw_RenderGroup()
 		return E_FAIL;
 	
 	if (FAILED(Draw_NonLight()))
-		return E_FAIL;
-
-	if (FAILED(Draw_NonLight_Bloom()))
 		return E_FAIL;
 
 	if (FAILED(Draw_DefferdBright()))
@@ -325,6 +340,28 @@ HRESULT CRenderer::Draw_Priority()
 	return S_OK;
 }
 
+HRESULT CRenderer::Draw_ShadowDepth()
+{
+	m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_LightDepth"), m_pShadow_DS_Surface);
+
+	m_pContext->ClearDepthStencilView(m_pShadow_DS_Surface, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
+
+	for (auto& pGameObject : m_RenderGroups[RENDER_SHADOWDEPTH])
+	{
+		if (nullptr != pGameObject)
+			pGameObject->Render_ShadowDepth();
+		Safe_Release(pGameObject);
+	}
+
+	m_RenderGroups[RENDER_SHADOWDEPTH].clear();
+
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+
 HRESULT CRenderer::Draw_NonBlend()
 {
 	/*
@@ -377,21 +414,6 @@ HRESULT CRenderer::Draw_NonLight()
 	m_RenderGroups[RENDER_NONLIGHT].clear();
 
 	m_pTarget_Manager->End_MRT(m_pContext);
-
-	return S_OK;
-}
-
-HRESULT CRenderer::Draw_NonLight_Bloom()
-{
-	for (auto& pGameObject : m_RenderGroups[RENDER_NONLIGHT_BLOOM])
-	{
-		if (nullptr != pGameObject)
-			pGameObject->Render();
-
-		Safe_Release(pGameObject);
-	}
-
-	m_RenderGroups[RENDER_NONLIGHT_BLOOM].clear();
 
 	return S_OK;
 }
@@ -487,6 +509,55 @@ HRESULT CRenderer::Draw_DebugComponent()
 	return S_OK;
 }
 
+//HRESULT CRenderer::Draw_ShadowDepth()
+//{
+//	m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_LightDepth"), m_pShadow_DS_Surface);
+//
+//	m_pContext->ClearDepthStencilView(m_pShadow_DS_Surface, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
+//
+//	//_float4x4 lightView = m_pLight_Manager->Get_ShadowDepthLightProj();
+//	//_float4x4 lightProj = m_pLight_Manager->Get_ShadowDepthLightProj();
+//
+//	/* Shade 타겟에 그리는 작업을 수행한다. */
+//	if (FAILED(m_pShader->Set_Matrix("g_WorldMatrix", &m_WorldMatrix)))
+//		return E_FAIL;
+//	if (FAILED(m_pShader->Set_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+//		return E_FAIL;
+//	if (FAILED(m_pShader->Set_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+//		return E_FAIL;
+//
+//	CPipeLine* pPipeLine = CPipeLine::GetInstance();
+//
+//	if (FAILED(m_pShader->Set_Matrix("g_ViewMatrixInv", &pPipeLine->Get_Transform_Float4x4_Inverse(CPipeLine::D3DTS_VIEW))))
+//		return E_FAIL;
+//
+//	if (FAILED(m_pShader->Set_Matrix("g_ProjMatrixInv", &pPipeLine->Get_Transform_Float4x4_Inverse(CPipeLine::D3DTS_PROJ))))
+//		return E_FAIL;
+//
+//	//if (FAILED(m_pShader->Set_Matrix("g_matLightView", &lightView)))
+//	//	return E_FAIL;
+//
+//	//if (FAILED(m_pShader->Set_Matrix("g_matLightProj", &lightProj)))
+//	//	return E_FAIL;
+//
+//	_float cameraFar = pPipeLine->Get_CameraFar();
+//	if (FAILED(m_pShader->Set_RawValue("g_CameraFar", &cameraFar, sizeof(_float))))
+//		return E_FAIL;
+//
+//	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_Depth"), m_pShader, "g_DepthTexture")))
+//		return E_FAIL;
+//
+//	m_pShader->Begin(10);
+//
+//	m_pVIBuffer->Render();
+//
+//	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+//		return E_FAIL;
+//
+//	return S_OK;
+//}
+
+
 HRESULT CRenderer::Draw_LightAcc()
 {
 	if (nullptr == m_pTarget_Manager)
@@ -522,10 +593,30 @@ HRESULT CRenderer::Draw_LightAcc()
 
 	Safe_Release(pPipeLine);
 
+	_uint				iNumViewports = 1;
+	D3D11_VIEWPORT		ViewportDesc;
+	ZeroMemory(&ViewportDesc, sizeof ViewportDesc);
+
+	m_pContext->RSGetViewports(&iNumViewports, &ViewportDesc);
+
+	_float2 g_TexSize = { ViewportDesc.Width, ViewportDesc.Height };
+	if (FAILED(m_pShader->Set_RawValue("g_TexSize", &g_TexSize, sizeof(_float2))))
+		return E_FAIL;
+
+	_float4x4 lightView = m_pLight_Manager->Get_ShadowDepthLightView();
+	_float4x4 lightProj = m_pLight_Manager->Get_ShadowDepthLightProj();
+
+	if (FAILED(m_pShader->Set_Matrix("g_matLightView", &lightView)))
+		return E_FAIL;
+
+	if (FAILED(m_pShader->Set_Matrix("g_matLightProj", &lightProj)))
+		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_Normal"), m_pShader, "g_NormalTexture")))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_Depth"), m_pShader, "g_DepthTexture")))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_ShadowDepth"), m_pShader, "g_ShadowDepthTexture")))
 		return E_FAIL;
 
 	m_pLight_Manager->Render(m_pShader, m_pVIBuffer);
@@ -956,14 +1047,59 @@ HRESULT CRenderer::Render_Debug()
 	//m_pTarget_Manager->Render_MRT(TEXT("MRT_BlurX"), m_pShader, m_pVIBuffer);
 	//m_pTarget_Manager->Render_MRT(TEXT("MRT_BlurY"), m_pShader, m_pVIBuffer);
 
-	m_pTarget_Manager->Render_MRT(TEXT("MRT_Gray"), m_pShader, m_pVIBuffer);
-	m_pTarget_Manager->Render_MRT(TEXT("MRT_GrayBlurX"), m_pShader, m_pVIBuffer);
-	m_pTarget_Manager->Render_MRT(TEXT("MRT_GrayBlurY"), m_pShader, m_pVIBuffer);
-	m_pTarget_Manager->Render_MRT(TEXT("MRT_Laplacian"), m_pShader, m_pVIBuffer);
+	//m_pTarget_Manager->Render_MRT(TEXT("MRT_Gray"), m_pShader, m_pVIBuffer);
+	//m_pTarget_Manager->Render_MRT(TEXT("MRT_Laplacian"), m_pShader, m_pVIBuffer);
+	//m_pTarget_Manager->Render_MRT(TEXT("MRT_GrayBlurX"), m_pShader, m_pVIBuffer);
+	//m_pTarget_Manager->Render_MRT(TEXT("MRT_GrayBlurY"), m_pShader, m_pVIBuffer);
+
+	m_pTarget_Manager->Render_MRT(TEXT("MRT_LightDepth"), m_pShader, m_pVIBuffer);
 
 	return S_OK;
 }
 #endif // _DEBUG
+
+
+HRESULT CRenderer::Ready_DepthStencilRenderTargetView(_uint iWinCX, _uint iWinCY)
+{
+	if (nullptr == m_pDevice)
+		return E_FAIL;
+
+	ID3D11Texture2D* pDepthStencilTexture = nullptr;
+
+	D3D11_TEXTURE2D_DESC	TextureDesc;
+	ZeroMemory(&TextureDesc, sizeof(D3D11_TEXTURE2D_DESC));
+
+	TextureDesc.Width = iWinCX;
+	TextureDesc.Height = iWinCY;
+	TextureDesc.MipLevels = 1;
+	TextureDesc.ArraySize = 1;
+	TextureDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+
+	TextureDesc.SampleDesc.Quality = 0;
+	TextureDesc.SampleDesc.Count = 1;
+
+	TextureDesc.Usage = D3D11_USAGE_DEFAULT;
+	TextureDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL /*| D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE*/;
+	TextureDesc.CPUAccessFlags = 0;
+	TextureDesc.MiscFlags = 0;
+
+	if (FAILED(m_pDevice->CreateTexture2D(&TextureDesc, nullptr, &pDepthStencilTexture)))
+		return E_FAIL;
+
+	/* RenderTarget */
+	/* ShaderResource */
+	/* DepthStencil */
+
+	if (FAILED(m_pDevice->CreateDepthStencilView(pDepthStencilTexture, nullptr, &m_pShadow_DS_Surface)))
+		return E_FAIL;
+
+	//g_pDepthStencilView = m_pDepthStencilView;
+	//Safe_AddRef(g_pDepthStencilView);
+
+	Safe_Release(pDepthStencilTexture);
+
+	return S_OK;
+}
 
 CRenderer* CRenderer::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
@@ -1008,5 +1144,6 @@ void CRenderer::Free()
 
 ;	Safe_Release(m_pShader);
 	Safe_Release(m_pVIBuffer);
+	Safe_Release(m_pShadow_DS_Surface);
 
 }

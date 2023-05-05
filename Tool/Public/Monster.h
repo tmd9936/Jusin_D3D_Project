@@ -104,6 +104,7 @@ public:
 	virtual _uint Tick(_double TimeDelta) override;
 	virtual _uint LateTick(_double TimeDelta) override;
 	virtual HRESULT Render() override;
+	virtual	HRESULT Render_ShadowDepth();
 
 public:
 	void Set_MovePosition() {
@@ -208,7 +209,9 @@ protected:
 	virtual HRESULT			Add_Components();
 	virtual HRESULT			Add_Components_By_File();
 
-	HRESULT					SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 던진다. */
+	HRESULT					SetUp_ShaderResources(); 
+	HRESULT					SetUp_Shadow_ShaderResources(); 
+
 
 protected:
 	CTransform*				m_pTransformCom = { nullptr };

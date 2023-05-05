@@ -72,7 +72,7 @@ typedef struct tag_My_float4
 
 }MYFLOAT4;
 
-//#define _IMGUITOOL
+#define _IMGUITOOL
 //#define _FPS
 
 #define		DEFAULT_TERRAIN_WIDTH	64

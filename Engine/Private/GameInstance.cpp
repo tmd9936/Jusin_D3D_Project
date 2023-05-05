@@ -71,6 +71,8 @@ HRESULT CGameInstance::Initialize_Engine(_uint iNumLevels, HINSTANCE hInstance, 
 	if (FAILED(m_pFrustum->Initialize()))
 		return E_FAIL;
 
+	m_pLight_Manager->Initialize();
+
 	return S_OK;
 }
 
@@ -550,6 +552,22 @@ HRESULT CGameInstance::Add_Light(ID3D11Device* pDevice, ID3D11DeviceContext* pCo
 		return E_FAIL;
 
 	return m_pLight_Manager->Add_Light(pDevice, pContext, LightDesc);
+}
+
+_float4x4 CGameInstance::Get_LightViewMatrix()
+{
+	if (nullptr == m_pLight_Manager)
+		return _float4x4();
+
+	return m_pLight_Manager->Get_ShadowDepthLightView();
+}
+
+_float4x4 CGameInstance::Get_LightProjMatrix()
+{
+	if (nullptr == m_pLight_Manager)
+		return _float4x4();
+
+	return m_pLight_Manager->Get_ShadowDepthLightProj();
 }
 
 void CGameInstance::Update_CollisionMgr(_uint iLevelIndex)

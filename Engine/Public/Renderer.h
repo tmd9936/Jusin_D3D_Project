@@ -38,12 +38,14 @@ private:
 	list<class CComponent*>				m_DebugGroup;
 
 private:
-	CTarget_Manager* m_pTarget_Manager = { nullptr };
-	CLight_Manager* m_pLight_Manager = { nullptr };
+	CTarget_Manager*					m_pTarget_Manager = { nullptr };
+	CLight_Manager*						m_pLight_Manager = { nullptr };
 
 private:
-	CVIBuffer_Rect* m_pVIBuffer = { nullptr };
-	CShader* m_pShader = { nullptr };
+	CVIBuffer_Rect*						m_pVIBuffer = { nullptr };
+	CShader*							m_pShader = { nullptr };
+
+	ID3D11DepthStencilView*				m_pShadow_DS_Surface = { nullptr };
 
 private:
 	_float4x4							m_WorldMatrix{}, m_ViewMatrix{}, m_ProjMatrix{};
@@ -51,9 +53,10 @@ private:
 
 private: /* 그리는 그룹들에 따라 셋팅이 바뀌어야할 필요가 생길 수 있기때문에 그룹별로 함수를 만들어 처리. */
 	HRESULT Draw_Priority();
+
+	HRESULT Draw_ShadowDepth();
 	HRESULT Draw_NonBlend();
 	HRESULT Draw_NonLight();
-	HRESULT Draw_NonLight_Bloom();
 
 	HRESULT Draw_Blend();
 
@@ -86,6 +89,9 @@ private:
 private:
 	HRESULT Render_Debug();
 #endif // _DEBUG
+
+private:
+	HRESULT Ready_DepthStencilRenderTargetView(_uint iWinCX, _uint iWinCY);
 
 public:
 	static _bool				m_bLaplacian;

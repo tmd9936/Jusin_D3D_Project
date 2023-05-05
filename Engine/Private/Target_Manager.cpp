@@ -49,7 +49,7 @@ HRESULT CTarget_Manager::Add_MRT(const _tchar* pMRTTag, const _tchar* pTargetTag
 	return S_OK;
 }
 
-HRESULT CTarget_Manager::Begin_MRT(ID3D11DeviceContext* pContext, const _tchar* pMRTTag)
+HRESULT CTarget_Manager::Begin_MRT(ID3D11DeviceContext* pContext, const _tchar* pMRTTag, ID3D11DepthStencilView* pAnotherDepthStencil)
 {
 	list<CRenderTarget*>* pMRTList = Find_MRT(pMRTTag);
 	if (nullptr == pMRTList)
@@ -74,7 +74,11 @@ HRESULT CTarget_Manager::Begin_MRT(ID3D11DeviceContext* pContext, const _tchar* 
 
 	/*사용자가 만들어둔 타겟들을 장치에 바인딩한다, 
 	추가로 기존에 바인딩 되어있던 뎁스 스텐실 정보도 같이 다시 바인딩 한다.*/ 
-	pContext->OMSetRenderTargets(iNumRenderTargets, pRenderTargets, m_pDepthStencilView);
+	if (nullptr == pAnotherDepthStencil)
+		pContext->OMSetRenderTargets(iNumRenderTargets, pRenderTargets, m_pDepthStencilView);
+	else
+		pContext->OMSetRenderTargets(iNumRenderTargets, pRenderTargets, pAnotherDepthStencil);
+
 
 	return S_OK;
 }

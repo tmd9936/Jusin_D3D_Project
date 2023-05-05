@@ -22,7 +22,7 @@ public:
 	/// <param name="pContext">디바이스 컨텍스트  객체 </param>
 	/// <param name="pMRTTag">찾을 MRT의 태그</param>
 	/// <returns></returns>
-	HRESULT Begin_MRT(ID3D11DeviceContext* pContext, const _tchar* pMRTTag);
+	HRESULT Begin_MRT(ID3D11DeviceContext* pContext, const _tchar* pMRTTag, ID3D11DepthStencilView* pAnotherDepthStencil = nullptr);
 
 	/// <summary>
 	/// 바인딩 되어있던 MRT 대신 기존에 바인딩 되어있던 백버퍼 뷰를 다시 바인딩 함

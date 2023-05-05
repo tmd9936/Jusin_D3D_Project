@@ -110,7 +110,8 @@ public: /* For.InputDevice */
 public: /*For.Light_Manager*/
 	const LIGHTDESC* Get_Light(_uint iIndex);
 	HRESULT Add_Light(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const LIGHTDESC& LightDesc);
-
+	_float4x4 Get_LightViewMatrix();
+	_float4x4 Get_LightProjMatrix();
 
 public: /*For.Collider_Manager*/
 	void Update_CollisionMgr(_uint iLevelIndex);

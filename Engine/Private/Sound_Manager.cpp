@@ -27,7 +27,7 @@ _uint APIENTRY LoadSoundFile(void* pArg)
 
 	StringCchCat(input, MAX_PATH, TEXT("*"));
 
-	hFind = FindFirstFileW(L"../../Reference/Resources/Sound_Dummy/*.*", &FindFileData);
+	hFind = FindFirstFileW(L"../../Reference/Resources/EmptySound/*.*", &FindFileData);
 
 	if (INVALID_HANDLE_VALUE == hFind)
 	{
@@ -37,7 +37,7 @@ _uint APIENTRY LoadSoundFile(void* pArg)
 		return 1;
 	}
 
-	_tchar szCurPath[MAX_PATH] = L"../../Reference/Resources/Sound_Dummy/";
+	_tchar szCurPath[MAX_PATH] = L"../../Reference/Resources/EmptySound/";
 	_tchar szFullPath[MAX_PATH] = L"";
 
 	do
