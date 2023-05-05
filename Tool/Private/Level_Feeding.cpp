@@ -14,7 +14,8 @@ HRESULT CLevel_Feeding::Initialize()
 {
 	g_BackBufferColor = m_FeedingBackBufferColor;
 
-	CGameInstance::GetInstance()->StopAll();
+	CGameInstance::GetInstance()->StopSound(SOUND_BGM);
+
 	CGameInstance::GetInstance()->PlayBGM(TEXT("BGM_BaseCamp.ogg"));
 
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))

@@ -28,7 +28,7 @@ HRESULT CLevel_BaseCamp::Initialize()
 {
 	CGoToBackLevelButton::Set_BackLevel(LEVEL_BASECAMP);
 
-	CGameInstance::GetInstance()->StopAll();
+	CGameInstance::GetInstance()->StopSound(SOUND_BGM);
 	CGameInstance::GetInstance()->PlayBGM(TEXT("BGM_BaseCamp.ogg"));
 
 	if (FAILED(Ready_LightDesc()))

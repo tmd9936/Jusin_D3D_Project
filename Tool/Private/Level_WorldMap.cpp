@@ -23,7 +23,8 @@ CLevel_WorldMap::CLevel_WorldMap(ID3D11Device* pDevice, ID3D11DeviceContext* pCo
 
 HRESULT CLevel_WorldMap::Initialize()
 {
-	CGameInstance::GetInstance()->StopAll();
+	CGameInstance::GetInstance()->StopSound(SOUND_BGM);
+
 	CGameInstance::GetInstance()->PlayBGM(TEXT("BGM_Stage_Select.ogg"));
 
 	if (FAILED(Ready_LightDesc()))

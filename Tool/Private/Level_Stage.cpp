@@ -18,7 +18,8 @@ CLevel_Stage::CLevel_Stage(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 
 HRESULT CLevel_Stage::Initialize()
 {
-	CGameInstance::GetInstance()->StopAll();
+	CGameInstance::GetInstance()->StopSound(SOUND_BGM);
+
 	CGameInstance::GetInstance()->PlayBGM(TEXT("BGM_Waterside_2.ogg"));
 
 	if (FAILED(Ready_LightDesc()))

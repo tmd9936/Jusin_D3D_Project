@@ -50,7 +50,7 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevelID)
 
 	if (CGameInstance::GetInstance()->Get_Sound_Ready_Finish())
 	{
-		CGameInstance::GetInstance()->StopAll();
+		CGameInstance::GetInstance()->StopSound(SOUND_BGM);
 	}
 
 	if (FAILED(Ready_Layer_UI(L"Layer_UI")))
