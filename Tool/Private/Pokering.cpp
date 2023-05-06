@@ -77,7 +77,7 @@ _uint CPokering::LateTick(_double TimeDelta)
 
 	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
 
-	m_pRendererCom->Add_RenderGroup(RENDER_LAPLACIAN, this);
+	//m_pRendererCom->Add_RenderGroup(RENDER_LAPLACIAN, this);
 
 	return _uint();
 }

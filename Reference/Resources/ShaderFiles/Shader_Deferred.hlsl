@@ -647,6 +647,7 @@ PS_OUT PS_MAIN_DEFERRED_BLOOM_BLEND(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
+	vector		vNonLightDiffuse = g_NonLightDiffuseTexture.Sample(LinearSampler, In.vTexUV);
 	vector		vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 	vector		vShade = g_ShadeTexture.Sample(LinearSampler, In.vTexUV);
 	vector		vBloomOriginColor = g_BloomOriginTexture.Sample(LinearSampler, In.vTexUV);
@@ -708,9 +709,9 @@ PS_OUT PS_MAIN_DEFERRED_BLOOM_BLEND(PS_IN In)
 		}
 	}
 
-	if (vBloomOriginColor.a != 0.f)
+	if (vNonLightDiffuse.a != 0.f)
 	{
-		Out.vColor = vBloomOriginColor;
+		Out.vColor = vNonLightDiffuse;
 		float4		vBloom = pow(pow(abs(vBloomColor), 2.2f) + pow(abs(vBloomOriginColor), 2.2f), 1.f / 2.2f);
 
 		Out.vColor = pow(abs(Out.vColor), 2.2f);;
