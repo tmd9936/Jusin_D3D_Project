@@ -388,10 +388,10 @@ HRESULT CStage_Manager::Init_PlayersPos()
 	if (pPlayer1)
 	{
 		pTransform = pPlayer1->Get_As<CTransform>();
-		pTransform->Set_Pos(30.54f, 0.5f, 19.28f);
+		pTransform->Set_Pos(30.54f, 0.01f, 19.28f);
 
 		pNaviagtion = pPlayer1->Get_As<CNavigation>();
-		pNaviagtion->Set_Index_By_Position({ 30.54f, 0.5f, 19.28f });
+		pNaviagtion->Set_Index_By_Position({ 30.54f, 0.01f, 19.28f });
 
 		CGameObject* pPlayer1Skill0 = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_UI", L"Player1_Skill0");
 		if (nullptr != pPlayer1Skill0)
@@ -426,10 +426,10 @@ HRESULT CStage_Manager::Init_PlayersPos()
 	if (pPlayer2)
 	{
 		pTransform = pPlayer2->Get_As<CTransform>();
-		pTransform->Set_Pos(29.f, 0.5f, 18.5f);
+		pTransform->Set_Pos(29.f, 0.01f, 18.5f);
 
 		pNaviagtion = pPlayer2->Get_As<CNavigation>();
-		pNaviagtion->Set_Index_By_Position({ 29.f, 0.5f, 18.5f });
+		pNaviagtion->Set_Index_By_Position({ 29.f, 0.01f, 18.5f });
 
 		CGameObject* pPlayer2Skill0 = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_UI", L"Player2_Skill0");
 		if (nullptr != pPlayer2Skill0)
@@ -463,10 +463,10 @@ HRESULT CStage_Manager::Init_PlayersPos()
 	if (pPlayer3)
 	{
 		pTransform = pPlayer3->Get_As<CTransform>();
-		pTransform->Set_Pos(31.f, 0.5f, 18.5f);
+		pTransform->Set_Pos(31.f, 0.01f, 18.5f);
 
 		pNaviagtion = pPlayer3->Get_As<CNavigation>();
-		pNaviagtion->Set_Index_By_Position({ 31.f, 0.5f, 18.5f });
+		pNaviagtion->Set_Index_By_Position({ 31.f, 0.01f, 18.5f });
 
 		CGameObject* pPlayer3Skill0 = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_UI", L"Player3_Skill0");
 		if (nullptr != pPlayer3Skill0)
@@ -501,7 +501,7 @@ HRESULT CStage_Manager::Init_PlayersPos()
 	if (pCameraTarget)
 	{
 		pTransform = pCameraTarget->Get_As<CTransform>();
-		pTransform->Set_Pos(30.54f, 0.5f, 19.28f);
+		pTransform->Set_Pos(30.54f, 0.01f, 19.28f);
 	}
 
 	return S_OK;
