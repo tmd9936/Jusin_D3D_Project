@@ -44,7 +44,7 @@ HRESULT CBaseCamp_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex
 	if (pPlayer1)
 	{
 		CTransform* pTransform = pPlayer1->Get_As<CTransform>();
-		pTransform->Set_Pos(22.f, 0.5f, 13.5f);
+		pTransform->Set_Pos(22.f, 0.01f, 13.5f);
 	}
 
 	m_CookSoundTimeTick = 14.0;
@@ -75,7 +75,7 @@ HRESULT CBaseCamp_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex
 	if (pPlayer1)
 	{
 		CTransform* pTransform = pPlayer1->Get_As<CTransform>();
-		pTransform->Set_Pos(22.f, 0.5f, 13.5f);
+		pTransform->Set_Pos(22.f, 0.01f, 13.5f);
 	}
 
 	m_CookSoundTimeTick = 14.0;
