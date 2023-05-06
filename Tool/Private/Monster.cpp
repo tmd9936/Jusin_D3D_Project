@@ -326,6 +326,7 @@ HRESULT CMonster::Render_Laplacian()
 		m_pModelCom->Render(i);
 	}
 
+	return S_OK;
 }
 
 
