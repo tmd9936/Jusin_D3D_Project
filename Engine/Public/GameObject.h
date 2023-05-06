@@ -24,6 +24,7 @@ public:
 	virtual _uint LateTick(_double TimeDelta);
 	virtual HRESULT Render();
 	virtual	HRESULT Render_ShadowDepth() { return S_OK; }
+	virtual	HRESULT Render_Laplacian() { return S_OK; }
 
 public:
 	virtual void On_Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ) {}

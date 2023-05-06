@@ -46,6 +46,8 @@ private:
 	CShader*							m_pShader = { nullptr };
 
 	ID3D11DepthStencilView*				m_pShadow_DS_Surface = { nullptr };
+	ID3D11DepthStencilView*				m_pPreLaplacian_Surface = { nullptr };
+
 
 private:
 	_float4x4							m_WorldMatrix{}, m_ViewMatrix{}, m_ProjMatrix{};
@@ -83,6 +85,8 @@ private:
 	HRESULT	Draw_GrayBlurX();
 	HRESULT	Draw_GrayBlurY();
 
+	HRESULT	Draw_PreLaplacian();
+
 	HRESULT	Draw_Laplacian();
 
 #ifdef _DEBUG
@@ -91,7 +95,7 @@ private:
 #endif // _DEBUG
 
 private:
-	HRESULT Ready_DepthStencilRenderTargetView(_uint iWinCX, _uint iWinCY);
+	HRESULT Ready_DepthStencilRenderTargetView(_uint iWinCX, _uint iWinCY, ID3D11DepthStencilView** ppDepthSencilView);
 
 public:
 	static _bool				m_bLaplacian;

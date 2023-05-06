@@ -77,10 +77,40 @@ _uint CPokering::LateTick(_double TimeDelta)
 
 	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
 
+	m_pRendererCom->Add_RenderGroup(RENDER_LAPLACIAN, this);
+
 	return _uint();
 }
 
 HRESULT CPokering::Render()
+{
+	if (FAILED(SetUp_ShaderResources()))
+		return E_FAIL;
+
+	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
+
+	for (_uint i = 0; i < iNumMeshes; ++i)
+	{
+		//if (FAILED(m_pModelCom->SetUp_ShaderResource(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
+		//	return E_FAIL;
+
+		if (FAILED(m_pModelCom->SetUp_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
+			return E_FAIL;
+
+		if (m_eCurState == STATE_COOLTIME_END)
+			m_pShaderCom->Begin(1);
+		else
+			m_pShaderCom->Begin(0);
+
+
+		m_pModelCom->Render(i);
+	}
+
+
+	return S_OK;
+}
+
+HRESULT CPokering::Render_Laplacian()
 {
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;

@@ -52,6 +52,8 @@ public:
 	virtual _uint Tick(_double TimeDelta) override;
 	virtual _uint LateTick(_double TimeDelta) override;
 	virtual HRESULT Render() override;
+	virtual	HRESULT Render_Laplacian();
+
 
 private:
 	void	State_Change();

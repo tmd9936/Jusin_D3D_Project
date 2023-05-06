@@ -105,6 +105,7 @@ public:
 	virtual _uint LateTick(_double TimeDelta) override;
 	virtual HRESULT Render() override;
 	virtual	HRESULT Render_ShadowDepth();
+	virtual	HRESULT Render_Laplacian();
 
 public:
 	void Set_MovePosition() {

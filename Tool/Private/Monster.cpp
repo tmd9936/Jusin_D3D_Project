@@ -210,6 +210,9 @@ _uint CMonster::LateTick(_double TimeDelta)
 
 		m_pRendererCom->Add_RenderGroup(RENDER_SHADOWDEPTH, this);
 
+		m_pRendererCom->Add_RenderGroup(RENDER_LAPLACIAN, this);
+
+
 #ifdef _DEBUG
 		//m_pAABB->Render();
 		//m_pOBB->Render();
@@ -290,6 +293,39 @@ HRESULT CMonster::Render_ShadowDepth()
 	}
 
 	return S_OK;
+}
+
+HRESULT CMonster::Render_Laplacian()
+{
+	if (FAILED(SetUp_ShaderResources()))
+		return E_FAIL;
+
+	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
+
+	for (_uint i = 0; i < iNumMeshes; ++i)
+	{
+		/*if (FAILED(m_pModelCom->SetUp_ShaderResource(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
+			return E_FAIL;*/
+
+		if (FAILED(m_pModelCom->SetUp_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
+			return E_FAIL;
+
+		if (m_pMonFSM->Get_MotionState() == CMonFSM::MONSTER_STATE::DEAD_BOSS ||
+			m_pMonFSM->Get_MotionState() == CMonFSM::MONSTER_STATE::DEAD_ROTATE)
+		{
+			m_pShaderCom->Begin(1);
+		}
+		else
+		{
+			if (m_bHitState)
+				m_pShaderCom->Begin(2);
+			else
+				m_pShaderCom->Begin(4);
+		}
+
+		m_pModelCom->Render(i);
+	}
+
 }
 
 

@@ -57,13 +57,13 @@ HRESULT CRenderer::Initialize_Prototype()
 		TEXT("Target_Gray"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
-		TEXT("Target_GrayBlurX"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
-		return E_FAIL;
+	//if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
+	//	TEXT("Target_GrayBlurX"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
+	//	return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
-		TEXT("Target_GrayBlurY"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
-		return E_FAIL;
+	//if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
+	//	TEXT("Target_GrayBlurY"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
+	//	return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
 		TEXT("Target_Laplacian"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
@@ -112,7 +112,14 @@ HRESULT CRenderer::Initialize_Prototype()
 		TEXT("Target_ShadowDepth"), m_iShadowMapCX, m_iShadowMapCY, DXGI_FORMAT_R32G32B32A32_FLOAT, _float4(1.f, 1.f, 1.f, 1.f))))
 		return E_FAIL;
 
-	if (FAILED(Ready_DepthStencilRenderTargetView(m_iShadowMapCX, m_iShadowMapCY)))
+	if (FAILED(Ready_DepthStencilRenderTargetView(m_iShadowMapCX, m_iShadowMapCY, &m_pShadow_DS_Surface)))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
+		TEXT("Target_PreLaplacian"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
+		return E_FAIL;
+
+	if (FAILED(Ready_DepthStencilRenderTargetView(m_iShadowMapCX, m_iShadowMapCY, &m_pPreLaplacian_Surface)))
 		return E_FAIL;
 
 	//if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
@@ -159,10 +166,13 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Gray"), TEXT("Target_Gray"))))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GrayBlurX"), TEXT("Target_GrayBlurX"))))
-		return E_FAIL;
+	//if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GrayBlurX"), TEXT("Target_GrayBlurX"))))
+	//	return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GrayBlurY"), TEXT("Target_GrayBlurY"))))
+	//if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GrayBlurY"), TEXT("Target_GrayBlurY"))))
+	//	return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_PreLaplacian"), TEXT("Target_PreLaplacian"))))
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Laplacian"), TEXT("Target_Laplacian"))))
@@ -273,6 +283,9 @@ HRESULT CRenderer::Draw_RenderGroup()
 		return E_FAIL;
 
 	if (FAILED(Draw_LightAcc()))
+		return E_FAIL;
+
+	if (FAILED(Draw_PreLaplacian()))
 		return E_FAIL;
 
 	if (FAILED(Draw_Gray()))
@@ -919,7 +932,7 @@ HRESULT CRenderer::Draw_Gray()
 	if (FAILED(m_pShader->Set_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_Diffuse"), m_pShader, "g_DiffuseTexture")))
+	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_PreLaplacian"), m_pShader, "g_DiffuseTexture")))
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Set_ShaderResourceView(TEXT("Target_Shade"), m_pShader, "g_ShadeTexture")))
@@ -1015,6 +1028,24 @@ HRESULT CRenderer::Draw_GrayBlurY()
 	return S_OK;
 }
 
+HRESULT CRenderer::Draw_PreLaplacian()
+{
+	m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_PreLaplacian"));
+
+	for (auto& pGameObject : m_RenderGroups[RENDER_LAPLACIAN])
+	{
+		if (nullptr != pGameObject)
+			pGameObject->Render();
+
+		Safe_Release(pGameObject);
+	}
+
+	m_RenderGroups[RENDER_LAPLACIAN].clear();
+
+	m_pTarget_Manager->End_MRT(m_pContext);
+
+	return S_OK;
+}
 
 HRESULT CRenderer::Draw_Laplacian()
 {
@@ -1101,7 +1132,7 @@ HRESULT CRenderer::Render_Debug()
 #endif // _DEBUG
 
 
-HRESULT CRenderer::Ready_DepthStencilRenderTargetView(_uint iWinCX, _uint iWinCY)
+HRESULT CRenderer::Ready_DepthStencilRenderTargetView(_uint iWinCX, _uint iWinCY, ID3D11DepthStencilView** ppDepthSencilView)
 {
 	if (nullptr == m_pDevice)
 		return E_FAIL;
@@ -1133,7 +1164,7 @@ HRESULT CRenderer::Ready_DepthStencilRenderTargetView(_uint iWinCX, _uint iWinCY
 	/* ShaderResource */
 	/* DepthStencil */
 
-	if (FAILED(m_pDevice->CreateDepthStencilView(pDepthStencilTexture, nullptr, &m_pShadow_DS_Surface)))
+	if (FAILED(m_pDevice->CreateDepthStencilView(pDepthStencilTexture, nullptr, ppDepthSencilView)))
 		return E_FAIL;
 
 	//g_pDepthStencilView = m_pDepthStencilView;
@@ -1188,5 +1219,6 @@ void CRenderer::Free()
 ;	Safe_Release(m_pShader);
 	Safe_Release(m_pVIBuffer);
 	Safe_Release(m_pShadow_DS_Surface);
+	Safe_Release(m_pPreLaplacian_Surface);
 
 }
