@@ -49,6 +49,8 @@ HRESULT CPokering::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* 
 
 	m_IdleStateTimeAcc = m_pModelCom->Get_Animation_Duration(0) - 1;
 
+	m_pTransformCom->Set_PositionY(0.1f);
+
 	return S_OK;
 }
 
