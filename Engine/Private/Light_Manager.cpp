@@ -9,7 +9,7 @@ CLight_Manager::CLight_Manager()
 
 void CLight_Manager::Initialize()
 {
-    _vector	    vLightEye = XMVectorSet(-10.f, 100.f, -10.f, 1.f);
+    _vector	    vLightEye = XMVectorSet(-20.f, 90.f, -20.f, 1.f);
     //_vector	    vLightEye = XMVectorSet(-30.f, 50.f, -30.f, 1.f);
     _vector		vLightAt = XMVectorSet(30.f, 0.f, 30.f, 1.f);
     _vector		vLightUp = XMVectorSet(0.f, 1.f, 0.f, 0.f);
