@@ -15,7 +15,7 @@ vector			g_vLightDiffuse;
 vector			g_vLightAmbient;
 vector			g_vLightSpecular;
 
-float			g_LightFar = 500.f;
+float			g_LightFar = 200.f;
 
 vector			g_vMtrlAmbient = vector(1.f, 1.f, 1.f, 1.f);
 vector			g_vMtrlSpecular = vector(1.f, 1.f, 1.f, 1.f);
@@ -697,7 +697,7 @@ PS_OUT PS_MAIN_DEFERRED_BLOOM_BLEND(PS_IN In)
 
 	vector		vShadowDepthInfo = g_ShadowDepthTexture.Sample(ShadowDepthSampler, vNewUV);
 
-	if (vPosition.z - 0.1f > vShadowDepthInfo.r * g_CameraFar)
+	if (vPosition.z - 0.1f > vShadowDepthInfo.r * g_LightFar)
 		Out.vColor = float4(0.15f, 0.15f, 0.15f, 1.f);
 
 	if (g_bLaplacian.a >= 0.5f)

@@ -9,13 +9,17 @@ CLight_Manager::CLight_Manager()
 
 void CLight_Manager::Initialize()
 {
-    _vector	    vLightEye = XMVectorSet(-5.f, 15.f, -5.f, 1.f);
-    _vector		vLightAt = XMVectorSet(60.f, 0.f, 60.f, 1.f);
+    _vector	    vLightEye = XMVectorSet(-10.f, 100.f, -10.f, 1.f);
+    _vector		vLightAt = XMVectorSet(30.f, 0.f, 30.f, 1.f);
     _vector		vLightUp = XMVectorSet(0.f, 1.f, 0.f, 0.f);
+
+  // _matrix		RotationMatrix = XMMatrixRotationAxis(XMVectorSet(1.f, 0.f, 0.f, 0.f), XMConvertToRadians(-80.f));
+
+    //vLightUp = XMVector3TransformNormal(vLightUp, RotationMatrix);
 
     XMStoreFloat4x4(&m_shadowDepthLightView, XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp));
 
-    XMStoreFloat4x4(&m_shadowDepthLightProj, XMMatrixPerspectiveFovLH(XMConvertToRadians(120.f), 930.f / 432.f, 0.2f, 1000.f));
+    XMStoreFloat4x4(&m_shadowDepthLightProj, XMMatrixPerspectiveFovLH(XMConvertToRadians(30.f), 930.f / 432.f, 0.2f, 200.f));
 }
 
 _matrix CLight_Manager::Get_ShadowDepthLightView_Matrix() const

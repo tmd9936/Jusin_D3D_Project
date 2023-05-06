@@ -108,7 +108,7 @@ public:
 
 public:
 	void Set_MovePosition() {
-		m_MovePosition = { rand() % 10 + 12.f, 0.5f, rand() % 10 + 15.f, 1.f };
+		m_MovePosition = { rand() % 10 + 12.f, 0.01f, rand() % 10 + 15.f, 1.f };
 	}
 
 public:

@@ -145,7 +145,7 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const c
 
 	m_eRenderId = RENDER_NONBLEND;
 
-	m_pTransformCom->Set_Pos(m_PokemonDesc.vPos.x, m_PokemonDesc.vPos.y, m_PokemonDesc.vPos.z);
+	m_pTransformCom->Set_Pos(m_PokemonDesc.vPos.x, 0.01f, m_PokemonDesc.vPos.z);
 
 	m_pNavigationCom->Set_Index_By_Position({ m_PokemonDesc.vPos.x, m_PokemonDesc.vPos.y, m_PokemonDesc.vPos.z });
 	
