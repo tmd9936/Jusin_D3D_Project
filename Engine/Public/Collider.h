@@ -54,7 +54,9 @@ public:
 
 
 public:
-    _uint Get_ID() { return m_iID; }
+    _uint Get_ID() { 
+        return m_iID; 
+    }
     const _vector Get_Center() const;
 
 

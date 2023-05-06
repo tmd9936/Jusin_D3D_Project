@@ -282,15 +282,17 @@ void CPlayer::On_CollisionEnter(CCollider* pOther, const _float& fX, const _floa
 	if (!pOtherOwner)
 		return;
 
-	if (pOtherOwner->Get_LayerTag().compare(L"Layer_Monster") == 0)
-	{
-		Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
-	}
+	//if (pOtherOwner->Get_LayerTag().compare(L"Layer_Monster") == 0)
+	//{
+		if (m_pAABB->Get_ID() > pOther->Get_ID())
+			Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
+	//}
 
-	if (pOtherOwner->Get_LayerTag().compare(L"Layer_Player") == 0)
-	{
-		Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
-	}
+	//if (pOtherOwner->Get_LayerTag().compare(L"Layer_Player") == 0)
+	//{
+		//if (m_pAABB->Get_ID() > pOther->Get_ID())
+		//	Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
+	//}
 }
 
 void CPlayer::On_Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
@@ -300,15 +302,17 @@ void CPlayer::On_Collision(CCollider* pOther, const _float& fX, const _float& fY
 	if (!pOtherOwner)
 		return;
 
-	if (pOtherOwner->Get_LayerTag().compare(L"Layer_Monster") == 0)
-	{
-		Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
-	}
+	//if (pOtherOwner->Get_LayerTag().compare(L"Layer_Monster") == 0)
+	//{
+		if (m_pAABB->Get_ID() > pOther->Get_ID())
+			Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
+	//}
 
-	if (pOtherOwner->Get_LayerTag().compare(L"Layer_Player") == 0)
-	{
-		Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
-	}
+	//if (pOtherOwner->Get_LayerTag().compare(L"Layer_Player") == 0)
+	//{
+		//if (m_pAABB->Get_ID() > pOther->Get_ID())
+		//	Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
+	//}
 }
 
 void CPlayer::On_CollisionExit(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)

@@ -29,6 +29,7 @@ CCollider::CCollider(const CCollider& rhs)
 #else
 CCollider::CCollider(const CCollider& rhs)
 	: CComponent(rhs)
+	, m_iID(g_iColliderID++)
 	, m_eType(rhs.m_eType)
 	, m_pSphere_Original(nullptr == rhs.m_pSphere_Original ? rhs.m_pSphere_Original : new BoundingSphere(*rhs.m_pSphere_Original))
 	, m_pAABB_Original(nullptr == rhs.m_pAABB_Original ? rhs.m_pAABB_Original : new BoundingBox(*rhs.m_pAABB_Original))
