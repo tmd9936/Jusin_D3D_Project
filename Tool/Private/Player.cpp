@@ -47,7 +47,10 @@ HRESULT CPlayer::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pA
 		return E_FAIL;
 
 	if (LEVEL_BASECAMP == iLevelIndex)
+	{
 		m_pHpBar->Set_RenderId(RENDER_END);
+		m_pTransformCom->Set_Pos( 22.f, 0.01f, 15.f);
+	}
 
 	return S_OK;
 }
@@ -66,7 +69,10 @@ HRESULT CPlayer::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const ch
 		return E_FAIL;
 
 	if (LEVEL_BASECAMP == iLevelIndex)
+	{
 		m_pHpBar->Set_RenderId(RENDER_END);
+		m_pTransformCom->Set_Pos( 22.f, 0.01f, 15.f );
+	}
 
 	return S_OK;
 }
