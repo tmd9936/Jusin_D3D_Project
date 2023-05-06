@@ -189,22 +189,29 @@ void CStageEnemyMonster::On_CollisionEnter(CCollider* pOther, const _float& fX, 
 	if (!pOtherOwner)
 		return;
 
-	if (m_pAABB->Get_ID() > pOther->Get_ID())
-		Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
+	if (m_pAABB->Get_ID() < pOther->Get_ID())
+	{
+		if (pOtherOwner->Get_LayerTag().compare(L"Layer_Player") == 0)
+		{
+			Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
+		}
+	}
+
 	if (pOtherOwner->Get_LayerTag().compare(L"Layer_Monster") == 0)
 	{
+		if (m_pAABB->Get_ID() < pOther->Get_ID())
+			Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
 		if (false == m_StaySpawn)
 		{
-			//if (fY > 0)
-			//{
-			//	m_pTransformCom->Go_Left_ByNavigation(0.008333f, m_pNavigationCom);
-			//}
-			//else if (fY < 0)
-			//{
-			//	m_pTransformCom->Go_Right_ByNavigation(0.008333f, m_pNavigationCom);
-			//}
+			if (fY > 0)
+			{
+				m_pTransformCom->Go_Left_ByNavigation(0.008333f, m_pNavigationCom);
+			}
+			else if (fY < 0)
+			{
+				m_pTransformCom->Go_Right_ByNavigation(0.008333f, m_pNavigationCom);
+			}
 		}
-
 	}
 }
 
@@ -215,11 +222,18 @@ void CStageEnemyMonster::On_Collision(CCollider* pOther, const _float& fX, const
 	if (!pOtherOwner)
 		return;
 
-	if (m_pAABB->Get_ID() > pOther->Get_ID())
-		Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
+	if (m_pAABB->Get_ID() < pOther->Get_ID())
+	{
+		if (pOtherOwner->Get_LayerTag().compare(L"Layer_Player") == 0)
+		{
+			Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
+		}
+	}
 
 	if (pOtherOwner->Get_LayerTag().compare(L"Layer_Monster") == 0)
 	{
+		if (m_pAABB->Get_ID() < pOther->Get_ID())
+			Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
 		if (false == m_StaySpawn)
 		{
 			if (fY > 0)
@@ -409,7 +423,7 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 
 		if (pTargetTransform)
 		{
-			if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta * 1.1f), 1.3f, m_pNavigationCom))
+			if (m_pTransformCom->Chase(pTargetTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta * 1.1f), 1.1f, m_pNavigationCom))
 			{
 				if (m_bCanAttack)
 				{
