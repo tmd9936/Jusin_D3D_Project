@@ -154,11 +154,11 @@ HRESULT CWorldMap_Manager::Init_PlayerPosition()
 	if (nullptr == pTransform)
 		return E_FAIL;
 
-	pTransform->Set_Pos(24.04f, 1.2f, 23.60f);
+	pTransform->Set_Pos(24.04f, 0.8f, 23.60f);
 
 	CNavigation* pNaviagtion = nullptr;
 	pNaviagtion = pPlayer1->Get_As<CNavigation>();
-	pNaviagtion->Set_Index_By_Position({ 24.04f, 1.2f, 23.60f });
+	pNaviagtion->Set_Index_By_Position({ 24.04f, 0.8f, 23.60f });
 
 	return S_OK;
 }

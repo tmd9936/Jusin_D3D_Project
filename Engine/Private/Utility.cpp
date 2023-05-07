@@ -45,16 +45,15 @@ void CUtility::CollisionPushingOut(CCollider* pSour, CCollider* pDest, const _fl
 		if (XMVectorGetZ(vDestCenter) < XMVectorGetZ(vSourCenter))
 		{
 			//pOtherTransform->Move(0.f, 0.f, fZ * 0.0166f, pNavigationCom);
-			pDestTransform->Move(0.f, 0.f, -fZ, pDestNavigation);
+			pDestTransform->Move(0.f, 0.f, -fZ * 0.2, pDestNavigation);
 		}
 		else
 		{
 			//pOtherTransform->Move(0.f, 0.f, -fZ * 0.0166f, pNavigationCom);
-			pDestTransform->Move(0.f, 0.f, fZ, pDestNavigation);
+			pDestTransform->Move(0.f, 0.f, fZ * 0.2, pDestNavigation);
 		}
 		//pDest->Tick(pDestTransform->Get_WorldMatrix_Matrix());
 	}
-	else if (fX == fZ) {}
 	else
 	{
 		_vector vDestCenter = pDest->Get_Center();
@@ -63,12 +62,12 @@ void CUtility::CollisionPushingOut(CCollider* pSour, CCollider* pDest, const _fl
 		if (XMVectorGetX(vDestCenter) < XMVectorGetX(vSourCenter))
 		{
 			//pOtherTransform->Move(fX * 0.0166f, 0.f, 0.f, pNavigationCom);
-			pDestTransform->Move(-fX, 0.f, 0.f, pDestNavigation);
+			pDestTransform->Move(-fX * 0.2, 0.f, 0.f, pDestNavigation);
 		}
 		else
 		{
 			//pOtherTransform->Move(-fX * 0.0166f, 0.f, 0.f, pNavigationCom);
-			pDestTransform->Move(fX, 0.f, 0.f, pDestNavigation);
+			pDestTransform->Move(fX * 0.2, 0.f, 0.f, pDestNavigation);
 
 		}
 

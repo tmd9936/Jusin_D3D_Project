@@ -110,19 +110,19 @@ void CTransform::Move(float x, float y, float z, CNavigation* pNavigation)
 
 	_vector vPosition = Get_State(STATE_POSITION);
 
-	vPosition = vPosition + XMVectorSet(x, y, z, 0.f);
+	_vector vGoPosition = vPosition + XMVectorSet(x, y, z, 0.f);
 
 	_float fY = XMVectorGetY(vPosition);
 
 	if (nullptr != pNavigation)
 	{
-		isMove = pNavigation->Move_OnNavigation_Set_Y(vPosition, fY);
+		isMove = pNavigation->Move_OnNavigation_Set_Y(vGoPosition, fY);
 	}
 
 	if (true == isMove)
 	{
 		if (nullptr != pNavigation)
-			Set_State(CTransform::STATE_POSITION, XMVectorSetY(vPosition, fY + 0.01f));
+			Set_State(CTransform::STATE_POSITION, XMVectorSetY(vGoPosition, fY + 0.01f));
 		else
 			Set_State(CTransform::STATE_POSITION, vPosition);
 	}
