@@ -337,22 +337,22 @@ void CEffect_Manager::Play_Sound(const _uint& effectType)
 	switch (effectType)
 	{
 	case 188:
-		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_Mahi.ogg", Engine::SOUND_GET_DEBUFF2);
+		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_Mahi.ogg", 0.8f);
 		break;
 	case 189:
-		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_Doku.ogg", Engine::SOUND_GET_DEBUFF3);
+		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_Doku.ogg", 0.8f);
 		break;
 	case 193:
-		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_Buff.ogg", Engine::SOUND_GET_BUFF);
+		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_Buff.ogg", 0.8f);
 		break;
 	case 194:
-		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_DeBuff.ogg", Engine::SOUND_GET_DEBUFF1);
+		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_DeBuff.ogg", 0.8f);
 		break;
 	case 202:
-		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_Conran.ogg", Engine::SOUND_GET_DEBUFF0);
+		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_Conran.ogg", 0.8f);
 		break;
 	case 203:
-		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_Freeze.ogg", Engine::SOUND_GET_DEBUFF0);
+		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_Freeze.ogg", 0.8f);
 		break;
 	}
 }

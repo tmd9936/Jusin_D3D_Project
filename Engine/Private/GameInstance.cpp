@@ -410,6 +410,14 @@ void CGameInstance::PlaySoundW(const _tchar* pSoundKey, CHANNELID eID)
 	return m_pSound_Manager->PlaySoundW(pSoundKey, eID);
 }
 
+void CGameInstance::PlaySoundW(const _tchar* pSoundKey, const _float& fVolume)
+{
+	if (nullptr == m_pSound_Manager)
+		return;
+
+	return m_pSound_Manager->PlaySoundW(pSoundKey, fVolume);
+}
+
 void CGameInstance::PlayBGM(const _tchar* pSoundKey)
 {
 	if (nullptr == m_pSound_Manager)

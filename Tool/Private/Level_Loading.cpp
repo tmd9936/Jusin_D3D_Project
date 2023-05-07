@@ -81,7 +81,7 @@ void CLevel_Loading::Tick(_double TimeDelta)
 				}
 
 				//pGameInstance->Set_SoundVolume(0.f);
-				//pGameInstance->Set_BGMVolume(0.f);
+				pGameInstance->Set_BGMVolume(0.7f);
 
 				pNewLevel = CLevel_Logo::Create(m_pDevice, m_pContext);
 				break;

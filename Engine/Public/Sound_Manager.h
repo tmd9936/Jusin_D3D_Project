@@ -11,6 +11,7 @@
 //#pragma comment(lib, "fmodex_vc.lib")
 #pragma comment(lib, "fmod_vc.lib")
 
+//#define MAX_CHANNEL 32
 
 BEGIN(Engine)
 
@@ -34,6 +35,9 @@ public:
 	void Set_SoundVolume(_float _fSoundVolume) { m_fSoundVolume = _fSoundVolume; }
 	void Set_BGMVolume(_float _fMusicVolume) { m_fMusicVolume = _fMusicVolume; }
 
+	void PlaySoundW(const _tchar* pSoundKey, const _float& fVolume);
+
+
 public:
 	_bool Get_Finished() const {
 		return m_isFinished;
@@ -54,6 +58,9 @@ public:
 	void	Insert_Sound(_tchar* pSoundKey, FMOD_SOUND* pSound) {
 		m_mapSound.emplace(pSoundKey, pSound);
 	}
+
+private:
+	const _uint				m_soundNums = { MAXCHANNEL };
 
 private:
 	// 사운드 리소스 정보를 갖는 객체 

@@ -86,6 +86,7 @@ public: /* For.Component_Manager */
 public: /* For.Sound_Manager */
 	HRESULT		Ready_Sound();
 	void		PlaySoundW(const _tchar* pSoundKey, CHANNELID eID);
+	void		PlaySoundW(const _tchar* pSoundKey, const _float& fVolume);
 	void		PlayBGM(const _tchar* pSoundKey);
 	void		StopSound(CHANNELID eID);
 	void		StopAll();
