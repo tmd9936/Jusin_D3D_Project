@@ -42,19 +42,19 @@ HRESULT CRenderer::Initialize_Prototype()
 	그때는 알파를 1.f로 살림*/
 	/* For.Target_Diffuse */
 
-	m_iOriginCX = ViewportDesc.Width;
-	m_iOriginCY = ViewportDesc.Height;
+	m_iOriginCX = (_uint)ViewportDesc.Width;
+	m_iOriginCY = (_uint)ViewportDesc.Height;
 
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
-		TEXT("Target_Diffuse"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
+		TEXT("Target_Diffuse"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
-		TEXT("Target_NonLightDiffuse"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
+		TEXT("Target_NonLightDiffuse"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
-		TEXT("Target_Gray"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
+		TEXT("Target_Gray"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 
 	//if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,

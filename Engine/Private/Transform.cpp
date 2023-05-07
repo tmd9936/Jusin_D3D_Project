@@ -110,25 +110,25 @@ void CTransform::Move(float x, float y, float z, CNavigation* pNavigation)
 
 	_vector vPosition = Get_State(STATE_POSITION);
 
-	_vector vGoPosition = vPosition + XMVectorSet(x, y, z, 0.f);
+	vPosition += XMVectorSet(x, y, z, 0.f);
 
 	_float fY = XMVectorGetY(vPosition);
 
 	if (nullptr != pNavigation)
 	{
-		isMove = pNavigation->Move_OnNavigation_Set_Y(vGoPosition, fY);
+		isMove = pNavigation->Move_OnNavigation_Set_Y(vPosition, fY);
 	}
 
 	if (true == isMove)
 	{
 		if (nullptr != pNavigation)
-			Set_State(CTransform::STATE_POSITION, XMVectorSetY(vGoPosition, fY + 0.01f));
+			Set_State(CTransform::STATE_POSITION, XMVectorSetY(vPosition, fY + 0.01f));
 		else
 			Set_State(CTransform::STATE_POSITION, vPosition);
 	}
 }
 
-void CTransform::Set_PositinoX(float x, CNavigation* pNavigation)
+void CTransform::Set_PositionX(float x, CNavigation* pNavigation)
 {
 	_bool isMove = true;
 
@@ -386,7 +386,6 @@ void CTransform::Go_Left_ByNavigation(_float TimeDelta, CNavigation* pNavigation
 		if (nullptr != pNavigation)
 		{
 			Set_State(STATE_POSITION, XMVectorSetY(vPosition, computefY + 0.01f));
-
 		}
 		else
 			Set_State(CTransform::STATE_POSITION, vPosition);
@@ -401,7 +400,7 @@ void CTransform::Go_Left_ByNavigation(_float TimeDelta, CNavigation* pNavigation
 			isMove = pNavigation->Move_OnNavigation_Set_Y(vSlidePosition, computefY);
 			if (true == isMove)
 			{
-				Set_State(CTransform::STATE_POSITION, XMVectorSetY(vPosition, computefY + 0.01f));
+				Set_State(CTransform::STATE_POSITION, XMVectorSetY(vSlidePosition, computefY + 0.01f));
 			}
 			else
 			{
@@ -413,7 +412,7 @@ void CTransform::Go_Left_ByNavigation(_float TimeDelta, CNavigation* pNavigation
 				isMove = pNavigation->Move_OnNavigation_Set_Y(vSlidePosition, computefY);
 				if (true == isMove)
 				{
-					Set_State(CTransform::STATE_POSITION, XMVectorSetY(vPosition, computefY + 0.01f));
+					Set_State(CTransform::STATE_POSITION, XMVectorSetY(vSlidePosition, computefY + 0.01f));
 				}
 
 			}

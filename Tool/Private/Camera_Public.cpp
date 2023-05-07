@@ -308,7 +308,7 @@ void CCamera_Public::Key_Input(const _double TimeDelta)
 
 	if (KEY_TAB(KEY::N))
 	{
-		m_pTransform->Set_PositinoX(m_DefaultEye.x);
+		m_pTransform->Set_PositionX(m_DefaultEye.x);
 		m_pTransform->Set_PositionZ(m_DefaultEye.z);
 		m_CameraDesc.vAt = m_DefaultAt;
 	}
