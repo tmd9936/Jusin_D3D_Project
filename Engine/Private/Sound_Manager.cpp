@@ -27,7 +27,7 @@ _uint APIENTRY LoadSoundFile(void* pArg)
 
 	StringCchCat(input, MAX_PATH, TEXT("*"));
 
-	hFind = FindFirstFileW(L"../../Reference/Resources/EmptySound/*.*", &FindFileData);
+	hFind = FindFirstFileW(L"../../Reference/Resources/Sound_Dummy/*.*", &FindFileData);
 
 	if (INVALID_HANDLE_VALUE == hFind)
 	{
@@ -37,7 +37,7 @@ _uint APIENTRY LoadSoundFile(void* pArg)
 		return 1;
 	}
 
-	_tchar szCurPath[MAX_PATH] = L"../../Reference/Resources/EmptySound/";
+	_tchar szCurPath[MAX_PATH] = L"../../Reference/Resources/Sound_Dummy/";
 	_tchar szFullPath[MAX_PATH] = L"";
 
 	do
@@ -141,6 +141,39 @@ void CSound_Manager::SetChannelVolume(CHANNELID eID, float fVolume)
 {
 	FMOD_Channel_SetVolume(m_pChannelArr[eID], fVolume);
 
+	FMOD_System_Update(m_pSystem);
+}
+
+void CSound_Manager::PlaySoundW(const _tchar* pSoundKey, const _float& fVolume)
+{
+	auto iter = find_if(m_mapSound.begin(), m_mapSound.end(), CTag_Finder(pSoundKey));
+
+	if (iter == m_mapSound.end())
+		return;
+
+	_uint iID = 0;
+	FMOD_BOOL bPlay = FALSE;
+	FMOD_Channel_IsPlaying(m_pChannelArr[iID], &bPlay);
+
+	do
+	{
+		if (FALSE == bPlay)
+		{
+			FMOD_System_PlaySound(m_pSystem, iter->second, 0, FALSE, &m_pChannelArr[iID]);
+			break;
+		}
+		else
+		{
+			++iID;
+			if (29 < iID)
+			{
+				break;
+			}
+			FMOD_Channel_IsPlaying(m_pChannelArr[iID], &bPlay);
+		}
+	} while (true);
+
+	FMOD_Channel_SetVolume(m_pChannelArr[iID], fVolume);
 	FMOD_System_Update(m_pSystem);
 }
 
