@@ -343,10 +343,10 @@ void CEffect_Manager::Play_Sound(const _uint& effectType)
 		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_Doku.ogg", 0.8f);
 		break;
 	case 193:
-		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_Buff.ogg", 0.8f);
+		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_DeBuff.ogg", 0.8f);
 		break;
 	case 194:
-		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_DeBuff.ogg", 0.8f);
+		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_Buff.ogg", 0.8f);
 		break;
 	case 202:
 		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_Conran.ogg", 0.8f);
