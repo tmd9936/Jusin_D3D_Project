@@ -341,27 +341,27 @@ void CAttackEffect::Play_DamageSound()
 	switch (randValue)
 	{
 	case 0:
-		CGameInstance::GetInstance()->StopSound(SOUND_GET_DAMAGE_1);
+		//CGameInstance::GetInstance()->StopSound(SOUND_GET_DAMAGE_1);
 		CGameInstance::GetInstance()->PlaySoundW(L"SE_Status_Damage_01_a01.ogg", Engine::SOUND_GET_DAMAGE_1);
 		break;
 	case 1:
-		CGameInstance::GetInstance()->StopSound(SOUND_GET_DAMAGE_2);
+		//CGameInstance::GetInstance()->StopSound(SOUND_GET_DAMAGE_2);
 		CGameInstance::GetInstance()->PlaySoundW(L"SE_Status_Damage_01_a02.ogg", Engine::SOUND_GET_DAMAGE_2);
 		break;
 	case 2:
-		CGameInstance::GetInstance()->StopSound(SOUND_GET_DAMAGE_3);
+		//CGameInstance::GetInstance()->StopSound(SOUND_GET_DAMAGE_3);
 		CGameInstance::GetInstance()->PlaySoundW(L"SE_Status_Damage_01_a03.ogg", Engine::SOUND_GET_DAMAGE_3);
 		break;
 	case 3:
-		CGameInstance::GetInstance()->StopSound(SOUND_GET_DAMAGE_4);
+		//CGameInstance::GetInstance()->StopSound(SOUND_GET_DAMAGE_4);
 		CGameInstance::GetInstance()->PlaySoundW(L"SE_Status_Damage_01_a04.ogg", Engine::SOUND_GET_DAMAGE_4);
 		break;
 	case 4:
-		CGameInstance::GetInstance()->StopSound(SOUND_GET_DAMAGE_5);
+		//CGameInstance::GetInstance()->StopSound(SOUND_GET_DAMAGE_5);
 		CGameInstance::GetInstance()->PlaySoundW(L"SE_Status_Damage_01_a05.ogg", Engine::SOUND_GET_DAMAGE_5);
 		break;
 	case 5:
-		CGameInstance::GetInstance()->StopSound(SOUND_GET_DAMAGE_6);
+		//CGameInstance::GetInstance()->StopSound(SOUND_GET_DAMAGE_6);
 		CGameInstance::GetInstance()->PlaySoundW(L"SE_Status_Damage_01_a06.ogg", Engine::SOUND_GET_DAMAGE_6);
 		break;
 	}

@@ -507,7 +507,7 @@ void CBuffState::Create_ConditionEffect()
 	if (m_DeBuffSoundPlayCount <= 0)
 	{
 		skillEffect = dynamic_cast<CEffect_Manager*>(pEffectManager)->CreateEffect(m_ConditionEffectType, L"Prototype_GameObject_SkillEffect", L"Layer_Effect", Get_Levelindex());
-		m_DeBuffSoundPlayCount = 1;
+		m_DeBuffSoundPlayCount = 2;
 	}
 	else
 	{
