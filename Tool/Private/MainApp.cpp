@@ -158,7 +158,7 @@ void CMainApp::Tick(_double TimeDelta)
 	}
 #endif
 
-#ifdef _IMGUITOOL
+#ifdef _FPS
 	m_TimeAcc += TimeDelta;
 #endif // _DEBUG
 

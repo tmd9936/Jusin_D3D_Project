@@ -4,7 +4,7 @@
         "m_registDatas": [
             {
                 "m_enemyFilePath": "../../Reference/Resources/Data/Scene/Stage/MonsterData/EnemyData_032_warter01.json",
-                "m_enemyNumber": 3,
+                "m_enemyNumber": 7,
                 "m_isBoss": false,
                 "m_waveIndex": 0,
                 "m_setIndex": 0,
@@ -13,7 +13,7 @@
             },
             {
                 "m_enemyFilePath": "../../Reference/Resources/Data/Scene/Stage/MonsterData/EnemyData_033_warter01.json",
-                "m_enemyNumber": 2,
+                "m_enemyNumber": 7,
                 "m_isBoss": false,
                 "m_waveIndex": 0,
                 "m_setIndex": 0,

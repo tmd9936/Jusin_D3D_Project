@@ -62,7 +62,7 @@ private:
 	HRESULT Ready_GameObject_For_Static();
 	HRESULT Ready_Fonts();
 
-#ifdef _IMGUITOOL
+#ifdef _FPS
 private:
 	_double						m_TimeAcc = { 0.0 };
 	_tchar						m_szFPS[MAX_PATH] = TEXT("");
