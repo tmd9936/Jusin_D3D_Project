@@ -49,6 +49,8 @@ _uint CStove::LateTick(_double TimeDelta)
 {
 	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
 
+	m_pRendererCom->Add_RenderGroup(RENDER_LAPLACIAN, this);
+
 	return _uint();
 }
 
@@ -76,6 +78,11 @@ HRESULT CStove::Render()
 #endif // _DEBUG
 
 	return S_OK;
+}
+
+HRESULT CStove::Render_Laplacian()
+{
+	return E_NOTIMPL;
 }
 
 
