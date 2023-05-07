@@ -37,7 +37,7 @@ HRESULT CBaseCampMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex,
 
 	//m_pTransformCom->Set_PositionY(0.5f);
 
-	//m_pTransformCom->Set_PositinoX(_float(rand() % 5 + 17.5f));
+	//m_pTransformCom->Set_PositionX(_float(rand() % 5 + 17.5f));
 	//m_pTransformCom->Set_PositionZ(_float(rand() % 5 + 17.5f));
 
 	m_pTransformCom->Set_TransforDesc({ 0.25f, 1.2f });
@@ -54,7 +54,7 @@ HRESULT CBaseCampMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex,
 	Init_RandomMotionChangeDelay();
 
 	/*m_pTransformCom->Set_PositionY(0.5f);
-	m_pTransformCom->Set_PositinoX(_float(rand() % 5 + 20.5f));
+	m_pTransformCom->Set_PositionX(_float(rand() % 5 + 20.5f));
 	m_pTransformCom->Set_PositionZ(_float(rand() % 5 + 20.5f));*/
 
 	m_pTransformCom->Set_TransforDesc({ 0.25f, 1.2f });
