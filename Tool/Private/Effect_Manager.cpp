@@ -175,7 +175,7 @@ CEffect* CEffect_Manager::Create_Effect(_uint effectType, const _tchar* pLayerTa
 	return pEffect;
 }
 
-CSkillEffect* CEffect_Manager::CreateEffect(_uint effectType, const _tchar* pEffectProtoTypeTag, const _tchar* pLayerTag, _uint iLevelIndex)
+CSkillEffect* CEffect_Manager::CreateEffect(_uint effectType, const _tchar* pEffectProtoTypeTag, const _tchar* pLayerTag, _uint iLevelIndex, _bool playerSound)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
@@ -204,7 +204,8 @@ CSkillEffect* CEffect_Manager::CreateEffect(_uint effectType, const _tchar* pEff
 		(CGameObject**)&pSkillEffect, nullptr, &effect_Desc)))
 		return nullptr;
 
-	Play_Sound(effectType);
+	if (playerSound)
+		Play_Sound(effectType);
 	Safe_Release(pGameInstance);
 
 	return pSkillEffect;

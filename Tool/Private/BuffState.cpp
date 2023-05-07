@@ -179,6 +179,7 @@ HRESULT CBuffState::Set_BuffState(_uint buffType, _uint skillType, BUFF_STATE eS
 	m_valueB = valueB;
 	m_CurBuffType = buffType;
 	m_DeBuffTick = (_double)valueA * 2.f;
+	m_DeBuffSoundPlayCount = 0;
 
 	m_ConditionEffectType = conditionEffectType;
 	m_ConditionEffectTick = 1.5f;
@@ -502,7 +503,17 @@ void CBuffState::Create_ConditionEffect()
 
 	CGameObject* pEffectManager = CGameInstance::GetInstance()->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"Effect_Manager");
 
-	CSkillEffect* skillEffect = dynamic_cast<CEffect_Manager*>(pEffectManager)->CreateEffect(m_ConditionEffectType, L"Prototype_GameObject_SkillEffect", L"Layer_Effect", Get_Levelindex());
+	CSkillEffect* skillEffect = nullptr;
+	if (m_DeBuffSoundPlayCount <= 0)
+	{
+		skillEffect = dynamic_cast<CEffect_Manager*>(pEffectManager)->CreateEffect(m_ConditionEffectType, L"Prototype_GameObject_SkillEffect", L"Layer_Effect", Get_Levelindex());
+		m_DeBuffSoundPlayCount = 1;
+	}
+	else
+	{
+		skillEffect = dynamic_cast<CEffect_Manager*>(pEffectManager)->CreateEffect(m_ConditionEffectType, L"Prototype_GameObject_SkillEffect", L"Layer_Effect", Get_Levelindex(), false);
+		--m_DeBuffSoundPlayCount;
+	}
 
 	_float4 vPos{};
 	m_Desc.pParentTransform->Get_State(CTransform::STATE_POSITION);

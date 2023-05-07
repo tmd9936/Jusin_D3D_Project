@@ -31,36 +31,36 @@ public:
 	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override; /* 사본객체의 초기화작업 */
 	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath);
 
-	virtual _uint Tick(_double TimeDelta) override;
-	virtual _uint LateTick(_double TimeDelta) override;
+	virtual _uint		Tick(_double TimeDelta) override;
+	virtual _uint		LateTick(_double TimeDelta) override;
 
-	CEffect* Create_Effect(_uint effectType, const _tchar* pLayerTag, _uint iLevelIndex, _bool hasCollider = false, 
+	CEffect*			Create_Effect(_uint effectType, const _tchar* pLayerTag, _uint iLevelIndex, _bool hasCollider = false, 
 		_float3 vPos = { 0.f, 0.f, 0.f });
 
-	CSkillEffect* CreateEffect(_uint effectType, const _tchar* pEffectProtoTypeTag, const _tchar* pLayerTag, _uint iLevelIndex);
+	CSkillEffect*		CreateEffect(_uint effectType, const _tchar* pEffectProtoTypeTag, const _tchar* pLayerTag, _uint iLevelIndex, _bool playerSound = true);
 
-	CSkillEffect* Create_Charge_Effect(_uint effectType, const _tchar* pLayerTag, _uint iLevelIndex, 
+	CSkillEffect*		Create_Charge_Effect(_uint effectType, const _tchar* pLayerTag, _uint iLevelIndex, 
 		CChargeEffect::CHARGE_EFFECT_DESC& chargeEffectDesc);
 
 	//HRESULT	Create_Attack_Effect(_uint effectType, const _tchar* pLayerTag, _uint iLevelIndex, ATTACK_TYPE attackType);
 
 public:
-	void	Get_Effect_Desces(vector<CEffect::EFFECT_DESC>& Effect_Descs);
+	void				Get_Effect_Desces(vector<CEffect::EFFECT_DESC>& Effect_Descs);
 
 public:
-	HRESULT	Reload_Datas();
+	HRESULT				Reload_Datas();
 
 protected:
-	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
-	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
+	virtual _bool		Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
+	virtual _bool		Load_By_JsonFile_Impl(Document& doc);
 
 private:
-	HRESULT Add_Components();
-	HRESULT Add_Components_By_File();
+	HRESULT				Add_Components();
+	HRESULT				Add_Components_By_File();
 
-	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 던진다. */
+	HRESULT				SetUp_ShaderResources();
 
-	void	Play_Sound(const _uint& effectType);
+	void				Play_Sound(const _uint& effectType);
 
 public:
 	constexpr static _uint m_damageEffect00 = 31;
