@@ -336,6 +336,15 @@ void CEffect_Manager::Play_Sound(const _uint& effectType)
 {
 	switch (effectType)
 	{
+	case 63:
+		CGameInstance::GetInstance()->PlaySoundW(L"E_BD_Iwa.ogg", 0.8f);
+		break;
+	case 108:
+		CGameInstance::GetInstance()->PlaySoundW(L"E_BG_Iwa.ogg", 0.8f);
+		break;
+	case 114:
+		CGameInstance::GetInstance()->PlaySoundW(L"E_BB_Normal.ogg", 0.8f);
+		break;
 	case 188:
 		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_Mahi.ogg", 0.8f);
 		break;
@@ -353,6 +362,12 @@ void CEffect_Manager::Play_Sound(const _uint& effectType)
 		break;
 	case 203:
 		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_Freeze.ogg", 0.8f);
+		break;
+	case 241:
+		CGameInstance::GetInstance()->PlaySoundW(L"E_BP_Mizu_Start.ogg", 0.65f);
+		break;
+	case 243:
+		CGameInstance::GetInstance()->PlaySoundW(L"E_BPB_Normal_Start.ogg", 0.8f);
 		break;
 	}
 }
