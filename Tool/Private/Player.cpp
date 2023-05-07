@@ -97,8 +97,6 @@ _uint CPlayer::Tick(_double TimeDelta)
 
 	HitTimeCheck(TimeDelta);
 
-	m_pAABB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
-
 	_float4x4 mat = {};
 	switch (m_pMonFSM->Get_MotionState())
 	{
@@ -223,11 +221,14 @@ _uint CPlayer::Tick(_double TimeDelta)
 		Do_Skill(m_TestSkillindex, CMonFSM::ATK_NORMAL, L"Layer_PlayerSkill");
 	}
 
+	m_pAABB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
+
 	return _uint();
 }
 
 _uint CPlayer::LateTick(_double TimeDelta)
 {
+	m_pAABB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
 	m_pTrail->LateTick(TimeDelta);
 	return __super::LateTick(TimeDelta);
 }

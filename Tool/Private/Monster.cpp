@@ -179,12 +179,14 @@ _uint CMonster::Tick(_double TimeDelta)
 	HitTimeCheck(TimeDelta);
 
 	m_pAABB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
+	_uint tickReuslt = State_Tick(TimeDelta);
 
-	return State_Tick(TimeDelta);
+	return tickReuslt;
 }
 
 _uint CMonster::LateTick(_double TimeDelta)
 {
+	m_pAABB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
 	HitCheck();
 
 	if (true == CGameInstance::GetInstance()->Is_In_Frustum(m_pTransformCom->Get_State(CTransform::STATE_POSITION), 1.f))

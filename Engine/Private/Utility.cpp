@@ -70,9 +70,6 @@ void CUtility::CollisionPushingOut(CCollider* pSour, CCollider* pDest, const _fl
 			pDestTransform->Move(fX * 0.2f, 0.f, 0.f, pDestNavigation);
 
 		}
-
-		//e
-		//pDest->Tick(pDestTransform->Get_WorldMatrix_Matrix());
 	}
 	
 }
