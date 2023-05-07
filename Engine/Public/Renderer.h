@@ -97,6 +97,8 @@ private:
 private:
 	HRESULT Ready_DepthStencilRenderTargetView(_uint iWinCX, _uint iWinCY, ID3D11DepthStencilView** ppDepthSencilView);
 
+	HRESULT Ready_ShadowDepthStencilRenderTargetView(_uint iWinCX, _uint iWinCY, ID3D11DepthStencilView** ppDepthSencilView);
+
 public:
 	static _bool				m_bLaplacian;
 	static _float				m_laplacianThesholdLow;

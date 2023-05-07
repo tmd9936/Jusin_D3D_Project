@@ -112,14 +112,14 @@ HRESULT CRenderer::Initialize_Prototype()
 		TEXT("Target_ShadowDepth"), m_iShadowMapCX, m_iShadowMapCY, DXGI_FORMAT_R32G32B32A32_FLOAT, _float4(1.f, 1.f, 1.f, 1.f))))
 		return E_FAIL;
 
-	if (FAILED(Ready_DepthStencilRenderTargetView(m_iShadowMapCX, m_iShadowMapCY, &m_pShadow_DS_Surface)))
+	if (FAILED(Ready_ShadowDepthStencilRenderTargetView(m_iShadowMapCX, m_iShadowMapCY, &m_pShadow_DS_Surface)))
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
 		TEXT("Target_PreLaplacian"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
 		return E_FAIL;
 
-	if (FAILED(Ready_DepthStencilRenderTargetView(m_iShadowMapCX, m_iShadowMapCY, &m_pPreLaplacian_Surface)))
+	if (FAILED(Ready_ShadowDepthStencilRenderTargetView((_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, &m_pPreLaplacian_Surface)))
 		return E_FAIL;
 
 	//if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext,
@@ -1165,6 +1165,56 @@ HRESULT CRenderer::Ready_DepthStencilRenderTargetView(_uint iWinCX, _uint iWinCY
 	/* DepthStencil */
 
 	if (FAILED(m_pDevice->CreateDepthStencilView(pDepthStencilTexture, nullptr, ppDepthSencilView)))
+		return E_FAIL;
+
+	//g_pDepthStencilView = m_pDepthStencilView;
+	//Safe_AddRef(g_pDepthStencilView);
+
+	Safe_Release(pDepthStencilTexture);
+
+	return S_OK;
+}
+
+
+HRESULT CRenderer::Ready_ShadowDepthStencilRenderTargetView(_uint iWinCX, _uint iWinCY, ID3D11DepthStencilView** ppDepthSencilView)
+{
+	if (nullptr == m_pDevice)
+		return E_FAIL;
+
+	ID3D11Texture2D* pDepthStencilTexture = nullptr;
+
+	D3D11_TEXTURE2D_DESC	TextureDesc;
+	ZeroMemory(&TextureDesc, sizeof(D3D11_TEXTURE2D_DESC));
+
+	TextureDesc.Width = iWinCX;
+	TextureDesc.Height = iWinCY;
+	TextureDesc.MipLevels = 1;
+	TextureDesc.ArraySize = 1;
+	TextureDesc.Format = DXGI_FORMAT_R16_TYPELESS;
+
+	TextureDesc.SampleDesc.Count = 1;
+	TextureDesc.SampleDesc.Quality = 0;
+
+	TextureDesc.Usage = D3D11_USAGE_DEFAULT;
+	TextureDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE /*| D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE*/;
+	TextureDesc.CPUAccessFlags = 0;
+	TextureDesc.MiscFlags = 0;
+
+	if (FAILED(m_pDevice->CreateTexture2D(&TextureDesc, nullptr, &pDepthStencilTexture)))
+		return E_FAIL;
+
+	/* RenderTarget */
+	/* ShaderResource */
+	/* DepthStencil */
+
+	D3D11_DEPTH_STENCIL_VIEW_DESC DSVDesc{};
+
+	DSVDesc.Format = DXGI_FORMAT_D16_UNORM;
+	DSVDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	DSVDesc.Flags = 0;
+	DSVDesc.Texture2D.MipSlice = 0;
+
+	if (FAILED(m_pDevice->CreateDepthStencilView(pDepthStencilTexture, &DSVDesc, ppDepthSencilView)))
 		return E_FAIL;
 
 	//g_pDepthStencilView = m_pDepthStencilView;
