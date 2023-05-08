@@ -224,25 +224,6 @@ _bool CBaseCampMonster::Load_By_JsonFile_Impl(Document& doc)
 	return true;
 }
 
-void CBaseCampMonster::Play_SignitureSound()
-{
-	wstring sound = L"2d_pv";
-
-	if (10 > m_PokemonDesc.m_monsterNo)
-	{
-		sound += L"00" + to_wstring(m_PokemonDesc.m_monsterNo);
-	}
-	else if (100 > m_PokemonDesc.m_monsterNo)
-	{
-		sound += L"0" + to_wstring(m_PokemonDesc.m_monsterNo);
-
-	}
-	sound += L".ogg";
-
-	CGameInstance::GetInstance()->PlaySoundW(sound.c_str(), SOUND_PLAYER);
-
-}
-
 void CBaseCampMonster::Init_RandomMotionChangeDelay()
 {
 	m_MotionChangeDelay = _float(rand() % 3 + 2);
