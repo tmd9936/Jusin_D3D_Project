@@ -169,7 +169,7 @@ void CPokering::State_Tick(const _double& TimeDelta)
 		if (false == m_desc.pParent->Get_CanSkillAttack())
 		{
 			m_eCurState = STATE_COOLTIME;
-			m_CoolTimeSpeed = 100.0 / (m_desc.pParent->Get_SkillCoomTime() * 60.0);
+			m_CoolTimeSpeed = 100.0 / (m_desc.pParent->Get_SkillCoolTime() * 60.0);
 		}
 		break;
 	case STATE_COOLTIME:

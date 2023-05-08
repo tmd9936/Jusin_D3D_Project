@@ -99,6 +99,24 @@ _bool CClient_Utility::Mouse_Pos_In_Platform()
 	return false;
 }
 
+void CClient_Utility::Play_Monster_SignitureSound(const _uint& monsterNo)
+{
+	wstring sound = L"2d_pv";
+
+	if (10 > monsterNo)
+	{
+		sound += L"00" + to_wstring(monsterNo);
+	}
+	else if (100 > monsterNo)
+	{
+		sound += L"0" + to_wstring(monsterNo);
+
+	}
+	sound += L".ogg";
+
+	CGameInstance::GetInstance()->PlaySoundW(sound.c_str(), SOUND_PLAYER);
+}
+
 void CClient_Utility::Free()
 {
 }

@@ -545,7 +545,7 @@ _bool CMonster::Do_Skill(_uint skillType, const _tchar* pLayer)
 		if (nullptr != pSkill_Mananger)
 		{
 			pSkill_Mananger->Do_Skill(pLayer, m_iLevelindex, skillType,
-				m_pAttackCom->Get_AttackPower(), m_pTransformCom->Get_WorldMatrix_Matrix(), m_pModelCom, "effect00", m_pTransformCom, Search_NoAction_BuffState(skillType));
+				m_pAttackCom->Get_AttackPower(), m_pTransformCom->Get_WorldMatrix_Matrix(), m_pModelCom, "effect00", m_pTransformCom, Search_NoAction_BuffState(skillType), m_PokemonDesc.m_monsterNo);
 		}
 
 		CGameObject* pStageCamera = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Camera", L"Main_Camera");
@@ -1003,6 +1003,24 @@ _bool CMonster::Is_AbNormalState(const _uint& buffType)
 	}
 
 	return false;
+}
+
+void CMonster::Play_SignitureSound()
+{
+	wstring sound = L"2d_pv";
+
+	if (10 > m_PokemonDesc.m_monsterNo)
+	{
+		sound += L"00" + to_wstring(m_PokemonDesc.m_monsterNo);
+	}
+	else if (100 > m_PokemonDesc.m_monsterNo)
+	{
+		sound += L"0" + to_wstring(m_PokemonDesc.m_monsterNo);
+
+	}
+	sound += L".ogg";
+
+	CGameInstance::GetInstance()->PlaySoundW(sound.c_str(), SOUND_PLAYER);
 }
 
 _bool CMonster::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator)

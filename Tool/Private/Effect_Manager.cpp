@@ -3,6 +3,8 @@
 
 #include "GameInstance.h"
 
+#include "Client_Utility.h"
+
 #include "Model.h"
 
 CEffect_Manager::CEffect_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -212,7 +214,7 @@ CSkillEffect* CEffect_Manager::CreateEffect(_uint effectType, const _tchar* pEff
 }
 
 CSkillEffect* CEffect_Manager::Create_Charge_Effect(_uint effectType, const _tchar* pLayerTag, 
-	_uint iLevelIndex, CChargeEffect::CHARGE_EFFECT_DESC& chargeEffectDesc)
+	_uint iLevelIndex, CChargeEffect::CHARGE_EFFECT_DESC& chargeEffectDesc, const _uint& monsterNo)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
@@ -235,6 +237,8 @@ CSkillEffect* CEffect_Manager::Create_Charge_Effect(_uint effectType, const _tch
 			return	nullptr;
 
 	}
+
+	CClient_Utility::Play_Monster_SignitureSound(monsterNo);
 
 	chargeEffectDesc.effectDesc = effect_Desc;
 	chargeEffectDesc.effectDesc.m_AnimationStartAcc = 0.0;

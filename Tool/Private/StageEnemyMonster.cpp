@@ -92,6 +92,7 @@ _uint CStageEnemyMonster::Tick(_double TimeDelta)
 		if (m_bDead)
 		{
 			Create_Get_Item();
+			Play_SignitureSound();
 			return OBJ_DEAD;
 		}
 

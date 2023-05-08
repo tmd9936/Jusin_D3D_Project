@@ -121,7 +121,7 @@ public:
 		return _float(m_SkillCoolTimeAcc / m_SkillCoolTime);
 	}
 
-	const _double	Get_SkillCoomTime() const {
+	const _double	Get_SkillCoolTime() const {
 		return m_SkillCoolTime;
 	}
 
@@ -213,6 +213,8 @@ protected:
 	HRESULT					SetUp_ShaderResources(); 
 	HRESULT					SetUp_Shadow_ShaderResources(); 
 
+protected:
+	void					Play_SignitureSound();
 
 protected:
 	CTransform*				m_pTransformCom = { nullptr };

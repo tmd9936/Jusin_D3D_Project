@@ -46,11 +46,11 @@ public:
 
 public: 
 	HRESULT CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType, _uint damage, _fmatrix vParentMatrix,
-		CBone* pBone, CTransform* pParentTransform, _fmatrix PivotMatrix, CBuffState* pBuffState);
+		CBone* pBone, CTransform* pParentTransform, _fmatrix PivotMatrix, CBuffState* pBuffState, const _uint& monsterNo);
 
 public:
 	CSkill* Do_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType, _uint damage,
-		_fmatrix vParentMatrix, CModel* pModel, const char* boneTag, CTransform* pParentTransform, CBuffState* pBuffState);
+		_fmatrix vParentMatrix, CModel* pModel, const char* boneTag, CTransform* pParentTransform, CBuffState* pBuffState, const _uint& monsterNo);
 
 public:
 	CSkill* Create_Test_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType,

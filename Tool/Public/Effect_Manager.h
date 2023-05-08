@@ -40,7 +40,7 @@ public:
 	CSkillEffect*		CreateEffect(_uint effectType, const _tchar* pEffectProtoTypeTag, const _tchar* pLayerTag, _uint iLevelIndex, _bool playerSound = true);
 
 	CSkillEffect*		Create_Charge_Effect(_uint effectType, const _tchar* pLayerTag, _uint iLevelIndex, 
-		CChargeEffect::CHARGE_EFFECT_DESC& chargeEffectDesc);
+		CChargeEffect::CHARGE_EFFECT_DESC& chargeEffectDesc, const _uint& monsterNo);
 
 	//HRESULT	Create_Attack_Effect(_uint effectType, const _tchar* pLayerTag, _uint iLevelIndex, ATTACK_TYPE attackType);
 
