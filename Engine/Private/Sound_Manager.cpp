@@ -169,6 +169,7 @@ void CSound_Manager::PlaySoundW(const _tchar* pSoundKey, const _float& fVolume)
 		if (FALSE == bPlay)
 		{
 			FMOD_System_PlaySound(m_pSystem, iter->second, 0, FALSE, &m_pChannelArr[iID]);
+			FMOD_Channel_SetVolume(m_pChannelArr[iID], fVolume);
 			break;
 		}
 		else
@@ -182,7 +183,6 @@ void CSound_Manager::PlaySoundW(const _tchar* pSoundKey, const _float& fVolume)
 		}
 	} while (true);
 
-	FMOD_Channel_SetVolume(m_pChannelArr[iID], fVolume);
 	FMOD_System_Update(m_pSystem);
 }
 
