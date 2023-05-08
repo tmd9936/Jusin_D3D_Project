@@ -178,8 +178,9 @@ _uint CMonster::Tick(_double TimeDelta)
 
 	HitTimeCheck(TimeDelta);
 
-	m_pAABB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
 	_uint tickReuslt = State_Tick(TimeDelta);
+
+	m_pAABB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
 
 	return tickReuslt;
 }

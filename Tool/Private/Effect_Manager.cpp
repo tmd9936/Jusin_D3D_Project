@@ -339,35 +339,47 @@ void CEffect_Manager::Play_Sound(const _uint& effectType)
 	case 63:
 		CGameInstance::GetInstance()->PlaySoundW(L"E_BD_Iwa.ogg", 0.8f);
 		break;
+	case 67:
+		CGameInstance::GetInstance()->PlaySoundW(L"E_BS_Koori.ogg", 0.7f); // ³Ãµ¿ºö ¹ß»ç
+		break;
+	case 103:
+		CGameInstance::GetInstance()->PlaySoundW(L"E_BG_Doku.ogg", 0.7f); // µ¶ÆøÅº ¹ß»ç
+		break;
 	case 108:
 		CGameInstance::GetInstance()->PlaySoundW(L"E_BG_Iwa.ogg", 0.8f);
 		break;
 	case 114:
-		CGameInstance::GetInstance()->PlaySoundW(L"E_BB_Normal.ogg", 0.8f);
+		CGameInstance::GetInstance()->PlaySoundW(L"E_BB_Normal.ogg", 0.75f); // ¸Þ°¡Åæ ÆÝÄ¡ ¹× ÁöÁø
 		break;
 	case 188:
-		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_Mahi.ogg", 0.8f);
+		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_Mahi.ogg", 0.7f);
 		break;
 	case 189:
-		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_Doku.ogg", 0.8f);
+		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_Doku.ogg", 0.7f);
 		break;
 	case 193:
-		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_DeBuff.ogg", 0.8f);
+		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_DeBuff.ogg", 0.7f);
 		break;
 	case 194:
-		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_Buff.ogg", 0.8f);
+		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_Buff.ogg", 0.7f);
 		break;
 	case 202:
-		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_Conran.ogg", 0.8f);
+		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_Conran.ogg", 0.7f);
 		break;
 	case 203:
-		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_Freeze.ogg", 0.8f);
+		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_Freeze.ogg", 0.7f);
+		break;
+	case 211:
+		CGameInstance::GetInstance()->PlaySoundW(L"E_SP_Tsuno.ogg", 0.6f); //µ¶Ä§
 		break;
 	case 241:
-		CGameInstance::GetInstance()->PlaySoundW(L"E_BP_Mizu_Start.ogg", 0.65f);
+		CGameInstance::GetInstance()->PlaySoundW(L"E_BP_Mizu_Start.ogg", 0.65f); // ÇÏÀÌµå·³ ÆßÇÁ
 		break;
 	case 243:
-		CGameInstance::GetInstance()->PlaySoundW(L"E_BPB_Normal_Start.ogg", 0.8f);
+		CGameInstance::GetInstance()->PlaySoundW(L"E_BPB_Normal_Start.ogg", 0.6f); // ¾ó´Ù¹Ù¶÷
+		break;
+	case 251:
+		CGameInstance::GetInstance()->PlaySoundW(L"E_BBB_Doku.ogg", 0.6f); // µ¶ÆøÅº
 		break;
 	}
 }
