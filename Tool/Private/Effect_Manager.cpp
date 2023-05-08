@@ -340,17 +340,20 @@ void CEffect_Manager::Play_Sound(const _uint& effectType)
 {
 	switch (effectType)
 	{
-	case 63:
-		CGameInstance::GetInstance()->PlaySoundW(L"E_BD_Iwa.ogg", 0.8f);
+	case 78:
+		CGameInstance::GetInstance()->PlaySoundW(L"E_BW_Normal.ogg", 0.7f); // 돌진
 		break;
 	case 103:
 		CGameInstance::GetInstance()->PlaySoundW(L"E_BG_Doku.ogg", 0.7f); // 독폭탄 발사
 		break;
 	case 108:
-		CGameInstance::GetInstance()->PlaySoundW(L"E_BG_Iwa.ogg", 0.8f);
+		CGameInstance::GetInstance()->PlaySoundW(L"E_BG_Iwa.ogg", 0.7f);
 		break;
 	case 114:
-		CGameInstance::GetInstance()->PlaySoundW(L"E_BB_Normal.ogg", 0.75f); // 메가톤 펀치 및 지진
+		CGameInstance::GetInstance()->PlaySoundW(L"E_BB_Normal.ogg", 0.7f);
+		break;
+	case 187:
+		CGameInstance::GetInstance()->PlaySoundW(L"E_EF_Flash.ogg", 0.8f);
 		break;
 	case 188:
 		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_Mahi.ogg", 0.7f);
@@ -365,13 +368,19 @@ void CEffect_Manager::Play_Sound(const _uint& effectType)
 		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_Buff.ogg", 0.7f);
 		break;
 	case 202:
-		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_Conran.ogg", 0.7f);
+		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_Conran.ogg", 0.55f);
 		break;
 	case 203:
 		CGameInstance::GetInstance()->PlaySoundW(L"SE_Condition_Freeze.ogg", 0.7f);
 		break;
+	case 208:
+		CGameInstance::GetInstance()->PlaySoundW(L"E_SP_HoneBuumeran.ogg", 0.7f);
+		break;
 	case 211:
 		CGameInstance::GetInstance()->PlaySoundW(L"E_SP_Tsuno.ogg", 0.6f); //독침
+		break;
+	case 225:
+		CGameInstance::GetInstance()->PlaySoundW(L"E_BD_Iwa.ogg", 0.7f);
 		break;
 	case 236:
 		CGameInstance::GetInstance()->PlaySoundW(L"E_BL_Koori.ogg", 0.7f); // 냉동빔 발사
@@ -382,8 +391,14 @@ void CEffect_Manager::Play_Sound(const _uint& effectType)
 	case 243:
 		CGameInstance::GetInstance()->PlaySoundW(L"E_BPB_Normal_Start.ogg", 0.6f); // 얼다바람
 		break;
+	case 246:
+		CGameInstance::GetInstance()->PlaySoundW(L"E_BBB_Normal.ogg", 0.75f); // 메가톤 펀치 및 지진
+		break;
 	case 251:
 		CGameInstance::GetInstance()->PlaySoundW(L"E_BBB_Doku.ogg", 0.6f); // 독폭탄
+		break;
+	case 256:
+		CGameInstance::GetInstance()->PlaySoundW(L"E_EF_Onpabullet.ogg", 0.55f); // 초음파
 		break;
 	}
 }

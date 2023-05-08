@@ -114,7 +114,7 @@ void CClient_Utility::Play_Monster_SignitureSound(const _uint& monsterNo)
 	}
 	sound += L".ogg";
 
-	CGameInstance::GetInstance()->PlaySoundW(sound.c_str(), SOUND_PLAYER);
+	CGameInstance::GetInstance()->PlaySoundW(sound.c_str(), 0.65f);
 }
 
 void CClient_Utility::Free()
