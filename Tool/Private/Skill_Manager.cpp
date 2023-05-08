@@ -396,7 +396,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 			desc.m_AttackDesc.effectDesc.m_IsParts = false;
 			desc.m_AttackDesc.m_ConditionDataID = Get_ConditionDataID(pConditionData, skillType, 0);
 
-			pSkillEffect = pEffect_Manager->Create_Charge_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex, desc);
+			pSkillEffect = pEffect_Manager->Create_Charge_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex, desc, monsterNo);
 			if (nullptr != pSkillEffect)
 				pSkillEffect->Set_ParentNoParts(pBone, pParentTransform, PivotMatrix);
 
@@ -434,7 +434,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 		desc.m_AttackDesc.effectDesc.m_IsParts = true;
 		desc.m_AttackDesc.m_ConditionDataID = Get_ConditionDataID(pConditionData, skillType, 0);
 
-		pSkillEffect = pEffect_Manager->Create_Charge_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex, desc);
+		pSkillEffect = pEffect_Manager->Create_Charge_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex, desc, monsterNo);
 		if (nullptr != pSkillEffect)
 			pSkillEffect->Set_Parent(pBone, pParentTransform, PivotMatrix);
 
@@ -488,7 +488,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 		desc.m_AttackDesc.effectDesc.m_IsParts = false;
 		desc.m_AttackDesc.m_ConditionDataID = Get_ConditionDataID(pConditionData, skillType, 0);
 
-		pSkillEffect = pEffect_Manager->Create_Charge_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex, desc);
+		pSkillEffect = pEffect_Manager->Create_Charge_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex, desc, monsterNo);
 		if (nullptr != pSkillEffect)
 			pSkillEffect->Set_Parent(pBone, pParentTransform, PivotMatrix);
 
@@ -511,7 +511,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 		desc.m_AttackDesc.m_bKnockBack = false;
 		desc.m_AttackDesc.effectDesc.m_IsParts = false;
 
-		pSkillEffect = pEffect_Manager->Create_Charge_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex, desc);
+		pSkillEffect = pEffect_Manager->Create_Charge_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex, desc, monsterNo);
 		if (nullptr != pSkillEffect)
 			pSkillEffect->Set_Parent(pBone, pParentTransform, PivotMatrix);
 
@@ -539,7 +539,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 		desc.m_AttackDesc.effectDesc.m_IsParts = false;
 		desc.m_AttackDesc.m_ConditionDataID = Get_ConditionDataID(pConditionData, skillType, 0);
 
-		pSkillEffect = pEffect_Manager->Create_Charge_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex, desc);
+		pSkillEffect = pEffect_Manager->Create_Charge_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex, desc, monsterNo);
 		if (nullptr != pSkillEffect)
 			pSkillEffect->Set_Parent(pBone, pParentTransform, PivotMatrix);
 
@@ -565,7 +565,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 		desc.m_AttackDesc.effectDesc.m_IsParts = false;
 		//desc.m_AttackDesc.m_ConditionDataID = Get_ConditionDataID(pConditionData, skillType, 0);
 
-		pSkillEffect = pEffect_Manager->Create_Charge_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex, desc);
+		pSkillEffect = pEffect_Manager->Create_Charge_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex, desc, monsterNo);
 		if (nullptr != pSkillEffect)
 			pSkillEffect->Set_Parent(pBone, pParentTransform, PivotMatrix);
 
@@ -731,7 +731,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 		desc.m_AttackDesc.effectDesc.m_IsParts = true;
 		desc.m_AttackDesc.m_ConditionDataID = Get_ConditionDataID(pConditionData, skillType, 0);
 
-		pSkillEffect = pEffect_Manager->Create_Charge_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex, desc);
+		pSkillEffect = pEffect_Manager->Create_Charge_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex, desc, monsterNo);
 		if (nullptr != pSkillEffect)
 			pSkillEffect->Set_ParentNoParts(pBone, pParentTransform, PivotMatrix);
 
