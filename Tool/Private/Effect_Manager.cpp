@@ -343,9 +343,6 @@ void CEffect_Manager::Play_Sound(const _uint& effectType)
 	case 63:
 		CGameInstance::GetInstance()->PlaySoundW(L"E_BD_Iwa.ogg", 0.8f);
 		break;
-	case 67:
-		CGameInstance::GetInstance()->PlaySoundW(L"E_BS_Koori.ogg", 0.7f); // ≥√µø∫ˆ πﬂªÁ
-		break;
 	case 103:
 		CGameInstance::GetInstance()->PlaySoundW(L"E_BG_Doku.ogg", 0.7f); // µ∂∆¯≈∫ πﬂªÁ
 		break;
@@ -375,6 +372,9 @@ void CEffect_Manager::Play_Sound(const _uint& effectType)
 		break;
 	case 211:
 		CGameInstance::GetInstance()->PlaySoundW(L"E_SP_Tsuno.ogg", 0.6f); //µ∂ƒß
+		break;
+	case 236:
+		CGameInstance::GetInstance()->PlaySoundW(L"E_BL_Koori.ogg", 0.7f); // ≥√µø∫ˆ πﬂªÁ
 		break;
 	case 241:
 		CGameInstance::GetInstance()->PlaySoundW(L"E_BP_Mizu_Start.ogg", 0.65f); // «œ¿ÃµÂ∑≥ ∆ﬂ«¡
