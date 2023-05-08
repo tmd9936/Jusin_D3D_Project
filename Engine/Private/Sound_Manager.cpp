@@ -75,6 +75,7 @@ _uint APIENTRY LoadSoundFile(void* pArg)
 	return 0;
 }
 
+
 HRESULT CSound_Manager::Ready_Sound()
 {
 	m_fMusicVolume = 1.f;
@@ -85,6 +86,14 @@ HRESULT CSound_Manager::Ready_Sound()
 
 	// 1. 시스템 포인터, 2. 사용할 가상채널 수 , 초기화 방식) 
 	FMOD_System_Init(m_pSystem, 32, FMOD_INIT_NORMAL, NULL);
+
+	for (_uint i = 0; i < 32; ++i)
+	{
+		FMOD_CHANNEL* channel;
+		FMOD_System_GetChannel(m_pSystem, (int)i, &channel);
+		//m_vecChannel.push_back(channel);
+		m_pChannelArr[i] = channel;
+	}
 
 	InitializeCriticalSection(m_CriticalSection);
 
