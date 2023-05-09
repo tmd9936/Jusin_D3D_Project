@@ -24,10 +24,10 @@ HRESULT CAnimEnv::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* p
 {
 	if (nullptr != pArg)
 	{
-		m_Desc.vPos = (*(ANIM_ENV_DESC*)(pArg)).vPos;
-		m_Desc.vScale = (*(ANIM_ENV_DESC*)(pArg)).vScale;
+		m_AnimEnvDesc.vPos = (*(ANIM_ENV_DESC*)(pArg)).vPos;
+		m_AnimEnvDesc.vScale = (*(ANIM_ENV_DESC*)(pArg)).vScale;
 
-		lstrcpy(m_Desc.ModelPrototypeTag, (*(ANIM_ENV_DESC*)(pArg)).ModelPrototypeTag);
+		m_AnimEnvDesc.ModelPrototypeTag = (*(ANIM_ENV_DESC*)(pArg)).ModelPrototypeTag;
 	}
 
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
@@ -36,9 +36,38 @@ HRESULT CAnimEnv::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* p
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_Pos(m_Desc.vPos.x, m_Desc.vPos.y, m_Desc.vPos.z);
+	m_pTransformCom->Set_Pos(m_AnimEnvDesc.vPos.x, m_AnimEnvDesc.vPos.y, m_AnimEnvDesc.vPos.z);
 
-	m_pTransformCom->Set_Scaled(m_Desc.vScale);
+	m_pTransformCom->Set_Scaled(m_AnimEnvDesc.vScale);
+
+	m_eRenderId = RENDER_NONBLEND;
+
+	return S_OK;
+}
+
+HRESULT CAnimEnv::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath)
+{
+	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, filePath)))
+		return E_FAIL;
+
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	/* For.Com_Transform */
+	CTransform::TRANSFORMDESC		TransformDesc = { 10.f, XMConvertToRadians(90.0f) };
+	if (FAILED(pGameInstance->Add_Component(CTransform::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+		(CComponent**)&m_pTransformCom, &TransformDesc)))
+		return E_FAIL;
+
+	if (filePath)
+	{
+		Load_By_JsonFile(filePath);
+		m_strSaveJsonPath = filePath;
+	}
+
+	if (FAILED(Add_Components_By_File()))
+		return E_FAIL;
+
+	m_pModelCom->Set_Animation(m_AnimEnvDesc.animIndex);
 
 	m_eRenderId = RENDER_NONBLEND;
 
@@ -100,6 +129,35 @@ HRESULT CAnimEnv::Render_Laplacian()
 	return S_OK;
 }
 
+_bool CAnimEnv::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator)
+{
+	return _bool();
+}
+
+_bool CAnimEnv::Load_By_JsonFile_Impl(Document& doc)
+{
+	if (m_pTransformCom)
+	{
+		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
+
+		const Value& AnimEnvDesc = doc["AnimEnvDesc"];
+
+		const Value& vPos = AnimEnvDesc["vPos"];
+		m_pTransformCom->Set_Pos(vPos["x"].GetFloat(), vPos["y"].GetFloat(), vPos["z"].GetFloat());
+
+		const Value& vScale = AnimEnvDesc["vScale"];
+		m_pTransformCom->Set_Scaled({ vScale["x"].GetFloat(), vScale["y"].GetFloat(), vScale["z"].GetFloat() });
+
+		m_AnimEnvDesc.animIndex = AnimEnvDesc["animIndex"].GetUint();
+		
+		string ModelPrototypeTag = AnimEnvDesc["ModelPrototypeTag"].GetString();
+		m_AnimEnvDesc.ModelPrototypeTag = convert.from_bytes(ModelPrototypeTag);
+
+	}
+
+	return _bool();
+}
+
 
 HRESULT CAnimEnv::Add_Components()
 {
@@ -121,10 +179,31 @@ HRESULT CAnimEnv::Add_Components()
 		return E_FAIL;
 
 	/* For.Com_Model */
-	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, LEVEL_STATIC, m_Desc.ModelPrototypeTag,
+	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, LEVEL_STATIC, m_AnimEnvDesc.ModelPrototypeTag.c_str(),
 		(CComponent**)&m_pModelCom, nullptr)))
 		return E_FAIL;
 
+
+	return S_OK;
+}
+
+HRESULT CAnimEnv::Add_Components_By_File()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	/* For.Com_Renderer */
+	if (FAILED(pGameInstance->Add_Component(CRenderer::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Renderer"),
+		(CComponent**)&m_pRendererCom, nullptr)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxAnimModelColor"),
+		(CComponent**)&m_pShaderCom, nullptr)))
+		return E_FAIL;
+
+	/* For.Com_Model */
+	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, LEVEL_STATIC, m_AnimEnvDesc.ModelPrototypeTag.c_str(),
+		(CComponent**)&m_pModelCom, nullptr)))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -173,6 +252,19 @@ CGameObject* CAnimEnv::Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* p
 	CAnimEnv* pInstance = new CAnimEnv(*this);
 
 	if (FAILED(pInstance->Initialize(pLayerTag, iLevelIndex, pArg)))
+	{
+		MSG_BOX("Failed to Cloned CAnimEnv");
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
+}
+
+CGameObject* CAnimEnv::Clone(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath)
+{
+	CAnimEnv* pInstance = new CAnimEnv(*this);
+
+	if (FAILED(pInstance->Initialize(pLayerTag, iLevelIndex, filePath)))
 	{
 		MSG_BOX("Failed to Cloned CAnimEnv");
 		Safe_Release(pInstance);

@@ -977,6 +977,34 @@ _uint APIENTRY LoadingPokemonModel()
 	return hr;
 }
 
+
+_uint APIENTRY LoadingBaseCampEnvs()
+{
+	while (!CMainApp::Get_MainAppInit()) {}
+
+	CThreadPool::GetInstance()->JobStart();
+
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	HRESULT			hr = { 0 };
+
+	_matrix		PivotMatrix = XMMatrixIdentity();
+
+	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_BASECAMP))
+	{
+		PivotMatrix = XMMatrixScaling(0.2f, 0.2f, 0.2f);
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_G_makeover_arch_1"),
+			CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/BaseCampGoods/G_makeover_arch_1.fbx", PivotMatrix))))
+			return E_FAIL;
+
+
+	}
+
+	CThreadPool::GetInstance()->JobEnd();
+
+	return hr;
+}
+
 HRESULT CLoader::Initialize(LEVEL eNextLevelID)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
@@ -1000,6 +1028,8 @@ HRESULT CLoader::Initialize(LEVEL eNextLevelID)
 			CThreadPool::GetInstance()->QueueJob(std::function<_uint()>(LoadingPokemonModel));
 			CThreadPool::GetInstance()->QueueJob(std::function<_uint()>(Loading_BC_cauldron01));
 			CThreadPool::GetInstance()->QueueJob(std::function<_uint()>(LoadingConditionEffect));
+			CThreadPool::GetInstance()->QueueJob(std::function<_uint()>(LoadingBaseCampEnvs));
+
 		}
 	}
 	else if (eNextLevelID == LEVEL_WORLDMAP)

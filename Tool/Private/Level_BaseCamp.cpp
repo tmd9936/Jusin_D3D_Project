@@ -156,7 +156,7 @@ HRESULT CLevel_BaseCamp::Ready_Layer_Env(const _tchar* pLayerTag)
 		return E_FAIL;
 
 	CAnimEnv::ANIM_ENV_DESC desc{};
-	lstrcpy(desc.ModelPrototypeTag, L"Prototype_Component_Model_Fire");
+	desc.ModelPrototypeTag = L"Prototype_Component_Model_Fire";
 	desc.vScale = { 1.1f, 3.0f, 1.1f };
 	desc.vPos = { 20.2f, -0.55f, 21.f };
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_AnimEnv"), LEVEL_BASECAMP, pLayerTag, L"Fire1", &desc)))
@@ -167,7 +167,7 @@ HRESULT CLevel_BaseCamp::Ready_Layer_Env(const _tchar* pLayerTag)
 		return E_FAIL;
 
 	CAnimEnv::ANIM_ENV_DESC desc2{};
-	lstrcpy(desc2.ModelPrototypeTag, L"Prototype_Component_Model_Cook_effect");
+	desc2.ModelPrototypeTag = L"Prototype_Component_Model_Cook_effect";
 	desc2.vScale = { 1.f, 1.f, 1.f };
 	desc2.vPos = { 20.2f, 0.5f, 21.f };
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_AnimEnv"), LEVEL_BASECAMP, pLayerTag, L"Cook_effect1", &desc2)))
@@ -175,6 +175,9 @@ HRESULT CLevel_BaseCamp::Ready_Layer_Env(const _tchar* pLayerTag)
 
 	desc2.vPos = { 19.0f, 0.5f, 19.8f };
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_AnimEnv"), LEVEL_BASECAMP, pLayerTag, L"Cook_effect2", &desc2)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_AnimEnv"), LEVEL_BASECAMP, pLayerTag, L"arch", "../../Reference/Resources/Data/Scene/BaseCamp/Env/arch.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);
