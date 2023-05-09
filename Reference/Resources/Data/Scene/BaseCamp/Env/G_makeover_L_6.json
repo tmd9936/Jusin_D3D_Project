@@ -1,9 +1,9 @@
 {
     "AnimEnvDesc": {
         "vPos": {
-            "x": 23.123,
+            "x": 14.05,
             "y": 0.0,
-            "z": 28.423
+            "z": 25.223
         },
         "vScale": {
             "x": 1.0,
@@ -16,6 +16,6 @@
             "z": 0.0
         },
         "animIndex": 1,
-        "ModelPrototypeTag": "Prototype_Component_Model_G_makeover_S_6"
+        "ModelPrototypeTag": "Prototype_Component_Model_G_makeover_L_6"
     }
 }

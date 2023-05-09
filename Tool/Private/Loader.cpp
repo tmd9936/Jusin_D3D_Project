@@ -1021,6 +1021,10 @@ _uint APIENTRY LoadingBaseCampEnvs()
 			CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/BaseCampGoods/G_statue_pigeon.fbx", PivotMatrix))))
 			return E_FAIL;
 
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_G_makeover_L_6"),
+			CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/BaseCampGoods/G_makeover_L_6.fbx", PivotMatrix))))
+			return E_FAIL;
+
 	}
 
 	CThreadPool::GetInstance()->JobEnd();
