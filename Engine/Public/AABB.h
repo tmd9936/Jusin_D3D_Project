@@ -6,9 +6,9 @@ BEGIN(Engine)
 class ENGINE_DLL CAABB : public CCollider
 {
 private:
-	CAABB(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CAABB(const CAABB& rhs);
-	~CAABB() = default;
+	explicit CAABB(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CAABB(const CAABB& rhs);
+	virtual ~CAABB() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();

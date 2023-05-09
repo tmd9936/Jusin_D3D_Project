@@ -45,8 +45,8 @@ public:
 	} WORLDMAP_MANAGER_DESC;
 
 private:
-	CWorldMap_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CWorldMap_Manager(const CWorldMap_Manager& rhs);
+	explicit CWorldMap_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CWorldMap_Manager(const CWorldMap_Manager& rhs);
 	virtual ~CWorldMap_Manager() = default;
 
 public:

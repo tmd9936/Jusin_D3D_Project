@@ -27,8 +27,8 @@ public:
 	} SKILL_DEPEND_DATA;
 
 private:
-	CSkill_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CSkill_Manager(const CSkill_Manager& rhs);
+	explicit CSkill_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CSkill_Manager(const CSkill_Manager& rhs);
 	virtual ~CSkill_Manager() = default;
 
 public:

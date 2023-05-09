@@ -46,8 +46,8 @@ public:
 	};
 
 private:
-	CEnemySpawnPoint(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CEnemySpawnPoint(const CEnemySpawnPoint& rhs);
+	explicit CEnemySpawnPoint(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CEnemySpawnPoint(const CEnemySpawnPoint& rhs);
 	virtual ~CEnemySpawnPoint() = default;
 
 public:

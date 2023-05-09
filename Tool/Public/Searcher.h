@@ -30,8 +30,8 @@ public:
 	};
 
 private:
-	CSearcher(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CSearcher(const CSearcher& rhs);
+	explicit CSearcher(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CSearcher(const CSearcher& rhs);
 	virtual ~CSearcher() = default;
 
 public:

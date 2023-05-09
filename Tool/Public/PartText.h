@@ -32,8 +32,8 @@ public:
 	} TEXT_DESC;
 
 private:
-	CPartText(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CPartText(const CPartText& rhs);
+	explicit CPartText(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CPartText(const CPartText& rhs);
 	virtual ~CPartText() = default;
 
 public:

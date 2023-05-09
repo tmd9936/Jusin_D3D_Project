@@ -40,8 +40,8 @@ public:
 	} HOMMING_ATTACK_EFFECT_DESC;
 
 private:
-	CHommingAttackEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CHommingAttackEffect(const CHommingAttackEffect& rhs);
+	explicit CHommingAttackEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CHommingAttackEffect(const CHommingAttackEffect& rhs);
 	virtual ~CHommingAttackEffect() = default;
 
 public:

@@ -18,8 +18,8 @@ class CStove final : public CGameObject
 {
 
 private:
-	CStove(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CStove(const CStove& rhs);
+	explicit CStove(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CStove(const CStove& rhs);
 	virtual ~CStove() = default;
 
 public:

@@ -23,8 +23,8 @@ public:
 	}FLATTERRAIN_DESC;
 
 private:
-	CFlatTerrain(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CFlatTerrain(const CFlatTerrain& rhs);
+	explicit CFlatTerrain(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CFlatTerrain(const CFlatTerrain& rhs);
 	virtual ~CFlatTerrain() = default;
 
 public:

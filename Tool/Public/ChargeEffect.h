@@ -43,8 +43,8 @@ public:
     } CHARGE_EFFECT_DESC;
 
 private:
-	CChargeEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CChargeEffect(const CChargeEffect& rhs);
+	explicit CChargeEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CChargeEffect(const CChargeEffect& rhs);
 	virtual ~CChargeEffect() = default;
 
 public:

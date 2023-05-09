@@ -38,8 +38,8 @@ public:
 	} CAULDRON_DESC;
 
 private:
-	CCauldron(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CCauldron(const CCauldron& rhs);
+	explicit CCauldron(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CCauldron(const CCauldron& rhs);
 	virtual ~CCauldron() = default;
 
 public:

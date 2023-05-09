@@ -29,8 +29,8 @@ public:
 	};
 
 private:
-	CFeeding_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CFeeding_Manager(const CFeeding_Manager& rhs);
+	explicit CFeeding_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CFeeding_Manager(const CFeeding_Manager& rhs);
 	virtual ~CFeeding_Manager() = default;
 
 public:

@@ -12,8 +12,8 @@ class CStage_Manager;
 class CStageEnemyMonster : public CMonster
 {
 private:
-	CStageEnemyMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CStageEnemyMonster(const CMonster& rhs);
+	explicit CStageEnemyMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CStageEnemyMonster(const CMonster& rhs);
 	virtual ~CStageEnemyMonster() = default;
 
 public:

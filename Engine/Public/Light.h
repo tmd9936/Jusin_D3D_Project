@@ -7,7 +7,7 @@ BEGIN(Engine)
 class CLight final : public CBase
 {
 private:
-	CLight(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CLight(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual ~CLight() = default;
 
 public:

@@ -57,8 +57,8 @@ public:
 	} WORLDMAP_MANAGER_DESC;
 
 private:
-	CStage_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CStage_Manager(const CStage_Manager& rhs);
+	explicit CStage_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CStage_Manager(const CStage_Manager& rhs);
 	virtual ~CStage_Manager() = default;
 
 public:

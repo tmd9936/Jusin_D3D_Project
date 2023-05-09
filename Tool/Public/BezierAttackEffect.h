@@ -28,8 +28,8 @@ public:
 	} BEZIER_ATTACK_EFFECT_DESC;
 
 private:
-	CBezierAttackEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CBezierAttackEffect(const CBezierAttackEffect& rhs);
+	explicit CBezierAttackEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CBezierAttackEffect(const CBezierAttackEffect& rhs);
 	virtual ~CBezierAttackEffect() = default;
 
 public:

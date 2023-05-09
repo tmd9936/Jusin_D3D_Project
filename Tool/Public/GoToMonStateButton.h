@@ -15,8 +15,8 @@ public:
         _int    m_monsterNumber;
     }MONSTATEBUTTON_DESC;
 protected:
-    CGoToMonStateButton(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-    CGoToMonStateButton(const CGoToMonStateButton& rhs);
+    explicit CGoToMonStateButton(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+    explicit CGoToMonStateButton(const CGoToMonStateButton& rhs);
     virtual ~CGoToMonStateButton() = default;
 
 protected:

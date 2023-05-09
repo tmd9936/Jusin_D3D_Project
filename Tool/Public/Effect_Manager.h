@@ -22,8 +22,8 @@ class CEffect_Manager final : public CGameObject
 {
 
 private:
-	CEffect_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CEffect_Manager(const CEffect_Manager& rhs);
+	explicit CEffect_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CEffect_Manager(const CEffect_Manager& rhs);
 	virtual ~CEffect_Manager() = default;
 
 public:

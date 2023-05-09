@@ -60,8 +60,8 @@ public:
 	};
 
 private:
-	CEnemyPack(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CEnemyPack(const CEnemyPack& rhs);
+	explicit CEnemyPack(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CEnemyPack(const CEnemyPack& rhs);
 	virtual ~CEnemyPack() = default;
 
 public:

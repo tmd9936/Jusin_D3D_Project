@@ -55,8 +55,8 @@ public:
 	} EFFECT_DESC;
 
 protected:
-	CSkillEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CSkillEffect(const CSkillEffect& rhs);
+	explicit CSkillEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CSkillEffect(const CSkillEffect& rhs);
 	virtual ~CSkillEffect() = default;
 
 public:

@@ -23,8 +23,8 @@ public:
 	} WORLDMAP_ANIM_ENV_DESC;
 
 private:
-	CWorldMapAnimEnv(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CWorldMapAnimEnv(const CWorldMapAnimEnv& rhs);
+	explicit CWorldMapAnimEnv(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CWorldMapAnimEnv(const CWorldMapAnimEnv& rhs);
 	virtual ~CWorldMapAnimEnv() = default;
 
 public:

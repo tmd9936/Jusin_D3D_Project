@@ -125,8 +125,8 @@ public:
 	} BUTTON_DESC;
 
 protected:
-	CButton(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CButton(const CButton& rhs);
+	explicit CButton(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CButton(const CButton& rhs);
 	virtual ~CButton() = default;
 
 public:

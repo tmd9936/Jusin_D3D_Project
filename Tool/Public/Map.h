@@ -28,8 +28,8 @@ public:
 	} MAP_DESC;
 
 private:
-	CMap(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CMap(const CMap& rhs);
+	explicit CMap(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CMap(const CMap& rhs);
 	virtual ~CMap() = default;
 
 public:

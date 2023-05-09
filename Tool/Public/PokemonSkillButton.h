@@ -10,8 +10,8 @@ class CPokemonSkillButton :
     public CButton
 {
 protected:
-    CPokemonSkillButton(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-    CPokemonSkillButton(const CPokemonSkillButton& rhs);
+    explicit CPokemonSkillButton(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+    explicit CPokemonSkillButton(const CPokemonSkillButton& rhs);
     virtual ~CPokemonSkillButton() = default;
 
 public:

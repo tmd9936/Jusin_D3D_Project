@@ -17,8 +17,8 @@ BEGIN(Client)
 class CTestModel final : public CGameObject
 {
 private:
-	CTestModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CTestModel(const CTestModel& rhs);
+	explicit CTestModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CTestModel(const CTestModel& rhs);
 	virtual ~CTestModel() = default;
 
 public:

@@ -6,8 +6,8 @@ class CGoToFeedingButton :
     public CButton
 {
 protected:
-    CGoToFeedingButton(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-    CGoToFeedingButton(const CGoToFeedingButton& rhs);
+    explicit CGoToFeedingButton(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+    explicit CGoToFeedingButton(const CGoToFeedingButton& rhs);
     virtual ~CGoToFeedingButton() = default;
 
 protected:

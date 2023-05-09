@@ -43,8 +43,8 @@ public:
 	} SKILL_DESC;
 
 private:
-	CSkill(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CSkill(const CSkill& rhs);
+	explicit CSkill(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CSkill(const CSkill& rhs);
 	virtual ~CSkill() = default;
 
 public:

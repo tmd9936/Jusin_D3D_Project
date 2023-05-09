@@ -7,8 +7,8 @@ BEGIN(Client)
 class CBaseCampMonster : public CMonster
 {
 private:
-	CBaseCampMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CBaseCampMonster(const CMonster& rhs);
+	explicit CBaseCampMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CBaseCampMonster(const CMonster& rhs);
 	virtual ~CBaseCampMonster() = default;
 
 public:

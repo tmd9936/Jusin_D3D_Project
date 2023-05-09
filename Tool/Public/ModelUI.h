@@ -29,8 +29,8 @@ public:
 	} UI_DESC;
 
 private:
-	CModelUI(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CModelUI(const CModelUI& rhs);
+	explicit CModelUI(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CModelUI(const CModelUI& rhs);
 	virtual ~CModelUI() = default;
 
 public:

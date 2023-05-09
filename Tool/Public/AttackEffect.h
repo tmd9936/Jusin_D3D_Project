@@ -35,8 +35,8 @@ public:
 	} ATTACK_EFFECT_DESC;
 
 protected:
-	CAttackEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CAttackEffect(const CAttackEffect& rhs);
+	explicit CAttackEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CAttackEffect(const CAttackEffect& rhs);
 	virtual ~CAttackEffect() = default;
 
 public:

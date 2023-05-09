@@ -30,8 +30,8 @@ public:
 
 	}WEAPONDESC;
 private:
-	CWeapon(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CWeapon(const CWeapon& rhs);
+	explicit CWeapon(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CWeapon(const CWeapon& rhs);
 	virtual ~CWeapon() = default;
 
 public:

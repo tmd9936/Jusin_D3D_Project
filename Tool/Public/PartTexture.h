@@ -44,8 +44,8 @@ public:
 	} UI_DESC;
 
 private:
-	CPartTexture(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CPartTexture(const CPartTexture& rhs);
+	explicit CPartTexture(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CPartTexture(const CPartTexture& rhs);
 	virtual ~CPartTexture() = default;
 
 public:

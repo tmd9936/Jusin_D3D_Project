@@ -42,8 +42,8 @@ public:
 	}CAMERA_PUBLIC_DESC;
 
 private:
-	CCamera_Public(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CCamera_Public(const CCamera_Public& rhs);
+	explicit CCamera_Public(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CCamera_Public(const CCamera_Public& rhs);
 	virtual ~CCamera_Public() = default;
 
 public:

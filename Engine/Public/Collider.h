@@ -33,9 +33,9 @@ public:
     }   COLLIDER_DESC;
 
 protected:
-    CCollider(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-    CCollider(const CCollider& rhs);
-    ~CCollider() = default;
+    explicit CCollider(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+    explicit CCollider(const CCollider& rhs);
+    virtual  ~CCollider() = default;
 
 #ifdef DEBUG_COMPONENT_RENDER
 public:

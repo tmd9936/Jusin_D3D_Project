@@ -26,8 +26,8 @@ public:
 	} RUSH_ATTACK_EFFECT_DESC;
 
 private:
-	CRushAttackEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CRushAttackEffect(const CRushAttackEffect& rhs);
+	explicit CRushAttackEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CRushAttackEffect(const CRushAttackEffect& rhs);
 	virtual ~CRushAttackEffect() = default;
 
 public:

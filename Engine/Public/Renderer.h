@@ -19,7 +19,7 @@ public:
 	static const FamilyId familyId = FAMILY_ID_RENDERER;
 
 private:
-	CRenderer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner);
+	explicit CRenderer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner);
 	virtual ~CRenderer() = default;
 
 public:

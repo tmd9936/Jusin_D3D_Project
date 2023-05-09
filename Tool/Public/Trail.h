@@ -27,8 +27,8 @@ public:
 	}TRAIL_DESC;
 
 private:
-	CTrail(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CTrail(const CTrail& rhs);
+	explicit CTrail(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CTrail(const CTrail& rhs);
 	virtual ~CTrail() = default;
 
 public:

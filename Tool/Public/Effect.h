@@ -84,8 +84,8 @@ public:
 	} EFFECT_DESC;
 
 protected:
-	CEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CEffect(const CEffect& rhs);
+	explicit CEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CEffect(const CEffect& rhs);
 	virtual ~CEffect() = default;
 
 public:

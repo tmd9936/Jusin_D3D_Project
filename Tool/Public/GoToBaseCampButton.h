@@ -6,8 +6,8 @@ class CGoToBaseCampButton :
     public CButton
 {
 protected:
-    CGoToBaseCampButton(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-    CGoToBaseCampButton(const CGoToBaseCampButton& rhs);
+    explicit  CGoToBaseCampButton(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+    explicit CGoToBaseCampButton(const CGoToBaseCampButton& rhs);
     virtual ~CGoToBaseCampButton() = default;
 
 protected:

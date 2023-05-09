@@ -15,8 +15,8 @@ BEGIN(Client)
 class CBackGround final : public CGameObject
 {
 private:
-	CBackGround(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CBackGround(const CBackGround& rhs);
+	explicit CBackGround(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CBackGround(const CBackGround& rhs);
 	virtual ~CBackGround() = default;
 
 public:

@@ -14,8 +14,8 @@ BEGIN(Client)
 class CStageSupportMonster : public CMonster
 {
 private:
-	CStageSupportMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CStageSupportMonster(const CMonster& rhs);
+	explicit CStageSupportMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CStageSupportMonster(const CMonster& rhs);
 	virtual ~CStageSupportMonster() = default;
 
 public:

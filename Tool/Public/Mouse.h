@@ -19,8 +19,8 @@ public:
 	enum STATE { STATE_IDLE, STATE_CLICK, STATE_END };
 
 private:
-	CMouse(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CMouse(const CMouse& rhs);
+	explicit CMouse(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CMouse(const CMouse& rhs);
 	virtual ~CMouse() = default;
 
 public:

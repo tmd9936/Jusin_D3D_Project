@@ -39,8 +39,8 @@ public:
 	};
 
 private:
-	CPokemonState_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CPokemonState_Manager(const CPokemonState_Manager& rhs);
+	explicit CPokemonState_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CPokemonState_Manager(const CPokemonState_Manager& rhs);
 	virtual ~CPokemonState_Manager() = default;
 
 public:

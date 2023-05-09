@@ -18,8 +18,8 @@ public:
 	static const FamilyId familyId = FAMILY_ID_NAVIGATION;
 
 private:
-	CNavigation(ID3D11Device * pDevice, ID3D11DeviceContext * pContext, CGameObject* pOwner);
-	CNavigation(const CNavigation& rhs, CGameObject* pOwner);
+	explicit CNavigation(ID3D11Device * pDevice, ID3D11DeviceContext * pContext, CGameObject* pOwner);
+	explicit CNavigation(const CNavigation& rhs, CGameObject* pOwner);
 	virtual ~CNavigation() = default;
 
 public:

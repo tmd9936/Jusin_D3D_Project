@@ -12,8 +12,8 @@ class CComponent;
 class ENGINE_DLL CGameObject abstract : public CBase
 {
 protected:
-	CGameObject(ID3D11Device * pDevice, ID3D11DeviceContext * pContext);
-	CGameObject(const CGameObject& rhs);
+	explicit CGameObject(ID3D11Device * pDevice, ID3D11DeviceContext * pContext);
+	explicit CGameObject(const CGameObject& rhs);
 	virtual ~CGameObject() = default;
 
 public:
@@ -87,11 +87,11 @@ public:
 	}
 
 public:
-	const _bool					Is_Dead() const { 
+	const _bool				Is_Dead() const { 
 		return m_bDead; 
 	}
 
-	const _bool					Is_BeCulling() const {
+	const _bool				Is_BeCulling() const {
 		return m_bBeCulling;
 	}
 

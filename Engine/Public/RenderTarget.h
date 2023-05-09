@@ -7,7 +7,7 @@ BEGIN(Engine)
 class CRenderTarget final : public CBase
 {
 private:
-	CRenderTarget(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CRenderTarget(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual ~CRenderTarget() = default;
 
 public:

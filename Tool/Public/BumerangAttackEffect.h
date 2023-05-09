@@ -33,8 +33,8 @@ public:
 	} BUMERANG_ATTACK_EFFECT_DESC;
 
 private:
-	CBumerangAttackEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CBumerangAttackEffect(const CBumerangAttackEffect& rhs);
+	explicit CBumerangAttackEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CBumerangAttackEffect(const CBumerangAttackEffect& rhs);
 	virtual ~CBumerangAttackEffect() = default;
 
 public:

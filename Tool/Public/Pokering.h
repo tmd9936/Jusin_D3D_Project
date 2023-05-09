@@ -41,8 +41,8 @@ public:
 	} POKERING_DESC;
 
 private:
-	CPokering(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CPokering(const CPokering& rhs);
+	explicit CPokering(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CPokering(const CPokering& rhs);
 	virtual ~CPokering() = default;
 
 public:

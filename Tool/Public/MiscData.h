@@ -52,8 +52,8 @@ public:
 	} MISC_DESC;
 
 private:
-	CMiscData(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CMiscData(const CMiscData& rhs);
+	explicit CMiscData(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CMiscData(const CMiscData& rhs);
 	virtual ~CMiscData() = default;
 
 public:

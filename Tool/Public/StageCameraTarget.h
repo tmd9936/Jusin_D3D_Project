@@ -37,8 +37,8 @@ public:
 	};
 
 private:
-	CStageCameraTarget(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CStageCameraTarget(const CStageCameraTarget& rhs);
+	explicit CStageCameraTarget(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CStageCameraTarget(const CStageCameraTarget& rhs);
 	virtual ~CStageCameraTarget() = default;
 
 public:

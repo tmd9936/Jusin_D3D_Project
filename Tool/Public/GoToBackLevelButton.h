@@ -6,8 +6,8 @@ class CGoToBackLevelButton :
     public CButton
 {
 protected:
-    CGoToBackLevelButton(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-    CGoToBackLevelButton(const CGoToBackLevelButton& rhs);
+    explicit CGoToBackLevelButton(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+    explicit CGoToBackLevelButton(const CGoToBackLevelButton& rhs);
     virtual ~CGoToBackLevelButton() = default;
 
 protected:
