@@ -11,9 +11,10 @@ class ENGINE_DLL CVIBuffer abstract : public CComponent
 {
 public:
 	static const FamilyId familyId = FAMILY_ID_VIBUFFER;
+
 protected:
-	CVIBuffer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner);
-	CVIBuffer(const CVIBuffer& rhs, CGameObject* pOwner);
+	explicit CVIBuffer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CGameObject* pOwner);
+	explicit CVIBuffer(const CVIBuffer& rhs, CGameObject* pOwner);
 	virtual ~CVIBuffer() = default;
 
 public:

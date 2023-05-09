@@ -4,7 +4,7 @@
 #include "GameObject.h"
 
 BEGIN(Engine)
-class CVIBuffer_Rect_Instance;
+class CVIBuffer_Point_Instance;
 class CTransform;
 class CRenderer;
 class CTexture;
@@ -16,8 +16,8 @@ BEGIN(Client)
 class CEffect_Sakura final : public CGameObject
 {
 private:
-	CEffect_Sakura(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CEffect_Sakura(const CEffect_Sakura& rhs);
+	explicit CEffect_Sakura(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CEffect_Sakura(const CEffect_Sakura& rhs);
 	virtual ~CEffect_Sakura() = default;
 
 public:
@@ -28,11 +28,11 @@ public:
 	virtual HRESULT Render() override;
 
 private:
-	CTransform* m_pTransformCom = { nullptr };
-	CRenderer* m_pRendererCom = { nullptr };
-	CTexture* m_pTextureCom = { nullptr };
-	CShader* m_pShaderCom = { nullptr };
-	CVIBuffer_Rect_Instance* m_pVIBufferCom = { nullptr };
+	CTransform*					m_pTransformCom = { nullptr };
+	CRenderer*					m_pRendererCom = { nullptr };
+	CTexture*					m_pTextureCom = { nullptr };
+	CShader*					m_pShaderCom = { nullptr };
+	CVIBuffer_Point_Instance*	m_pVIBufferCom = { nullptr };
 
 private:
 	HRESULT Add_Components();

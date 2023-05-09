@@ -114,10 +114,10 @@ PS_OUT PS_MAIN(PS_IN In)
 {
 	PS_OUT			Out = (PS_OUT)0;
 
-	Out.vColor = g_Texture.Sample(PointSampler, In.vTexUV);
-	Out.vColor.rgb = float3(1.f, 0.f, 0.f);
+	Out.vColor = g_Texture.Sample(LinearSampler, In.vTexUV);
+	//Out.vColor.rgb = float3(1.f, 0.f, 0.f);
 
-	if (Out.vColor.a <= 0.1f)
+	if (Out.vColor.a < 0.2f)
 		discard;
 
 	return Out;

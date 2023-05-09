@@ -359,6 +359,9 @@ HRESULT CLevel_BaseCamp::Ready_Layer_Effect(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_Layer(LEVEL_BASECAMP, pLayerTag)))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Effect_Sakura"), LEVEL_BASECAMP, pLayerTag)))
+		return E_FAIL;
+
 	Safe_Release(pGameInstance);
 	return S_OK;
 }

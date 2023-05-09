@@ -30,6 +30,8 @@ HRESULT CEffect_Sakura::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, v
 
 	m_eRenderId = RENDER_NONLIGHT;
 
+	m_pTransformCom->Set_Scaled({ 0.3f, 0.3f, 1.f });
+
 	return S_OK;
 }
 
@@ -76,21 +78,21 @@ HRESULT CEffect_Sakura::Add_Components()
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
-	CVIBuffer_Rect_Instance::RECT_INSTANCE_DESC		BufferDesc;
+	CVIBuffer_Point_Instance::POINT_INSTANCE_DESC		BufferDesc{};
 
-	BufferDesc.vPosition = _float3(15.f, 5.f, 15.f);
-	BufferDesc.vSize = _float2(30.f, 30.f);
+	BufferDesc.vPosition = _float3(15.f, 15.f, 15.f);
+	BufferDesc.vSize = _float2(20.f, 20.f);
 	BufferDesc.fLifeTime = 5.f;
 	BufferDesc.fMinSpeed = 3.f;
 	BufferDesc.fMaxSpeed = 10.f;
 
 	/* For.Com_VIBuffer */
-	if (FAILED(pGameInstance->Add_Component(CVIBuffer_Rect::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect_Instance"),
+	if (FAILED(pGameInstance->Add_Component(CVIBuffer::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Point_Instance"),
 		(CComponent**)&m_pVIBufferCom, &BufferDesc)))
 		return E_FAIL;
 
 	/* For.Com_Shader */
-	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxInstance"),
+	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxPointInstance"),
 		(CComponent**)&m_pShaderCom, nullptr)))
 		return E_FAIL;
 
@@ -115,6 +117,9 @@ HRESULT CEffect_Sakura::SetUp_ShaderResources()
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_Matrix("g_ProjMatrix",
 		&pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_PROJ))))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_vCamPosition", &pGameInstance->Get_CamPosition(), sizeof(_float4))))
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);
