@@ -1009,6 +1009,18 @@ _uint APIENTRY LoadingBaseCampEnvs()
 			CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/BaseCampGoods/G_ball_premier.fbx", PivotMatrix))))
 			return E_FAIL;
 
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_G_makeover_S_3"),
+			CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/BaseCampGoods/G_makeover_S_3.fbx", PivotMatrix))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_G_makeover_S_6"),
+			CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/BaseCampGoods/G_makeover_S_6.fbx", PivotMatrix))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_G_statue_pigeon"),
+			CModel::Create(pGameInstance->Get_Device(), pGameInstance->Get_ContextDevice(), CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/BaseCampGoods/G_statue_pigeon.fbx", PivotMatrix))))
+			return E_FAIL;
+
 	}
 
 	CThreadPool::GetInstance()->JobEnd();

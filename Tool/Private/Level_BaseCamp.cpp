@@ -189,6 +189,15 @@ HRESULT CLevel_BaseCamp::Ready_Layer_Env(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_AnimEnv"), LEVEL_BASECAMP, pLayerTag, L"G_ball_premier", "../../Reference/Resources/Data/Scene/BaseCamp/Env/G_ball_premier.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_AnimEnv"), LEVEL_BASECAMP, pLayerTag, L"G_makeover_S_3", "../../Reference/Resources/Data/Scene/BaseCamp/Env/G_makeover_S_3.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_AnimEnv"), LEVEL_BASECAMP, pLayerTag, L"G_makeover_S_6", "../../Reference/Resources/Data/Scene/BaseCamp/Env/G_makeover_S_6.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_AnimEnv"), LEVEL_BASECAMP, pLayerTag, L"G_statue_pigeon", "../../Reference/Resources/Data/Scene/BaseCamp/Env/G_statue_pigeon.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
 	Safe_Release(pGameInstance);
 	return S_OK;
 }
