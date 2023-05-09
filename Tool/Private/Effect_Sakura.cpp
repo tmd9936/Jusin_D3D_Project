@@ -83,11 +83,11 @@ HRESULT CEffect_Sakura::Add_Components()
 	/* For.Com_VIBuffer */
 	CVIBuffer_Point_Instance::POINT_INSTANCE_DESC		BufferDesc{};
 
-	BufferDesc.vPosition = _float3(0.f, 0.f, 0.f);
+	BufferDesc.vPosition = _float3(0.f, 10.f, 0.f);
 	BufferDesc.vSize = _float2(50.f, 50.f);
-	BufferDesc.fLifeTime = 15.f;
-	BufferDesc.fMinSpeed = 3.f;
-	BufferDesc.fMaxSpeed = 10.f;
+	BufferDesc.fLifeTime = 25.f;
+	BufferDesc.fMinSpeed = 2.f;
+	BufferDesc.fMaxSpeed = 4.f;
 
 	/* For.Com_VIBuffer */
 	if (FAILED(pGameInstance->Add_Component(CVIBuffer::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Point_Instance"),
