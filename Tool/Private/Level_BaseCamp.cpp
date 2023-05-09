@@ -180,6 +180,15 @@ HRESULT CLevel_BaseCamp::Ready_Layer_Env(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_AnimEnv"), LEVEL_BASECAMP, pLayerTag, L"arch", "../../Reference/Resources/Data/Scene/BaseCamp/Env/arch.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_AnimEnv"), LEVEL_BASECAMP, pLayerTag, L"G_ball_master", "../../Reference/Resources/Data/Scene/BaseCamp/Env/G_ball_master.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_AnimEnv"), LEVEL_BASECAMP, pLayerTag, L"G_ball_hyper", "../../Reference/Resources/Data/Scene/BaseCamp/Env/G_ball_hyper.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_AnimEnv"), LEVEL_BASECAMP, pLayerTag, L"G_ball_premier", "../../Reference/Resources/Data/Scene/BaseCamp/Env/G_ball_premier.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
 	Safe_Release(pGameInstance);
 	return S_OK;
 }
