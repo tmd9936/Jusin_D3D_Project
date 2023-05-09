@@ -191,8 +191,22 @@ void CVIBuffer_Point_Instance::Update(_double TimeDelta)
 		((VTXMATRIX*)SubResource.pData)[i].vTranslation.z += m_pSpeed[i] * (_float)TimeDelta;
 
 
-		if (((VTXMATRIX*)SubResource.pData)[i].vTranslation.y < 0.0f)
-			((VTXMATRIX*)SubResource.pData)[i].vTranslation.y = m_PointInstanceDesc.vPosition.y;
+		if (((VTXMATRIX*)SubResource.pData)[i].vTranslation.y < -4.0f)
+		{
+			//m_pSpeed[i] = rand() % int(m_PointInstanceDesc.fMaxSpeed - m_PointInstanceDesc.fMinSpeed) + m_PointInstanceDesc.fMinSpeed;
+
+			_float	fHalfWidth = m_PointInstanceDesc.vSize.x * 0.5f;
+			_float	fHalfHeight = m_PointInstanceDesc.vSize.y * 0.5f;
+
+			// (rand() % (max - min) + min)
+
+			((VTXMATRIX*)SubResource.pData)[i].vTranslation = _float4(rand() %
+				_int(m_PointInstanceDesc.vPosition.x +
+					fHalfWidth - (m_PointInstanceDesc.vPosition.x - fHalfWidth)) + m_PointInstanceDesc.vPosition.x - fHalfWidth,
+				m_PointInstanceDesc.vPosition.y,
+				rand() % _int(m_PointInstanceDesc.vPosition.z + fHalfHeight - (m_PointInstanceDesc.vPosition.z - fHalfHeight)) + m_PointInstanceDesc.vPosition.z - fHalfHeight,
+				1.f);
+		}
 	}
 
 	m_pContext->Unmap(m_pVBInstance, 0);

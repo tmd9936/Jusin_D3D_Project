@@ -192,6 +192,8 @@ _uint CMonster::LateTick(_double TimeDelta)
 
 	if (true == CGameInstance::GetInstance()->Is_In_Frustum(m_pTransformCom->Get_State(CTransform::STATE_POSITION), 1.f))
 	{
+		m_pPickingCube->LateTick(TimeDelta);
+
 		for (auto& pBuffStates : m_buffStates)
 			pBuffStates->LateTick(TimeDelta);
 
