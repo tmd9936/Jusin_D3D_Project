@@ -36,6 +36,16 @@ private:
 	POINT_INSTANCE_DESC			m_PointInstanceDesc = {};
 	_float*						m_pSpeed = { nullptr };
 
+	// 회전 방향
+	_float*						m_pRotateDirection = { nullptr };
+
+	// 회전 속도
+	_float*						m_pRotateSpeed = { nullptr };
+
+	// 회전 각도
+	_vector*					m_pRotateAxis = { nullptr };
+
+
 public:
 	static CVIBuffer_Point_Instance* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, _uint iNumInstance = 1);
 	virtual CComponent* Clone(CGameObject* pOwner, void* pArg = nullptr) override;

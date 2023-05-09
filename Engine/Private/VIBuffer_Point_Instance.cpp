@@ -123,6 +123,9 @@ HRESULT CVIBuffer_Point_Instance::Initialize(void* pArg)
 	memcpy(&m_PointInstanceDesc, pArg, sizeof(POINT_INSTANCE_DESC));
 
 	m_pSpeed = new _float[m_iNumInstances];
+	m_pRotateDirection = new _float[m_iNumInstances];
+	m_pRotateSpeed = new _float[m_iNumInstances];
+	m_pRotateAxis = new _vector[m_iNumInstances];
 
 	D3D11_MAPPED_SUBRESOURCE		SubResource{};
 
@@ -130,6 +133,38 @@ HRESULT CVIBuffer_Point_Instance::Initialize(void* pArg)
 
 	for (_uint i = 0; i < m_iNumInstances; ++i)
 	{
+		//  회전방향 
+		{
+			_int rotDir = rand() % 2;
+			if (rotDir == 0)
+				m_pRotateDirection[i] = 1.f;
+			else
+				m_pRotateDirection[i] = -1.f;
+		}
+
+		// 회전 속도
+		{
+			m_pRotateSpeed[i] = XMConvertToRadians(_float(rand() % 50 + 10));
+		}
+
+		// 회전 각도
+		{
+			_int rotAxis = rand() % 3;
+
+			if (rotAxis == 0)
+			{
+				m_pRotateAxis[i] = XMVectorSet(1.f, 0.f, 0.f, 0.f);
+			}
+			else if (rotAxis == 1)
+			{
+				m_pRotateAxis[i] = XMVectorSet(0.f, 1.f, 0.f, 0.f);
+			}
+			else
+			{
+				m_pRotateAxis[i] = XMVectorSet(0.f, 0.f, 1.f, 0.f);
+			}
+		}
+
 		m_pSpeed[i] = rand() % int(m_PointInstanceDesc.fMaxSpeed - m_PointInstanceDesc.fMinSpeed) + m_PointInstanceDesc.fMinSpeed;
 
 		_float	fHalfWidth = m_PointInstanceDesc.vSize.x * 0.5f;
@@ -191,6 +226,16 @@ void CVIBuffer_Point_Instance::Update(_double TimeDelta)
 		((VTXMATRIX*)SubResource.pData)[i].vTranslation.z += m_pSpeed[i] * (_float)TimeDelta;
 
 
+		_vector		vRight = XMLoadFloat4(&((VTXMATRIX*)SubResource.pData)[i].vRight);
+		_vector		vUp = XMLoadFloat4(&((VTXMATRIX*)SubResource.pData)[i].vUp);
+		_vector		vLook = XMLoadFloat4(&((VTXMATRIX*)SubResource.pData)[i].vLook);
+
+		_matrix		RotationMatrix = XMMatrixRotationAxis(m_pRotateAxis[i], m_pRotateSpeed[i] * TimeDelta * m_pRotateDirection[i]);
+
+		XMStoreFloat4(&((VTXMATRIX*)SubResource.pData)[i].vRight, XMVector3TransformNormal(vRight, RotationMatrix));
+		XMStoreFloat4(&((VTXMATRIX*)SubResource.pData)[i].vUp, XMVector3TransformNormal(vUp, RotationMatrix));
+		XMStoreFloat4(&((VTXMATRIX*)SubResource.pData)[i].vLook, XMVector3TransformNormal(vLook, RotationMatrix));
+
 		if (((VTXMATRIX*)SubResource.pData)[i].vTranslation.y < -4.0f)
 		{
 			//m_pSpeed[i] = rand() % int(m_PointInstanceDesc.fMaxSpeed - m_PointInstanceDesc.fMinSpeed) + m_PointInstanceDesc.fMinSpeed;
@@ -248,6 +293,10 @@ void CVIBuffer_Point_Instance::Free()
 	CComponent::Free();
 
 	Safe_Delete_Array(m_pSpeed);
+	Safe_Delete_Array(m_pRotateDirection);
+	Safe_Delete_Array(m_pRotateSpeed);
+	Safe_Delete_Array(m_pRotateAxis);
+
 	if (!m_bClone)
 		Safe_Release(m_pVBInstance);
 
