@@ -20,6 +20,8 @@ public:
 	{
 		_float3		vPos;
 		_float3		vScale;
+		_float3		vRotate;
+
 		_uint		animIndex;
 		wstring		ModelPrototypeTag;
 	} ANIM_ENV_DESC;

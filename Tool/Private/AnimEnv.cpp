@@ -26,6 +26,7 @@ HRESULT CAnimEnv::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* p
 	{
 		m_AnimEnvDesc.vPos = (*(ANIM_ENV_DESC*)(pArg)).vPos;
 		m_AnimEnvDesc.vScale = (*(ANIM_ENV_DESC*)(pArg)).vScale;
+		m_AnimEnvDesc.vRotate = (*(ANIM_ENV_DESC*)(pArg)).vRotate;
 
 		m_AnimEnvDesc.ModelPrototypeTag = (*(ANIM_ENV_DESC*)(pArg)).ModelPrototypeTag;
 	}
@@ -37,6 +38,8 @@ HRESULT CAnimEnv::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* p
 		return E_FAIL;
 
 	m_pTransformCom->Set_Pos(m_AnimEnvDesc.vPos.x, m_AnimEnvDesc.vPos.y, m_AnimEnvDesc.vPos.z);
+
+	m_pTransformCom->Set_Rotation(m_AnimEnvDesc.vRotate);
 
 	m_pTransformCom->Set_Scaled(m_AnimEnvDesc.vScale);
 
@@ -147,6 +150,9 @@ _bool CAnimEnv::Load_By_JsonFile_Impl(Document& doc)
 
 		const Value& vScale = AnimEnvDesc["vScale"];
 		m_pTransformCom->Set_Scaled({ vScale["x"].GetFloat(), vScale["y"].GetFloat(), vScale["z"].GetFloat() });
+
+		const Value& vRotate = AnimEnvDesc["vRotate"];
+		m_pTransformCom->Set_Rotation({ vRotate["x"].GetFloat(), vRotate["y"].GetFloat(), vRotate["z"].GetFloat() });
 
 		m_AnimEnvDesc.animIndex = AnimEnvDesc["animIndex"].GetUint();
 		
