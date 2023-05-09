@@ -1250,7 +1250,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 		/* For.Prototype_Component_VIBuffer_Point_Instance */
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Point_Instance"),
-			CVIBuffer_Point_Instance::Create(m_pDevice, m_pContext, 100))))
+			CVIBuffer_Point_Instance::Create(m_pDevice, m_pContext, 150))))
 			return E_FAIL;
 
 		/* For.Prototype_Component_VIBuffer_Trail */

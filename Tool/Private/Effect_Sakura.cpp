@@ -32,7 +32,7 @@ HRESULT CEffect_Sakura::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, v
 
 	m_pTransformCom->Set_Scaled({ 0.3f, 0.3f, 1.f });
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(20.f, 1.f, 15.f, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(15.f, 1.f, 10.f, 1.f));
 
 
 	return S_OK;
@@ -83,7 +83,7 @@ HRESULT CEffect_Sakura::Add_Components()
 	/* For.Com_VIBuffer */
 	CVIBuffer_Point_Instance::POINT_INSTANCE_DESC		BufferDesc{};
 
-	BufferDesc.vPosition = _float3(0.f, 10.f, 0.f);
+	BufferDesc.vPosition = _float3(0.f, 15.f, 0.f);
 	BufferDesc.vSize = _float2(50.f, 50.f);
 	BufferDesc.fLifeTime = 25.f;
 	BufferDesc.fMinSpeed = 2.f;
