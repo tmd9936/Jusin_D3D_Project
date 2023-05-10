@@ -125,6 +125,10 @@ public:
 		return m_SkillCoolTime;
 	}
 
+	const _uint		Get_PokemonNo() const {
+		return m_PokemonDesc.m_monsterNo;
+	}
+
 public:
 	void		Set_HpBasis(const _uint& hpBasis) {
 		m_PokemonDesc.m_hpBasis = hpBasis;

@@ -95,6 +95,7 @@ private:
 	HRESULT						Init_StageFoodResult();
 	HRESULT						Init_StoneInventory();
 	HRESULT						Init_FoodInventory();
+	HRESULT						Init_PokemonIcon();
 
 private:
 	void						Fade_In(const _double& TimeDelta);

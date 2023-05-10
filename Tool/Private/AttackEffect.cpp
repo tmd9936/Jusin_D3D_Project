@@ -350,7 +350,7 @@ void CAttackEffect::Play_DamageSound()
 		break;
 	case 2:
 		//CGameInstance::GetInstance()->StopSound(SOUND_GET_DAMAGE_3);
-		CGameInstance::GetInstance()->PlaySoundW(L"SE_Status_Damage_01_a031.ogg", 0.8f);
+		CGameInstance::GetInstance()->PlaySoundW(L"SE_Status_Damage_01_a03.ogg", 0.8f);
 		break;
 	case 3:
 		//CGameInstance::GetInstance()->StopSound(SOUND_GET_DAMAGE_4);

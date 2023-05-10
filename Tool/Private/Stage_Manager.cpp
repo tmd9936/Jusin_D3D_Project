@@ -23,6 +23,7 @@
 
 #include "Stone.h"
 #include "Food.h"
+#include "PokemonData.h"
 
 CStage_Manager::CStage_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
@@ -67,6 +68,9 @@ HRESULT CStage_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, v
 	if (FAILED(Init_FoodInventory()))
 		return E_FAIL;
 
+	if (FAILED(Init_PokemonIcon()))
+		return E_FAIL;
+
 	m_enemySpawnPoints.reserve(10);
 
 	return S_OK;
@@ -102,6 +106,9 @@ HRESULT CStage_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, c
 		return E_FAIL;
 
 	if (FAILED(Init_FoodInventory()))
+		return E_FAIL;
+
+	if (FAILED(Init_PokemonIcon()))
 		return E_FAIL;
 
 	m_enemySpawnPoints.reserve(10);
@@ -596,6 +603,91 @@ HRESULT CStage_Manager::Init_FoodInventory()
 	m_pFoodInventory->Set_LateTickState(false);
 
 	Safe_AddRef(m_pFoodInventory);
+
+	return S_OK;
+}
+
+HRESULT CStage_Manager::Init_PokemonIcon()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	// 포켓몬 데이터 매니저에서 데이터 얻어오기
+	CGameObject* pPokemonData = CGameInstance::GetInstance()->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"PokemonData");
+	if (nullptr == pPokemonData)
+		return E_FAIL;
+
+	CGameObject* pPlayer1 = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Player", L"Player1");
+	if (pPlayer1)
+	{
+		CGameObject* pObject = pGameInstance->Get_Object(LEVEL_STAGE, L"Layer_UI", L"PokemonIcon1");
+		if (nullptr == pObject)
+			return E_FAIL;
+
+		CUI* pPokemonIcon1 = dynamic_cast<CUI*>(pObject);
+		if (nullptr == pPokemonIcon1)
+			return E_FAIL;
+
+		_uint pokemonNo = dynamic_cast<CMonster*>(pPlayer1)->Get_PokemonNo();
+
+		// 이름 바꾸기
+		CPokemonData::POKEMONDATA_DESC desc = dynamic_cast<CPokemonData*>(pPokemonData)->Get_PokemonDesc(pokemonNo);
+		pPokemonIcon1->Set_PartTextString(desc.name, 0);
+
+		// 아이콘 바꾸기
+		wstring textureProtoType = L"Prototype_Component_Texture_Pokemon_Icon_M";
+		textureProtoType.append(to_wstring(pokemonNo));
+		if (FAILED(pPokemonIcon1->Change_Texture(textureProtoType.c_str())))
+			return E_FAIL;
+
+	}
+
+	CGameObject* pPlayer2 = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Player", L"Player2");
+	if (pPlayer2)
+	{
+		CGameObject* pObject = pGameInstance->Get_Object(LEVEL_STAGE, L"Layer_UI", L"PokemonIcon2");
+		if (nullptr == pObject)
+			return E_FAIL;
+
+		CUI* pPokemonIcon2 = dynamic_cast<CUI*>(pObject);
+		if (nullptr == pPokemonIcon2)
+			return E_FAIL;
+
+		_uint pokemonNo = dynamic_cast<CMonster*>(pPlayer2)->Get_PokemonNo();
+
+		// 이름 바꾸기
+		CPokemonData::POKEMONDATA_DESC desc = dynamic_cast<CPokemonData*>(pPokemonData)->Get_PokemonDesc(pokemonNo);
+		pPokemonIcon2->Set_PartTextString(desc.name, 0);
+
+		// 아이콘 바꾸기
+		wstring textureProtoType = L"Prototype_Component_Texture_Pokemon_Icon_M";
+		textureProtoType.append(to_wstring(pokemonNo));
+		if (FAILED(pPokemonIcon2->Change_Texture(textureProtoType.c_str())))
+			return E_FAIL;
+	}
+
+	CGameObject* pPlayer3 = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Player", L"Player3");
+	if (pPlayer3)
+	{
+		CGameObject* pObject = pGameInstance->Get_Object(LEVEL_STAGE, L"Layer_UI", L"PokemonIcon3");
+		if (nullptr == pObject)
+			return E_FAIL;
+
+		CUI* pPokemonIcon3 = dynamic_cast<CUI*>(pObject);
+		if (nullptr == pPokemonIcon3)
+			return E_FAIL;
+
+		_uint pokemonNo = dynamic_cast<CMonster*>(pPlayer3)->Get_PokemonNo();
+
+		// 이름 바꾸기
+		CPokemonData::POKEMONDATA_DESC desc = dynamic_cast<CPokemonData*>(pPokemonData)->Get_PokemonDesc(pokemonNo);
+		pPokemonIcon3->Set_PartTextString(desc.name, 0);
+
+		// 아이콘 바꾸기
+		wstring textureProtoType = L"Prototype_Component_Texture_Pokemon_Icon_M";
+		textureProtoType.append(to_wstring(pokemonNo));
+		if (FAILED(pPokemonIcon3->Change_Texture(textureProtoType.c_str())))
+			return E_FAIL;
+	}
 
 	return S_OK;
 }

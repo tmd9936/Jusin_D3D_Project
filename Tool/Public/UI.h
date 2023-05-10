@@ -76,6 +76,13 @@ public:
 		return _float2(m_UIDesc.m_fX, m_UIDesc.m_fY);
 	}
 
+	void					Set_PartTextString(const wstring& text, const _uint& index) {
+		if (index >= m_TextParts.size())
+			return;
+
+		m_TextParts.at(index)->Set_Text(text);
+	}
+
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
 	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
