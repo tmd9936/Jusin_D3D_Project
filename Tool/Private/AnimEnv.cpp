@@ -92,6 +92,8 @@ _uint CAnimEnv::LateTick(_double TimeDelta)
 		m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
 
 		m_pRendererCom->Add_RenderGroup(RENDER_LAPLACIAN, this);
+		
+		m_pRendererCom->Add_RenderGroup(RENDER_SHADOWDEPTH, this);
 	}
 	return _uint();
 }
@@ -130,6 +132,34 @@ HRESULT CAnimEnv::Render_Laplacian()
 			return E_FAIL;
 
 		m_pShaderCom->Begin(0);
+
+		m_pModelCom->Render(i);
+	}
+
+	return S_OK;
+}
+
+HRESULT CAnimEnv::Render_ShadowDepth()
+{
+	if (nullptr == m_pShaderCom ||
+		nullptr == m_pTransformCom ||
+		nullptr == m_pModelCom)
+		return E_FAIL;
+
+	if (FAILED(SetUp_Shadow_ShaderResources()))
+		return E_FAIL;
+
+	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
+
+	for (_uint i = 0; i < iNumMeshes; ++i)
+	{
+		/*if (FAILED(m_pModelCom->SetUp_ShaderResource(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
+			return E_FAIL;*/
+
+		if (FAILED(m_pModelCom->SetUp_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
+			return E_FAIL;
+
+		m_pShaderCom->Begin(6);
 
 		m_pModelCom->Render(i);
 	}
@@ -239,6 +269,32 @@ HRESULT CAnimEnv::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_CameraFar",
 		&cameraFar, sizeof(_float))))
 		return E_FAIL;
+
+	_float shadow = 1.f;
+	if (FAILED(m_pShaderCom->Set_RawValue("g_shadow",
+		&shadow, sizeof(_float))))
+		return E_FAIL;
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CAnimEnv::SetUp_Shadow_ShaderResources()
+{
+	if (FAILED(m_pTransformCom->Set_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
+		return E_FAIL;
+
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(m_pShaderCom->Set_Matrix("g_ViewMatrix",
+		&pGameInstance->Get_LightViewMatrix())))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Set_Matrix("g_ProjMatrix",
+		&pGameInstance->Get_LightProjMatrix())))
+		return E_FAIL;
+
 
 	Safe_Release(pGameInstance);
 

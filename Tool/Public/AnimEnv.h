@@ -40,6 +40,7 @@ public:
 	virtual _uint			LateTick(_double TimeDelta) override;
 	virtual HRESULT			Render() override;
 	virtual HRESULT			Render_Laplacian() override;
+	virtual HRESULT			Render_ShadowDepth() override;
 
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
@@ -51,6 +52,8 @@ private:
 	HRESULT					Add_Components_By_File();
 
 	HRESULT					SetUp_ShaderResources();
+	HRESULT					SetUp_Shadow_ShaderResources();
+
 
 private:
 	CTransform*				m_pTransformCom = { nullptr };
