@@ -98,7 +98,7 @@ public:
 	void					Set_Alive() { m_bDead = false; }
 	void					Set_Dead() { m_bDead = true; }
 
-	const _uint				Get_ComponetsSize() const {
+	const size_t				Get_ComponetsSize() const {
 		return m_Components.size();
 	}
 public:

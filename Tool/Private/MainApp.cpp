@@ -144,6 +144,8 @@ HRESULT CMainApp::Initialize()
 		return E_FAIL;
 #endif
 
+	SetWindowText(g_hWnd, TEXT("포켓몬 퀘스트"));
+
 	return S_OK;
 }
 

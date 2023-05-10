@@ -3,6 +3,8 @@
 
 #include "GameInstance.h"
 
+#include "StageEnv.h"
+
 #include <codecvt>
 
 HRESULT CClient_Utility::Load_Layer_GameObjects(const char* filePath)
@@ -115,6 +117,68 @@ void CClient_Utility::Play_Monster_SignitureSound(const _uint& monsterNo)
 	sound += L".ogg";
 
 	CGameInstance::GetInstance()->PlaySoundW(sound.c_str(), 0.65f);
+}
+
+HRESULT CClient_Utility::Load_StageEnv(const char* filePath, const _tchar* layerTag, const _uint& iLevelIndex)
+{
+	if (nullptr == filePath)
+		return E_FAIL;
+
+	FILE* fp = fopen(filePath, "rb"); // non-Windows use "r"
+
+	if (NULL == fp)
+	{
+		MSG_BOX("Load File Open Error");
+		return E_FAIL;
+	}
+	else
+	{
+		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
+
+		char* readBuffer = new char[65536];
+		FileReadStream is(fp, readBuffer, sizeof(readBuffer));
+
+		Document document;
+		document.ParseStream(is);
+
+		wstring objectNameTag;
+
+		CTransform* pTransform = nullptr;
+
+		const Value& StageEnvs = document["StageEnvs"];
+		assert(StageEnvs.IsArray());
+		for (SizeType i = 0; i < StageEnvs.Size(); ++i)
+		{
+			CGameObject* pOut = nullptr;
+
+			CStageEnv::STAGE_ENV_DESC desc{};
+
+			desc.vScale.x = StageEnvs[i]["ScaleX"].GetFloat();
+			desc.vScale.y = StageEnvs[i]["ScaleY"].GetFloat();
+			desc.vScale.z = StageEnvs[i]["ScaleZ"].GetFloat();
+
+			desc.vRotate.x = StageEnvs[i]["RotX"].GetFloat();
+			desc.vRotate.y = StageEnvs[i]["RotY"].GetFloat();
+			desc.vRotate.z = StageEnvs[i]["RotZ"].GetFloat();
+
+			desc.vPos.x = StageEnvs[i]["PosX"].GetFloat();
+			desc.vPos.y = StageEnvs[i]["PosY"].GetFloat();
+			desc.vPos.z = StageEnvs[i]["PosZ"].GetFloat();
+
+			desc.ModelPrototypeTag = convert.from_bytes(StageEnvs[i]["ModelPrototypeTag"].GetString());
+
+			objectNameTag = convert.from_bytes(StageEnvs[i]["ObjectNameTag"].GetString());
+
+			if (objectNameTag.empty())
+				CGameInstance::GetInstance()->Add_GameObject(TEXT("Prototype_GameObject_StageEnv"), iLevelIndex, layerTag, nullptr, &desc);
+			else
+				CGameInstance::GetInstance()->Add_GameObject(TEXT("Prototype_GameObject_StageEnv"), iLevelIndex, layerTag, objectNameTag.c_str(), &desc);
+		}
+
+		fclose(fp);
+		Safe_Delete_Array(readBuffer);
+	}
+	return S_OK;
 }
 
 void CClient_Utility::Free()

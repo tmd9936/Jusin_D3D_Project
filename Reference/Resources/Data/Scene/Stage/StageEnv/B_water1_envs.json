@@ -1,0 +1,43 @@
+{
+    "StageEnvs": [
+        {
+            "PosX": 28.0,
+            "PosY": 0.0,
+            "PosZ": 14.0,
+            "ScaleX": 1.0,
+            "ScaleY": 1.0,
+            "ScaleZ": 1.0,
+            "RotX": 0.0,
+            "RotY": 0.0,
+            "RotZ": 0.0,
+            "ModelPrototypeTag": "Prototype_Component_Model_B_water1_rock00",
+            "ObjectNameTag": "rock00"
+        },
+        {
+            "PosX": 29.0,
+            "PosY": 0.0,
+            "PosZ": 16.0,
+            "ScaleX": 1.0,
+            "ScaleY": 1.0,
+            "ScaleZ": 1.0,
+            "RotX": 0.0,
+            "RotY": 0.0,
+            "RotZ": 0.0,
+            "ModelPrototypeTag": "Prototype_Component_Model_B_water1_rock01",
+            "ObjectNameTag": "rock01"
+        },
+        {
+            "PosX": 32.0,
+            "PosY": 0.0,
+            "PosZ": 16.0,
+            "ScaleX": 1.0,
+            "ScaleY": 1.0,
+            "ScaleZ": 1.0,
+            "RotX": 0.0,
+            "RotY": 0.0,
+            "RotZ": 0.0,
+            "ModelPrototypeTag": "Prototype_Component_Model_B_water1_tree00",
+            "ObjectNameTag": "tree00"
+        }
+    ]
+}

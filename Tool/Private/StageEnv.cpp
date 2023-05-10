@@ -79,6 +79,8 @@ _uint CStageEnv::Tick(_double TimeDelta)
 {
 	//m_pModelCom->Play_Animation(TimeDelta);
 
+	m_pAABB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
+
 	return _uint();
 }
 
@@ -105,8 +107,8 @@ HRESULT CStageEnv::Render()
 
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
-		if (FAILED(m_pModelCom->SetUp_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
-			return E_FAIL;
+		//if (FAILED(m_pModelCom->SetUp_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
+		//	return E_FAIL;
 
 		m_pShaderCom->Begin(0);
 
@@ -126,8 +128,8 @@ HRESULT CStageEnv::Render_Laplacian()
 
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
-		if (FAILED(m_pModelCom->SetUp_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
-			return E_FAIL;
+		//if (FAILED(m_pModelCom->SetUp_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
+		//	return E_FAIL;
 
 		m_pShaderCom->Begin(0);
 
@@ -151,8 +153,8 @@ HRESULT CStageEnv::Render_ShadowDepth()
 
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
-		if (FAILED(m_pModelCom->SetUp_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
-			return E_FAIL;
+		//if (FAILED(m_pModelCom->SetUp_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
+		//	return E_FAIL;
 
 		m_pShaderCom->Begin(1);
 
@@ -220,7 +222,7 @@ HRESULT CStageEnv::Add_Components()
 	/* For.Com_AABB*/
 	CCollider::COLLIDER_DESC		ColliderDesc;
 	ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
-	ColliderDesc.vScale = _float3(0.7f, 1.5f, 0.7f);
+	ColliderDesc.vScale = _float3(0.8f, 1.0f, 0.8f);
 	ColliderDesc.vPosition = _float3(0.0f, 0.f, 0.f);
 	if (FAILED(pGameInstance->Add_Component(CCollider::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB"),
 		(CComponent**)&m_pAABB, &ColliderDesc)))
@@ -238,7 +240,7 @@ HRESULT CStageEnv::Add_Components_By_File()
 		(CComponent**)&m_pRendererCom, nullptr)))
 		return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxAnimModelColor"),
+	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxModelColor"),
 		(CComponent**)&m_pShaderCom, nullptr)))
 		return E_FAIL;
 
@@ -250,7 +252,7 @@ HRESULT CStageEnv::Add_Components_By_File()
 	/* For.Com_AABB*/
 	CCollider::COLLIDER_DESC		ColliderDesc;
 	ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
-	ColliderDesc.vScale = _float3(0.7f, 1.5f, 0.7f);
+	ColliderDesc.vScale = _float3(0.8f, 1.0f, 0.8f);
 	ColliderDesc.vPosition = _float3(0.0f, 0.f, 0.f);
 	if (FAILED(pGameInstance->Add_Component(CCollider::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB"),
 		(CComponent**)&m_pAABB, &ColliderDesc)))
@@ -354,5 +356,5 @@ void CStageEnv::Free()
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pRendererCom);
-
+	Safe_Release(m_pAABB);
 }

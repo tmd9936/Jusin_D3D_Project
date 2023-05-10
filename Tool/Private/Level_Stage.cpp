@@ -10,6 +10,8 @@
 
 #include "FlatTerrain.h"
 
+#include "Client_Utility.h"
+
 CLevel_Stage::CLevel_Stage(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
 {
@@ -82,6 +84,8 @@ HRESULT CLevel_Stage::Initialize()
 	if (FAILED(Ready_Layer_Effect(TEXT("Layer_Effect"))))
 		return E_FAIL;
 
+	if (FAILED(CClient_Utility::Load_StageEnv("../../Reference/Resources/Data/Scene/Stage/StageEnv/B_water1_envs.json", L"Layer_Env", LEVEL_STAGE)))
+		return E_FAIL;
 
 	return S_OK;
 }
