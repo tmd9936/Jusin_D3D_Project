@@ -98,6 +98,9 @@ public:
 	void					Set_Alive() { m_bDead = false; }
 	void					Set_Dead() { m_bDead = true; }
 
+	const _uint				Get_ComponetsSize() const {
+		return m_Components.size();
+	}
 public:
 	void					Get_Components_FamilyId(vector<FamilyId>& vecFamilyIds);
 	HRESULT					Add_Component(const FamilyId& familyId, CComponent* pComponent);

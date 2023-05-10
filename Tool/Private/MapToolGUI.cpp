@@ -194,6 +194,9 @@ void CMapToolGUI::Picking_GameObject()
 		const wstring* layerTag = CDataToolGUI::GetInstance()->Get_Current_LayerName();
 		const _uint iLevelindex = CDataToolGUI::GetInstance()->Get_Current_Levelindex();
 	
+		if (nullptr == layerTag)
+			return;
+
 		CGameObject* pPickingObject = m_pCalculator->Picking_Environment_Object(g_hWnd, layerTag->c_str(), iLevelindex);
 		
 		if (nullptr == pPickingObject)
@@ -280,7 +283,7 @@ void CMapToolGUI::Slider()
 
 	if (iLevelindex != LEVEL_LOADING)
 	{
-		if (m_pPickingObject != nullptr && !m_pPickingObject->Is_Dead())
+		if (m_pPickingObject != nullptr && !m_pPickingObject->Is_Dead() && 0 < m_pPickingObject->Get_ComponetsSize())
 		{
 			//CGameObject* pTran = CGameInstance::GetInstance()->Get_Component(CTransform::familyId, m_pPickingObject)
 			CTransform* pTransform = m_pPickingObject->Get_As<CTransform>();

@@ -27,6 +27,7 @@ HRESULT CAnimEnv::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* p
 		m_AnimEnvDesc.vPos = (*(ANIM_ENV_DESC*)(pArg)).vPos;
 		m_AnimEnvDesc.vScale = (*(ANIM_ENV_DESC*)(pArg)).vScale;
 		m_AnimEnvDesc.vRotate = (*(ANIM_ENV_DESC*)(pArg)).vRotate;
+		m_AnimEnvDesc.animIndex = (*(ANIM_ENV_DESC*)(pArg)).animIndex;
 
 		m_AnimEnvDesc.ModelPrototypeTag = (*(ANIM_ENV_DESC*)(pArg)).ModelPrototypeTag;
 	}
@@ -86,8 +87,12 @@ _uint CAnimEnv::Tick(_double TimeDelta)
 
 _uint CAnimEnv::LateTick(_double TimeDelta)
 {
-	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
+	if (true == CGameInstance::GetInstance()->Is_In_Frustum(m_pTransformCom->Get_State(CTransform::STATE_POSITION), 1.5f))
+	{
+		m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
 
+		m_pRendererCom->Add_RenderGroup(RENDER_LAPLACIAN, this);
+	}
 	return _uint();
 }
 
