@@ -129,6 +129,19 @@
             "RotZ": 0.0,
             "ModelPrototypeTag": "Prototype_Component_Model_B_water1_rock00",
             "ObjectNameTag": "rock00_01"
+        },
+        {
+            "PosX": 16.26,
+            "PosY": 0.0,
+            "PosZ": 15.50,
+            "ScaleX": 1.0,
+            "ScaleY": 1.0,
+            "ScaleZ": 1.0,
+            "RotX": 0.0,
+            "RotY": 0.0,
+            "RotZ": 0.0,
+            "ModelPrototypeTag": "Prototype_Component_Model_B_water1_rock01",
+            "ObjectNameTag": "rock01_02"
         }
     ]
 }
