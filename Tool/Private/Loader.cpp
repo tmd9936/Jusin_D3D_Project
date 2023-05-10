@@ -2218,25 +2218,25 @@ HRESULT CLoader::Loading_ForStageLevel()
 
 	}
 
-	///* For.Prototype_Component_Model_Stage_LD */
-	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_LD"),
-	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/Map/C_water1_out_LD.fbx", PivotMatrix))))
-	//	return E_FAIL;
+	/* For.Prototype_Component_Model_Stage_LD */
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_LD"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/Map/C_water1_out_LD.fbx", PivotMatrix))))
+		return E_FAIL;
 
-	///* For.Prototype_Component_Model_Stage_LU */
-	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_LU"),
-	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/Map/C_water1_out_LU.fbx", PivotMatrix))))
-	//	return E_FAIL;
+	/* For.Prototype_Component_Model_Stage_LU */
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_LU"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/Map/C_water1_out_LU.fbx", PivotMatrix))))
+		return E_FAIL;
 
-	///* For.Prototype_Component_Model_Stage_RD */
-	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_RD"),
-	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/Map/C_water1_out_RD.fbx", PivotMatrix))))
-	//	return E_FAIL;
+	/* For.Prototype_Component_Model_Stage_RD */
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_RD"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/Map/C_water1_out_RD.fbx", PivotMatrix))))
+		return E_FAIL;
 
-	///* For.Prototype_Component_Model_Stage_RU */
-	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_RU"),
-	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/Map/C_water1_out_RU.fbx", PivotMatrix))))
-	//	return E_FAIL;
+	/* For.Prototype_Component_Model_Stage_RU */
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STAGE, TEXT("Prototype_Component_Model_Stage_RU"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/Map/C_water1_out_RU.fbx", PivotMatrix))))
+		return E_FAIL;
 
 	wsprintf(m_szLoadingText, TEXT("객체원형을 로딩중."));
 	if (false == pGameInstance->Get_LevelFirstInit(LEVEL_STAGE))

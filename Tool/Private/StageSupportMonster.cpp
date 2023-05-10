@@ -301,7 +301,7 @@ _uint CStageSupportMonster::State_Tick(const _double& TimeDelta)
 			break;
 		}
 
-		if (2.5f <= m_pTransformCom->Get_DistanceFromTarget(m_pMainPlayerTransform->Get_State(CTransform::STATE_POSITION)))
+		if (3.5f <= m_pTransformCom->Get_DistanceFromTarget(m_pMainPlayerTransform->Get_State(CTransform::STATE_POSITION)))
 		{
 			m_pMonFSM->Transit_MotionState(CMonFSM::FORMATION_RUN, m_pModelCom);
 			break;
@@ -310,13 +310,13 @@ _uint CStageSupportMonster::State_Tick(const _double& TimeDelta)
 		m_pTransformCom->Chase(m_pMainPlayerTransform->Get_State(CTransform::STATE_POSITION) + 
 			m_pMainPlayerTransform->Get_NoScaleState(CTransform::STATE_LOOK) * XMVectorGetZ(m_pFormationCom->Get_RelativePos()) +
 			m_pMainPlayerTransform->Get_NoScaleState(CTransform::STATE_RIGHT) * XMVectorGetX(m_pFormationCom->Get_RelativePos()),
-			_float(TimeDelta), 0.3f, m_pNavigationCom);
+			_float(TimeDelta), 0.4f, m_pNavigationCom);
 		break;
 
 	case CMonFSM::FORMATION_RUN:
 		m_pModelCom->Play_Animation(TimeDelta);
 
-		if (m_pTransformCom->Chase(m_pMainPlayerTransform->Get_State(CTransform::STATE_POSITION) + m_pFormationCom->Get_RelativePos(), _float(TimeDelta), 1.5f, m_pNavigationCom))
+		if (m_pTransformCom->Chase(m_pMainPlayerTransform->Get_State(CTransform::STATE_POSITION), _float(TimeDelta), 1.8f, m_pNavigationCom))
 		{
 			m_pMonFSM->Transit_MotionState(CMonFSM::FORMATION_NORMAL, m_pModelCom);
 			break;
