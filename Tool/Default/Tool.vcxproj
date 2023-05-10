@@ -232,6 +232,7 @@
     <ClInclude Include="..\Public\SkillInfoUI.h" />
     <ClInclude Include="..\Public\Skill_Manager.h" />
     <ClInclude Include="..\Public\StageClearUI.h" />
+    <ClInclude Include="..\Public\StageEnv.h" />
     <ClInclude Include="..\Public\StageFoodResult.h" />
     <ClInclude Include="..\Public\StageInfoUI.h" />
     <ClInclude Include="..\Public\StageEnemyMonster.h" />
@@ -345,6 +346,7 @@
     <ClCompile Include="..\Private\SkillInfoUI.cpp" />
     <ClCompile Include="..\Private\Skill_Manager.cpp" />
     <ClCompile Include="..\Private\StageClearUI.cpp" />
+    <ClCompile Include="..\Private\StageEnv.cpp" />
     <ClCompile Include="..\Private\StageFoodResult.cpp" />
     <ClCompile Include="..\Private\StageInfoUI.cpp" />
     <ClCompile Include="..\Private\StageEnemyMonster.cpp" />

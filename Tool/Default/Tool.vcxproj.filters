@@ -352,6 +352,9 @@
     <Filter Include="02. GameObject\BaseCamp\InstanceEffect">
       <UniqueIdentifier>{bb4e3f47-2239-4e6e-a6b8-0d3cc108fad7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\Stage\StageEnv">
+      <UniqueIdentifier>{2e67096f-f7e1-4bce-998d-9a2c63680833}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -689,6 +692,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\FoodInventory.h">
       <Filter>02. GameObject\Feeding\FoodInventory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\StageEnv.h">
+      <Filter>02. GameObject\Stage\StageEnv</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1028,6 +1034,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\FoodInventory.cpp">
       <Filter>02. GameObject\Feeding\FoodInventory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\StageEnv.cpp">
+      <Filter>02. GameObject\Stage\StageEnv</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
