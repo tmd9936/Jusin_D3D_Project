@@ -3,6 +3,8 @@
 
 #include "GameInstance.h"
 
+#include "Utility.h"
+
 CAnimEnv::CAnimEnv(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
 {
@@ -81,6 +83,8 @@ HRESULT CAnimEnv::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const c
 _uint CAnimEnv::Tick(_double TimeDelta)
 {
 	m_pModelCom->Play_Animation(TimeDelta);
+
+	m_pAABB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
 
 	return _uint();
 }
@@ -167,6 +171,37 @@ HRESULT CAnimEnv::Render_ShadowDepth()
 	return S_OK;
 }
 
+void CAnimEnv::On_CollisionEnter(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
+{
+	CGameObject* pOtherOwner = pOther->Get_Owner();
+	if (!pOtherOwner)
+		return;
+
+	CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
+
+	CNavigation* pOtherNavigationCom = pOtherOwner->Get_As<CNavigation>();
+
+	Engine::CUtility::CollisionPushingOut(m_pAABB, pOther, fX, fY, fZ, pOtherTransform, pOtherNavigationCom);
+
+}
+
+void CAnimEnv::On_Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
+{
+	CGameObject* pOtherOwner = pOther->Get_Owner();
+	if (!pOtherOwner)
+		return;
+
+	CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
+
+	CNavigation* pOtherNavigationCom = pOtherOwner->Get_As<CNavigation>();
+
+	Engine::CUtility::CollisionPushingOut(m_pAABB, pOther, fX, fY, fZ, pOtherTransform, pOtherNavigationCom);
+}
+
+void CAnimEnv::On_CollisionExit(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
+{
+}
+
 _bool CAnimEnv::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator)
 {
 	return _bool();
@@ -224,6 +259,14 @@ HRESULT CAnimEnv::Add_Components()
 		(CComponent**)&m_pModelCom, nullptr)))
 		return E_FAIL;
 
+	/* For.Com_AABB*/
+	CCollider::COLLIDER_DESC		ColliderDesc;
+	ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
+	ColliderDesc.vScale = _float3(1.f, 1.f, 1.f);
+	ColliderDesc.vPosition = _float3(0.0f, 0.f, 0.f);
+	if (FAILED(pGameInstance->Add_Component(CCollider::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB"),
+		(CComponent**)&m_pAABB, &ColliderDesc)))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -244,6 +287,15 @@ HRESULT CAnimEnv::Add_Components_By_File()
 	/* For.Com_Model */
 	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, LEVEL_STATIC, m_AnimEnvDesc.ModelPrototypeTag.c_str(),
 		(CComponent**)&m_pModelCom, nullptr)))
+		return E_FAIL;
+
+	/* For.Com_AABB*/
+	CCollider::COLLIDER_DESC		ColliderDesc;
+	ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
+	ColliderDesc.vScale = _float3(1.f, 1.f, 1.f);
+	ColliderDesc.vPosition = _float3(0.0f, 0.f, 0.f);
+	if (FAILED(pGameInstance->Add_Component(CCollider::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB"),
+		(CComponent**)&m_pAABB, &ColliderDesc)))
 		return E_FAIL;
 
 	return S_OK;
@@ -349,5 +401,6 @@ void CAnimEnv::Free()
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pRendererCom);
+	Safe_Release(m_pAABB);
 
 }

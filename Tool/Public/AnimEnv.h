@@ -9,6 +9,7 @@ class CRenderer;
 class CTexture;
 class CShader;
 class CModel;
+class CAABB;
 END
 
 BEGIN(Client)
@@ -42,6 +43,11 @@ public:
 	virtual HRESULT			Render_Laplacian() override;
 	virtual HRESULT			Render_ShadowDepth() override;
 
+public:
+	void On_CollisionEnter(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
+	void On_Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
+	void On_CollisionExit(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
+
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
 	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
@@ -60,6 +66,7 @@ private:
 	CRenderer*				m_pRendererCom = { nullptr };
 	CShader*				m_pShaderCom = { nullptr };
 	CModel*					m_pModelCom = { nullptr };
+	CAABB*					m_pAABB = { nullptr };
 
 private:
 	ANIM_ENV_DESC			m_AnimEnvDesc = { };

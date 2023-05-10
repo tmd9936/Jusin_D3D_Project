@@ -26,6 +26,12 @@ public:
 		CTransform* pDestTransform, CNavigation* pDestNavigation);
 
 
+
+	static void		CollisionPushingOutNormal(CCollider* pSour, CCollider* pDest,
+		const _float& fX, const _float& fY, const _float& fZ,
+		CTransform* pDestTransform, CNavigation* pDestNavigation);
+
+
 };
 
 END

@@ -3,6 +3,8 @@
 
 #include "GameInstance.h"
 
+#include "Utility.h"
+
 CStageEnv::CStageEnv(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
 {
@@ -162,6 +164,36 @@ HRESULT CStageEnv::Render_ShadowDepth()
 	}
 
 	return S_OK;
+}
+
+void CStageEnv::On_CollisionEnter(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
+{
+	CGameObject* pOtherOwner = pOther->Get_Owner();
+	if (!pOtherOwner)
+		return;
+
+	CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
+
+	CNavigation* pOtherNavigationCom = pOtherOwner->Get_As<CNavigation>();
+
+	Engine::CUtility::CollisionPushingOutNormal(m_pAABB, pOther, fX, fY, fZ, pOtherTransform, pOtherNavigationCom);
+}
+
+void CStageEnv::On_Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
+{
+	CGameObject* pOtherOwner = pOther->Get_Owner();
+	if (!pOtherOwner)
+		return;
+
+	CTransform* pOtherTransform = pOtherOwner->Get_As<CTransform>();
+
+	CNavigation* pOtherNavigationCom = pOtherOwner->Get_As<CNavigation>();
+
+	Engine::CUtility::CollisionPushingOutNormal(m_pAABB, pOther, fX, fY, fZ, pOtherTransform, pOtherNavigationCom);
+}
+
+void CStageEnv::On_CollisionExit(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
+{
 }
 
 _bool CStageEnv::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator)

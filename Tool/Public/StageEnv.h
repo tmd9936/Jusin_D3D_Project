@@ -42,6 +42,12 @@ public:
 	virtual HRESULT			Render_ShadowDepth() override;
 
 
+public:
+	void On_CollisionEnter(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
+	void On_Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
+	void On_CollisionExit(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ);
+
+
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
 	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
