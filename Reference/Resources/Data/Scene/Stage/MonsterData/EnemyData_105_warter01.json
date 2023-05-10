@@ -11,7 +11,7 @@
         "moveSpeed": 1.8,
         "rotateSpeed": 1.2,
         "m_monsterNo": 105,
-        "m_hpBasis": 1700,
+        "m_hpBasis": 1900,
         "m_attackBasis": 70,
         "m_normalSkillType": 8,
         "m_AIType": 1,

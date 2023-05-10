@@ -12,7 +12,7 @@
         "rotateSpeed": 1.2,
         "m_monsterNo": 33,
         "m_hpBasis": 1800,
-        "m_attackBasis": 60,
+        "m_attackBasis": 65,
         "m_normalSkillType": 6,
         "m_AIType": 1,
         "m_layerType": 1,

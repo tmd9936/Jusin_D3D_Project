@@ -46,10 +46,11 @@ HRESULT CPlayer::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pA
 	if (FAILED(Add_Trail()))
 		return E_FAIL;
 
-	if (LEVEL_BASECAMP == iLevelIndex)
+	if (LEVEL_BASECAMP == iLevelIndex || LEVEL_WORLDMAP == iLevelIndex)
 	{
 		m_pHpBar->Set_RenderId(RENDER_END);
-		m_pTransformCom->Set_Pos( 22.f, 0.01f, 15.f);
+		if (LEVEL_BASECAMP == iLevelIndex)
+			m_pTransformCom->Set_Pos( 22.f, 0.1f, 15.f);
 	}
 
 	return S_OK;
@@ -68,10 +69,11 @@ HRESULT CPlayer::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const ch
 	if (FAILED(Add_Trail()))
 		return E_FAIL;
 
-	if (LEVEL_BASECAMP == iLevelIndex)
+	if (LEVEL_BASECAMP == iLevelIndex || LEVEL_WORLDMAP == iLevelIndex)
 	{
 		m_pHpBar->Set_RenderId(RENDER_END);
-		m_pTransformCom->Set_Pos( 22.f, 0.01f, 15.f );
+		if (LEVEL_BASECAMP == iLevelIndex)
+			m_pTransformCom->Set_Pos(22.f, 0.1f, 15.f);
 	}
 
 	return S_OK;
