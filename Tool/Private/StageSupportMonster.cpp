@@ -137,11 +137,11 @@ void CStageSupportMonster::On_CollisionEnter(CCollider* pOther, const _float& fX
 
 			if (fY > 0)
 			{
-				m_pTransformCom->Go_Left_ByNavigation(0.008333f, m_pNavigationCom);
+				m_pTransformCom->Go_Left_ByNavigation(0.0166666f, m_pNavigationCom);
 			}
 			else if (fY < 0)
 			{
-				m_pTransformCom->Go_Right_ByNavigation(0.008333f, m_pNavigationCom);
+				m_pTransformCom->Go_Right_ByNavigation(0.0166666f, m_pNavigationCom);
 			}
 		}
 
@@ -175,11 +175,11 @@ void CStageSupportMonster::On_Collision(CCollider* pOther, const _float& fX, con
 
 			if (fY > 0)
 			{
-				m_pTransformCom->Go_Left_ByNavigation(0.008333f, m_pNavigationCom);
+				m_pTransformCom->Go_Left_ByNavigation(0.0166666f, m_pNavigationCom);
 			}
 			else if (fY < 0)
 			{
-				m_pTransformCom->Go_Right_ByNavigation(0.008333f, m_pNavigationCom);
+				m_pTransformCom->Go_Right_ByNavigation(0.0166666f, m_pNavigationCom);
 			}
 		}
 
