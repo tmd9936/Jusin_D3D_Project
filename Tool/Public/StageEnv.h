@@ -16,15 +16,14 @@ BEGIN(Client)
 class CStageEnv final : public CGameObject
 {
 public:
-	typedef struct Anim_Env_Desc
+	typedef struct Stage_Env_Desc
 	{
 		_float3		vPos;
 		_float3		vScale;
 		_float3		vRotate;
 
-		_uint		animIndex;
 		wstring		ModelPrototypeTag;
-	} ANIM_ENV_DESC;
+	} STAGE_ENV_DESC;
 
 private:
 	explicit CStageEnv(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -40,6 +39,8 @@ public:
 	virtual _uint			LateTick(_double TimeDelta) override;
 	virtual HRESULT			Render() override;
 	virtual HRESULT			Render_Laplacian() override;
+	virtual HRESULT			Render_ShadowDepth() override;
+
 
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
@@ -52,14 +53,17 @@ private:
 
 	HRESULT					SetUp_ShaderResources();
 
-private:
-	CTransform* m_pTransformCom = { nullptr };
-	CRenderer* m_pRendererCom = { nullptr };
-	CShader* m_pShaderCom = { nullptr };
-	CModel* m_pModelCom = { nullptr };
+	HRESULT					SetUp_Shadow_ShaderResources();
 
 private:
-	ANIM_ENV_DESC			m_AnimEnvDesc = { };
+	CTransform*				m_pTransformCom = { nullptr };
+	CRenderer*				m_pRendererCom = { nullptr };
+	CShader*				m_pShaderCom = { nullptr };
+	CModel*					m_pModelCom = { nullptr };
+	CAABB*					m_pAABB = { nullptr };
+
+private:
+	STAGE_ENV_DESC			m_StageEnvDesc = { };
 
 public:
 	static CStageEnv* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

@@ -2184,6 +2184,31 @@ HRESULT CLoader::Loading_ForStageLevel()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_PokeringC"),
 			CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_ANIM, "../../Reference/Resources/Mesh/Animation/Resident/PokeringC.fbx", PivotMatrix))))
 			return E_FAIL;
+
+		// 스테이지 환경 객체
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_B_water1_rock00"),
+			CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/StageEnv/B_water1_rock00.fbx", PivotMatrix))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_B_water1_rock01"),
+			CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/StageEnv/B_water1_rock01.fbx", PivotMatrix))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_B_water1_rock02"),
+			CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/StageEnv/B_water1_rock02.fbx", PivotMatrix))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_B_water1_tree00"),
+			CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/StageEnv/B_water1_tree00.fbx", PivotMatrix))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_B_water1_tree01"),
+			CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/StageEnv/B_water1_tree01.fbx", PivotMatrix))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_B_water1_tree02"),
+			CModel::Create(m_pDevice, m_pContext, CModel::TYPE_MESH_COLOR_NONANIM, "../../Reference/Resources/Mesh/Animation/StageEnv/B_water1_tree02.fbx", PivotMatrix))))
+			return E_FAIL;
 	}
 
 	wsprintf(m_szLoadingText, TEXT("텍스쳐를 로딩중입니다."));

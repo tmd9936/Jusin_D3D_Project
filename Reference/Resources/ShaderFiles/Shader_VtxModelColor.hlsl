@@ -4,6 +4,9 @@ matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 texture2D		g_DiffuseTexture;
 float			g_CameraFar;
 
+float			g_LightFar = 200.f;
+
+float			g_shadow = 0.f;
 
 struct VS_IN
 {
@@ -100,10 +103,26 @@ PS_OUT PS_MAIN(PS_IN In)
 	return Out;
 }
 
+struct PS_OUT_SHADOW
+{
+	float4			vLightDepth : SV_TARGET0;
+};
+
+PS_OUT_SHADOW PS_MAIN_SHADOW(PS_IN In)
+{
+	PS_OUT_SHADOW		Out = (PS_OUT_SHADOW)0;
+
+	Out.vLightDepth.r = In.vProjPos.w / g_LightFar;
+
+	//Out.vLightDepth = In.vProjPos;
+
+	return Out;
+}
+
 
 technique11		DefaultTechnique
 {
-	pass Model
+	pass Model //0
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Default, 0);
@@ -116,5 +135,16 @@ technique11		DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN();
 	}
 
+	pass Model_Shadow_Depth //1
+	{
+		SetRasterizerState(RS_Default);
+		SetDepthStencilState(DSS_Enable_ZTest_Disable_ZWrite, 0);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		HullShader = NULL;
+		DomainShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_SHADOW();
+	}
 }

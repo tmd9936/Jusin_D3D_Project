@@ -24,12 +24,11 @@ HRESULT CStageEnv::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* 
 {
 	if (nullptr != pArg)
 	{
-		m_AnimEnvDesc.vPos = (*(ANIM_ENV_DESC*)(pArg)).vPos;
-		m_AnimEnvDesc.vScale = (*(ANIM_ENV_DESC*)(pArg)).vScale;
-		m_AnimEnvDesc.vRotate = (*(ANIM_ENV_DESC*)(pArg)).vRotate;
-		m_AnimEnvDesc.animIndex = (*(ANIM_ENV_DESC*)(pArg)).animIndex;
+		m_StageEnvDesc.vPos = (*(STAGE_ENV_DESC*)(pArg)).vPos;
+		m_StageEnvDesc.vScale = (*(STAGE_ENV_DESC*)(pArg)).vScale;
+		m_StageEnvDesc.vRotate = (*(STAGE_ENV_DESC*)(pArg)).vRotate;
 
-		m_AnimEnvDesc.ModelPrototypeTag = (*(ANIM_ENV_DESC*)(pArg)).ModelPrototypeTag;
+		m_StageEnvDesc.ModelPrototypeTag = (*(STAGE_ENV_DESC*)(pArg)).ModelPrototypeTag;
 	}
 
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
@@ -38,11 +37,11 @@ HRESULT CStageEnv::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* 
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_Pos(m_AnimEnvDesc.vPos.x, m_AnimEnvDesc.vPos.y, m_AnimEnvDesc.vPos.z);
+	m_pTransformCom->Set_Pos(m_StageEnvDesc.vPos.x, m_StageEnvDesc.vPos.y, m_StageEnvDesc.vPos.z);
 
-	m_pTransformCom->Set_Rotation(m_AnimEnvDesc.vRotate);
+	m_pTransformCom->Set_Rotation(m_StageEnvDesc.vRotate);
 
-	m_pTransformCom->Set_Scaled(m_AnimEnvDesc.vScale);
+	m_pTransformCom->Set_Scaled(m_StageEnvDesc.vScale);
 
 	m_eRenderId = RENDER_NONBLEND;
 
@@ -71,8 +70,6 @@ HRESULT CStageEnv::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const 
 	if (FAILED(Add_Components_By_File()))
 		return E_FAIL;
 
-	m_pModelCom->Set_Animation(m_AnimEnvDesc.animIndex);
-
 	m_eRenderId = RENDER_NONBLEND;
 
 	return S_OK;
@@ -80,7 +77,7 @@ HRESULT CStageEnv::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const 
 
 _uint CStageEnv::Tick(_double TimeDelta)
 {
-	m_pModelCom->Play_Animation(TimeDelta);
+	//m_pModelCom->Play_Animation(TimeDelta);
 
 	return _uint();
 }
@@ -92,6 +89,9 @@ _uint CStageEnv::LateTick(_double TimeDelta)
 		m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
 
 		m_pRendererCom->Add_RenderGroup(RENDER_LAPLACIAN, this);
+
+		m_pRendererCom->Add_RenderGroup(RENDER_SHADOWDEPTH, this);
+
 	}
 	return _uint();
 }
@@ -137,6 +137,31 @@ HRESULT CStageEnv::Render_Laplacian()
 	return S_OK;
 }
 
+HRESULT CStageEnv::Render_ShadowDepth()
+{
+	if (nullptr == m_pShaderCom ||
+		nullptr == m_pTransformCom ||
+		nullptr == m_pModelCom)
+		return E_FAIL;
+
+	if (FAILED(SetUp_Shadow_ShaderResources()))
+		return E_FAIL;
+
+	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
+
+	for (_uint i = 0; i < iNumMeshes; ++i)
+	{
+		if (FAILED(m_pModelCom->SetUp_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
+			return E_FAIL;
+
+		m_pShaderCom->Begin(1);
+
+		m_pModelCom->Render(i);
+	}
+
+	return S_OK;
+}
+
 _bool CStageEnv::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator)
 {
 	return _bool();
@@ -148,21 +173,19 @@ _bool CStageEnv::Load_By_JsonFile_Impl(Document& doc)
 	{
 		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
 
-		const Value& AnimEnvDesc = doc["AnimEnvDesc"];
+		const Value& StageEnvDesc = doc["StageEnvDesc"];
 
-		const Value& vPos = AnimEnvDesc["vPos"];
+		const Value& vPos = StageEnvDesc["vPos"];
 		m_pTransformCom->Set_Pos(vPos["x"].GetFloat(), vPos["y"].GetFloat(), vPos["z"].GetFloat());
 
-		const Value& vScale = AnimEnvDesc["vScale"];
+		const Value& vScale = StageEnvDesc["vScale"];
 		m_pTransformCom->Set_Scaled({ vScale["x"].GetFloat(), vScale["y"].GetFloat(), vScale["z"].GetFloat() });
 
-		const Value& vRotate = AnimEnvDesc["vRotate"];
+		const Value& vRotate = StageEnvDesc["vRotate"];
 		m_pTransformCom->Set_Rotation({ vRotate["x"].GetFloat(), vRotate["y"].GetFloat(), vRotate["z"].GetFloat() });
 
-		m_AnimEnvDesc.animIndex = AnimEnvDesc["animIndex"].GetUint();
-
-		string ModelPrototypeTag = AnimEnvDesc["ModelPrototypeTag"].GetString();
-		m_AnimEnvDesc.ModelPrototypeTag = convert.from_bytes(ModelPrototypeTag);
+		string ModelPrototypeTag = StageEnvDesc["ModelPrototypeTag"].GetString();
+		m_StageEnvDesc.ModelPrototypeTag = convert.from_bytes(ModelPrototypeTag);
 
 	}
 
@@ -185,15 +208,23 @@ HRESULT CStageEnv::Add_Components()
 		(CComponent**)&m_pRendererCom, nullptr)))
 		return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxAnimModelColor"),
+	if (FAILED(pGameInstance->Add_Component(CShader::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxModelColor"),
 		(CComponent**)&m_pShaderCom, nullptr)))
 		return E_FAIL;
 
 	/* For.Com_Model */
-	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, LEVEL_STATIC, m_AnimEnvDesc.ModelPrototypeTag.c_str(),
+	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, LEVEL_STATIC, m_StageEnvDesc.ModelPrototypeTag.c_str(),
 		(CComponent**)&m_pModelCom, nullptr)))
 		return E_FAIL;
 
+	/* For.Com_AABB*/
+	CCollider::COLLIDER_DESC		ColliderDesc;
+	ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
+	ColliderDesc.vScale = _float3(0.7f, 1.5f, 0.7f);
+	ColliderDesc.vPosition = _float3(0.0f, 0.f, 0.f);
+	if (FAILED(pGameInstance->Add_Component(CCollider::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB"),
+		(CComponent**)&m_pAABB, &ColliderDesc)))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -212,8 +243,17 @@ HRESULT CStageEnv::Add_Components_By_File()
 		return E_FAIL;
 
 	/* For.Com_Model */
-	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, LEVEL_STATIC, m_AnimEnvDesc.ModelPrototypeTag.c_str(),
+	if (FAILED(pGameInstance->Add_Component(CModel::familyId, this, LEVEL_STATIC, m_StageEnvDesc.ModelPrototypeTag.c_str(),
 		(CComponent**)&m_pModelCom, nullptr)))
+		return E_FAIL;
+
+	/* For.Com_AABB*/
+	CCollider::COLLIDER_DESC		ColliderDesc;
+	ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
+	ColliderDesc.vScale = _float3(0.7f, 1.5f, 0.7f);
+	ColliderDesc.vPosition = _float3(0.0f, 0.f, 0.f);
+	if (FAILED(pGameInstance->Add_Component(CCollider::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB"),
+		(CComponent**)&m_pAABB, &ColliderDesc)))
 		return E_FAIL;
 
 	return S_OK;
@@ -239,6 +279,27 @@ HRESULT CStageEnv::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_CameraFar",
 		&cameraFar, sizeof(_float))))
 		return E_FAIL;
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CStageEnv::SetUp_Shadow_ShaderResources()
+{
+	if (FAILED(m_pTransformCom->Set_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
+		return E_FAIL;
+
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(m_pShaderCom->Set_Matrix("g_ViewMatrix",
+		&pGameInstance->Get_LightViewMatrix())))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Set_Matrix("g_ProjMatrix",
+		&pGameInstance->Get_LightProjMatrix())))
+		return E_FAIL;
+
 
 	Safe_Release(pGameInstance);
 
