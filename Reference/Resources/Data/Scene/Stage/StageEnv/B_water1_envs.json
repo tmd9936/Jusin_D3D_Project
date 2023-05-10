@@ -64,6 +64,32 @@
             "RotZ": 0.0,
             "ModelPrototypeTag": "Prototype_Component_Model_B_water1_tree01",
             "ObjectNameTag": "tree01_1"
+        },
+        {
+            "PosX": 26.14,
+            "PosY": 0.0,
+            "PosZ": 14.13,
+            "ScaleX": 1.0,
+            "ScaleY": 1.0,
+            "ScaleZ": 1.0,
+            "RotX": 0.0,
+            "RotY": 0.0,
+            "RotZ": 0.0,
+            "ModelPrototypeTag": "Prototype_Component_Model_B_water1_tree02",
+            "ObjectNameTag": "tree02_0"
+        },
+        {
+            "PosX": 28.26,
+            "PosY": 0.0,
+            "PosZ": 13.40,
+            "ScaleX": 1.0,
+            "ScaleY": 1.0,
+            "ScaleZ": 1.0,
+            "RotX": 0.0,
+            "RotY": 0.0,
+            "RotZ": 0.0,
+            "ModelPrototypeTag": "Prototype_Component_Model_B_water1_rock02",
+            "ObjectNameTag": "rock02_0"
         }
     ]
 }

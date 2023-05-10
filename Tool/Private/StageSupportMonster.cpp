@@ -132,20 +132,22 @@ void CStageSupportMonster::On_CollisionEnter(CCollider* pOther, const _float& fX
 	else if (pOtherOwner->Get_LayerTag().compare(L"Layer_Player") == 0)
 	{
 		if (m_pAABB->Get_ID() < pOther->Get_ID())
+		{
 			Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
 
-		if (fX > 0)
-		{
-			m_pTransformCom->Go_Left_ByNavigation(0.008333f, m_pNavigationCom);
-		}
-		else if (fX < 0)
-		{
-			m_pTransformCom->Go_Right_ByNavigation(0.008333f, m_pNavigationCom);
+			if (fY > 0)
+			{
+				m_pTransformCom->Go_Left_ByNavigation(0.008333f, m_pNavigationCom);
+			}
+			else if (fY < 0)
+			{
+				m_pTransformCom->Go_Right_ByNavigation(0.008333f, m_pNavigationCom);
+			}
 		}
 
 		if (m_FormationChanger)
 		{
-			m_FormationFightTimeAcc += 0.01666;
+			m_FormationFightTimeAcc += 0.02666;
 		}
 	}
 }
@@ -168,14 +170,17 @@ void CStageSupportMonster::On_Collision(CCollider* pOther, const _float& fX, con
 	if (pOtherOwner->Get_LayerTag().compare(L"Layer_Player") == 0)
 	{
 		if (m_pAABB->Get_ID() < pOther->Get_ID())
+		{
 			Engine::CUtility::CollisionPushingOut(pOther, m_pAABB, fX, fY, fZ, m_pTransformCom, m_pNavigationCom);
-		if (fY > 0)
-		{
-			m_pTransformCom->Go_Left_ByNavigation(0.008333f, m_pNavigationCom);
-		}
-		else if (fY < 0)
-		{
-			m_pTransformCom->Go_Right_ByNavigation(0.008333f, m_pNavigationCom);
+
+			if (fY > 0)
+			{
+				m_pTransformCom->Go_Left_ByNavigation(0.008333f, m_pNavigationCom);
+			}
+			else if (fY < 0)
+			{
+				m_pTransformCom->Go_Right_ByNavigation(0.008333f, m_pNavigationCom);
+			}
 		}
 
 		if (m_FormationChanger)
@@ -189,7 +194,7 @@ void CStageSupportMonster::On_Collision(CCollider* pOther, const _float& fX, con
 					m_FormationFightTimeAcc = 0.0;
 				}
 			}
-			m_FormationFightTimeAcc += 0.01666;
+			m_FormationFightTimeAcc += 0.02666;
 		}
 	}
 }
@@ -291,12 +296,12 @@ _uint CStageSupportMonster::State_Tick(const _double& TimeDelta)
 	{
 	case CMonFSM::FORMATION_NORMAL:
 		m_pModelCom->Play_Animation(TimeDelta);
-		if (1.2f >= m_pTransformCom->Get_DistanceFromTarget(m_pMainPlayerTransform->Get_State(CTransform::STATE_POSITION) + m_pFormationCom->Get_RelativePos()))
+		if (1.2f >= m_pTransformCom->Get_DistanceFromTarget(m_pMainPlayerTransform->Get_State(CTransform::STATE_POSITION)))
 		{
 			break;
 		}
 
-		if (2.0f <= m_pTransformCom->Get_DistanceFromTarget(m_pMainPlayerTransform->Get_State(CTransform::STATE_POSITION) + m_pFormationCom->Get_RelativePos()))
+		if (2.5f <= m_pTransformCom->Get_DistanceFromTarget(m_pMainPlayerTransform->Get_State(CTransform::STATE_POSITION)))
 		{
 			m_pMonFSM->Transit_MotionState(CMonFSM::FORMATION_RUN, m_pModelCom);
 			break;
@@ -310,15 +315,16 @@ _uint CStageSupportMonster::State_Tick(const _double& TimeDelta)
 
 	case CMonFSM::FORMATION_RUN:
 		m_pModelCom->Play_Animation(TimeDelta);
-		if (1.5f >= m_pTransformCom->Get_DistanceFromTarget(m_pMainPlayerTransform->Get_State(CTransform::STATE_POSITION) + m_pFormationCom->Get_RelativePos()))
+
+		if (m_pTransformCom->Chase(m_pMainPlayerTransform->Get_State(CTransform::STATE_POSITION) + m_pFormationCom->Get_RelativePos(), _float(TimeDelta), 1.5f, m_pNavigationCom))
 		{
 			m_pMonFSM->Transit_MotionState(CMonFSM::FORMATION_NORMAL, m_pModelCom);
 			break;
 		}
-
-		if (m_pTransformCom->Chase(m_pMainPlayerTransform->Get_State(CTransform::STATE_POSITION) + m_pFormationCom->Get_RelativePos(), _float(TimeDelta), 1.0f, m_pNavigationCom))
+		if (1.5f >= m_pTransformCom->Get_DistanceFromTarget(m_pMainPlayerTransform->Get_State(CTransform::STATE_POSITION)))
 		{
 			m_pMonFSM->Transit_MotionState(CMonFSM::FORMATION_NORMAL, m_pModelCom);
+			break;
 		}
 		break;
 
