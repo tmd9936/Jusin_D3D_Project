@@ -767,7 +767,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 			conditionTypeDataDesc.m_iconPath.c_str(), conditionDataDesc.m_Value_A, conditionDataDesc.m_Value_B,
 			conditionDataDesc.m_time, conditionDataDesc.m_ratio);
 	}
-	else if (skillType == 164) // 돌진
+	else if (skillType == 164) // 돌진 
 	{
 		Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[1], vLook, XMVectorSet(0.f, 0.0f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
 
