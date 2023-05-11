@@ -55,12 +55,12 @@ void CLevel_Logo::Tick(_double TimeDelta)
 			m_bStartGoToBaseCamp = true;
 		}
 
-		//else if (MOUSE_TAB(MOUSE::LBTN))
-		//{
-		//	CGameInstance::GetInstance()->PlaySoundW(L"SE_GAME_START.ogg", Engine::SOUND_UI);
+		else if (MOUSE_TAB(MOUSE::LBTN))
+		{
+			CGameInstance::GetInstance()->PlaySoundW(L"SE_GAME_START.ogg", Engine::SOUND_UI);
 
-		//	m_bStartGoToBaseCamp = true;
-		//}
+			m_bStartGoToBaseCamp = true;
+		}
 	}
 
 #ifdef _DEBUG

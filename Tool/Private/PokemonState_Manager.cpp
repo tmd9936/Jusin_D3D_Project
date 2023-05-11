@@ -338,7 +338,7 @@ void CPokemonState_Manager::Picking()
 			
 			if (m_pStoneInventory->Check_Exist_Stone_Is_In(stoneDesc, m_pickingStoneIndex, pt))
 			{
-				CGameInstance::GetInstance()->PlaySoundW(L"SE_SYS_TOUCH_2.ogg", SOUND_UI);
+				CGameInstance::GetInstance()->PlaySoundW(L"SE_SYS_TOUCH_2.ogg", 0.7f);
 				m_pStoneInfoUI->Change_StoneInfo(stoneDesc);
 
 				m_pPickingInfoStone->Change_StoneType(stoneDesc.m_stoneType);
@@ -353,7 +353,7 @@ void CPokemonState_Manager::Picking()
 			CStone::STONE_DESC stoneDesc{};
 			if (m_pStoneEquipInfoUI->Check_Exist_Stone_Is_In(pt, m_pickingStoneIndex, stoneDesc))
 			{
-				CGameInstance::GetInstance()->PlaySoundW(L"SE_SYS_TOUCH_2.ogg", SOUND_UI);
+				CGameInstance::GetInstance()->PlaySoundW(L"SE_SYS_TOUCH_2.ogg", 0.7f);
 
 				m_pStoneInfoUI->Change_StoneInfo(stoneDesc);
 
@@ -383,7 +383,7 @@ void CPokemonState_Manager::Inventory_Stone_Picking_Tick()
 		if (m_pStoneInventory->Check_Is_In(pt))
 		{
 			m_pStoneInventory->Change_StoneIndex(m_pickingStoneIndex, pt);
-			CGameInstance::GetInstance()->PlaySoundW(L"SE_SYS_STONE_REMOVE.ogg", SOUND_UI);
+			CGameInstance::GetInstance()->PlaySoundW(L"SE_SYS_STONE_REMOVE.ogg", 0.7f);
 		}
 		else if (m_pStoneEquipInfoUI->Check_Is_In(pt))
 		{
@@ -393,7 +393,7 @@ void CPokemonState_Manager::Inventory_Stone_Picking_Tick()
 
 			if (m_pStoneEquipInfoUI->Equip(pt, pickingStoneDesc))
 			{
-				CGameInstance::GetInstance()->PlaySoundW(L"SE_SYS_STONE_SET.ogg", SOUND_UI);
+				CGameInstance::GetInstance()->PlaySoundW(L"SE_SYS_STONE_SET.ogg", 0.7f);
 
 				_uint pokemonNo = m_pPokemonInfoUI->Get_PokemonNo();
 				m_pStoneInventory->Change_StoneState_To_Equip(m_pickingStoneIndex, pokemonNo);
@@ -429,7 +429,7 @@ void CPokemonState_Manager::Equip_Info_Stone_Picking_Tick()
 	{
 		if (m_pStoneInventory->Check_Is_In(pt))
 		{
-			CGameInstance::GetInstance()->PlaySoundW(L"SE_SYS_STONE_REMOVE.ogg", SOUND_UI);
+			CGameInstance::GetInstance()->PlaySoundW(L"SE_SYS_STONE_REMOVE.ogg", 0.7f);
 
 			CStone::STONE_DESC pickingStoneDesc = m_pPickingInfoStone->Get_StoneDesc();
 
@@ -445,7 +445,7 @@ void CPokemonState_Manager::Equip_Info_Stone_Picking_Tick()
 		}
 		else if (m_pStoneEquipInfoUI->Check_Is_In(pt))
 		{
-			CGameInstance::GetInstance()->PlaySoundW(L"SE_SYS_STONE_SET.ogg", SOUND_UI);
+			CGameInstance::GetInstance()->PlaySoundW(L"SE_SYS_STONE_SET.ogg", 0.7f);
 
 			CStone::STONE_DESC pickingStoneDesc = m_pPickingInfoStone->Get_StoneDesc();
 
@@ -460,6 +460,7 @@ void CPokemonState_Manager::Equip_Info_Stone_Picking_Tick()
 		}
 		else
 		{
+
 			m_pStoneEquipInfoUI->Set_StoneStateShow(m_pickingStoneIndex);
 		}
 
