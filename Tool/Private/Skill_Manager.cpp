@@ -769,7 +769,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 	}
 	else if (skillType == 164) // µ¹Áø
 	{
-		//Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[0], vLook, XMVectorSet(0.f, 0.5f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
+		Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[1], vLook, XMVectorSet(0.f, 0.0f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
 
 		pSkillEffect = pEffect_Manager->CreateEffect(m_Skill_Depend_Datas[skillType].m_effects[0], 
 			L"Prototype_GameObject_AttackEffect", pLayerTag, iLevelIndex);
@@ -781,7 +781,7 @@ HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
 		if (nullptr != pSkillEffect)
 		{
 			pSkillEffect->Set_Parent(pBone, pParentTransform, PivotMatrix * XMMatrixRotationAxis({ 0.f, 1.f, 0.f, 0.f }, XMConvertToRadians(180.f)));
-			pSkillEffect->Set_ParentRotateApply(true);
+			//pSkillEffect->Set_ParentRotateApply(true);
 		}
 
 		//pTransform->LookAt(XMVectorSetW(vLook, 1.f));

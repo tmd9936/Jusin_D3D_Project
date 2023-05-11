@@ -400,7 +400,9 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
 			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
+			
 		}
+		Play_SignitureSound();
 		//m_bTurn = true;
 		//Set_MovePosition();
 		// 카메라 보이면 연출
@@ -468,8 +470,8 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 	case CMonFSM::BODYBLOW:
 		//m_pTransformCom->TurnToTarget(XMVectorSet(0.f, 1.f, 0.f, 0.f), m_vTargetPos, TimeDelta * 2.0);
 		//m_pTransformCom->ChaseNoLook(m_vTargetPos, _float(TimeDelta * 3.0));
-		m_pTransformCom->Go_Straight(_float(TimeDelta * 1.5), m_pNavigationCom);
-		if (m_pModelCom->Play_Animation(TimeDelta * 0.7))
+		m_pTransformCom->Go_Straight(_float(TimeDelta * 1.2), m_pNavigationCom);
+		if (m_pModelCom->Play_Animation(TimeDelta))
 		{
 			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
 			SkillCoolTime_Start();
