@@ -141,8 +141,8 @@ void CStageEnemyMonster::Change_State_FSM(_uint eState)
 	case CMonFSM::IDLE1:
 		break;
 	case CMonFSM::ROAR:
+		Play_SignitureSound();
 		break;
-
 	case CMonFSM::IDLE_GROUND:
 		break;
 	case CMonFSM::ATK_NORMAL:
@@ -402,10 +402,6 @@ _uint CStageEnemyMonster::State_Tick(const _double& TimeDelta)
 			m_pMonFSM->Transit_MotionState(CMonFSM::IDLE1, m_pModelCom);
 			
 		}
-		Play_SignitureSound();
-		//m_bTurn = true;
-		//Set_MovePosition();
-		// 카메라 보이면 연출
 		break;
 	case CMonFSM::ROAR_BEFORE:
 		m_pModelCom->Play_Animation(TimeDelta);
