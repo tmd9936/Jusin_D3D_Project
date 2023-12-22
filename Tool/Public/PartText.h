@@ -32,8 +32,8 @@ public:
 	} TEXT_DESC;
 
 private:
-	CPartText(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CPartText(const CPartText& rhs);
+	explicit CPartText(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CPartText(const CPartText& rhs);
 	virtual ~CPartText() = default;
 
 public:
@@ -59,6 +59,25 @@ public:
 
 	void	Set_Text(const wstring& text) {
 		lstrcpy(m_Text_Desc.m_Text, text.c_str());
+	}
+
+	void	Set_Text(const wstring& text, const _float& vPositionX) {
+		lstrcpy(m_Text_Desc.m_Text, text.c_str());
+		m_Text_Desc.m_fX = vPositionX;
+	}
+
+
+	const wstring	Get_Text() const {
+		return m_Text_Desc.m_Text;
+	}
+
+	const _float Get_PositionX() const {
+		return m_Text_Desc.m_fX;
+	}
+
+public:
+	const TEXT_DESC Get_Desc() const {
+		return m_Text_Desc;
 	}
 
 private:

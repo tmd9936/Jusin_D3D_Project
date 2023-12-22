@@ -57,8 +57,7 @@ HRESULT CSkillToolGUI::Render()
 	//View_Skill_Depend_Layer();
 	View_Effect_Layer();
 
-	Reload_Skill_Data(); ImGui::SameLine();
-	Reload_Effect_Data();
+	View_Debug();
 
 	return S_OK;
 }
@@ -108,6 +107,32 @@ void CSkillToolGUI::View_Effect_Layer()
 	ImGui::End();
 }
 
+void CSkillToolGUI::View_Debug()
+{
+	ImGui::Begin("Debug");
+	{
+		Reload_Skill_Data(); ImGui::SameLine();
+		Reload_Effect_Data();
+		View_PlayerPos();
+
+		if (ImGui::Button("Laplacian[ON/OFF]"))
+		{
+			CRenderer::m_bLaplacian = !CRenderer::m_bLaplacian;
+		}
+		if (ImGui::DragFloat("laplacianThesholdLow", &CRenderer::m_laplacianThesholdLow, 0.01f, 0.f, 1.f))
+		{
+			
+		}
+
+		if (ImGui::DragFloat("laplacianThesholdHigh", &CRenderer::m_laplacianThesholdHigh, 0.01f, 0.f, 1.f))
+		{
+			
+		}
+
+	}
+	ImGui::End();
+}
+
 void CSkillToolGUI::ListBox_Skill_List()
 {
 	if (ImGui::ListBox("Skill_List ", &m_iSkillListBoxCurrentItem, m_SkillListBox, (int)m_SkillListBoxSize))
@@ -141,7 +166,7 @@ void CSkillToolGUI::Player_Skill_Change(_uint SkillType)
 {
 	const _uint iLevelindex = CDataToolGUI::GetInstance()->Get_Current_Levelindex();
 
-	CGameObject* pPlayer = CGameInstance::GetInstance()->Get_Object(iLevelindex, L"Layer_Player", L"Player");
+	CGameObject* pPlayer = CGameInstance::GetInstance()->Get_Object(iLevelindex, L"Layer_Player", L"Player1");
 
 	if (pPlayer == nullptr)
 		return;
@@ -384,6 +409,23 @@ void CSkillToolGUI::After_Init()
 
 		m_ManagerInit = true;
 	}
+}
+
+void CSkillToolGUI::View_PlayerPos()
+{
+	const _uint iLevelindex = CDataToolGUI::GetInstance()->Get_Current_Levelindex();
+
+	CGameObject* pPlayer = CGameInstance::GetInstance()->Get_Object(iLevelindex, L"Layer_Player", L"Player1");
+	if (pPlayer == nullptr)
+		return;
+
+	CTransform* pPlayerTransform =  pPlayer->Get_As<CTransform>();
+
+	if (pPlayerTransform == nullptr)
+		return;
+	
+	XMStoreFloat4(&m_PlayerPos, pPlayerTransform->Get_State(CTransform::STATE_POSITION));
+	ImGui::Text("PlayerPos \nX: %.2f \nY: %.2f \nZ: %.2f", m_PlayerPos.x, m_PlayerPos.y, m_PlayerPos.z);
 }
 
 void CSkillToolGUI::Free(void)

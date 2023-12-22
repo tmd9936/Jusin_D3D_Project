@@ -1,3 +1,11 @@
+#ifndef PI 
+#define PI 3.141592f
+#endif
+
+#ifndef ONE_OVER_PI
+#define ONE_OVER_PI 0.318309f
+#endif
+
 /* For.Sampler State  */
 sampler PointSampler = sampler_state
 {
@@ -6,12 +14,25 @@ sampler PointSampler = sampler_state
 	AddressV = wrap;
 };
 
+sampler PointSamplerNoWrap = sampler_state
+{
+	filter = min_mag_mip_point;
+};
+
 sampler LinearSampler = sampler_state
 {
 	filter = min_mag_mip_linear;
 	AddressU = wrap;
 	AddressV = wrap;
 };
+
+sampler BlurSampler = sampler_state
+{
+	filter = min_mag_mip_linear;
+	AddressU = clamp;
+	AddressV = clamp;
+};
+
 
 /* For.Rasterizer State  */
 RasterizerState RS_Default
@@ -23,6 +44,19 @@ RasterizerState RS_Wireframe
 {
 	FillMode = wireframe;
 };
+
+RasterizerState RS_CullMode
+{
+	FillMode = wireframe;
+	CullMode = none;
+};
+
+RasterizerState RS_Solid_NoCull
+{
+	FillMode = solid;
+	CullMode = none;
+};
+
 
 /* For.DepthStencil State  */
 DepthStencilState DSS_Default
@@ -60,6 +94,12 @@ BlendState BS_AlphaBlend
 	BlendOp = add;
 };
 
+/* For.Blend State  */
+BlendState BS_Shadow
+{
+	BlendEnable[0] = false;
+	RenderTargetWriteMask[0] = 0;
+};
 
 bool ShouldDiscard(float2 coords, float2 dimensions, float radius)
 {
@@ -94,4 +134,16 @@ float RoundedRectSDF(float2 centerPosition, float2 size, float radius)
 
 float roundedBoxSDF(float2 CenterPosition, float2 Size, float Radius) {
 	return length(max(abs(CenterPosition) - Size + Radius, 0.0)) - Radius;
+}
+
+float CalculateClockAngle_float(float2 uv)
+{
+	float2 a = float2(0.f, 1.f);
+	float2 b = normalize(uv - float2(0.5f, 0.5f));
+
+	float dot = (a.x * b.x) - (a.y * b.y);
+	float det = (a.x * b.y) + (a.y * b.x);
+	float angle = atan2(-det, -dot);
+
+	return ((angle + PI) * 0.5f) * ONE_OVER_PI;
 }

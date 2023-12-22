@@ -10,6 +10,7 @@
 #include "Client_Utility.h"
 #include "StageInfoUI.h"
 #include "StagePoint.h"
+#include "Level_Loading.h"
 
 
 CWorldMap_Manager::CWorldMap_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -58,6 +59,9 @@ HRESULT CWorldMap_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex
 
 	Safe_AddRef(p_MainCamera);
 
+	if (FAILED(Init_PlayerPosition()))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -98,6 +102,9 @@ HRESULT CWorldMap_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex
 
 	Safe_AddRef(p_MainCamera);
 
+	if (FAILED(Init_PlayerPosition()))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -105,6 +112,14 @@ _uint CWorldMap_Manager::Tick(_double TimeDelta)
 {
 	State_Tick(TimeDelta);
 	Change_State();
+
+	if (m_eCurState == MANAGET_STAGE_SELECT)
+	{
+		if (FAILED(CGameInstance::GetInstance()->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_STAGE))))
+			return 0;
+		else
+			return OBJ_SCENE_CHNAGE;
+	}
 
 	return _uint();
 }
@@ -128,11 +143,31 @@ HRESULT CWorldMap_Manager::Render()
 	return S_OK;
 }
 
-void CWorldMap_Manager::Fade_In(const _double& TimeDelta)
+HRESULT CWorldMap_Manager::Init_PlayerPosition()
 {
-	if (p_MainCamera->Focus_To_Object(m_FocusPosition, (_float)TimeDelta, 0.01f))
+	CGameObject* pPlayer1 = CGameInstance::GetInstance()->Get_Object(LEVEL_WORLDMAP, L"Layer_Player", L"Player1");
+
+	if (nullptr == pPlayer1)
+		return E_FAIL;
+
+	CTransform* pTransform = pPlayer1->Get_As<CTransform>();
+	if (nullptr == pTransform)
+		return E_FAIL;
+
+	pTransform->Set_Pos(24.04f, 0.8f, 23.60f);
+
+	CNavigation* pNaviagtion = nullptr;
+	pNaviagtion = pPlayer1->Get_As<CNavigation>();
+	pNaviagtion->Set_Index_By_Position({ 24.04f, 0.8f, 23.60f });
+
+	return S_OK;
+}
+
+void CWorldMap_Manager::Fade_out(const _double& TimeDelta)
+{
+	if (p_MainCamera->Focus_To_Object(m_FocusPosition, (_float)TimeDelta * m_Desc.m_FadeInCameraSpeed, m_Desc.m_FadeInStopIntervalDistance))
 	{
-		m_eCurState = MANAGER_IDLE;
+		m_eCurState = MANAGET_STAGE_SELECT;
 	}
 
 	m_vCurrentFadeColor.x += (_float)TimeDelta;
@@ -167,8 +202,11 @@ _bool CWorldMap_Manager::Save_By_JsonFile_Impl(Document& doc, Document::Allocato
 		}
 		ManagerDesc.AddMember("m_FadeEndColor", m_FadeEndColor, allocator);
 
+		ManagerDesc.AddMember("m_FadeInStopIntervalDistance", m_Desc.m_FadeInStopIntervalDistance, allocator);
+		ManagerDesc.AddMember("m_FadeInCameraSpeed", m_Desc.m_FadeInCameraSpeed, allocator);
 	}
 	doc.AddMember("ManagerDesc", ManagerDesc, allocator);
+
 
 
 	return true;
@@ -186,6 +224,10 @@ _bool CWorldMap_Manager::Load_By_JsonFile_Impl(Document& doc)
 	const Value& m_FadeEndColor = ManagerDesc["m_FadeEndColor"];
 	m_Desc.m_FadeEndColor = _float4(m_FadeEndColor["x"].GetFloat(), m_FadeEndColor["y"].GetFloat(), m_FadeEndColor["z"].GetFloat(), m_FadeEndColor["w"].GetFloat());
 
+	m_Desc.m_FadeInStopIntervalDistance = ManagerDesc["m_FadeInStopIntervalDistance"].GetFloat();
+
+	m_Desc.m_FadeInCameraSpeed = ManagerDesc["m_FadeInCameraSpeed"].GetFloat();
+
 	return true;
 }
 
@@ -199,8 +241,8 @@ void CWorldMap_Manager::State_Tick(const _double& TimeDelta)
 	case MANAGER_OPEN_STATE_INFO:
 		//Focus_Stay(TimeDelta);
 		break;
-	case MANAGER_CAMERA_FADE_IN:
-		Fade_In(TimeDelta);
+	case MANAGER_CAMERA_FADE_OUT:
+		Fade_out(TimeDelta);
 		break;
 	}
 }
@@ -215,19 +257,23 @@ void CWorldMap_Manager::Change_State()
 			m_eRenderId = RENDER_END;
 			p_MainCamera->Control_On();
 			CGameInstance::GetInstance()->Layer_Tick_State_Change(L"Layer_Stage_Info_UI", LEVEL_WORLDMAP, false);
+			CGameInstance::GetInstance()->Layer_Tick_State_Change(L"Layer_UI", LEVEL_WORLDMAP, true);
 			break;
 		case MANAGER_OPEN_STATE_INFO:
 			m_eRenderId = RENDER_BACK_UI;
 			m_vCurrentFadeColor = m_Desc.m_FadeStartColor;
 			p_MainCamera->Control_Off();
 			CGameInstance::GetInstance()->Layer_Tick_State_Change(L"Layer_Stage_Info_UI", LEVEL_WORLDMAP, true);
+			CGameInstance::GetInstance()->Layer_Tick_State_Change(L"Layer_UI", LEVEL_WORLDMAP, false);
 
 			break;
-		case MANAGER_CAMERA_FADE_IN:
+		case MANAGER_CAMERA_FADE_OUT:
 			m_eRenderId = RENDER_BACK_UI;
 			m_vCurrentFadeColor = m_Desc.m_FadeStartColor;
 			p_MainCamera->Control_Off();
 			CGameInstance::GetInstance()->Layer_Tick_State_Change(L"Layer_Stage_Info_UI", LEVEL_WORLDMAP, false);
+			CGameInstance::GetInstance()->Layer_Tick_State_Change(L"Layer_UI", LEVEL_WORLDMAP, false);
+
 			break;
 		}
 		m_ePreState = m_eCurState;
@@ -255,7 +301,11 @@ void CWorldMap_Manager::Picking()
 
 		((CStageInfoUI*)pStageInfo)->Change_Stage_Info(stagePointDesc.vColor, stagePointDesc.stageNumber, stagePointDesc.levelTitleText);
 
+		m_FocusPosition = _float4(stagePointDesc.vPos.x, stagePointDesc.vPos.y, stagePointDesc.vPos.z, 1.f);
+
 		m_eCurState = MANAGER_OPEN_STATE_INFO;
+
+		CGameInstance::GetInstance()->PlaySoundW(L"SE_SYS_TOUCH_1.ogg", SOUND_UI);
 	}
 }
 
@@ -353,8 +403,16 @@ HRESULT CWorldMap_Manager::SetUp_ShaderResources()
 	if (FAILED(m_pTextureCom->Set_ShaderResource(m_pShaderCom, "g_Texture", 0)))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_RawValue("g_vColor", &m_Desc.m_FadeStartColor, (sizeof m_Desc.m_FadeStartColor))))
-		return E_FAIL;
+	if (m_eCurState == MANAGER_CAMERA_FADE_OUT)
+	{
+		if (FAILED(m_pShaderCom->Set_RawValue("g_vColor", &m_vCurrentFadeColor, (sizeof m_vCurrentFadeColor))))
+			return E_FAIL;
+	}
+	else
+	{
+		if (FAILED(m_pShaderCom->Set_RawValue("g_vColor", &m_Desc.m_FadeStartColor, (sizeof m_Desc.m_FadeStartColor))))
+			return E_FAIL;
+	}
 
 	Safe_Release(pGameInstance);
 

@@ -7,8 +7,8 @@ BEGIN(Engine)
 class ENGINE_DLL CVIBuffer_Terrain final : public CVIBuffer
 {
 private:
-	CVIBuffer_Terrain(ID3D11Device * pDevice, ID3D11DeviceContext * pContext, CGameObject* pOwner);
-	CVIBuffer_Terrain(const CVIBuffer_Terrain& rhs, CGameObject* pOwner);
+	explicit CVIBuffer_Terrain(ID3D11Device * pDevice, ID3D11DeviceContext * pContext, CGameObject* pOwner);
+	explicit CVIBuffer_Terrain(const CVIBuffer_Terrain& rhs, CGameObject* pOwner);
 	virtual ~CVIBuffer_Terrain() = default;
 
 public:

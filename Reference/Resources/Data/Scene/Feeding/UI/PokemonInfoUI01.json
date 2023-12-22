@@ -1,0 +1,384 @@
+{
+    "UIDesc": {
+        "m_fX": 630.0,
+        "m_fY": 80.0,
+        "m_fSizeX": 380.5,
+        "m_fSizeY": 120.0,
+        "m_ShaderPass": 1,
+        "m_UIType": 1,
+        "m_vColor": {
+            "x": 0.76862,
+            "y": 0.52549,
+            "z": 0.2352,
+            "w": 1.0
+        },
+        "m_TextureProtoTypeLevel": 0,
+        "m_TextureProtoTypeName" : "Prototype_Component_Texture_Rectangle_Base",
+        "m_nowMonsterNumber" : 1,
+        "m_TextureParts": [
+            {
+                "m_fX": -130.0,
+                "m_fY": 0.0,
+                "m_fSizeX": 80.0,
+                "m_fSizeY": 80.0,
+                "m_eType": 0,
+                "m_ShaderPass": 0,
+                "m_vColor": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_Pokemon_Icon_M25",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": 28.0,
+                "m_fY": -33.0,
+                "m_fSizeX": 205.0,
+                "m_fSizeY": 40.0,
+                "m_eType": 1,
+                "m_ShaderPass": 1,
+                "m_vColor": {
+                    "x": 0.870588,
+                    "y": 0.721568,
+                    "z": 0.211764,
+                    "w": 1.0
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_Rectangle_Base",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": -45.0,
+                "m_fY": 24.0,
+                "m_fSizeX": 60.0,
+                "m_fSizeY": 60.0,
+                "m_eType": 1,
+                "m_ShaderPass": 1,
+                "m_vColor": {
+                    "x": 1.0,
+                    "y": 0.821568,
+                    "z": 0.121764,
+                    "w": 1.0
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_Rectangle_Base",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": 60.0,
+                "m_fY": 8.9,
+                "m_fSizeX": 140.0,
+                "m_fSizeY": 30.0,
+                "m_eType": 1,
+                "m_ShaderPass": 1,
+                "m_vColor": {
+                    "x": 0.1764,
+                    "y": 0.41176,
+                    "z": 0.76862,
+                    "w": 1.0
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_Rectangle_Base",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": 10.0,
+                "m_fY": 8.7,
+                "m_fSizeX": 20.0,
+                "m_fSizeY": 20.0,
+                "m_eType": 1,
+                "m_ShaderPass": 2,
+                "m_vColor": {
+                    "x": 0.2,
+                    "y": 0.2,
+                    "z": 0.2,
+                    "w": 0.5
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_window_HP_icon",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": 60.0,
+                "m_fY": 38.7,
+                "m_fSizeX": 140.0,
+                "m_fSizeY": 30.0,
+                "m_eType": 1,
+                "m_ShaderPass": 1,
+                "m_vColor": {
+                    "x": 0.9294,
+                    "y": 0.24705,
+                    "z": 0.0705,
+                    "w": 1.0
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_Rectangle_Base",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": 10.0,
+                "m_fY": 40.0,
+                "m_fSizeX": 20.0,
+                "m_fSizeY": 20.0,
+                "m_eType": 1,
+                "m_ShaderPass": 2,
+                "m_vColor": {
+                    "x": 0.2,
+                    "y": 0.2,
+                    "z": 0.2,
+                    "w": 0.5
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_window_ATK_icon",
+                "LayerTag": "Layer_UI"
+            }
+        ],
+        "m_TextParts": [
+            {
+                "m_fX": 125.0,
+                "m_fY": 15.0,
+                "m_vColor": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "m_Rotation": 0.0,
+                "m_vRotationOrigin": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "m_vScale": {
+                    "x": 0.63,
+                    "y": 0.56
+                },
+                "m_FontTag": "Font_NanumBarunGothic", 
+                "m_Text": "이름",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": 230.0,
+                "m_fY": 20.0,
+                "m_vColor": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "m_Rotation": 0.0,
+                "m_vRotationOrigin": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "m_vScale": {
+                    "x": 0.45,
+                    "y": 0.39
+                },
+                "m_FontTag": "Font_NanumBarunGothic", 
+                "m_Text": "타입",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": 132.5,
+                "m_fY": 55.0,
+                "m_vColor": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "m_Rotation": 0.0,
+                "m_vRotationOrigin": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "m_vScale": {
+                    "x": 0.40,
+                    "y": 0.33
+                },
+                "m_FontTag": "Font_NanumBarunGothic", 
+                "m_Text": "Lv.",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": 122.5,
+                "m_fY": 68.0,
+                "m_vColor": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "m_Rotation": 0.0,
+                "m_vRotationOrigin": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "m_vScale": {
+                    "x": 0.70,
+                    "y": 0.63
+                },
+                "m_FontTag": "Font_NanumBarunGothicBold", 
+                "m_Text": "99",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": 212.5,
+                "m_fY": 62.5,
+                "m_vColor": {
+                    "x": 0.2,
+                    "y": 0.2,
+                    "z": 0.2,
+                    "w": 1.0
+                },
+                "m_Rotation": 0.0,
+                "m_vRotationOrigin": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "m_vScale": {
+                    "x": 0.35,
+                    "y": 0.3
+                },
+                "m_FontTag": "Font_NanumBarunGothicBold", 
+                "m_Text": "HP",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": 255.5,
+                "m_fY": 59.5,
+                "m_vColor": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "m_Rotation": 0.0,
+                "m_vRotationOrigin": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "m_vScale": {
+                    "x": 0.50,
+                    "y": 0.45
+                },
+                "m_FontTag": "Font_NanumBarunGothicBold", 
+                "m_Text": "500",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": 212.5,
+                "m_fY": 94.5,
+                "m_vColor": {
+                    "x": 0.2,
+                    "y": 0.2,
+                    "z": 0.2,
+                    "w": 1.0
+                },
+                "m_Rotation": 0.0,
+                "m_vRotationOrigin": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "m_vScale": {
+                    "x": 0.35,
+                    "y": 0.3
+                },
+                "m_FontTag": "Font_NanumBarunGothicBold", 
+                "m_Text": "ATK",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": 255.5,
+                "m_fY": 90.5,
+                "m_vColor": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "m_Rotation": 0.0,
+                "m_vRotationOrigin": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "m_vScale": {
+                    "x": 0.50,
+                    "y": 0.45
+                },
+                "m_FontTag": "Font_NanumBarunGothicBold", 
+                "m_Text": "1500",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": 127.5,
+                "m_fY": 95.0,
+                "m_vColor": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "m_Rotation": 0.0,
+                "m_vRotationOrigin": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "m_vScale": {
+                    "x": 0.40,
+                    "y": 0.32
+                },
+                "m_FontTag": "Font_NanumBarunGothicBold", 
+                "m_Text": "0",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": 139.5,
+                "m_fY": 95.0,
+                "m_vColor": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "m_Rotation": 0.0,
+                "m_vRotationOrigin": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "m_vScale": {
+                    "x": 0.40,
+                    "y": 0.32
+                },
+                "m_FontTag": "Font_NanumBarunGothicBold", 
+                "m_Text": "/",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": 149.5,
+                "m_fY": 95.0,
+                "m_vColor": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "m_Rotation": 0.0,
+                "m_vRotationOrigin": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "m_vScale": {
+                    "x": 0.40,
+                    "y": 0.32
+                },
+                "m_FontTag": "Font_NanumBarunGothicBold", 
+                "m_Text": "3",
+                "LayerTag": "Layer_UI"
+            }
+        ]
+    }
+}

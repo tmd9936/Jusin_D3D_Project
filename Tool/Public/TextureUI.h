@@ -26,8 +26,8 @@ public:
 	} UI_DESC;
 
 private:
-	CTextureUI(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CTextureUI(const CTextureUI& rhs);
+	explicit CTextureUI(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CTextureUI(const CTextureUI& rhs);
 	virtual ~CTextureUI() = default;
 
 public:

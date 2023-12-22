@@ -17,8 +17,8 @@ class CWorldMapCloud final : public CGameObject
 {
 
 private:
-	CWorldMapCloud(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CWorldMapCloud(const CWorldMapCloud& rhs);
+	explicit CWorldMapCloud(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CWorldMapCloud(const CWorldMapCloud& rhs);
 	virtual ~CWorldMapCloud() = default;
 
 public:

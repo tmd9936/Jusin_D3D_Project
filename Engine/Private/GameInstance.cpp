@@ -8,6 +8,7 @@
 #include "Collider_Manager.h"
 #include "Font_Manager.h"
 #include "Frustum.h"
+#include "Target_Manager.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -24,7 +25,9 @@ CGameInstance::CGameInstance()
 	, m_pCollider_Manager(CCollider_Manager::GetInstance())
 	, m_pFont_Manager(CFont_Manager::GetInstance())
 	, m_pFrustum(CFrustum::GetInstance())
+	, m_pTarget_Manager(CTarget_Manager::GetInstance())
 {
+	Safe_AddRef(m_pTarget_Manager);
 	Safe_AddRef(m_pLight_Manager);
 	Safe_AddRef(m_pComponent_Manager);
 	Safe_AddRef(m_pObject_Manager);
@@ -67,6 +70,8 @@ HRESULT CGameInstance::Initialize_Engine(_uint iNumLevels, HINSTANCE hInstance, 
 
 	if (FAILED(m_pFrustum->Initialize()))
 		return E_FAIL;
+
+	m_pLight_Manager->Initialize();
 
 	return S_OK;
 }
@@ -283,6 +288,14 @@ CGameObject* CGameInstance::Get_Object(_uint iLevelIndex, const _tchar* pLayerTa
 	return m_pObject_Manager->Get_Object(iLevelIndex, pLayerTag, pObjectTag);
 }
 
+CGameObject* CGameInstance::Get_Object(_uint iLevelIndex, const _tchar* pLayerTag, wstring objectTag) const
+{
+	if (nullptr == m_pObject_Manager)
+		return nullptr;
+
+	return m_pObject_Manager->Get_Object(iLevelIndex, pLayerTag, objectTag);
+}
+
 HRESULT CGameInstance::Remove_All_GameObject_In_Layer(_uint iLevelIndex, const _tchar* pLayerTag)
 {
 	if (nullptr == m_pObject_Manager)
@@ -331,7 +344,6 @@ CGameObject* CGameInstance::Clone_GameObject(const _tchar* pLayerTag, _uint iLev
 	return m_pObject_Manager->Clone_GameObject(pLayerTag, iLevelIndex, pPrototypeTag, ppOut, pArg);
 }
 
-
 HRESULT CGameInstance::Layer_Tick_State_Change(const _tchar* pLayerTag, _uint iLevelIndex, _bool bTick)
 {
 	if (nullptr == m_pObject_Manager)
@@ -339,6 +351,23 @@ HRESULT CGameInstance::Layer_Tick_State_Change(const _tchar* pLayerTag, _uint iL
 
 	return m_pObject_Manager->Layer_Tick_State_Change(pLayerTag, iLevelIndex, bTick);
 }
+
+_bool CGameInstance::Is_Layer(_uint iLevelIndex, const wstring& layerTag)
+{
+	if (nullptr == m_pObject_Manager)
+		return false;
+
+	return m_pObject_Manager->Is_Layer(iLevelIndex, layerTag);
+}
+
+HRESULT CGameInstance::Change_Component(const FamilyId& familyId, CGameObject* pGameObject, _uint iLevelIndex, const _tchar* pPrototypeTag, CComponent** ppOut, void* pArg)
+{
+	if (nullptr == m_pObject_Manager)
+		return E_FAIL;
+
+	return m_pObject_Manager->Change_Component(familyId, pGameObject, iLevelIndex, pPrototypeTag, ppOut, pArg);
+}
+
 
 HRESULT CGameInstance::Add_Prototype(_uint iLevelIndex, const _tchar* pPrototypeTag, CComponent* pPrototype)
 {
@@ -356,7 +385,7 @@ CComponent* CGameInstance::Clone_Component(_uint iLevelIndex, const _tchar* pPro
 	return m_pComponent_Manager->Clone_Component(iLevelIndex, pPrototypeTag, pGameObject, pArg);
 }
 
-_bool CGameInstance::Check_Prototype(const wstring& prototypeTag)
+_bool CGameInstance::Check_Prototype(const wstring prototypeTag)
 {
 	if (nullptr == m_pComponent_Manager)
 		return false;
@@ -379,6 +408,14 @@ void CGameInstance::PlaySoundW(const _tchar* pSoundKey, CHANNELID eID)
 		return;
 
 	return m_pSound_Manager->PlaySoundW(pSoundKey, eID);
+}
+
+void CGameInstance::PlaySoundW(const _tchar* pSoundKey, const _float& fVolume)
+{
+	if (nullptr == m_pSound_Manager)
+		return;
+
+	return m_pSound_Manager->PlaySoundW(pSoundKey, fVolume);
 }
 
 void CGameInstance::PlayBGM(const _tchar* pSoundKey)
@@ -477,6 +514,14 @@ _matrix CGameInstance::Get_ViewPort_Matrix(float x, float y, float w, float h, f
 	return m_pPipeLine->Get_ViewPort_Matrix(x, y, w, h, minZ, maxZ);
 }
 
+_float CGameInstance::Get_CameraFar()
+{
+	if (nullptr == m_pPipeLine)
+		return 0.f;
+
+	return m_pPipeLine->Get_CameraFar();
+}
+
 const KEY_STATE CGameInstance::Get_KeyState(KEY eKey)
 {
 	if (nullptr == m_pInput_Device)
@@ -515,6 +560,22 @@ HRESULT CGameInstance::Add_Light(ID3D11Device* pDevice, ID3D11DeviceContext* pCo
 		return E_FAIL;
 
 	return m_pLight_Manager->Add_Light(pDevice, pContext, LightDesc);
+}
+
+_float4x4 CGameInstance::Get_LightViewMatrix()
+{
+	if (nullptr == m_pLight_Manager)
+		return _float4x4();
+
+	return m_pLight_Manager->Get_ShadowDepthLightView();
+}
+
+_float4x4 CGameInstance::Get_LightProjMatrix()
+{
+	if (nullptr == m_pLight_Manager)
+		return _float4x4();
+
+	return m_pLight_Manager->Get_ShadowDepthLightProj();
 }
 
 void CGameInstance::Update_CollisionMgr(_uint iLevelIndex)
@@ -567,6 +628,14 @@ _bool CGameInstance::Is_In_Frustum(_fvector vPosition, _float fRange)
 	return m_pFrustum->Is_In(vPosition, fRange);
 }
 
+HRESULT CGameInstance::Set_Shader_RTV(const _tchar* pTargetTag, CShader* pShader, const char* pConstantName)
+{
+	if (nullptr == m_pTarget_Manager)
+		return E_FAIL;
+
+	return m_pTarget_Manager->Set_ShaderResourceView(pTargetTag, pShader, pConstantName);
+}
+
 void CGameInstance::Release_Engine()
 {
 	CGameInstance::GetInstance()->DestroyInstance();
@@ -593,11 +662,14 @@ void CGameInstance::Release_Engine()
 
 	CFont_Manager::GetInstance()->DestroyInstance();
 
+	CTarget_Manager::GetInstance()->DestroyInstance();
+
 	CGraphic_Device::GetInstance()->DestroyInstance();
 }
 
 void CGameInstance::Free(void)
 {
+	Safe_Release(m_pTarget_Manager);
 	Safe_Release(m_pLight_Manager);
 	Safe_Release(m_pComponent_Manager);
 	Safe_Release(m_pObject_Manager);

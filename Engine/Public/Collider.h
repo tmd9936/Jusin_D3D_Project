@@ -15,6 +15,16 @@ public:
     enum TYPE { TYPE_SPHERE, TYPE_AABB, TYPE_OBB, TYPE_END };
 
 public:
+    enum COLLISION_STATE
+    {
+        COLLISION_STATE_NONE,
+        COLLISION_STATE_ENTER,
+        COLLISION_STATE_ON,
+        COLLISION_STATE_EXIT,
+        COLLISION_STATE_END,
+    };
+
+public:
     typedef struct tagCollider_Desc
     {
         _float3		vScale;
@@ -23,13 +33,13 @@ public:
     }   COLLIDER_DESC;
 
 protected:
-    CCollider(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-    CCollider(const CCollider& rhs);
-    ~CCollider() = default;
+    explicit CCollider(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+    explicit CCollider(const CCollider& rhs);
+    virtual  ~CCollider() = default;
 
-#ifdef _DEBUG
+#ifdef DEBUG_COMPONENT_RENDER
 public:
-    HRESULT Render();
+    virtual HRESULT Render();
 #endif // _DEBUG
 
 public:
@@ -44,7 +54,9 @@ public:
 
 
 public:
-    _uint Get_ID() { return m_iID; }
+    _uint Get_ID() { 
+        return m_iID; 
+    }
     const _vector Get_Center() const;
 
 
@@ -53,6 +65,14 @@ public:
     virtual void Set_TransformMatrix() PURE;
     _bool Collision(CCollider* pTarget);
 
+public:
+    const _bool     Get_CanCollision() const {
+        return m_bCanCollision;
+    }
+
+    void            Set_CanCollision(_bool bCanCollision) {
+        m_bCanCollision = bCanCollision;
+    }
 
 public:
     const TYPE   Get_Type() const {
@@ -69,6 +89,10 @@ public:
 
     const BoundingSphere* Get_Sphere() const {
         return m_pSphere;
+    }
+
+    const COLLISION_STATE Get_Collision_State() const {
+        return m_eState;
     }
 
 protected:
@@ -93,11 +117,16 @@ protected:
     COLLIDER_DESC   m_Collider_Desc = {};
     TYPE	        m_eType = { TYPE_END };
 
+    _bool           m_bCanCollision = { true };
+
+protected:
+    COLLISION_STATE m_eState = { COLLISION_STATE_END };
+
 protected:
     static _uint g_iColliderID;
     _uint m_iID = { 0 };
 
-#ifdef _DEBUG
+#ifdef DEBUG_COMPONENT_RENDER
 protected:
     PrimitiveBatch<DirectX::VertexPositionColor>* m_pBatch = { nullptr };
     BasicEffect* m_pEffect = { nullptr };

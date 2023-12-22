@@ -31,7 +31,7 @@ enum class KEY
 {
 	W, A, S, D, R, F, V, E, B, N, M,
 
-	G, H, J, K, L,
+	G, H, J, K, L, O, P,
 
 	TAB,
 	ALT,

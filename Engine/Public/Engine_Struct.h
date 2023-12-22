@@ -20,6 +20,9 @@ namespace Engine
 
 	typedef struct tagLightDesc
 	{
+		enum TYPE { TYPE_DIRECTIONAL, TYPE_POINT, TYPE_END };
+
+		TYPE			eType;
 		XMFLOAT4		vDirection;
 		XMFLOAT4		vPosition;
 		float			fRange;
@@ -183,6 +186,11 @@ namespace Engine
 		static D3D11_INPUT_ELEMENT_DESC			Elements[3];
 	} VTXTEXCOLOR_DECLARATION;
 
+	typedef struct tagVertex_Point
+	{
+		XMFLOAT3			vPosition;
+		XMFLOAT2			vPSize;
+	}VTXPOINT;
 
 	typedef struct tagVertex_Matrix
 	{
@@ -198,6 +206,12 @@ namespace Engine
 		const static unsigned int				iNumElements = 6;
 		static D3D11_INPUT_ELEMENT_DESC			Elements[6];
 	} VTXINSTANCE_DECLARATION;
+
+	typedef struct ENGINE_DLL tagVertex_Point_Instance_Declaration
+	{
+		const static unsigned int				iNumElements = 6;
+		static D3D11_INPUT_ELEMENT_DESC			Elements[6];
+	} VTXPOINTINSTANCE_DECLARATION;
 
 	typedef struct tagIndices16
 	{

@@ -44,9 +44,15 @@ _uint CHP::Tick(const _double& Timedelta)
 }
 
 
-void CHP::Get_Damage(_uint damage)
+void CHP::Get_Damage(_int damage)
 {
-	m_CurrentHP -= damage;
+	if (false == m_bCanGetDamage)
+		return;
+
+	if (damage <= 0)
+		return;
+
+	m_CurrentHP -= max(5, _int(damage * m_DamageGetPercent));
 
 	m_GetDamageEvent = true;
 
@@ -61,6 +67,56 @@ void CHP::Get_Damage(_uint damage)
 		}
 		m_CurrentHP = 0;
 	}
+}
+
+void CHP::Get_PercentDamage(_float damagePercent)
+{
+	_int damage = _int(m_MaxHP * damagePercent);
+	m_GetDamageEvent = true;
+
+	m_DamageReceived = damage;
+
+	m_CurrentHP -= damage;
+
+	if (m_CurrentHP <= 0)
+	{
+		if (m_Desc.bDeadAfterOwnerDead)
+		{
+			if (m_pOwner)
+				m_pOwner->Set_Dead();
+		}
+		m_CurrentHP = 0;
+	}
+}
+
+void CHP::Set_DamageGetPercent(_float percent)
+{
+	if (percent < 0.2f || percent > 1.8f)
+		return;
+
+	m_DamageGetPercent = percent;
+}
+
+_float CHP::Add_DamageGetPercent(_float percent)
+{
+	_float returnValue = -percent;
+	_float preDamageGetPercent = m_DamageGetPercent;
+	m_DamageGetPercent += percent;
+
+	if (m_DamageGetPercent < 0.2f)
+	{
+		m_DamageGetPercent = 0.2f;
+		returnValue = preDamageGetPercent - m_DamageGetPercent;
+	}
+
+	if (m_DamageGetPercent > 1.8f)
+	{
+		m_DamageGetPercent = 1.8f;
+		returnValue = preDamageGetPercent - m_DamageGetPercent;
+
+	}
+
+	return returnValue;
 }
 
 CHP* CHP::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

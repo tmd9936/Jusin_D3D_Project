@@ -17,8 +17,8 @@ class CAnimation final : public CBase
 	}CHANGE_LAST_FRAME;
 
 public:
-	CAnimation();
-	CAnimation(const CAnimation& rhs);
+	explicit CAnimation();
+	explicit CAnimation(const CAnimation& rhs);
 	virtual ~CAnimation() = default;
 
 public:

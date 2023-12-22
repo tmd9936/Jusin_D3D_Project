@@ -14,6 +14,9 @@ float			g_fBrushRange = 1.f;
 
 float4			g_vColor;
 
+float2			g_Size;
+
+
 struct VS_IN
 {
 	float3		vPosition : POSITION;
@@ -75,7 +78,7 @@ PS_OUT PS_MAIN(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
-	Out.vColor = g_Texture.Sample(PointSampler, In.vTexUV);
+	Out.vColor = g_Texture.Sample(LinearSampler, In.vTexUV);
 
 	if (Out.vColor.a < 0.1)
 		discard;
@@ -84,17 +87,17 @@ PS_OUT PS_MAIN(PS_IN In)
 }
 
 /* 픽셀의 색을 결정한다. */
-PS_OUT PS_MAIN_COLOR(PS_IN In)
+PS_OUT PS_MAIN_COLOR_ROUND(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
-	Out.vColor = g_Texture.Sample(PointSampler, In.vTexUV);
+	Out.vColor = g_Texture.Sample(LinearSampler, In.vTexUV);
 
 	if (Out.vColor.a < 0.1)
 		discard;
 
-	float2 coords = In.vTexUV * 5.f;
-	if (ShouldDiscard(coords, 5.f, 1.f))
+	float2 coords = In.vTexUV * g_Size;
+	if (ShouldDiscard(coords, g_Size, 5.f))
 		discard;
 
 	Out.vColor = g_vColor;
@@ -106,13 +109,13 @@ PS_OUT PS_MAIN_ROUND(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
-	Out.vColor = g_Texture.Sample(PointSampler, In.vTexUV);
+	Out.vColor = g_Texture.Sample(LinearSampler, In.vTexUV);
 
 	if (Out.vColor.a < 0.1)
 		discard;
 
-	float2 coords = In.vTexUV * 5.f;
-	if (ShouldDiscard(coords, 5.f, 1.f))
+	float2 coords = In.vTexUV * g_Size;
+	if (ShouldDiscard(coords, g_Size, 5.f))
 		discard;
 
 	return Out;
@@ -143,7 +146,7 @@ technique11		DefaultTechnique
 		GeometryShader = NULL;
 		HullShader = NULL;
 		DomainShader = NULL;
-		PixelShader = compile ps_5_0 PS_MAIN_COLOR();
+		PixelShader = compile ps_5_0 PS_MAIN_COLOR_ROUND();
 	}
 
 	pass Button_Idle_Round

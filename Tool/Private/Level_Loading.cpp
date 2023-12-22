@@ -11,8 +11,11 @@
 #include "Level_BaseCamp.h"
 #include "Level_WorldMap.h"
 #include "Level_Stage.h"
+#include "Level_PokemonState.h"
+#include "Level_Feeding.h"
 
 #include "ModelUI.h"
+#include "ThreadPool.h"
 #pragma endregion
 
 
@@ -41,9 +44,13 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevelID)
 		{
 			pGameInstance->Ready_Sound();
 		}
-		//pGameInstance->PlayBGM(TEXT("BGM_BASE.ogg"));
 
 		Safe_Release(pGameInstance);
+	}
+
+	if (CGameInstance::GetInstance()->Get_Sound_Ready_Finish())
+	{
+		CGameInstance::GetInstance()->StopSound(SOUND_BGM);
 	}
 
 	if (FAILED(Ready_Layer_UI(L"Layer_UI")))
@@ -57,13 +64,12 @@ void CLevel_Loading::Tick(_double TimeDelta)
 {
 	//if (GetKeyState(VK_RETURN) & 0x8000)
 	//{
-		if (true == m_pLoader->Get_Finished())
+		if (true == m_pLoader->Get_Finished() && true == CThreadPool::GetInstance()->Is_NoJobStae() && true == CThreadPool::GetInstance()->JobEndCheck())
 		{
 			CGameInstance* pGameInstance = CGameInstance::GetInstance();
 			Safe_AddRef(pGameInstance);
 
 			CLevel* pNewLevel = { nullptr };
-
 
 			switch (m_eNextLevelID)
 			{
@@ -73,6 +79,10 @@ void CLevel_Loading::Tick(_double TimeDelta)
 					Safe_Release(pGameInstance);
 					return;
 				}
+
+				//pGameInstance->Set_SoundVolume(0.f);
+				pGameInstance->Set_BGMVolume(0.7f);
+
 				pNewLevel = CLevel_Logo::Create(m_pDevice, m_pContext);
 				break;
 
@@ -87,6 +97,15 @@ void CLevel_Loading::Tick(_double TimeDelta)
 			case LEVEL_STAGE:
 				pNewLevel = CLevel_Stage::Create(m_pDevice, m_pContext);
 				break;
+
+			case LEVEL_POKEMONSTATE:
+				pNewLevel = CLevel_PokemonState::Create(m_pDevice, m_pContext);
+				break;
+
+			case LEVEL_FEEDING:
+				pNewLevel = CLevel_Feeding::Create(m_pDevice, m_pContext);
+				break;
+
 			}
 
 			if (nullptr == pNewLevel)
@@ -134,7 +153,6 @@ HRESULT CLevel_Loading::Ready_Layer_UI(const _tchar* pLayerTag)
 
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ModelUI"), LEVEL_LOADING, pLayerTag, nullptr, &desc)))
 		return E_FAIL;
-
 
 	Safe_Release(pGameInstance);
 	return S_OK;

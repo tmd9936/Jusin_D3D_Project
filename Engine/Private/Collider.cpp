@@ -12,7 +12,7 @@ CCollider::CCollider(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 }
 
-#ifdef _DEBUG
+#ifdef DEBUG_COMPONENT_RENDER
 CCollider::CCollider(const CCollider& rhs)
 	: CComponent(rhs)
 	, m_iID(g_iColliderID++)
@@ -29,6 +29,7 @@ CCollider::CCollider(const CCollider& rhs)
 #else
 CCollider::CCollider(const CCollider& rhs)
 	: CComponent(rhs)
+	, m_iID(g_iColliderID++)
 	, m_eType(rhs.m_eType)
 	, m_pSphere_Original(nullptr == rhs.m_pSphere_Original ? rhs.m_pSphere_Original : new BoundingSphere(*rhs.m_pSphere_Original))
 	, m_pAABB_Original(nullptr == rhs.m_pAABB_Original ? rhs.m_pAABB_Original : new BoundingBox(*rhs.m_pAABB_Original))
@@ -38,7 +39,7 @@ CCollider::CCollider(const CCollider& rhs)
 }
 #endif // _DEBUG
 
-#ifdef _DEBUG
+#ifdef DEBUG_COMPONENT_RENDER
 HRESULT CCollider::Render()
 {
 	m_pEffect->SetWorld(XMMatrixIdentity());
@@ -88,7 +89,7 @@ HRESULT CCollider::Initialize_Prototype()
 		break;
 	}
 
-#ifdef _DEBUG
+#ifdef DEBUG_COMPONENT_RENDER
 	m_pBatch = new PrimitiveBatch<DirectX::VertexPositionColor>(m_pContext);
 	if (nullptr == m_pBatch)
 		return E_FAIL;
@@ -116,7 +117,13 @@ HRESULT CCollider::Initialize_Prototype()
 
 HRESULT CCollider::Initialize(void* pArg)
 {
-	m_Collider_Desc = *(COLLIDER_DESC*)pArg;
+	if (nullptr != pArg)
+	{
+		m_Collider_Desc.vScale = (*(COLLIDER_DESC*)pArg).vScale;
+		m_Collider_Desc.vRotation = (*(COLLIDER_DESC*)pArg).vRotation;
+		m_Collider_Desc.vPosition = (*(COLLIDER_DESC*)pArg).vPosition;
+
+	}
 
 	//_matrix ScaleMatrix, RotationXMatrix, RotationYMatrix, RotationZMatrix, TranslationMatrix;
 
@@ -141,16 +148,19 @@ void CCollider::Tick(_fmatrix TransformMatrix)
 void CCollider::On_Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
 {
 	m_pOwner->On_Collision(pOther, fX, fY, fZ);
+	m_eState = COLLISION_STATE_ON;
 }
 
 void CCollider::On_CollisionEnter(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
 {
 	m_pOwner->On_CollisionEnter(pOther, fX, fY, fZ);
+	m_eState = COLLISION_STATE_ENTER;
 }
 
 void CCollider::On_CollisionExit(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
 {
 	m_pOwner->On_CollisionExit(pOther, fX, fY, fZ);
+	m_eState = COLLISION_STATE_EXIT;
 }
 
 const _vector CCollider::Get_Center() const
@@ -226,7 +236,7 @@ void CCollider::Free()
 {
 	__super::Free();
 
-#ifdef _DEBUG
+#ifdef DEBUG_COMPONENT_RENDER
 	if (false == m_bClone)
 	{
 		Safe_Delete(m_pBatch);

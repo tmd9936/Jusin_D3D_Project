@@ -355,8 +355,6 @@ CGameObject* CObject_Manager::Clone_GameObject(const _tchar* pLayerTag, _uint iL
 	return pGameObject;
 }
 
-
-
 CGameObject* CObject_Manager::Get_Object(_uint iLevelIndex, const _tchar* pLayerTag, const _tchar* pObjectTag) const
 {
 	if (nullptr == pObjectTag || nullptr == pLayerTag)
@@ -370,7 +368,26 @@ CGameObject* CObject_Manager::Get_Object(_uint iLevelIndex, const _tchar* pLayer
 	if (nullptr == pLayer)
 		return nullptr;
 
-	CGameObject* pResult = pLayer->Get_Object(pObjectTag);
+	wstring objectTag = pObjectTag;
+	CGameObject* pResult = pLayer->Get_Object(objectTag.c_str());
+
+	return pResult;
+}
+
+CGameObject* CObject_Manager::Get_Object(_uint iLevelIndex, const _tchar* pLayerTag, wstring objectTag) const
+{
+	if (objectTag.empty() || nullptr == pLayerTag)
+		return nullptr;
+
+	if (iLevelIndex >= m_iNumLevels)
+		return nullptr;
+
+	CLayer* pLayer = Find_Layer(iLevelIndex, pLayerTag);
+
+	if (nullptr == pLayer)
+		return nullptr;
+
+	CGameObject* pResult = pLayer->Get_Object(objectTag);
 
 	return pResult;
 }
@@ -437,6 +454,55 @@ HRESULT CObject_Manager::Store_Component(const _tchar* pLayerTag, class CGameObj
 	HRESULT hr = iter->Store_Component(pGameObject, id);
 
 	return hr;
+}
+
+HRESULT CObject_Manager::Change_Component(const FamilyId& familyId, 
+	CGameObject* pGameObject, _uint iLevelIndex, const _tchar* pPrototypeTag, CComponent** ppOut, void* pArg)
+{
+	if (nullptr == pGameObject || nullptr == pPrototypeTag)
+		return E_FAIL;
+
+	if (FAILED(pGameObject->Remove_Component(familyId)))
+	{
+		return E_FAIL;
+	}
+
+	auto iter = m_pLayers[pGameObject->Get_Levelindex()].find(pGameObject->Get_LayerTag());
+	if (iter == m_pLayers[pGameObject->Get_Levelindex()].end())
+		return E_FAIL;
+
+	if (false == iter->second->Has_Component(familyId, pGameObject))
+		return E_FAIL;
+
+	CComponent_Manager* pComponent_Manager = CComponent_Manager::GetInstance();
+	
+	CComponent* pComponent = pComponent_Manager->Clone_Component(iLevelIndex, pPrototypeTag, pGameObject, pArg);
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	if (FAILED(pGameObject->Add_Component(familyId, pComponent)))
+		return E_FAIL;
+
+	pComponent->Set_Owner(pGameObject);
+
+	if (nullptr != ppOut)
+	{
+		Safe_Release(*ppOut);
+		*ppOut = pComponent;
+		Safe_AddRef(pComponent);
+	}
+
+	return S_OK;
+}
+
+_bool CObject_Manager::Is_Layer(_uint iLevelIndex, const wstring& layerTag)
+{
+	auto	iter = m_pLayers[iLevelIndex].find(layerTag);
+
+	if (iter == m_pLayers[iLevelIndex].end())
+		return false;
+
+	return true;
 }
 
 CGameObject* CObject_Manager::Find_Prototype(const _tchar* pPrototypeTag) const

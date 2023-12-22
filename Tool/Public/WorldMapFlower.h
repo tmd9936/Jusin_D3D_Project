@@ -17,8 +17,8 @@ class CWorldMapFlower final : public CGameObject
 {
 
 private:
-	CWorldMapFlower(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CWorldMapFlower(const CWorldMapFlower& rhs);
+	explicit CWorldMapFlower(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CWorldMapFlower(const CWorldMapFlower& rhs);
 	virtual ~CWorldMapFlower() = default;
 
 public:

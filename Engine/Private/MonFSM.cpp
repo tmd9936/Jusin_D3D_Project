@@ -61,15 +61,6 @@ HRESULT CMonFSM::Transit_MotionState(MONSTER_STATE eState, CModel* pModel)
 	if (eState < 0 || eState > END_MOTION || m_eCurrentMotion == eState)
 		return E_FAIL;
 
-	if (nullptr == pModel)
-		return E_FAIL;
-
-	auto iter = m_MotionState.find(eState);
-	if (iter == m_MotionState.end())
-		return E_FAIL;
-
-	pModel->Set_Animation(iter->second);
-
 	if (nullptr != m_pOwner)
 	{
 		m_pOwner->Change_State_FSM(eState);
@@ -77,6 +68,15 @@ HRESULT CMonFSM::Transit_MotionState(MONSTER_STATE eState, CModel* pModel)
 
 	m_ePrevMotion = m_eCurrentMotion;
 	m_eCurrentMotion = eState;
+
+	if (nullptr != pModel)
+	{
+		auto iter = m_MotionState.find(eState);
+		if (iter == m_MotionState.end())
+			return E_FAIL;
+
+		pModel->Set_Animation(iter->second);
+	}
 
 	return S_OK;
 }

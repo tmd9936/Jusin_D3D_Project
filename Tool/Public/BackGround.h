@@ -15,8 +15,8 @@ BEGIN(Client)
 class CBackGround final : public CGameObject
 {
 private:
-	CBackGround(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CBackGround(const CBackGround& rhs);
+	explicit CBackGround(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CBackGround(const CBackGround& rhs);
 	virtual ~CBackGround() = default;
 
 public:
@@ -37,6 +37,9 @@ private:
 	_float4x4			m_WorldMatrix, m_ViewMatrix, m_ProjMatrix;
 
 	_double				m_fTextureNum = { 0.0 };
+
+	_bool				m_bTitleBGM = { false };
+	_bool				m_bLogoBallSound = { false };
 
 private:
 	HRESULT Add_Components();

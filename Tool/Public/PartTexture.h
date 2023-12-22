@@ -36,14 +36,16 @@ public:
 		_float				m_fSizeX;
 		_float				m_fSizeY;
 
+		_float				m_Progress;
+
 		_uint				m_ShaderPass;
 		_uint				m_TextureProtoTypeLevel;
 		_tchar				m_TextureProtoTypeName[MAX_PATH];
 	} UI_DESC;
 
 private:
-	CPartTexture(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CPartTexture(const CPartTexture& rhs);
+	explicit CPartTexture(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CPartTexture(const CPartTexture& rhs);
 	virtual ~CPartTexture() = default;
 
 public:
@@ -51,7 +53,10 @@ public:
 	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override; /* 사본객체의 초기화작업 */
 	virtual _uint Tick(_double TimeDelta) override;
 	virtual _uint LateTick(_double TimeDelta) override;
-	virtual HRESULT Render() override;	
+	virtual HRESULT Render() override;
+
+public:
+	HRESULT Change_Texture(const _tchar* prototypeTag);
 
 public:
 	void	Set_Parent_Model(CModel* pModel) {
@@ -62,34 +67,73 @@ public:
 		m_TextureNumber = iNumber;
 	}
 
-private:
-	CTransform* m_pTransformCom = { nullptr };
-	CRenderer* m_pRendererCom = { nullptr };
-	CShader* m_pShaderCom = { nullptr };
-	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
-	CTexture* m_pTextureCom = { nullptr };
+	void Set_Progress(_float progress) {
+		m_UIDesc.m_Progress = progress;
+	}
+
+	void Add_Progress(_float progress) {
+		m_UIDesc.m_Progress += progress;
+
+		if (m_UIDesc.m_Progress > 1.f)
+			m_UIDesc.m_Progress = 1.f;
+	}
+
+	void Set_ColorAlpha(const _float& alpha) {
+		m_UIDesc.m_vColor.w = alpha;
+	}
+
+	void Set_Color(const _float4& vColor) {
+		m_UIDesc.m_vColor = vColor;
+	}
+
+public:
+	void	Set_Scaled(const _float3& vScale);
+
+public:
+	const _float Get_Progress() const {
+		return m_UIDesc.m_Progress;
+	}
+
+	UI_Desc	Get_UIDesc() const {
+		return m_UIDesc;
+	}
+
+	const _float2 Get_UISize() const {
+		return _float2(m_UIDesc.m_fSizeX, m_UIDesc.m_fSizeY);
+	}
+
+	const _float3 Get_FinalWorldMatrixPosition() const;
+
+public:
+	void	Update_FinalMatrix();
+
+	_bool Check_Is_In(const POINT& mousePT);
 
 private:
-	UI_DESC		m_UIDesc = {};
-	_float4x4	m_ViewMatrix = {};
-	_float4x4	m_ProjMatrix = {};
-
-	_float4x4	m_FinalWorldMatrix; /* 원점기준 (내 월드 * 부모월드) */
-
-	TYPE		m_eType = { TYPE_END };
+	CTransform*			m_pTransformCom = { nullptr };
+	CRenderer*			m_pRendererCom = { nullptr };
+	CShader*			m_pShaderCom = { nullptr };
+	CVIBuffer_Rect*		m_pVIBufferCom = { nullptr };
+	CTexture*			m_pTextureCom = { nullptr };
 
 private:
-	_uint		m_TextureNumber = { 0 };
+	UI_DESC				m_UIDesc = {};
+	_float4x4			m_ViewMatrix = {};
+	_float4x4			m_ProjMatrix = {};
+
+	_float4x4			m_FinalWorldMatrix; /* 원점기준 (내 월드 * 부모월드) */
+
+	TYPE				m_eType = { TYPE_END };
+
+private:
+	_uint				m_TextureNumber = { 0 };
 
 private:
 	HRESULT Add_Components();
 	HRESULT SetUp_ShaderResources();
 
 public:
-	/* Prototype */
-	/* 원형 객체를 생성한다. */
 	static CPartTexture* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	/* 사본 객체를 생성한다. */
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) override;
 	virtual void Free() override;
 };

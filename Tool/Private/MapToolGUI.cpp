@@ -51,7 +51,7 @@ HRESULT CMapToolGUI::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pCon
 
 	io.Platform_CreateWindow(m_pRootViewport);
 	((ImGui_ImplWin32_ViewportData2*)(m_pRootViewport->PlatformUserData))->Hwnd = g_hWnd;
-	((ImGui_ImplWin32_ViewportData2*)(m_pRootViewport->PlatformUserData))->HwndOwned = true;
+	((ImGui_ImplWin32_ViewportData2*)(m_pRootViewport->PlatformUserData))->HwndOwned = false;
 
 	m_pRootViewport->Size.x = g_iWinSizeX;
 	m_pRootViewport->Size.y = g_iWinSizeY;
@@ -138,9 +138,8 @@ HRESULT CMapToolGUI::Render()
 
 			ImGui::Text("vEye: X %.2f, Y %.2f, Z %.2f", camera_desc.vEye.x, camera_desc.vEye.y, camera_desc.vEye.z);
 			ImGui::Text("vAt: X %.2f, Y %.2f, Z %.2f", camera_desc.vAt.x, camera_desc.vAt.y, camera_desc.vAt.z);
-			ImGui::Text("vAxisY: %.2f", camera_desc.vAxisY);
-			ImGui::Text("fFovy: %.2f, fAspect: %.2f, fNear: %.2f, fFar: %.2f", camera_desc.fFovy, camera_desc.fAspect, camera_desc.fNear, camera_desc.fFar);
-
+			ImGui::Text("vAxisY: X %.2f, Y %.2f, Z %.2f", camera_desc.vAxisY.x, camera_desc.vAxisY.y, camera_desc.vAxisY.z);
+			ImGui::Text("fFovy: %.2f, fAspect: %.2f, \nfNear: %.2f, fFar: %.2f", camera_desc.fFovy, camera_desc.fAspect, camera_desc.fNear, camera_desc.fFar);
 
 		}
 
@@ -195,6 +194,9 @@ void CMapToolGUI::Picking_GameObject()
 		const wstring* layerTag = CDataToolGUI::GetInstance()->Get_Current_LayerName();
 		const _uint iLevelindex = CDataToolGUI::GetInstance()->Get_Current_Levelindex();
 	
+		if (nullptr == layerTag)
+			return;
+
 		CGameObject* pPickingObject = m_pCalculator->Picking_Environment_Object(g_hWnd, layerTag->c_str(), iLevelindex);
 		
 		if (nullptr == pPickingObject)
@@ -281,7 +283,7 @@ void CMapToolGUI::Slider()
 
 	if (iLevelindex != LEVEL_LOADING)
 	{
-		if (m_pPickingObject != nullptr && !m_pPickingObject->Is_Dead())
+		if (m_pPickingObject != nullptr && !m_pPickingObject->Is_Dead() && 0 < m_pPickingObject->Get_ComponetsSize())
 		{
 			//CGameObject* pTran = CGameInstance::GetInstance()->Get_Component(CTransform::familyId, m_pPickingObject)
 			CTransform* pTransform = m_pPickingObject->Get_As<CTransform>();

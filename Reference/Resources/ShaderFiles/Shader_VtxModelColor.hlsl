@@ -1,20 +1,12 @@
 #include "Shader_Defines.hlsli"
 
 matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
-vector			g_vCamPosition;
-vector			g_vLightDir = vector(1.f, -1.f, 1.f, 0.f);
-
-vector			g_vLightPos = vector(15.f, 5.f, 15.f, 1.f);
-float			g_fLightRange = 10.f;
-
-vector			g_vLightDiffuse = vector(1.f, 1.f, 1.f, 1.f);
-vector			g_vLightAmbient = vector(1.f, 1.f, 1.f, 1.f);
-vector			g_vLightSpecular = vector(1.f, 1.f, 1.f, 1.f);
-
 texture2D		g_DiffuseTexture;
+float			g_CameraFar;
 
-vector			g_vMtrlAmbient = vector(0.4f, 0.4f, 0.4f, 1.f);
-vector			g_vMtrlSpecular = vector(1.f, 1.f, 1.f, 1.f);
+float			g_LightFar = 200.f;
+
+float			g_shadow = 0.f;
 
 struct VS_IN
 {
@@ -59,27 +51,70 @@ struct PS_IN
 	float4		vWorldPos : TEXCOORD2;
 };
 
+//struct PS_OUT
+//{
+//	float4		vColor : SV_TARGET0;
+//};
+//
+//PS_OUT PS_MAIN(PS_IN In)
+//{
+//	PS_OUT			Out = (PS_OUT)0;
+//
+//
+//	//Out.vColor = In.vColor;
+//	vector		vMtrlDiffuse = In.vColor;
+//
+//	float		fShade = max(dot(normalize(g_vLightDir) * -1.f, normalize(In.vNormal)), 0.f);
+//
+//	vector		vReflect = reflect(normalize(g_vLightDir), normalize(In.vNormal));
+//	vector		vLook = In.vWorldPos - g_vCamPosition;
+//	float		fSpecular = pow(max(dot(normalize(vReflect) * -1.f, normalize(vLook)), 0.f), 30);
+//
+//	Out.vColor = (g_vLightDiffuse * vMtrlDiffuse) * saturate(fShade + (g_vLightAmbient * g_vMtrlAmbient))
+//		+ (g_vLightSpecular * g_vMtrlSpecular) * fSpecular;
+//
+//	return Out;
+//}
+
 struct PS_OUT
 {
-	float4		vColor : SV_TARGET0;
+	float4		vDiffuse : SV_TARGET0;
+	float4		vNormal : SV_TARGET1;
+	float4		vDepth : SV_TARGET2;
 };
 
 PS_OUT PS_MAIN(PS_IN In)
 {
 	PS_OUT			Out = (PS_OUT)0;
 
-
-	//Out.vColor = In.vColor;
 	vector		vMtrlDiffuse = In.vColor;
 
-	float		fShade = max(dot(normalize(g_vLightDir) * -1.f, normalize(In.vNormal)), 0.f);
+	if (vMtrlDiffuse.a < 0.1f)
+		discard;
 
-	vector		vReflect = reflect(normalize(g_vLightDir), normalize(In.vNormal));
-	vector		vLook = In.vWorldPos - g_vCamPosition;
-	float		fSpecular = pow(max(dot(normalize(vReflect) * -1.f, normalize(vLook)), 0.f), 30);
+	Out.vDiffuse = vMtrlDiffuse;
+	// -1 ~ 1인 노말값을 부호가 없는 데이터에 던져주기위해 0~1로 보정해줌
+	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
 
-	Out.vColor = (g_vLightDiffuse * vMtrlDiffuse) * saturate(fShade + (g_vLightAmbient * g_vMtrlAmbient))
-		+ (g_vLightSpecular * g_vMtrlSpecular) * fSpecular;
+	// x : z / w 투영기준 z나누기 한 값
+	// y : 뷰스페이스 공간에서의 데이터를 디퍼드에 전달해주기위한 값, 디퍼드에서 다시 카메라의 Far를 곱함
+	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / g_CameraFar, 0.f, 0.f);
+
+	return Out;
+}
+
+struct PS_OUT_SHADOW
+{
+	float4			vLightDepth : SV_TARGET0;
+};
+
+PS_OUT_SHADOW PS_MAIN_SHADOW(PS_IN In)
+{
+	PS_OUT_SHADOW		Out = (PS_OUT_SHADOW)0;
+
+	Out.vLightDepth.r = In.vProjPos.w / g_LightFar;
+
+	//Out.vLightDepth = In.vProjPos;
 
 	return Out;
 }
@@ -87,7 +122,7 @@ PS_OUT PS_MAIN(PS_IN In)
 
 technique11		DefaultTechnique
 {
-	pass Model
+	pass Model //0
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Default, 0);
@@ -100,5 +135,16 @@ technique11		DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN();
 	}
 
+	pass Model_Shadow_Depth //1
+	{
+		SetRasterizerState(RS_Default);
+		SetDepthStencilState(DSS_Enable_ZTest_Disable_ZWrite, 0);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		HullShader = NULL;
+		DomainShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_SHADOW();
+	}
 }

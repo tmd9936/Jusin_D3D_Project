@@ -67,7 +67,7 @@ public:
 	}
 
 	const _float3	Get_Rotate() const { 
-		return m_Rotaion; 
+		return m_Rotation;
 	}
 
 	const _float	Get_Positin_Length() {
@@ -75,6 +75,12 @@ public:
 	}
 
 	HRESULT Set_ShaderResource(class CShader* pShader, const char* pContantName);
+
+	_vector	Get_NoScaleState(STATE eState) const {
+		return XMVector3Normalize(XMLoadFloat4x4(&m_WorldMatrix).r[eState]);
+	}
+	
+	_float Get_NoScaleRotateValue(STATE eState) const;
 
 public:
 	void	Set_State(STATE eState, _fvector vState) {
@@ -125,7 +131,7 @@ public:
 		m_WorldMatrix.m[3][2] = z;
 	}
 
-	void Set_PositinoX(float x, CNavigation* pNavigation = nullptr);
+	void Set_PositionX(float x, CNavigation* pNavigation = nullptr);
 	
 	void Set_PositionY(float y, CNavigation* pNavigation = nullptr);
 
@@ -140,12 +146,15 @@ public:
 	void Go_Up(_float TimeDelta);
 	void Go_Down(_float TimeDelta);
 
+	void Go_Left_ByNavigation(_float TimeDelta, CNavigation* pNavigation = nullptr);
+	void Go_Right_ByNavigation(_float TimeDelta, CNavigation* pNavigation = nullptr);
+
 	void Go_Straight_No_Y(_float TimeDelta);
 
 	void Go_Down_No_Y(_float TimeDelta);
 
-
 	void Rotation(_fvector vAxis, _float Radian);
+	void Rotation_Current_Coordination(_fvector vAxis, _float Radian);
 	void Turn(_fvector vAxis, _float TimeDelta);
 
 	_bool TurnToTarget(_fvector vAxis, _fvector vTargetPos, _float TimeDelta);
@@ -154,6 +163,7 @@ public:
 
 	void BackAt(_fvector vTargetPos);
 
+	_float	Get_DistanceFromTarget(_fvector vTargetPos);
 
 	/**
 	@return False 움직이는 중, True 도착
@@ -176,13 +186,16 @@ public:
 		XMStoreFloat4x4(&m_WorldMatrix, matrix);
 	}
 
-	_bool	Bezier_Curve( _In_ _fvector vPos1, _In_ _fvector vPos2, _In_ _fvector vPos3, _Out_ _gvector output, _float TimeDelta, _float limitDitance);
+public:
+	void Set_SpeedPercent(_float percent);
+	_float Add_SpeedPercent(_float percent);
 
 private:
-	_float4x4	m_WorldMatrix = { };
-	TRANSFORMDESC m_TransformDesc = { };
+	_float4x4		m_WorldMatrix = { };
+	TRANSFORMDESC	m_TransformDesc = { };
 
-	_float3		m_Rotaion = {};
+	_float3			m_Rotation = {};
+	_float			m_SpeedPercent = { 1.f };
 
 public:
 	// CComponent을(를) 통해 상속됨

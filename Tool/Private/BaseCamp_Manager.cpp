@@ -37,7 +37,17 @@ HRESULT CBaseCamp_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex
 	p_MainCamera = (CCamera_Public*)CGameInstance::GetInstance()->Get_Object(LEVEL_BASECAMP, L"Layer_Camera", L"Main_Camera");
 	if (nullptr == p_MainCamera)
 		return E_FAIL;
+
 	Safe_AddRef(p_MainCamera);
+
+	CGameObject* pPlayer1 = CGameInstance::GetInstance()->Get_Object(LEVEL_BASECAMP, L"Layer_Player", L"Player1");
+	if (pPlayer1)
+	{
+		CTransform* pTransform = pPlayer1->Get_As<CTransform>();
+		pTransform->Set_Pos(22.f, 0.01f, 13.5f);
+	}
+
+	m_CookSoundTimeTick = 14.0;
 
 	return S_OK;
 }
@@ -59,8 +69,16 @@ HRESULT CBaseCamp_Manager::Initialize(const _tchar* pLayerTag, _uint iLevelIndex
 	p_MainCamera = (CCamera_Public*)CGameInstance::GetInstance()->Get_Object(LEVEL_BASECAMP, L"Layer_Camera", L"Main_Camera");
 	if (nullptr == p_MainCamera)
 		return E_FAIL;
-
 	Safe_AddRef(p_MainCamera);
+
+	CGameObject* pPlayer1 = CGameInstance::GetInstance()->Get_Object(LEVEL_BASECAMP, L"Layer_Player", L"Player1");
+	if (pPlayer1)
+	{
+		CTransform* pTransform = pPlayer1->Get_As<CTransform>();
+		pTransform->Set_Pos(22.f, 0.01f, 13.5f);
+	}
+
+	m_CookSoundTimeTick = 14.0;
 
 	return S_OK;
 }
@@ -164,6 +182,7 @@ void CBaseCamp_Manager::State_Tick(const _double& TimeDelta)
 	switch (m_eCurState)
 	{
 	case MANAGER_IDLE:
+		Cook_SoundTick(TimeDelta);
 		break;
 	case MANAGER_CAMERA_FOCUS_IN:
 		Focus_In(TimeDelta);
@@ -184,6 +203,7 @@ void CBaseCamp_Manager::Change_State()
 		switch (m_eCurState)
 		{
 		case MANAGER_IDLE:
+			//m_CookSoundTimeTick = 0.0;
 			p_MainCamera->Control_On();
 			break;
 		case MANAGER_CAMERA_FOCUS_IN:
@@ -204,7 +224,7 @@ void CBaseCamp_Manager::Picking()
 {
 	if (MOUSE_TAB(MOUSE::LBTN) && CClient_Utility::Mouse_Pos_In_Platform() && m_eCurState == MANAGER_IDLE)
 	{
-		m_pPickingObject = m_pCalculator->Picking_Environment_Object(g_hWnd, L"Layer_Monster", LEVEL_BASECAMP);
+		m_pPickingObject = m_pCalculator->Picking_Environment_Object(g_hWnd, L"Layer_Player", LEVEL_BASECAMP);
 		if (nullptr == m_pPickingObject)
 			return;
 
@@ -214,8 +234,33 @@ void CBaseCamp_Manager::Picking()
 
 		XMStoreFloat4(&m_FocusPosition, pTransform->Get_State(CTransform::STATE_POSITION));
 
+		CMonFSM* pMonFSM = m_pPickingObject->Get_As<CMonFSM>();
+		if (nullptr == pMonFSM)
+			return;
+
+		CModel* pModel = m_pPickingObject->Get_As<CModel>();
+		if (nullptr == pModel)
+			return;
+
+		_int randValue = rand() % 2;
+		if (0 == randValue)
+			pMonFSM->Transit_MotionState(CMonFSM::JOY, pModel);
+		else
+			pMonFSM->Transit_MotionState(CMonFSM::ROAR, pModel);
+
 		m_eCurState = MANAGER_CAMERA_FOCUS_IN;
 	}
+}
+
+void CBaseCamp_Manager::Cook_SoundTick(const _double& TimeDelta)
+{
+	if (m_CookSoundTimeTick >= m_CookSoundTime)
+	{
+		CGameInstance::GetInstance()->PlaySoundW(L"SE_BASE_COOK_METER.ogg", SOUND_EFFECT);
+		m_CookSoundTimeTick = 0.0;
+	}
+
+	m_CookSoundTimeTick += TimeDelta;
 }
 
 HRESULT CBaseCamp_Manager::Add_Components()

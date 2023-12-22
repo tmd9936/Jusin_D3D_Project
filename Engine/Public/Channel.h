@@ -13,8 +13,8 @@ class CModel;
 class CChannel final : public CBase
 {
 private:
-	CChannel();
-	CChannel(const CChannel& rhs);
+	explicit CChannel();
+	explicit CChannel(const CChannel& rhs);
 	virtual ~CChannel() = default;
 
 public:

@@ -49,6 +49,51 @@ _uint CPartTexture::Tick(_double TimeDelta)
 
 _uint CPartTexture::LateTick(_double TimeDelta)
 {
+	Update_FinalMatrix();
+
+	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
+
+	return _uint();
+}
+
+HRESULT CPartTexture::Render()
+{
+	if (FAILED(SetUp_ShaderResources()))
+		return E_FAIL;
+
+	m_pShaderCom->Begin(m_UIDesc.m_ShaderPass);
+
+	m_pVIBufferCom->Render();
+
+	return S_OK;
+}
+
+HRESULT CPartTexture::Change_Texture(const _tchar* prototypeTag)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	if (FAILED(pGameInstance->Change_Component(CTexture::familyId, this, LEVEL_STATIC, prototypeTag, (CComponent**)&m_pTextureCom, nullptr)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+void CPartTexture::Set_Scaled(const _float3& vScale)
+{
+	m_pTransformCom->Set_Scaled(vScale);
+
+	m_UIDesc.m_fSizeX = vScale.x;
+	m_UIDesc.m_fSizeY = vScale.y;
+}
+
+const _float3 CPartTexture::Get_FinalWorldMatrixPosition() const
+{
+	_float3 result = { m_FinalWorldMatrix.m[3][0], m_FinalWorldMatrix.m[3][1], m_FinalWorldMatrix.m[3][2] };
+	return result;
+}
+
+void CPartTexture::Update_FinalMatrix()
+{
 	if (m_UIDesc.pParent && m_UIDesc.pParentModel)
 	{
 		_matrix parent = m_UIDesc.pParent->Get_WorldMatrix_Matrix();
@@ -64,7 +109,7 @@ _uint CPartTexture::LateTick(_double TimeDelta)
 			m_UIDesc.m_fX, -m_UIDesc.m_fY, 0.f, 1.f
 		));
 
-		XMStoreFloat4x4(&m_FinalWorldMatrix, XMLoadFloat4x4(&m_FinalWorldMatrix) * 
+		XMStoreFloat4x4(&m_FinalWorldMatrix, XMLoadFloat4x4(&m_FinalWorldMatrix) *
 			XMMatrixScaling(vParentCombinedMatrix.m[0][0], vParentCombinedMatrix.m[1][1], 1.f) * parent);
 	}
 
@@ -82,24 +127,26 @@ _uint CPartTexture::LateTick(_double TimeDelta)
 		));
 
 		XMStoreFloat4x4(&m_FinalWorldMatrix, XMLoadFloat4x4(&m_FinalWorldMatrix) *
-			  parent);
+			parent);
 	}
-
-	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
-
-	return _uint();
 }
 
-HRESULT CPartTexture::Render()
+_bool CPartTexture::Check_Is_In(const POINT& mousePT)
 {
-	if (FAILED(SetUp_ShaderResources()))
-		return E_FAIL;
+	RECT uiRect{ LONG(m_FinalWorldMatrix.m[3][0] + g_iWinSizeX * 0.5f - m_UIDesc.m_fSizeX * 0.5f), 
+				LONG(-m_FinalWorldMatrix.m[3][1] + g_iWinSizeY * 0.5f - m_UIDesc.m_fSizeY * 0.5f),
+				LONG(m_FinalWorldMatrix.m[3][0] + g_iWinSizeX * 0.5f + m_UIDesc.m_fSizeX * 0.5f),  
+				LONG(-m_FinalWorldMatrix.m[3][1] + g_iWinSizeY * 0.5f + m_UIDesc.m_fSizeY * 0.5f) };
 
-	m_pShaderCom->Begin(m_UIDesc.m_ShaderPass);
+	RECT mouseRect{ mousePT.x - 5, mousePT.y - 5, mousePT.x + 5, mousePT.y + 5 };
 
-	m_pVIBufferCom->Render();
+	RECT result{};
+	if (IntersectRect(&result, &uiRect, &mouseRect))
+	{
+		return true;
+	}
 
-	return S_OK;
+	return false;
 }
 
 HRESULT CPartTexture::Add_Components()
@@ -166,6 +213,13 @@ HRESULT CPartTexture::SetUp_ShaderResources()
 		return E_FAIL;
 
 	m_pShaderCom->Set_RawValue("g_vColor", &m_UIDesc.m_vColor, sizeof(_float4));
+
+	m_pShaderCom->Set_RawValue("g_Progress", &m_UIDesc.m_Progress, sizeof(_float));
+
+	_float2 g_Size = {};
+	g_Size.x = XMVectorGetX(XMVector3Length(XMLoadFloat3((_float3*)&m_FinalWorldMatrix.m[0][0])));
+	g_Size.y = XMVectorGetX(XMVector3Length(XMLoadFloat3((_float3*)&m_FinalWorldMatrix.m[1][0])));
+	m_pShaderCom->Set_RawValue("g_Size", &g_Size, sizeof(_float2));
 	
 	Safe_Release(pGameInstance);
 

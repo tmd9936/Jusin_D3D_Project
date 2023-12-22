@@ -36,11 +36,13 @@ void COBB::Tick(_fmatrix TransformMatrix)
     m_pOBB_Original->Transform(*m_pOBB, TransformMatrix);
 
     m_isCollision = false;
+
+    m_eState = COLLISION_STATE_NONE;
 }
 
 void COBB::Draw(_vector vColor)
 {
-#ifdef _DEBUG
+#ifdef DEBUG_COMPONENT_RENDER
     DX::Draw(m_pBatch, *m_pOBB, vColor);
 #endif
 }

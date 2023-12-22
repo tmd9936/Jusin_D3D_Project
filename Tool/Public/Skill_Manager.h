@@ -12,6 +12,10 @@ BEGIN(Client)
 
 class CEffect;
 class CEffect_Manager;
+class CAttackEffect;
+class CSkillEffect;
+class CConditionData;
+class CBuffState;
 
 class CSkill_Manager final : public CGameObject
 {
@@ -23,8 +27,8 @@ public:
 	} SKILL_DEPEND_DATA;
 
 private:
-	CSkill_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CSkill_Manager(const CSkill_Manager& rhs);
+	explicit CSkill_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CSkill_Manager(const CSkill_Manager& rhs);
 	virtual ~CSkill_Manager() = default;
 
 public:
@@ -40,12 +44,15 @@ public:
 		CBone* pParentBone = nullptr, CTransform* pParentTransform = nullptr, _fmatrix PivotMatrix = XMMatrixIdentity(),
 		_bool bRush = false, _double rushSpeed = 1.0, _uint extendNum = 1);
 
-public:
-	CSkill* Do_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType, _uint damage,
-		_fmatrix vParentMatrix, CModel* pModel, const char* boneTag, CTransform* pParentTransform);
+public: 
+	HRESULT CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType, _uint damage, _fmatrix vParentMatrix,
+		CBone* pBone, CTransform* pParentTransform, _fmatrix PivotMatrix, CBuffState* pBuffState, const _uint& monsterNo);
 
 public:
-	CSkill* Create_Monster_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType, _uint damage, _fmatrix vParentMatrix, _float smallRotationSpeed, _float bigRotationSpeed, CBone* pParentBone, CTransform* pParentTransform, _fmatrix PivotMatrix, _bool bRush, _double rushSpeed, _uint extendNum);
+	CSkill* Do_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType, _uint damage,
+		_fmatrix vParentMatrix, CModel* pModel, const char* boneTag, CTransform* pParentTransform, CBuffState* pBuffState, const _uint& monsterNo);
+
+public:
 	CSkill* Create_Test_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType,
 		_fmatrix vParentMatrix);
 	
@@ -60,12 +67,31 @@ public:
 		depend_Datas = m_Skill_Depend_Datas;
 	}
 
+public:
+	const CSkill::SKILL_DESC Get_Skill_Desc(const _uint& skillIndex) const {
+		if (skillIndex >= m_Skill_Desc_Datas.size())
+			return CSkill::SKILL_DESC();
+
+		return 	m_Skill_Desc_Datas.at(skillIndex);
+	}
+
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
 	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
 
 private:
 	bool Load_SkillDataResourcesSet_JsonFile(const char* filePath);
+
+
+	void Create_No_ChargeEffect(_uint skillType, _vector vLook, _vector vPos, const _tchar* pLayerTag, _uint iLevelIndex,
+		CBone* pBone, CTransform* pParentTransform, _fmatrix PivotMatrix);
+
+	void	Set_NormalAttackDesc(CAttackEffect::ATTACK_EFFECT_DESC& desc, const _uint& skillType, 
+		CSkillEffect* pSkillEffect, CConditionData* pConditionData, _uint collisionEffectType = 2);
+	void	Set_AttackPower(CSkillEffect* pSkillEffect, const _uint& damage);
+
+private:
+	_uint		Get_ConditionDataID(CConditionData* pConditionData, const _uint& skillType, const _uint& conditionDataID);
 
 private:
 	HRESULT Add_Components();

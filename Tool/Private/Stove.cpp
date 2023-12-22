@@ -49,6 +49,8 @@ _uint CStove::LateTick(_double TimeDelta)
 {
 	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
 
+	m_pRendererCom->Add_RenderGroup(RENDER_LAPLACIAN, this);
+
 	return _uint();
 }
 
@@ -72,10 +74,15 @@ HRESULT CStove::Render()
 	}
 
 #ifdef _DEBUG
-	m_pAABB->Render();
+	m_pRendererCom->Add_DebugRenderGroup(m_pAABB);
 #endif // _DEBUG
 
 	return S_OK;
+}
+
+HRESULT CStove::Render_Laplacian()
+{
+	return E_NOTIMPL;
 }
 
 
@@ -139,28 +146,9 @@ HRESULT CStove::SetUp_ShaderResources()
 		&pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_PROJ))))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_RawValue("g_vCamPosition",
-		&pGameInstance->Get_CamPosition(), sizeof(_float4))))
-		return E_FAIL;
-
-	const LIGHTDESC* pLightDesc = pGameInstance->Get_Light(0);
-	if (nullptr == pLightDesc)
-		return E_FAIL;
-
-	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightDir",
-		&pLightDesc->vDirection, sizeof(_float4))))
-		return E_FAIL;
-
-	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightDiffuse",
-		&pLightDesc->vDiffuse, sizeof(_float4))))
-		return E_FAIL;
-
-	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightAmbient",
-		&pLightDesc->vAmbient, sizeof(_float4))))
-		return E_FAIL;
-
-	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightSpecular",
-		&pLightDesc->vSpecular, sizeof(_float4))))
+	_float cameraFar = pGameInstance->Get_CameraFar();
+	if (FAILED(m_pShaderCom->Set_RawValue("g_CameraFar",
+		&cameraFar, sizeof(_float))))
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);

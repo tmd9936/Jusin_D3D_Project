@@ -75,6 +75,7 @@ _uint APIENTRY LoadSoundFile(void* pArg)
 	return 0;
 }
 
+
 HRESULT CSound_Manager::Ready_Sound()
 {
 	m_fMusicVolume = 1.f;
@@ -85,6 +86,14 @@ HRESULT CSound_Manager::Ready_Sound()
 
 	// 1. 시스템 포인터, 2. 사용할 가상채널 수 , 초기화 방식) 
 	FMOD_System_Init(m_pSystem, 32, FMOD_INIT_NORMAL, NULL);
+
+	for (_uint i = 0; i < 32; ++i)
+	{
+		FMOD_CHANNEL* channel;
+		FMOD_System_GetChannel(m_pSystem, (int)i, &channel);
+		//m_vecChannel.push_back(channel);
+		m_pChannelArr[i] = channel;
+	}
 
 	InitializeCriticalSection(m_CriticalSection);
 
@@ -140,6 +149,39 @@ void CSound_Manager::StopAll()
 void CSound_Manager::SetChannelVolume(CHANNELID eID, float fVolume)
 {
 	FMOD_Channel_SetVolume(m_pChannelArr[eID], fVolume);
+
+	FMOD_System_Update(m_pSystem);
+}
+
+void CSound_Manager::PlaySoundW(const _tchar* pSoundKey, const _float& fVolume)
+{
+	auto iter = find_if(m_mapSound.begin(), m_mapSound.end(), CTag_Finder(pSoundKey));
+
+	if (iter == m_mapSound.end())
+		return;
+
+	_uint iID = 0;
+	FMOD_BOOL bPlay = FALSE;
+	FMOD_Channel_IsPlaying(m_pChannelArr[iID], &bPlay);
+
+	do
+	{
+		if (FALSE == bPlay)
+		{
+			FMOD_System_PlaySound(m_pSystem, iter->second, 0, FALSE, &m_pChannelArr[iID]);
+			FMOD_Channel_SetVolume(m_pChannelArr[iID], fVolume);
+			break;
+		}
+		else
+		{
+			++iID;
+			if (29 < iID)
+			{
+				break;
+			}
+			FMOD_Channel_IsPlaying(m_pChannelArr[iID], &bPlay);
+		}
+	} while (true);
 
 	FMOD_System_Update(m_pSystem);
 }

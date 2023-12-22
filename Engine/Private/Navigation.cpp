@@ -12,14 +12,14 @@ CNavigation::CNavigation(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, C
 CNavigation::CNavigation(const CNavigation& rhs, CGameObject* pOwner)
 	: CComponent(rhs, pOwner)
 	, m_Cells(rhs.m_Cells)
-#ifdef _DEBUG
+#ifdef NAVIGATION_DEBUG
 	, m_pShader(rhs.m_pShader)
 #endif // _DEBUG
 {
 	for (auto& pCell : m_Cells)
 		Safe_AddRef(pCell);
 
-#ifdef _DEBUG
+#ifdef NAVIGATION_DEBUG
 	Safe_AddRef(m_pShader);
 #endif // _DEBUG
 
@@ -54,7 +54,7 @@ HRESULT CNavigation::Initialize_Prototype_HFile(const _tchar* pNavigationData)
 	if (FAILED(SetUp_Neighbors()))
 		return E_FAIL;
 
-#ifdef _DEBUG
+#ifdef NAVIGATION_DEBUG
 	m_pShader = CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_Cell.hlsl"), VTXPOS_DECLARATION::Elements, VTXPOS_DECLARATION::iNumElements);
 	if (nullptr == m_pShader)
 		return E_FAIL;
@@ -106,7 +106,7 @@ HRESULT CNavigation::Initialize_Prototype_Json(const char* pNavigationData)
 	if (FAILED(SetUp_Neighbors()))
 		return E_FAIL;
 
-#ifdef _DEBUG
+#ifdef NAVIGATION_DEBUG
 	m_pShader = CShader::Create(m_pDevice, m_pContext, TEXT("../../Reference/Resources/ShaderFiles/Shader_Cell.hlsl"), VTXPOS_DECLARATION::Elements, VTXPOS_DECLARATION::iNumElements);
 	if (nullptr == m_pShader)
 		return E_FAIL;
@@ -125,7 +125,7 @@ HRESULT CNavigation::Initialize(void* pArg)
 
 HRESULT CNavigation::Render()
 {
-#ifdef _DEBUG
+#ifdef NAVIGATION_DEBUG
 	_float4x4		WorldMatrix;
 	XMStoreFloat4x4(&WorldMatrix, XMMatrixIdentity());
 
@@ -265,6 +265,70 @@ _bool CNavigation::Move_OnNavigation(_fvector vPosition)
 	}
 }
 
+_bool CNavigation::Move_OnNavigation_Sliding(_fvector vPosition, _fvector vLook, _vector& vOutSlidLook, _vector& vAxis, _float& fY)
+{
+	if (m_NaviDesc.iIndex >= m_Cells.size())
+		return false;
+
+	_int		iNeighborIndex = { 0 };
+
+	_float3 ComputePosition{};
+	XMStoreFloat3(&ComputePosition, vPosition);
+
+	if (true == m_Cells[m_NaviDesc.iIndex]->isIn(vPosition, iNeighborIndex))
+	{
+		m_Cells[m_NaviDesc.iIndex]->Compute_Height(ComputePosition, fY);
+		return true;
+	}
+	else /* 쎌 밖으로 움직였어. */
+	{
+		/* 나간 방향에 이웃이 있다면?*/
+		if (0 <= iNeighborIndex)
+		{
+			while (true)
+			{
+				if (-1 == iNeighborIndex)
+				{
+					vOutSlidLook = m_Cells[m_NaviDesc.iIndex]->Get_SlidePowerV3(vPosition, vLook, vAxis);
+					if (XMVectorGetY(vAxis) > 0.f)
+					{
+						vAxis = XMVectorSet(0.f, 1.f, 0.f, 0.f);
+					}
+					else
+					{
+						vAxis = XMVectorSet(0.f, -1.f, 0.f, 0.f);
+					}
+
+					return false;
+				}
+
+				if (true == m_Cells[iNeighborIndex]->isIn(vPosition, iNeighborIndex))
+				{
+					m_NaviDesc.iIndex = iNeighborIndex;
+					m_Cells[m_NaviDesc.iIndex]->Compute_Height(ComputePosition, fY);
+					break;
+				}
+			}
+
+			return true;
+		}
+
+		vOutSlidLook = m_Cells[m_NaviDesc.iIndex]->Get_SlidePowerV3(vPosition, vLook, vAxis);
+
+		if (XMVectorGetY(vAxis) > 0.f)
+		{
+			vAxis = XMVectorSet(0.f, 1.f, 0.f, 0.f);
+		}
+		else
+		{
+			vAxis = XMVectorSet(0.f, -1.f, 0.f, 0.f);
+		}
+
+		/* 나간 방향에 이웃이 없다면?*/
+		return false;
+	}
+}
+
 _bool CNavigation::Move_OnNavigation_Set_Y(_fvector vPosition, _float& fY)
 {
 	if (m_NaviDesc.iIndex >= m_Cells.size())
@@ -370,7 +434,7 @@ void CNavigation::Free()
 		Safe_Release(pCell);
 	m_Cells.clear();
 
-#ifdef _DEBUG
+#ifdef NAVIGATION_DEBUG
 	Safe_Release(m_pShader);
 #endif // _DEBUG
 }

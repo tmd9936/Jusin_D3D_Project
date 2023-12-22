@@ -40,6 +40,7 @@ public:
 		const _tchar* pLayerTag, CGameObject** ppOut, const _tchar* pObjectNameTag = nullptr, void* pArg = nullptr, CLONE_TYPE eCloneType = CLONE_ARGS); /* 원형을 복제하여 사본을 추가한다. */
 	
 	CGameObject* Get_Object(_uint iLevelIndex, const _tchar* pLayerTag, const _tchar* pObjectTag) const;
+	CGameObject* Get_Object(_uint iLevelIndex, const _tchar* pLayerTag, wstring pObjectTag) const;
 
 	template<typename T, typename = std::enable_if<is_base_of<CComponent, T>::value>>
 	HRESULT Get_ComponentList(vector<T>& result, _uint iLevelIndex, const _tchar* pLayerTag)
@@ -96,6 +97,7 @@ public:
 		return S_OK;
 	}
 
+
 public:
 	HRESULT		Add_Component (const FamilyId& familyId, CGameObject* pGameObject, _uint iLevelIndex, const _tchar* pPrototypeTag, CComponent** ppOut, void* pArg);
 	CComponent* Get_Component(const FamilyId& familyId, CGameObject* pObj) const;
@@ -110,6 +112,11 @@ public:
 	CGameObject* Clone_GameObject(const _tchar* pLayerTag, _uint iLevelIndex, const _tchar* pPrototypeTag, void* pArg);
 	CGameObject* Clone_GameObject(const _tchar* pLayerTag, _uint iLevelIndex, const _tchar* pPrototypeTag, CGameObject** ppOut, void* pArg);
 	HRESULT		Layer_Tick_State_Change(const _tchar* pLayerTag, _uint iLevelIndex, _bool bTick);
+
+public:
+	_bool		Is_Layer(_uint iLevelIndex, const wstring& layerTag);
+
+	HRESULT		Change_Component(const FamilyId& familyId, CGameObject* pGameObject, _uint iLevelIndex, const _tchar* pPrototypeTag, CComponent** ppOut, void* pArg);
 
 protected:
 	HRESULT		Store_Component(const _tchar* pLayerTag, class CGameObject* pGameObject, const FamilyId& id);

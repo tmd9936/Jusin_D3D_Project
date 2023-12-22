@@ -89,6 +89,17 @@ CGameObject* CLayer::Get_Object(const _tchar* pObjectNameTag)
 	return iter->second;
 }
 
+CGameObject* CLayer::Get_Object(wstring objectTag)
+{
+	auto iter = m_objectStore.find(objectTag);
+
+	if (m_objectStore.end() == iter)
+		return nullptr;
+
+	return iter->second;
+}
+
+
 HRESULT CLayer::Remove_Component(const FamilyId& familyId, CGameObject* pObj)
 {
 	if (nullptr == pObj)
@@ -113,6 +124,20 @@ void CLayer::Get_All_GameObject_In_Layer(vector<CGameObject*>& result)
 	{
 		result.push_back((*iter));
 	}
+}
+
+_bool CLayer::Has_Component(const FamilyId& familyId, CGameObject* pGameObject)
+{
+	auto iterPair = m_componentStore.equal_range(familyId);
+	for (auto iter = iterPair.first; iter != iterPair.second; ++iter)
+	{
+		if (iter->second == pGameObject)
+		{
+			return true;
+		}
+	}
+
+	return false;
 }
 
 HRESULT CLayer::Erase_GameObject(CGameObject* pObj)

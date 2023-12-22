@@ -229,6 +229,132 @@
     <Filter Include="02. GameObject\Static\SkillEffect\AttackEffect\RushAttackEffect">
       <UniqueIdentifier>{ac646f25-573a-429d-844e-d509bf164562}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\Static\SkillEffect\AttackEffect\BezierAttackEffect">
+      <UniqueIdentifier>{e5624ce5-1b64-4ec4-9e7a-b4142b54416f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Stage\StageSupportMonster">
+      <UniqueIdentifier>{b53d2df0-4763-46b9-a252-2156cbed9a38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\MiscData">
+      <UniqueIdentifier>{1dd28761-faca-4931-98be-98e5e18aa2f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Stage\Stage_Manager">
+      <UniqueIdentifier>{f9181186-3e40-444d-844c-59f79f2504a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\ConditionData">
+      <UniqueIdentifier>{02f09a0a-3dc9-4d41-aa08-88c11b8a79ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Stage\Pokering">
+      <UniqueIdentifier>{8c152159-86f5-49b7-ac26-b15ef8c09a05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\SkillEffect\AttackEffect\BumerangAttackEffect">
+      <UniqueIdentifier>{2d626e37-05ab-4920-8365-67ff25029c8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\WorldMap\Button\GoToBaseCampButton">
+      <UniqueIdentifier>{97f9b621-990f-4cb9-a324-0a97ffc9c8f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Stage\EnemySpawnPoint">
+      <UniqueIdentifier>{295b9038-9977-4b35-a466-1cf4b8a495b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Stage\EnemyPack">
+      <UniqueIdentifier>{755943cc-dfcb-4f55-8392-f1a28abf00ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Stage\StageMessageInfo">
+      <UniqueIdentifier>{bc4977dd-38f6-4ab3-a11b-357e05990b37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Trail">
+      <UniqueIdentifier>{58698aa4-37c4-4935-8d19-ad0e0d7f87d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Stage\StageProgressUI">
+      <UniqueIdentifier>{d9fa8d50-4452-42f2-86b8-a2ed6a93f14c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Stage\StageClearUI">
+      <UniqueIdentifier>{ac0c6f44-be7b-4e71-a943-02fbb7a3e024}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\BaseCamp\Cauldron">
+      <UniqueIdentifier>{dd1b83cf-de2c-43b1-b006-f28bd0320162}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\BaseCamp\AnimEnv">
+      <UniqueIdentifier>{4135fb46-b317-4cec-a00d-eb86bb2b0875}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\PokemonData">
+      <UniqueIdentifier>{ecd9f94e-21fb-4f0c-ad5a-cb445611116d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\GoToMonStateButton">
+      <UniqueIdentifier>{7759c86a-b4cc-49a6-9983-ce02510ec1ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\PokemonPowerInfoUI">
+      <UniqueIdentifier>{467a2e8c-819f-4099-8830-c40b9ee1e7a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\PokemonState">
+      <UniqueIdentifier>{a978c60d-030f-458a-9cd6-128cc08e9bed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\PokemonInfoUI">
+      <UniqueIdentifier>{8b2bc694-7ae6-446a-9fe2-fecec5aeefce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\PokemonSkillStoneUI">
+      <UniqueIdentifier>{5e9ab573-8115-4ea3-8c40-54ff17d15429}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\PokemonInfo">
+      <UniqueIdentifier>{a2219e27-b01b-4403-bc9b-312762477679}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\PokemonInfo\GoToBackLevelButton">
+      <UniqueIdentifier>{d24e3089-f984-42a5-b18a-10c0e4c12944}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\PokemonSkillStoneUI\SkillInfoUI">
+      <UniqueIdentifier>{d7a40d46-3287-4284-9ae9-f36dc6b27e34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\PokemonSkillStoneUI\StoneEquipInfoUI">
+      <UniqueIdentifier>{eb87172a-d3f1-419b-9572-ce9089a81a29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\PokemonInfo\StoneInventory">
+      <UniqueIdentifier>{17654e1f-a222-430c-9abb-c0af19591b66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Stone">
+      <UniqueIdentifier>{54af381d-3a69-4069-8ba1-0b5cac8321d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\PokemonInfo\PokemonState_Manager">
+      <UniqueIdentifier>{60c30a4e-9b55-4401-a2ff-71fbd5e669a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\PokemonInfo\StoneInfoUI">
+      <UniqueIdentifier>{62913c45-0d73-45bc-99af-aca1b4e6943a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Stage\GetItemShowUI">
+      <UniqueIdentifier>{b29f7f36-4384-49e4-806f-9ef91b94d188}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\Food">
+      <UniqueIdentifier>{5663aa29-4f40-44bd-91cf-4f5ff1a9d4a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Stage\StageStoneResult">
+      <UniqueIdentifier>{5ae522b3-0cba-40db-bb7a-7f4431146ac0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Stage\StageFoodResult">
+      <UniqueIdentifier>{a3fee9a4-fd82-4657-9feb-9932ccd7262e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Static\FoodInfoUI">
+      <UniqueIdentifier>{77c1dbbd-32db-40f1-a1d0-a905ebef4631}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\Feeding">
+      <UniqueIdentifier>{1559d35a-3c6d-444d-a3fb-247c601be8bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\BaseCamp\Button\GoToFeedingButton">
+      <UniqueIdentifier>{298cbaf1-2ce0-477e-96be-aef98053263d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Feeding">
+      <UniqueIdentifier>{c759635c-d839-42a8-a587-f0ee622bfdb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Feeding\FoodInventory">
+      <UniqueIdentifier>{77f24bc9-b8b8-4bb4-a020-d28d39ef652a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Feeding\Feeding_Manager">
+      <UniqueIdentifier>{5de53d96-99b5-4268-85af-e3a33768fa5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\BaseCamp\InstanceEffect">
+      <UniqueIdentifier>{bb4e3f47-2239-4e6e-a6b8-0d3cc108fad7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Stage\StageEnv">
+      <UniqueIdentifier>{2e67096f-f7e1-4bce-998d-9a2c63680833}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tool.h">
@@ -449,6 +575,126 @@
     </ClInclude>
     <ClInclude Include="..\Public\RushAttackEffect.h">
       <Filter>02. GameObject\Static\SkillEffect\AttackEffect\RushAttackEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BezierAttackEffect.h">
+      <Filter>02. GameObject\Static\SkillEffect\AttackEffect\BezierAttackEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\StageSupportMonster.h">
+      <Filter>02. GameObject\Stage\StageSupportMonster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MiscData.h">
+      <Filter>02. GameObject\Static\MiscData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Stage_Manager.h">
+      <Filter>02. GameObject\Stage\Stage_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Effect_Sakura.h">
+      <Filter>02. GameObject\BaseCamp\InstanceEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ConditionData.h">
+      <Filter>02. GameObject\Static\ConditionData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Pokering.h">
+      <Filter>02. GameObject\Stage\Pokering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BumerangAttackEffect.h">
+      <Filter>02. GameObject\Static\SkillEffect\AttackEffect\BumerangAttackEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\GoToBaseCampButton.h">
+      <Filter>02. GameObject\WorldMap\Button\GoToBaseCampButton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\EnemySpawnPoint.h">
+      <Filter>02. GameObject\Stage\EnemySpawnPoint</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\EnemyPack.h">
+      <Filter>02. GameObject\Stage\EnemyPack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\StageMessageInfo.h">
+      <Filter>02. GameObject\Stage\StageMessageInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Trail.h">
+      <Filter>02. GameObject\Static\Trail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\StageProgressUI.h">
+      <Filter>02. GameObject\Stage\StageProgressUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\StageClearUI.h">
+      <Filter>02. GameObject\Stage\StageClearUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Cauldron.h">
+      <Filter>02. GameObject\BaseCamp\Cauldron</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AnimEnv.h">
+      <Filter>02. GameObject\BaseCamp\AnimEnv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PokemonData.h">
+      <Filter>02. GameObject\Static\PokemonData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\GoToMonStateButton.h">
+      <Filter>02. GameObject\Static\GoToMonStateButton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PokemonPowerInfoUI.h">
+      <Filter>02. GameObject\Static\PokemonPowerInfoUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_PokemonState.h">
+      <Filter>01. Levels\PokemonState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PokemonInfoUI.h">
+      <Filter>02. GameObject\Static\PokemonInfoUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PokemonSkillStoneUI.h">
+      <Filter>02. GameObject\Static\PokemonSkillStoneUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\GoToBackLevelButton.h">
+      <Filter>02. GameObject\PokemonInfo\GoToBackLevelButton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SkillInfoUI.h">
+      <Filter>02. GameObject\Static\PokemonSkillStoneUI\SkillInfoUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\StoneEquipInfoUI.h">
+      <Filter>02. GameObject\Static\PokemonSkillStoneUI\StoneEquipInfoUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\StoneInventory.h">
+      <Filter>02. GameObject\PokemonInfo\StoneInventory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Stone.h">
+      <Filter>02. GameObject\Static\Stone</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PokemonState_Manager.h">
+      <Filter>02. GameObject\PokemonInfo\PokemonState_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\StoneInfoUI.h">
+      <Filter>02. GameObject\PokemonInfo\StoneInfoUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\GetItemShowUI.h">
+      <Filter>02. GameObject\Stage\GetItemShowUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Food.h">
+      <Filter>02. GameObject\Static\Food</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\StageStoneResult.h">
+      <Filter>02. GameObject\Stage\StageStoneResult</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\StageFoodResult.h">
+      <Filter>02. GameObject\Stage\StageFoodResult</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\FoodInfoUI.h">
+      <Filter>02. GameObject\Static\FoodInfoUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Feeding.h">
+      <Filter>01. Levels\Feeding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\GoToFeedingButton.h">
+      <Filter>02. GameObject\BaseCamp\Button\GoToFeedingButton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Feeding_Manager.h">
+      <Filter>02. GameObject\Feeding\Feeding_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\FoodInventory.h">
+      <Filter>02. GameObject\Feeding\FoodInventory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\StageEnv.h">
+      <Filter>02. GameObject\Stage\StageEnv</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -672,6 +918,126 @@
     <ClCompile Include="..\Private\RushAttackEffect.cpp">
       <Filter>02. GameObject\Static\SkillEffect\AttackEffect\RushAttackEffect</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\BezierAttackEffect.cpp">
+      <Filter>02. GameObject\Static\SkillEffect\AttackEffect\BezierAttackEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\StageSupportMonster.cpp">
+      <Filter>02. GameObject\Stage\StageSupportMonster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MiscData.cpp">
+      <Filter>02. GameObject\Static\MiscData</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Stage_Manager.cpp">
+      <Filter>02. GameObject\Stage\Stage_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect_Sakura.cpp">
+      <Filter>02. GameObject\BaseCamp\InstanceEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ConditionData.cpp">
+      <Filter>02. GameObject\Static\ConditionData</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Pokering.cpp">
+      <Filter>02. GameObject\Stage\Pokering</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BumerangAttackEffect.cpp">
+      <Filter>02. GameObject\Static\SkillEffect\AttackEffect\BumerangAttackEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\GoToBaseCampButton.cpp">
+      <Filter>02. GameObject\WorldMap\Button\GoToBaseCampButton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EnemySpawnPoint.cpp">
+      <Filter>02. GameObject\Stage\EnemySpawnPoint</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EnemyPack.cpp">
+      <Filter>02. GameObject\Stage\EnemyPack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\StageMessageInfo.cpp">
+      <Filter>02. GameObject\Stage\StageMessageInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Trail.cpp">
+      <Filter>02. GameObject\Static\Trail</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\StageProgressUI.cpp">
+      <Filter>02. GameObject\Stage\StageProgressUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\StageClearUI.cpp">
+      <Filter>02. GameObject\Stage\StageClearUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Cauldron.cpp">
+      <Filter>02. GameObject\BaseCamp\Cauldron</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AnimEnv.cpp">
+      <Filter>02. GameObject\BaseCamp\AnimEnv</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PokemonData.cpp">
+      <Filter>02. GameObject\Static\PokemonData</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\GoToMonStateButton.cpp">
+      <Filter>02. GameObject\Static\GoToMonStateButton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PokemonPowerInfoUI.cpp">
+      <Filter>02. GameObject\Static\PokemonPowerInfoUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_PokemonState.cpp">
+      <Filter>01. Levels\PokemonState</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PokemonInfoUI.cpp">
+      <Filter>02. GameObject\Static\PokemonInfoUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PokemonSkillStoneUI.cpp">
+      <Filter>02. GameObject\Static\PokemonSkillStoneUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\GoToBackLevelButton.cpp">
+      <Filter>02. GameObject\PokemonInfo\GoToBackLevelButton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SkillInfoUI.cpp">
+      <Filter>02. GameObject\Static\PokemonSkillStoneUI\SkillInfoUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\StoneEquipInfoUI.cpp">
+      <Filter>02. GameObject\Static\PokemonSkillStoneUI\StoneEquipInfoUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\StoneInventory.cpp">
+      <Filter>02. GameObject\PokemonInfo\StoneInventory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Stone.cpp">
+      <Filter>02. GameObject\Static\Stone</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PokemonState_Manager.cpp">
+      <Filter>02. GameObject\PokemonInfo\PokemonState_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\StoneInfoUI.cpp">
+      <Filter>02. GameObject\PokemonInfo\StoneInfoUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\GetItemShowUI.cpp">
+      <Filter>02. GameObject\Stage\GetItemShowUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Food.cpp">
+      <Filter>02. GameObject\Static\Food</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\StageStoneResult.cpp">
+      <Filter>02. GameObject\Stage\StageStoneResult</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\StageFoodResult.cpp">
+      <Filter>02. GameObject\Stage\StageFoodResult</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\FoodInfoUI.cpp">
+      <Filter>02. GameObject\Static\FoodInfoUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Feeding.cpp">
+      <Filter>01. Levels\Feeding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\GoToFeedingButton.cpp">
+      <Filter>02. GameObject\BaseCamp\Button\GoToFeedingButton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Feeding_Manager.cpp">
+      <Filter>02. GameObject\Feeding\Feeding_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\FoodInventory.cpp">
+      <Filter>02. GameObject\Feeding\FoodInventory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\StageEnv.cpp">
+      <Filter>02. GameObject\Stage\StageEnv</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_VtxNorTex.hlsl">
@@ -702,6 +1068,15 @@
       <Filter>97. ShaderFiles</Filter>
     </FxCompile>
     <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_VtxTexColor.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_VtxInstance.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_Deferred.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Reference\Resources\ShaderFiles\Shader_VtxPointInstance.hlsl">
       <Filter>97. ShaderFiles</Filter>
     </FxCompile>
   </ItemGroup>

@@ -52,21 +52,6 @@ private:
 	void Focus_In(const _double& TimeDelta);
 	void Focus_Stay(const _double& TimeDelta);
 	void Focus_Out(const _double& TimeDelta);
-	
-private:
-	CCalculator*				m_pCalculator = { nullptr };
-
-private:
-	BASECAMP_MANAGER_DESC		m_Desc = {};
-	BASECAMP_MANAGER_STATE		m_ePreState = { MANAGER_END };
-	BASECAMP_MANAGER_STATE		m_eCurState = { MANAGER_IDLE };
-	CCamera_Public*				p_MainCamera = { nullptr };
-	CGameObject*				m_pPickingObject = { nullptr };
-
-private:
-	_float						m_CurrentLookTime = { 0.f };
-
-	_float4						m_FocusPosition = {};
 
 protected:
 	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
@@ -77,14 +62,30 @@ private:
 
 	void   Change_State();
 	void   Picking();
-	// TODO: UI 숨기기-> 알파로 서서히 사라지게 하기, 마우스 움직이면 다시 알파로 서서히 나타나게하기
-	// 이 기능은 몬스터 충돌 다 하고나서 다다음주 부터 정도?
+
+	void   Cook_SoundTick(const _double& TimeDelta);
 
 private:
 	HRESULT Add_Components();
 	HRESULT Add_Components_By_File();
 
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 던진다. */
+
+private:
+	CCalculator* m_pCalculator = { nullptr };
+
+private:
+	BASECAMP_MANAGER_DESC		m_Desc = {};
+	BASECAMP_MANAGER_STATE		m_ePreState = { MANAGER_END };
+	BASECAMP_MANAGER_STATE		m_eCurState = { MANAGER_IDLE };
+	CCamera_Public*				p_MainCamera = { nullptr };
+	CGameObject*				m_pPickingObject = { nullptr };
+
+private:
+	_float						m_CurrentLookTime = { 0.f };
+	_float4						m_FocusPosition = {};
+	_double						m_CookSoundTime = { 15.0 };
+	_double						m_CookSoundTimeTick = { 0.0 };
 
 public:
 	static CBaseCamp_Manager* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

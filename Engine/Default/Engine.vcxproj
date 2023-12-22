@@ -35,8 +35,10 @@
     <ClInclude Include="..\Public\Collider_Manager.h" />
     <ClInclude Include="..\Public\CustomFont.h" />
     <ClInclude Include="..\Public\DebugDraw.h" />
+    <ClInclude Include="..\Public\Formation.h" />
     <ClInclude Include="..\Public\Frustum.h" />
     <ClInclude Include="..\Public\HP.h" />
+    <ClInclude Include="..\Public\ManualCollisionState.h" />
     <ClInclude Include="..\Public\Navigation.h" />
     <ClInclude Include="..\Public\OBB.h" />
     <ClInclude Include="..\Public\PickingCube.h" />
@@ -58,9 +60,11 @@
     <ClInclude Include="..\Public\PipeLine.h" />
     <ClInclude Include="..\Public\MonFSM.h" />
     <ClInclude Include="..\Public\Renderer.h" />
+    <ClInclude Include="..\Public\RenderTarget.h" />
     <ClInclude Include="..\Public\Shader.h" />
     <ClInclude Include="..\Public\Sound_Manager.h" />
     <ClInclude Include="..\Public\Sphere.h" />
+    <ClInclude Include="..\Public\Target_Manager.h" />
     <ClInclude Include="..\Public\Texture.h" />
     <ClInclude Include="..\Public\Timer.h" />
     <ClInclude Include="..\Public\Engine_Defines.h" />
@@ -74,9 +78,11 @@
     <ClInclude Include="..\Public\VIBuffer.h" />
     <ClInclude Include="..\Public\VIBuffer_Cell.h" />
     <ClInclude Include="..\Public\VIBuffer_FlatTerrain.h" />
+    <ClInclude Include="..\Public\VIBuffer_Point_Instance.h" />
     <ClInclude Include="..\Public\VIBuffer_Rect.h" />
     <ClInclude Include="..\Public\VIBuffer_Rect_Instance.h" />
     <ClInclude Include="..\Public\VIBuffer_Terrain.h" />
+    <ClInclude Include="..\Public\VIBuffer_Trail.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\AABB.cpp" />
@@ -94,8 +100,10 @@
     <ClCompile Include="..\Private\Collider_Manager.cpp" />
     <ClCompile Include="..\Private\CustomFont.cpp" />
     <ClCompile Include="..\Private\DebugDraw.cpp" />
+    <ClCompile Include="..\Private\Formation.cpp" />
     <ClCompile Include="..\Private\Frustum.cpp" />
     <ClCompile Include="..\Private\HP.cpp" />
+    <ClCompile Include="..\Private\ManualCollisionState.cpp" />
     <ClCompile Include="..\Private\Navigation.cpp" />
     <ClCompile Include="..\Private\OBB.cpp" />
     <ClCompile Include="..\Private\PickingCube.cpp" />
@@ -117,9 +125,11 @@
     <ClCompile Include="..\Private\PipeLine.cpp" />
     <ClCompile Include="..\Private\MonFSM.cpp" />
     <ClCompile Include="..\Private\Renderer.cpp" />
+    <ClCompile Include="..\Private\RenderTarget.cpp" />
     <ClCompile Include="..\Private\Shader.cpp" />
     <ClCompile Include="..\Private\Sound_Manager.cpp" />
     <ClCompile Include="..\Private\Sphere.cpp" />
+    <ClCompile Include="..\Private\Target_Manager.cpp" />
     <ClCompile Include="..\Private\Texture.cpp" />
     <ClCompile Include="..\Private\Timer.cpp" />
     <ClCompile Include="..\Private\Timer_Manager.cpp" />
@@ -128,9 +138,11 @@
     <ClCompile Include="..\Private\VIBuffer.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Cell.cpp" />
     <ClCompile Include="..\Private\VIBuffer_FlatTerrain.cpp" />
+    <ClCompile Include="..\Private\VIBuffer_Point_Instance.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Rect.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Rect_Instance.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Terrain.cpp" />
+    <ClCompile Include="..\Private\VIBuffer_Trail.cpp" />
     <ClCompile Include="..\Public\Font_Manager.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

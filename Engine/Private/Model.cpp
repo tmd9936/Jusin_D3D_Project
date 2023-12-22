@@ -220,6 +220,19 @@ HRESULT CModel::SetUp_BoneMatrices(CShader* pShader, const char* pConstantName, 
 	return pShader->Set_MatrixArray(pConstantName, BoneMatrices, 256);
 }
 
+HRESULT CModel::SetUp_BoneMatrices(CShader* pShader, const char* pConstantName, _uint iMeshIndex, _uint iNoSetIndex)
+{
+	_float4x4		BoneMatrices[256];
+	ZeroMemory(BoneMatrices, sizeof(_float4x4) * 256);
+
+	if (iMeshIndex != iNoSetIndex)
+	{
+		m_Meshes[iMeshIndex]->Get_BoneMatrices(BoneMatrices, m_Bones, XMLoadFloat4x4(&m_PivotMatrix));
+	}
+
+	return pShader->Set_MatrixArray(pConstantName, BoneMatrices, 256);
+}
+
 void CModel::Set_Animation_Start_Time(_double TimeAcc)
 {
 	m_Animations[m_iCurrentAnimationIndex]->Set_StartTimeAcc(TimeAcc);
@@ -280,6 +293,30 @@ HRESULT CModel::Get_Mesh_IndexBuffer_Data(_uint meshIndex, vector<FACEINDICES32>
 	m_Meshes[meshIndex]->Get_IndexBufferData(indexBuffer);
 
 	return S_OK;
+}
+
+void CModel::Set_Animation_Duratino(const _uint& animationIndex, _double duration)
+{
+	if (m_Animations.size() <= animationIndex)
+		return;
+
+	return m_Animations[animationIndex]->Set_Duration(duration);
+}
+
+void CModel::Set_StartTimeAcc(const _uint& animationIndex, _double timeAcc)
+{
+	if (m_Animations.size() <= animationIndex)
+		return;
+
+	return m_Animations[animationIndex]->Set_StartTimeAcc(timeAcc);
+}
+
+const _double CModel::Get_Animation_Duration(const _uint& animationIndex) const
+{
+	if (m_Animations.size() <= animationIndex)
+		return 0.0;
+
+	return m_Animations[animationIndex]->Get_Duration();
 }
 
 const _double CModel::Get_LerpDuration()

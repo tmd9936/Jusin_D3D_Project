@@ -14,6 +14,11 @@
 #include "Searcher.h"
 #include "DamageText.h"
 
+#include "MiscData.h"
+
+#include "Utility.h"
+
+#include "StageCamera.h"
 
 CMonster::CMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject(pDevice, pContext)
@@ -82,8 +87,8 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* p
 	if (FAILED(Add_DamageText()))
 		return E_FAIL;
 
-	/*if (FAILED(Add_BuffState()))
-		return E_FAIL;*/
+	if (FAILED(Add_BuffState()))
+		return E_FAIL;
 
 	if (FAILED(Add_HpBar()))
 		return E_FAIL;
@@ -109,12 +114,7 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const c
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, filePath)))
 		return E_FAIL;
 
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-
-	/* For.Com_Transform */
-	CTransform::TRANSFORMDESC		TransformDesc = { 10.f, XMConvertToRadians(90.0f) };
-	if (FAILED(pGameInstance->Add_Component(CTransform::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
-		(CComponent**)&m_pTransformCom, &TransformDesc)))
+	if (FAILED(Load_By_Json_PreAddComponents()))
 		return E_FAIL;
 
 	if (filePath)
@@ -131,8 +131,8 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const c
 	if (FAILED(Add_MotionState()))
 		return E_FAIL;
 
-	/*if (FAILED(Add_BuffState()))
-		return E_FAIL;*/
+	if (FAILED(Add_BuffState()))
+		return E_FAIL;
 
 	if (FAILED(Add_DamageText()))
 		return E_FAIL;
@@ -145,7 +145,7 @@ HRESULT CMonster::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const c
 
 	m_eRenderId = RENDER_NONBLEND;
 
-	m_pTransformCom->Set_Pos(m_PokemonDesc.vPos.x, m_PokemonDesc.vPos.y, m_PokemonDesc.vPos.z);
+	m_pTransformCom->Set_Pos(m_PokemonDesc.vPos.x, 0.01f, m_PokemonDesc.vPos.z);
 
 	m_pNavigationCom->Set_Index_By_Position({ m_PokemonDesc.vPos.x, m_PokemonDesc.vPos.y, m_PokemonDesc.vPos.z });
 	
@@ -160,12 +160,10 @@ _uint CMonster::Tick(_double TimeDelta)
 {
 	//m_pMonFSM->Update_Component((_float)TimeDelta, m_pModelCom);
 
-	m_pAABB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
-	//m_pOBB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
-	//m_pSphere->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
+	m_pManualCollisionState->Tick(TimeDelta);
 	
-	for (auto& pGameObject : m_Parts)
-		pGameObject->Tick(TimeDelta);
+	for (auto& pBuffStates : m_buffStates)
+		pBuffStates->Tick(TimeDelta);
 
 	if (m_pHpBar)
 		m_pHpBar->Tick(TimeDelta);
@@ -178,15 +176,26 @@ _uint CMonster::Tick(_double TimeDelta)
 
 	CoolTimeCheck(TimeDelta);
 
-	return State_Tick(TimeDelta);
+	HitTimeCheck(TimeDelta);
+
+	_uint tickReuslt = State_Tick(TimeDelta); 
+
+	m_pAABB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
+
+	return tickReuslt;
 }
 
 _uint CMonster::LateTick(_double TimeDelta)
 {
+	m_pAABB->Tick(m_pTransformCom->Get_WorldMatrix_Matrix());
+	HitCheck();
+
 	if (true == CGameInstance::GetInstance()->Is_In_Frustum(m_pTransformCom->Get_State(CTransform::STATE_POSITION), 1.f))
 	{
-		for (auto& pGameObject : m_Parts)
-			pGameObject->LateTick(TimeDelta);
+		m_pPickingCube->LateTick(TimeDelta);
+
+		for (auto& pBuffStates : m_buffStates)
+			pBuffStates->LateTick(TimeDelta);
 
 		if (m_pHpBar)
 			m_pHpBar->LateTick(TimeDelta);
@@ -195,16 +204,37 @@ _uint CMonster::LateTick(_double TimeDelta)
 		{ 
 			if (m_pHPCom->Is_DamageEvent())
 			{
-				m_pDamageText->Show_Damage(m_pHPCom->Get_DamageRecieved(), { 1.f, 0.14f, 0.0f, 1.f }, { 0.75f, 0.75f }, 0.f, { 0.f, 0.f });
-				
+				m_pHpBar->Set_GetDamageEvent();
+				m_pDamageText->Show_Damage(m_pHPCom->Get_DamageRecieved(), { 1.f, 1.f, 1.f, 1.f }, { 0.55f, 0.5f }, 0.f, { 0.f, 0.f });
 			}
 		}
-
 		if (m_pDamageText)
 			m_pDamageText->LateTick(TimeDelta);
 
 		m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
+
+		m_pRendererCom->Add_RenderGroup(RENDER_SHADOWDEPTH, this);
+
+		m_pRendererCom->Add_RenderGroup(RENDER_LAPLACIAN, this);
+
+
+#ifdef _DEBUG
+		//m_pAABB->Render();
+		//m_pOBB->Render();
+		//m_pSphere->Render();
+
+		//m_pRendererCom->Add_DebugRenderGroup(m_pAABB);
+		//m_pRendererCom->Add_DebugRenderGroup(m_pNavigationCom);
+
+#endif // _DEBUG
+		
+		m_bBeCulling = false;
 	}
+	else
+	{
+		m_bBeCulling = true;
+	}
+
 	return _uint();
 }
 
@@ -217,60 +247,147 @@ HRESULT CMonster::Render()
 
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
-		if (FAILED(m_pModelCom->SetUp_ShaderResource(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
-			return E_FAIL;
+		/*if (FAILED(m_pModelCom->SetUp_ShaderResource(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
+			return E_FAIL;*/
+
 		if (FAILED(m_pModelCom->SetUp_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
 			return E_FAIL;
 
-		m_pShaderCom->Begin(0);
+		if (m_pMonFSM->Get_MotionState() == CMonFSM::MONSTER_STATE::DEAD_BOSS ||
+			m_pMonFSM->Get_MotionState() == CMonFSM::MONSTER_STATE::DEAD_ROTATE)
+		{
+			m_pShaderCom->Begin(1);
+		}
+		else
+		{
+			if (m_bHitState)
+				m_pShaderCom->Begin(2);
+			else
+				m_pShaderCom->Begin(4);
+		}
 
 		m_pModelCom->Render(i);
 	}
 
-#ifdef _DEBUG
-	m_pAABB->Render();
-	//m_pOBB->Render();
-	//m_pSphere->Render();
+	return S_OK;
+}
 
-	if (m_pNavigationCom)
-		m_pNavigationCom->Render();
+HRESULT CMonster::Render_ShadowDepth()
+{
+	if (nullptr == m_pShaderCom ||
+		nullptr == m_pTransformCom ||
+		nullptr == m_pModelCom)
+		return E_FAIL;
 
-#endif // _DEBUG
+	if (FAILED(SetUp_Shadow_ShaderResources()))
+		return E_FAIL;
+
+	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
+
+	for (_uint i = 0; i < iNumMeshes; ++i)
+	{
+		/*if (FAILED(m_pModelCom->SetUp_ShaderResource(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
+			return E_FAIL;*/
+
+		if (FAILED(m_pModelCom->SetUp_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
+			return E_FAIL;
+
+		m_pShaderCom->Begin(6);
+
+		m_pModelCom->Render(i);
+	}
 
 	return S_OK;
 }
+
+HRESULT CMonster::Render_Laplacian()
+{
+	if (FAILED(SetUp_ShaderResources()))
+		return E_FAIL;
+
+	_uint		iNumMeshes = m_pModelCom->Get_NumMeshes();
+
+	for (_uint i = 0; i < iNumMeshes; ++i)
+	{
+		/*if (FAILED(m_pModelCom->SetUp_ShaderResource(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
+			return E_FAIL;*/
+
+		if (FAILED(m_pModelCom->SetUp_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
+			return E_FAIL;
+
+		if (m_pMonFSM->Get_MotionState() == CMonFSM::MONSTER_STATE::DEAD_BOSS ||
+			m_pMonFSM->Get_MotionState() == CMonFSM::MONSTER_STATE::DEAD_ROTATE)
+		{
+			m_pShaderCom->Begin(1);
+		}
+		else
+		{
+			if (m_bHitState)
+				m_pShaderCom->Begin(2);
+			else
+				m_pShaderCom->Begin(4);
+		}
+
+		m_pModelCom->Render(i);
+	}
+
+	return S_OK;
+}
+
 
 HRESULT CMonster::Add_BuffState()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	CGameObject* pGameObject = nullptr;
-
-	CBuffState::BUFFSTATE_DESC		BuffStateDesc;
-	ZeroMemory(&BuffStateDesc, sizeof BuffStateDesc);
-
-	BuffStateDesc.pParent = m_pTransformCom;
-	Safe_AddRef(m_pTransformCom);
-
-	XMStoreFloat4x4(&BuffStateDesc.PivotMatrix, m_pModelCom->Get_PivotMatrix());
-
-	BuffStateDesc.m_fSizeX = 20.f;
-	BuffStateDesc.m_fSizeY = 20.f;
-
-	BuffStateDesc.m_fPositionX = -10.f;
-	BuffStateDesc.m_fPositinoY = -40.f;
-	BuffStateDesc.m_fPositinoZ = 0.1f;
-
-	lstrcpy(BuffStateDesc.m_TextureProtoTypeName, L"Prototype_Component_Texture_Pokemon_State_doku");
-
-	BuffStateDesc.m_TextureLevelIndex = LEVEL_STATIC;
-
-	pGameObject = pGameInstance->Clone_GameObject(L"Layer_BuffState", m_iLevelindex, TEXT("Prototype_GameObject_BuffState"), &BuffStateDesc);
-	if (nullptr == pGameObject)
+	CGameObject* pObject = pGameInstance->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"MiscData");
+	if (nullptr == pObject)
 		return E_FAIL;
 
-	m_Parts.push_back(pGameObject);
+	CMiscData* pMiscData = dynamic_cast<CMiscData*>(pObject);
+	if (nullptr == pMiscData)
+		return E_FAIL;
+
+	vector<CMiscData::BUFFSTATEMISC_DESC> buffStateMiscDesces = pMiscData->Get_BuffStateDesces();
+
+	for (size_t i = 0; i < buffStateMiscDesces.size(); ++i)
+	{
+		CBuffState* pBuffState = nullptr;
+
+		CBuffState::BUFFSTATE_DESC		BuffStateDesc;
+		ZeroMemory(&BuffStateDesc, sizeof BuffStateDesc);
+
+		BuffStateDesc.pParentTransform = m_pTransformCom;
+		BuffStateDesc.pParentAttack = m_pAttackCom;
+		BuffStateDesc.pParentHP = m_pHPCom;
+		BuffStateDesc.pParentMonFSM = m_pMonFSM;
+		BuffStateDesc.pParentModel = m_pModelCom;
+
+		XMStoreFloat4x4(&BuffStateDesc.PivotMatrix, m_pModelCom->Get_PivotMatrix());
+
+		BuffStateDesc.m_fSizeX = buffStateMiscDesces[i].SizeX;
+		BuffStateDesc.m_fSizeY = buffStateMiscDesces[i].SizeY;
+
+		BuffStateDesc.m_fPositionX = buffStateMiscDesces[i].PositionX;
+		BuffStateDesc.m_fPositinoY = buffStateMiscDesces[i].PositionY;
+		BuffStateDesc.m_fPositinoZ = buffStateMiscDesces[i].PositionZ;
+
+		lstrcpy(BuffStateDesc.m_TextureProtoTypeName, L"Prototype_Component_Texture_UI_ss_n_damagedown");
+
+		BuffStateDesc.m_TextureLevelIndex = LEVEL_STATIC;
+
+		pGameInstance->Clone_GameObject(L"Layer_BuffState", m_iLevelindex, TEXT("Prototype_GameObject_BuffState"), (CGameObject**)&pBuffState, &BuffStateDesc);
+		if (nullptr == pBuffState)
+			return E_FAIL;
+		
+		if (i == 0)
+		{
+			if (FAILED(pBuffState->Change_Texture(L"Prototype_Component_Texture_UI_ss_p_speedup")))
+				return E_FAIL;
+		}
+
+		m_buffStates.push_back(pBuffState);
+	}
 
 	Safe_Release(pGameInstance);
 
@@ -280,7 +397,16 @@ HRESULT CMonster::Add_BuffState()
 HRESULT CMonster::Add_HpBar()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
+
+	CGameObject* pObject =  pGameInstance->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"MiscData");
+	if (nullptr == pObject)
+		return E_FAIL;
+
+	CMiscData* pMiscData = dynamic_cast<CMiscData*>(pObject);
+	if (nullptr == pMiscData)
+		return E_FAIL;
+
+	CMiscData::HPBARMISC_DESC hpBarMisc_Desc = pMiscData->Get_HpBarMisc_Desc();
 
 	CHpBar::HPBAR_DESC		HpDesc{};
 	ZeroMemory(&HpDesc, sizeof HpDesc);
@@ -293,14 +419,17 @@ HRESULT CMonster::Add_HpBar()
 
 	XMStoreFloat4x4(&HpDesc.PivotMatrix, m_pModelCom->Get_PivotMatrix());
 
-	HpDesc.m_fSizeX = 60.f;
-	HpDesc.m_fSizeY = 10.f;
+	HpDesc.m_fSizeX = hpBarMisc_Desc.SizeX;
+	HpDesc.m_fSizeY = hpBarMisc_Desc.SizeY;
 
-	HpDesc.m_fPositionX = -15.f;
-	HpDesc.m_fPositinoY = -60.f;
-	HpDesc.m_fPositinoZ = 0.1f;
+	HpDesc.m_fPositionX = hpBarMisc_Desc.PositionX;
+	HpDesc.m_fPositinoY = hpBarMisc_Desc.PositionY;
+	HpDesc.m_fPositinoZ = hpBarMisc_Desc.PositionZ;
 
-	HpDesc.m_vHpColor = _float4(0.f, 0.89f, 1.f, 1.f);
+	if (0 == Get_LayerTag().compare(L"Layer_Player"))
+		HpDesc.m_vHpColor = hpBarMisc_Desc.playerColor;
+	else
+		HpDesc.m_vHpColor = hpBarMisc_Desc.enemyColor;
 
 	lstrcpy(HpDesc.m_TextureProtoTypeName, L"Prototype_Component_Texture_Window_Plane_Corner_Bar");
 
@@ -310,46 +439,48 @@ HRESULT CMonster::Add_HpBar()
 	if (nullptr == m_pHpBar)
 		return E_FAIL;
 
-	Safe_Release(pGameInstance);
-
 	return S_OK;
 }
 
 HRESULT CMonster::Add_Searcher()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	//Safe_AddRef(pGameInstance);
+	Safe_AddRef(pGameInstance);
 
 	CSearcher::SEARCHER_DESC		searcherDesc{};
-	ZeroMemory(&searcherDesc, sizeof searcherDesc);
 
 	searcherDesc.pParentTransformCom = m_pTransformCom;
 	Safe_AddRef(searcherDesc.pParentTransformCom);
 
-	if (0 == Get_LayerTag().compare(L"Layer_Player"))
+	if (m_PokemonDesc.m_layerType == LAYER_TYPE_PLAYER)
 	{
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Searcher"), Get_Levelindex(), L"Layer_PlayerSearcher",
 			(CGameObject**)&m_pSearcher, nullptr, &searcherDesc)))
 				return E_FAIL;
+
 	}
-	else if (0 == Get_LayerTag().compare(L"Layer_Monster"))
+	else
 	{
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Searcher"), Get_Levelindex(), L"Layer_MonsterSearcher", 
 			(CGameObject**)&m_pSearcher, nullptr, &searcherDesc)))
 				return E_FAIL;
 	}
-	else
-	{
-		return E_FAIL;
-	}
 
-	//Safe_Release(pGameInstance);
+	Safe_Release(pGameInstance);
 	return S_OK;
 }
 
 HRESULT CMonster::Add_DamageText()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	CGameObject* pObject = pGameInstance->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"MiscData");
+	if (nullptr == pObject)
+		return E_FAIL;
+	CMiscData* pMiscData = dynamic_cast<CMiscData*>(pObject);
+	if (nullptr == pMiscData)
+		return E_FAIL;
+	CMiscData::DAMAGETETXTMISC_DESC damageTextMisc_Desc = pMiscData->Get_DamageTextMisc_Desc();
 
 	CDamageText::DAMAGETEXT_DESC		DamageDesc{};
 	ZeroMemory(&DamageDesc, sizeof DamageDesc);
@@ -359,11 +490,11 @@ HRESULT CMonster::Add_DamageText()
 
 	XMStoreFloat4x4(&DamageDesc.PivotMatrix, m_pModelCom->Get_PivotMatrix());
 
-	DamageDesc.m_vScale = { 20.f, 20.f };
+	DamageDesc.m_vScale = { damageTextMisc_Desc.SizeX, damageTextMisc_Desc.SizeY };
 
-	DamageDesc.m_fPositionX = -30.f;
-	DamageDesc.m_fPositinoY = -80.f;
-	DamageDesc.m_fPositinoZ = 0.1f;
+	DamageDesc.m_fPositionX = damageTextMisc_Desc.PositionX;
+	DamageDesc.m_fPositinoY = damageTextMisc_Desc.PositionY;
+	DamageDesc.m_fPositinoZ = damageTextMisc_Desc.PositionZ;
 
 	DamageDesc.m_vColor = _float4(1.f, 1.f, 1.f, 1.f);
 
@@ -376,32 +507,67 @@ HRESULT CMonster::Add_DamageText()
 	return S_OK;
 }
 
-void CMonster::Do_Skill(_uint skillType, CMonFSM::MONSTER_STATE eMotion, const _tchar* pLayer)
+_bool CMonster::Do_Skill(_uint skillType, CMonFSM::MONSTER_STATE eMotion, const _tchar* pLayer)
 {
 	if (!m_bAttack)
 	{
+		_bool failcheck = Do_Skill(skillType, pLayer);
+
+		if (false == failcheck)
+			return false;
+
 		m_pMonFSM->Transit_MotionState(eMotion, m_pModelCom);
 
-		Do_Skill(skillType, pLayer);
+		return true;
 	}
+	
+	return false;
 }
 
-void CMonster::Do_Skill(_uint skillType, const _tchar* pLayer)
+_bool CMonster::Do_Skill(_uint skillType, const _tchar* pLayer)
 {
 	if (!m_bAttack)
 	{
-		CSkill_Manager* pSkill_Mananger = dynamic_cast<CSkill_Manager*>(CGameInstance::GetInstance()->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"Skill_Manager"));
-		if (nullptr != pSkill_Mananger)
-		{	
-			pSkill_Mananger->Do_Skill(pLayer, m_iLevelindex, skillType,
-				m_pAttackCom->Get_AttackPower(), m_pTransformCom->Get_WorldMatrix_Matrix(), m_pModelCom, "effect00", m_pTransformCom);
+		if (skillType > 35)
+		{
+			if (false == m_pAttackCom->Get_CanSkillAttack())
+				return false;
 		}
+
+		_int failCheck = rand() % m_pAttackCom->Get_AttackFailProbability();
+
+		if (failCheck != 0)
+			return false;
+
+		CGameObject* pManager = CGameInstance::GetInstance()->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"Skill_Manager");
+		if (nullptr == pManager)
+			return false;
+
+		CSkill_Manager* pSkill_Mananger = dynamic_cast<CSkill_Manager*>(pManager);
+		if (nullptr != pSkill_Mananger)
+		{
+			pSkill_Mananger->Do_Skill(pLayer, m_iLevelindex, skillType,
+				m_pAttackCom->Get_AttackPower(), m_pTransformCom->Get_WorldMatrix_Matrix(), m_pModelCom, "effect00", m_pTransformCom, Search_NoAction_BuffState(skillType), m_PokemonDesc.m_monsterNo);
+		}
+
+		CGameObject* pStageCamera = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Camera", L"Main_Camera");
+		if (nullptr != pStageCamera)
+		{
+			dynamic_cast<CStageCamera*>(pStageCamera)->Do_Skill_Zoom_In(this);
+		}
+
+		return true;
 	}
+
+	return false;
 }
 
 void CMonster::Do_Skill_After_Set_Motion(_uint skillType, const _tchar* pLayer)
 {
-	Do_Skill(skillType, pLayer);
+	_bool failcheck = Do_Skill(skillType, pLayer);
+
+	if (false == failcheck)
+		return;
 
 	if (skillType <= 35 && skillType % 2 == 1)
 	{
@@ -410,6 +576,18 @@ void CMonster::Do_Skill_After_Set_Motion(_uint skillType, const _tchar* pLayer)
 	else if (skillType <= 35 && skillType % 2 == 0) // 근거리 공격
 	{
 		m_pMonFSM->Transit_MotionState(CMonFSM::ATK_NORMAL, m_pModelCom);
+	}
+	else if (skillType == 50) // 하이드럼 펌프
+	{
+		m_pMonFSM->Transit_MotionState(CMonFSM::POKING, m_pModelCom);
+	}
+	else if (skillType == 72) // 냉동빔
+	{
+		m_pMonFSM->Transit_MotionState(CMonFSM::POKING, m_pModelCom);
+	}
+	else if (skillType == 79) // 얼다바람
+	{
+		m_pMonFSM->Transit_MotionState(CMonFSM::POKING, m_pModelCom);
 	}
 	else if (skillType == 100) // 지진
 	{
@@ -423,38 +601,57 @@ void CMonster::Do_Skill_After_Set_Motion(_uint skillType, const _tchar* pLayer)
 	{
 		m_pMonFSM->Transit_MotionState(CMonFSM::ATK_SLE_NORMAL_START, m_pModelCom);
 	}
-	else if (skillType == 50) // 하이드럼 펌프
+	else if (skillType == 188) // 돌떨구기
 	{
 		m_pMonFSM->Transit_MotionState(CMonFSM::POKING, m_pModelCom);
 	}
-	else if (skillType == 79) // 얼다바람
+	else
 	{
 		m_pMonFSM->Transit_MotionState(CMonFSM::POKING, m_pModelCom);
 	}
-
-
 }
 
 void CMonster::CoolTimeCheck(const _double& TimeDelta)
 {
-	if (m_SkillCoolTimeAcc > 0.0)
+	if (m_SkillCoolTimeAcc <= m_SkillCoolTime)
 	{
-		m_SkillCoolTimeAcc -= TimeDelta;
-		if (m_SkillCoolTimeAcc <= 0.0)
+		m_SkillCoolTimeAcc += TimeDelta;
+		if (m_SkillCoolTimeAcc >= m_SkillCoolTime)
 		{
-			m_SkillCoolTimeAcc = 0.0;
 			m_bCanSkillAttack = true;
 		}
 	}
 
-	if (m_AttackCoolTimeAcc > 0.0)
+	if (m_AttackCoolTimeAcc <= m_AttackCoolTime)
 	{
-		m_AttackCoolTimeAcc -= TimeDelta;
-		if (m_AttackCoolTimeAcc <= 0.0)
+		m_AttackCoolTimeAcc += TimeDelta;
+		if (m_AttackCoolTimeAcc >= m_AttackCoolTime)
 		{
-			m_AttackCoolTimeAcc = 0.0;
 			m_bCanAttack = true;
 		}
+	}
+}
+
+void CMonster::HitTimeCheck(const _double& TimeDelta)
+{
+	if (m_hitTimeAcc <= m_hitTime)
+	{
+		m_hitTimeAcc += TimeDelta;
+		if (m_hitTimeAcc >= m_hitTime)
+		{
+			m_bHitState = false;
+		}
+	}
+}
+
+void CMonster::HitCheck()
+{
+	CManualCollisionState::COLLISION_STATE collisionState = m_pManualCollisionState->Get_State();
+
+	if (collisionState == CAABB::COLLISION_STATE::COLLISION_STATE_ENTER)
+	{
+		m_bHitState = true;
+		m_hitTimeAcc = 0.0;
 	}
 }
 
@@ -462,11 +659,21 @@ _bool CMonster::Search_Target()
 {
 	if (nullptr == m_pSearcher)
 		return false;
-	if (CSearcher::COLLISION_STATE_ENTER == m_pSearcher->Get_Collision_State() || CSearcher::COLLISION_STATE_ON == m_pSearcher->Get_Collision_State())
+	if (CSearcher::COLLISION_STATE_ENTER == m_pSearcher->Get_Collision_State() 
+		|| CSearcher::COLLISION_STATE_ON == m_pSearcher->Get_Collision_State()
+		|| CSearcher::COLLISION_STATE_EXIT == m_pSearcher->Get_Collision_State())
 	{
 		return true;
 	}
 	return false;
+}
+
+void CMonster::SkillCoolTime_Start()
+{
+	m_bCanSkillAttack = false;
+	m_bCanAttack = false;
+	m_AttackCoolTimeAcc = 0.0;
+	m_SkillCoolTimeAcc = 0.0;
 }
 
 
@@ -507,11 +714,15 @@ HRESULT CMonster::Add_Components()
 		(CComponent**)&m_pMonFSM, nullptr)))
 		return E_FAIL;
 
+	/* For.Com_ManualCollisionState */
+	if (FAILED(pGameInstance->Add_Component(CManualCollisionState::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_ManualCollisionState"),
+		(CComponent**)&m_pManualCollisionState, nullptr)))
+		return E_FAIL;
+
 	/* For.Com_AABB*/
 	CCollider::COLLIDER_DESC		ColliderDesc;
-
 	ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
-	ColliderDesc.vScale = _float3(1.f, 1.f, 1.f);
+	ColliderDesc.vScale = _float3(0.6f, 1.5f, 0.6f);
 	ColliderDesc.vPosition = _float3(0.0f, 0.f, 0.f);
 	if (FAILED(pGameInstance->Add_Component(CCollider::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB"),
 		(CComponent**)&m_pAABB, &ColliderDesc)))
@@ -588,12 +799,16 @@ HRESULT CMonster::Add_Components_By_File()
 		(CComponent**)&m_pMonFSM, nullptr)))
 		return E_FAIL;
 
+	/* For.Com_ManualCollisionState */
+	if (FAILED(pGameInstance->Add_Component(CManualCollisionState::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_ManualCollisionState"),
+		(CComponent**)&m_pManualCollisionState, nullptr)))
+		return E_FAIL;
+
 	/* For.Com_AABB*/
 	CCollider::COLLIDER_DESC		ColliderDesc;
-
 	ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
-	ColliderDesc.vScale = _float3(1.f, 1.f, 1.f);
-	ColliderDesc.vPosition = _float3(0.0f, 0.f, 0.f);
+	ColliderDesc.vScale = _float3(0.6f, 1.5f, 0.6f);
+	ColliderDesc.vPosition = _float3(0.0f, ColliderDesc.vScale.y * 0.5f, 0.f);
 	if (FAILED(pGameInstance->Add_Component(CCollider::familyId	, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB"),
 		(CComponent**)&m_pAABB, &ColliderDesc)))
 		return E_FAIL;
@@ -652,33 +867,162 @@ HRESULT CMonster::SetUp_ShaderResources()
 		&pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_PROJ))))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_RawValue("g_vCamPosition",
-		&pGameInstance->Get_CamPosition(), sizeof(_float4))))
+	if (m_pMonFSM->Get_MotionState() == CMonFSM::MONSTER_STATE::DEAD_BOSS ||
+		m_pMonFSM->Get_MotionState() == CMonFSM::MONSTER_STATE::DEAD_ROTATE)
+	{
+		if (FAILED(m_pShaderCom->Set_RawValue("g_vColor",
+			&m_deadColor, sizeof(_float4))))
+			return E_FAIL;
+	}
+	else
+	{
+		if (FAILED(m_pShaderCom->Set_RawValue("g_vColor",
+			&m_hitColor, sizeof(_float4))))
+			return E_FAIL;
+	}
+
+	_float ratio = (_float)(fabs(m_hitTimeAcc - m_hitTime) / m_hitTime);
+	if (FAILED(m_pShaderCom->Set_RawValue("g_Ratio",
+		&ratio, sizeof(_float))))
 		return E_FAIL;
 
-	const LIGHTDESC* pLightDesc = pGameInstance->Get_Light(0);
-	if (nullptr == pLightDesc)
+	_float cameraFar = pGameInstance->Get_CameraFar();
+	if (FAILED(m_pShaderCom->Set_RawValue("g_CameraFar",
+		&cameraFar, sizeof(_float))))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightDir",
-		&pLightDesc->vDirection, sizeof(_float4))))
-		return E_FAIL;
-
-	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightDiffuse",
-		&pLightDesc->vDiffuse, sizeof(_float4))))
-		return E_FAIL;
-
-	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightAmbient",
-		&pLightDesc->vAmbient, sizeof(_float4))))
-		return E_FAIL;
-
-	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightSpecular",
-		&pLightDesc->vSpecular, sizeof(_float4))))
+	_float shadow = 1.f;
+	if (FAILED(m_pShaderCom->Set_RawValue("g_shadow",
+		&shadow, sizeof(_float))))
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);
 
 	return S_OK;
+}
+
+HRESULT CMonster::SetUp_Shadow_ShaderResources()
+{
+	if (FAILED(m_pTransformCom->Set_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
+		return E_FAIL;
+
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(m_pShaderCom->Set_Matrix("g_ViewMatrix",
+		&pGameInstance->Get_LightViewMatrix())))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Set_Matrix("g_ProjMatrix",
+		&pGameInstance->Get_LightProjMatrix())))
+		return E_FAIL;
+
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
+CBuffState* CMonster::Search_NoAction_BuffState(const _uint& skillType)
+{
+	if (m_buffStates.empty())
+		return nullptr;
+
+	for (auto& buffState : m_buffStates)
+	{
+		if (buffState->Get_CurSkillType() == skillType)
+		{
+			return buffState;
+		}
+		else
+		{
+			if (buffState->Get_CanBuffSet())
+			{
+				return buffState;
+			}
+		}
+	}
+
+	return nullptr;
+}
+
+void CMonster::Do_Skill_By_Index(_uint skillindex, const _tchar* pLayer)
+{
+	if (nullptr == pLayer)
+		return;
+
+	if (!m_bCanSkillAttack || m_PokemonDesc.m_skillIDs.size() <= 0 || m_PokemonDesc.m_skillIDs.size() <= skillindex)
+	{
+		return;
+	}
+
+	Do_Skill_After_Set_Motion(m_PokemonDesc.m_skillIDs[skillindex], pLayer);
+}
+
+CBuffState* CMonster::Search_NoAction_DeBuffState(const _uint& buffType)
+{
+	if (m_buffStates.empty())
+		return nullptr;
+
+	for (auto& buffState : m_buffStates)
+	{
+		if (buffState->Get_CurBuffType() == buffType)
+		{
+			return buffState;
+		}
+		else
+		{
+			if (buffState->Get_CanBuffSet())
+			{
+				return buffState;
+			}
+		}
+	}
+
+	return nullptr;
+}
+
+_bool CMonster::Check_Monster_Can_GetAbNormalState(const _uint& buffType)
+{
+	if (m_buffStates.empty())
+		return false;
+
+	for (auto& buffState : m_buffStates)
+	{
+		if (CBuffState::BUFF_TYPE::BUFF_TYPE_STATE_ABNORMAL == buffState->Get_BuffType())
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+_bool CMonster::Is_AbNormalState(const _uint& buffType)
+{
+	if (buffType >= CBuffState::BUFF_STATE::BUFF_STATE_MAHI && buffType <= CBuffState::BUFF_STATE::BUFF_STATE_NEMURI2)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+void CMonster::Play_SignitureSound()
+{
+	wstring sound = L"2d_pv";
+
+	if (10 > m_PokemonDesc.m_monsterNo)
+	{
+		sound += L"00" + to_wstring(m_PokemonDesc.m_monsterNo);
+	}
+	else if (100 > m_PokemonDesc.m_monsterNo)
+	{
+		sound += L"0" + to_wstring(m_PokemonDesc.m_monsterNo);
+
+	}
+	sound += L".ogg";
+
+	CGameInstance::GetInstance()->PlaySoundW(sound.c_str(), SOUND_PLAYER);
 }
 
 _bool CMonster::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator)
@@ -728,6 +1072,7 @@ _bool CMonster::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& al
 			PokemonDesc.AddMember("m_slotTypeWeightMulti", m_PokemonDesc.m_slotTypeWeightMulti, allocator);
 			PokemonDesc.AddMember("m_normalSkillType", m_PokemonDesc.m_normalSkillType, allocator);
 			PokemonDesc.AddMember("m_AIType", m_PokemonDesc.m_AIType, allocator);
+			PokemonDesc.AddMember("m_layerType", m_PokemonDesc.m_layerType, allocator);
 
 			Value m_skillIDs(kArrayType);
 			{
@@ -788,6 +1133,7 @@ _bool CMonster::Load_By_JsonFile_Impl(Document& doc)
 
 		m_PokemonDesc.m_normalSkillType = PokemonDesc["m_normalSkillType"].GetUint();
 		m_PokemonDesc.m_AIType = PokemonDesc["m_AIType"].GetUint();
+		m_PokemonDesc.m_layerType = PokemonDesc["m_layerType"].GetUint();
 
 		const Value& skillIDs = PokemonDesc["m_skillIDs"];
 		for (SizeType i = 0; i < skillIDs.Size(); ++i)
@@ -799,16 +1145,35 @@ _bool CMonster::Load_By_JsonFile_Impl(Document& doc)
 	return true;
 }
 
+HRESULT CMonster::Load_By_Json_PreAddComponents()
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	/* For.Com_Transform */
+	CTransform::TRANSFORMDESC		TransformDesc = { 10.f, XMConvertToRadians(90.0f) };
+	if (FAILED(pGameInstance->Add_Component(CTransform::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+		(CComponent**)&m_pTransformCom, &TransformDesc)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 HRESULT CMonster::Add_MotionState()
 {
 	if (nullptr == m_pMonFSM)
 		return E_FAIL;
 
-	for (_uint i = 0; i < CMonFSM::END_MOTION; ++i)
+	for (_uint i = 0; i < CMonFSM::FORMATION_NORMAL; ++i)
 	{
 		m_pMonFSM->Add_MotionState(CMonFSM::MONSTER_STATE(i), i);
 	}
 
+	m_pMonFSM->Add_MotionState(CMonFSM::MONSTER_STATE::FORMATION_NORMAL, CMonFSM::MONSTER_STATE::IDLE_GROUND);
+	m_pMonFSM->Add_MotionState(CMonFSM::MONSTER_STATE::FORMATION_RUN, CMonFSM::MONSTER_STATE::RUN_GOUND2);
+	m_pMonFSM->Add_MotionState(CMonFSM::MONSTER_STATE::ROAR_BEFORE, CMonFSM::MONSTER_STATE::IDLE1);
+	m_pMonFSM->Add_MotionState(CMonFSM::MONSTER_STATE::STAGE_CLEAR, CMonFSM::MONSTER_STATE::JOY);
+
+	//STAGE_CLEAR
 	return S_OK;
 }
 
@@ -817,11 +1182,10 @@ void CMonster::Free()
 {
 	__super::Free();
 
-
-	for (auto& pGameObject : m_Parts)
+	for (auto& pGameObject : m_buffStates)
 		Safe_Release(pGameObject);
 
-	m_Parts.clear();
+	m_buffStates.clear();
 
 	Safe_Release(m_pHpBar);
 	Safe_Release(m_pSearcher);
@@ -839,5 +1203,5 @@ void CMonster::Free()
 	Safe_Release(m_pNavigationCom);
 	Safe_Release(m_pHPCom);
 	Safe_Release(m_pAttackCom);
-
+	Safe_Release(m_pManualCollisionState);
 }

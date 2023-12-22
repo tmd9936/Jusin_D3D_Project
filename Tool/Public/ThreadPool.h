@@ -4,13 +4,19 @@
 
 #include "Client_Defines.h"
 
+#include <thread>
+#include <mutex>
+#include <vector>
+#include <queue>
+#include <functional>
+
 BEGIN(Client)
 
 typedef _uint(APIENTRY *WORK)(void* pArg);
 
 typedef struct __WokerThread
 {
-    HANDLE hTread;
+    HANDLE hThread;
     DWORD idThread;
     LPCRITICAL_SECTION m_CriticalSection;
     _bool finished;
@@ -26,36 +32,26 @@ private:
     virtual ~CThreadPool() = default;
 
 public:
-    HRESULT Initialize(_uint threadNum);
+    void Start();
+    void QueueJob(const std::function<_uint()>& job);
+    void Stop();
+    _bool Is_NoJobStae();
 
-public:
-    HRESULT Add_Work(WORK work);
+    _bool JobEndCheck();
 
-    const _uint   Get_WorkerThreadId() const {
-        return workerThreadList.size() - 1;
-    }
-
-public:
-    LPCRITICAL_SECTION Get_CurrentCriticalSection() {
-        return workerThreadList[workerThreadList.size()-1].m_CriticalSection;
-    }
-
-    LPCRITICAL_SECTION Get_CriticalSection(DWORD workerID) {
-        return workerThreadList[workerID].m_CriticalSection;
-    }
+    void JobStart();
+    void JobEnd();
 
 private:
-    vector<WORK> workList;
+    void ThreadLoop();
 
-    vector<WorkerThread> workerThreadList;
+    bool should_terminate = false;           // Tells threads to stop looking for jobs
+    std::mutex queue_mutex;                  // Prevents data races to the job queue
+    std::condition_variable mutex_condition; // Allows threads to wait on new jobs or termination 
+    std::vector<std::thread> threads;
+    std::queue<std::function<_uint()>> jobs;
 
-    vector<HANDLE> workerEventList;
-
-    DWORD   idOfCurrentWork = {0};
-
-    DWORD   idOfLastAddedWork = { 0 };
-
-    _uint   threadIdx = { 0 };
+    std::queue<_int> jobEndCheck;
 
 public:
     virtual void Free(void) override;

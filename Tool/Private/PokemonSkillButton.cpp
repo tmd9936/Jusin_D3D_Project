@@ -5,6 +5,11 @@
 
 #include "Level_Loading.h"
 
+#include "Monster.h"
+
+#include "PartTexture.h"
+#include "PartText.h"
+
 
 CPokemonSkillButton::CPokemonSkillButton(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CButton(pDevice, pContext)
@@ -16,6 +21,19 @@ CPokemonSkillButton::CPokemonSkillButton(const CPokemonSkillButton& rhs)
 {
 }
 
+_uint CPokemonSkillButton::Tick(_double TimeDelta)
+{
+	if (nullptr != m_pMonster)
+	{
+		if (m_TextureParts.size() > 0)
+		{
+			m_TextureParts[0]->Set_Progress(m_pMonster->Get_SkillCoolTimeProgress());
+		}
+	}
+
+	return __super::Tick(TimeDelta);
+}
+
 HRESULT CPokemonSkillButton::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
@@ -24,13 +42,11 @@ HRESULT CPokemonSkillButton::Initialize(const _tchar* pLayerTag, _uint iLevelInd
 	return S_OK;
 }
 
-/*
-
-*/
 HRESULT CPokemonSkillButton::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath)
 {
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, filePath)))
 		return E_FAIL;
+
 
 	return S_OK;
 }
@@ -42,7 +58,10 @@ _uint CPokemonSkillButton::On_Idle()
 
 _uint CPokemonSkillButton::On_Press()
 {
-
+	if (nullptr != m_pMonster)
+	{
+		m_pMonster->Do_Skill_By_Index(m_SkillNumber, L"Layer_PlayerSkill");
+	}
 	return 0;
 }
 
@@ -98,5 +117,6 @@ CGameObject* CPokemonSkillButton::Clone(const _tchar* pLayerTag, _uint iLevelInd
 void CPokemonSkillButton::Free()
 {
 	__super::Free();
+	Safe_Release(m_pMonster);
 }
 

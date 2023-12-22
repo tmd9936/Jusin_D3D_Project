@@ -24,7 +24,9 @@ HRESULT CSearcher::Initialize_Prototype()
 HRESULT CSearcher::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg)
 {
 	if (nullptr != pArg)
-		memcpy(&m_Desc.pParentTransformCom, pArg, sizeof m_Desc);
+	{
+		m_Desc.pParentTransformCom = (*(SEARCHER_DESC*)(pArg)).pParentTransformCom;
+	}
 
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 		return E_FAIL;
@@ -57,33 +59,28 @@ _uint CSearcher::LateTick(_double TimeDelta)
 	return _uint();
 }
 
-HRESULT CSearcher::Render()
-{
-	if (FAILED(SetUp_ShaderResources()))
-		return E_FAIL;
-
-#ifdef _DEBUG
-	m_pSphereCom->Render();
-#endif // _DEBUG
-
-	return S_OK;
-}
 
 void CSearcher::On_Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
 {
-	m_pTarget = pOther->Get_Owner();
-
-	m_eCollisionState = COLLISION_STATE_ON;
+	if (nullptr != pOther)
+	{
+		m_pTarget = pOther->Get_Owner();
+		m_eCollisionState = COLLISION_STATE_ON;
+	}
 }
 
-void CSearcher::On_CollisionEnter(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
+void CSearcher::On_CollisionEnter(CCollider* pOther,  const _float& fX, const _float& fY, const _float& fZ)
 {
-	m_eCollisionState = COLLISION_STATE_ENTER;
+	if (nullptr != pOther)
+	{
+		m_pTarget = pOther->Get_Owner();
+		m_eCollisionState = COLLISION_STATE_ENTER;
+	}
 }
 
 void CSearcher::On_CollisionExit(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ)
 {
-	m_eCollisionState = COLLISION_STATE_EXIT;
+		m_eCollisionState = COLLISION_STATE_EXIT;
 }
 
 
@@ -91,17 +88,12 @@ HRESULT CSearcher::Add_Components()
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
-	/* For.Com_Renderer */
-	if (FAILED(pGameInstance->Add_Component(CRenderer::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Renderer"),
-		(CComponent**)&m_pRendererCom, nullptr)))
-		return E_FAIL;
-
 	/* For.Com_AABB*/
 	CCollider::COLLIDER_DESC		ColliderDesc;
 
 	ZeroMemory(&ColliderDesc, sizeof ColliderDesc);
-	ColliderDesc.vScale = _float3(5.f, 5.f, 5.f);
-	ColliderDesc.vPosition = _float3(0.0f, ColliderDesc.vScale.y * 0.5f, 0.f);
+	ColliderDesc.vScale = _float3(7.f, 7.f, 7.f);
+	ColliderDesc.vPosition = _float3(0.0f, 1.5f, 0.f);
 	if (FAILED(pGameInstance->Add_Component(CCollider::familyId, this, LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
 		(CComponent**)&m_pSphereCom, &ColliderDesc)))
 		return E_FAIL;
@@ -147,6 +139,5 @@ void CSearcher::Free()
 	__super::Free();
 
 	Safe_Release(m_Desc.pParentTransformCom);
-	Safe_Release(m_pRendererCom);
 	Safe_Release(m_pSphereCom);
 }

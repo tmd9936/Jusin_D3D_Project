@@ -23,6 +23,10 @@ CLevel_WorldMap::CLevel_WorldMap(ID3D11Device* pDevice, ID3D11DeviceContext* pCo
 
 HRESULT CLevel_WorldMap::Initialize()
 {
+	CGameInstance::GetInstance()->StopSound(SOUND_BGM);
+
+	CGameInstance::GetInstance()->PlayBGM(TEXT("BGM_Stage_Select.ogg"));
+
 	if (FAILED(Ready_LightDesc()))
 		return E_FAIL;
 
@@ -71,7 +75,7 @@ HRESULT CLevel_WorldMap::Initialize()
 void CLevel_WorldMap::Tick(_double TimeDelta)
 {
 #ifdef _DEBUG
-	SetWindowText(g_hWnd, TEXT("월드맵 레벨임"));
+	SetWindowText(g_hWnd, TEXT("포켓몬 퀘스트"));
 #endif
 }
 
@@ -271,11 +275,9 @@ HRESULT CLevel_WorldMap::Ready_Layer_Player(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_Layer(LEVEL_WORLDMAP, L"Layer_BuffState")))
 		return E_FAIL;
 
-	CMonster::POKEMON_DESC desc{};
-	desc.m_monsterNo = 25;
-	desc.vPos = _float4(25.2f, 1.5f, 22.0f, 1.f);
+	// 	desc.vPos = _float4(25.2f, 1.5f, 22.0f, 1.f);
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Player"), LEVEL_WORLDMAP, pLayerTag, L"Player", &desc)))
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Player"), LEVEL_WORLDMAP, pLayerTag, L"Player1", "../../Reference/Resources/Data/Database/NowMonster/NowPartyMonster1.json", CLONE_FILEPATH)))
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);
@@ -313,6 +315,12 @@ HRESULT CLevel_WorldMap::Ready_Layer_UI(const _tchar* pLayerTag)
 	if (FAILED(pGameInstance->Add_Layer(LEVEL_WORLDMAP, pLayerTag)))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GoToBaseCampButton"), LEVEL_WORLDMAP, pLayerTag, L"GoToBaseCampButton", "../../Reference/Resources/Data/Scene/WorldMap/Button/GoToBaseCamp.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UI"), LEVEL_WORLDMAP, pLayerTag, L"LevelNameInfo", "../../Reference/Resources/Data/Scene/WorldMap/UI/LevelNameInfo.json", CLONE_FILEPATH)))
+		return E_FAIL;
+
 	Safe_Release(pGameInstance);
 
 	return S_OK;
@@ -326,9 +334,10 @@ HRESULT CLevel_WorldMap::Ready_LightDesc()
 	LIGHTDESC			LightDesc;
 	ZeroMemory(&LightDesc, sizeof LightDesc);
 
+	LightDesc.eType = LIGHTDESC::TYPE_DIRECTIONAL;
 	LightDesc.vDirection = _float4(1.f, -1.f, 1.f, 0.f);
 	LightDesc.vDiffuse = _float4(1.f, 1.f, 1.f, 1.f);
-	LightDesc.vAmbient = _float4(1.f, 1.f, 1.f, 1.f);
+	LightDesc.vAmbient = _float4(0.4f, 0.4f, 0.4f, 1.f);
 	LightDesc.vSpecular = _float4(1.f, 1.f, 1.f, 1.f);
 
 	if (FAILED(pGameInstance->Add_Light(m_pDevice, m_pContext, LightDesc)))

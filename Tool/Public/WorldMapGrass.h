@@ -17,8 +17,8 @@ class CWorldMapGrass final : public CGameObject
 {
 
 private:
-	CWorldMapGrass(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CWorldMapGrass(const CWorldMapGrass& rhs);
+	explicit CWorldMapGrass(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CWorldMapGrass(const CWorldMapGrass& rhs);
 	virtual ~CWorldMapGrass() = default;
 
 public:

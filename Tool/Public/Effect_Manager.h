@@ -5,6 +5,10 @@
 
 #include "Effect.h"
 
+#include "ChargeEffect.h"
+#include "HommingAttackEffect.h"
+#include "RushAttackEffect.h"
+
 /*
 이펙트 -> 글로우 셰이딩 해야함
 */
@@ -18,8 +22,8 @@ class CEffect_Manager final : public CGameObject
 {
 
 private:
-	CEffect_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CEffect_Manager(const CEffect_Manager& rhs);
+	explicit CEffect_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CEffect_Manager(const CEffect_Manager& rhs);
 	virtual ~CEffect_Manager() = default;
 
 public:
@@ -27,34 +31,52 @@ public:
 	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override; /* 사본객체의 초기화작업 */
 	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath);
 
-	virtual _uint Tick(_double TimeDelta) override;
-	virtual _uint LateTick(_double TimeDelta) override;
+	virtual _uint		Tick(_double TimeDelta) override;
+	virtual _uint		LateTick(_double TimeDelta) override;
 
-	CEffect* Create_Effect(_uint effectType, const _tchar* pLayerTag, _uint iLevelIndex, _bool hasCollider = false, _float3 vPos = { 0.f, 0.f, 0.f });
+	CEffect*			Create_Effect(_uint effectType, const _tchar* pLayerTag, _uint iLevelIndex, _bool hasCollider = false, 
+		_float3 vPos = { 0.f, 0.f, 0.f });
+
+	CSkillEffect*		CreateEffect(_uint effectType, const _tchar* pEffectProtoTypeTag, const _tchar* pLayerTag, _uint iLevelIndex, _bool playerSound = true);
+
+	CSkillEffect*		Create_Charge_Effect(_uint effectType, const _tchar* pLayerTag, _uint iLevelIndex, 
+		CChargeEffect::CHARGE_EFFECT_DESC& chargeEffectDesc, const _uint& monsterNo);
+
+	//HRESULT	Create_Attack_Effect(_uint effectType, const _tchar* pLayerTag, _uint iLevelIndex, ATTACK_TYPE attackType);
 
 public:
-	void	Get_Effect_Desces(vector<CEffect::EFFECT_DESC>& Effect_Descs);
+	void				Get_Effect_Desces(vector<CEffect::EFFECT_DESC>& Effect_Descs);
 
 public:
-	HRESULT	Reload_Datas();
+	HRESULT				Reload_Datas();
 
 protected:
-	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
-	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
+	virtual _bool		Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
+	virtual _bool		Load_By_JsonFile_Impl(Document& doc);
 
 private:
-	HRESULT Add_Components();
-	HRESULT Add_Components_By_File();
+	HRESULT				Add_Components();
+	HRESULT				Add_Components_By_File();
 
-	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 던진다. */
+	HRESULT				SetUp_ShaderResources();
 
+	void				Play_Sound(const _uint& effectType);
+
+public:
+	constexpr static _uint m_damageEffect00 = 31;
+	constexpr static _uint m_damageEffect01 = 32;
+
+	constexpr static _uint m_damageBoss = 248;
+	constexpr static _uint m_damageBossEnd = 249;
 
 private:
 	vector<CEffect::EFFECT_DESC> m_Effect_Descs;
+	vector<CSkillEffect::EFFECT_DESC> m_Skill_Effect_Descs;
 
 	const wstring m_EffectFilePath = { L"../../Reference/Resources/Mesh/Animation/Effect/" };
 
 	string m_filePath = {};
+
 
 public:
 	static CEffect_Manager* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const char* filePath);

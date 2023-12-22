@@ -1,0 +1,391 @@
+{
+    "UIDesc": {
+        "m_fX": 620.0,
+        "m_fY": 280.0,
+        "m_fSizeX": 390.5,
+        "m_fSizeY": 260.0,
+        "m_ShaderPass": 1,
+        "m_UIType": 1,
+        "m_vColor": {
+            "x": 1.0,
+            "y": 0.917639970779419,
+            "z": 0.28619998693466187,
+            "w": 1.0
+        },
+        "m_TextureProtoTypeLevel": 0,
+        "m_TextureProtoTypeName": "Prototype_Component_Texture_Rectangle_Base",
+        "m_TextureParts": [
+            {
+                "m_fX": -150.0,
+                "m_fY": -100.0,
+                "m_fSizeX": 45.0,
+                "m_fSizeY": 45.0,
+                "m_eType": 1,
+                "m_ShaderPass": 2,
+                "m_vColor": {
+                    "x": 0.8999999761581421,
+                    "y": 0.5,
+                    "z": 0.20000000298023224,
+                    "w": 0.20000000298023224
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_Window_Plane_Corner_Waku_Mini",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": -75.0,
+                "m_fY": -100.0,
+                "m_fSizeX": 45.0,
+                "m_fSizeY": 45.0,
+                "m_eType": 1,
+                "m_ShaderPass": 2,
+                "m_vColor": {
+                    "x": 0.8999999761581421,
+                    "y": 0.5,
+                    "z": 0.20000000298023224,
+                    "w": 0.20000000298023224
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_Window_Plane_Corner_Waku_Mini",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": 0.0,
+                "m_fY": -100.0,
+                "m_fSizeX": 45.0,
+                "m_fSizeY": 45.0,
+                "m_eType": 1,
+                "m_ShaderPass": 2,
+                "m_vColor": {
+                    "x": 0.8999999761581421,
+                    "y": 0.5,
+                    "z": 0.20000000298023224,
+                    "w": 0.20000000298023224
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_Window_Plane_Corner_Waku_Mini",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": 75.0,
+                "m_fY": -100.0,
+                "m_fSizeX": 45.0,
+                "m_fSizeY": 45.0,
+                "m_eType": 1,
+                "m_ShaderPass": 2,
+                "m_vColor": {
+                    "x": 0.8999999761581421,
+                    "y": 0.5,
+                    "z": 0.20000000298023224,
+                    "w": 0.20000000298023224
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_Window_Plane_Corner_Waku_Mini",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": 150.0,
+                "m_fY": -100.0,
+                "m_fSizeX": 55.0,
+                "m_fSizeY": 55.0,
+                "m_eType": 1,
+                "m_ShaderPass": 2,
+                "m_vColor": {
+                    "x": 0.8999999761581421,
+                    "y": 0.5,
+                    "z": 0.20000000298023224,
+                    "w": 0.20000000298023224
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_Window_Plane_Corner_Waku_Mini",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": -150.0,
+                "m_fY": -40.0,
+                "m_fSizeX": 45.0,
+                "m_fSizeY": 45.0,
+                "m_eType": 1,
+                "m_ShaderPass": 2,
+                "m_vColor": {
+                    "x": 0.8999999761581421,
+                    "y": 0.5,
+                    "z": 0.20000000298023224,
+                    "w": 0.20000000298023224
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_Window_Plane_Corner_Waku_Mini",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": -75.0,
+                "m_fY": -40.0,
+                "m_fSizeX": 45.0,
+                "m_fSizeY": 45.0,
+                "m_eType": 1,
+                "m_ShaderPass": 2,
+                "m_vColor": {
+                    "x": 0.8999999761581421,
+                    "y": 0.5,
+                    "z": 0.20000000298023224,
+                    "w": 0.20000000298023224
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_Window_Plane_Corner_Waku_Mini",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": 0.0,
+                "m_fY": -40.0,
+                "m_fSizeX": 45.0,
+                "m_fSizeY": 45.0,
+                "m_eType": 1,
+                "m_ShaderPass": 2,
+                "m_vColor": {
+                    "x": 0.8999999761581421,
+                    "y": 0.5,
+                    "z": 0.20000000298023224,
+                    "w": 0.20000000298023224
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_Window_Plane_Corner_Waku_Mini",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": 75.0,
+                "m_fY": -40.0,
+                "m_fSizeX": 55.0,
+                "m_fSizeY": 55.0,
+                "m_eType": 1,
+                "m_ShaderPass": 2,
+                "m_vColor": {
+                    "x": 0.8999999761581421,
+                    "y": 0.5,
+                    "z": 0.20000000298023224,
+                    "w": 0.20000000298023224
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_Window_Plane_Corner_Waku_Mini",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": 150.0,
+                "m_fY": -40.0,
+                "m_fSizeX": 45.0,
+                "m_fSizeY": 45.0,
+                "m_eType": 1,
+                "m_ShaderPass": 2,
+                "m_vColor": {
+                    "x": 0.8999999761581421,
+                    "y": 0.5,
+                    "z": 0.20000000298023224,
+                    "w": 0.20000000298023224
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_Window_Plane_Corner_Waku_Mini",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": -150.0,
+                "m_fY": 20.0,
+                "m_fSizeX": 45.0,
+                "m_fSizeY": 45.0,
+                "m_eType": 1,
+                "m_ShaderPass": 2,
+                "m_vColor": {
+                    "x": 0.8999999761581421,
+                    "y": 0.5,
+                    "z": 0.20000000298023224,
+                    "w": 0.20000000298023224
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_Window_Plane_Corner_Waku_Mini",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": -75.0,
+                "m_fY": 20.0,
+                "m_fSizeX": 55.0,
+                "m_fSizeY": 55.0,
+                "m_eType": 1,
+                "m_ShaderPass": 2,
+                "m_vColor": {
+                    "x": 0.8999999761581421,
+                    "y": 0.5,
+                    "z": 0.20000000298023224,
+                    "w": 0.20000000298023224
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_Window_Plane_Corner_Waku_Mini",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": 0.0,
+                "m_fY": 20.0,
+                "m_fSizeX": 45.0,
+                "m_fSizeY": 45.0,
+                "m_eType": 1,
+                "m_ShaderPass": 2,
+                "m_vColor": {
+                    "x": 0.8999999761581421,
+                    "y": 0.5,
+                    "z": 0.20000000298023224,
+                    "w": 0.20000000298023224
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_Window_Plane_Corner_Waku_Mini",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": 75.0,
+                "m_fY": 20.0,
+                "m_fSizeX": 45.0,
+                "m_fSizeY": 45.0,
+                "m_eType": 1,
+                "m_ShaderPass": 2,
+                "m_vColor": {
+                    "x": 0.8999999761581421,
+                    "y": 0.5,
+                    "z": 0.20000000298023224,
+                    "w": 0.20000000298023224
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_Window_Plane_Corner_Waku_Mini",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": 150.0,
+                "m_fY": 20.0,
+                "m_fSizeX": 45.0,
+                "m_fSizeY": 45.0,
+                "m_eType": 1,
+                "m_ShaderPass": 2,
+                "m_vColor": {
+                    "x": 0.8999999761581421,
+                    "y": 0.5,
+                    "z": 0.20000000298023224,
+                    "w": 0.20000000298023224
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_Window_Plane_Corner_Waku_Mini",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": -150.0,
+                "m_fY": 80.0,
+                "m_fSizeX": 45.0,
+                "m_fSizeY": 45.0,
+                "m_eType": 1,
+                "m_ShaderPass": 2,
+                "m_vColor": {
+                    "x": 0.8999999761581421,
+                    "y": 0.5,
+                    "z": 0.20000000298023224,
+                    "w": 0.20000000298023224
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_Window_Plane_Corner_Waku_Mini",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": -75.0,
+                "m_fY": 80.0,
+                "m_fSizeX": 45.0,
+                "m_fSizeY": 45.0,
+                "m_eType": 1,
+                "m_ShaderPass": 2,
+                "m_vColor": {
+                    "x": 0.8999999761581421,
+                    "y": 0.5,
+                    "z": 0.20000000298023224,
+                    "w": 0.20000000298023224
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_Window_Plane_Corner_Waku_Mini",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": 0.0,
+                "m_fY": 80.0,
+                "m_fSizeX": 45.0,
+                "m_fSizeY": 45.0,
+                "m_eType": 1,
+                "m_ShaderPass": 2,
+                "m_vColor": {
+                    "x": 0.8999999761581421,
+                    "y": 0.5,
+                    "z": 0.20000000298023224,
+                    "w": 0.20000000298023224
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_Window_Plane_Corner_Waku_Mini",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": 75.0,
+                "m_fY": 80.0,
+                "m_fSizeX": 55.0,
+                "m_fSizeY": 55.0,
+                "m_eType": 1,
+                "m_ShaderPass": 2,
+                "m_vColor": {
+                    "x": 0.8999999761581421,
+                    "y": 0.5,
+                    "z": 0.20000000298023224,
+                    "w": 0.20000000298023224
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_Window_Plane_Corner_Waku_Mini",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": 150.0,
+                "m_fY": 80.0,
+                "m_fSizeX": 45.0,
+                "m_fSizeY": 45.0,
+                "m_eType": 1,
+                "m_ShaderPass": 2,
+                "m_vColor": {
+                    "x": 0.8999999761581421,
+                    "y": 0.5,
+                    "z": 0.20000000298023224,
+                    "w": 0.20000000298023224
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_Window_Plane_Corner_Waku_Mini",
+                "LayerTag": "Layer_UI"
+            }
+        ],
+        "m_TextParts": [],
+        "m_stones": [
+            {
+                "m_inventoyIndex": 4,
+                "m_eCurState": 0,
+                "m_stoneType": 0,
+                "value": 251,
+                "m_pokemonIconNumber": 25
+            },
+            {
+                "m_inventoyIndex": 8,
+                "m_eCurState": 0,
+                "m_stoneType": 1,
+                "value": 335,
+                "m_pokemonIconNumber": 25
+            },
+            {
+                "m_inventoyIndex": 11,
+                "m_eCurState": 0,
+                "m_stoneType": 1,
+                "value": 164,
+                "m_pokemonIconNumber": 25
+            },
+            {
+                "m_inventoyIndex": 18,
+                "m_eCurState": 0,
+                "m_stoneType": 0,
+                "value": 192,
+                "m_pokemonIconNumber": 25
+            }
+        ]
+    }
+}

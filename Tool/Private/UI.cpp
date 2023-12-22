@@ -100,7 +100,6 @@ _uint CUI::Tick(_double TimeDelta)
 
 _uint CUI::LateTick(_double TimeDelta)
 {
-
 	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
 
 	for (auto& part : m_TextureParts)
@@ -126,6 +125,92 @@ HRESULT CUI::Render()
 	m_pVIBufferCom->Render();
 
 	return S_OK;
+}
+
+HRESULT CUI::Change_Texture(const _tchar* pPrototypeTag)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	if (FAILED(pGameInstance->Change_Component(CTexture::familyId, this, LEVEL_STATIC, pPrototypeTag, (CComponent**)&m_pTextureCom, nullptr)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+void CUI::Set_Pos(const _float3& vPos)
+{
+	m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
+	m_UIDesc.m_fX = vPos.x + g_iWinSizeX * 0.5f;
+	m_UIDesc.m_fY = -vPos.y + g_iWinSizeY * 0.5f;
+}
+
+_bool CUI::Check_Is_In()
+{
+	RECT uiRect{ LONG(m_UIDesc.m_fX - m_UIDesc.m_fSizeX * 0.5f), LONG(m_UIDesc.m_fY - m_UIDesc.m_fSizeY * 0.5f)
+,	LONG(m_UIDesc.m_fX + m_UIDesc.m_fSizeX * 0.5f),  LONG(m_UIDesc.m_fY + m_UIDesc.m_fSizeY * 0.5f) };
+
+	POINT pt{};
+	GetCursorPos(&pt);
+	ScreenToClient(g_hWnd, &pt);
+
+	RECT mouseRect{ pt.x - m_mouseInterSize, pt.y - m_mouseInterSize, pt.x + m_mouseInterSize, pt.y + m_mouseInterSize };
+
+	RECT result{};
+	if (IntersectRect(&result, &uiRect, &mouseRect))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+_bool CUI::Check_Is_In(const POINT& mousePT)
+{
+	RECT uiRect{ LONG(m_UIDesc.m_fX - m_UIDesc.m_fSizeX * 0.5f), LONG(m_UIDesc.m_fY - m_UIDesc.m_fSizeY * 0.5f)
+,	LONG(m_UIDesc.m_fX + m_UIDesc.m_fSizeX * 0.5f),  LONG(m_UIDesc.m_fY + m_UIDesc.m_fSizeY * 0.5f) };
+
+	RECT mouseRect{ mousePT.x - m_mouseInterSize, mousePT.y - m_mouseInterSize, mousePT.x + m_mouseInterSize, mousePT.y + m_mouseInterSize };
+
+	RECT result{};
+	if (IntersectRect(&result, &uiRect, &mouseRect))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+_bool CUI::Move_To_ViewPortPositoin(const _double& TimeDelta, _fvector vAlivePosition, const _float2& interval)
+{
+	_vector vPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	_vector vDir = XMVectorSetZ(vAlivePosition, 0.f) - XMVectorSetZ(vPosition, 0.f);
+
+	vPosition += vDir * (_float)TimeDelta;
+
+	_float3 vPos = {};
+
+	XMStoreFloat3(&vPos, vPosition);
+
+	m_pTransformCom->Set_Pos(vPos.x, vPos.y, 0.1f);
+	m_UIDesc.m_fX = vPos.x + g_iWinSizeX * 0.5f;
+	m_UIDesc.m_fY = -vPos.y + g_iWinSizeY * 0.5f;
+
+	RECT uiRect{ LONG(m_UIDesc.m_fX - m_UIDesc.m_fSizeX * 0.5f), LONG(m_UIDesc.m_fY - m_UIDesc.m_fSizeY * 0.5f)
+,	LONG(m_UIDesc.m_fX + m_UIDesc.m_fSizeX * 0.5f),  LONG(m_UIDesc.m_fY + m_UIDesc.m_fSizeY * 0.5f) };
+
+	RECT alivePositionRect{ 
+		LONG(XMVectorGetX(vAlivePosition) + g_iWinSizeX * 0.5f - 50.f * 0.5f),
+		LONG(-XMVectorGetY(vAlivePosition) + g_iWinSizeY * 0.5f - 50.f * 0.5f),
+		LONG(XMVectorGetX(vAlivePosition) + g_iWinSizeX * 0.5f + 50.f * 0.5f),
+		LONG(-XMVectorGetY(vAlivePosition) + g_iWinSizeY * 0.5f + 50.f * 0.5f) };
+
+	RECT result{};
+	if (IntersectRect(&result, &uiRect, &alivePositionRect))
+	{
+		return true;
+	}
+
+	return false;
 }
 
 _bool CUI::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator)
@@ -326,15 +411,19 @@ HRESULT CUI::SetUp_ShaderResources()
 	if (FAILED(m_pTextureCom->Set_ShaderResource(m_pShaderCom, "g_Texture", m_TextureNumber)))
 		return E_FAIL;
 
-	else if (m_UIDesc.m_UIType == UI_TYPE_COLOR_TEXTURE)
+	if (m_UIDesc.m_UIType == UI_TYPE_COLOR_TEXTURE)
 	{
-		m_pShaderCom->Set_RawValue("g_vColor", &m_UIDesc.m_vColor, sizeof(_float4));
-		_float2	size = { m_UIDesc.m_fSizeX, m_UIDesc.m_fSizeY };
-		m_pShaderCom->Set_RawValue("g_Size", &size, sizeof(_float2));
 		_float	radius = 3.f;
 		m_pShaderCom->Set_RawValue("g_Radius", &radius, sizeof(_float));
 
 	}
+	_float2	size = { m_UIDesc.m_fSizeX, m_UIDesc.m_fSizeY };
+	m_pShaderCom->Set_RawValue("g_Size", &size, sizeof(_float2));
+
+	m_pShaderCom->Set_RawValue("g_vColor", &m_UIDesc.m_vColor, sizeof(_float4));
+
+	_float	g_Progress = 0.f;
+	m_pShaderCom->Set_RawValue("g_Progress", &g_Progress, sizeof(_float));
 
 	Safe_Release(pGameInstance);
 

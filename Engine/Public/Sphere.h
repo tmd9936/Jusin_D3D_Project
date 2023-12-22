@@ -6,9 +6,9 @@ BEGIN(Engine)
 class ENGINE_DLL CSphere : public CCollider
 {
 private:
-	CSphere(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CSphere(const CSphere& rhs);
-	~CSphere() = default;
+	explicit CSphere(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CSphere(const CSphere& rhs);
+	virtual ~CSphere() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();

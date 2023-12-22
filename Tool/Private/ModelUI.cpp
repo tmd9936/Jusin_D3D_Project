@@ -43,6 +43,11 @@ HRESULT CModelUI::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* p
 
 _uint CModelUI::Tick(_double TimeDelta)
 {
+	if (false == m_FirstTick)
+	{
+		return 0;
+	}
+
  	m_pModelCom->Play_Animation(TimeDelta);
 
 	return _uint();
@@ -50,8 +55,15 @@ _uint CModelUI::Tick(_double TimeDelta)
 
 _uint CModelUI::LateTick(_double TimeDelta)
 {
-
-	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
+	if (false == m_FirstTick)
+	{
+		m_FirstTick = true;
+		return 0;
+	}
+	else
+	{
+		m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
+	}
 
 	return _uint();
 }

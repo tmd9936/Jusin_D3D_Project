@@ -8,7 +8,7 @@ class CCustomFont :
     public CBase
 {
 private:
-	CCustomFont(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CCustomFont(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual ~CCustomFont() = default;
 
 public:

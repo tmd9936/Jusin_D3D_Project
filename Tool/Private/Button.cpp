@@ -119,6 +119,9 @@ _uint CButton::Tick(_double TimeDelta)
 
 _uint CButton::LateTick(_double TimeDelta)
 {
+	if (m_TickResult == OBJ_SCENE_CHNAGE)
+		return 0;
+
 	if (m_bAction)
 	{
 		m_TransformMatrix = m_pModelCom->Get_CombinedTransformationMatrix_float4_4(1);
@@ -423,6 +426,9 @@ HRESULT CButton::SetUp_ShaderResources()
 	//	return E_FAIL;	
 
 	m_pShaderCom->Set_RawValue("g_vColor", &m_ButtonDesc.m_vColor, sizeof(_float4));
+
+	_float2 g_Size = { m_ButtonDesc.m_fSizeX, m_ButtonDesc.m_fSizeY };
+	m_pShaderCom->Set_RawValue("g_Size", &g_Size, sizeof(_float2));
 
 	Safe_Release(pGameInstance);
 

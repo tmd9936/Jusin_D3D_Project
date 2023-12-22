@@ -3,9 +3,14 @@
 
 #include "../Default/stdafx.h"
 
+#include "Client_Defines.h"
+
+#ifdef _IMGUITOOL
 #include "imgui.h"
 #include "imgui_impl_win32.h"
 #include "imgui_impl_dx11.h"
+#endif
+
 
 #include "Tool.h"
 #include "MainApp.h"
@@ -23,9 +28,12 @@ HINSTANCE g_hInst;                                // 현재 인스턴스입니�
 WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
 WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
 HWND g_hWnd;
+
 MYFLOAT4 g_BackBufferColor;
 
+#ifdef _IMGUITOOL
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+#endif
 
 // 이 코드 모듈에 포함된 함수의 선언을 전달합니다:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -205,8 +213,10 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+#ifdef _IMGUITOOL
     if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
         return true;
+#endif
 
     switch (message)
     {
@@ -224,9 +234,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         IDXGISwapChain* pSwapChain = CGameInstance::GetInstance()->Get_SwapChain();
         if (pd3dDevice != NULL && wParam != SIZE_MINIMIZED)
         {
+#ifdef _IMGUITOOL
            ImGui_ImplDX11_InvalidateDeviceObjects();
            pSwapChain->ResizeBuffers(0, (UINT)LOWORD(lParam), (UINT)HIWORD(lParam), DXGI_FORMAT_UNKNOWN, 0);
            ImGui_ImplDX11_CreateDeviceObjects();
+#endif
         }
         return 0;
     }
@@ -264,6 +276,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         PostQuitMessage(0);
         return 0;
     case WM_DPICHANGED:
+#ifdef _IMGUITOOL
         if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_DpiEnableScaleViewports)
         {
             //const int dpi = HIWORD(wParam);
@@ -271,6 +284,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             const RECT* suggested_rect = (RECT*)lParam;
             ::SetWindowPos(hWnd, NULL, suggested_rect->left, suggested_rect->top, suggested_rect->right - suggested_rect->left, suggested_rect->bottom - suggested_rect->top, SWP_NOZORDER | SWP_NOACTIVATE);
         }
+#endif
         break;
     }
 

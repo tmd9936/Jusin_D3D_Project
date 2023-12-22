@@ -6,9 +6,9 @@ BEGIN(Engine)
 class ENGINE_DLL COBB : public CCollider
 {
 private:
-	COBB(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	COBB(const COBB& rhs);
-	~COBB() = default;
+	explicit COBB(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit COBB(const COBB& rhs);
+	virtual ~COBB() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();

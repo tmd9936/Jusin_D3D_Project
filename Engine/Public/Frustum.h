@@ -12,7 +12,7 @@ class CFrustum final : public CBase
     DECLARE_SINGLETON(CFrustum)
 
 private:
-    CFrustum();
+    explicit CFrustum();
     virtual ~CFrustum() = default;
 
 private:

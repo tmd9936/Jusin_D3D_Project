@@ -57,12 +57,16 @@ HRESULT CDamageText::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void
 
 	m_eRenderId = RENDER_END;
 
+	m_RandSumPos = _float2(m_Desc.m_fPositionX, m_Desc.m_fPositinoY);
+
 	return S_OK;
 }
 
 _uint CDamageText::Tick(_double TimeDelta)
 {
 	Show_TimeCheck(TimeDelta);
+
+	m_RandSumPos.y -= _float(TimeDelta * 11.0);
 
 	return _uint();
 }
@@ -136,6 +140,8 @@ void CDamageText::Show_Damage(_uint damage, _float4 vColor, _float2 vScale, _flo
 	m_Desc.m_Rotation = rotation;
 	m_Desc.m_vRotationOrigin = vRotationOrigin;
 
+	m_RandSumPos.y = m_Desc.m_fPositinoY;
+
 	m_pTransformCom->Set_Scaled({ m_Desc.m_vScale.x, m_Desc.m_vScale.y, 1.f });
 	m_ShowTImeAcc = m_ShowTime;
 	m_eRenderId = RENDER_UI;
@@ -151,7 +157,6 @@ void CDamageText::Show_TimeCheck(const _double& TimeDelta)
 		{
 			m_ShowTImeAcc = 0.0;
 			m_eRenderId = RENDER_END;
-			m_RandSumPos = { _float(rand() % 50 - 25),  _float(rand() % 50 - 25) };
 		}
 	}
 }		
@@ -185,17 +190,6 @@ HRESULT CDamageText::SetUp_ShaderResources()
 	Safe_Release(pGameInstance);
 
 	return S_OK;
-}
-
-_matrix CDamageText::Remove_Scale(_fmatrix Matrix)
-{
-	_matrix		Result = Matrix;
-
-	Result.r[0] = XMVector3Normalize(Result.r[0]);
-	Result.r[1] = XMVector3Normalize(Result.r[1]);
-	Result.r[2] = XMVector3Normalize(Result.r[2]);
-
-	return Result;
 }
 
 CDamageText* CDamageText::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

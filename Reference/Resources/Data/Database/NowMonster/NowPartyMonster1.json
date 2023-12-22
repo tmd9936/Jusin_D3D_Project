@@ -1,0 +1,105 @@
+{
+    "PokemonDesc": {
+        "ModelPrototypeTag": "Prototype_Component_Model_Pokemon_PM25",
+        "ModelPrototypeLevelIndex": 0,
+        "vPos": {
+            "x": 19.200000762939453,
+            "y": 0.5,
+            "z": 22.0,
+            "w": 1.0
+        },
+        "moveSpeed": 7.5,
+        "rotateSpeed": 1.2000000476837158,
+        "m_level": 24,
+        "m_exp": 0,
+        "m_maxExp": 3,
+        "m_monsterNo": 25,
+        "m_hpBasis": 3500,
+        "m_attackBasis": 110,
+        "m_hpGrow": 1,
+        "m_attackGrow": 1,
+        "m_type1": 12,
+        "m_type2": 12,
+        "m_normalSkillType": 24,
+        "m_normalSkillType2": 25,
+        "m_layerType": 0,
+        "m_skillIDs": [
+            58,
+            57
+        ],
+        "m_stones": [
+            {
+                "m_isOpen": true,
+                "m_type": 2,
+                "m_equip_stoneID": 0,
+                "m_state": 1,
+                "m_value": 111,
+                "m_stoneType": 0
+            },
+            {
+                "m_isOpen": false,
+                "m_type": 0,
+                "m_equip_stoneID": 0,
+                "m_state": 1,
+                "m_value": 111,
+                "m_stoneType": 0
+            },
+            {
+                "m_isOpen": false,
+                "m_type": 1,
+                "m_equip_stoneID": 0,
+                "m_state": 1,
+                "m_value": 111,
+                "m_stoneType": 0
+            },
+            {
+                "m_isOpen": true,
+                "m_type": 1,
+                "m_equip_stoneID": 0,
+                "m_state": 1,
+                "m_value": 111,
+                "m_stoneType": 0
+            },
+            {
+                "m_isOpen": true,
+                "m_type": 2,
+                "m_equip_stoneID": 0,
+                "m_state": 1,
+                "m_value": 111,
+                "m_stoneType": 0
+            },
+            {
+                "m_isOpen": false,
+                "m_type": 1,
+                "m_equip_stoneID": 0,
+                "m_state": 1,
+                "m_value": 111,
+                "m_stoneType": 0
+            },
+            {
+                "m_isOpen": true,
+                "m_type": 0,
+                "m_equip_stoneID": 0,
+                "m_state": 1,
+                "m_value": 111,
+                "m_stoneType": 0
+            },
+            {
+                "m_isOpen": true,
+                "m_type": 0,
+                "m_equip_stoneID": 0,
+                "m_state": 1,
+                "m_value": 111,
+                "m_stoneType": 0
+            },
+            {
+                "m_isOpen": false,
+                "m_type": 2,
+                "m_equip_stoneID": 0,
+                "m_state": 1,
+                "m_value": 111,
+                "m_stoneType": 0
+            }
+        ]
+    }
+}

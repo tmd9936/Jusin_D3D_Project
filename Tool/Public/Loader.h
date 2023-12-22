@@ -12,6 +12,8 @@ END
 
 BEGIN(Client)
 
+class CMainApp;
+
 class CLoader final : public CBase
 {
 private:
@@ -41,7 +43,8 @@ public:
 	HRESULT Loading_ForBaseCampLevel();
 	HRESULT Loading_ForWorldMapLevel();
 	HRESULT Loading_ForStageLevel();
-
+	HRESULT Loading_ForPokemonStateLevel();
+	HRESULT Loading_ForFeedingLevel();
 
 
 private:

@@ -6,6 +6,8 @@
 #include "VIBuffer_FlatTerrain.h"
 
 #include "VIBuffer_Rect_Instance.h"
+#include "VIBuffer_Point_Instance.h"
+#include "VIBuffer_Trail.h"
 #pragma endregion
 
 #pragma region COMPONENT
@@ -21,6 +23,8 @@
 #include "Navigation.h"
 #include "HP.h"
 #include "Attack.h"
+#include "Formation.h"
+#include "ManualCollisionState.h"
 #pragma endregion
 
 #pragma region COLLIDER
@@ -55,7 +59,7 @@ public:
 	HRESULT Add_Prototype(_uint iLevelIndex, const _tchar* pPrototypeTag, class CComponent* pPrototype);
 	class CComponent* Clone_Component(_uint iLevelIndex, const _tchar* pPrototypeTag, CGameObject* pGameObject, void* pArg = nullptr);
 
-	_bool	Check_Prototype(const wstring& prototypeTag);
+	_bool	Check_Prototype(const wstring prototypeTag);
 
 private:
 	unordered_map<wstring, class CComponent*>* m_pPrototypes = { nullptr };

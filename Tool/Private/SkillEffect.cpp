@@ -39,6 +39,14 @@ HRESULT CSkillEffect::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, voi
 		m_EffectDesc.m_underFlag = (*(EFFECT_DESC*)(pArg)).m_underFlag;
 
 		m_EffectDesc.m_AnimationLoopTime = (*(EFFECT_DESC*)(pArg)).m_AnimationLoopTime;
+		m_EffectDesc.m_AnimationStartAcc = (*(EFFECT_DESC*)(pArg)).m_AnimationStartAcc;
+
+		m_EffectDesc.m_AnimationLoop = (*(EFFECT_DESC*)(pArg)).m_AnimationLoop;
+
+		m_EffectDesc.m_AnimationSpeed = (*(EFFECT_DESC*)(pArg)).m_AnimationSpeed;
+		m_EffectDesc.m_CurrentLoopCount = (*(EFFECT_DESC*)(pArg)).m_CurrentLoopCount;
+		m_EffectDesc.m_IsParts = (*(EFFECT_DESC*)(pArg)).m_IsParts;
+
 	}
 
 
@@ -48,12 +56,12 @@ HRESULT CSkillEffect::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, voi
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
-	m_eRenderId = RENDER_BLEND;
+	m_eRenderId = RENDER_NONLIGHT;
 
 	_float3 vPos{};
 	XMStoreFloat3(&vPos, m_pTransformCom->Get_State(CTransform::STATE_POSITION));
 
-	m_pNavigationCom->Set_Index_By_Position({ vPos.x, vPos.y, vPos.z });
+	//m_pNavigationCom->Set_Index_By_Position({ vPos.x, vPos.y, vPos.z });
 
 	m_pModelCom->Set_Animation(0);
 
@@ -88,22 +96,19 @@ _uint CSkillEffect::LateTick(_double TimeDelta)
 			else
 				XMStoreFloat4x4(&m_EffectDesc.m_FinalWorldMatrix, m_pTransformCom->Get_WorldMatrix_Matrix() * m_EffectDesc.pParent->Get_Position_Matrix());
 
-		m_pNavigationCom->Set_Index_By_Position({ m_EffectDesc.m_FinalWorldMatrix.m[3][0],
-			m_EffectDesc.m_FinalWorldMatrix.m[3][1], m_EffectDesc.m_FinalWorldMatrix.m[3][2] });
+		//m_pNavigationCom->Set_Index_By_Position({ m_EffectDesc.m_FinalWorldMatrix.m[3][0],
+		//	m_EffectDesc.m_FinalWorldMatrix.m[3][1], m_EffectDesc.m_FinalWorldMatrix.m[3][2] });
 	}
 	else
 	{
 		_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-		m_pNavigationCom->Set_Index_By_Position({ XMVectorGetX(vPos), XMVectorGetY(vPos), XMVectorGetZ(vPos) });
+		//m_pNavigationCom->Set_Index_By_Position({ XMVectorGetX(vPos), XMVectorGetY(vPos), XMVectorGetZ(vPos) });
 	}
 
 	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
 
-
 #ifdef _DEBUG
-
-
-	m_pNavigationCom->Render();
+	m_pRendererCom->Add_DebugRenderGroup(m_pNavigationCom);
 
 #endif // _DEBUG
 
@@ -119,13 +124,13 @@ HRESULT CSkillEffect::Render()
 
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
-		if (FAILED(m_pModelCom->SetUp_ShaderResource(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
-			return E_FAIL;
+		//if (FAILED(m_pModelCom->SetUp_ShaderResource(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
+		//	return E_FAIL;
 
 		if (FAILED(m_pModelCom->SetUp_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
 			return E_FAIL;
 
-		m_pShaderCom->Begin(0);
+		m_pShaderCom->Begin(3);
 
 		m_pModelCom->Render(i);
 	}
@@ -162,6 +167,41 @@ void CSkillEffect::Set_Parent(CBone* pBoneParent, CTransform* pTransformParent, 
 	m_EffectDesc.m_IsParts = true;
 }
 
+void CSkillEffect::Set_Parent(CBone* pBoneParent, CTransform* pTransformParent, _matrix PivotMatrix)
+{
+	if (nullptr == pBoneParent || nullptr == pTransformParent)
+		return;
+
+	XMStoreFloat4x4(&m_EffectDesc.PivotMatrix, PivotMatrix);
+
+	Set_ParentBone(pBoneParent);
+	Set_ParentTransform(pTransformParent);
+
+	m_EffectDesc.m_IsParts = true;
+}
+
+void CSkillEffect::Set_Parent(CBone* pBoneParent, CTransform* pTransformParent)
+{
+	if (nullptr == pBoneParent || nullptr == pTransformParent)
+		return;
+
+	Set_ParentBone(pBoneParent);
+	Set_ParentTransform(pTransformParent);
+
+	m_EffectDesc.m_IsParts = true;
+}
+
+void CSkillEffect::Set_ParentNoParts(CBone* pBoneParent, CTransform* pTransformParent, _matrix PivotMatrix)
+{
+	if (nullptr == pBoneParent || nullptr == pTransformParent)
+		return;
+
+	XMStoreFloat4x4(&m_EffectDesc.PivotMatrix, PivotMatrix);
+
+	Set_ParentBone(pBoneParent);
+	Set_ParentTransform(pTransformParent);
+}
+
 void CSkillEffect::Set_AnimaitonStartTime(_double time)
 {
 	m_EffectDesc.m_AnimationStartAcc = time;
@@ -173,7 +213,7 @@ void CSkillEffect::Set_AnimaitonStartTime(_double time)
 
 void CSkillEffect::Loop_Count_Check(const _double& TimeDelta)
 {
-	if (m_pModelCom->Play_Animation(TimeDelta * m_EffectDesc.m_AnimationSpeed))
+	if (m_pModelCom->Play_Animation(TimeDelta * m_EffectDesc.m_AnimationSpeed, m_EffectDesc.m_AnimationLoop))
 	{
 		m_pModelCom->Set_Animation_Start_Time(m_EffectDesc.m_AnimationStartAcc);
 
@@ -241,28 +281,9 @@ HRESULT CSkillEffect::SetUp_ShaderResources()
 		&pGameInstance->Get_Transform_Float4x4(CPipeLine::D3DTS_PROJ))))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_RawValue("g_vCamPosition",
-		&pGameInstance->Get_CamPosition(), sizeof(_float4))))
-		return E_FAIL;
-
-	const LIGHTDESC* pLightDesc = pGameInstance->Get_Light(0);
-	if (nullptr == pLightDesc)
-		return E_FAIL;
-
-	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightDir",
-		&pLightDesc->vDirection, sizeof(_float4))))
-		return E_FAIL;
-
-	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightDiffuse",
-		&pLightDesc->vDiffuse, sizeof(_float4))))
-		return E_FAIL;
-
-	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightAmbient",
-		&pLightDesc->vAmbient, sizeof(_float4))))
-		return E_FAIL;
-
-	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightSpecular",
-		&pLightDesc->vSpecular, sizeof(_float4))))
+	_float cameraFar = pGameInstance->Get_CameraFar();
+	if (FAILED(m_pShaderCom->Set_RawValue("g_CameraFar",
+		&cameraFar, sizeof(_float))))
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);

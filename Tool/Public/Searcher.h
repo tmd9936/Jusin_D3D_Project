@@ -8,7 +8,6 @@ class CTransform;
 class CRenderer;
 class CShader;
 class CModel;
-class CPickingCube;
 class CSphere;
 END
 
@@ -31,8 +30,8 @@ public:
 	};
 
 private:
-	CSearcher(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CSearcher(const CSearcher& rhs);
+	explicit CSearcher(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CSearcher(const CSearcher& rhs);
 	virtual ~CSearcher() = default;
 
 public:
@@ -41,7 +40,6 @@ public:
 
 	virtual _uint Tick(_double TimeDelta) override;
 	virtual _uint LateTick(_double TimeDelta) override;
-	virtual HRESULT Render() override;
 
 public:
 	void	Set_Active(_bool bActive) {
@@ -68,8 +66,7 @@ private:
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 던진다. */
 
 private:
-	CRenderer* m_pRendererCom = { nullptr };
-	CSphere* m_pSphereCom = { nullptr };
+	CSphere*			m_pSphereCom = { nullptr };
 
 private:
 	SEARCHER_DESC		m_Desc = {};

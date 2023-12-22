@@ -7,18 +7,16 @@
 
 #include "Effect.h"
 
-/*
-	프로토 타입에 공격 스킬의 특성 미리 저장 해놓고 
-	그냥 그 프로토 타입을 Clone해서 가져오기
+#include "AttackEffect.h"
 
-	비슷한 특성의 공격스킬은 같은 프로토 타입으로 하고 상태이상이나 모델등만 다르게
+#include "RushAttackEffect.h"
+#include "HommingAttackEffect.h"
+#include "BezierAttackEffect.h"
+#include "ChargeEffect.h"
+#include "ConditionData.h"
+#include "BumerangAttackEffect.h"
 
-	인덱스로 스킬 사용-> 인덱스에 맞는 프로토 타입 생성 및 부모의 값 전달
-	->스킬 사용
-
-*/
-
-
+#include "BuffState.h"
 
 
 CSkill_Manager::CSkill_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -29,8 +27,8 @@ CSkill_Manager::CSkill_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pCont
 
 CSkill_Manager::CSkill_Manager(const CSkill_Manager& rhs)
 	: CGameObject(rhs)
-	, m_Skill_Depend_Datas(rhs.m_Skill_Depend_Datas)
-	, m_Skill_Desc_Datas(rhs.m_Skill_Desc_Datas)
+	, m_Skill_Depend_Datas(move(rhs.m_Skill_Depend_Datas))
+	, m_Skill_Desc_Datas(move(rhs.m_Skill_Desc_Datas))
 {
 
 }
@@ -330,82 +328,786 @@ CSkill* CSkill_Manager::Create_Skill(const _tchar* pLayerTag, _uint iLevelIndex,
 	return pSkill;
 }
 
+HRESULT CSkill_Manager::CreateSkill(const _tchar* pLayerTag, _uint iLevelIndex,
+	_uint skillType, _uint damage, _fmatrix vParentMatrix, 
+	CBone * pBone, CTransform* pParentTransform, _fmatrix PivotMatrix, CBuffState* pBuffState, const _uint& monsterNo)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+
+	if (skillType >= m_Skill_Depend_Datas.size() || nullptr == pLayerTag || iLevelIndex >= LEVEL_END)
+		return E_FAIL;
+
+	CEffect_Manager* pEffect_Manager = dynamic_cast<CEffect_Manager*>(pGameInstance->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"Effect_Manager"));
+
+	if (nullptr == pEffect_Manager)
+		return E_FAIL;
+
+	CConditionData* pConditionData = dynamic_cast<CConditionData*>(pGameInstance->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"ConditionData"));
+
+	if (nullptr == pConditionData)
+		return E_FAIL;
+
+	CSkillEffect* pSkillEffect = nullptr;
+
+	CSkill::Skill_Desc skill_desc = m_Skill_Desc_Datas[skillType];
+
+	_vector vLook = pParentTransform->Get_NoScaleState(CTransform::STATE_LOOK);
+	_vector vPos = vParentMatrix.r[3];
+
+	if (skillType <= 35 && skillType % 2 == 1) // 원거리 공격
+	{
+		Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[0], vLook, vPos, pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
+
+		pSkillEffect = pEffect_Manager->CreateEffect(m_Skill_Depend_Datas[skillType].m_effects[1], L"Prototype_GameObject_RushAttackEffect", pLayerTag, iLevelIndex);
+
+		CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
+		if (nullptr == pTransform)
+			return E_FAIL;
+		pTransform->LookAt(XMVectorSetW(vLook, 1.f));
+
+		_float4 pos = {};
+		XMStoreFloat4(&pos, vPos + vLook * 0.5f);
+		pSkillEffect->Set_Pos(pos);
+
+		CAttackEffect::ATTACK_EFFECT_DESC desc{};
+		Set_NormalAttackDesc(desc, skillType, pSkillEffect, pConditionData);
+
+		dynamic_cast<CRushAttackEffect*>(pSkillEffect)->Set_RushSpeed(0.5);
+		pSkillEffect->Init_LoopCount(2);
+
+		Set_AttackPower(pSkillEffect, _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f)));
+
+		Safe_Release(pSkillEffect);
+	}
+	else if (skillType == 50) // 하이드럼 펌프
+	{
+		for (size_t i = 1; i <= 4; ++i)
+		{
+			CChargeEffect::CHARGE_EFFECT_DESC desc{};
+			desc.m_ChargeTime = skill_desc.m_chargeSecond * (0.15f * i);
+			desc.m_NextEffectPrototypeTag = L"Prototype_GameObject_" + skill_desc.m_skillPath;
+			desc.m_NextEffectTypeIndex = m_Skill_Depend_Datas[skillType].m_effects[1];
+			desc.m_NextEffectType = EFFECT_TYPE_ATTACK;
+			desc.m_NextEffectPower = _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f));
+			desc.m_AttackDesc.m_bContinue = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Continue;
+			desc.m_AttackDesc.m_CollisionEffectType = m_Skill_Depend_Datas[skillType].m_effects[2];
+			desc.m_AttackDesc.m_bKnockBack = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Knockback;
+			desc.m_AttackDesc.effectDesc.m_IsParts = false;
+			desc.m_AttackDesc.m_ConditionDataID = Get_ConditionDataID(pConditionData, skillType, 0);
+
+			pSkillEffect = pEffect_Manager->Create_Charge_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex, desc, monsterNo);
+			if (nullptr != pSkillEffect)
+				pSkillEffect->Set_ParentNoParts(pBone, pParentTransform, PivotMatrix);
+
+			CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
+			if (nullptr == pTransform)
+				return E_FAIL;
+			pTransform->LookAt(XMVectorSetW(vLook, 1.f));
+			
+			//pTransform->Set_Scaled({ 0.5f, 0.5f, 0.5f });
+
+			_float4 pos = {};
+			XMStoreFloat4(&pos, vPos + vLook * _float(rand() % 5 + 2) * 0.4f);
+
+			//pos.y = 1.5f;
+			pos.x += (rand() % 10 - 5) * 0.6f;
+
+			pSkillEffect->Set_Pos(pos);
+
+			Safe_Release(pSkillEffect);
+		}
+	}
+	else if (skillType == 57) // 10만 볼트
+	{
+		CChargeEffect::CHARGE_EFFECT_DESC desc{};
+		desc.m_ChargeTime = skill_desc.m_chargeSecond * 0.2f;
+		desc.m_NextEffectPrototypeTag = L"Prototype_GameObject_" + skill_desc.m_skillPath;
+		desc.m_NextEffectTypeIndex = m_Skill_Depend_Datas[skillType].m_effects[1];
+		desc.m_NextEffectType = EFFECT_TYPE_ATTACK;
+		desc.m_NextEffectNum = 3;
+		desc.m_NextEffectAngles = { XMConvertToRadians(0.f), XMConvertToRadians(120.f), XMConvertToRadians(240.f) };
+		desc.m_NextEffectPower = _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f));
+		desc.m_AttackDesc.m_bContinue = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Continue;
+		desc.m_AttackDesc.m_CollisionEffectType = m_Skill_Depend_Datas[skillType].m_effects[2];
+		desc.m_AttackDesc.m_bKnockBack = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Knockback;
+		desc.m_AttackDesc.effectDesc.m_IsParts = true;
+		desc.m_AttackDesc.m_ConditionDataID = Get_ConditionDataID(pConditionData, skillType, 0);
+
+		pSkillEffect = pEffect_Manager->Create_Charge_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex, desc, monsterNo);
+		if (nullptr != pSkillEffect)
+			pSkillEffect->Set_Parent(pBone, pParentTransform, PivotMatrix);
+
+		CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
+		if (nullptr == pTransform)
+			return E_FAIL;
+		pTransform->LookAt(XMVectorSetW(vLook, 1.f));
+
+		CGameInstance::GetInstance()->PlaySoundW(L"SE_SKILL_Zyumanborruto.ogg", Engine::SOUND_SKILL_EFFECT0);
+
+		Safe_Release(pSkillEffect);
+	}
+	else if (skillType == 58) // 스파크
+	{
+		Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[1], vLook, XMVectorSet(0.f, 0.1f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix * XMMatrixRotationAxis({ 0.f, 1.f, 0.f, 0.f }, XMConvertToRadians(180.f)));
+		Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[2], vLook, XMVectorSet(0.f, 0.1f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix * XMMatrixRotationAxis({ 0.f, 1.f, 0.f, 0.f }, XMConvertToRadians(180.f)));
+
+		pSkillEffect = pEffect_Manager->CreateEffect(m_Skill_Depend_Datas[skillType].m_effects[0], 
+			L"Prototype_GameObject_AttackEffect", pLayerTag, iLevelIndex);
+		if (nullptr != pSkillEffect)
+		{
+			pSkillEffect->Set_Parent(pBone, pParentTransform, PivotMatrix * XMMatrixRotationAxis({ 0.f, 1.f, 0.f, 0.f }, XMConvertToRadians(180.f)));
+			pSkillEffect->Set_ParentRotateApply(true);
+		}
+
+		CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
+		if (nullptr == pTransform)
+			return E_FAIL;
+		//pTransform->LookAt(XMVectorSetW(vLook, 1.f));
+
+		CAttackEffect::ATTACK_EFFECT_DESC desc{};
+		Set_NormalAttackDesc(desc, skillType, pSkillEffect, pConditionData);
+
+		Set_AttackPower(pSkillEffect, _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f)));
+
+		Safe_Release(pSkillEffect);
+
+		CGameInstance::GetInstance()->PlaySoundW(L"SE_SKILL_Spark.ogg", Engine::SOUND_SKILL_EFFECT0);
+	}
+	else if (skillType == 72) // 냉동빔
+	{
+		CChargeEffect::CHARGE_EFFECT_DESC desc{};
+		desc.m_ChargeTime = skill_desc.m_chargeSecond * 0.1f;
+		desc.m_NextEffectPrototypeTag = L"Prototype_GameObject_" + skill_desc.m_skillPath;
+		desc.m_NextEffectTypeIndex = m_Skill_Depend_Datas[skillType].m_effects[2];
+		desc.m_NextEffectType = EFFECT_TYPE_ATTACK;
+		desc.m_NextEffectPower = _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f));
+		desc.m_AttackDesc.m_bContinue = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Continue;
+		desc.m_AttackDesc.m_CollisionEffectType = m_Skill_Depend_Datas[skillType].m_effects[3];
+		desc.m_AttackDesc.m_bKnockBack = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Knockback;
+		desc.m_AttackDesc.effectDesc.m_IsParts = false;
+		desc.m_AttackDesc.m_ConditionDataID = Get_ConditionDataID(pConditionData, skillType, 0);
+
+		pSkillEffect = pEffect_Manager->Create_Charge_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex, desc, monsterNo);
+		if (nullptr != pSkillEffect)
+			pSkillEffect->Set_Parent(pBone, pParentTransform, PivotMatrix);
+
+		CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
+		if (nullptr == pTransform)
+			return E_FAIL;
+		pTransform->LookAt(XMVectorSetW(vLook, 1.f));
+		pTransform->Set_Pos({ 0.f, 0.f, -0.6f, 1.f });
+
+
+		Safe_Release(pSkillEffect);
+		//===============================================
+		desc.m_ChargeTime = skill_desc.m_chargeSecond * 0.11f;
+		desc.m_NextEffectPrototypeTag = L"Prototype_GameObject_" + skill_desc.m_skillPath;
+		desc.m_NextEffectTypeIndex = m_Skill_Depend_Datas[skillType].m_effects[2];
+		desc.m_NextEffectType = EFFECT_TYPE_ATTACK;
+		desc.m_NextEffectPower = _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f));
+		desc.m_AttackDesc.m_bContinue = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Continue;
+		desc.m_AttackDesc.m_CollisionEffectType = m_Skill_Depend_Datas[skillType].m_effects[3];
+		desc.m_AttackDesc.m_bKnockBack = false;
+		desc.m_AttackDesc.effectDesc.m_IsParts = false;
+
+		pSkillEffect = pEffect_Manager->Create_Charge_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex, desc, monsterNo);
+		if (nullptr != pSkillEffect)
+			pSkillEffect->Set_Parent(pBone, pParentTransform, PivotMatrix);
+
+		pTransform = pSkillEffect->Get_As<CTransform>();
+		if (nullptr == pTransform)
+			return E_FAIL;
+		pTransform->LookAt(XMVectorSetW(vLook, 1.f));
+		pTransform->Set_Pos({0.f, 0.f, -0.6f, 1.f});
+
+
+		Safe_Release(pSkillEffect);
+	}
+
+	else if (skillType == 79) // 얼다 바람
+	{
+		CChargeEffect::CHARGE_EFFECT_DESC desc{};
+		desc.m_ChargeTime = skill_desc.m_chargeSecond * 0.1f;
+		desc.m_NextEffectPrototypeTag = L"Prototype_GameObject_" + skill_desc.m_skillPath;
+		desc.m_NextEffectTypeIndex = m_Skill_Depend_Datas[skillType].m_effects[1];
+		desc.m_NextEffectType = EFFECT_TYPE_ATTACK;
+		desc.m_NextEffectPower = _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f));
+		desc.m_AttackDesc.m_bContinue = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Continue;
+		desc.m_AttackDesc.m_CollisionEffectType = m_Skill_Depend_Datas[skillType].m_effects[3];
+		desc.m_AttackDesc.m_bKnockBack = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Knockback;
+		desc.m_AttackDesc.effectDesc.m_IsParts = false;
+		desc.m_AttackDesc.m_ConditionDataID = Get_ConditionDataID(pConditionData, skillType, 0);
+
+		pSkillEffect = pEffect_Manager->Create_Charge_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex, desc, monsterNo);
+		if (nullptr != pSkillEffect)
+			pSkillEffect->Set_Parent(pBone, pParentTransform, PivotMatrix);
+
+		CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
+		if (nullptr == pTransform)
+			return E_FAIL;
+		pTransform->LookAt(XMVectorSetW(vLook, 1.f));
+
+		_float4 pos = {};
+		XMStoreFloat4(&pos, vLook * 0.5f);
+		pSkillEffect->Set_Pos(pos);
+
+		Safe_Release(pSkillEffect);
+		//===============================================
+		desc.m_ChargeTime = skill_desc.m_chargeSecond * 0.1f;
+		desc.m_NextEffectPrototypeTag = L"Prototype_GameObject_" + skill_desc.m_skillPath;
+		desc.m_NextEffectTypeIndex = m_Skill_Depend_Datas[skillType].m_effects[2];
+		desc.m_NextEffectType = EFFECT_TYPE_ATTACK;
+		desc.m_NextEffectPower = _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 40) * 0.01f));
+		desc.m_AttackDesc.m_bContinue = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Continue;
+		desc.m_AttackDesc.m_CollisionEffectType = m_Skill_Depend_Datas[skillType].m_effects[3];
+		desc.m_AttackDesc.m_bKnockBack = false;
+		desc.m_AttackDesc.effectDesc.m_IsParts = false;
+		//desc.m_AttackDesc.m_ConditionDataID = Get_ConditionDataID(pConditionData, skillType, 0);
+
+		pSkillEffect = pEffect_Manager->Create_Charge_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex, desc, monsterNo);
+		if (nullptr != pSkillEffect)
+			pSkillEffect->Set_Parent(pBone, pParentTransform, PivotMatrix);
+
+		pTransform = pSkillEffect->Get_As<CTransform>();
+		if (nullptr == pTransform)
+			return E_FAIL;
+		pTransform->LookAt(XMVectorSetW(vLook, 1.f));
+
+		pos = {};
+		XMStoreFloat4(&pos, vLook * 0.5f);
+		pSkillEffect->Set_Pos(pos);
+
+		Safe_Release(pSkillEffect);
+	}
+	else if (skillType == 89) // 독침
+	{
+		Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[0], vLook, XMVectorSet(0.f, 0.5f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
+
+		pSkillEffect = pEffect_Manager->CreateEffect(m_Skill_Depend_Datas[skillType].m_effects[1], L"Prototype_GameObject_RushAttackEffect", pLayerTag, iLevelIndex);
+
+		CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
+		if (nullptr == pTransform)
+			return E_FAIL;
+
+		pTransform->LookAt(XMVectorSetW(vLook, 1.f));
+
+		CAttackEffect::ATTACK_EFFECT_DESC desc{};
+		Set_NormalAttackDesc(desc, skillType, pSkillEffect, pConditionData);
+
+		_float4 pos = {};
+		XMStoreFloat4(&pos, vPos);
+		pSkillEffect->Set_Pos(pos);
+
+		dynamic_cast<CRushAttackEffect*>(pSkillEffect)->Set_RushSpeed(0.7);
+
+		//pSkillEffect->Init_LoopCount();
+
+		Set_AttackPower(pSkillEffect, _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f)));
+
+		Safe_Release(pSkillEffect);
+	}
+	else if (skillType == 90) // 독폭탄
+	{
+		Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[0], vLook, XMVectorSet(0.f, 0.f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
+
+		pSkillEffect = pEffect_Manager->CreateEffect(m_Skill_Depend_Datas[skillType].m_effects[1], L"Prototype_GameObject_BezierAttackEffect", pLayerTag, iLevelIndex);
+
+		CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
+		if (nullptr == pTransform)
+			return E_FAIL;
+
+		pTransform->LookAt(XMVectorSetW(vLook, 1.f));
+		pTransform->Set_TransforDesc({ XMConvertToRadians(20.f), XMConvertToRadians(0.f) });
+		pTransform->Set_Scaled({ 1.5f, 1.5f, 1.5f });
+
+		_float4 pos1 = {};
+		XMStoreFloat4(&pos1, vPos + (vLook * 0.25f));
+		pSkillEffect->Set_Pos(pos1);
+
+		_float4 pos2 = {};
+		XMStoreFloat4(&pos2, vPos + (vLook * 0.75f));
+
+		_float4 pos3 = {};
+		XMStoreFloat4(&pos3, vPos + (vLook * 1.5f));
+
+		CAttackEffect::ATTACK_EFFECT_DESC desc{};
+		Set_NormalAttackDesc(desc, skillType, pSkillEffect, pConditionData);
+
+		desc.m_bKnockBack = true;
+
+		static_cast<CBezierAttackEffect*>(pSkillEffect)->Set_BezierPointsWithSpeed(
+			{ pos1.x, pos1.y, pos1.z },
+			{ pos2.x, pos2.y + 1.5f, pos2.z },
+			{ pos3.x, 0.f, pos3.z }, 1.7f
+		);
+
+		pSkillEffect->Init_LoopCount(7);
+
+		Set_AttackPower(pSkillEffect, _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f)));
+
+		Safe_Release(pSkillEffect);
+	}
+	else if (skillType == 96) // 진흙 뿌리기
+	{
+		for (size_t i = 1; i <= 3; ++i)
+		{
+			Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[0], vLook, XMVectorSet(0.f, 0.5f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
+
+			pSkillEffect = pEffect_Manager->CreateEffect(m_Skill_Depend_Datas[skillType].m_effects[1], L"Prototype_GameObject_RushAttackEffect", pLayerTag, iLevelIndex);
+
+			CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
+			if (nullptr == pTransform)
+				return E_FAIL;
+
+			pTransform->LookAt(XMVectorSetW(vLook, 1.f));
+			if (i == 1)
+			{
+				pTransform->Turn({ 0.f, 1.f, 0.f, 0.f }, XMConvertToRadians(10.f));
+			}
+			else if (i == 2)
+			{
+				pTransform->Turn({ 0.f, 1.f, 0.f, 0.f }, XMConvertToRadians(-10.f));
+			}
+
+			CAttackEffect::ATTACK_EFFECT_DESC desc{};
+			Set_NormalAttackDesc(desc, skillType, pSkillEffect, pConditionData);
+
+			_float4 pos = {};
+			XMStoreFloat4(&pos, vPos);
+			pSkillEffect->Set_Pos(pos);
+
+			dynamic_cast<CRushAttackEffect*>(pSkillEffect)->Set_RushSpeed(0.7);
+
+			//pSkillEffect->Init_LoopCount();
+
+			Set_AttackPower(pSkillEffect, _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f)));
+
+			Safe_Release(pSkillEffect);
+		}
+	}
+	else if (skillType == 97) // 뼈부메랑
+	{
+		Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[0], vLook, XMVectorSet(0.f, 0.5f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
+
+		pSkillEffect = pEffect_Manager->CreateEffect(m_Skill_Depend_Datas[skillType].m_effects[1], L"Prototype_GameObject_BumerangAttackEffect", pLayerTag, iLevelIndex);
+
+		CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
+		if (nullptr == pTransform)
+			return E_FAIL;
+		pTransform->LookAt(XMVectorSetW(vLook, 1.f));
+
+		CAttackEffect::ATTACK_EFFECT_DESC desc{};
+		Set_NormalAttackDesc(desc, skillType, pSkillEffect, pConditionData);
+
+		_float4 pos = {};
+		XMStoreFloat4(&pos, vPos);
+		pSkillEffect->Set_Pos(pos);
+
+		dynamic_cast<CBumerangAttackEffect*>(pSkillEffect)->Set_RushSpeed(0.7);
+		dynamic_cast<CBumerangAttackEffect*>(pSkillEffect)->Set_ChangeToBackTime(0.9);
+
+		pSkillEffect->Init_LoopCount(10);
+
+		Set_AttackPower(pSkillEffect, _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f)));
+
+		Safe_Release(pSkillEffect);
+	}
+	else if (skillType == 100) // 지진
+	{
+		CChargeEffect::CHARGE_EFFECT_DESC desc{};
+		desc.m_ChargeTime = skill_desc.m_chargeSecond * 0.2f;
+		desc.m_NextEffectPrototypeTag = L"Prototype_GameObject_" + skill_desc.m_skillPath;
+		desc.m_NextEffectTypeIndex = m_Skill_Depend_Datas[skillType].m_effects[1];
+		desc.m_NextEffectType = EFFECT_TYPE_ATTACK;
+		desc.m_NextEffectNum = 7;
+		desc.m_NextEffectAngles = { XMConvertToRadians(0.f), XMConvertToRadians(45.f),  XMConvertToRadians(90.f), XMConvertToRadians(135.f),
+			XMConvertToRadians(180.f), XMConvertToRadians(225.f), XMConvertToRadians(315.f) };
+		desc.m_NextEffectPower = _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f));
+		desc.m_vScale = _float3(2.5f, 2.5f, 2.5f);
+		desc.m_AttackDesc.m_bContinue = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Continue;
+		desc.m_AttackDesc.m_CollisionEffectType = m_Skill_Depend_Datas[skillType].m_effects[2];
+		desc.m_AttackDesc.m_bKnockBack = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Knockback;
+		desc.m_AttackDesc.effectDesc.m_IsParts = true;
+		desc.m_AttackDesc.m_ConditionDataID = Get_ConditionDataID(pConditionData, skillType, 0);
+
+		pSkillEffect = pEffect_Manager->Create_Charge_Effect(m_Skill_Depend_Datas[skillType].m_effects[0], pLayerTag, iLevelIndex, desc, monsterNo);
+		if (nullptr != pSkillEffect)
+			pSkillEffect->Set_ParentNoParts(pBone, pParentTransform, PivotMatrix);
+
+		CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
+		if (nullptr == pTransform)
+			return E_FAIL;
+		pTransform->LookAt(XMVectorSetW(vLook, 1.f));
+
+		_float4 pos = {};
+		pos.y = 1.5f;
+		XMStoreFloat4(&pos, vPos);
+
+		pSkillEffect->Set_Pos(pos);
+
+		Safe_Release(pSkillEffect);
+	}
+	else if (skillType == 116) // 베리어
+	{
+		if (nullptr == pBuffState)
+			return E_FAIL;
+
+		_uint conditionDataID = m_Skill_Depend_Datas[skillType].m_conditions[0];
+
+		CConditionData::CONDITIONDATA_DESC conditionDataDesc{};
+		pConditionData->Get_ConditonData(conditionDataDesc, conditionDataID);
+		_uint conditinoTypeID = conditionDataDesc.m_type;
+
+		CConditionData::CONDITIONTYPEDATA_DESC conditionTypeDataDesc = pConditionData->Get_ConditonTypeData(conditinoTypeID);
+
+		Create_No_ChargeEffect(conditionTypeDataDesc.m_effectType, vLook, XMVectorSet(0.f, 0.f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
+
+		pBuffState->Set_BuffState(conditinoTypeID, skillType, (CBuffState::BUFF_STATE)conditionTypeDataDesc.m_id,
+			conditionTypeDataDesc.m_iconPath.c_str(), conditionDataDesc.m_Value_A, conditionDataDesc.m_Value_B,
+			conditionDataDesc.m_time, conditionDataDesc.m_ratio);
+	}
+	else if (skillType == 164) // 돌진 
+	{
+		Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[1], vLook, XMVectorSet(0.f, 0.0f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
+
+		pSkillEffect = pEffect_Manager->CreateEffect(m_Skill_Depend_Datas[skillType].m_effects[0], 
+			L"Prototype_GameObject_AttackEffect", pLayerTag, iLevelIndex);
+
+		CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
+		if (nullptr == pTransform)
+			return E_FAIL;
+
+		if (nullptr != pSkillEffect)
+		{
+			pSkillEffect->Set_Parent(pBone, pParentTransform, PivotMatrix * XMMatrixRotationAxis({ 0.f, 1.f, 0.f, 0.f }, XMConvertToRadians(180.f)));
+			//pSkillEffect->Set_ParentRotateApply(true);
+		}
+
+		//pTransform->LookAt(XMVectorSetW(vLook, 1.f));
+
+		CAttackEffect::ATTACK_EFFECT_DESC desc{};
+		Set_NormalAttackDesc(desc, skillType, pSkillEffect, pConditionData, 1);
+
+		_float4 pos = {};
+		XMStoreFloat4(&pos, XMVectorSetW(vLook * 0.15f, 1.f));
+		pSkillEffect->Set_Pos(pos);
+
+		Set_AttackPower(pSkillEffect, _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f)));
+
+		Safe_Release(pSkillEffect);
+	}
+	else if (skillType == 168) // 메가톤 펀치
+	{
+		for (size_t i = 1; i <= 2; ++i)
+		{
+			Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[0], vLook, XMVectorSet(0.f, 0.5f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
+
+			pSkillEffect = pEffect_Manager->CreateEffect(m_Skill_Depend_Datas[skillType].m_effects[1], L"Prototype_GameObject_AttackEffect", pLayerTag, iLevelIndex);
+
+			CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
+			if (nullptr == pTransform)
+				return E_FAIL;
+			pTransform->LookAt(XMVectorSetW(vLook, 1.f));
+
+			CAttackEffect::ATTACK_EFFECT_DESC desc{};
+			Set_NormalAttackDesc(desc, skillType, pSkillEffect, pConditionData);
+
+			_float4 pos = {};
+			XMStoreFloat4(&pos, vPos + (vLook * 0.75f * _float(i)));
+			pSkillEffect->Set_Pos(pos);
+
+			pTransform->Set_Scaled({ 2.8f, 2.8f, 2.8f });
+
+			Set_AttackPower(pSkillEffect, _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f)));
+
+			Safe_Release(pSkillEffect);
+		}
+	}
+	else if (skillType == 177) // 째려보기
+	{
+		pSkillEffect = pEffect_Manager->CreateEffect(m_Skill_Depend_Datas[skillType].m_effects[0], L"Prototype_GameObject_AttackEffect", pLayerTag, iLevelIndex);
+
+		CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
+		if (nullptr == pTransform)
+			return E_FAIL;
+		pTransform->LookAt(XMVectorSetW(vLook, 1.f));
+
+		CAttackEffect::ATTACK_EFFECT_DESC desc{};
+		Set_NormalAttackDesc(desc, skillType, pSkillEffect, pConditionData, 1);
+
+		_float4 pos = {};
+		XMStoreFloat4(&pos, vPos + vLook * 0.5f);
+		pSkillEffect->Set_Pos(pos);
+
+		Set_AttackPower(pSkillEffect, _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f)));
+
+		Safe_Release(pSkillEffect);
+	}
+	else if (skillType == 179) // 초음파
+	{
+		for (size_t i = 0; i < 8; ++i)
+		{
+			pSkillEffect = pEffect_Manager->CreateEffect(m_Skill_Depend_Datas[skillType].m_effects[1], L"Prototype_GameObject_RushAttackEffect", pLayerTag, iLevelIndex);
+
+			CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
+			if (nullptr == pTransform)
+				return E_FAIL;
+
+			pTransform->LookAt(XMVectorSetW(vLook, 1.f));
+			pTransform->Turn({ 0.f, 1.f, 0.f, 0.f }, XMConvertToRadians(40.f) * i);
+
+			CAttackEffect::ATTACK_EFFECT_DESC desc{};
+			Set_NormalAttackDesc(desc, skillType, pSkillEffect, pConditionData, 0);
+
+			_float4 pos = {};
+			XMStoreFloat4(&pos, vPos);
+			pSkillEffect->Set_Pos(pos);
+
+			dynamic_cast<CRushAttackEffect*>(pSkillEffect)->Set_RushSpeed(0.3);
+
+			//pSkillEffect->Init_LoopCount();
+
+			Set_AttackPower(pSkillEffect, _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f)));
+
+			Safe_Release(pSkillEffect);
+		}
+	}
+	else if (skillType == 188) // 돌떨구기
+	{
+		for (size_t i = 1; i <= 2; ++i)
+		{
+			Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[0], vLook, XMVectorSet(0.f, 0.f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
+
+			pSkillEffect = pEffect_Manager->CreateEffect(m_Skill_Depend_Datas[skillType].m_effects[1], L"Prototype_GameObject_BezierAttackEffect", pLayerTag, iLevelIndex);
+
+			CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
+			if (nullptr == pTransform)
+				return E_FAIL;
+
+			pTransform->LookAt(XMVectorSetW(vLook, 1.f));
+			pTransform->Set_TransforDesc({ XMConvertToRadians(10.f), XMConvertToRadians(350.f) });
+			pTransform->Set_Scaled({ 2.f, 2.f, 2.f });
+
+			_float4 pos1 = {};
+			XMStoreFloat4(&pos1, vPos + (vLook * 0.25f * (_float)i));
+			pSkillEffect->Set_Pos(pos1);
+
+			_float4 pos2 = {};
+			XMStoreFloat4(&pos2, vPos + (vLook * 0.75f * (_float)i));
+
+			_float4 pos3 = {};
+			XMStoreFloat4(&pos3, vPos + (vLook * 1.5f * (_float)i));
+
+			CAttackEffect::ATTACK_EFFECT_DESC desc{};
+			Set_NormalAttackDesc(desc, skillType, pSkillEffect, pConditionData, 3);
+
+			desc.m_bKnockBack = true;
+
+			static_cast<CBezierAttackEffect*>(pSkillEffect)->Set_BezierPoints(
+				{ pos1.x, pos1.y, pos1.z },
+				{ pos2.x, pos2.y + 2.5f, pos2.z },
+				{ pos3.x, 0.f, pos3.z }
+			);
+			pSkillEffect->Init_LoopCount(5);
+
+			Set_AttackPower(pSkillEffect, _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f)));
+
+			Safe_Release(pSkillEffect);
+		}
+	}
+	else if (skillType == 192) // 록커트
+	{
+		if (nullptr == pBuffState)
+			return E_FAIL;
+
+		_uint conditionDataID = m_Skill_Depend_Datas[skillType].m_conditions[0];
+
+		CConditionData::CONDITIONDATA_DESC conditionDataDesc{};
+		pConditionData->Get_ConditonData(conditionDataDesc, conditionDataID);
+		_uint conditinoTypeID = conditionDataDesc.m_type;
+
+		CConditionData::CONDITIONTYPEDATA_DESC conditionTypeDataDesc = pConditionData->Get_ConditonTypeData(conditinoTypeID);
+
+		Create_No_ChargeEffect(conditionTypeDataDesc.m_effectType, vLook, XMVectorSet(0.f, 0.f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
+		
+		pBuffState->Set_BuffState(conditinoTypeID, skillType, (CBuffState::BUFF_STATE)conditionTypeDataDesc.m_id,
+			conditionTypeDataDesc.m_iconPath.c_str(), conditionDataDesc.m_Value_A, conditionDataDesc.m_Value_B, 
+			conditionDataDesc.m_time, conditionDataDesc.m_ratio);
+
+	}
+	else if (skillType == 220) // 볼트 태클
+	{
+		Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[0], vLook, XMVectorSet(0.f, 0.1f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
+		Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[1], vLook, XMVectorSet(0.f, 0.1f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
+		Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[2], vLook, XMVectorSet(0.f, 0.1f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
+
+		pSkillEffect = pEffect_Manager->CreateEffect(m_Skill_Depend_Datas[skillType].m_effects[3],
+			L"Prototype_GameObject_AttackEffect", pLayerTag, iLevelIndex);
+		if (nullptr != pSkillEffect)
+		{
+			pSkillEffect->Set_Parent(pBone, pParentTransform, PivotMatrix* XMMatrixRotationAxis({ 0.f, 1.f, 0.f, 0.f }, XMConvertToRadians(180.f)));
+			//pSkillEffect->Set_ParentRotateApply(true);
+		}
+
+		CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
+		if (nullptr == pTransform)
+			return E_FAIL;
+		//pTransform->LookAt(XMVectorSetW(vLook, 1.f));
+
+		//_float4 pos = {};
+		//XMStoreFloat4(&pos, vPos);
+		//pSkillEffect->Set_Pos(pos);
+
+		//pTransform->Set_Scaled({ 4.5f, 4.5f, 4.5f });
+
+		//pSkillEffect->Init_LoopCount(3);
+
+		CAttackEffect::ATTACK_EFFECT_DESC desc{};
+		Set_NormalAttackDesc(desc, skillType, pSkillEffect, pConditionData, 4);
+
+		Set_AttackPower(pSkillEffect, _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f)));
+
+		Safe_Release(pSkillEffect);
+
+		CGameInstance::GetInstance()->PlaySoundW(L"SE_SKILL_Borutotakkuru.ogg", Engine::SOUND_SKILL_EFFECT3);
+	}
+	else
+	{
+		Create_No_ChargeEffect(m_Skill_Depend_Datas[skillType].m_effects[0], vLook, XMVectorSet(0.f, 0.f, 0.f, 1.f), pLayerTag, iLevelIndex, pBone, pParentTransform, PivotMatrix);
+
+		pSkillEffect = pEffect_Manager->CreateEffect(m_Skill_Depend_Datas[skillType].m_effects[1], L"Prototype_GameObject_AttackEffect", pLayerTag, iLevelIndex);
+
+		CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
+		if (nullptr == pTransform)
+			return E_FAIL;
+		pTransform->LookAt(XMVectorSetW(vLook, 1.f));
+
+		CAttackEffect::ATTACK_EFFECT_DESC desc{};
+		Set_NormalAttackDesc(desc, skillType, pSkillEffect, pConditionData);
+
+		_float4 pos = {};
+		XMStoreFloat4(&pos, vPos + vLook * 0.5f);
+		pSkillEffect->Set_Pos(pos);
+
+		Set_AttackPower(pSkillEffect, _uint(damage * skill_desc.m_damagePercent * ((rand() % 10 + 95) * 0.01f)));
+
+		Safe_Release(pSkillEffect);
+	}
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
 CSkill* CSkill_Manager::Do_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType, _uint damage,
-	_fmatrix vParentMatrix, CModel* pModel, const char* boneTag, CTransform* pParentTransform)
+	_fmatrix vParentMatrix, CModel* pModel, const char* boneTag, CTransform* pParentTransform, CBuffState* pBuffState, const _uint& monsterNo)
 {
 	if (nullptr == pLayerTag || nullptr == pModel || nullptr == pParentTransform)
 		return nullptr;
 
-	//pSkill = dynamic_cast<CSkill_Manager*>(pSkill_Mananger)->Create_Skill(pLayer, m_iLevelindex, skillType, m_pAttackCom->Get_AttackPower(),
-	//	m_pTransformCom->Get_WorldMatrix_Matrix(), XMConvertToRadians(0.f), XMConvertToRadians(0.f), m_pModelCom->Get_BonePtr("effect00"), m_pTransformCom, m_pModelCom->Get_PivotMatrix(), false, 0.0, 2);
-
 	CSkill* pSkill = nullptr;
-	if (skillType == 57) // 10만 볼트
+	if (skillType <= 35 && skillType % 2 == 0) // 근거리 공격
 	{
-		pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
-			vParentMatrix, XMConvertToRadians(60.f), XMConvertToRadians(180.f), pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
-
-		Safe_Release(pSkill);
-	}
-	else if (skillType == 58) // 볼테커
-	{
-		pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
-			vParentMatrix, XMConvertToRadians(0.f), XMConvertToRadians(0.f), pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
-
-		Safe_Release(pSkill);
-	}
-	else if (skillType == 100) // 지진
-	{
-		pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
-			vParentMatrix, XMConvertToRadians(0.f), XMConvertToRadians(0.f), pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
-
-		Safe_Release(pSkill);
-	}
-	else if (skillType == 164) // 돌진
-	{
-		pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
-			vParentMatrix, XMConvertToRadians(0.f), XMConvertToRadians(0.f), pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix());
-
-		Safe_Release(pSkill);
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState, monsterNo);
 	}
 	else if (skillType <= 35 && skillType % 2 == 1) // 원거리 공격
 	{
-		pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
-			vParentMatrix, XMConvertToRadians(0.f), XMConvertToRadians(0.f), pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), true, 0.5);
-
-		Safe_Release(pSkill);
-	}
-	else if (skillType == 79) // 얼다 바람
-	{
-		pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
-			vParentMatrix, XMConvertToRadians(0.f), XMConvertToRadians(0.f), pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), true, 1.0);
-
-		Safe_Release(pSkill);
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage, 
+			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState, monsterNo);
 	}
 	else if (skillType == 50) // 하이드럼 펌프
 	{
-		pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
-			vParentMatrix, XMConvertToRadians(0.f), XMConvertToRadians(0.f), pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), true, 0.4, 3);
-
-		Safe_Release(pSkill);
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState, monsterNo);
 	}
-
+	else if (skillType == 57) // 10만 볼트
+	{
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState, monsterNo);
+	}
+	else if (skillType == 58) // 볼테커
+	{
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState, monsterNo);
+	}
+	else if (skillType == 72) // 냉동빔
+	{
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState, monsterNo);
+	}
+	else if (skillType == 79) // 얼다 바람
+	{
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState, monsterNo);
+	}
+	else if (skillType == 89) // 독침
+	{
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState, monsterNo);
+	}
+	else if (skillType == 90) // 독폭탄
+	{
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState, monsterNo);
+	}
+	else if (skillType == 96) // 진흙 뿌리기
+	{
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState, monsterNo);
+	}
+	else if (skillType == 97) // 뼈부메랑
+	{
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState, monsterNo);
+	}
+	else if (skillType == 100) // 지진
+	{
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState, monsterNo);
+	}
+	else if (skillType == 116) // 베리어
+	{
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState, monsterNo);
+	}
+	else if (skillType == 164) // 돌진
+	{
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState, monsterNo);
+	}
 	else if (skillType == 168) // 메가톤 펀치
 	{
-		pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
-			vParentMatrix, XMConvertToRadians(0.f), XMConvertToRadians(0.f), pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), true, 0.0, 2);
-
-		Safe_Release(pSkill);
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState, monsterNo);
 	}
-
+	else if (skillType == 177) // 째려보기
+	{
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState, monsterNo);
+	}
+	else if (skillType == 179) // 초음파
+	{
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState, monsterNo);
+	}
 	else if (skillType == 188) // 돌떨구기
 	{
-		pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
-			vParentMatrix, XMConvertToRadians(60.f), XMConvertToRadians(60.f), pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), false, 0.4, 2);
-
-		Safe_Release(pSkill);
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState, monsterNo);
 	}
+	else if (skillType == 192) // 록커트
+	{
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState, monsterNo);
 
+	}
+	else if (skillType == 220) // 볼트 태클
+	{
+		CreateSkill(pLayerTag, iLevelIndex, skillType, damage,
+			vParentMatrix, pModel->Get_BonePtr(boneTag), pParentTransform, pModel->Get_PivotMatrix(), pBuffState, monsterNo);
+	}
 	else
 	{
 		pSkill = Create_Skill(pLayerTag, iLevelIndex, skillType, damage,
@@ -417,55 +1119,6 @@ CSkill* CSkill_Manager::Do_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _ui
 	return pSkill;
 }
 
-
-CSkill* CSkill_Manager::Create_Monster_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType, _uint damage,
-	_fmatrix vParentMatrix, _float smallRotationSpeed, _float bigRotationSpeed,
-	CBone* pParentBone, CTransform* pParentTransform, _fmatrix PivotMatrix, _bool bRush, _double rushSpeed, _uint extendNum)
-{
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
-
-	if (skillType >= m_Skill_Depend_Datas.size() || nullptr == pLayerTag || iLevelIndex >= LEVEL_END)
-		return nullptr;
-
-	CEffect_Manager* pEffect_Manager = dynamic_cast<CEffect_Manager*>(pGameInstance->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"Effect_Manager"));
-
-	if (nullptr == pEffect_Manager)
-		return nullptr;
-
-	CSkill::Skill_Desc skill_desc = m_Skill_Desc_Datas[skillType];
-
-	_float4x4 pivotMatrix = {};
-	XMStoreFloat4x4(&pivotMatrix, PivotMatrix);
-
-	CSkill* pSkill = nullptr;
-
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Skill"), iLevelIndex, pLayerTag, (CGameObject**)&pSkill, nullptr, &skill_desc)))
-		return nullptr;
-
-	vector<_uint> chargeEffects;
-	vector<_uint> attackEffects;
-	vector<_uint> collisionEffects;
-	vector<_uint> conditionEffects;
-
-	chargeEffects.push_back(m_Skill_Depend_Datas[skillType].m_effects[0]);
-
-	//if (m_Skill_Depend_Datas[skillType].m_effects.size() == 2)
-	//{
-	//	attackEffects.push_back(m_Skill_Depend_Datas[skillType].m_effects[1]);
-	//}
-
-	//if (m_Skill_Depend_Datas[skillType].m_effects.size() == 3)
-	//{
-	//	collisionEffects.push_back(m_Skill_Depend_Datas[skillType].m_effects[2]);
-	//}
-
-	
-
-	//pSkill->Set_ChargeEffectTypes(m_Skill_Depend_Datas[skillType].m_effects[0]);
-
-	return pSkill;
-}
 
 CSkill* CSkill_Manager::Create_Test_Skill(const _tchar* pLayerTag, _uint iLevelIndex, _uint skillType, _fmatrix vParentMatrix)
 {
@@ -565,6 +1218,8 @@ _bool CSkill_Manager::Load_By_JsonFile_Impl(Document& doc)
 
 	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
 
+	m_Skill_Depend_Datas.reserve((size_t)m_datas.Size());
+
 	for (SizeType i = 0; i < m_datas.Size(); ++i)
 	{
 		SKILL_DEPEND_DATA m_desc{};
@@ -620,6 +1275,8 @@ bool CSkill_Manager::Load_SkillDataResourcesSet_JsonFile(const char* filePath)
 
 		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
 
+		m_Skill_Desc_Datas.reserve((size_t)m_datas.Size());
+
 		for (SizeType i = 0; i < m_datas.Size(); ++i)
 		{
 			CSkill::SKILL_DESC m_desc{};
@@ -644,7 +1301,7 @@ bool CSkill_Manager::Load_SkillDataResourcesSet_JsonFile(const char* filePath)
 			m_desc.m_isEnablePotential_Knockback = (_bool)m_datas[i]["m_isEnablePotential_Knockback"].GetUint();
 			m_desc.m_isEnablePotential_Damage = (_bool)m_datas[i]["m_isEnablePotential_Damage"].GetUint();
 
-			m_Skill_Desc_Datas.push_back(m_desc);
+			m_Skill_Desc_Datas.push_back(move(m_desc));
 		}
 
 		/* 구현부 끝 */
@@ -657,6 +1314,67 @@ bool CSkill_Manager::Load_SkillDataResourcesSet_JsonFile(const char* filePath)
 	}
 }
 
+void CSkill_Manager::Create_No_ChargeEffect(_uint skillType, _vector vLook, _vector vPos, const _tchar* pLayerTag, _uint iLevelIndex,
+	CBone* pBone, CTransform* pParentTransform, _fmatrix PivotMatrix)
+{
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	CEffect_Manager* pEffect_Manager = dynamic_cast<CEffect_Manager*>(pGameInstance->Get_Object(LEVEL_STATIC, L"Layer_Manager", L"Effect_Manager"));
+
+	if (nullptr == pEffect_Manager)
+		return;
+
+	CSkillEffect* pSkillEffect = nullptr;
+
+	pSkillEffect = pEffect_Manager->CreateEffect(skillType, L"Prototype_GameObject_SkillEffect", pLayerTag, iLevelIndex);
+	if (nullptr != pSkillEffect)
+	{
+		pSkillEffect->Set_Parent(pBone, pParentTransform, PivotMatrix);
+		pSkillEffect->Set_ParentRotateApply(true);
+	}
+
+	CTransform* pTransform = pSkillEffect->Get_As<CTransform>();
+	if (nullptr == pTransform)
+		return;
+	//pTransform->LookAt(XMVectorSetW(vLook * -1.f, 1.f));
+	//pTransform->Rotation({ 0.f, 1.f, 0.f, 0.f }, XMConvertToRadians(180.f));
+
+
+	_float4 pos = {};
+	XMStoreFloat4(&pos, vPos);
+	pSkillEffect->Set_Pos(pos);
+
+	Safe_Release(pSkillEffect);
+}
+
+void CSkill_Manager::Set_NormalAttackDesc(CAttackEffect::ATTACK_EFFECT_DESC& desc, const _uint& skillType, 
+	CSkillEffect* pSkillEffect, CConditionData* pConditionData, _uint collisionEffectType)
+{
+	desc.m_AttackTime = 1.0;
+	desc.m_bContinue = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Continue;
+	desc.m_CollisionEffectType = m_Skill_Depend_Datas[skillType].m_effects[collisionEffectType];
+	desc.m_bKnockBack = m_Skill_Desc_Datas[skillType].m_isEnablePotential_Knockback;
+	desc.m_ConditionDataID = Get_ConditionDataID(pConditionData, skillType, 0);
+
+	static_cast<CAttackEffect*>(pSkillEffect)->Set_AttackDesc(desc);
+}
+
+void CSkill_Manager::Set_AttackPower(CSkillEffect* pSkillEffect, const _uint& damage)
+{
+	CAttack* pAttack = pSkillEffect->Get_As<CAttack>();
+	if (nullptr != pAttack)
+	{
+		pAttack->Set_AttackPower(damage);
+	}
+}
+
+_uint CSkill_Manager::Get_ConditionDataID(CConditionData* pConditionData, const _uint& skillType, const _uint& conditionDataID)
+{
+	if (m_Skill_Depend_Datas[skillType].m_conditions.empty())
+		return 0;
+
+	return  m_Skill_Depend_Datas[skillType].m_conditions[conditionDataID];
+}
 
 HRESULT CSkill_Manager::Add_Components()
 {

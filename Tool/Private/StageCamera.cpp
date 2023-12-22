@@ -3,6 +3,8 @@
 
 #include "GameInstance.h"
 
+#include "StageCameraTarget.h"
+
 CStageCamera::CStageCamera(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CCamera(pDevice, pContext)
 {
@@ -40,20 +42,9 @@ HRESULT CStageCamera::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, con
 		m_strSaveJsonPath = filePath;
 	}
 
-	CGameObject* pCameraTarget = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_CameraTarget", L"CameraTarget");
-	if (nullptr == pCameraTarget)
-		return E_FAIL;
-	CTransform* pTransform = pCameraTarget->Get_As<CTransform>();
-
-	_float4 targetPos = {};
-	XMStoreFloat4(&targetPos, pTransform->Get_State(CTransform::STATE_POSITION));
-
-	m_StageCameraDesc.CameraDesc.vAt = targetPos;
-	m_StageCameraDesc.CameraDesc.vEye = _float4(targetPos.x + m_StageCameraDesc.m_DistancefromAt.x, targetPos.y +
-		m_StageCameraDesc.m_DistancefromAt.y, targetPos.z + m_StageCameraDesc.m_DistancefromAt.z, 1.f);
-
-	m_vNorVectorFromAt = XMVector4Normalize(XMLoadFloat4(&m_StageCameraDesc.CameraDesc.vEye) - XMLoadFloat4(&m_StageCameraDesc.CameraDesc.vAt));
-
+	if (FAILED(Init_CameraPos()))
+		return E_FAIL;	
+	
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, &m_StageCameraDesc.CameraDesc)))
 		return E_FAIL;
 
@@ -62,40 +53,572 @@ HRESULT CStageCamera::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, con
 
 _uint CStageCamera::Tick(_double TimeDelta)
 {
-	if (KEY_TAB(KEY::K))
+	/*if (KEY_TAB(KEY::K))
 		m_pTransform->Go_Straight((_float)TimeDelta);
 	else if (KEY_TAB(KEY::M))
-		m_pTransform->Go_Backward((_float)TimeDelta);
+		m_pTransform->Go_Backward((_float)TimeDelta);*/
+
+	Camemra_Shake_CoolTimeCheck(TimeDelta);
+
+	Skill_Zoom_In_CoolTImeCheck(TimeDelta);
 
 	return __super::Tick(TimeDelta);
 }
 
 _uint CStageCamera::LateTick(_double TimeDelta)
 {
-	CGameObject* pCameraTarget = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_CameraTarget", L"CameraTarget");
-	if (nullptr == pCameraTarget)
-		return E_FAIL;
-	CTransform* pTransform = pCameraTarget->Get_As<CTransform>();
+	State_LateTick(TimeDelta);
 
-	_vector movePoint = pTransform->Get_State(CTransform::STATE_POSITION) + (m_vNorVectorFromAt * m_StageCameraDesc.m_distance);
-	/*_float4 targetPos = {};
-	XMStoreFloat4(&targetPos, pTransform->Get_State(CTransform::STATE_POSITION));*/
-
-	m_pTransform->ChaseNoLook(movePoint, (_float)TimeDelta * m_StageCameraDesc.m_moveSpeed, 0.2f);
-
-	m_StageCameraDesc.CameraDesc = m_CameraDesc;
-
+	if (KEY_TAB(KEY::L))
+	{
+		Do_Shake();
+	}
+	State_Change();
 
 	return __super::LateTick(TimeDelta);
 }
 
-void CStageCamera::Data_Save_Logic()
+_uint CStageCamera::State_LateTick(const _double& TimeDelta)
 {
-	CGameObject* pCameraTarget = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_CameraTarget", L"CameraTarget");
-	if (nullptr == pCameraTarget)
+	switch (m_eCurState)
+	{
+	case STATE_FADE_IN:
+		FadeIn_Chase_CameraAt(TimeDelta);
+		break;
+	case STATE_FORMATION:
+		Chase_CameraAt(TimeDelta);
+		break;
+	case STATE_BATTLE:
+		Chase_CameraAt(TimeDelta);
+		break;
+	case STATE_SHAKE:
+		Camera_Shake_LateTick(TimeDelta);
+		break;
+	case STATE_SKILL_ZOOM_IN:
+		Skill_Zoom_In_LateTick(TimeDelta);
+		break;
+	case STATE_MOVE_TO_MONSTER:
+		Move_To_LookTargetMonster(TimeDelta);
+		break;
+	case STATE_LOOK_AT_MONSTER:
+		LookTargetMonster_TimeCheck(TimeDelta);
+		break;
+	case STATE_MOVE_TO_BOSS:
+		Move_To_LookTargetBoss(TimeDelta);
+		break;
+	case STATE_LOOK_AT_BOSS:
+		LookTargetMonster_TimeCheck(TimeDelta);
+		break;
+	case STATE_RETURN_TO_PLAYER:
+		Return_To_Player(TimeDelta);
+		break;
+	case STATE_STAGE_CLEAR:
+		break;
+	}
+
+	return _uint();
+}
+
+void CStageCamera::State_Change()
+{
+	if (m_eCurState != m_ePreState)
+	{
+		switch (m_eCurState)
+		{
+		case STATE_FADE_IN:
+			CameraTarget_Formation_Start();
+			break;
+		case STATE_FORMATION:
+			CameraTarget_Formation_Start();
+			break;
+		case STATE_SHAKE:
+			CameraTarget_Formation_Stop();
+			Camemra_Shake_Init();
+			break;
+		case STATE_BATTLE:
+			CameraTarget_Formation_Start();
+			break;
+		case STATE_SKILL_ZOOM_IN:
+			break;
+		case STATE_MOVE_TO_MONSTER:
+			break;
+		case STATE_LOOK_AT_MONSTER:
+			m_movePointLookTime = 1.5f;
+			m_movePointLookTimeAcc = 0.0;
+			break;
+		case STATE_MOVE_TO_BOSS:
+			m_movePointLookTimeAcc = 0.0;
+			break;
+		case STATE_LOOK_AT_BOSS:
+			m_movePointLookTime = 2.5f;
+			m_movePointLookTimeAcc = 0.0;
+			Boss_Roar_Action();
+			break;
+		case STATE_RETURN_TO_PLAYER:
+			//CameraTarget_Formation_Stop();
+			break;
+		case STATE_STAGE_CLEAR:
+			CameraTarget_Formation_Stop();
+			break;
+		}
+
+		m_ePreState = m_eCurState;
+	}
+}
+
+HRESULT CStageCamera::Init_CameraPos()
+{
+	CGameObject* pTarget = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_CameraTarget", L"CameraTarget");
+	if (nullptr == pTarget)
+		return E_FAIL;
+
+	m_pStageCameraTarget = static_cast<CStageCameraTarget*>(pTarget);
+	Safe_AddRef(m_pStageCameraTarget);
+
+	CTransform* pTransform = m_pStageCameraTarget->Get_As<CTransform>();
+
+	_float4 targetPos = {};
+	XMStoreFloat4(&targetPos, pTransform->Get_State(CTransform::STATE_POSITION));
+
+	m_StageCameraDesc.CameraDesc.vAt = targetPos;
+	m_StageCameraDesc.CameraDesc.vEye = _float4(targetPos.x + m_StageCameraDesc.m_DistancefromAt.x, targetPos.y +
+		m_StageCameraDesc.m_DistancefromAt.y, targetPos.z + m_StageCameraDesc.m_DistancefromAt.z, 1.f);
+
+	m_vDistanceVectorFromAt = XMVector4Normalize(XMLoadFloat4(&m_StageCameraDesc.CameraDesc.vEye) - XMLoadFloat4(&m_StageCameraDesc.CameraDesc.vAt));
+
+	return S_OK;
+}
+
+_uint CStageCamera::Chase_CameraAt(const _double& TimeDelta)
+{
+	//CGameObject* pCameraTarget = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_CameraTarget", L"CameraTarget");
+	if (nullptr == m_pStageCameraTarget)
+		return 0;
+	CTransform* pTransform = m_pStageCameraTarget->Get_As<CTransform>();
+
+	if (nullptr == pTransform)
+		return 0;
+
+	Change_AdditionalDistanceByCameraAt(TimeDelta);
+
+	_vector movePoint = pTransform->Get_State(CTransform::STATE_POSITION) + (m_vDistanceVectorFromAt * m_StageCameraDesc.m_distance * m_CurAdditionalDistance);
+
+	m_pTransform->ChaseNoLook(movePoint, (_float)TimeDelta, 0.4f);
+
+	m_StageCameraDesc.CameraDesc = m_CameraDesc;
+
+	return 0;
+}
+
+_uint CStageCamera::FadeIn_Chase_CameraAt(const _double& TimeDelta)
+{
+	if (nullptr == m_pStageCameraTarget)
+		return 0;
+	CTransform* pTransform = m_pStageCameraTarget->Get_As<CTransform>();
+
+	if (nullptr == pTransform)
+		return 0;
+
+	_vector movePoint = pTransform->Get_State(CTransform::STATE_POSITION) + (m_vDistanceVectorFromAt * m_StageCameraDesc.m_distance);
+	if (m_pTransform->ChaseNoLook(movePoint, (_float)TimeDelta * m_StageCameraDesc.m_moveSpeed * 50.f, 1.8f))
+	{
+		m_eCurState = STATE_FORMATION;
+	}
+
+	m_StageCameraDesc.CameraDesc = m_CameraDesc;
+
+	return 0;
+}
+
+void CStageCamera::CameraTarget_Formation_Start()
+{
+	if (nullptr == m_pStageCameraTarget)
 		return;
 
-	CTransform* pTargetTransform = pCameraTarget->Get_As<CTransform>();
+	m_pStageCameraTarget->Start_Formation();
+}
+
+void CStageCamera::CameraTarget_Formation_Stop()
+{
+	if (nullptr == m_pStageCameraTarget)
+		return;
+
+	m_pStageCameraTarget->Stop_Formation();
+}
+
+void CStageCamera::Change_AdditionalDistanceByCameraAt(const _double& TimeDelta)
+{
+	if (nullptr == m_pStageCameraTarget)
+		return;
+
+	CStageCameraTarget::MOVE_STATE moveState = m_pStageCameraTarget->Get_MoveState();
+
+	switch (moveState)
+	{
+	case Client::CStageCameraTarget::MOVE_STATE_NONE:
+		break;
+	case Client::CStageCameraTarget::MOVE_STATE_WIDEN:
+		Zoom_Out_From_CameraTarget(TimeDelta);
+		break;
+	case Client::CStageCameraTarget::MOVE_STATE_NARROW:
+		Zoom_In_From_CameraTarget(TimeDelta);
+		break;
+	}
+}
+
+void CStageCamera::Change_AdditionalDistanceByCulling(const _double& TimeDelta)
+{
+	if (Get_PlayerCulling(L"Player1"))
+	{
+		Zoom_Out_From_CameraTarget(TimeDelta);
+		return;
+	}
+	if (Get_PlayerCulling(L"Player2"))
+	{
+		Zoom_Out_From_CameraTarget(TimeDelta);
+		return;
+	}
+	if (Get_PlayerCulling(L"Player3"))
+	{
+		Zoom_Out_From_CameraTarget(TimeDelta);
+		return;
+	}
+
+	Zoom_In_From_CameraTarget(TimeDelta);
+}
+
+_bool CStageCamera::Get_PlayerCulling(const _tchar* pObjectTag)
+{
+	CGameObject* pPlyaer = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Player", pObjectTag);
+	if (nullptr == pPlyaer)
+		return false;
+
+	return pPlyaer->Is_BeCulling();
+}
+
+void CStageCamera::Zoom_Out_From_CameraTarget(const _double& TimeDelta)
+{
+	m_CurAdditionalDistance += (_float)TimeDelta;
+
+	if (m_CurAdditionalDistance > m_StageCameraDesc.m_distanceMax)
+	{
+		m_CurAdditionalDistance = m_StageCameraDesc.m_distanceMax;
+	}
+	m_MaxZoomTimeAcc = m_StageCameraDesc.m_maxZoomTime;
+}
+
+_bool CStageCamera::Zoom_In_From_CameraTarget(const _double& TimeDelta)
+{
+	if (m_MaxZoomTimeAcc > 0.0)
+	{
+		m_MaxZoomTimeAcc -= TimeDelta;
+		return false;
+	}
+	else
+	{
+		m_CurAdditionalDistance -= (_float)TimeDelta;
+
+		if (m_CurAdditionalDistance < m_StageCameraDesc.m_distanceMin)
+		{
+			m_CurAdditionalDistance = m_StageCameraDesc.m_distanceMin;
+		}
+
+		return true;
+	}
+}
+
+void CStageCamera::Skill_Zoom_In_LateTick(const _double& TimeDelta)
+{
+	if (nullptr == m_pSkillZoomInTarget || m_pSkillZoomInTarget->Is_Dead())
+	{
+		Skill_Zoom_In_End();
+		return;
+	}
+
+	CMonFSM* pFSM = m_pSkillZoomInTarget->Get_As<CMonFSM>();
+
+	if (pFSM->Get_MotionState() == CMonFSM::FORMATION_NORMAL || pFSM->Get_MotionState() == CMonFSM::FORMATION_RUN ||
+		pFSM->Get_MotionState() == CMonFSM::IDLE1 || pFSM->Get_MotionState() == CMonFSM::IDLE2 || pFSM->Get_MotionState() == CMonFSM::IDLE_GROUND)
+	{
+		Skill_Zoom_In_End();
+		return;
+	}
+
+	CTransform* pTransform = m_pSkillZoomInTarget->Get_As<CTransform>();
+
+	if (nullptr == pTransform)
+	{
+		Skill_Zoom_In_End();
+		return;
+	}
+
+	_vector movePoint = pTransform->Get_State(CTransform::STATE_POSITION) + (m_vDistanceVectorFromAt * m_StageCameraDesc.m_distance * (_float)m_StageCameraDesc.m_skillZoomInAdditionalDistance);
+
+	m_pTransform->ChaseNoLook(movePoint, (_float)TimeDelta * (_float)m_StageCameraDesc.m_skillZoomInAdditionalSpeed, 0.4f);
+
+	m_StageCameraDesc.CameraDesc = m_CameraDesc;
+}
+
+void CStageCamera::Skill_Zoom_In_End()
+{
+	m_eCurState = STATE_FORMATION;
+	Safe_Release(m_pSkillZoomInTarget);
+	m_CurAdditionalDistance = 1.1f;
+	m_pSkillZoomInTarget = nullptr;
+}
+
+void CStageCamera::Skill_Zoom_In_CoolTImeCheck(const _double& TimeDelta)
+{
+	if (!m_CanSkillZoomIn)
+	{
+		if (m_SkillZoomInCoolTimeAcc >= m_StageCameraDesc.m_skillZoomInCoolTime)
+		{
+			m_CanSkillZoomIn = true;
+		}
+	}
+
+	if (m_SkillZoomInCoolTimeAcc <= m_StageCameraDesc.m_skillZoomInCoolTime)
+		m_SkillZoomInCoolTimeAcc += TimeDelta;
+}
+
+void CStageCamera::Move_To_LookTargetMonster(const _double& TimeDelta)
+{
+	if (nullptr == m_pMoveTargetPoint)
+	{
+		m_eCurState = STATE_FORMATION;
+	}
+
+	CTransform* pTransform = m_pMoveTargetPoint->Get_As<CTransform>();
+
+	if (nullptr == pTransform)
+		return;
+
+	if (m_CurAdditionalDistance > 1.1f)
+	{
+		m_CurAdditionalDistance -= _float(TimeDelta);
+	}
+
+	_vector movePoint = pTransform->Get_State(CTransform::STATE_POSITION) + (m_vDistanceVectorFromAt * m_StageCameraDesc.m_distance * m_CurAdditionalDistance);
+
+	if (m_pTransform->ChaseNoLook(movePoint, (_float)TimeDelta * 10.f, 0.4f))
+	{
+		m_eCurState = STATE_LOOK_AT_MONSTER;
+	}
+
+
+	m_StageCameraDesc.CameraDesc = m_CameraDesc;
+}
+
+void CStageCamera::LookTargetMonster_TimeCheck(const _double& TimeDelta)
+{
+	if (m_movePointLookTimeAcc >= m_movePointLookTime)
+	{
+		m_eCurState = STATE_RETURN_TO_PLAYER;
+	}
+
+	m_movePointLookTimeAcc += TimeDelta;
+}
+
+void CStageCamera::Return_To_Player(const _double& TimeDelta)
+{
+	if (nullptr == m_pStageCameraTarget)
+		return;
+	CTransform* pTransform = m_pStageCameraTarget->Get_As<CTransform>();
+
+	if (nullptr == pTransform)
+		return;
+
+	Change_AdditionalDistanceByCameraAt(TimeDelta);
+
+	_vector movePoint = pTransform->Get_State(CTransform::STATE_POSITION) + (m_vDistanceVectorFromAt * m_StageCameraDesc.m_distance * m_CurAdditionalDistance);
+
+	if (m_pTransform->ChaseNoLook(movePoint, (_float)TimeDelta * 10.f, 0.4f))
+	{
+		m_eCurState = STATE_FORMATION;
+	}
+
+	m_StageCameraDesc.CameraDesc = m_CameraDesc;
+}
+
+void CStageCamera::Move_To_LookTargetBoss(const _double& TimeDelta)
+{
+	if (nullptr == m_pMoveTargetPoint)
+	{
+		m_eCurState = STATE_FORMATION;
+	}
+
+	CTransform* pTransform = m_pMoveTargetPoint->Get_As<CTransform>();
+
+	if (nullptr == pTransform)
+		return;
+
+	if (m_CurAdditionalDistance > 1.1f)
+	{
+		m_CurAdditionalDistance -= _float(TimeDelta);
+	}
+
+	_vector movePoint = pTransform->Get_State(CTransform::STATE_POSITION) + (m_vDistanceVectorFromAt * m_StageCameraDesc.m_distance * m_CurAdditionalDistance);
+
+	if (m_pTransform->ChaseNoLook(movePoint, (_float)TimeDelta * 10.f, 0.4f))
+	{
+		m_eCurState = STATE_LOOK_AT_BOSS;
+	}
+
+
+	m_StageCameraDesc.CameraDesc = m_CameraDesc;
+}
+
+void CStageCamera::Boss_Roar_Action()
+{
+	CGameObject* pBoss = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_Monster", L"Boss");
+	if (nullptr == pBoss)
+		return;
+
+	CMonFSM* pFSM = pBoss->Get_As<CMonFSM>();
+	if (nullptr == pFSM)
+		return;
+
+	CModel* pModel = pBoss->Get_As<CModel>();
+	if (nullptr == pModel)
+		return;
+
+	pFSM->Transit_MotionState(CMonFSM::ROAR_BEFORE, pModel);
+}
+
+void CStageCamera::Camera_Shake_LateTick(const _double& TimeDelta)
+{
+	/* 카메라 흔들리는 순서 : 위 아래 위 아래 중간 */
+	if (m_ShakeTimeAcc > m_StageCameraDesc.m_shakeTime)
+	{
+		m_eCurState = STATE_FORMATION;
+		m_ShakeTimeAcc = 0.0;
+		m_ShakeCoolTimeAcc = 0.0;
+		return;
+	}
+
+	switch (m_CurShakeDirection)
+	{
+	case SHAKE_DIR_UP:
+		if (m_ShakePeriod)
+		{
+			m_pTransform->Rotation_Current_Coordination(XMVector3Transform(
+				m_pTransform->Get_State(CTransform::STATE_RIGHT), 
+				XMMatrixRotationAxis(m_pTransform->Get_State(CTransform::STATE_LOOK), 
+					XMConvertToRadians(45.f))), XMConvertToRadians(m_StageCameraDesc.m_shakeDegree));
+			m_ShakePeriod = false;
+		}
+		if (m_ShakePeriodTimeAcc >= m_StageCameraDesc.m_shakePeriodTime)
+		{
+			m_CurShakeDirection = SHAKE_DIR_DOWN;
+			m_ShakePeriodTimeAcc = 0.0;
+			m_ShakePeriod = true;
+		}
+		break;
+
+	case SHAKE_DIR_DOWN:
+		if (m_ShakePeriod)
+		{
+			m_pTransform->Rotation_Current_Coordination(XMVector3Transform(
+				m_pTransform->Get_State(CTransform::STATE_RIGHT), 
+				XMMatrixRotationAxis(m_pTransform->Get_State(CTransform::STATE_LOOK),
+					XMConvertToRadians(45.f))), -1.f * XMConvertToRadians(m_StageCameraDesc.m_shakeDegree));
+			m_ShakePeriod = false;
+
+		}
+		if (m_ShakePeriodTimeAcc >= m_StageCameraDesc.m_shakePeriodTime)
+		{
+			m_CurShakeDirection = SHAKE_DIR_UP;
+			m_ShakePeriodTimeAcc = 0.0;
+			m_ShakePeriod = true;
+		}
+		break;
+	}
+	
+	m_ShakePeriodTimeAcc += TimeDelta;
+	m_ShakeTimeAcc += TimeDelta;
+}
+
+void CStageCamera::Camemra_Shake_Init()
+{
+	m_CurShakeDirection = SHAKE_DIR_UP;
+	m_ShakeTimeAcc = 0.0;
+	m_ShakePeriodTimeAcc = 0.0;
+	m_ShakePeriod = true;
+}
+
+void CStageCamera::Camemra_Shake_CoolTimeCheck(const _double& TimeDelta)
+{
+	if (!m_CanShake)
+	{
+		if (m_ShakeCoolTimeAcc >= m_StageCameraDesc.m_shakeCoolTime)
+		{
+			m_CanShake = true;
+		}
+	}
+
+	if (m_ShakeCoolTimeAcc <= m_StageCameraDesc.m_shakeCoolTime)
+		m_ShakeCoolTimeAcc += TimeDelta;
+}
+
+_bool CStageCamera::Focus_To_Object(const _float4& vPosition, const _float& TImeDelta, const _float& limitDistance)
+{
+	return m_pTransform->ChaseNoLook(XMLoadFloat4(&vPosition), TImeDelta, limitDistance);
+}
+
+void CStageCamera::Do_Shake()
+{
+	if (m_CanShake && m_eCurState == STATE_FORMATION)
+	{
+		m_eCurState = STATE_SHAKE;
+		m_CanShake = false;
+	}
+}
+
+void CStageCamera::Do_Skill_Zoom_In(CGameObject* pObject)
+{
+	if (m_eCurState != STATE_FORMATION)
+		return;
+
+	if (nullptr == pObject)
+		return;
+
+	if (nullptr == pObject->Get_As<CMonFSM>())
+		return;
+
+	if (m_CanSkillZoomIn)
+	{
+		m_CanSkillZoomIn = false;
+		m_eCurState = STATE_SKILL_ZOOM_IN;
+		m_SkillZoomInCoolTimeAcc = 0.0;
+
+		m_pSkillZoomInTarget = pObject;
+		Safe_AddRef(m_pSkillZoomInTarget);
+	}
+}
+
+void CStageCamera::Set_Move_To_Point(CGameObject* pObject, _bool isBoss)
+{
+	if (nullptr == pObject)
+		return;
+
+	Safe_Release(m_pMoveTargetPoint);
+	m_pMoveTargetPoint = pObject;
+	Safe_AddRef(m_pMoveTargetPoint);
+
+	if (isBoss)
+		m_eCurState = STATE_MOVE_TO_BOSS;
+	else
+		m_eCurState = STATE_MOVE_TO_MONSTER;
+}
+
+
+void CStageCamera::Data_Save_Logic()
+{
+	//CGameObject* pCameraTarget = CGameInstance::GetInstance()->Get_Object(LEVEL_STAGE, L"Layer_CameraTarget", L"CameraTarget");
+	if (nullptr == m_pStageCameraTarget)
+		return;
+
+	CTransform* pTargetTransform = m_pStageCameraTarget->Get_As<CTransform>();
 
 	_float4 targetPos = {};
 	XMStoreFloat4(&targetPos, pTargetTransform->Get_State(CTransform::STATE_POSITION));
@@ -106,16 +629,6 @@ void CStageCamera::Data_Save_Logic()
 
 	if (KEY_TAB(KEY::V))
 		Save_By_JsonFile("../../Reference/Resources/Data/Scene/Stage/Stage_Camera.json");
-}
-
-HRESULT CStageCamera::Render()
-{
-	return S_OK;
-}
-
-_bool CStageCamera::Focus_To_Object(const _float4& vPosition, const _float& TImeDelta, const _float& limitDistance)
-{
-	return m_pTransform->ChaseNoLook(XMLoadFloat4(&vPosition), TImeDelta, limitDistance);
 }
 
 _bool CStageCamera::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator)
@@ -138,6 +651,13 @@ _bool CStageCamera::Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType
 
 		CameraDesc.AddMember("m_moveSpeed", m_StageCameraDesc.m_moveSpeed, allocator);
 		CameraDesc.AddMember("m_zoomSpeed", m_StageCameraDesc.m_zoomSpeed, allocator);
+
+		CameraDesc.AddMember("m_maxZoomTime", m_StageCameraDesc.m_maxZoomTime, allocator);
+		CameraDesc.AddMember("m_shakeCoolTime", m_StageCameraDesc.m_shakeCoolTime, allocator);
+
+		CameraDesc.AddMember("m_skillZoomInCoolTime", m_StageCameraDesc.m_skillZoomInCoolTime, allocator);
+		CameraDesc.AddMember("m_skillZoomInAdditionalDistance", m_StageCameraDesc.m_skillZoomInAdditionalDistance, allocator);
+		CameraDesc.AddMember("m_skillZoomInAdditionalSpeed", m_StageCameraDesc.m_skillZoomInAdditionalSpeed, allocator);
 
 		Value m_DistancefromAt(kObjectType);
 		{
@@ -206,6 +726,13 @@ _bool CStageCamera::Load_By_JsonFile_Impl(Document& doc)
 
 	m_StageCameraDesc.m_moveSpeed = CameraDesc["m_moveSpeed"].GetFloat();
 	m_StageCameraDesc.m_zoomSpeed = CameraDesc["m_zoomSpeed"].GetFloat();
+
+	m_StageCameraDesc.m_maxZoomTime = CameraDesc["m_maxZoomTime"].GetDouble();
+	m_StageCameraDesc.m_shakeCoolTime = CameraDesc["m_shakeCoolTime"].GetDouble();
+
+	m_StageCameraDesc.m_skillZoomInCoolTime = CameraDesc["m_skillZoomInCoolTime"].GetDouble();
+	m_StageCameraDesc.m_skillZoomInAdditionalDistance = CameraDesc["m_skillZoomInAdditionalDistance"].GetDouble();
+	m_StageCameraDesc.m_skillZoomInAdditionalSpeed = CameraDesc["m_skillZoomInAdditionalSpeed"].GetDouble();
 
 	const Value& m_DistancefromAt = CameraDesc["m_DistancefromAt"];
 	m_StageCameraDesc.m_DistancefromAt.x = m_DistancefromAt["x"].GetFloat();
@@ -291,4 +818,9 @@ CGameObject* CStageCamera::Clone(const _tchar* pLayerTag, _uint iLevelIndex, voi
 void CStageCamera::Free()
 {
 	__super::Free();
+
+	Safe_Release(m_pStageCameraTarget);
+	Safe_Release(m_pSkillZoomInTarget);
+	Safe_Release(m_pMoveTargetPoint);
+
 }

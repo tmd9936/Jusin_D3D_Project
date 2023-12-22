@@ -44,7 +44,8 @@ public:
 		_double					m_AnimationStartAcc = { 0.0 };
 		_double					m_AnimationSpeed = { 1.0 };
 
-		_int					m_LoopCount = { 0 };
+		_bool					m_AnimationLoop = { true };
+
 		_int					m_CurrentLoopCount = { 0 };
 
 		CBone*					pBonePtr = { nullptr };
@@ -54,8 +55,8 @@ public:
 	} EFFECT_DESC;
 
 protected:
-	CSkillEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CSkillEffect(const CSkillEffect& rhs);
+	explicit CSkillEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CSkillEffect(const CSkillEffect& rhs);
 	virtual ~CSkillEffect() = default;
 
 public:
@@ -70,9 +71,13 @@ public:
 	void	Set_Pos(const _float4& vPos);
 
 	void	Set_Parent(CBone* pBoneParent, CTransform* pTransformParent, _float4x4	PivotMatrix);
+	void	Set_Parent(CBone* pBoneParent, CTransform* pTransformParent, _matrix PivotMatrix);
+
+	void	Set_Parent(CBone* pBoneParent, CTransform* pTransformParent);
+
+	void	Set_ParentNoParts(CBone* pBoneParent, CTransform* pTransformParent, _matrix PivotMatrix);
 
 	void	Init_LoopCount(_uint loopCount) {
-		m_EffectDesc.m_LoopCount = loopCount;
 		m_EffectDesc.m_CurrentLoopCount = loopCount;
 	}
 
@@ -101,7 +106,7 @@ protected:
 	/// <summary>
 	/// 여기에서 이펙트의 애니메이션을 재생하고 정해진 루프 카운터를 감소시킴
 	/// </summary>
-	/// <param name="TimeDelta"></param>
+	/// <param name="TimeDelta">프레임 틱</param>
 	void		Loop_Count_Check(const _double& TimeDelta);
 
 protected:

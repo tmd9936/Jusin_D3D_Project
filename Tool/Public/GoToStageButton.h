@@ -8,8 +8,8 @@ class CGoToStageButton :
     public CButton
 {
 protected:
-    CGoToStageButton(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-    CGoToStageButton(const CGoToStageButton& rhs);
+    explicit CGoToStageButton(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+    explicit CGoToStageButton(const CGoToStageButton& rhs);
     virtual ~CGoToStageButton() = default;
 
 protected:

@@ -40,8 +40,8 @@ public:
 	};
 
 private:
-	CStagePoint(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CStagePoint(const CStagePoint& rhs);
+	explicit CStagePoint(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CStagePoint(const CStagePoint& rhs);
 	virtual ~CStagePoint() = default;
 
 public:

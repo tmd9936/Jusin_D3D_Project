@@ -1,7 +1,7 @@
 {
     "PokemonDesc": {
-        "ModelPrototypeTag": "Prototype_Component_Model_Pokemon_PM91",
-        "ModelPrototypeLevelIndex": 3,
+        "ModelPrototypeTag": "Prototype_Component_Model_Pokemon_PM95",
+        "ModelPrototypeLevelIndex": 0,
         "vPos": {
             "x": 17.0,
             "y": 0.0,
@@ -10,8 +10,8 @@
         },
         "moveSpeed": 0.5,
         "rotateSpeed": 1.2,
-        "m_monsterNo": 91,
-        "m_hpBasis": 550,
+        "m_monsterNo": 95,
+        "m_hpBasis": 2000,
         "m_attackBasis": 150,
         "m_hpGrow": 1,
         "m_attackGrow": 1,
@@ -39,17 +39,10 @@
         "m_slotTypeWeightHp": 130,
         "m_slotTypeWeightAttack": 70,
         "m_slotTypeWeightMulti": 20,
+        "m_layerType": 1,
         "m_skillIDs": [
           65,
-          70,
-          222,
-          66,
-          39,
-          164,
-          94,
-          93,
-          69,
-          64
+          70
         ]
     }
 }

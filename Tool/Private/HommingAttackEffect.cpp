@@ -1,6 +1,6 @@
 #include "HommingAttackEffect.h"
 
-#include "Skill_Manager.h";
+#include "Skill_Manager.h"
 
 #include "GameInstance.h"
 
@@ -11,11 +11,16 @@ CHommingAttackEffect::CHommingAttackEffect(ID3D11Device* pDevice, ID3D11DeviceCo
 
 CHommingAttackEffect::CHommingAttackEffect(const CHommingAttackEffect& rhs)
 	: CAttackEffect(rhs)
+	, m_HommingAttackEffectDesc(rhs.m_HommingAttackEffectDesc)
 {
 }
 
-HRESULT CHommingAttackEffect::Initialize_Prototype()
+HRESULT CHommingAttackEffect::Initialize_Prototype(Homming_Attack_Effect_Desc& desc)
 {
+	m_HommingAttackEffectDesc = desc;
+
+	m_AttackEffectDesc = m_HommingAttackEffectDesc.attackEffectDesc;
+
 	if (FAILED(__super::Initialize_Prototype()))
 		return E_FAIL;
 
@@ -26,32 +31,30 @@ HRESULT CHommingAttackEffect::Initialize(const _tchar* pLayerTag, _uint iLevelIn
 {
 	if (nullptr != pArg)
 	{
-		m_HommingAttackEffectDesc.m_bArriveHomeDead = (*(HOMMING_ATTACK_EFFECT_DESC*)(pArg)).m_bArriveHomeDead;
-		m_HommingAttackEffectDesc.m_bParentRotateApply = (*(HOMMING_ATTACK_EFFECT_DESC*)(pArg)).m_bParentRotateApply;
-		m_HommingAttackEffectDesc.m_eHommingState = (*(HOMMING_ATTACK_EFFECT_DESC*)(pArg)).m_eHommingState;
-	
-		m_HommingAttackEffectDesc.m_SmallRotation = (*(HOMMING_ATTACK_EFFECT_DESC*)(pArg)).m_SmallRotation;
-		m_HommingAttackEffectDesc.m_SmallRotationSpeed = (*(HOMMING_ATTACK_EFFECT_DESC*)(pArg)).m_SmallRotationSpeed;
-
-		m_HommingAttackEffectDesc.m_BigRotation = (*(HOMMING_ATTACK_EFFECT_DESC*)(pArg)).m_BigRotation;
-		m_HommingAttackEffectDesc.m_BigRotationRadius = (*(HOMMING_ATTACK_EFFECT_DESC*)(pArg)).m_BigRotationRadius;
-		m_HommingAttackEffectDesc.m_BigRotationSpeed = (*(HOMMING_ATTACK_EFFECT_DESC*)(pArg)).m_BigRotationSpeed;
-
-		if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, &(*(HOMMING_ATTACK_EFFECT_DESC*)(pArg)).attackEffectDesc)))
-			return E_FAIL;
-	}
-	else
-	{
 		if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, pArg)))
 			return E_FAIL;
 	}
+
+	m_EffectDesc.m_bParentRotateApply = m_HommingAttackEffectDesc.attackEffectDesc.effectDesc.m_bParentRotateApply;
+	m_EffectDesc.m_CurrentLoopCount = m_HommingAttackEffectDesc.attackEffectDesc.effectDesc.m_CurrentLoopCount;
+
+	m_EffectDesc.m_AnimationSpeed = m_HommingAttackEffectDesc.attackEffectDesc.effectDesc.m_AnimationSpeed;
+	m_EffectDesc.m_AnimationStartAcc = m_HommingAttackEffectDesc.attackEffectDesc.effectDesc.m_AnimationStartAcc;
 
 	return S_OK;
 }
 
 _uint CHommingAttackEffect::Tick(_double TimeDelta)
 {
-	__super::Tick(TimeDelta);
+	if (m_bDead)
+		return OBJ_DEAD;
+
+	if (m_EffectDesc.m_CurrentLoopCount < 0)
+		return OBJ_DEAD;
+
+	Loop_Count_Check(TimeDelta);
+
+	Attack_Time_Check(TimeDelta);
 
 	Small_Rotation(TimeDelta);
 	Homming(TimeDelta);
@@ -60,12 +63,12 @@ _uint CHommingAttackEffect::Tick(_double TimeDelta)
 	return _uint();
 }
 
-//_uint CHommingAttackEffect::LateTick(_double TimeDelta)
-//{
-//	__super::LateTick(TimeDelta);
-//
-//	return _uint();
-//}
+_uint CHommingAttackEffect::LateTick(_double TimeDelta)
+{
+	__super::LateTick(TimeDelta);
+
+	return _uint();
+}
 
 
 void CHommingAttackEffect::Small_Rotation(const _double& TimeDelta)
@@ -129,11 +132,11 @@ void CHommingAttackEffect::Big_Rotation(const _double& TimeDelta)
 	}
 }
 
-CHommingAttackEffect* CHommingAttackEffect::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CHommingAttackEffect* CHommingAttackEffect::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, Homming_Attack_Effect_Desc& desc)
 {
 	CHommingAttackEffect* pInstance = new CHommingAttackEffect(pDevice, pContext);
 
-	if (FAILED(pInstance->Initialize_Prototype()))
+	if (FAILED(pInstance->Initialize_Prototype(desc)))
 	{
 		MSG_BOX("Failed to Created CHommingAttackEffect");
 		Safe_Release(pInstance);
@@ -158,8 +161,5 @@ CGameObject* CHommingAttackEffect::Clone(const _tchar* pLayerTag, _uint iLevelIn
 void CHommingAttackEffect::Free()
 {
 	__super::Free();
-
-	Safe_Release(m_pAttackCom);
-	Safe_Release(m_pColliderCom);
 
 }

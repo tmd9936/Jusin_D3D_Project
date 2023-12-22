@@ -1,13 +1,18 @@
 {
     "CameraDesc": {
         "m_distance": 4.0,
-        "m_shakeTime": 0.5,
-        "m_shakePeriodTime": 0.20000000298023224,
+        "m_shakeTime": 0.4,
+        "m_shakePeriodTime": 0.10000000298023224,
         "m_shakeDegree": 0.800000011920929,
-        "m_distanceMin": 3.0,
-        "m_distanceMax": 10.0,
-        "m_moveSpeed": 0.4,
-        "m_zoomSpeed": 3.0,
+        "m_distanceMin": 1.0,
+        "m_distanceMax": 1.8,
+        "m_moveSpeed": 0.8,
+        "m_zoomSpeed": 4.0,
+        "m_maxZoomTime": 1.0,
+        "m_shakeCoolTime": 2.5,
+        "m_skillZoomInCoolTime": 4.5,
+        "m_skillZoomInAdditionalDistance": 0.8,
+        "m_skillZoomInAdditionalSpeed": 4.5,
         "m_DistancefromAt": {
             "x": 1.315572738647461,
             "y": 3.2889299392700195,
@@ -36,8 +41,8 @@
         "fNear": 0.20000000298023224,
         "fFar": 300.0,
         "TransformDesc": {
-            "RotationPerSec": 3.1415927410125732,
-            "SpeedPerSec": 20.0
+            "RotationPerSec": 1.5415927410125732,
+            "SpeedPerSec": 2.4
         }
     }
 }

@@ -39,13 +39,14 @@ HRESULT CHpBar::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pAr
 	XMStoreFloat4x4(&m_ProjMatrix,
 		XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f));
 
-	m_eRenderId = RENDER_UI;
+	m_eRenderId = RENDER_WORLD_UI;
 
 	return S_OK;
 }
 
 _uint CHpBar::Tick(_double TimeDelta)
 {
+	Check_DamageEvent(TimeDelta);
 	return _uint();
 }
 
@@ -67,17 +68,24 @@ _uint CHpBar::LateTick(_double TimeDelta)
 
 	_float3 vScale = m_pTransformCom->Get_Scaled();
 
-	XMStoreFloat4x4(&m_FinalWorldMatrix, XMMatrixSet(
-		vScale.x, 0.f, 0.f, 0.f,
-		0.f, vScale.y, 0.f, 0.f,
-		0.f, 0.f, 1.f, 0.f,
-		(ParentMat.m[3][0]) / ParentMat.m[3][2], (ParentMat.m[3][1]) / ParentMat.m[3][2], 0.f, 1.f
-	));
+	XMStoreFloat4x4(&m_FinalWorldMatrix, XMMatrixScaling(vScale.x, vScale.y, 1.f));
 
-	m_FinalWorldMatrix.m[3][0] = m_FinalWorldMatrix.m[3][0] - g_iWinSizeX * 0.5f;
-	m_FinalWorldMatrix.m[3][1] = -m_FinalWorldMatrix.m[3][1] + g_iWinSizeY * 0.5f;
-	//m_FinalWorldMatrix.m[3][1] *= -1.f;
-	m_FinalWorldMatrix.m[3][2] = 0.1f;
+	//XMStoreFloat4x4(&m_FinalWorldMatrix, XMMatrixSet(
+	//	vScale.x, 0.f, 0.f, 0.f,
+	//	0.f, vScale.y, 0.f, 0.f,
+	//	0.f, 0.f, 1.f, 0.f,
+	//	(ParentMat.m[3][0]) / ParentMat.m[3][2], (ParentMat.m[3][1]) / ParentMat.m[3][2], 0.f, 1.f
+	//));
+
+	XMStoreFloat4x4(&m_FinalWorldMatrix, 
+		XMLoadFloat4x4(&m_FinalWorldMatrix) * XMMatrixTranslation((ParentMat.m[3][0]) / ParentMat.m[3][2] - g_iWinSizeX * 0.5f,
+		-((ParentMat.m[3][1]) / ParentMat.m[3][2]) + g_iWinSizeY * 0.5f,
+		0.1f));
+
+	//m_FinalWorldMatrix.m[3][0] = m_FinalWorldMatrix.m[3][0] - g_iWinSizeX * 0.5f;
+	//m_FinalWorldMatrix.m[3][1] = -m_FinalWorldMatrix.m[3][1] + g_iWinSizeY * 0.5f;
+	////m_FinalWorldMatrix.m[3][1] *= -1.f;
+	//m_FinalWorldMatrix.m[3][2] = 0.1f;
 
 	m_pRendererCom->Add_RenderGroup(m_eRenderId, this);
 
@@ -94,6 +102,21 @@ HRESULT CHpBar::Render()
 	m_pVIBufferCom->Render();
 
 	return S_OK;
+}
+
+void CHpBar::Check_DamageEvent(const _double& TimeDelta)
+{
+	if (m_damageEvent)
+	{
+		if (m_damageEventTimeAcc >= m_damageEventTime)
+		{
+			m_damageEvent = false;
+			m_vAddColor = { 0.f, 0.f, 0.f, 0.f };
+		}
+
+		m_damageEventTimeAcc += TimeDelta;
+	}
+
 }
 
 HRESULT CHpBar::Add_Components()
@@ -145,6 +168,11 @@ HRESULT CHpBar::SetUp_ShaderResources()
 		&m_ProjMatrix)))
 		return E_FAIL;
 
+	// m_Desc.m_fSizeX, m_Desc.m_fSizeY
+	_float2 g_Size = { m_Desc.m_fSizeX, m_Desc.m_fSizeY };
+	if (FAILED(m_pShaderCom->Set_RawValue("g_Size", &g_Size, sizeof(_float2))))
+		return E_FAIL;
+
 	//if (FAILED(m_pShaderCom->Set_RawValue("g_vCamPosition",
 	//	&pGameInstance->Get_CamPosition(), sizeof(_float4))))
 	//	return E_FAIL;
@@ -161,6 +189,9 @@ HRESULT CHpBar::SetUp_ShaderResources()
 		return E_FAIL;
 	
 	if (FAILED(m_pShaderCom->Set_RawValue("g_vColor", &m_Desc.m_vHpColor, sizeof(_float4))))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_vAddColor", &m_vAddColor, sizeof(_float4))))
 		return E_FAIL;
 
 

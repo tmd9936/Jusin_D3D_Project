@@ -28,7 +28,8 @@ HRESULT CCamera_Public::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, v
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, &m_CameraPublicDesc.CameraDesc)))
 		return E_FAIL;
 
-	m_DefualtPosition = m_CameraPublicDesc.CameraDesc.vEye;
+	m_DefaultEye = m_CameraPublicDesc.CameraDesc.vEye;
+	m_DefaultAt = m_CameraPublicDesc.CameraDesc.vAt;
 
 	return S_OK;
 }
@@ -44,8 +45,8 @@ HRESULT CCamera_Public::Initialize(const _tchar* pLayerTag, _uint iLevelIndex, c
 	if (FAILED(__super::Initialize(pLayerTag, iLevelIndex, &m_CameraPublicDesc.CameraDesc)))
 		return E_FAIL;
 
-	m_DefualtPosition = m_CameraPublicDesc.CameraDesc.vEye;
-	
+	m_DefaultEye = m_CameraPublicDesc.CameraDesc.vEye;
+	m_DefaultAt = m_CameraPublicDesc.CameraDesc.vAt;
 
 	return S_OK;
 }
@@ -76,7 +77,7 @@ _bool CCamera_Public::Focus_To_Object(const _float4& vPosition, const _float& TI
 
 _bool CCamera_Public::Go_To_DefaultPosition(_fvector vLookPos, _float TimeDelta, _float limitDitance)
 {
-	return m_pTransform->Go_BackWard_Look_Target(vLookPos, XMLoadFloat4(&m_DefualtPosition), TimeDelta, limitDitance);
+	return m_pTransform->Go_BackWard_Look_Target(vLookPos, XMLoadFloat4(&m_DefaultEye), TimeDelta, limitDitance);
 }
 
 _bool CCamera_Public::Save_Args_Impl(HANDLE hFile)
@@ -303,6 +304,13 @@ void CCamera_Public::Key_Input(const _double TimeDelta)
 		{
 			m_bMouseMove = !m_bMouseMove;
 		}
+	}
+
+	if (KEY_TAB(KEY::N))
+	{
+		m_pTransform->Set_PositionX(m_DefaultEye.x);
+		m_pTransform->Set_PositionZ(m_DefaultEye.z);
+		m_CameraDesc.vAt = m_DefaultAt;
 	}
 
 

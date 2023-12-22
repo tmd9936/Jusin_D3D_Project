@@ -42,6 +42,7 @@ _uint CWorldMapBackToIdel::On_Idle()
 
 _uint CWorldMapBackToIdel::On_Press()
 {
+	CGameInstance::GetInstance()->PlaySoundW(L"SE_SYS_MENU_BACK.ogg", SOUND_UI);
 
 	return 0;
 }

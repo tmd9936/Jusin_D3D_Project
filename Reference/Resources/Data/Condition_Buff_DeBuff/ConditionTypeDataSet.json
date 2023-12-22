@@ -1,14 +1,4 @@
 {
-  "m_GameObject": {
-    "m_FileID": 0,
-    "m_PathID": 0
-  },
-  "m_Enabled": 1,
-  "m_Script": {
-    "m_FileID": 0,
-    "m_PathID": 3117009427887296129
-  },
-  "m_Name": "ConditionTypeDataSet",
   "m_datas": [
     {
       "m_id": 0,

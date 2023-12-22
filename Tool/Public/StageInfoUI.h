@@ -9,9 +9,9 @@ class CStageInfoUI :
 public:
 	typedef struct Stage_Info_Desc
 	{
-		_float4 m_vBaseColor;
-		_uint	m_StageNumber;
-		_tchar	 m_vStageNameText[MAX_PATH];
+		_float4			m_vBaseColor;
+		_uint			m_StageNumber;
+		_tchar			m_vStageNameText[MAX_PATH];
 	} STAGE_INFO_DESC;
 
 private:
@@ -31,13 +31,10 @@ public:
 
 public:
 	void	Change_Stage_Info(STAGE_INFO_DESC desc);
-
 	void	Change_Stage_Info(_float4 vBaseColor, _uint stageNumber, wstring nameText);
-
 
 public:
 	static CStageInfoUI* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	/* 사본 객체를 생성한다. */
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) override;
 	virtual void Free() override;
 };

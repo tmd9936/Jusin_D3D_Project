@@ -34,8 +34,8 @@ void CCollider_Manager::Collision_GroupUpdate(const _tchar* LeftTag, const _tcha
 			if (vecLeft[i] == vecRight[j])
 				continue;
 
-			CCollider* pLeftCol = dynamic_cast<CCollider*>(vecLeft[i]->Get_As<CCollider>());
-			CCollider* pRightCol = dynamic_cast<CCollider*>(vecRight[j]->Get_As<CCollider>());
+			CCollider* pLeftCol = vecLeft[i]->Get_As<CCollider>();
+			CCollider* pRightCol = vecRight[j]->Get_As<CCollider>();
 
 			COLLIDER_ID ID;
 			ID.Left_id = pLeftCol->Get_ID();

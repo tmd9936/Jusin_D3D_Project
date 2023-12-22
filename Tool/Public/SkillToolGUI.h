@@ -40,6 +40,7 @@ private:
 	void	View_Skill_Layer();
 	void	View_Skill_Depend_Layer();
 	void	View_Effect_Layer();
+	void	View_Debug();
 
 private:
 	void	ListBox_Skill_List();
@@ -73,11 +74,14 @@ private:
 	void	After_Init();
 
 private:
+	void	View_PlayerPos();
+
+private:
 	ID3D11Device* m_pDevice = { nullptr };
 	ID3D11DeviceContext* m_pContext = { nullptr };
 
 private:
-	char**						m_SkillListBox;
+	char**						m_SkillListBox = { nullptr };
 	int							m_iSkillListBoxCurrentItem = { 0 };
 	size_t						m_SkillListBoxSize = { 0 };
 	vector<CSkill::SKILL_DESC>	m_Skill_Desc_Datas;
@@ -104,10 +108,11 @@ private:
 	//wstring					m_CurrentPrefabName = {};
 	//wstring					m_CurrentLayerName = {};
 
-	string						m_Skill_Desc_Info;
-	string						m_Skill_Depend_Info;
-	string						m_Effect_Desc_Info;
-
+	string						m_Skill_Desc_Info = {};
+	string						m_Skill_Depend_Info = {};
+	string						m_Effect_Desc_Info = {};
+	
+	_float4						m_PlayerPos = {};
 
 public:
 	virtual void Free(void) override;

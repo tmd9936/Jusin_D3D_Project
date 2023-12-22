@@ -12,8 +12,8 @@ class CComponent;
 class ENGINE_DLL CGameObject abstract : public CBase
 {
 protected:
-	CGameObject(ID3D11Device * pDevice, ID3D11DeviceContext * pContext);
-	CGameObject(const CGameObject& rhs);
+	explicit CGameObject(ID3D11Device * pDevice, ID3D11DeviceContext * pContext);
+	explicit CGameObject(const CGameObject& rhs);
 	virtual ~CGameObject() = default;
 
 public:
@@ -23,6 +23,8 @@ public:
 	virtual _uint Tick(_double TimeDelta);
 	virtual _uint LateTick(_double TimeDelta);
 	virtual HRESULT Render();
+	virtual	HRESULT Render_ShadowDepth() { return S_OK; }
+	virtual	HRESULT Render_Laplacian() { return S_OK; }
 
 public:
 	virtual void On_Collision(CCollider* pOther, const _float& fX, const _float& fY, const _float& fZ) {}
@@ -33,7 +35,7 @@ public:
 	const wstring			Get_NameTag() const {
 		return m_strNameTag; }
 
-	void					Set_NameTag(wstring& strName) {
+	void					Set_NameTag(wstring strName) {
 		m_strNameTag = strName; 
 	}
 	void					Set_NameTag(const _tchar* strName) {
@@ -47,11 +49,11 @@ public:
 		m_eRenderId = eRenderId; 
 	}
 
-	const wstring			Get_LayerTag() const {
+	wstring			Get_LayerTag() const {
 		return m_strLayerTag; 
 	}
 
-	void					Set_LayerTag(const wstring& strLayerTag) {
+	void					Set_LayerTag(const wstring strLayerTag) {
 		m_strLayerTag = strLayerTag; 
 	}
 
@@ -69,7 +71,7 @@ public:
 	const wstring			Get_ProtoTypeTag() const {
 		return m_strProtoTypeTag;
 	}
-	void					Set_ProtoTypeTag(const wstring& prototypeTag) {
+	void					Set_ProtoTypeTag(const wstring prototypeTag) {
 		m_strProtoTypeTag = prototypeTag;
 	}
 
@@ -80,11 +82,25 @@ public:
 		}
 	}
 
+	const string			Get_JsonPath() const {
+		return m_strSaveJsonPath;
+	}
+
 public:
-	_bool					Is_Dead() { return m_bDead; }
+	const _bool				Is_Dead() const { 
+		return m_bDead; 
+	}
+
+	const _bool				Is_BeCulling() const {
+		return m_bBeCulling;
+	}
+
 	void					Set_Alive() { m_bDead = false; }
 	void					Set_Dead() { m_bDead = true; }
 
+	const size_t				Get_ComponetsSize() const {
+		return m_Components.size();
+	}
 public:
 	void					Get_Components_FamilyId(vector<FamilyId>& vecFamilyIds);
 	HRESULT					Add_Component(const FamilyId& familyId, CComponent* pComponent);
@@ -132,7 +148,7 @@ protected:
 protected:
 	/* 해시테이블 */
 	friend CLayer;
-	map<FamilyId, class CComponent*>				m_Components = {};
+	unordered_map<FamilyId, class CComponent*>		m_Components = {};
 	wstring											m_strNameTag = {};
 	wstring											m_strLayerTag = {};
 	wstring											m_strProtoTypeTag = {};
@@ -142,6 +158,9 @@ protected:
 	_uint											m_iLevelindex = { 0 };
 
 	string											m_strSaveJsonPath = {};
+
+	_bool											m_bBeCulling = { false };
+
 
 
 public:

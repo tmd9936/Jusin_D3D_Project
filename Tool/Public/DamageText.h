@@ -40,8 +40,8 @@ private:
 	virtual ~CDamageText() = default;
 
 public:
-	virtual HRESULT Initialize_Prototype() override; /* 원형객체의 초기화작업 */
-	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override; /* 사본객체의 초기화작업 */
+	virtual HRESULT Initialize_Prototype() override; 
+	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override; 
 	virtual _uint Tick(_double TimeDelta) override;
 	virtual _uint LateTick(_double TimeDelta) override;
 	virtual HRESULT Render() override;
@@ -73,14 +73,9 @@ private:
 private:
 	HRESULT Add_Components();
 	HRESULT SetUp_ShaderResources();
-	_matrix Remove_Scale(_fmatrix Matrix);
-
 
 public:
-	/* Prototype */
-	/* 원형 객체를 생성한다. */
 	static CDamageText* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	/* 사본 객체를 생성한다. */
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) override;
 	virtual void Free() override;
 };

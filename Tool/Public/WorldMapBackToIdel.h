@@ -8,8 +8,8 @@ class CWorldMapBackToIdel :
     public CButton
 {
 protected:
-    CWorldMapBackToIdel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-    CWorldMapBackToIdel(const CWorldMapBackToIdel& rhs);
+    explicit CWorldMapBackToIdel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+    explicit CWorldMapBackToIdel(const CWorldMapBackToIdel& rhs);
     virtual ~CWorldMapBackToIdel() = default;
 
 protected:

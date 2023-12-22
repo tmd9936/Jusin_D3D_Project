@@ -44,52 +44,80 @@ protected:
 	virtual ~CUI() = default;
 
 public:
-	virtual HRESULT Initialize_Prototype() override; /* 원형객체의 초기화작업 */
-	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override; /* 사본객체의 초기화작업 */
-	virtual HRESULT Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath);
+	virtual HRESULT			Initialize_Prototype() override; 
+	virtual HRESULT			Initialize(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg) override; 
+	virtual HRESULT			Initialize(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath);
 
 public:
-	virtual _uint Tick(_double TimeDelta) override;
-	virtual _uint LateTick(_double TimeDelta) override;
-	virtual HRESULT Render() override;
+	virtual _uint			Tick(_double TimeDelta) override;
+	virtual _uint			LateTick(_double TimeDelta) override;
+	virtual HRESULT			Render() override;
 
 public:
-	void	Set_Color(_float4 vColor) {
+	void					Set_Color(_float4 vColor) {
 		m_UIDesc.m_vColor = vColor;
 	}
 
-protected:
-	CTransform* m_pTransformCom = { nullptr };
-	CRenderer* m_pRendererCom = { nullptr };
-	CShader* m_pShaderCom = { nullptr };
-	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
-	CTexture* m_pTextureCom = { nullptr };
+	HRESULT					Change_Texture(const _tchar* pPrototypeTag);
+
+public:
+	void					Set_Pos(const _float3& vPos);
+	void					Set_ShaderPass(const _uint& shaderPass) {
+		m_UIDesc.m_ShaderPass = shaderPass;
+	}
+
+public:
+	virtual _bool			Check_Is_In();
+	virtual _bool			Check_Is_In(const POINT& mousePT);
+
+public:
+	_bool					Move_To_ViewPortPositoin(const _double& TimeDelta, _fvector vAlivePosition, const _float2& interval);
+	const _float2			Get_Position() const {
+		return _float2(m_UIDesc.m_fX, m_UIDesc.m_fY);
+	}
+
+	void					Set_PartTextString(const wstring& text, const _uint& index) {
+		if (index >= m_TextParts.size())
+			return;
+
+		m_TextParts.at(index)->Set_Text(text);
+	}
 
 protected:
-	UI_DESC		m_UIDesc = {};
-	_float4x4	m_ViewMatrix = {};
-	_float4x4	m_ProjMatrix = {};
+	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
+	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
+
+protected:
+	virtual HRESULT			SetUp_ShaderResources();
+
+private:
+	HRESULT					Add_Components();
+	HRESULT					Add_Components_By_File();
+
+protected:
+	CTransform*				m_pTransformCom = { nullptr };
+	CRenderer*				m_pRendererCom = { nullptr };
+	CShader*				m_pShaderCom = { nullptr };
+	CVIBuffer_Rect*			m_pVIBufferCom = { nullptr };
+	CTexture*				m_pTextureCom = { nullptr };
+
+protected:
+	UI_DESC					m_UIDesc = {};
+	_float4x4				m_ViewMatrix = {};
+	_float4x4				m_ProjMatrix = {};
 
 protected:
 	vector<CPartTexture*>	m_TextureParts;
 	vector<CPartText*>		m_TextParts;
 
 protected:
-	_uint		m_TextureNumber = { 0 };
+	_uint					m_TextureNumber = { 0 };
 
 protected:
-	virtual _bool			Save_By_JsonFile_Impl(Document& doc, Document::AllocatorType& allocator);
-	virtual _bool			Load_By_JsonFile_Impl(Document& doc);
-
-private:
-	HRESULT Add_Components();
-	HRESULT SetUp_ShaderResources();
-
-	HRESULT Add_Components_By_File();
+	const LONG				m_mouseInterSize = { 10 };
 
 public:
 	static CUI* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, void* pArg = nullptr) override;
 	virtual CGameObject* Clone(const _tchar* pLayerTag, _uint iLevelIndex, const char* filePath = nullptr);
 	virtual void Free() override;

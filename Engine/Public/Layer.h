@@ -18,6 +18,7 @@ public:
 public:
 	HRESULT Store_Component(CGameObject* pGameObject, const FamilyId& id);
 	CGameObject* Get_Object(const _tchar* pObjectNameTag);
+	CGameObject* Get_Object(wstring objectTag);
 	unordered_multimap<FamilyId, CGameObject*>* Get_ComponentStore() {
 		return &m_componentStore;
 	}
@@ -25,6 +26,8 @@ public:
 	HRESULT Remove_Component(const FamilyId& familyId, CGameObject* pObj);
 
 	void Get_All_GameObject_In_Layer(vector<CGameObject*>& result);
+
+	_bool	Has_Component(const FamilyId& familyId, CGameObject* pGameObject);
 
 public:
 	void		Tick_State_Change(_bool bTick) {

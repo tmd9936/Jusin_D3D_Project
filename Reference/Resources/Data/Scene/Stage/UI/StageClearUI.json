@@ -1,0 +1,44 @@
+{
+    "UIDesc": {
+        "m_fX": 500.0,
+        "m_fY": 200.0,
+        "m_fSizeX": 1200.5,
+        "m_fSizeY": 5.0,
+        "m_UIType": 1,
+        "m_ShaderPass": 0,
+        "m_vColor": {
+            "x": 1.0,
+            "y": 0.81235,
+            "z": 0.2,
+            "w": 1.0
+        },
+        "m_TextureProtoTypeLevel": 0,
+        "m_TextureProtoTypeName" : "Prototype_Component_Texture_Rectangle_Base",
+        "m_TextureParts": [
+        ],
+        "m_TextParts": [
+            {
+                "m_fX": 320.0,
+                "m_fY": -70.0,
+                "m_vColor": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "m_Rotation": 0.0,
+                "m_vRotationOrigin": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "m_vScale": {
+                    "x": 1.65,
+                    "y": 1.6
+                },
+                "m_FontTag": "Font_NanumBarunGothic", 
+                "m_Text": "WAVE CLEAR!",
+                "LayerTag": "Layer_StageMessageInfo"
+            }
+        ]
+    }
+}

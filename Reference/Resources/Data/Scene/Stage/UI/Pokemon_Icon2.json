@@ -1,6 +1,6 @@
 {
     "UIDesc": {
-        "m_fX": 465.0,
+        "m_fX": 150.0,
         "m_fY": 377.0,
         "m_fSizeX": 24.0,
         "m_fSizeY": 24.0,
@@ -13,7 +13,7 @@
             "w": 1.0
         },
         "m_TextureProtoTypeLevel": 0,
-        "m_TextureProtoTypeName" : "Prototype_Component_Texture_Pokemon_Icon_M25",
+        "m_TextureProtoTypeName" : "Prototype_Component_Texture_Pokemon_Icon_M75",
         "m_TextureParts": [
             {
                 "m_fX": 0.0,
@@ -35,7 +35,7 @@
         ],
         "m_TextParts": [
             {
-                "m_fX": -6.0,
+                "m_fX": -8.0,
                 "m_fY": 27.0,
                 "m_vColor": {
                     "x": 1.0,
@@ -53,7 +53,7 @@
                     "y": 0.28
                 },
                 "m_FontTag": "Font_NanumBarunGothic", 
-                "m_Text": "피카츄",
+                "m_Text": "데구리",
                 "LayerTag": "Layer_UI"
             }
         ]

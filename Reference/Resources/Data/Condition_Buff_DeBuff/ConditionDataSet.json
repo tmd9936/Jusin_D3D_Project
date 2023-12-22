@@ -1,14 +1,4 @@
 {
-  "m_GameObject": {
-    "m_FileID": 0,
-    "m_PathID": 0
-  },
-  "m_Enabled": 1,
-  "m_Script": {
-    "m_FileID": 0,
-    "m_PathID": -3569404403969806053
-  },
-  "m_Name": "ConditionDataSet",
   "m_datas": [
     {
       "m_id": 0,
@@ -37,9 +27,9 @@
     {
       "m_id": 3,
       "m_type": 5,
-      "m_Value_A": 0.3,
+      "m_Value_A": 0.6,
       "m_Value_B": 0.0,
-      "m_time": 20.0,
+      "m_time": 7.0,
       "m_ratio": 0.08
     },
     {
@@ -157,9 +147,9 @@
     {
       "m_id": 102,
       "m_type": 10,
-      "m_Value_A": 0.8,
+      "m_Value_A": 0.5,
       "m_Value_B": 0.0,
-      "m_time": 15.0,
+      "m_time": 10.0,
       "m_ratio": 0.1
     },
     {
@@ -175,7 +165,7 @@
       "m_type": 12,
       "m_Value_A": 0.0,
       "m_Value_B": 0.0,
-      "m_time": 10.0,
+      "m_time": 5.0,
       "m_ratio": 0.08
     },
     {
@@ -191,7 +181,7 @@
       "m_type": 14,
       "m_Value_A": 1.0,
       "m_Value_B": 0.0,
-      "m_time": 15.0,
+      "m_time": 5.0,
       "m_ratio": 0.1
     },
     {

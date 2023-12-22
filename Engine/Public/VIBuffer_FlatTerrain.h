@@ -14,8 +14,8 @@ public:
 
 	}VIBUFFER_FLAT_TERRAIN_DESC;
 private:
-	CVIBuffer_FlatTerrain(ID3D11Device * pDevice, ID3D11DeviceContext * pContext, CGameObject* pOwner);
-	CVIBuffer_FlatTerrain(const CVIBuffer_FlatTerrain& rhs, CGameObject* pOwner);
+	explicit CVIBuffer_FlatTerrain(ID3D11Device * pDevice, ID3D11DeviceContext * pContext, CGameObject* pOwner);
+	explicit CVIBuffer_FlatTerrain(const CVIBuffer_FlatTerrain& rhs, CGameObject* pOwner);
 	virtual ~CVIBuffer_FlatTerrain() = default;
 
 public:

@@ -2,27 +2,49 @@
 
 #include "SkillEffect.h"
 
+#include "HommingAttackEffect.h"
+#include "RushAttackEffect.h"
+
+BEGIN(Engine)
+class CAttack;
+END
+
 BEGIN(Client)
 
 class CSkill_Manager;
+class CEffect_Manager;
 
 class CChargeEffect :
     public CSkillEffect
 {
+
 public:
     typedef struct Charge_Effect_Desc
     {
-		_uint       m_NextAttackEffectType = { 0 };
-		_uint       m_NextAttackEffectPower = { 0 };
-		_double     m_ChargeTime = { 0.0 };
+		wstring			m_NextEffectPrototypeTag;
+		_uint			m_NextEffectPower = { 0 };
+		_double			m_ChargeTime = { 0.0 };
+		_uint			m_NextEffectNum = { 1 };
+		vector<_float>	m_NextEffectAngles;
+
+		_uint			m_NextEffectTypeIndex = { 0 };
+		EFFECT_TYPE		m_NextEffectType = { EFFECT_TYPE_END };
+
+		_float3			m_vScale = { 1.f, 1.f, 1.f };
+		
+		//_uint			m_CollisionEffectType = { 0 };
+
+		//CHommingAttackEffect::HOMMING_ATTACK_EFFECT_DESC  m_HommingAttackEffectDesc = {};
+		//CRushAttackEffect::RUSH_ATTACK_EFFECT_DESC  m_RushAttackEffectDesc = {};
+		CAttackEffect::ATTACK_EFFECT_DESC m_AttackDesc = {};
 
 		EFFECT_DESC	effectDesc;
 
     } CHARGE_EFFECT_DESC;
 
 private:
-	CChargeEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CChargeEffect(const CChargeEffect& rhs);
+	explicit CChargeEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CChargeEffect(const CChargeEffect& rhs);
 	virtual ~CChargeEffect() = default;
 
 public:
@@ -34,9 +56,11 @@ public:
 
 protected:
 	void		Charge_Time_Check(const _double& TimeDelta);
+	void		Attack_Effect_Add();
 
 protected:
 	CHARGE_EFFECT_DESC	m_ChargeEffectDesc = {};
+
 	_double				m_ChargeTimeAcc = { 0.0 };
 
 public:

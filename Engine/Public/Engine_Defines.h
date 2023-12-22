@@ -2,6 +2,10 @@
 
 #pragma warning (disable : 4251)
 
+//#define NAVIGATION_DEBUG
+//#define RENDERTARGET_DEBUG
+//#define DEBUG_COMPONENT_RENDER
+
 #include <d3d11.h>
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
@@ -34,6 +38,7 @@
 #include <iostream>
 #include <cstdio>
 #include <codecvt>
+#include <queue>
 
 #include <DirectXMath.h>
 #include <Process.h>
@@ -56,7 +61,6 @@ using namespace DirectX;
 #include "Engine_Function.h"
 #include "Engine_Struct.h"
 #include "Engine_Typedef.h"
-
 
 #ifndef _TOOL
 
@@ -114,7 +118,7 @@ using namespace DirectX;
 
 #define FAMILY_ID_HP						27
 #define FAMILY_ID_ATTACK					28
-
+#define FAMILY_ID_FORMATION					29
 
 #define FAMILY_ID_SHADER					30
 #define FAMILY_ID_VIBUFFER					31
@@ -123,6 +127,8 @@ using namespace DirectX;
 #define FAMILY_ID_COLLISION_AABB			36
 #define FAMILY_ID_COLLISION_OBB				37
 #define FAMILY_ID_COLLISION_SPHERE			38
+
+#define FAMILY_ID_MANUAL_COLLISION_STATE	39
 
 #define FAMILY_ID_NAVIGATION				40
 

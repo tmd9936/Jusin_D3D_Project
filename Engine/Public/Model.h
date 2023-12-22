@@ -52,6 +52,7 @@ public:
 public:
 	HRESULT SetUp_ShaderResource(CShader* pShader, const char* pConstantName, _uint iMeshIndex, aiTextureType eType);
 	HRESULT SetUp_BoneMatrices(CShader* pShader, const char* pConstantName, _uint iMeshIndex);
+	HRESULT SetUp_BoneMatrices(CShader* pShader, const char* pConstantName, _uint iMeshIndex, _uint iNoSetIndex);
 
 	void  Set_Animation_Start_Time(_double TimeAcc);
 	_bool Play_Animation(_double TimeDelta, _bool isLoop = true);
@@ -65,10 +66,15 @@ public:
 	HRESULT Get_Mesh_VertexBuffer_Data(_uint meshIndex, vector<VTXMODEL_ALL_DATA>& VertexBufferData);
 	HRESULT Get_Mesh_IndexBuffer_Data(_uint meshIndex, vector<FACEINDICES32>& indexBuffer);
 
+public:
+	const _double				Get_Animation_Duration(const _uint& animationIndex) const ;
+	void						Set_Animation_Duratino(const _uint& animationIndex, _double duration);
+	void						Set_StartTimeAcc(const _uint& animationIndex, _double timeAcc);
 	
 public:
 	static const _double		Get_LerpDuration();
 	static void					Set_LerpDuration(_double duration);
+
 
 private:
 	Assimp::Importer				m_Importer; /* 경로의 파일을 읽어서 저장하는 기능을 한다. */

@@ -16,6 +16,7 @@ class CLight_Manager;
 class CCollider_Manager;
 class CFont_Manager;
 class CFrustum;
+class CTarget_Manager;
 
 class ENGINE_DLL CGameInstance :
     public CBase
@@ -62,6 +63,7 @@ public: /* For.Object_Manager */
 	CComponent* Get_Component(const FamilyId& familyId, _uint iLevelIndex, const _tchar* pLayerTag, const _tchar* pObjectTag) const;
 	HRESULT		Remove_Component(const FamilyId& familyId, CGameObject* pObj);
 	CGameObject* Get_Object(_uint iLevelIndex, const _tchar* pLayerTag, const _tchar* pObjectTag) const;
+	CGameObject* Get_Object(_uint iLevelIndex, const _tchar* pLayerTag, wstring objectTag) const;
 	template<typename T, typename = std::enable_if<is_base_of<CComponent, T>::value>>
 	HRESULT Get_ComponentList(vector<T>& result, _uint iLevelIndex, const _tchar* pLayerTag);
 	template<typename T, typename = std::enable_if<is_base_of<CComponent, T>::value>>
@@ -73,15 +75,18 @@ public: /* For.Object_Manager */
 	CGameObject* Clone_GameObject(const _tchar* pLayerTag, _uint iLevelIndex, const _tchar* pPrototypeTag, void* pArg);
 	CGameObject* Clone_GameObject(const _tchar* pLayerTag, _uint iLevelIndex, const _tchar* pPrototypeTag, CGameObject** ppOut, void* pArg);
 	HRESULT		Layer_Tick_State_Change(const _tchar* pLayerTag, _uint iLevelIndex, _bool bTick);
+	_bool		Is_Layer(_uint iLevelIndex, const wstring& layerTag);
+	HRESULT		Change_Component(const FamilyId& familyId, CGameObject* pGameObject, _uint iLevelIndex, const _tchar* pPrototypeTag, CComponent** ppOut, void* pArg);
 
 public: /* For.Component_Manager */
 	HRESULT Add_Prototype(_uint iLevelIndex, const _tchar* pPrototypeTag, class CComponent* pPrototype);
 	class CComponent* Clone_Component(_uint iLevelIndex, const _tchar* pPrototypeTag, class CGameObject* pGameObject, void* pArg = nullptr);
-	_bool	Check_Prototype(const wstring& prototypeTag);
+	_bool	Check_Prototype(const wstring prototypeTag);
 
 public: /* For.Sound_Manager */
 	HRESULT		Ready_Sound();
 	void		PlaySoundW(const _tchar* pSoundKey, CHANNELID eID);
+	void		PlaySoundW(const _tchar* pSoundKey, const _float& fVolume);
 	void		PlayBGM(const _tchar* pSoundKey);
 	void		StopSound(CHANNELID eID);
 	void		StopAll();
@@ -96,6 +101,7 @@ public: /* For.PipeLine */
 	_matrix Get_Transform_Matrix(CPipeLine::TRANSFORMSTATE eState);
 	_float4 Get_CamPosition();
 	_matrix Get_ViewPort_Matrix(float x, float y, float w, float h, float minZ, float maxZ);
+	_float Get_CameraFar();
 
 public: /* For.InputDevice */
 	const KEY_STATE Get_KeyState(KEY eKey);
@@ -105,7 +111,8 @@ public: /* For.InputDevice */
 public: /*For.Light_Manager*/
 	const LIGHTDESC* Get_Light(_uint iIndex);
 	HRESULT Add_Light(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const LIGHTDESC& LightDesc);
-
+	_float4x4 Get_LightViewMatrix();
+	_float4x4 Get_LightProjMatrix();
 
 public: /*For.Collider_Manager*/
 	void Update_CollisionMgr(_uint iLevelIndex);
@@ -118,6 +125,10 @@ public: /*For.Font_Manager*/
 
 public: /*For.Frustum*/
 	_bool  Is_In_Frustum(_fvector vPosition, _float fRange = 0.f);
+
+public: /* For.Target_Manager */
+	HRESULT Set_Shader_RTV(const _tchar* pTargetTag, class CShader* pShader, const char* pConstantName);
+
 
 private:
 	CTimer_Manager*			m_pTimer_Manager = { nullptr };
@@ -132,6 +143,7 @@ private:
 	CCollider_Manager*		m_pCollider_Manager = { nullptr };
 	CFont_Manager*			m_pFont_Manager = { nullptr };
 	CFrustum*				m_pFrustum = { nullptr };
+	CTarget_Manager*		m_pTarget_Manager = { nullptr };
 
 public:
 	static void Release_Engine();

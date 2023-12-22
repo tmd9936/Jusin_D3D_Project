@@ -4357,116 +4357,6 @@
             "PointC_Z": 13.0
         },
         {
-            "PointA_X": 19.0,
-            "PointA_Y": 0,
-            "PointA_Z": 14.0,
-            "PointB_X": 20.0,
-            "PointB_Y": 0,
-            "PointB_Z": 13.0,
-            "PointC_X": 19.0,
-            "PointC_Y": 0,
-            "PointC_Z": 13.0
-        },
-        {
-            "PointA_X": 19.0,
-            "PointA_Y": 0,
-            "PointA_Z": 14.0,
-            "PointB_X": 20.0,
-            "PointB_Y": 0,
-            "PointB_Z": 14.0,
-            "PointC_X": 20.0,
-            "PointC_Y": 0,
-            "PointC_Z": 13.0
-        },
-        {
-            "PointA_X": 20.0,
-            "PointA_Y": 0,
-            "PointA_Z": 14.0,
-            "PointB_X": 21.0,
-            "PointB_Y": 0,
-            "PointB_Z": 13.0,
-            "PointC_X": 20.0,
-            "PointC_Y": 0,
-            "PointC_Z": 13.0
-        },
-        {
-            "PointA_X": 20.0,
-            "PointA_Y": 0,
-            "PointA_Z": 14.0,
-            "PointB_X": 21.0,
-            "PointB_Y": 0,
-            "PointB_Z": 14.0,
-            "PointC_X": 21.0,
-            "PointC_Y": 0,
-            "PointC_Z": 13.0
-        },
-        {
-            "PointA_X": 21.0,
-            "PointA_Y": 0,
-            "PointA_Z": 14.0,
-            "PointB_X": 22.0,
-            "PointB_Y": 0,
-            "PointB_Z": 13.0,
-            "PointC_X": 21.0,
-            "PointC_Y": 0,
-            "PointC_Z": 13.0
-        },
-        {
-            "PointA_X": 21.0,
-            "PointA_Y": 0,
-            "PointA_Z": 14.0,
-            "PointB_X": 22.0,
-            "PointB_Y": 0,
-            "PointB_Z": 14.0,
-            "PointC_X": 22.0,
-            "PointC_Y": 0,
-            "PointC_Z": 13.0
-        },
-        {
-            "PointA_X": 22.0,
-            "PointA_Y": 0,
-            "PointA_Z": 14.0,
-            "PointB_X": 23.0,
-            "PointB_Y": 0,
-            "PointB_Z": 13.0,
-            "PointC_X": 22.0,
-            "PointC_Y": 0,
-            "PointC_Z": 13.0
-        },
-        {
-            "PointA_X": 22.0,
-            "PointA_Y": 0,
-            "PointA_Z": 14.0,
-            "PointB_X": 23.0,
-            "PointB_Y": 0,
-            "PointB_Z": 14.0,
-            "PointC_X": 23.0,
-            "PointC_Y": 0,
-            "PointC_Z": 13.0
-        },
-        {
-            "PointA_X": 23.0,
-            "PointA_Y": 0,
-            "PointA_Z": 14.0,
-            "PointB_X": 24.0,
-            "PointB_Y": 0,
-            "PointB_Z": 13.0,
-            "PointC_X": 23.0,
-            "PointC_Y": 0,
-            "PointC_Z": 13.0
-        },
-        {
-            "PointA_X": 23.0,
-            "PointA_Y": 0,
-            "PointA_Z": 14.0,
-            "PointB_X": 24.0,
-            "PointB_Y": 0,
-            "PointB_Z": 14.0,
-            "PointC_X": 24.0,
-            "PointC_Y": 0,
-            "PointC_Z": 13.0
-        },
-        {
             "PointA_X": 24.0,
             "PointA_Y": 0,
             "PointA_Z": 14.0,
@@ -6623,28 +6513,6 @@
             "PointC_Z": 17.0
         },
         {
-            "PointA_X": 17.0,
-            "PointA_Y": 0,
-            "PointA_Z": 18.0,
-            "PointB_X": 18.0,
-            "PointB_Y": 0,
-            "PointB_Z": 17.0,
-            "PointC_X": 17.0,
-            "PointC_Y": 0,
-            "PointC_Z": 17.0
-        },
-        {
-            "PointA_X": 17.0,
-            "PointA_Y": 0,
-            "PointA_Z": 18.0,
-            "PointB_X": 18.0,
-            "PointB_Y": 0,
-            "PointB_Z": 18.0,
-            "PointC_X": 18.0,
-            "PointC_Y": 0,
-            "PointC_Z": 17.0
-        },
-        {
             "PointA_X": 18.0,
             "PointA_Y": 0,
             "PointA_Z": 18.0,
@@ -7129,28 +6997,6 @@
             "PointC_Z": 18.0
         },
         {
-            "PointA_X": 17.0,
-            "PointA_Y": 0,
-            "PointA_Z": 19.0,
-            "PointB_X": 18.0,
-            "PointB_Y": 0,
-            "PointB_Z": 18.0,
-            "PointC_X": 17.0,
-            "PointC_Y": 0,
-            "PointC_Z": 18.0
-        },
-        {
-            "PointA_X": 17.0,
-            "PointA_Y": 0,
-            "PointA_Z": 19.0,
-            "PointB_X": 18.0,
-            "PointB_Y": 0,
-            "PointB_Z": 19.0,
-            "PointC_X": 18.0,
-            "PointC_Y": 0,
-            "PointC_Z": 18.0
-        },
-        {
             "PointA_X": 18.0,
             "PointA_Y": 0,
             "PointA_Z": 19.0,
@@ -7631,28 +7477,6 @@
             "PointB_Y": 0,
             "PointB_Z": 20.0,
             "PointC_X": 15.0,
-            "PointC_Y": 0,
-            "PointC_Z": 19.0
-        },
-        {
-            "PointA_X": 17.0,
-            "PointA_Y": 0,
-            "PointA_Z": 20.0,
-            "PointB_X": 18.0,
-            "PointB_Y": 0,
-            "PointB_Z": 19.0,
-            "PointC_X": 17.0,
-            "PointC_Y": 0,
-            "PointC_Z": 19.0
-        },
-        {
-            "PointA_X": 17.0,
-            "PointA_Y": 0,
-            "PointA_Z": 20.0,
-            "PointB_X": 18.0,
-            "PointB_Y": 0,
-            "PointB_Z": 20.0,
-            "PointC_X": 18.0,
             "PointC_Y": 0,
             "PointC_Z": 19.0
         },
@@ -10187,28 +10011,6 @@
             "PointC_Z": 23.0
         },
         {
-            "PointA_X": 19.0,
-            "PointA_Y": 0,
-            "PointA_Z": 24.0,
-            "PointB_X": 20.0,
-            "PointB_Y": 0,
-            "PointB_Z": 23.0,
-            "PointC_X": 19.0,
-            "PointC_Y": 0,
-            "PointC_Z": 23.0
-        },
-        {
-            "PointA_X": 19.0,
-            "PointA_Y": 0,
-            "PointA_Z": 24.0,
-            "PointB_X": 20.0,
-            "PointB_Y": 0,
-            "PointB_Z": 24.0,
-            "PointC_X": 20.0,
-            "PointC_Y": 0,
-            "PointC_Z": 23.0
-        },
-        {
             "PointA_X": 24.0,
             "PointA_Y": 0,
             "PointA_Z": 24.0,
@@ -10627,28 +10429,6 @@
             "PointC_Z": 24.0
         },
         {
-            "PointA_X": 19.0,
-            "PointA_Y": 0,
-            "PointA_Z": 25.0,
-            "PointB_X": 20.0,
-            "PointB_Y": 0,
-            "PointB_Z": 24.0,
-            "PointC_X": 19.0,
-            "PointC_Y": 0,
-            "PointC_Z": 24.0
-        },
-        {
-            "PointA_X": 19.0,
-            "PointA_Y": 0,
-            "PointA_Z": 25.0,
-            "PointB_X": 20.0,
-            "PointB_Y": 0,
-            "PointB_Z": 25.0,
-            "PointC_X": 20.0,
-            "PointC_Y": 0,
-            "PointC_Z": 24.0
-        },
-        {
             "PointA_X": 24.0,
             "PointA_Y": 0,
             "PointA_Z": 25.0,
@@ -11063,28 +10843,6 @@
             "PointB_Y": 0,
             "PointB_Z": 26.0,
             "PointC_X": 19.0,
-            "PointC_Y": 0,
-            "PointC_Z": 25.0
-        },
-        {
-            "PointA_X": 19.0,
-            "PointA_Y": 0,
-            "PointA_Z": 26.0,
-            "PointB_X": 20.0,
-            "PointB_Y": 0,
-            "PointB_Z": 25.0,
-            "PointC_X": 19.0,
-            "PointC_Y": 0,
-            "PointC_Z": 25.0
-        },
-        {
-            "PointA_X": 19.0,
-            "PointA_Y": 0,
-            "PointA_Z": 26.0,
-            "PointB_X": 20.0,
-            "PointB_Y": 0,
-            "PointB_Z": 26.0,
-            "PointC_X": 20.0,
             "PointC_Y": 0,
             "PointC_Z": 25.0
         },
@@ -11701,72 +11459,6 @@
             "PointB_Y": 0,
             "PointB_Z": 27.0,
             "PointC_X": 25.0,
-            "PointC_Y": 0,
-            "PointC_Z": 26.0
-        },
-        {
-            "PointA_X": 25.0,
-            "PointA_Y": 0,
-            "PointA_Z": 27.0,
-            "PointB_X": 26.0,
-            "PointB_Y": 0,
-            "PointB_Z": 26.0,
-            "PointC_X": 25.0,
-            "PointC_Y": 0,
-            "PointC_Z": 26.0
-        },
-        {
-            "PointA_X": 25.0,
-            "PointA_Y": 0,
-            "PointA_Z": 27.0,
-            "PointB_X": 26.0,
-            "PointB_Y": 0,
-            "PointB_Z": 27.0,
-            "PointC_X": 26.0,
-            "PointC_Y": 0,
-            "PointC_Z": 26.0
-        },
-        {
-            "PointA_X": 26.0,
-            "PointA_Y": 0,
-            "PointA_Z": 27.0,
-            "PointB_X": 27.0,
-            "PointB_Y": 0,
-            "PointB_Z": 26.0,
-            "PointC_X": 26.0,
-            "PointC_Y": 0,
-            "PointC_Z": 26.0
-        },
-        {
-            "PointA_X": 26.0,
-            "PointA_Y": 0,
-            "PointA_Z": 27.0,
-            "PointB_X": 27.0,
-            "PointB_Y": 0,
-            "PointB_Z": 27.0,
-            "PointC_X": 27.0,
-            "PointC_Y": 0,
-            "PointC_Z": 26.0
-        },
-        {
-            "PointA_X": 27.0,
-            "PointA_Y": 0,
-            "PointA_Z": 27.0,
-            "PointB_X": 28.0,
-            "PointB_Y": 0,
-            "PointB_Z": 26.0,
-            "PointC_X": 27.0,
-            "PointC_Y": 0,
-            "PointC_Z": 26.0
-        },
-        {
-            "PointA_X": 27.0,
-            "PointA_Y": 0,
-            "PointA_Z": 27.0,
-            "PointB_X": 28.0,
-            "PointB_Y": 0,
-            "PointB_Z": 27.0,
-            "PointC_X": 28.0,
             "PointC_Y": 0,
             "PointC_Z": 26.0
         },

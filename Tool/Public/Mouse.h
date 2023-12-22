@@ -19,8 +19,8 @@ public:
 	enum STATE { STATE_IDLE, STATE_CLICK, STATE_END };
 
 private:
-	CMouse(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CMouse(const CMouse& rhs);
+	explicit CMouse(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CMouse(const CMouse& rhs);
 	virtual ~CMouse() = default;
 
 public:
@@ -32,16 +32,30 @@ public:
 	virtual HRESULT Render() override;
 
 private:
-	CTransform* m_pTransformCom = { nullptr };
-	CRenderer* m_pRendererCom = { nullptr };
-	CShader* m_pShaderCom = { nullptr };
-	CModel* m_pModelCom = { nullptr };
+	void		State_Tick(const _double& TimeDelta);
+
+	void		Mouse_Set_Position();
+	void		Mouse_Move_Check();
+
+	void		Hide_Time_Check(const _double& TimeDelta);
+	void		Hide_State_Init();
+
+private:
+	CTransform*		m_pTransformCom = { nullptr };
+	CRenderer*		m_pRendererCom = { nullptr };
+	CShader*		m_pShaderCom = { nullptr };
+	CModel*			m_pModelCom = { nullptr };
 
 private:
 	STATE			m_eState = { STATE_CLICK };
 	_float4x4		m_ViewMatrix = {};
 	_float4x4		m_ProjMatrix = {};
 
+	_float			m_alpha = { 1.f };
+
+	_double			m_HideTime = { 1.0 };
+	_double			m_HideTimeAcc = { 0.0 };
+	_bool			m_Hide = { false };
 
 private:
 	HRESULT Add_Components();
