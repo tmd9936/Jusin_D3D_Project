@@ -1,0 +1,791 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 5321937180226604491
+  },
+  "m_Name": "MiscData",
+  "m_friendlyShop": {
+    "m_ballStoragePrice": 50,
+    "m_stoneStoragePrice": 50,
+    "m_ballStorageAddVolume": 20,
+    "m_stoneStorageAddVolume": 20,
+    "m_premiumBallCount": 10
+  },
+  "m_tips": {
+    "m_wait": 1.5
+  },
+  "m_cooking": {
+    "m_ticketCount": 5,
+    "m_ticketCoef": 10.0
+  },
+  "m_stageLevel": {
+    "m_Ratio": 1.0,
+    "m_RankAddValue": 1.0,
+    "m_ValuePow": 1.6,
+    "m_addMax": 20.0,
+    "m_defaultValue": 1,
+    "m_pressLineFirst": 0.3,
+    "m_changeValueInterval": 0.3,
+    "m_changeValueParam": [
+      {
+        "m_changePressLine": 1.0,
+        "m_changeValue": 1
+      },
+      {
+        "m_changePressLine": 2.0,
+        "m_changeValue": 5
+      },
+      {
+        "m_changePressLine": 0.0,
+        "m_changeValue": 10
+      }
+    ]
+  },
+  "m_trade": {
+    "m_ValueMax": 16550,
+    "m_Ratio": 1.1,
+    "m_RankAddValue": 3.5,
+    "m_ValuePow": 4.0,
+    "m_defaultValue": 1,
+    "m_pressLineFirst": 0.3,
+    "m_changeValueInterval": 0.3,
+    "m_changeValueParam": [
+      {
+        "m_changePressLine": 1.0,
+        "m_changeValue": 1
+      },
+      {
+        "m_changePressLine": 2.0,
+        "m_changeValue": 5
+      },
+      {
+        "m_changePressLine": 0.0,
+        "m_changeValue": 10
+      }
+    ]
+  },
+  "m_charmCustom": {
+    "m_nonOpenNumFactor": 0.04,
+    "m_openCost": 2,
+    "m_moveCost": 2,
+    "m_forgetCost": 1
+  },
+  "m_stoneCustom": {
+    "m_nonOpenFactor": 0.1,
+    "m_rankFactor": 0.01,
+    "m_changeCost": 2,
+    "m_addCost": 2,
+    "m_removeCost": 1
+  },
+  "m_inputSettingDataSet": {
+    "m_pokemonNameData": {
+      "m_characterLimit": 6
+    },
+    "m_playerNameData": {
+      "m_characterLimit": 6
+    }
+  },
+  "m_battle": {
+    "m_pokeIconConditionColor": {
+      "m_poison": {
+        "r": 0.8121705,
+        "g": 0.0,
+        "b": 0.8235294,
+        "a": 0.392156869
+      },
+      "m_paralysis": {
+        "r": 1.0,
+        "g": 0.931034446,
+        "b": 0.0,
+        "a": 0.392156869
+      },
+      "m_sleep": {
+        "r": 0.507352948,
+        "g": 0.59229213,
+        "b": 1.0,
+        "a": 0.392156869
+      },
+      "m_freeze": {
+        "r": 0.08879447,
+        "g": 0.0145977642,
+        "b": 0.992647052,
+        "a": 0.392156869
+      },
+      "m_burn": {
+        "r": 1.0,
+        "g": 0.08823532,
+        "b": 0.08823532,
+        "a": 0.392156869
+      },
+      "m_panic": {
+        "r": 1.0,
+        "g": 0.6413793,
+        "b": 0.0,
+        "a": 0.392156869
+      },
+      "m_kanasibari": {
+        "r": 0.433823526,
+        "g": 0.433823526,
+        "b": 0.433823526,
+        "a": 0.392156869
+      }
+    },
+    "m_gameOver": {
+      "m_TicketRank": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70
+      ]
+    },
+    "m_drop": {
+      "m_propertyNum": {
+        "m_maxStageRankThreshold": 100.0,
+        "m_medianStageRankThreshold": 60.0,
+        "m_valueA": 40.0,
+        "m_valueB_u": 1.0,
+        "m_valueB_d": 2.0,
+        "m_rareDropAroundNum": 10
+      },
+      "m_passiveProperty": {
+        "m_calcMinRatios": [
+          0.75,
+          0.7,
+          0.6,
+          0.65,
+          0.7,
+          0.8,
+          0.9
+        ],
+        "m_calcMinRatioStageLevels": [
+          85,
+          71,
+          31,
+          16,
+          10,
+          6,
+          0
+        ],
+        "m_stageRankThreshold": 100.0,
+        "m_rankIncrement": 5,
+        "m_calcMaxValueA": 1.1,
+        "m_calcRankdValueA": 10.0,
+        "m_calcRankdValueB": 11.0
+      },
+      "m_enemy": {
+        "m_stageRankThreshold": 80.0
+      }
+    },
+    "m_result": {
+      "m_expCalclateRate_A": 0.185,
+      "m_expCalclateRate_B": 0.0011,
+      "m_waveExpRatiosGameOver": [
+        0.0,
+        0.1,
+        0.2
+      ],
+      "m_expRatioMaxGameOver": 0.4,
+      "m_waveExpRatiosBreak": [
+        0.0,
+        0.1,
+        0.2
+      ],
+      "m_expRatioMaxBreak": 0.4,
+      "m_cookProgressLowerWaveGameOver": 0,
+      "m_cookProgressLowerWaveBreak": 0
+    },
+    "m_damage": {
+      "m_criticalChancePercent": 5.0,
+      "m_criticalDamagePercent": 1.5,
+      "m_matchPokeTypeDamagePercent": 1.1
+    },
+    "m_production": {
+      "m_spawn": {
+        "m_cameraMoveStart": {
+          "m_second": 0.5,
+          "m_easing": 19
+        },
+        "m_cameraMoveEnd": {
+          "m_second": 0.5,
+          "m_easing": 18
+        },
+        "m_cameraZoomStart": {
+          "m_second": 0.75,
+          "m_easing": 19
+        },
+        "m_cameraZoomEnd": {
+          "m_second": 0.75,
+          "m_easing": 18
+        },
+        "m_cameraZoomDistanceRatio": 1.5,
+        "m_waitSecond": 0.5
+      }
+    },
+    "m_team": {
+      "m_backStepSecond": 5.0,
+      "m_autoSkillUniqueProb": 70
+    },
+    "m_knockbackCoefSelf": 1.0,
+    "m_knockbackCoefEnemy": 1.0
+  },
+  "m_battery": {
+    "m_recoverIntervalMinute": 30,
+    "m_batteryMax": 5,
+    "m_batteryMin": 0,
+    "m_giftTicketNum": 25,
+    "m_batterySaveMax": 99
+  },
+  "m_fsGiftTicket": {
+    "m_oneDayIntervalHour": 22,
+    "m_max": 99999,
+    "m_min": 0,
+    "m_baseValue": 50
+  },
+  "m_characterStorage": {
+    "m_maxCapacity": 300,
+    "m_defaultCapacity": 20,
+    "m_addCapacity": 20
+  },
+  "m_potentialStorage": {
+    "m_maxCapacity": 300,
+    "m_defaultCapacity": 20,
+    "m_addCapacity": 20
+  },
+  "m_openCooking": {
+    "m_dungeonID": 0,
+    "m_stageNum": 2,
+    "m_firstOpenPotID": [
+      0
+    ],
+    "m_firstOpenRecipeID": [],
+    "m_firstOpenVolumeID": [
+      0
+    ]
+  },
+  "m_challengeDungeon": {
+    "m_intervalHour": 22
+  },
+  "m_potential": {
+    "m_stoneGraphic": {
+      "m_rankThresholds": [
+        5,
+        15,
+        30,
+        50,
+        70
+      ],
+      "m_rarityThresholds": [
+        10,
+        20,
+        30,
+        999
+      ]
+    }
+  },
+  "m_stageDropItem": {
+    "m_maxWeight": 8
+  },
+  "m_specialTraining": {
+    "m_exp": {
+      "typeRatio": 4.0,
+      "groupRatio": 2.0,
+      "lowestExpRatios": [
+        0.05,
+        0.05,
+        0.05,
+        0.05,
+        0.05,
+        0.05,
+        0.05,
+        0.05
+      ]
+    },
+    "m_skill": {
+      "typeRatio": 4.0,
+      "groupRatio": 2.0,
+      "learnCountRatio": 0.03,
+      "lowestLearnRatios": [
+        0.01,
+        0.01,
+        0.01,
+        0.01,
+        0.01,
+        0.01,
+        0.01,
+        0.01
+      ]
+    }
+  },
+  "m_visitPokemonPosition": {
+    "m_cooking": {
+      "cookingGroups": [
+        {
+          "points": [
+            {
+              "position": {
+                "x": -6.0,
+                "y": 0.0,
+                "z": 13.0
+              },
+              "rotation": {
+                "x": 0.0,
+                "y": 150.0,
+                "z": 0.0,
+                "w": 1.0
+              }
+            },
+            {
+              "position": {
+                "x": 2.0,
+                "y": 0.0,
+                "z": 11.5
+              },
+              "rotation": {
+                "x": 0.0,
+                "y": 200.0,
+                "z": 0.0,
+                "w": 1.0
+              }
+            },
+            {
+              "position": {
+                "x": -2.5,
+                "y": 0.0,
+                "z": 14.0
+              },
+              "rotation": {
+                "x": 0.0,
+                "y": 170.0,
+                "z": 0.0,
+                "w": 1.0
+              }
+            }
+          ]
+        },
+        {
+          "points": [
+            {
+              "position": {
+                "x": 11.0,
+                "y": 0.0,
+                "z": 5.0
+              },
+              "rotation": {
+                "x": 0.0,
+                "y": -140.0,
+                "z": 0.0,
+                "w": 1.0
+              }
+            },
+            {
+              "position": {
+                "x": 12.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "rotation": {
+                "x": 0.0,
+                "y": -90.0,
+                "z": 0.0,
+                "w": 1.0
+              }
+            },
+            {
+              "position": {
+                "x": 11.0,
+                "y": 0.0,
+                "z": -5.0
+              },
+              "rotation": {
+                "x": 0.0,
+                "y": -40.0,
+                "z": 0.0,
+                "w": 1.0
+              }
+            }
+          ]
+        },
+        {
+          "points": [
+            {
+              "position": {
+                "x": 5.0,
+                "y": 0.0,
+                "z": -11.0
+              },
+              "rotation": {
+                "x": 0.0,
+                "y": -50.0,
+                "z": 0.0,
+                "w": 1.0
+              }
+            },
+            {
+              "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -11.5
+              },
+              "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+              }
+            },
+            {
+              "position": {
+                "x": -5.0,
+                "y": 0.0,
+                "z": -11.0
+              },
+              "rotation": {
+                "x": 0.0,
+                "y": 50.0,
+                "z": 0.0,
+                "w": 1.0
+              }
+            }
+          ]
+        },
+        {
+          "points": [
+            {
+              "position": {
+                "x": -11.0,
+                "y": 0.0,
+                "z": -5.0
+              },
+              "rotation": {
+                "x": 0.0,
+                "y": 50.0,
+                "z": 0.0,
+                "w": 1.0
+              }
+            },
+            {
+              "position": {
+                "x": -11.5,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "rotation": {
+                "x": 0.0,
+                "y": 90.0,
+                "z": 0.0,
+                "w": 1.0
+              }
+            },
+            {
+              "position": {
+                "x": -11.0,
+                "y": 0.0,
+                "z": 5.0
+              },
+              "rotation": {
+                "x": 0.0,
+                "y": 140.0,
+                "z": 0.0,
+                "w": 1.0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "m_time": {
+      "points": [
+        {
+          "position": {
+            "x": -19.0,
+            "y": 0.0,
+            "z": 20.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 140.0,
+            "z": 0.0,
+            "w": 1.0
+          }
+        }
+      ]
+    },
+    "m_tutorial": {
+      "points": [
+        {
+          "position": {
+            "x": -5.0,
+            "y": 0.0,
+            "z": 12.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 140.0,
+            "z": 0.0,
+            "w": 1.0
+          }
+        },
+        {
+          "position": {
+            "x": 1.0,
+            "y": 0.0,
+            "z": 13.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 170.0,
+            "z": 0.0,
+            "w": 1.0
+          }
+        }
+      ]
+    },
+    "m_dlc": {
+      "points": [
+        {
+          "position": {
+            "x": 22.5,
+            "y": 0.0,
+            "z": 25.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 200.0,
+            "z": 0.0,
+            "w": 1.0
+          }
+        },
+        {
+          "position": {
+            "x": -1.0,
+            "y": 0.0,
+            "z": 25.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 160.0,
+            "z": 0.0,
+            "w": 1.0
+          }
+        },
+        {
+          "position": {
+            "x": 5.0,
+            "y": 0.0,
+            "z": 25.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 180.0,
+            "z": 0.0,
+            "w": 1.0
+          }
+        },
+        {
+          "position": {
+            "x": 12.0,
+            "y": 0.0,
+            "z": 25.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 170.0,
+            "z": 0.0,
+            "w": 1.0
+          }
+        },
+        {
+          "position": {
+            "x": 17.0,
+            "y": 0.0,
+            "z": 25.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 190.0,
+            "z": 0.0,
+            "w": 1.0
+          }
+        }
+      ]
+    }
+  },
+  "m_baseCampHowTo": {
+    "timeVisitStageNum": 3,
+    "recipeWork": 1,
+    "cookingRateNum": 1
+  },
+  "m_worldMapHowTo": {
+    "extraStageWork": 11
+  },
+  "m_worldMapDropItemColor": {
+    "redItem": {
+      "r": 1.0,
+      "g": 0.305882365,
+      "b": 0.10980393,
+      "a": 1.0
+    },
+    "blueItem": {
+      "r": 0.04705883,
+      "g": 0.4784314,
+      "b": 1.0,
+      "a": 1.0
+    },
+    "yellowItem": {
+      "r": 1.0,
+      "g": 0.8745099,
+      "b": 0.101960793,
+      "a": 1.0
+    },
+    "grayItem": {
+      "r": 0.498039246,
+      "g": 0.498039246,
+      "b": 0.498039246,
+      "a": 1.0
+    }
+  },
+  "m_achievement": {
+    "m_receiveWaitSecond": 0.6
+  },
+  "m_fade": {
+    "m_defaultColorStart": {
+      "r": 1.0,
+      "g": 0.7372549,
+      "b": 0.07450981,
+      "a": 0.0
+    },
+    "m_defaultColorEnd": {
+      "r": 1.0,
+      "g": 0.7372549,
+      "b": 0.07450981,
+      "a": 1.0
+    },
+    "m_defaultSecond": 0.5
+  },
+  "m_pokemonStatus": {
+    "m_evolveMulColor": {
+      "r": 1.0,
+      "g": 1.0,
+      "b": 1.0,
+      "a": 1.0
+    }
+  },
+  "m_stageCommon": {
+    "m_dungeonColor": [
+      {
+        "r": 0.482352972,
+        "g": 0.9215687,
+        "b": 0.3803922,
+        "a": 1.0
+      },
+      {
+        "r": 0.294117659,
+        "g": 0.92549026,
+        "b": 0.7411765,
+        "a": 1.0
+      },
+      {
+        "r": 0.788235366,
+        "g": 0.670588255,
+        "b": 0.509803951,
+        "a": 1.0
+      },
+      {
+        "r": 1.0,
+        "g": 0.7803922,
+        "b": 0.309803933,
+        "a": 1.0
+      },
+      {
+        "r": 0.7137255,
+        "g": 0.7137255,
+        "b": 0.941176534,
+        "a": 1.0
+      },
+      {
+        "r": 0.9333334,
+        "g": 0.9333334,
+        "b": 0.356862754,
+        "a": 1.0
+      },
+      {
+        "r": 0.8745099,
+        "g": 0.48627454,
+        "b": 0.8196079,
+        "a": 1.0
+      },
+      {
+        "r": 0.596078455,
+        "g": 0.8431373,
+        "b": 0.964705944,
+        "a": 1.0
+      },
+      {
+        "r": 0.6627451,
+        "g": 0.7372549,
+        "b": 0.5568628,
+        "a": 1.0
+      },
+      {
+        "r": 0.7960785,
+        "g": 0.8980393,
+        "b": 0.48627454,
+        "a": 1.0
+      },
+      {
+        "r": 0.5647059,
+        "g": 0.168627456,
+        "b": 0.6784314,
+        "a": 1.0
+      },
+      {
+        "r": 0.6784314,
+        "g": 0.6784314,
+        "b": 0.6784314,
+        "a": 1.0
+      },
+      {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      }
+    ]
+  }
+}

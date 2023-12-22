@@ -1,0 +1,10 @@
+{
+  "m_attackRatioClampMin": 0.2,
+  "m_attackRatioClampMax": 1.8,
+  "m_damageRatioClampMin": 0.2,
+  "m_damageRatioClampMax": 1.8,
+  "m_moveSpeedClampMin": 0.5,
+  "m_moveSpeedClampMax": 1.8,
+  "m_resistBadConditionClampMin": -0.5,
+  "m_resistBadConditionClampMax": 0.5
+}

@@ -1,0 +1,72 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": -2109149109194736612
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": -5308300881746995884
+  },
+  "m_Name": "",
+  "m_exitAnimator": {
+    "m_FileID": 0,
+    "m_PathID": 57943186771857688
+  },
+  "m_achievementWindowMain": {
+    "m_FileID": 0,
+    "m_PathID": 1829975008246258410
+  },
+  "m_achievementWindowChallenge": {
+    "m_FileID": 0,
+    "m_PathID": -8399149991991235129
+  },
+  "m_receiveWindowPrefab": {
+    "m_FileID": 0,
+    "m_PathID": 408545025837587624
+  },
+  "m_sceneName": {
+    "m_FileID": 0,
+    "m_PathID": -9161236482389524987
+  },
+  "m_battery": {
+    "batteryMaxObj": {
+      "m_FileID": 0,
+      "m_PathID": 3925734825537609094
+    },
+    "batteryMaxTitleText": {
+      "m_FileID": 0,
+      "m_PathID": 2961670096257992515
+    },
+    "batteryMaxCountText": {
+      "m_FileID": 0,
+      "m_PathID": -8287799308834873604
+    },
+    "batteryCurrentCountText": {
+      "m_FileID": 0,
+      "m_PathID": -3368841588089453178
+    },
+    "batterySlider": {
+      "m_FileID": 0,
+      "m_PathID": -694755634725916371
+    },
+    "batteryTimeObj": {
+      "m_FileID": 0,
+      "m_PathID": -4900856610731954522
+    },
+    "batteryTimeTitleText": {
+      "m_FileID": 0,
+      "m_PathID": 4387351069626895603
+    },
+    "batteryTimeCountText": {
+      "m_FileID": 0,
+      "m_PathID": -3529093573695901924
+    }
+  },
+  "m_fsGiftTicket": {
+    "giftTicketCountText": {
+      "m_FileID": 0,
+      "m_PathID": -5996119240503311812
+    }
+  }
+}

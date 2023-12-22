@@ -1,0 +1,48 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 3805766193616926365
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": -5295740976841755790
+  },
+  "m_Name": "",
+  "m_uiAnimator": {
+    "m_FileID": 0,
+    "m_PathID": -1879607357878871111
+  },
+  "m_titleText": {
+    "m_FileID": 0,
+    "m_PathID": -3770679417806035643
+  },
+  "m_slider": {
+    "m_FileID": 0,
+    "m_PathID": 4350689720414345036
+  },
+  "m_off": {
+    "m_FileID": 0,
+    "m_PathID": -8097387730498700692
+  },
+  "m_totalText": {
+    "m_FileID": 0,
+    "m_PathID": 513238245323154782
+  },
+  "m_goalText": {
+    "m_FileID": 0,
+    "m_PathID": 573688449144947852
+  },
+  "m_newIcon": {
+    "m_FileID": 0,
+    "m_PathID": 3726053864483428128
+  },
+  "m_icon": {
+    "m_FileID": 0,
+    "m_PathID": 8299204691159748066
+  },
+  "m_rewardIcon": {
+    "m_FileID": 0,
+    "m_PathID": -6966155706177466988
+  }
+}

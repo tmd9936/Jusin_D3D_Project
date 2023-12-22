@@ -1,0 +1,60 @@
+{
+    "MiscDesc": {
+        "hpBarMiscDesc": {
+            "SizeX": 60.0,
+            "SizeY": 10.0,
+            "PositionX": -15.0,
+            "PositionY": -60.0,
+            "PositionZ": 0.1,
+            "playerColor": {
+                "x": 0.0,
+                "y": 0.89,
+                "z": 1.0,
+                "w": 1.0
+            },
+            "enemyColor": {
+                "x": 1.0,
+                "y": 0.25,
+                "z": 0.0,
+                "w": 1.0
+            }
+        },
+        "damageTextMiscDesc": {
+            "SizeX": 0.55,
+            "SizeY": 0.5,
+            "PositionX": -17.0,
+            "PositionY": -45.0,
+            "PositionZ": 0.1
+        },
+        "m_buffStateDesces": [
+            {
+                "SizeX": 20.0,
+                "SizeY": 20.0,
+                "PositionX": -55.0,
+                "PositionY": -80.0,
+                "PositionZ": 0.1
+            },
+            {
+                "SizeX": 20.0,
+                "SizeY": 20.0,
+                "PositionX": -30.0,
+                "PositionY": -80.0,
+                "PositionZ": 0.1
+            },
+            {
+                "SizeX": 20.0,
+                "SizeY": 20.0,
+                "PositionX": -5.0,
+                "PositionY": -80.0,
+                "PositionZ": 0.1
+            },
+            {
+                "SizeX": 20.0,
+                "SizeY": 20.0,
+                "PositionX": 15.0,
+                "PositionY": -80.0,
+                "PositionZ": 0.1
+            }
+        ]
+    }
+}

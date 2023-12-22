@@ -1,0 +1,212 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": -9033088821661943935
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 1063348193988308616
+  },
+  "m_Name": "",
+  "m_yellow": {
+    "m_animator": {
+      "m_FileID": 0,
+      "m_PathID": 3776510139428635238
+    },
+    "m_priceText": {
+      "m_FileID": 0,
+      "m_PathID": 7731671887374413636
+    },
+    "m_titleText1": {
+      "m_FileID": 0,
+      "m_PathID": -4391834801570113733
+    },
+    "m_titleText2": {
+      "m_FileID": 0,
+      "m_PathID": -3133815335436786691
+    },
+    "m_omakeTitleText": {
+      "m_FileID": 0,
+      "m_PathID": 665442828908072686
+    },
+    "m_omakeCardCountText": {
+      "m_FileID": 0,
+      "m_PathID": -666555370728499796
+    },
+    "m_subWindowText1": {
+      "m_FileID": 0,
+      "m_PathID": 8674514240553634099
+    },
+    "m_subWindowText2": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "m_buttonImage": {
+      "m_FileID": 0,
+      "m_PathID": -3693724239450897755
+    },
+    "m_buttonOmakeImage": {
+      "m_FileID": 0,
+      "m_PathID": 7496747084358120702
+    },
+    "m_PriceRoot": {
+      "m_FileID": 0,
+      "m_PathID": -5947477080158209878
+    },
+    "m_SubWinRoot": {
+      "m_FileID": 0,
+      "m_PathID": -7488885467181215775
+    }
+  },
+  "m_red": {
+    "m_animator": {
+      "m_FileID": 0,
+      "m_PathID": -1229684939313766441
+    },
+    "m_priceText": {
+      "m_FileID": 0,
+      "m_PathID": 6987385990753819361
+    },
+    "m_titleText1": {
+      "m_FileID": 0,
+      "m_PathID": -8141758672154960030
+    },
+    "m_titleText2": {
+      "m_FileID": 0,
+      "m_PathID": 8686793338092928503
+    },
+    "m_omakeTitleText": {
+      "m_FileID": 0,
+      "m_PathID": -931252979877760734
+    },
+    "m_omakeCardCountText": {
+      "m_FileID": 0,
+      "m_PathID": -4858750201460556645
+    },
+    "m_subWindowText1": {
+      "m_FileID": 0,
+      "m_PathID": -8998234090130244489
+    },
+    "m_subWindowText2": {
+      "m_FileID": 0,
+      "m_PathID": 6212595160816390360
+    },
+    "m_buttonImage": {
+      "m_FileID": 0,
+      "m_PathID": -8181417894618784790
+    },
+    "m_buttonOmakeImage": {
+      "m_FileID": 0,
+      "m_PathID": -4066926873532380420
+    },
+    "m_PriceRoot": {
+      "m_FileID": 0,
+      "m_PathID": 8244882757086297178
+    },
+    "m_SubWinRoot": {
+      "m_FileID": 0,
+      "m_PathID": -1593741437090197646
+    }
+  },
+  "m_blue1": {
+    "m_animator": {
+      "m_FileID": 0,
+      "m_PathID": 5120635407974827342
+    },
+    "m_priceText": {
+      "m_FileID": 0,
+      "m_PathID": -2508361316258969505
+    },
+    "m_titleText1": {
+      "m_FileID": 0,
+      "m_PathID": -751384002745919087
+    },
+    "m_titleText2": {
+      "m_FileID": 0,
+      "m_PathID": 8794661846997138321
+    },
+    "m_omakeTitleText": {
+      "m_FileID": 0,
+      "m_PathID": 1307262207772774398
+    },
+    "m_omakeCardCountText": {
+      "m_FileID": 0,
+      "m_PathID": -7995558494010910639
+    },
+    "m_subWindowText1": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "m_subWindowText2": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "m_buttonImage": {
+      "m_FileID": 0,
+      "m_PathID": -6858274687564983161
+    },
+    "m_buttonOmakeImage": {
+      "m_FileID": 0,
+      "m_PathID": -3338698858265292716
+    },
+    "m_PriceRoot": {
+      "m_FileID": 0,
+      "m_PathID": -2236667059989457232
+    },
+    "m_SubWinRoot": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    }
+  },
+  "m_blue2": {
+    "m_animator": {
+      "m_FileID": 0,
+      "m_PathID": -2412354182062137951
+    },
+    "m_priceText": {
+      "m_FileID": 0,
+      "m_PathID": -3206491550720639558
+    },
+    "m_titleText1": {
+      "m_FileID": 0,
+      "m_PathID": 3529341542903115840
+    },
+    "m_titleText2": {
+      "m_FileID": 0,
+      "m_PathID": 3690578832121718012
+    },
+    "m_omakeTitleText": {
+      "m_FileID": 0,
+      "m_PathID": -2581556184840660279
+    },
+    "m_omakeCardCountText": {
+      "m_FileID": 0,
+      "m_PathID": -8737943926134153600
+    },
+    "m_subWindowText1": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "m_subWindowText2": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "m_buttonImage": {
+      "m_FileID": 0,
+      "m_PathID": 1092710245053211794
+    },
+    "m_buttonOmakeImage": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "m_PriceRoot": {
+      "m_FileID": 0,
+      "m_PathID": -4235983519061066656
+    },
+    "m_SubWinRoot": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    }
+  }
+}

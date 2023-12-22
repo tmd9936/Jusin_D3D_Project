@@ -1,0 +1,18 @@
+{
+    "StagePointDesc": {
+        "vPos": {
+            "x": 12.6,
+            "y": 2.0,
+            "z": 16.4
+        },
+        "vColor": {
+            "x": 0.596078455,
+            "y": 0.8431373,
+            "z": 0.964705944,
+            "w": 1.0
+        },
+        "eState": 1,
+        "stageNumber" : 4,
+        "levelTitleText": "고요한대지"
+    }
+}

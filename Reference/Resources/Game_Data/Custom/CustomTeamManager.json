@@ -1,0 +1,130 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 38
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 1,
+    "m_PathID": 93
+  },
+  "m_Name": "",
+  "sceneTitleText": {
+    "m_FileID": 0,
+    "m_PathID": 560
+  },
+  "teamPowerParam": {
+    "teamPowerTitleText": {
+      "m_FileID": 0,
+      "m_PathID": 555
+    },
+    "teamPowerValueText": {
+      "m_FileID": 0,
+      "m_PathID": 557
+    }
+  },
+  "pokemonModelParam": {
+    "teamCenterPoint": {
+      "m_FileID": 0,
+      "m_PathID": 194
+    },
+    "rotateSpeed": 20.0,
+    "formationDescText": {
+      "m_FileID": 0,
+      "m_PathID": 553
+    },
+    "renderTargetTexture_0": {
+      "m_FileID": 0,
+      "m_PathID": 612
+    }
+  },
+  "teamStatusButton": {
+    "m_FileID": 0,
+    "m_PathID": 618
+  },
+  "teamMemberCells": [
+    {
+      "m_FileID": 0,
+      "m_PathID": 737
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 735
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 736
+    }
+  ],
+  "uiPageScroll": {
+    "m_FileID": 0,
+    "m_PathID": 751
+  },
+  "exitButton": {
+    "m_FileID": 0,
+    "m_PathID": 572
+  },
+  "storageTextParam": {
+    "haveCountText": {
+      "m_FileID": 0,
+      "m_PathID": 548
+    },
+    "storageMaxCountText": {
+      "m_FileID": 0,
+      "m_PathID": 558
+    }
+  },
+  "operationField": {
+    "m_FileID": 0,
+    "m_PathID": 443
+  },
+  "monsterListParent": {
+    "m_FileID": 0,
+    "m_PathID": 95
+  },
+  "formationOrigin": {
+    "m_FileID": 0,
+    "m_PathID": 448
+  },
+  "baseCell": {
+    "m_FileID": 0,
+    "m_PathID": 115
+  },
+  "rotateObjPosition": {
+    "x": 0.0,
+    "y": 27.0,
+    "z": 27.0
+  },
+  "pokemonSortButton": {
+    "m_FileID": 0,
+    "m_PathID": 608
+  },
+  "trainingButton": {
+    "m_FileID": 0,
+    "m_PathID": 653
+  },
+  "trainingButtonText": {
+    "m_FileID": 0,
+    "m_PathID": 551
+  },
+  "dragGuideMarker_1": {
+    "m_FileID": 0,
+    "m_PathID": 55
+  },
+  "dragingGuideMarker_1": {
+    "m_FileID": 0,
+    "m_PathID": 15
+  },
+  "dragGuideMarker_2": {
+    "m_FileID": 0,
+    "m_PathID": 103
+  },
+  "dragingGuideMarker_2": {
+    "m_FileID": 0,
+    "m_PathID": 34
+  },
+  "exitGuideMarker": {
+    "m_FileID": 0,
+    "m_PathID": 17
+  }
+}

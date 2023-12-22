@@ -1,0 +1,48 @@
+{
+    "ButtonDesc": {
+        "m_fX": 790.0,
+        "m_fY": 380.0,
+        "m_fSizeX": 100.5,
+        "m_fSizeY": 40.0,
+        "m_ModelPrototypLevel": 0,
+        "m_ShaderLevelIndex": 0,
+        "m_DiffuseTexturePath": "./Worldmap_BaseCampL_button.dds",
+        "m_MaskPrototypeTag": "Prototype_Component_Button_Color_Mask",
+        "m_BrushPrototypeTag": "",
+        "m_ButtonName": "GO_TO_BASECAMP",
+        "m_UIType": 0,
+        "m_vColor": {
+            "x" : 1.0,
+            "y" : 1.0,
+            "z" : 1.0,
+            "w" : 1.0
+        },
+        "m_TextureParts": [
+
+        ],
+        "m_TextParts": [
+            {
+                "m_fX": 14.0,
+                "m_fY": 31.6,
+                "m_vColor": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "m_Rotation": 0.0,
+                "m_vRotationOrigin": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "m_vScale": {
+                    "x": 0.36,
+                    "y": 0.30
+                },
+                "m_FontTag": "Font_NanumBarunGothicBold", 
+                "m_Text": "베이스캠프 ",
+                "LayerTag": "Layer_UI"
+            }
+        ]
+    }
+}

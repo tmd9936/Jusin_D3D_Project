@@ -1,0 +1,58 @@
+{
+    "Level": 3,
+    "Layer": "Layer_Env",
+    "Objects": [
+        {
+            "ScaleX": 1.0,
+            "ScaleY": 12.0,
+            "ScaleZ": 1.0,
+            "RotX": 0.03490658476948738,
+            "RotY": 0.22689279913902283,
+            "RotZ": 0.0,
+            "PosX": 9.0,
+            "PosY": 0.0,
+            "PosZ": 5.0,
+            "PrototypeTag": "Prototype_GameObject_TestModel",
+            "ObjectNameTag": ""
+        },
+        {
+            "ScaleX": 11.0,
+            "ScaleY": 5.0,
+            "ScaleZ": 0.9999999403953552,
+            "RotX": 0.1745329201221466,
+            "RotY": 0.24434609711170197,
+            "RotZ": 0.40142571926116943,
+            "PosX": 10.0,
+            "PosY": 0.0,
+            "PosZ": 10.0,
+            "PrototypeTag": "Prototype_GameObject_TestModel",
+            "ObjectNameTag": ""
+        },
+        {
+            "ScaleX": 1.0,
+            "ScaleY": 1.0,
+            "ScaleZ": 1.0,
+            "RotX": 0.0,
+            "RotY": 0.0,
+            "RotZ": 0.0,
+            "PosX": 17.0,
+            "PosY": 0.0,
+            "PosZ": 7.0,
+            "PrototypeTag": "Prototype_GameObject_TestModel",
+            "ObjectNameTag": ""
+        },
+        {
+            "ScaleX": 1.0,
+            "ScaleY": 1.0,
+            "ScaleZ": 1.0,
+            "RotX": 0.0,
+            "RotY": 0.0,
+            "RotZ": 0.0,
+            "PosX": 4.0,
+            "PosY": 0.0,
+            "PosZ": 8.0,
+            "PrototypeTag": "Prototype_GameObject_TestModel",
+            "ObjectNameTag": ""
+        }
+    ]
+}

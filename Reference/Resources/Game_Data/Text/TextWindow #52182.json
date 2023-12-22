@@ -1,0 +1,90 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": -1526943082833054803
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": -8290082732276272101
+  },
+  "m_Name": "",
+  "m_windowParam_Player": {
+    "text": {
+      "m_FileID": 0,
+      "m_PathID": -8599160486304711440
+    },
+    "nameField": {
+      "m_FileID": 0,
+      "m_PathID": 5745691776227478150
+    },
+    "namePlate": {
+      "m_FileID": 0,
+      "m_PathID": 8671671392425986421
+    },
+    "gameObject": {
+      "m_FileID": 0,
+      "m_PathID": -3790306098809150065
+    },
+    "uiAnimatorText": {
+      "m_FileID": 0,
+      "m_PathID": -1226872530961013895
+    }
+  },
+  "m_windowParam_Drone": {
+    "text": {
+      "m_FileID": 0,
+      "m_PathID": -6898600555379400285
+    },
+    "nameField": {
+      "m_FileID": 0,
+      "m_PathID": 8717819152016500235
+    },
+    "namePlate": {
+      "m_FileID": 0,
+      "m_PathID": 4048503285165290184
+    },
+    "gameObject": {
+      "m_FileID": 0,
+      "m_PathID": -2949984672857923586
+    },
+    "uiAnimatorText": {
+      "m_FileID": 0,
+      "m_PathID": -2812776853678230772
+    }
+  },
+  "m_windowParam_Mewto": {
+    "text": {
+      "m_FileID": 0,
+      "m_PathID": 2402964884101208302
+    },
+    "nameField": {
+      "m_FileID": 0,
+      "m_PathID": 1957829360757332573
+    },
+    "namePlate": {
+      "m_FileID": 0,
+      "m_PathID": 5846677168710383505
+    },
+    "gameObject": {
+      "m_FileID": 0,
+      "m_PathID": 4333779460605371556
+    },
+    "uiAnimatorText": {
+      "m_FileID": 0,
+      "m_PathID": -6595555247926465251
+    }
+  },
+  "m_markerParent": {
+    "m_FileID": 0,
+    "m_PathID": -4651150042449933583
+  },
+  "m_fadeAnimtor": {
+    "m_FileID": 0,
+    "m_PathID": -3533514098326717080
+  },
+  "m_windowGradationAnimator": {
+    "m_FileID": 0,
+    "m_PathID": -8088974076884119451
+  }
+}

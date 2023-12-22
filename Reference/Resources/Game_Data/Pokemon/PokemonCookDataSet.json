@@ -1,0 +1,62 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 3744477938216975758
+  },
+  "m_Name": "PokemonCookDataSet",
+  "m_datas": [
+    {
+      "m_rare1_ratio": 0,
+      "m_rare2_ratio": 0,
+      "m_rare3_ratio": 0,
+      "m_rare4_ratio": 0
+    },
+    {
+      "m_rare1_ratio": 100,
+      "m_rare2_ratio": 0,
+      "m_rare3_ratio": 0,
+      "m_rare4_ratio": 0
+    },
+    {
+      "m_rare1_ratio": 0,
+      "m_rare2_ratio": 100,
+      "m_rare3_ratio": 100,
+      "m_rare4_ratio": 0
+    },
+    {
+      "m_rare1_ratio": 0,
+      "m_rare2_ratio": 100,
+      "m_rare3_ratio": 100,
+      "m_rare4_ratio": 0
+    },
+    {
+      "m_rare1_ratio": 0,
+      "m_rare2_ratio": 5,
+      "m_rare3_ratio": 100,
+      "m_rare4_ratio": 100
+    },
+    {
+      "m_rare1_ratio": 0,
+      "m_rare2_ratio": 5,
+      "m_rare3_ratio": 100,
+      "m_rare4_ratio": 100
+    },
+    {
+      "m_rare1_ratio": 1,
+      "m_rare2_ratio": 1,
+      "m_rare3_ratio": 1,
+      "m_rare4_ratio": 1
+    },
+    {
+      "m_rare1_ratio": 0,
+      "m_rare2_ratio": 0,
+      "m_rare3_ratio": 0,
+      "m_rare4_ratio": 1
+    }
+  ]
+}

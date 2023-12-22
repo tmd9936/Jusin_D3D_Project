@@ -1,0 +1,122 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 8207984131622930176
+  },
+  "m_Name": "GoodsShopDataSet",
+  "m_datas": [
+    {
+      "m_id": 0,
+      "m_goodsID": 309,
+      "m_price": 50,
+      "m_purchasedFlag": 209
+    },
+    {
+      "m_id": 1,
+      "m_goodsID": 200,
+      "m_price": 300,
+      "m_purchasedFlag": 212
+    },
+    {
+      "m_id": 2,
+      "m_goodsID": 310,
+      "m_price": 50,
+      "m_purchasedFlag": 210
+    },
+    {
+      "m_id": 3,
+      "m_goodsID": 204,
+      "m_price": 300,
+      "m_purchasedFlag": 216
+    },
+    {
+      "m_id": 4,
+      "m_goodsID": 311,
+      "m_price": 50,
+      "m_purchasedFlag": 211
+    },
+    {
+      "m_id": 5,
+      "m_goodsID": 202,
+      "m_price": 300,
+      "m_purchasedFlag": 214
+    },
+    {
+      "m_id": 6,
+      "m_goodsID": 203,
+      "m_price": 50,
+      "m_purchasedFlag": 215
+    },
+    {
+      "m_id": 7,
+      "m_goodsID": 205,
+      "m_price": 300,
+      "m_purchasedFlag": 217
+    },
+    {
+      "m_id": 8,
+      "m_goodsID": 306,
+      "m_price": 150,
+      "m_purchasedFlag": 206
+    },
+    {
+      "m_id": 9,
+      "m_goodsID": 302,
+      "m_price": 500,
+      "m_purchasedFlag": 202
+    },
+    {
+      "m_id": 10,
+      "m_goodsID": 307,
+      "m_price": 200,
+      "m_purchasedFlag": 207
+    },
+    {
+      "m_id": 11,
+      "m_goodsID": 304,
+      "m_price": 700,
+      "m_purchasedFlag": 204
+    },
+    {
+      "m_id": 12,
+      "m_goodsID": 308,
+      "m_price": 100,
+      "m_purchasedFlag": 208
+    },
+    {
+      "m_id": 13,
+      "m_goodsID": 303,
+      "m_price": 400,
+      "m_purchasedFlag": 203
+    },
+    {
+      "m_id": 14,
+      "m_goodsID": 301,
+      "m_price": 200,
+      "m_purchasedFlag": 201
+    },
+    {
+      "m_id": 15,
+      "m_goodsID": 207,
+      "m_price": 800,
+      "m_purchasedFlag": 219
+    },
+    {
+      "m_id": 16,
+      "m_goodsID": 300,
+      "m_price": 400,
+      "m_purchasedFlag": 200
+    },
+    {
+      "m_id": 17,
+      "m_goodsID": 101,
+      "m_price": 700,
+      "m_purchasedFlag": 221
+    }
+  ]
+}

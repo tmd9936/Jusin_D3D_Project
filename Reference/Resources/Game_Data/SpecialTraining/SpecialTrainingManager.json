@@ -1,0 +1,187 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 56
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 1,
+    "m_PathID": 132
+  },
+  "m_Name": "",
+  "tabButtons": [
+    {
+      "m_animator": {
+        "m_FileID": 0,
+        "m_PathID": 821
+      },
+      "m_content": {
+        "m_FileID": 0,
+        "m_PathID": 82
+      }
+    },
+    {
+      "m_animator": {
+        "m_FileID": 0,
+        "m_PathID": 849
+      },
+      "m_content": {
+        "m_FileID": 0,
+        "m_PathID": 106
+      }
+    }
+  ],
+  "exitButton": {
+    "m_FileID": 0,
+    "m_PathID": 778
+  },
+  "trainingButton": {
+    "m_FileID": 0,
+    "m_PathID": 921
+  },
+  "resetButton": {
+    "m_FileID": 0,
+    "m_PathID": 838
+  },
+  "uiPageScroll": {
+    "m_FileID": 0,
+    "m_PathID": 1025
+  },
+  "baseCell": {
+    "m_FileID": 0,
+    "m_PathID": 165
+  },
+  "operationField": {
+    "m_FileID": 0,
+    "m_PathID": 606
+  },
+  "storageTextParam": {
+    "haveCountText": {
+      "m_FileID": 0,
+      "m_PathID": 762
+    },
+    "storageMaxCountText": {
+      "m_FileID": 0,
+      "m_PathID": 756
+    }
+  },
+  "skillParam": {
+    "percent": {
+      "m_FileID": 0,
+      "m_PathID": 761
+    },
+    "skillBoard": {
+      "m_FileID": 0,
+      "m_PathID": 845
+    }
+  },
+  "beforeLevelParam": {
+    "count": {
+      "m_FileID": 0,
+      "m_PathID": 746
+    },
+    "expProgress": {
+      "m_FileID": 0,
+      "m_PathID": 812
+    }
+  },
+  "afterLevelParam": {
+    "count": {
+      "m_FileID": 0,
+      "m_PathID": 748
+    },
+    "expProgress": {
+      "m_FileID": 0,
+      "m_PathID": 801
+    }
+  },
+  "pokemonSortButton": {
+    "m_FileID": 0,
+    "m_PathID": 843
+  },
+  "monsterListParent": {
+    "m_FileID": 0,
+    "m_PathID": 68
+  },
+  "trainingPokemon": {
+    "m_FileID": 0,
+    "m_PathID": 1005
+  },
+  "supportPokemons": [
+    {
+      "m_FileID": 0,
+      "m_PathID": 1009
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 1006
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 1007
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 1008
+    }
+  ],
+  "demoParam": {
+    "support": {
+      "entryPoint": {
+        "m_FileID": 0,
+        "m_PathID": 254
+      },
+      "moveTargetPoint": {
+        "m_FileID": 0,
+        "m_PathID": 267
+      },
+      "entrySpanSecond": 0.4,
+      "moveSecond": 0.7,
+      "moveTweenType": 1,
+      "AnimeType": 11,
+      "knockBack": {
+        "second": 5.0,
+        "tweenType": 12,
+        "targetPointXRandMin": 25.0,
+        "targetPointXRandMax": 50.0,
+        "targetPointY": 20.0,
+        "targetPointZ": 30.0,
+        "rotateDeg": 2000.0,
+        "rotateSecond": 1.0
+      }
+    },
+    "training": {
+      "entryPoint": {
+        "m_FileID": 0,
+        "m_PathID": 260
+      },
+      "knockBack": {
+        "targetPoint": {
+          "m_FileID": 0,
+          "m_PathID": 259
+        },
+        "second": 3.0,
+        "tweenType": 12,
+        "rotateDeg": 1440.0,
+        "rotateSecond": 1.0
+      }
+    },
+    "camera": {
+      "cameraPosition": {
+        "x": 7.0,
+        "y": -8.5,
+        "z": -42.0
+      },
+      "cameraRotationEuler": {
+        "x": 20.0,
+        "y": -13.0,
+        "z": 0.0
+      },
+      "cameraRootPoosition": {
+        "x": 0.0,
+        "y": 20.0,
+        "z": 20.0
+      }
+    }
+  }
+}

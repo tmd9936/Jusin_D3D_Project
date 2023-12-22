@@ -1,0 +1,42 @@
+{
+    "ButtonDesc": {
+        "m_fX": 385.0,
+        "m_fY": 383.0,
+        "m_fSizeX": 21.0,
+        "m_fSizeY": 21.0,
+        "m_ModelPrototypLevel": 0,
+        "m_ShaderLevelIndex": 0,
+        "m_DiffuseTexturePath": "./button_skill_denki_supaaku.dds",
+        "m_MaskPrototypeTag": "Prototype_Component_Button_Color_Mask",
+        "m_BrushPrototypeTag": "",
+        "m_ButtonName": "Pokemon2_Skill1",
+        "m_UIType": 0,
+        "m_vColor": {
+            "x" : 0.9,
+            "y" : 0.9,
+            "z" : 0.9,
+            "w" : 0.9
+        },
+        "m_TextureParts": [
+            {
+                "m_fX": 0.0,
+                "m_fY": 0.0,
+                "m_fSizeX": 43.0,
+                "m_fSizeY": 43.0,
+                "m_eType": 1,
+                "m_ShaderPass": 4,
+                "m_vColor": {
+                    "x": 0.81568,
+                    "y": 0.36862745,
+                    "z": 0.223529,
+                    "w": 0.0
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_Window_Plane_Corner",
+                "LayerTag": "Layer_UI"
+            }
+        ],
+        "m_TextParts": [
+        ]
+    }
+}

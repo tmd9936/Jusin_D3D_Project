@@ -1,0 +1,46 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 175
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 1,
+    "m_PathID": 54
+  },
+  "m_Name": "",
+  "gaugeUIParam": {
+    "gaugeUI": {
+      "m_FileID": 0,
+      "m_PathID": 670
+    },
+    "gaugeSlider": {
+      "m_FileID": 0,
+      "m_PathID": 589
+    },
+    "gaugeCurrentText": {
+      "m_FileID": 0,
+      "m_PathID": 552
+    },
+    "gaugeMaxText": {
+      "m_FileID": 0,
+      "m_PathID": 558
+    }
+  },
+  "exclamationUIParam": {
+    "exclamationUI": {
+      "m_FileID": 0,
+      "m_PathID": 612
+    }
+  },
+  "plusPosY": 10.0,
+  "potParent": {
+    "m_FileID": 0,
+    "m_PathID": 233
+  },
+  "guideMarker": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "posY": -5.0
+}

@@ -1,0 +1,71 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 81
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 1,
+    "m_PathID": 264
+  },
+  "m_Name": "",
+  "targetPosList": [
+    {
+      "m_FileID": 0,
+      "m_PathID": 192
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 298
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 431
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 67
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 420
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 430
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 452
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 155
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 445
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 322
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 285
+    }
+  ],
+  "baseStageIconObj": {
+    "m_FileID": 1,
+    "m_PathID": 316
+  },
+  "stageIconParent": {
+    "m_FileID": 0,
+    "m_PathID": 3
+  },
+  "contentObj": {
+    "m_FileID": 0,
+    "m_PathID": 287
+  },
+  "dragUpdateFrequency": 0.2
+}

@@ -1,0 +1,450 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 68
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 1,
+    "m_PathID": 91
+  },
+  "m_Name": "",
+  "storageParam": {
+    "uiPageScroll": {
+      "m_FileID": 0,
+      "m_PathID": 1224
+    },
+    "baseCellStone": {
+      "m_FileID": 0,
+      "m_PathID": 1193
+    }
+  },
+  "exitButton": {
+    "m_FileID": 0,
+    "m_PathID": 1090
+  },
+  "operationField": {
+    "m_FileID": 0,
+    "m_PathID": 614
+  },
+  "haveCountText": {
+    "m_FileID": 0,
+    "m_PathID": 848
+  },
+  "storageMaxCountText": {
+    "m_FileID": 0,
+    "m_PathID": 899
+  },
+  "sortButtons": {
+    "sortButton": {
+      "m_FileID": 0,
+      "m_PathID": 1050
+    },
+    "sortButtonText": {
+      "m_FileID": 0,
+      "m_PathID": 902
+    }
+  },
+  "autoSetButtons": {
+    "autoSetButton": {
+      "m_FileID": 0,
+      "m_PathID": 1064
+    },
+    "autoSetButtonText": {
+      "m_FileID": 0,
+      "m_PathID": 873
+    },
+    "resetButton": {
+      "m_FileID": 0,
+      "m_PathID": 930
+    }
+  },
+  "recycleButtons": {
+    "recycleButton": {
+      "m_FileID": 0,
+      "m_PathID": 941
+    },
+    "recycleButtonText": {
+      "m_FileID": 0,
+      "m_PathID": 885
+    },
+    "recycleImage": {
+      "m_FileID": 0,
+      "m_PathID": 971
+    },
+    "dustObj": {
+      "m_FileID": 0,
+      "m_PathID": 158
+    },
+    "recycleCount": {
+      "m_FileID": 0,
+      "m_PathID": 909
+    },
+    "recycleMaxCount": {
+      "m_FileID": 0,
+      "m_PathID": 851
+    },
+    "recycleExitButton": {
+      "m_FileID": 0,
+      "m_PathID": 1126
+    }
+  },
+  "changeStatusParam": {
+    "oneChangeAnim": {
+      "m_FileID": 0,
+      "m_PathID": 1152
+    },
+    "twoChangeAnim": {
+      "m_FileID": 0,
+      "m_PathID": 988
+    },
+    "oneChangeTitleText": {
+      "m_FileID": 0,
+      "m_PathID": 891
+    },
+    "oneChangeValueText": {
+      "m_FileID": 0,
+      "m_PathID": 882
+    },
+    "twoChangeTitleText_1": {
+      "m_FileID": 0,
+      "m_PathID": 889
+    },
+    "twoChangeTitleText_2": {
+      "m_FileID": 0,
+      "m_PathID": 905
+    },
+    "twoChangeValueText_1": {
+      "m_FileID": 0,
+      "m_PathID": 881
+    },
+    "twoChangeValueText_2": {
+      "m_FileID": 0,
+      "m_PathID": 872
+    },
+    "plusColor": {
+      "r": 0.0,
+      "g": 0.0,
+      "b": 1.0,
+      "a": 1.0
+    },
+    "minusColor": {
+      "r": 1.0,
+      "g": 0.0,
+      "b": 0.0,
+      "a": 1.0
+    }
+  },
+  "subPokemonIcon": [
+    {
+      "iconImage": {
+        "m_FileID": 0,
+        "m_PathID": 1100
+      },
+      "iconButton": {
+        "m_FileID": 0,
+        "m_PathID": 1003
+      }
+    },
+    {
+      "iconImage": {
+        "m_FileID": 0,
+        "m_PathID": 1160
+      },
+      "iconButton": {
+        "m_FileID": 0,
+        "m_PathID": 1026
+      }
+    }
+  ],
+  "charmBoardParent": {
+    "m_FileID": 0,
+    "m_PathID": 644
+  },
+  "profileParam": {
+    "button": {
+      "m_FileID": 0,
+      "m_PathID": 1068
+    },
+    "window": {
+      "m_FileID": 0,
+      "m_PathID": 1122
+    },
+    "pokemonPowerParam": {
+      "titleText": {
+        "m_FileID": 0,
+        "m_PathID": 883
+      },
+      "hpParam": {
+        "titleText": {
+          "m_FileID": 0,
+          "m_PathID": 896
+        },
+        "valueText": {
+          "m_FileID": 0,
+          "m_PathID": 864
+        }
+      },
+      "atkParam": {
+        "titleText": {
+          "m_FileID": 0,
+          "m_PathID": 860
+        },
+        "valueText": {
+          "m_FileID": 0,
+          "m_PathID": 861
+        }
+      }
+    },
+    "bingoPowerParam": {
+      "titleText": {
+        "m_FileID": 0,
+        "m_PathID": 879
+      },
+      "profileContentsParam": [
+        {
+          "titleText": {
+            "m_FileID": 0,
+            "m_PathID": 901
+          },
+          "valueText": {
+            "m_FileID": 0,
+            "m_PathID": 852
+          }
+        },
+        {
+          "titleText": {
+            "m_FileID": 0,
+            "m_PathID": 910
+          },
+          "valueText": {
+            "m_FileID": 0,
+            "m_PathID": 856
+          }
+        },
+        {
+          "titleText": {
+            "m_FileID": 0,
+            "m_PathID": 886
+          },
+          "valueText": {
+            "m_FileID": 0,
+            "m_PathID": 906
+          }
+        }
+      ],
+      "offImage": [
+        {
+          "m_FileID": 0,
+          "m_PathID": 1174
+        },
+        {
+          "m_FileID": 0,
+          "m_PathID": 1131
+        },
+        {
+          "m_FileID": 0,
+          "m_PathID": 952
+        }
+      ]
+    },
+    "stonePowerParam": {
+      "titleText": {
+        "m_FileID": 0,
+        "m_PathID": 897
+      },
+      "profileContentsParam": [
+        {
+          "titleText": {
+            "m_FileID": 0,
+            "m_PathID": 876
+          },
+          "valueText": {
+            "m_FileID": 0,
+            "m_PathID": 912
+          }
+        },
+        {
+          "titleText": {
+            "m_FileID": 0,
+            "m_PathID": 911
+          },
+          "valueText": {
+            "m_FileID": 0,
+            "m_PathID": 878
+          }
+        },
+        {
+          "titleText": {
+            "m_FileID": 0,
+            "m_PathID": 870
+          },
+          "valueText": {
+            "m_FileID": 0,
+            "m_PathID": 874
+          }
+        },
+        {
+          "titleText": {
+            "m_FileID": 0,
+            "m_PathID": 890
+          },
+          "valueText": {
+            "m_FileID": 0,
+            "m_PathID": 866
+          }
+        },
+        {
+          "titleText": {
+            "m_FileID": 0,
+            "m_PathID": 865
+          },
+          "valueText": {
+            "m_FileID": 0,
+            "m_PathID": 853
+          }
+        },
+        {
+          "titleText": {
+            "m_FileID": 0,
+            "m_PathID": 855
+          },
+          "valueText": {
+            "m_FileID": 0,
+            "m_PathID": 847
+          }
+        },
+        {
+          "titleText": {
+            "m_FileID": 0,
+            "m_PathID": 859
+          },
+          "valueText": {
+            "m_FileID": 0,
+            "m_PathID": 900
+          }
+        },
+        {
+          "titleText": {
+            "m_FileID": 0,
+            "m_PathID": 871
+          },
+          "valueText": {
+            "m_FileID": 0,
+            "m_PathID": 880
+          }
+        },
+        {
+          "titleText": {
+            "m_FileID": 0,
+            "m_PathID": 915
+          },
+          "valueText": {
+            "m_FileID": 0,
+            "m_PathID": 869
+          }
+        },
+        {
+          "titleText": {
+            "m_FileID": 0,
+            "m_PathID": 862
+          },
+          "valueText": {
+            "m_FileID": 0,
+            "m_PathID": 868
+          }
+        },
+        {
+          "titleText": {
+            "m_FileID": 0,
+            "m_PathID": 907
+          },
+          "valueText": {
+            "m_FileID": 0,
+            "m_PathID": 884
+          }
+        },
+        {
+          "titleText": {
+            "m_FileID": 0,
+            "m_PathID": 887
+          },
+          "valueText": {
+            "m_FileID": 0,
+            "m_PathID": 894
+          }
+        }
+      ]
+    }
+  },
+  "recycleWindow": {
+    "m_FileID": 0,
+    "m_PathID": 180
+  },
+  "recycleFrame": {
+    "m_FileID": 0,
+    "m_PathID": 232
+  },
+  "evolveButton": {
+    "m_FileID": 0,
+    "m_PathID": 1082
+  },
+  "evolveOn": {
+    "m_FileID": 0,
+    "m_PathID": 122
+  },
+  "evolveOnText": {
+    "m_FileID": 0,
+    "m_PathID": 858
+  },
+  "evolveOff": {
+    "m_FileID": 0,
+    "m_PathID": 31
+  },
+  "evolveOffText": {
+    "m_FileID": 0,
+    "m_PathID": 908
+  },
+  "pokemonRenderTarget_0": {
+    "m_FileID": 0,
+    "m_PathID": 1134
+  },
+  "overStorageColor": {
+    "r": 1.0,
+    "g": 0.0,
+    "b": 0.0,
+    "a": 1.0
+  },
+  "defaultStorageColor": {
+    "r": 1.0,
+    "g": 0.607843161,
+    "b": 0.0196078438,
+    "a": 1.0
+  },
+  "dragGuideMarker": {
+    "m_FileID": 0,
+    "m_PathID": 96
+  },
+  "dragingGuideMarker": {
+    "m_FileID": 0,
+    "m_PathID": 202
+  },
+  "exitGuideMarker": {
+    "m_FileID": 0,
+    "m_PathID": 170
+  },
+  "profileCommandIDList": [
+    2,
+    0,
+    26,
+    27,
+    14,
+    40,
+    41,
+    28,
+    29,
+    48,
+    49,
+    23
+  ]
+}

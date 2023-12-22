@@ -1,0 +1,404 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 8377097992940886539
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 4299932342201137691
+  },
+  "m_Name": "",
+  "underButton": {
+    "leftButtonParam": {
+      "mainWindow": {
+        "m_FileID": 0,
+        "m_PathID": -7512433425835075429
+      },
+      "optionButton": {
+        "button": {
+          "m_FileID": 0,
+          "m_PathID": -9004970192053450039
+        },
+        "buttonImage": {
+          "m_FileID": 0,
+          "m_PathID": 3415037492148351221
+        },
+        "buttonText": {
+          "m_FileID": 0,
+          "m_PathID": -8849651447601820834
+        }
+      },
+      "libraryButton": {
+        "button": {
+          "m_FileID": 0,
+          "m_PathID": 8195374249698531295
+        },
+        "buttonImage": {
+          "m_FileID": 0,
+          "m_PathID": -7144462166156597979
+        },
+        "buttonText": {
+          "m_FileID": 0,
+          "m_PathID": 614377612253823633
+        }
+      },
+      "achievementButton": {
+        "button": {
+          "m_FileID": 0,
+          "m_PathID": 4625836761923436392
+        },
+        "buttonImage": {
+          "m_FileID": 0,
+          "m_PathID": 5640624280708513346
+        },
+        "buttonText": {
+          "m_FileID": 0,
+          "m_PathID": -5723005782221561560
+        }
+      },
+      "unlockAchieveBadge": {
+        "m_FileID": 0,
+        "m_PathID": -6862306241448617363
+      }
+    },
+    "centerButtonParam": {
+      "mainWindow": {
+        "m_FileID": 0,
+        "m_PathID": -1602396122582661460
+      },
+      "teamPowerParam": {
+        "titleText": {
+          "m_FileID": 0,
+          "m_PathID": -4052312119245471412
+        },
+        "valueText": {
+          "m_FileID": 0,
+          "m_PathID": 1370271533086423373
+        },
+        "typeBonusObj": {
+          "m_FileID": 0,
+          "m_PathID": -6302014478016360074
+        },
+        "typeBonusTitleText": {
+          "m_FileID": 0,
+          "m_PathID": -7762625487714591895
+        },
+        "typeBonusValueText": {
+          "m_FileID": 0,
+          "m_PathID": -3259282124357505260
+        }
+      },
+      "customTeamButton": {
+        "button": {
+          "m_FileID": 0,
+          "m_PathID": -7624565061609926871
+        },
+        "buttonImage": {
+          "m_FileID": 0,
+          "m_PathID": 2963700522448104084
+        },
+        "buttonText": {
+          "m_FileID": 0,
+          "m_PathID": -8872668754145277103
+        }
+      },
+      "teamMemberButton_1": {
+        "button": {
+          "m_FileID": 0,
+          "m_PathID": -6718992358893835671
+        },
+        "buttonImage": {
+          "m_FileID": 0,
+          "m_PathID": -1610345538065299722
+        },
+        "buttonText": {
+          "m_FileID": 0,
+          "m_PathID": -6562246230004174218
+        }
+      },
+      "teamMemberButton_2": {
+        "button": {
+          "m_FileID": 0,
+          "m_PathID": 973366555490865739
+        },
+        "buttonImage": {
+          "m_FileID": 0,
+          "m_PathID": 4274726464891979871
+        },
+        "buttonText": {
+          "m_FileID": 0,
+          "m_PathID": 9147298214428184983
+        }
+      },
+      "teamMemberButton_3": {
+        "button": {
+          "m_FileID": 0,
+          "m_PathID": -5851167998506086727
+        },
+        "buttonImage": {
+          "m_FileID": 0,
+          "m_PathID": 4683650130083343548
+        },
+        "buttonText": {
+          "m_FileID": 0,
+          "m_PathID": 4929754891943287419
+        }
+      },
+      "tutorialGuideMarker_Team": {
+        "m_FileID": 0,
+        "m_PathID": -8290635901036224182
+      },
+      "tutorialGuideMarker_2": {
+        "m_FileID": 0,
+        "m_PathID": 5989504175069088351
+      }
+    },
+    "rightButtonParam": {
+      "mainWindow": {
+        "m_FileID": 0,
+        "m_PathID": 5575280850172484425
+      },
+      "mainSceneButton": {
+        "button": {
+          "m_FileID": 0,
+          "m_PathID": -5219510350258998652
+        },
+        "buttonImage": {
+          "m_FileID": 0,
+          "m_PathID": -7623590107068807829
+        },
+        "buttonText": {
+          "m_FileID": 0,
+          "m_PathID": -6765800017577701131
+        }
+      },
+      "basecampImage": {
+        "m_FileID": 0,
+        "m_PathID": -5483161777194564620
+      },
+      "worldmapImage": {
+        "m_FileID": 0,
+        "m_PathID": -7623590107068807829
+      },
+      "cookingProgressParams": [
+        {
+          "potObj": {
+            "m_FileID": 0,
+            "m_PathID": -2113990023649409277
+          },
+          "potIconImage": {
+            "m_FileID": 0,
+            "m_PathID": -8354368700917124759
+          },
+          "potEffectObj": {
+            "m_FileID": 0,
+            "m_PathID": 6974405528032958941
+          },
+          "potEffectFinishObj": {
+            "m_FileID": 0,
+            "m_PathID": -1055718682101228369
+          },
+          "potEffectProgressObj": {
+            "m_FileID": 0,
+            "m_PathID": 2628691492294975987
+          }
+        },
+        {
+          "potObj": {
+            "m_FileID": 0,
+            "m_PathID": -5711223275974401097
+          },
+          "potIconImage": {
+            "m_FileID": 0,
+            "m_PathID": -6876321344874866529
+          },
+          "potEffectObj": {
+            "m_FileID": 0,
+            "m_PathID": -5290001341260134194
+          },
+          "potEffectFinishObj": {
+            "m_FileID": 0,
+            "m_PathID": -7004304056474207295
+          },
+          "potEffectProgressObj": {
+            "m_FileID": 0,
+            "m_PathID": -8808949540119999019
+          }
+        },
+        {
+          "potObj": {
+            "m_FileID": 0,
+            "m_PathID": 47647991186548240
+          },
+          "potIconImage": {
+            "m_FileID": 0,
+            "m_PathID": -8284130831812697189
+          },
+          "potEffectObj": {
+            "m_FileID": 0,
+            "m_PathID": -384109193627342420
+          },
+          "potEffectFinishObj": {
+            "m_FileID": 0,
+            "m_PathID": 5289081779079181480
+          },
+          "potEffectProgressObj": {
+            "m_FileID": 0,
+            "m_PathID": -1432996676676726154
+          }
+        },
+        {
+          "potObj": {
+            "m_FileID": 0,
+            "m_PathID": -6798997599757503314
+          },
+          "potIconImage": {
+            "m_FileID": 0,
+            "m_PathID": 211819966036930302
+          },
+          "potEffectObj": {
+            "m_FileID": 0,
+            "m_PathID": -855472218124015216
+          },
+          "potEffectFinishObj": {
+            "m_FileID": 0,
+            "m_PathID": 7035240083994192081
+          },
+          "potEffectProgressObj": {
+            "m_FileID": 0,
+            "m_PathID": 8965386680547937245
+          }
+        }
+      ],
+      "tutorialGuideMarker": {
+        "m_FileID": 0,
+        "m_PathID": -378936265345771753
+      }
+    }
+  },
+  "batteryGiftTicket": {
+    "batteryGiftTicketParam": {
+      "mainWindow": {
+        "m_FileID": 0,
+        "m_PathID": -235387933650950530
+      },
+      "batteryParam": {
+        "batteryButton": {
+          "m_FileID": 0,
+          "m_PathID": 1988876207718127051
+        },
+        "batteryMaxObj": {
+          "m_FileID": 0,
+          "m_PathID": 6282236714510568414
+        },
+        "batteryMaxTitleText": {
+          "m_FileID": 0,
+          "m_PathID": -7004608381863071066
+        },
+        "batteryMaxCountText": {
+          "m_FileID": 0,
+          "m_PathID": 4934630098491518882
+        },
+        "batteryCurrentCountText": {
+          "m_FileID": 0,
+          "m_PathID": 4024478539518100201
+        },
+        "batterySlider": {
+          "m_FileID": 0,
+          "m_PathID": -2440875586934662287
+        },
+        "batteryTimeObj": {
+          "m_FileID": 0,
+          "m_PathID": -2180355488463876833
+        },
+        "batteryTimeTitleText": {
+          "m_FileID": 0,
+          "m_PathID": -8992162922073185548
+        },
+        "batteryTimeCountText": {
+          "m_FileID": 0,
+          "m_PathID": -1228341415997993647
+        }
+      },
+      "giftTicketParam": {
+        "giftTicketButton": {
+          "m_FileID": 0,
+          "m_PathID": 6611833459153942697
+        },
+        "giftTicketTitleText": {
+          "m_FileID": 0,
+          "m_PathID": 1530528852295779194
+        },
+        "giftTicketCountText": {
+          "m_FileID": 0,
+          "m_PathID": -4511657830908858824
+        },
+        "giftTicketImage": {
+          "m_FileID": 0,
+          "m_PathID": 4805494419967006215
+        },
+        "giftTicketBadge": {
+          "m_FileID": 0,
+          "m_PathID": 529287817368677523
+        },
+        "tutorialGuideMarker": {
+          "m_FileID": 0,
+          "m_PathID": -4147134813352271871
+        }
+      }
+    }
+  },
+  "sceneTitle": {
+    "sceneTitleParam": {
+      "mainWindow": {
+        "m_FileID": 0,
+        "m_PathID": -8335406043763632760
+      },
+      "basecampIcon": {
+        "m_FileID": 0,
+        "m_PathID": -2522438899440914262
+      },
+      "worldmapIcon": {
+        "m_FileID": 0,
+        "m_PathID": -1528948617627585550
+      },
+      "cookingIcon": {
+        "m_FileID": 0,
+        "m_PathID": 4573862765165030633
+      },
+      "goodsMenuIcon": {
+        "m_FileID": 0,
+        "m_PathID": 6614236103662371940
+      },
+      "libraryIcon": {
+        "m_FileID": 0,
+        "m_PathID": -3849297629208127900
+      },
+      "sceneName": {
+        "m_FileID": 0,
+        "m_PathID": -6955866058666671483
+      }
+    }
+  },
+  "challengeStage": {
+    "challengeStageParam": {
+      "mainWindow": {
+        "m_FileID": 0,
+        "m_PathID": -9175413320456775493
+      },
+      "gaugeAnim": {
+        "m_FileID": 0,
+        "m_PathID": 1245457040950098485
+      },
+      "slider": {
+        "m_FileID": 0,
+        "m_PathID": 4258272618601824307
+      },
+      "titleText": {
+        "m_FileID": 0,
+        "m_PathID": 5377829464021914460
+      }
+    }
+  }
+}

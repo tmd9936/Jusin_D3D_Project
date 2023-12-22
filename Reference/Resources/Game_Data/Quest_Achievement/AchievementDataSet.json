@@ -1,0 +1,2694 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": -7777407445699765429
+  },
+  "m_Name": "AchievementDataSet",
+  "m_datas": [
+    {
+      "m_id": 1001,
+      "m_totalWork": 550,
+      "m_levelWork": 750,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 2,
+      "m_rewardID": 1,
+      "m_rewardNum": 1,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 1100,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 1002,
+      "m_totalWork": 551,
+      "m_levelWork": 751,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 2,
+      "m_rewardID": 3,
+      "m_rewardNum": 1,
+      "m_isVisible": 0,
+      "m_unlockID": 1001,
+      "m_sortWeight": 1000,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 1003,
+      "m_totalWork": 552,
+      "m_levelWork": 752,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 5,
+      "m_rewardID": 0,
+      "m_rewardNum": 1,
+      "m_isVisible": 0,
+      "m_unlockID": 1001,
+      "m_sortWeight": 900,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 1004,
+      "m_totalWork": 553,
+      "m_levelWork": 753,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 5,
+      "m_rewardID": 0,
+      "m_rewardNum": 1,
+      "m_isVisible": 0,
+      "m_unlockID": 1003,
+      "m_sortWeight": 600,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 1005,
+      "m_totalWork": 554,
+      "m_levelWork": 754,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 4,
+      "m_rewardID": 0,
+      "m_rewardNum": 5,
+      "m_isVisible": 0,
+      "m_unlockID": 1003,
+      "m_sortWeight": 800,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 1006,
+      "m_totalWork": 555,
+      "m_levelWork": 755,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 2,
+      "m_rewardID": 4,
+      "m_rewardNum": 1,
+      "m_isVisible": 0,
+      "m_unlockID": 1003,
+      "m_sortWeight": 700,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 1007,
+      "m_totalWork": 556,
+      "m_levelWork": 756,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 2,
+      "m_rewardID": 2,
+      "m_rewardNum": 1,
+      "m_isVisible": 0,
+      "m_unlockID": 1005,
+      "m_sortWeight": 300,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 1008,
+      "m_totalWork": 557,
+      "m_levelWork": 757,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 4,
+      "m_rewardID": 0,
+      "m_rewardNum": 5,
+      "m_isVisible": 0,
+      "m_unlockID": 1005,
+      "m_sortWeight": 600,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 1009,
+      "m_totalWork": 558,
+      "m_levelWork": 758,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 2,
+      "m_rewardID": 6,
+      "m_rewardNum": 1,
+      "m_isVisible": 0,
+      "m_unlockID": 1005,
+      "m_sortWeight": 400,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 1010,
+      "m_totalWork": 559,
+      "m_levelWork": 759,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 2,
+      "m_rewardID": 5,
+      "m_rewardNum": 1,
+      "m_isVisible": 0,
+      "m_unlockID": 1005,
+      "m_sortWeight": 500,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 1011,
+      "m_totalWork": 560,
+      "m_levelWork": 760,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 5,
+      "m_rewardID": 0,
+      "m_rewardNum": 1,
+      "m_isVisible": 0,
+      "m_unlockID": 1007,
+      "m_sortWeight": 200,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 1012,
+      "m_totalWork": 561,
+      "m_levelWork": 761,
+      "m_max": 4,
+      "m_levelNums": [
+        4,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 4,
+      "m_rewardID": 0,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 1090,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 1013,
+      "m_totalWork": 562,
+      "m_levelWork": 762,
+      "m_max": 2,
+      "m_levelNums": [
+        2,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 1250,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 1014,
+      "m_totalWork": 563,
+      "m_levelWork": 763,
+      "m_max": 2,
+      "m_levelNums": [
+        2,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 10,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 940,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 1015,
+      "m_totalWork": 564,
+      "m_levelWork": 764,
+      "m_max": 3,
+      "m_levelNums": [
+        3,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 1070,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 1016,
+      "m_totalWork": 565,
+      "m_levelWork": 765,
+      "m_max": 10,
+      "m_levelNums": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 850,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 1017,
+      "m_totalWork": 566,
+      "m_levelWork": 766,
+      "m_max": 10,
+      "m_levelNums": [
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 870,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 1018,
+      "m_totalWork": 567,
+      "m_levelWork": 767,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 1060,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 1019,
+      "m_totalWork": 568,
+      "m_levelWork": 768,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 950,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 1020,
+      "m_totalWork": 569,
+      "m_levelWork": 769,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 850,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 1021,
+      "m_totalWork": 570,
+      "m_levelWork": 770,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 1020,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 1022,
+      "m_totalWork": 571,
+      "m_levelWork": 771,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 100,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 2000,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 1,
+      "m_totalWork": 400,
+      "m_levelWork": 600,
+      "m_max": 100,
+      "m_levelNums": [
+        10,
+        30,
+        50,
+        70,
+        100
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 8,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 300,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 2,
+      "m_totalWork": 401,
+      "m_levelWork": 601,
+      "m_max": 100,
+      "m_levelNums": [
+        10,
+        30,
+        50,
+        70,
+        100
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 2,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 299,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 3,
+      "m_totalWork": 402,
+      "m_levelWork": 602,
+      "m_max": 100,
+      "m_levelNums": [
+        10,
+        30,
+        50,
+        70,
+        100
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 4,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 298,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 4,
+      "m_totalWork": 403,
+      "m_levelWork": 603,
+      "m_max": 100,
+      "m_levelNums": [
+        10,
+        30,
+        50,
+        70,
+        100
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 6,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 297,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 5,
+      "m_totalWork": 404,
+      "m_levelWork": 604,
+      "m_max": 100,
+      "m_levelNums": [
+        10,
+        30,
+        50,
+        70,
+        100
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 4,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 296,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 6,
+      "m_totalWork": 405,
+      "m_levelWork": 605,
+      "m_max": 100,
+      "m_levelNums": [
+        10,
+        30,
+        50,
+        70,
+        100
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 4,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 295,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 7,
+      "m_totalWork": 406,
+      "m_levelWork": 606,
+      "m_max": 100,
+      "m_levelNums": [
+        10,
+        30,
+        50,
+        70,
+        100
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 4,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 294,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 8,
+      "m_totalWork": 407,
+      "m_levelWork": 607,
+      "m_max": 100,
+      "m_levelNums": [
+        10,
+        30,
+        50,
+        70,
+        100
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 2,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 293,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 9,
+      "m_totalWork": 408,
+      "m_levelWork": 608,
+      "m_max": 100,
+      "m_levelNums": [
+        10,
+        30,
+        50,
+        70,
+        100
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 2,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 292,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 10,
+      "m_totalWork": 409,
+      "m_levelWork": 609,
+      "m_max": 100,
+      "m_levelNums": [
+        10,
+        30,
+        50,
+        70,
+        100
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 6,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 291,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 11,
+      "m_totalWork": 410,
+      "m_levelWork": 610,
+      "m_max": 100,
+      "m_levelNums": [
+        10,
+        30,
+        50,
+        70,
+        100
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 6,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 290,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 12,
+      "m_totalWork": 411,
+      "m_levelWork": 611,
+      "m_max": 100,
+      "m_levelNums": [
+        10,
+        30,
+        50,
+        70,
+        100
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 2,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 289,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 13,
+      "m_totalWork": 412,
+      "m_levelWork": 612,
+      "m_max": 100,
+      "m_levelNums": [
+        10,
+        30,
+        50,
+        70,
+        100
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 8,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 288,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 14,
+      "m_totalWork": 413,
+      "m_levelWork": 613,
+      "m_max": 100,
+      "m_levelNums": [
+        10,
+        30,
+        50,
+        70,
+        100
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 8,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 287,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 15,
+      "m_totalWork": 414,
+      "m_levelWork": 614,
+      "m_max": 100,
+      "m_levelNums": [
+        10,
+        30,
+        50,
+        70,
+        100
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 4,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 286,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 16,
+      "m_totalWork": 415,
+      "m_levelWork": 615,
+      "m_max": 100,
+      "m_levelNums": [
+        10,
+        30,
+        50,
+        70,
+        100
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 6,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 285,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 17,
+      "m_totalWork": 416,
+      "m_levelWork": 616,
+      "m_max": 100,
+      "m_levelNums": [
+        10,
+        30,
+        50,
+        70,
+        100
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 8,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 284,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 18,
+      "m_totalWork": 417,
+      "m_levelWork": 617,
+      "m_max": 1000,
+      "m_levelNums": [
+        10,
+        50,
+        100,
+        500,
+        1000
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 5,
+      "m_isVisible": 0,
+      "m_unlockID": 0,
+      "m_sortWeight": 283,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 19,
+      "m_totalWork": 418,
+      "m_levelWork": 618,
+      "m_max": 200,
+      "m_levelNums": [
+        1,
+        10,
+        50,
+        100,
+        200
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 5,
+      "m_isVisible": 0,
+      "m_unlockID": 0,
+      "m_sortWeight": 282,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 20,
+      "m_totalWork": 419,
+      "m_levelWork": 619,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 9,
+      "m_rewardNum": 10,
+      "m_isVisible": 0,
+      "m_unlockID": 0,
+      "m_sortWeight": 281,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 21,
+      "m_totalWork": 420,
+      "m_levelWork": 620,
+      "m_max": 9500,
+      "m_levelNums": [
+        500,
+        1500,
+        3000,
+        5000,
+        9500
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 10,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 280,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 22,
+      "m_totalWork": 421,
+      "m_levelWork": 621,
+      "m_max": 9500,
+      "m_levelNums": [
+        500,
+        1500,
+        3000,
+        5000,
+        9500
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 10,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 279,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 23,
+      "m_totalWork": 422,
+      "m_levelWork": 622,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 30,
+      "m_isVisible": 0,
+      "m_unlockID": 0,
+      "m_sortWeight": 278,
+      "m_isUse": 0
+    },
+    {
+      "m_id": 24,
+      "m_totalWork": 423,
+      "m_levelWork": 623,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 200,
+      "m_isVisible": 0,
+      "m_unlockID": 0,
+      "m_sortWeight": 277,
+      "m_isUse": 0
+    },
+    {
+      "m_id": 25,
+      "m_totalWork": 424,
+      "m_levelWork": 624,
+      "m_max": 150,
+      "m_levelNums": [
+        10,
+        30,
+        50,
+        100,
+        150
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 10,
+      "m_isVisible": 0,
+      "m_unlockID": 0,
+      "m_sortWeight": 276,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 26,
+      "m_totalWork": 425,
+      "m_levelWork": 625,
+      "m_max": 25,
+      "m_levelNums": [
+        5,
+        15,
+        25,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 10,
+      "m_isVisible": 0,
+      "m_unlockID": 0,
+      "m_sortWeight": 275,
+      "m_isUse": 0
+    },
+    {
+      "m_id": 27,
+      "m_totalWork": 426,
+      "m_levelWork": 626,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 10,
+      "m_isVisible": 0,
+      "m_unlockID": 0,
+      "m_sortWeight": 274,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 28,
+      "m_totalWork": 427,
+      "m_levelWork": 627,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 5,
+      "m_isVisible": 0,
+      "m_unlockID": 0,
+      "m_sortWeight": 273,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 29,
+      "m_totalWork": 428,
+      "m_levelWork": 628,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 40,
+      "m_isVisible": 0,
+      "m_unlockID": 0,
+      "m_sortWeight": 272,
+      "m_isUse": 0
+    },
+    {
+      "m_id": 30,
+      "m_totalWork": 429,
+      "m_levelWork": 629,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 20,
+      "m_isVisible": 0,
+      "m_unlockID": 0,
+      "m_sortWeight": 271,
+      "m_isUse": 0
+    },
+    {
+      "m_id": 31,
+      "m_totalWork": 430,
+      "m_levelWork": 630,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 10,
+      "m_isVisible": 0,
+      "m_unlockID": 0,
+      "m_sortWeight": 270,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 32,
+      "m_totalWork": 431,
+      "m_levelWork": 631,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 10,
+      "m_isVisible": 0,
+      "m_unlockID": 0,
+      "m_sortWeight": 269,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 33,
+      "m_totalWork": 432,
+      "m_levelWork": 632,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 10,
+      "m_isVisible": 0,
+      "m_unlockID": 0,
+      "m_sortWeight": 268,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 34,
+      "m_totalWork": 433,
+      "m_levelWork": 633,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 100,
+      "m_isVisible": 0,
+      "m_unlockID": 0,
+      "m_sortWeight": 267,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 35,
+      "m_totalWork": 434,
+      "m_levelWork": 634,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 100,
+      "m_isVisible": 0,
+      "m_unlockID": 0,
+      "m_sortWeight": 266,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 36,
+      "m_totalWork": 435,
+      "m_levelWork": 635,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 20,
+      "m_isVisible": 0,
+      "m_unlockID": 0,
+      "m_sortWeight": 265,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 37,
+      "m_totalWork": 436,
+      "m_levelWork": 636,
+      "m_max": 1000,
+      "m_levelNums": [
+        10,
+        50,
+        100,
+        500,
+        1000
+      ],
+      "m_rewardType": 4,
+      "m_rewardID": 0,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 264,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 38,
+      "m_totalWork": 437,
+      "m_levelWork": 637,
+      "m_max": 30,
+      "m_levelNums": [
+        3,
+        5,
+        7,
+        15,
+        30
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 263,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 39,
+      "m_totalWork": 438,
+      "m_levelWork": 638,
+      "m_max": 500,
+      "m_levelNums": [
+        10,
+        25,
+        50,
+        100,
+        500
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 262,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 40,
+      "m_totalWork": 439,
+      "m_levelWork": 639,
+      "m_max": 500,
+      "m_levelNums": [
+        30,
+        50,
+        100,
+        250,
+        500
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 261,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 41,
+      "m_totalWork": 440,
+      "m_levelWork": 640,
+      "m_max": 100,
+      "m_levelNums": [
+        20,
+        40,
+        60,
+        80,
+        100
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 10,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 260,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 42,
+      "m_totalWork": 441,
+      "m_levelWork": 641,
+      "m_max": 100,
+      "m_levelNums": [
+        5,
+        10,
+        25,
+        50,
+        100
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 259,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 43,
+      "m_totalWork": 442,
+      "m_levelWork": 642,
+      "m_max": 100,
+      "m_levelNums": [
+        5,
+        10,
+        25,
+        50,
+        100
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 258,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 44,
+      "m_totalWork": 443,
+      "m_levelWork": 643,
+      "m_max": 15,
+      "m_levelNums": [
+        6,
+        8,
+        10,
+        12,
+        15
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 10,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 257,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 45,
+      "m_totalWork": 444,
+      "m_levelWork": 644,
+      "m_max": 30000,
+      "m_levelNums": [
+        1000,
+        3000,
+        9000,
+        15000,
+        30000
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 10,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 256,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 46,
+      "m_totalWork": 445,
+      "m_levelWork": 645,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 255,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 47,
+      "m_totalWork": 446,
+      "m_levelWork": 646,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 254,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 48,
+      "m_totalWork": 447,
+      "m_levelWork": 647,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 253,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 49,
+      "m_totalWork": 448,
+      "m_levelWork": 648,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 252,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 50,
+      "m_totalWork": 449,
+      "m_levelWork": 649,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 251,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 51,
+      "m_totalWork": 450,
+      "m_levelWork": 650,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 250,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 52,
+      "m_totalWork": 451,
+      "m_levelWork": 651,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 249,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 53,
+      "m_totalWork": 452,
+      "m_levelWork": 652,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 248,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 54,
+      "m_totalWork": 453,
+      "m_levelWork": 653,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 247,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 55,
+      "m_totalWork": 454,
+      "m_levelWork": 654,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 246,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 56,
+      "m_totalWork": 455,
+      "m_levelWork": 655,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 10,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 245,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 57,
+      "m_totalWork": 456,
+      "m_levelWork": 656,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 10,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 244,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 58,
+      "m_totalWork": 457,
+      "m_levelWork": 657,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 10,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 243,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 59,
+      "m_totalWork": 458,
+      "m_levelWork": 658,
+      "m_max": 2,
+      "m_levelNums": [
+        2,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 3,
+      "m_rewardNum": 15,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 242,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 60,
+      "m_totalWork": 459,
+      "m_levelWork": 659,
+      "m_max": 2,
+      "m_levelNums": [
+        2,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 5,
+      "m_rewardNum": 15,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 241,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 61,
+      "m_totalWork": 460,
+      "m_levelWork": 660,
+      "m_max": 2,
+      "m_levelNums": [
+        2,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 7,
+      "m_rewardNum": 15,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 240,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 62,
+      "m_totalWork": 461,
+      "m_levelWork": 661,
+      "m_max": 2,
+      "m_levelNums": [
+        2,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 1,
+      "m_rewardNum": 15,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 239,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 63,
+      "m_totalWork": 462,
+      "m_levelWork": 662,
+      "m_max": 150,
+      "m_levelNums": [
+        1,
+        20,
+        50,
+        100,
+        150
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 238,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 64,
+      "m_totalWork": 463,
+      "m_levelWork": 663,
+      "m_max": 1000,
+      "m_levelNums": [
+        50,
+        100,
+        250,
+        500,
+        1000
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 8,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 237,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 65,
+      "m_totalWork": 464,
+      "m_levelWork": 664,
+      "m_max": 1000,
+      "m_levelNums": [
+        50,
+        100,
+        250,
+        500,
+        1000
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 2,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 236,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 66,
+      "m_totalWork": 465,
+      "m_levelWork": 665,
+      "m_max": 1000,
+      "m_levelNums": [
+        50,
+        100,
+        250,
+        500,
+        1000
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 4,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 235,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 67,
+      "m_totalWork": 466,
+      "m_levelWork": 666,
+      "m_max": 1000,
+      "m_levelNums": [
+        50,
+        100,
+        250,
+        500,
+        1000
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 6,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 234,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 68,
+      "m_totalWork": 467,
+      "m_levelWork": 667,
+      "m_max": 1000,
+      "m_levelNums": [
+        50,
+        100,
+        250,
+        500,
+        1000
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 4,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 233,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 69,
+      "m_totalWork": 468,
+      "m_levelWork": 668,
+      "m_max": 1000,
+      "m_levelNums": [
+        50,
+        100,
+        250,
+        500,
+        1000
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 4,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 232,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 70,
+      "m_totalWork": 469,
+      "m_levelWork": 669,
+      "m_max": 1000,
+      "m_levelNums": [
+        50,
+        100,
+        250,
+        500,
+        1000
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 4,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 231,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 71,
+      "m_totalWork": 470,
+      "m_levelWork": 670,
+      "m_max": 1000,
+      "m_levelNums": [
+        50,
+        100,
+        250,
+        500,
+        1000
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 2,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 230,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 72,
+      "m_totalWork": 471,
+      "m_levelWork": 671,
+      "m_max": 1000,
+      "m_levelNums": [
+        50,
+        100,
+        250,
+        500,
+        1000
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 2,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 229,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 73,
+      "m_totalWork": 472,
+      "m_levelWork": 672,
+      "m_max": 1000,
+      "m_levelNums": [
+        50,
+        100,
+        250,
+        500,
+        1000
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 6,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 228,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 74,
+      "m_totalWork": 473,
+      "m_levelWork": 673,
+      "m_max": 1000,
+      "m_levelNums": [
+        50,
+        100,
+        250,
+        500,
+        1000
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 6,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 227,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 75,
+      "m_totalWork": 474,
+      "m_levelWork": 674,
+      "m_max": 1000,
+      "m_levelNums": [
+        50,
+        100,
+        250,
+        500,
+        1000
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 2,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 226,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 76,
+      "m_totalWork": 475,
+      "m_levelWork": 675,
+      "m_max": 1000,
+      "m_levelNums": [
+        50,
+        100,
+        250,
+        500,
+        1000
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 8,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 225,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 77,
+      "m_totalWork": 476,
+      "m_levelWork": 676,
+      "m_max": 1000,
+      "m_levelNums": [
+        50,
+        100,
+        250,
+        500,
+        1000
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 8,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 224,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 78,
+      "m_totalWork": 477,
+      "m_levelWork": 677,
+      "m_max": 1000,
+      "m_levelNums": [
+        50,
+        100,
+        250,
+        500,
+        1000
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 4,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 223,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 79,
+      "m_totalWork": 478,
+      "m_levelWork": 678,
+      "m_max": 1000,
+      "m_levelNums": [
+        50,
+        100,
+        250,
+        500,
+        1000
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 6,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 222,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 80,
+      "m_totalWork": 479,
+      "m_levelWork": 679,
+      "m_max": 1000,
+      "m_levelNums": [
+        50,
+        100,
+        250,
+        500,
+        1000
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 8,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 221,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 81,
+      "m_totalWork": 480,
+      "m_levelWork": 680,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 8,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 220,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 82,
+      "m_totalWork": 481,
+      "m_levelWork": 681,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 2,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 219,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 83,
+      "m_totalWork": 482,
+      "m_levelWork": 682,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 4,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 218,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 84,
+      "m_totalWork": 483,
+      "m_levelWork": 683,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 6,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 217,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 85,
+      "m_totalWork": 484,
+      "m_levelWork": 684,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 4,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 216,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 86,
+      "m_totalWork": 485,
+      "m_levelWork": 685,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 4,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 215,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 87,
+      "m_totalWork": 486,
+      "m_levelWork": 686,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 4,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 214,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 88,
+      "m_totalWork": 487,
+      "m_levelWork": 687,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 2,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 213,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 89,
+      "m_totalWork": 488,
+      "m_levelWork": 688,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 2,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 212,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 90,
+      "m_totalWork": 489,
+      "m_levelWork": 689,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 6,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 211,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 91,
+      "m_totalWork": 490,
+      "m_levelWork": 690,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 6,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 210,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 92,
+      "m_totalWork": 491,
+      "m_levelWork": 691,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 2,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 209,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 93,
+      "m_totalWork": 492,
+      "m_levelWork": 692,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 8,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 208,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 94,
+      "m_totalWork": 493,
+      "m_levelWork": 693,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 8,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 207,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 95,
+      "m_totalWork": 494,
+      "m_levelWork": 694,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 4,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 206,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 96,
+      "m_totalWork": 495,
+      "m_levelWork": 695,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 6,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 205,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 97,
+      "m_totalWork": 496,
+      "m_levelWork": 696,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 3,
+      "m_rewardID": 8,
+      "m_rewardNum": 5,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 204,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 98,
+      "m_totalWork": 497,
+      "m_levelWork": 697,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 5,
+      "m_isVisible": 0,
+      "m_unlockID": 0,
+      "m_sortWeight": 203,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 99,
+      "m_totalWork": 498,
+      "m_levelWork": 698,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 5,
+      "m_isVisible": 0,
+      "m_unlockID": 0,
+      "m_sortWeight": 202,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 100,
+      "m_totalWork": 499,
+      "m_levelWork": 699,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 5,
+      "m_isVisible": 0,
+      "m_unlockID": 0,
+      "m_sortWeight": 201,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 101,
+      "m_totalWork": 500,
+      "m_levelWork": 700,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 5,
+      "m_isVisible": 0,
+      "m_unlockID": 0,
+      "m_sortWeight": 200,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 102,
+      "m_totalWork": 501,
+      "m_levelWork": 701,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 10,
+      "m_isVisible": 0,
+      "m_unlockID": 0,
+      "m_sortWeight": 199,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 103,
+      "m_totalWork": 502,
+      "m_levelWork": 702,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 10,
+      "m_isVisible": 0,
+      "m_unlockID": 0,
+      "m_sortWeight": 198,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 104,
+      "m_totalWork": 503,
+      "m_levelWork": 703,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 10,
+      "m_isVisible": 0,
+      "m_unlockID": 0,
+      "m_sortWeight": 197,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 105,
+      "m_totalWork": 504,
+      "m_levelWork": 704,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 10,
+      "m_isVisible": 0,
+      "m_unlockID": 0,
+      "m_sortWeight": 196,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 106,
+      "m_totalWork": 505,
+      "m_levelWork": 705,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 100,
+      "m_isVisible": 0,
+      "m_unlockID": 0,
+      "m_sortWeight": 195,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 107,
+      "m_totalWork": 506,
+      "m_levelWork": 706,
+      "m_max": 150,
+      "m_levelNums": [
+        150,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 100,
+      "m_isVisible": 0,
+      "m_unlockID": 0,
+      "m_sortWeight": 194,
+      "m_isUse": 1
+    },
+    {
+      "m_id": 108,
+      "m_totalWork": 507,
+      "m_levelWork": 707,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 0,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 193,
+      "m_isUse": 0
+    },
+    {
+      "m_id": 109,
+      "m_totalWork": 508,
+      "m_levelWork": 708,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 0,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 192,
+      "m_isUse": 0
+    },
+    {
+      "m_id": 110,
+      "m_totalWork": 509,
+      "m_levelWork": 709,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 0,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 191,
+      "m_isUse": 0
+    },
+    {
+      "m_id": 111,
+      "m_totalWork": 510,
+      "m_levelWork": 710,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 0,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 190,
+      "m_isUse": 0
+    },
+    {
+      "m_id": 112,
+      "m_totalWork": 511,
+      "m_levelWork": 711,
+      "m_max": 1,
+      "m_levelNums": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "m_rewardType": 1,
+      "m_rewardID": 0,
+      "m_rewardNum": 0,
+      "m_isVisible": 1,
+      "m_unlockID": 0,
+      "m_sortWeight": 189,
+      "m_isUse": 0
+    }
+  ]
+}

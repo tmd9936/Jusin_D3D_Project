@@ -1,0 +1,84 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 262
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 1,
+    "m_PathID": 117
+  },
+  "m_Name": "",
+  "m_pokeIcon": {
+    "m_FileID": 0,
+    "m_PathID": 2178
+  },
+  "m_offPokeIcon": {
+    "m_FileID": 0,
+    "m_PathID": 1666
+  },
+  "m_nickName": {
+    "m_FileID": 0,
+    "m_PathID": 1554
+  },
+  "m_conditionImage": {
+    "m_FileID": 0,
+    "m_PathID": 2021
+  },
+  "m_conditionIcons": [
+    {
+      "m_FileID": 0,
+      "m_PathID": 1807
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 2097
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 1637
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 1793
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 1803
+    }
+  ],
+  "m_conditionBGIcons": [
+    {
+      "m_FileID": 0,
+      "m_PathID": 1839
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 2141
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 1662
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 1743
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 2185
+    }
+  ],
+  "m_animator": {
+    "m_FileID": 0,
+    "m_PathID": 571
+  },
+  "m_rangeIcon": {
+    "m_FileID": 0,
+    "m_PathID": 1817
+  },
+  "m_hpGauge": {
+    "m_FileID": 0,
+    "m_PathID": 2028
+  }
+}

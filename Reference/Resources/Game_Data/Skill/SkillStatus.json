@@ -1,0 +1,66 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": -5021456070705076029
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 7219999723078673369
+  },
+  "m_Name": "",
+  "m_uiParam": {
+    "statusObj": {
+      "m_FileID": 0,
+      "m_PathID": -9064751288884989794
+    },
+    "nameTextArea": {
+      "m_FileID": 0,
+      "m_PathID": 1972697831229447004
+    },
+    "iconImage": {
+      "m_FileID": 0,
+      "m_PathID": 6039141682554701616
+    },
+    "typeImage": {
+      "m_FileID": 0,
+      "m_PathID": 331634476072481054
+    },
+    "typeTextArea": {
+      "m_FileID": 0,
+      "m_PathID": -7562838505587489076
+    },
+    "atkTitleTextArea": {
+      "m_FileID": 0,
+      "m_PathID": -1371368907284895370
+    },
+    "atkTextArea": {
+      "m_FileID": 0,
+      "m_PathID": 849274464577963751
+    },
+    "cdTitleTextArea": {
+      "m_FileID": 0,
+      "m_PathID": 7842887932888800313
+    },
+    "cdTextArea": {
+      "m_FileID": 0,
+      "m_PathID": -1217583590911423783
+    },
+    "attachStoneParent": {
+      "m_FileID": 0,
+      "m_PathID": 5947445103970344368
+    },
+    "attachStoneTextArea": {
+      "m_FileID": 0,
+      "m_PathID": -4105876416398460287
+    },
+    "attachStoneImage": {
+      "m_FileID": 0,
+      "m_PathID": -4963897959104318663
+    },
+    "skillInfoText": {
+      "m_FileID": 0,
+      "m_PathID": 4271011346900982866
+    }
+  }
+}

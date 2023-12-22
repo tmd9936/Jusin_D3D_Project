@@ -1,0 +1,182 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 6589006844859230684
+  },
+  "m_Name": "BattleRenderSettingSet",
+  "m_datas": [
+    {
+      "m_ambientColor": {
+        "r": 0.9,
+        "g": 0.9,
+        "b": 0.9,
+        "a": 1.0
+      },
+      "m_screenEffect": {
+        "m_FileID": 0,
+        "m_PathID": 1110667238180479717
+      }
+    },
+    {
+      "m_ambientColor": {
+        "r": 0.810229242,
+        "g": 0.9338235,
+        "b": 0.928709269,
+        "a": 1.0
+      },
+      "m_screenEffect": {
+        "m_FileID": 0,
+        "m_PathID": 5975003776024495086
+      }
+    },
+    {
+      "m_ambientColor": {
+        "r": 0.9,
+        "g": 0.9,
+        "b": 0.9,
+        "a": 1.0
+      },
+      "m_screenEffect": {
+        "m_FileID": 0,
+        "m_PathID": -7215539549124541315
+      }
+    },
+    {
+      "m_ambientColor": {
+        "r": 0.9338235,
+        "g": 0.827750266,
+        "b": 0.7964965,
+        "a": 1.0
+      },
+      "m_screenEffect": {
+        "m_FileID": 0,
+        "m_PathID": -916236500282644441
+      }
+    },
+    {
+      "m_ambientColor": {
+        "r": 0.652070045,
+        "g": 0.5406574,
+        "b": 0.7352941,
+        "a": 1.0
+      },
+      "m_screenEffect": {
+        "m_FileID": 0,
+        "m_PathID": 3388276981678208791
+      }
+    },
+    {
+      "m_ambientColor": {
+        "r": 0.9411765,
+        "g": 0.823290765,
+        "b": 0.809688568,
+        "a": 1.0
+      },
+      "m_screenEffect": {
+        "m_FileID": 0,
+        "m_PathID": -8625826834628108474
+      }
+    },
+    {
+      "m_ambientColor": {
+        "r": 0.9558824,
+        "g": 0.892625451,
+        "b": 0.9462848,
+        "a": 1.0
+      },
+      "m_screenEffect": {
+        "m_FileID": 0,
+        "m_PathID": -2171838037787409211
+      }
+    },
+    {
+      "m_ambientColor": {
+        "r": 0.810229242,
+        "g": 0.862224042,
+        "b": 0.9338235,
+        "a": 1.0
+      },
+      "m_screenEffect": {
+        "m_FileID": 0,
+        "m_PathID": -2716817663751183168
+      }
+    },
+    {
+      "m_ambientColor": {
+        "r": 0.7207573,
+        "g": 0.7372549,
+        "b": 0.5411765,
+        "a": 1.0
+      },
+      "m_screenEffect": {
+        "m_FileID": 0,
+        "m_PathID": -970292338864741594
+      }
+    },
+    {
+      "m_ambientColor": {
+        "r": 0.9,
+        "g": 0.9,
+        "b": 0.9,
+        "a": 1.0
+      },
+      "m_screenEffect": {
+        "m_FileID": 0,
+        "m_PathID": -1619940428391893732
+      }
+    },
+    {
+      "m_ambientColor": {
+        "r": 0.9,
+        "g": 0.9,
+        "b": 0.9,
+        "a": 1.0
+      },
+      "m_screenEffect": {
+        "m_FileID": 0,
+        "m_PathID": 169680938562517840
+      }
+    },
+    {
+      "m_ambientColor": {
+        "r": 0.9,
+        "g": 0.9,
+        "b": 0.9,
+        "a": 1.0
+      },
+      "m_screenEffect": {
+        "m_FileID": 0,
+        "m_PathID": 6151459031890464347
+      }
+    },
+    {
+      "m_ambientColor": {
+        "r": 0.9,
+        "g": 0.9,
+        "b": 0.9,
+        "a": 1.0
+      },
+      "m_screenEffect": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      }
+    },
+    {
+      "m_ambientColor": {
+        "r": 0.9,
+        "g": 0.9,
+        "b": 0.9,
+        "a": 1.0
+      },
+      "m_screenEffect": {
+        "m_FileID": 0,
+        "m_PathID": 1110667238180479717
+      }
+    }
+  ]
+}

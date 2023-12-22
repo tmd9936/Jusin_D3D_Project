@@ -1,0 +1,21 @@
+{
+    "AnimEnvDesc": {
+        "vPos": {
+            "x": 20.1234,
+            "y": 0.0,
+            "z": 19.823
+        },
+        "vScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "vRotate": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "animIndex": 1,
+        "ModelPrototypeTag": "Prototype_Component_Model_G_ball_hyper"
+    }
+}

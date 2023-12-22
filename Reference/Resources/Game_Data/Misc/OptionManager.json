@@ -1,0 +1,136 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 60
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 1,
+    "m_PathID": 31
+  },
+  "m_Name": "",
+  "m_spOnlyButtons": {
+    "m_FileID": 0,
+    "m_PathID": 61
+  },
+  "m_spOnlySupport": {
+    "m_FileID": 0,
+    "m_PathID": 45
+  },
+  "m_buttonBGM": {
+    "m_FileID": 0,
+    "m_PathID": 287
+  },
+  "m_buttonSE": {
+    "m_FileID": 0,
+    "m_PathID": 328
+  },
+  "m_buttonGuideOrBackUp": {
+    "m_FileID": 0,
+    "m_PathID": 278
+  },
+  "m_buttonPushNotice": {
+    "m_FileID": 0,
+    "m_PathID": 259
+  },
+  "m_buttonOrdinances": {
+    "m_FileID": 0,
+    "m_PathID": 264
+  },
+  "m_buttonLicense": {
+    "m_FileID": 0,
+    "m_PathID": 252
+  },
+  "m_buttonPrivacyPolicy": {
+    "m_FileID": 0,
+    "m_PathID": 243
+  },
+  "m_buttonSupport": {
+    "m_FileID": 0,
+    "m_PathID": 236
+  },
+  "m_buttonSupprtNotice": {
+    "m_FileID": 0,
+    "m_PathID": 309
+  },
+  "m_buttonExit": {
+    "m_FileID": 0,
+    "m_PathID": 305
+  },
+  "m_textPlayerName": {
+    "m_FileID": 0,
+    "m_PathID": 225
+  },
+  "m_textPlayerNameCaption": {
+    "m_FileID": 0,
+    "m_PathID": 223
+  },
+  "m_textSupportID": {
+    "m_FileID": 0,
+    "m_PathID": 208
+  },
+  "m_textSupportIDCaption": {
+    "m_FileID": 0,
+    "m_PathID": 217
+  },
+  "m_textBGM": {
+    "m_FileID": 0,
+    "m_PathID": 226
+  },
+  "m_textSE": {
+    "m_FileID": 0,
+    "m_PathID": 211
+  },
+  "m_textGuideOrBackUp": {
+    "m_FileID": 0,
+    "m_PathID": 218
+  },
+  "m_textPushNotice": {
+    "m_FileID": 0,
+    "m_PathID": 220
+  },
+  "m_textOrdinances": {
+    "m_FileID": 0,
+    "m_PathID": 224
+  },
+  "m_textLicense": {
+    "m_FileID": 0,
+    "m_PathID": 209
+  },
+  "m_textPrivacyPolicy": {
+    "m_FileID": 0,
+    "m_PathID": 212
+  },
+  "m_textSupport": {
+    "m_FileID": 0,
+    "m_PathID": 222
+  },
+  "m_textSupportNotice": {
+    "m_FileID": 0,
+    "m_PathID": 214
+  },
+  "m_textOnBGM": {
+    "m_FileID": 0,
+    "m_PathID": 216
+  },
+  "m_textOffBGM": {
+    "m_FileID": 0,
+    "m_PathID": 215
+  },
+  "m_textOnSE": {
+    "m_FileID": 0,
+    "m_PathID": 219
+  },
+  "m_textOffSE": {
+    "m_FileID": 0,
+    "m_PathID": 207
+  },
+  "m_textOnPush": {
+    "m_FileID": 0,
+    "m_PathID": 213
+  },
+  "m_textOffPush": {
+    "m_FileID": 0,
+    "m_PathID": 210
+  }
+}

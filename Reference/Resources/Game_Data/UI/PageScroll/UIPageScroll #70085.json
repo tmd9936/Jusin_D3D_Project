@@ -1,0 +1,60 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 182
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 1,
+    "m_PathID": 124
+  },
+  "m_Name": "",
+  "pageListParent": {
+    "m_FileID": 0,
+    "m_PathID": 696
+  },
+  "pageListParentLayoutGroup": {
+    "m_FileID": 0,
+    "m_PathID": 993
+  },
+  "pageParent": {
+    "m_FileID": 0,
+    "m_PathID": 650
+  },
+  "pageParentLayoutGroup": {
+    "m_FileID": 0,
+    "m_PathID": 998
+  },
+  "pageSlideTime": 0.2,
+  "direction": 1,
+  "leftButton": {
+    "m_FileID": 0,
+    "m_PathID": 1037
+  },
+  "rightButton": {
+    "m_FileID": 0,
+    "m_PathID": 1052
+  },
+  "horizontalCount": 5,
+  "verticalCount": 4,
+  "itemSpaceX": 20.0,
+  "itemSpaceY": 10.0,
+  "pageSpace": 50.0,
+  "pageDotParam": {
+    "main": {
+      "m_FileID": 0,
+      "m_PathID": 245
+    },
+    "mark": {
+      "m_FileID": 0,
+      "m_PathID": 199
+    }
+  },
+  "pageDotParent": {
+    "m_FileID": 0,
+    "m_PathID": 655
+  },
+  "longPressSecond": 0.6,
+  "changeSecond": 0.6,
+  "useEstimatedTime": 0
+}

@@ -1,0 +1,36 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 4527741972336849361
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 2659518658788538811
+  },
+  "m_Name": "",
+  "m_statusRoot": {
+    "m_FileID": 0,
+    "m_PathID": -6709465649520150004
+  },
+  "m_charmRoot": {
+    "m_FileID": 0,
+    "m_PathID": 4570923956749033400
+  },
+  "m_levelUpEffect": {
+    "m_FileID": 0,
+    "m_PathID": 6435492302190188816
+  },
+  "m_skillEffect": {
+    "m_FileID": 0,
+    "m_PathID": 4213366427525554262
+  },
+  "m_charmEffect": {
+    "m_FileID": 0,
+    "m_PathID": 7946478558603466924
+  },
+  "m_evolveWindow": {
+    "m_FileID": 0,
+    "m_PathID": -1369635937487516215
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 2483482918166041167
+  },
+  "m_Name": "CS_cave1_02",
+  "m_typeName": "cave1_02",
+  "m_mapChips": [
+    {
+      "m_FileID": 1,
+      "m_PathID": -8142682874397213139
+    },
+    {
+      "m_FileID": 1,
+      "m_PathID": -5120622860815808815
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": -8095953894088918164
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 3246133577771195973
+    },
+    {
+      "m_FileID": 1,
+      "m_PathID": 6578850195877237514
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": -8767130024902470289
+    }
+  ],
+  "m_mapOuts": [
+    {
+      "m_FileID": 1,
+      "m_PathID": -3504033958078327370
+    },
+    {
+      "m_FileID": 1,
+      "m_PathID": 3536382438542804505
+    },
+    {
+      "m_FileID": 1,
+      "m_PathID": -1828150586137359011
+    },
+    {
+      "m_FileID": 1,
+      "m_PathID": -1129213123471858789
+    }
+  ]
+}

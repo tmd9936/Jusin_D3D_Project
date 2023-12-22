@@ -1,0 +1,39 @@
+{
+    "UIDesc": {
+        "m_fX": 680.0,
+        "m_fY": 240.0,
+        "m_fSizeX": 340.5,
+        "m_fSizeY": 340.0,
+        "m_ShaderPass": 7,
+        "m_UIType": 0,
+        "m_vColor": {
+            "x": 0.2,
+            "y": 0.2,
+            "z": 0.2,
+            "w": 0.5
+        },
+        "m_TextureProtoTypeLevel": 0,
+        "m_TextureProtoTypeName" : "Prototype_Component_Texture_Drop_Result_Base",
+        "m_TextureParts": [
+            {
+                "m_fX": -182.1,
+                "m_fY": -157.5,
+                "m_fSizeX": 25.0,
+                "m_fSizeY": 25.0,
+                "m_eType": 0,
+                "m_ShaderPass": 0,
+                "m_vColor": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_drop_icon_kinomi",
+                "LayerTag": "Layer_StageResultUI"
+            }
+        ],
+        "m_TextParts": [
+        ]
+    }
+}

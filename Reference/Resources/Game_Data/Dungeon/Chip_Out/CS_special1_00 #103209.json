@@ -1,0 +1,37 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 2483482918166041167
+  },
+  "m_Name": "CS_special1_00",
+  "m_typeName": "special1_00",
+  "m_mapChips": [
+    {
+      "m_FileID": 0,
+      "m_PathID": 0
+    }
+  ],
+  "m_mapOuts": [
+    {
+      "m_FileID": 0,
+      "m_PathID": -5992079189730765008
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 7771634426609801881
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": -2845296166359607241
+    },
+    {
+      "m_FileID": 0,
+      "m_PathID": 3382866245369082435
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+    "PokemonDesc": {
+        "ModelPrototypeTag": "Prototype_Component_Model_Pokemon_PM32",
+        "ModelPrototypeLevelIndex": 0,
+        "vPos": {
+            "x": 27.0,
+            "y": 0.5,
+            "z": 10.0,
+            "w": 1.0
+        },
+        "moveSpeed": 1.8,
+        "rotateSpeed": 1.2,
+        "m_monsterNo": 32,
+        "m_hpBasis": 2200,
+        "m_attackBasis": 60,
+        "m_normalSkillType": 6,
+        "m_AIType": 1,
+        "m_layerType": 1,
+        "m_isBoss": false,
+        "m_skillIDs": [
+          89,
+          179
+        ]
+    }
+}

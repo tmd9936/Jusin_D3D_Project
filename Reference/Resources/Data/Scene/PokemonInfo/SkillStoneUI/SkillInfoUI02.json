@@ -1,0 +1,107 @@
+{
+    "UIDesc": {
+        "m_fX": 80.0,
+        "m_fY": -98.0,
+        "m_fSizeX": 160.5,
+        "m_fSizeY": 50.0,
+        "m_ShaderPass": 2,
+        "m_UIType": 1,
+        "m_vColor": {
+            "x": 1.0,
+            "y": 0.53333,
+            "z": 0.44313,
+            "w": 0.0
+        },
+        "m_TextureProtoTypeLevel": 0,
+        "m_TextureProtoTypeName" : "Prototype_Component_Texture_Rectangle_Base",
+        "m_TextureParts": [
+            {
+                "m_fX": -50.0,
+                "m_fY": 0.0,
+                "m_fSizeX": 50.0,
+                "m_fSizeY": 50.0,
+                "m_eType": 0,
+                "m_ShaderPass": 0,
+                "m_vColor": {
+                    "x": 0.45098,
+                    "y": 0.43921,
+                    "z": 0.3803,
+                    "w": 1.0
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_window_pcharm_blank1",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": -50.0,
+                "m_fY": 0.0,
+                "m_fSizeX": 43.0,
+                "m_fSizeY": 43.0,
+                "m_eType": 0,
+                "m_ShaderPass": 0,
+                "m_vColor": {
+                    "x": 0.45098,
+                    "y": 0.43921,
+                    "z": 0.3803,
+                    "w": 1.0
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_button_skill_denki_borutekkaa",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": 16.0,
+                "m_fY": 0.0,
+                "m_fSizeX": 50.0,
+                "m_fSizeY": 50.0,
+                "m_eType": 0,
+                "m_ShaderPass": 0,
+                "m_vColor": {
+                    "x": 0.45098,
+                    "y": 0.43921,
+                    "z": 0.3803,
+                    "w": 1.0
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_window_pcharm_blank2",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": 16.0,
+                "m_fY": 0.0,
+                "m_fSizeX": 50.0,
+                "m_fSizeY": 50.0,
+                "m_eType": 0,
+                "m_ShaderPass": 0,
+                "m_vColor": {
+                    "x": 0.45098,
+                    "y": 0.43921,
+                    "z": 0.3803,
+                    "w": 1.0
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_window_pcharm_blank2",
+                "LayerTag": "Layer_UI"
+            },
+            {
+                "m_fX": -15.0,
+                "m_fY": 0.0,
+                "m_fSizeX": 24.0,
+                "m_fSizeY": 16.0,
+                "m_eType": 0,
+                "m_ShaderPass": 0,
+                "m_vColor": {
+                    "x": 0.45098,
+                    "y": 0.43921,
+                    "z": 0.3803,
+                    "w": 1.0
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_window_pcharm_pipe_skill",
+                "LayerTag": "Layer_UI"
+            }
+        ],
+        "m_TextParts": [
+        ]
+    }
+}

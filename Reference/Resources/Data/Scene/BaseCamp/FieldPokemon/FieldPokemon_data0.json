@@ -1,0 +1,48 @@
+{
+    "PokemonDesc": {
+        "ModelPrototypeTag": "Prototype_Component_Model_Pokemon_PM95",
+        "ModelPrototypeLevelIndex": 0,
+        "vPos": {
+            "x": 17.0,
+            "y": 0.0,
+            "z": 18.0,
+            "w": 1.0
+        },
+        "moveSpeed": 0.5,
+        "rotateSpeed": 1.2,
+        "m_monsterNo": 95,
+        "m_hpBasis": 2000,
+        "m_attackBasis": 150,
+        "m_hpGrow": 1,
+        "m_attackGrow": 1,
+        "m_type1": 11,
+        "m_type2": 3,
+        "m_visitWeightDefault": 0,
+        "m_visitWeight": 5,
+        "m_cookTableID": 0,
+        "m_cookAllWeight": 0,
+        "m_cookColorWeight": 0,
+        "m_cookTypeWeight": 0,
+        "m_cookLegendWeight": 0,
+        "m_color": 3,
+        "m_Rate": 5,
+        "m_isLayer": 1,
+        "m_normalSkillType": 3,
+        "m_AIType": 0,
+        "m_potentialPercents": [
+          45,
+          15,
+          0
+        ],
+        "m_meleePercent": 100,
+        "m_growType": 0,
+        "m_slotTypeWeightHp": 130,
+        "m_slotTypeWeightAttack": 70,
+        "m_slotTypeWeightMulti": 20,
+        "m_layerType": 1,
+        "m_skillIDs": [
+          65,
+          70
+        ]
+    }
+}

@@ -1,0 +1,61 @@
+{
+    "UIDesc": {
+        "m_fX": 785.0,
+        "m_fY": 377.0,
+        "m_fSizeX": 24.0,
+        "m_fSizeY": 24.0,
+        "m_UIType": 0,
+        "m_ShaderPass": 0,
+        "m_vColor": {
+            "x": 0.73725,
+            "y": 0.28235,
+            "z": 0.129411,
+            "w": 1.0
+        },
+        "m_TextureProtoTypeLevel": 0,
+        "m_TextureProtoTypeName" : "Prototype_Component_Texture_Pokemon_Icon_M8",
+        "m_TextureParts": [
+            {
+                "m_fX": 0.0,
+                "m_fY": 0.0,
+                "m_fSizeX": 24.0,
+                "m_fSizeY": 24.0,
+                "m_eType": 1,
+                "m_ShaderPass": 2,
+                "m_vColor": {
+                    "x": 0.3,
+                    "y": 0.3,
+                    "z": 0.3,
+                    "w": 0.0
+                },
+                "m_TextureProtoTypeLevel": 0,
+                "m_TextureProtoTypeName": "Prototype_Component_Texture_Window_Plane_Corner",
+                "LayerTag": "Layer_UI"
+            }
+        ],
+        "m_TextParts": [
+            {
+                "m_fX": -12.0,
+                "m_fY": 27.0,
+                "m_vColor": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "m_Rotation": 0.0,
+                "m_vRotationOrigin": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "m_vScale": {
+                    "x": 0.32,
+                    "y": 0.28
+                },
+                "m_FontTag": "Font_NanumBarunGothic", 
+                "m_Text": "어니부기",
+                "LayerTag": "Layer_UI"
+            }
+        ]
+    }
+}

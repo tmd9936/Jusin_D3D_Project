@@ -1,0 +1,2224 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 8939064469258987321
+  },
+  "m_Name": "SkillDependDataSet",
+  "m_datas": [
+    {
+      "m_effects": [
+        73,
+        272,
+        229
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        73,
+        74,
+        229
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        64,
+        278,
+        226
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        64,
+        65,
+        226
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        12,
+        281,
+        216
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        12,
+        13,
+        216
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        43,
+        279,
+        219
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        43,
+        44,
+        219
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        6,
+        280,
+        214
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        6,
+        7,
+        214
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        61,
+        284,
+        225
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        61,
+        62,
+        225
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        70,
+        283,
+        228
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        70,
+        71,
+        228
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        55,
+        285,
+        223
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        55,
+        56,
+        223
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        58,
+        288,
+        224
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        58,
+        59,
+        224
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        0,
+        273,
+        212
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        0,
+        1,
+        212
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        15,
+        274,
+        217
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        15,
+        16,
+        217
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        9,
+        275,
+        215
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        9,
+        10,
+        215
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        3,
+        276,
+        213
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        3,
+        4,
+        213
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        49,
+        282,
+        221
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        49,
+        50,
+        221
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        67,
+        277,
+        227
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        67,
+        68,
+        227
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        46,
+        286,
+        220
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        46,
+        47,
+        220
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        40,
+        287,
+        218
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        40,
+        41,
+        218
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        52,
+        289,
+        222
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        52,
+        53,
+        222
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        18,
+        19,
+        20
+      ],
+      "m_conditions": [
+        105
+      ]
+    },
+    {
+      "m_effects": [
+        27,
+        28,
+        17,
+        80
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        154,
+        24,
+        26
+      ],
+      "m_conditions": [
+        102
+      ]
+    },
+    {
+      "m_effects": [
+        10,
+        22,
+        11
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        33,
+        34,
+        35,
+        36
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        186,
+        0,
+        97,
+        2,
+        1,
+        2
+      ],
+      "m_conditions": [
+        105
+      ]
+    },
+    {
+      "m_effects": [
+        252,
+        2,
+        18,
+        19,
+        2
+      ],
+      "m_conditions": [
+        105
+      ]
+    },
+    {
+      "m_effects": [
+        191,
+        2
+      ],
+      "m_conditions": [
+        105
+      ]
+    },
+    {
+      "m_effects": [
+        0,
+        258,
+        2
+      ],
+      "m_conditions": [
+        105
+      ]
+    },
+    {
+      "m_effects": [
+        192,
+        2
+      ],
+      "m_conditions": [
+        105
+      ]
+    },
+    {
+      "m_effects": [
+        0,
+        115,
+        2
+      ],
+      "m_conditions": [
+        105
+      ]
+    },
+    {
+      "m_effects": [
+        0
+      ],
+      "m_conditions": [
+        1
+      ]
+    },
+    {
+      "m_effects": [
+        15,
+        16,
+        17
+      ],
+      "m_conditions": [
+        53
+      ]
+    },
+    {
+      "m_effects": [
+        152,
+        241,
+        17
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        134,
+        241,
+        17,
+        134,
+        241,
+        17,
+        134,
+        241,
+        17,
+        134,
+        241,
+        17
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        241,
+        17
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        15
+      ],
+      "m_conditions": [
+        2
+      ]
+    },
+    {
+      "m_effects": [],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        134,
+        255
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        186,
+        80,
+        17
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        4,
+        118,
+        5
+      ],
+      "m_conditions": [
+        102
+      ]
+    },
+    {
+      "m_effects": [
+        186,
+        172,
+        5,
+        3
+      ],
+      "m_conditions": [
+        102
+      ]
+    },
+    {
+      "m_effects": [
+        82,
+        5,
+        118,
+        5,
+        118,
+        5,
+        118,
+        5
+      ],
+      "m_conditions": [
+        102
+      ]
+    },
+    {
+      "m_effects": [
+        259,
+        5
+      ],
+      "m_conditions": [
+        102
+      ]
+    },
+    {
+      "m_effects": [
+        186
+      ],
+      "m_conditions": [
+        1,
+        4
+      ]
+    },
+    {
+      "m_effects": [
+        186
+      ],
+      "m_conditions": [
+        1
+      ]
+    },
+    {
+      "m_effects": [
+        4,
+        271,
+        5
+      ],
+      "m_conditions": [
+        53
+      ]
+    },
+    {
+      "m_effects": [
+        9,
+        10,
+        11,
+        262,
+        11
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        97,
+        238,
+        11,
+        239
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        9,
+        10,
+        11
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        9,
+        264,
+        11,
+        9,
+        264,
+        11
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        153,
+        190
+      ],
+      "m_conditions": [
+        102
+      ]
+    },
+    {
+      "m_effects": [
+        153,
+        190
+      ],
+      "m_conditions": [
+        103
+      ]
+    },
+    {
+      "m_effects": [
+        9,
+        9,
+        117,
+        11
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        186
+      ],
+      "m_conditions": [
+        1
+      ]
+    },
+    {
+      "m_effects": [],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        237,
+        67,
+        236,
+        69
+      ],
+      "m_conditions": [
+        104
+      ]
+    },
+    {
+      "m_effects": [
+        155,
+        270,
+        69,
+        270,
+        69,
+        270,
+        69
+      ],
+      "m_conditions": [
+        104
+      ]
+    },
+    {
+      "m_effects": [
+        101,
+        69
+      ],
+      "m_conditions": [
+        104
+      ]
+    },
+    {
+      "m_effects": [
+        260,
+        69
+      ],
+      "m_conditions": [
+        104
+      ]
+    },
+    {
+      "m_effects": [],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        186
+      ],
+      "m_conditions": [
+        2
+      ]
+    },
+    {
+      "m_effects": [],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        67,
+        243,
+        292,
+        69
+      ],
+      "m_conditions": [
+        104
+      ]
+    },
+    {
+      "m_effects": [
+        64,
+        120,
+        66
+      ],
+      "m_conditions": [
+        1
+      ]
+    },
+    {
+      "m_effects": [
+        64,
+        246,
+        66
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        84,
+        66
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        64,
+        120,
+        66
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        64,
+        262,
+        66
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        64,
+        65,
+        66,
+        64,
+        65,
+        66,
+        64,
+        65,
+        66
+      ],
+      "m_conditions": [
+        106
+      ]
+    },
+    {
+      "m_effects": [
+        186
+      ],
+      "m_conditions": [
+        1,
+        2
+      ]
+    },
+    {
+      "m_effects": [
+        186,
+        64,
+        65,
+        66
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        64,
+        39,
+        66
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        43,
+        211,
+        45
+      ],
+      "m_conditions": [
+        101
+      ]
+    },
+    {
+      "m_effects": [
+        103,
+        251,
+        45
+      ],
+      "m_conditions": [
+        101
+      ]
+    },
+    {
+      "m_effects": [
+        186,
+        175,
+        251,
+        45
+      ],
+      "m_conditions": [
+        101
+      ]
+    },
+    {
+      "m_effects": [
+        43
+      ],
+      "m_conditions": [
+        2
+      ]
+    },
+    {
+      "m_effects": [
+        190,
+        45
+      ],
+      "m_conditions": [
+        101
+      ]
+    },
+    {
+      "m_effects": [
+        157,
+        190
+      ],
+      "m_conditions": [
+        101
+      ]
+    },
+    {
+      "m_effects": [
+        43,
+        103,
+        43,
+        121,
+        45,
+        43,
+        121,
+        45,
+        43,
+        121,
+        45
+      ],
+      "m_conditions": [
+        52
+      ]
+    },
+    {
+      "m_effects": [
+        6,
+        7,
+        8
+      ],
+      "m_conditions": [
+        53
+      ]
+    },
+    {
+      "m_effects": [
+        6,
+        208,
+        8
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        6,
+        104,
+        122,
+        8
+      ],
+      "m_conditions": [
+        52
+      ]
+    },
+    {
+      "m_effects": [
+        6,
+        104,
+        104,
+        8
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        158,
+        122,
+        8,
+        122,
+        8,
+        6
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        6,
+        122,
+        8
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        140,
+        255
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        87,
+        14
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        12,
+        123,
+        14
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        12,
+        0,
+        79,
+        14
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        12,
+        13,
+        14
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        13,
+        14
+      ],
+      "m_conditions": [
+        106
+      ]
+    },
+    {
+      "m_effects": [
+        186
+      ],
+      "m_conditions": [
+        3
+      ]
+    },
+    {
+      "m_effects": [
+        186,
+        255
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        262,
+        14,
+        262,
+        14
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        49,
+        35,
+        51
+      ],
+      "m_conditions": [
+        106
+      ]
+    },
+    {
+      "m_effects": [
+        124,
+        51
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        178,
+        49,
+        197,
+        51
+      ],
+      "m_conditions": [
+        52
+      ]
+    },
+    {
+      "m_effects": [
+        49,
+        49,
+        49
+      ],
+      "m_conditions": [
+        3
+      ]
+    },
+    {
+      "m_effects": [
+        186
+      ],
+      "m_conditions": [
+        2
+      ]
+    },
+    {
+      "m_effects": [
+        160,
+        187
+      ],
+      "m_conditions": [
+        103
+      ]
+    },
+    {
+      "m_effects": [
+        186,
+        73,
+        73,
+        73
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        49,
+        262,
+        51
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        186
+      ],
+      "m_conditions": [
+        4
+      ]
+    },
+    {
+      "m_effects": [
+        160,
+        106,
+        50,
+        51
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        70,
+        211,
+        72,
+        211,
+        72,
+        211,
+        72
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        70,
+        125,
+        72
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        70,
+        71,
+        209,
+        72
+      ],
+      "m_conditions": [
+        53
+      ]
+    },
+    {
+      "m_effects": [
+        186,
+        125,
+        72
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        190
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        70,
+        13,
+        72
+      ],
+      "m_conditions": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "m_effects": [
+        125,
+        72
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        70,
+        125,
+        72
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        55,
+        198,
+        57
+      ],
+      "m_conditions": [
+        52
+      ]
+    },
+    {
+      "m_effects": [
+        55,
+        127,
+        57
+      ],
+      "m_conditions": [
+        102
+      ]
+    },
+    {
+      "m_effects": [
+        55,
+        256,
+        187
+      ],
+      "m_conditions": [
+        106
+      ]
+    },
+    {
+      "m_effects": [
+        163,
+        187,
+        57
+      ],
+      "m_conditions": [
+        107
+      ]
+    },
+    {
+      "m_effects": [
+        55,
+        127,
+        57
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        191,
+        48,
+        46
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        46,
+        47,
+        48
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        46,
+        38,
+        48
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        128,
+        48,
+        128,
+        48,
+        128,
+        48
+      ],
+      "m_conditions": [
+        106
+      ]
+    },
+    {
+      "m_effects": [
+        46,
+        13,
+        48
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        186
+      ],
+      "m_conditions": [
+        1,
+        3
+      ]
+    },
+    {
+      "m_effects": [
+        186,
+        263,
+        246,
+        48,
+        263,
+        246,
+        48,
+        263,
+        246,
+        48,
+        263,
+        246,
+        48
+      ],
+      "m_conditions": [
+        51
+      ]
+    },
+    {
+      "m_effects": [
+        40,
+        38,
+        42
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        40,
+        40,
+        262,
+        42,
+        40,
+        262,
+        42
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        40,
+        93,
+        42
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        186
+      ],
+      "m_conditions": [
+        1
+      ]
+    },
+    {
+      "m_effects": [
+        186,
+        39
+      ],
+      "m_conditions": [
+        106,
+        1,
+        2
+      ]
+    },
+    {
+      "m_effects": [
+        186,
+        39
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        262,
+        60,
+        94
+      ],
+      "m_conditions": [
+        2
+      ]
+    },
+    {
+      "m_effects": [
+        58,
+        262,
+        60
+      ],
+      "m_conditions": [
+        52
+      ]
+    },
+    {
+      "m_effects": [
+        58,
+        38,
+        60
+      ],
+      "m_conditions": [
+        1
+      ]
+    },
+    {
+      "m_effects": [
+        186
+      ],
+      "m_conditions": [
+        2
+      ]
+    },
+    {
+      "m_effects": [
+        256
+      ],
+      "m_conditions": [
+        52
+      ]
+    },
+    {
+      "m_effects": [
+        235,
+        58,
+        234,
+        60
+      ],
+      "m_conditions": [
+        52
+      ]
+    },
+    {
+      "m_effects": [
+        95,
+        54,
+        187
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        187,
+        54
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        186,
+        39
+      ],
+      "m_conditions": [
+        51
+      ]
+    },
+    {
+      "m_effects": [
+        187,
+        54
+      ],
+      "m_conditions": [
+        106
+      ]
+    },
+    {
+      "m_effects": [],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        95,
+        54,
+        52
+      ],
+      "m_conditions": [
+        51
+      ]
+    },
+    {
+      "m_effects": [
+        38,
+        75
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        78,
+        75
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        78,
+        75,
+        73
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        78,
+        75
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        15,
+        15,
+        114,
+        75
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        186,
+        194
+      ],
+      "m_conditions": [
+        108
+      ]
+    },
+    {
+      "m_effects": [
+        255,
+        73,
+        207
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        186,
+        246,
+        75
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        114,
+        75
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        186,
+        39
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        186,
+        1,
+        75,
+        4,
+        75,
+        68,
+        75,
+        73
+      ],
+      "m_conditions": [
+        105,
+        102,
+        104
+      ]
+    },
+    {
+      "m_effects": [
+        186
+      ],
+      "m_conditions": [
+        1
+      ]
+    },
+    {
+      "m_effects": [
+        186
+      ],
+      "m_conditions": [
+        2
+      ]
+    },
+    {
+      "m_effects": [
+        73,
+        246,
+        75
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        202,
+        114
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        73,
+        256,
+        75
+      ],
+      "m_conditions": [
+        51
+      ]
+    },
+    {
+      "m_effects": [
+        187,
+        75
+      ],
+      "m_conditions": [
+        52
+      ]
+    },
+    {
+      "m_effects": [
+        186,
+        256,
+        75
+      ],
+      "m_conditions": [
+        103
+      ]
+    },
+    {
+      "m_effects": [
+        73,
+        256
+      ],
+      "m_conditions": [
+        106
+      ]
+    },
+    {
+      "m_effects": [
+        186,
+        255
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        150,
+        246,
+        75
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        73,
+        210
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        186,
+        73,
+        13,
+        75
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        0,
+        169,
+        257,
+        2
+      ],
+      "m_conditions": [
+        105
+      ]
+    },
+    {
+      "m_effects": [
+        150,
+        73,
+        187
+      ],
+      "m_conditions": [
+        107
+      ]
+    },
+    {
+      "m_effects": [
+        186,
+        187
+      ],
+      "m_conditions": [
+        53
+      ]
+    },
+    {
+      "m_effects": [
+        38,
+        75,
+        38,
+        75,
+        38,
+        75
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        61,
+        108,
+        108,
+        126,
+        63,
+        61,
+        108,
+        108,
+        126,
+        63
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        90,
+        63
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        61,
+        162,
+        240,
+        63
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        61,
+        62,
+        63,
+        126,
+        63
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        186
+      ],
+      "m_conditions": [
+        3
+      ]
+    },
+    {
+      "m_effects": [
+        240,
+        63
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        162,
+        108,
+        246,
+        63
+      ],
+      "m_conditions": [
+        53
+      ]
+    },
+    {
+      "m_effects": [
+        186,
+        75
+      ],
+      "m_conditions": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "m_effects": [
+        186
+      ],
+      "m_conditions": [
+        1
+      ]
+    },
+    {
+      "m_effects": [
+        73,
+        256,
+        75
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        186
+      ],
+      "m_conditions": [
+        1
+      ]
+    },
+    {
+      "m_effects": [
+        186
+      ],
+      "m_conditions": [
+        1,
+        4
+      ]
+    },
+    {
+      "m_effects": [
+        0,
+        199,
+        2
+      ],
+      "m_conditions": [
+        105
+      ]
+    },
+    {
+      "m_effects": [
+        0,
+        19,
+        2
+      ],
+      "m_conditions": [
+        105
+      ]
+    },
+    {
+      "m_effects": [
+        186,
+        78,
+        75
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        150,
+        246,
+        75
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        186,
+        40,
+        38,
+        42
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        186
+      ],
+      "m_conditions": [
+        2
+      ]
+    },
+    {
+      "m_effects": [
+        186,
+        70,
+        71,
+        209,
+        72
+      ],
+      "m_conditions": [
+        53
+      ]
+    },
+    {
+      "m_effects": [
+        70,
+        211,
+        72
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        35,
+        51,
+        49
+      ],
+      "m_conditions": [
+        106
+      ]
+    },
+    {
+      "m_effects": [
+        186,
+        73,
+        38,
+        75,
+        73,
+        38,
+        75,
+        73,
+        38,
+        75
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        161,
+        246,
+        72
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        150,
+        73,
+        114,
+        75
+      ],
+      "m_conditions": [
+        102
+      ]
+    },
+    {
+      "m_effects": [
+        161,
+        89,
+        125,
+        72,
+        125,
+        72,
+        125,
+        72
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        186,
+        82,
+        5
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        188
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        186,
+        65,
+        66,
+        65,
+        66,
+        65,
+        66,
+        65,
+        66
+      ],
+      "m_conditions": [
+        106
+      ]
+    },
+    {
+      "m_effects": [
+        186,
+        49,
+        49,
+        49
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        186,
+        9,
+        10,
+        11
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        153,
+        190,
+        11
+      ],
+      "m_conditions": [
+        103
+      ]
+    },
+    {
+      "m_effects": [
+        135,
+        190
+      ],
+      "m_conditions": [
+        102
+      ]
+    },
+    {
+      "m_effects": [
+        186,
+        82,
+        5,
+        24,
+        5
+      ],
+      "m_conditions": [
+        102
+      ]
+    },
+    {
+      "m_effects": [
+        73,
+        114,
+        75
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        78,
+        75,
+        73
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        123,
+        14,
+        12,
+        123,
+        14,
+        87,
+        14
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        152,
+        246,
+        66
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        186,
+        64,
+        65,
+        66,
+        64,
+        65,
+        66,
+        246,
+        66
+      ],
+      "m_conditions": [
+        52
+      ]
+    },
+    {
+      "m_effects": [
+        140,
+        240,
+        63
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        33,
+        78,
+        75,
+        246,
+        75
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        233,
+        35,
+        51
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        150,
+        187
+      ],
+      "m_conditions": [
+        106
+      ]
+    },
+    {
+      "m_effects": [
+        186,
+        73,
+        256,
+        75
+      ],
+      "m_conditions": [
+        106
+      ]
+    },
+    {
+      "m_effects": [
+        186,
+        13,
+        75
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        150,
+        207,
+        114,
+        75,
+        73,
+        73
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        186,
+        43,
+        44,
+        45
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        186,
+        27,
+        28,
+        29
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        186
+      ],
+      "m_conditions": [
+        1,
+        2
+      ]
+    },
+    {
+      "m_effects": [
+        150,
+        246,
+        75
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        207,
+        114,
+        75,
+        73,
+        73
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        33,
+        73,
+        78,
+        75,
+        246,
+        75
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [
+        64,
+        65,
+        66,
+        64,
+        65,
+        66,
+        120,
+        66
+      ],
+      "m_conditions": [
+        52
+      ]
+    },
+    {
+      "m_effects": [
+        9,
+        10,
+        11
+      ],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [],
+      "m_conditions": []
+    },
+    {
+      "m_effects": [],
+      "m_conditions": []
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 224
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 1,
+    "m_PathID": 123
+  },
+  "m_Name": "",
+  "m_dropWindow": {
+    "m_FileID": 0,
+    "m_PathID": 1983
+  },
+  "m_collectAnimator": {
+    "m_FileID": 0,
+    "m_PathID": 1942
+  },
+  "m_collectText": {
+    "m_FileID": 0,
+    "m_PathID": 1600
+  },
+  "m_collectUseNumText": {
+    "m_FileID": 0,
+    "m_PathID": 1595
+  },
+  "m_collectOff": {
+    "m_FileID": 0,
+    "m_PathID": 56
+  },
+  "m_forgoAnimator": {
+    "m_FileID": 0,
+    "m_PathID": 1867
+  },
+  "m_forgoText": {
+    "m_FileID": 0,
+    "m_PathID": 1570
+  },
+  "m_forgoOff": {
+    "m_FileID": 0,
+    "m_PathID": 75
+  },
+  "m_exitAnimator": {
+    "m_FileID": 0,
+    "m_PathID": 1969
+  },
+  "m_backAnimator": {
+    "m_FileID": 0,
+    "m_PathID": 570
+  },
+  "m_menuAnimator": {
+    "m_FileID": 0,
+    "m_PathID": 574
+  },
+  "m_ticketNumText": {
+    "m_FileID": 0,
+    "m_PathID": 1625
+  }
+}

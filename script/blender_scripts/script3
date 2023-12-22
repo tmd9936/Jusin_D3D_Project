@@ -1,0 +1,263 @@
+import bpy
+from pathlib import Path
+    
+
+context = bpy.context
+scene =  context.scene
+
+colls = bpy.data.collections
+
+Armatures = bpy.data.armatures
+#for armature in Armatures:
+#    print(dir(armature))
+
+
+def delete_actions():
+    actions = bpy.data.actions
+
+    for actionname in actions.keys():
+        if (actionname.startswith('Armature|') == False):
+            if ('Mmotion' in actionname):
+                actions.remove(actions[actionname])
+                
+
+                
+def delete_actions2(index):
+    actions = bpy.data.actions
+
+    for actionname in actions.keys():
+        if (actionname.startswith('Armature|Mmotion') == False):
+            if ('M' + str(index) + '_' not in actionname):
+                actions.remove(actions[actionname])
+                continue
+            
+def delete_actions_all():
+    actions = bpy.data.actions
+
+    for actionname in actions.keys():
+        actions.remove(actions[actionname])
+
+def change_bsdf():
+    material = bpy.data.materials[0]
+    
+    material_output = material.node_tree.nodes.get('Material Output')
+    material.node_tree.nodes.remove(material.node_tree.nodes.get('Principled BSDF'))
+    bsdf = material.node_tree.nodes.new('ShaderNodeBsdfDiffuse')
+    normal_map = material.node_tree.nodes.get('Normal Map')
+    
+    input = bsdf.inputs['Normal']
+    output = normal_map.outputs['Normal']
+    material.node_tree.links.new(input, output)
+    
+    output = bsdf.outputs['BSDF']
+    input = material_output.inputs['Surface']
+    material.node_tree.links.new(input, output)
+    
+    bpy.context.object.active_material = material
+    
+    
+def change_bsdf2():
+    material = bpy.data.materials[0]
+    
+    material_output = material.node_tree.nodes.get('Material Output')
+    material.node_tree.nodes.remove(material.node_tree.nodes.get('Diffuse BSDF'))
+    bsdf = material.node_tree.nodes.new('ShaderNodeBsdfPrincipled')
+    normal_map = material.node_tree.nodes.get('Normal Map')
+    
+    input = bsdf.inputs['Normal']
+    output = normal_map.outputs['Normal']
+    material.node_tree.links.new(input, output)
+    
+    output = bsdf.outputs['BSDF']
+    input = material_output.inputs['Surface']
+    material.node_tree.links.new(input, output)
+    
+    material.node_tree.nodes.remove(material.node_tree.nodes.get("Color Attribute"))
+    
+    input = bsdf.inputs["Base Color"]
+    output = material.node_tree.nodes["Image Texture"].outputs["Color"]
+    material.node_tree.links.new(input, output)
+    
+    bpy.context.object.active_material = material
+    
+
+def create_node_color_attribute(obj):
+    mat = bpy.data.materials[0]
+    
+    change_bsdf()
+   # obj.data.materials.append(mat)
+    #mat.use_nodes = True
+    mat.node_tree.nodes.new(type="ShaderNodeVertexColor")
+    mat.node_tree.nodes["Color Attribute"].layer_name = "Col"
+    
+    #mat.node_tree.nodes["Principled BSDF"].is_property_readonly(False)
+    #mat.node_tree.nodes["Principled BSDF"].type_recast() = 'ShaderNodeBsdfDiffuse'
+    
+    mat.node_tree.nodes["Diffuse BSDF"].inputs["Roughness"].default_value = 0.533
+    
+    input = mat.node_tree.nodes["Diffuse BSDF"].inputs["Color"]
+    output = mat.node_tree.nodes["Color Attribute"].outputs["Color"]
+    mat.node_tree.links.new(input, output)
+    
+    bpy.context.object.active_material = mat
+    mat.use_nodes = True
+    
+    
+def create_node_image_texture(obj, name):
+    mat = bpy.data.materials[0]
+    
+   # obj.data.materials.append(mat)
+    mat.use_nodes = True
+    nodes = mat.node_tree.nodes
+    texture_node = mat.node_tree.nodes.new(type="ShaderNodeTexImage")
+    image_src = bpy.data.images.new(name + '.png', 1024, 1024)
+    texture_node.select = True
+    nodes.active = texture_node
+    texture_node.image = image_src
+#    input = mat.node_tree.nodes["Principled BSDF"].inputs["Base Color"]
+#    output = mat.node_tree.nodes["Color Attribute"].outputs["Color"]
+#    mat.node_tree.links.new(input, output)
+
+
+def bake():
+    bpy.context.scene.render.engine = 'CYCLES'
+    bpy.context.scene.cycles.device = 'GPU'
+    bpy.context.scene.cycles.bake_type = 'DIFFUSE'
+    bpy.context.scene.render.bake.use_pass_direct = False
+    bpy.context.scene.render.bake.use_pass_indirect = False
+    bpy.context.scene.render.bake.margin = 5
+    bpy.context.scene.render.bake.target = 'IMAGE_TEXTURES'
+    
+    # Bake selected objects
+    for obj in filter(lambda x: x.type == 'MESH', bpy.data.objects):
+        
+        print('Selected: ' + obj.name)
+        
+        # Select current object
+        bpy.ops.object.select_all(action='DESELECT')
+        bpy.context.view_layer.objects.active = obj
+        obj.select_set(True)
+        bpy.ops.object.bake(type='DIFFUSE', pass_filter={'COLOR'}, save_mode='EXTERNAL')
+
+
+def texture_properties_setting(name):
+    texture = bpy.ops.texture.new()
+    texture = bpy.data.textures["Texture"]
+    texture.type = "IMAGE" #changing type
+    texture = bpy.data.textures["Texture"] # This one has noise_scale attribute
+    texture.image = bpy.data.images[name + '.png']  #changing noise scale from this new type 
+
+
+def texture_save(name):
+    texture = bpy.data.textures["Texture"]    
+    texture.image.save_render(filepath="D:/jusin/API/super/po/6/out3/" + name + '.png')
+    texture.image.source = 'FILE'
+    texture.image.filepath = "D:/jusin/API/super/po/6/out3/" + name + '.png'
+    
+     
+def uv_smart_project(name):
+    
+    # Get all objects in selection
+    obj = bpy.context.selected_objects[1]
+
+    obj.select_set(True)
+    # Make it active
+    bpy.context.view_layer.objects.active = obj
+    # Toggle into Edit Mode
+    bpy.ops.object.mode_set(mode='EDIT')
+    # Select the geometry
+    bpy.ops.mesh.select_all(action='SELECT')
+    # Call the smart project operator
+    bpy.ops.uv.smart_project()
+    # Toggle out of Edit Mode
+    create_node_color_attribute(obj)
+    create_node_image_texture(obj, name)
+    bpy.ops.object.mode_set(mode='OBJECT')
+    texture_properties_setting(name)
+    bake()
+    change_bsdf2()
+    texture_save(name)
+    # Deselect the object
+    obj.select_set(False)
+
+
+def import_fbx():
+    for i in range(1,3):
+        obj = bpy.ops.import_scene.fbx(filepath='D:/jusin/API/super/po/6/out/' 
+            + 'PM' + str(i) + '.fbx')
+        target_coll = bpy.data.collections.new(name='PM' + str(i))
+        uv_smart_project('PM' + str(i))
+        bpy.ops.object.select_all(action='SELECT')
+        target_coll.objects.link(bpy.context.selected_objects[1])
+        target_coll.objects.link(bpy.context.selected_objects[0])
+        scene.collection.objects.unlink(bpy.context.selected_objects[1])
+        scene.collection.objects.unlink(bpy.context.selected_objects[0])
+        scene.collection.children.link(target_coll)
+        if (i == 1):
+            export_all()
+            delete_actions_all()
+            remove_all('PM' + str(i))
+
+#https://blender.stackexchange.com/questions/15198/delete-animation-of-object
+
+#for coll in scene.collection.children: # all 
+def export_all():
+    for coll in scene.collection.children:
+        bpy.ops.export_scene.fbx(
+            {
+                "object" : coll,
+                "active_object" : coll,
+                "selected_objects" : coll.all_objects,
+            },
+            filepath=str(
+                    "D:/jusin/API/super/po/6/out3/" +
+                     f"{coll.name}.fbx"
+                ),
+            use_selection=True,
+            )
+
+
+def remove_all(colName):     
+    # Remove all actions
+    for action in bpy.data.actions:
+        bpy.data.actions.remove(action)
+
+    # Remove all armatures
+    for armature in bpy.data.armatures:
+        bpy.data.armatures.remove(armature)
+
+    # Remove all collections
+    for collection in bpy.data.collections:
+        bpy.data.collections.remove(collection)
+
+    # Remove all images
+    for image in bpy.data.images:
+        bpy.data.images.remove(image)
+
+    # Remove all materials
+    for material in bpy.data.materials:
+        bpy.data.materials.remove(material)
+
+    # Remove all meshes
+    for mesh in bpy.data.meshes:
+        bpy.data.meshes.remove(mesh)
+
+    # Remove all objects
+    for obj in bpy.data.objects:
+        bpy.data.objects.remove(obj)
+
+    # Remove all textures
+    for texture in bpy.data.textures:
+        bpy.data.textures.remove(texture)
+        
+
+def excute():
+    import_fbx()
+    #export_all()
+    #delete_actions_all()
+    #remove_all()
+
+
+excute()
+#import_fbx()            
+#export_all()         

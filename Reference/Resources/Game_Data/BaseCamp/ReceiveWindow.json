@@ -1,0 +1,56 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 3888952918080905173
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": -1735474096649816605
+  },
+  "m_Name": "",
+  "m_uiAnimator": {
+    "m_FileID": 0,
+    "m_PathID": -5163002475494899418
+  },
+  "m_titleText": {
+    "m_FileID": 0,
+    "m_PathID": -4687738519521119092
+  },
+  "m_descriptionText": {
+    "m_FileID": 0,
+    "m_PathID": -1752629231038648952
+  },
+  "m_receiveButtonUIAnimator": {
+    "m_FileID": 0,
+    "m_PathID": 7485279755655190551
+  },
+  "m_receiveButtonStateText": {
+    "m_FileID": 0,
+    "m_PathID": -1583817807844435470
+  },
+  "m_receiveOff": {
+    "m_FileID": 0,
+    "m_PathID": 5546279550954022398
+  },
+  "m_cancelButtonUIAnimator": {
+    "m_FileID": 0,
+    "m_PathID": 2129030343695076448
+  },
+  "m_cancelButtonText": {
+    "m_FileID": 0,
+    "m_PathID": -1598677219978456843
+  },
+  "m_rewardImage": {
+    "m_FileID": 0,
+    "m_PathID": -3963418690557989912
+  },
+  "m_rewardCountText": {
+    "m_FileID": 0,
+    "m_PathID": -1936387443723333471
+  },
+  "m_rewardDescText": {
+    "m_FileID": 0,
+    "m_PathID": 7521566034374839671
+  }
+}

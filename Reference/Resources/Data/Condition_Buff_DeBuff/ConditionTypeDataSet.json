@@ -1,0 +1,191 @@
+{
+  "m_datas": [
+    {
+      "m_id": 0,
+      "m_category": 0,
+      "m_iconPath": "UI_ss_p_damageup",
+      "m_iconLSizePath": "none",
+      "m_effectType": 194,
+      "m_resistType_1": 18,
+      "m_resistType_2": 18,
+      "m_groupID": 0,
+      "m_force": 0
+    },
+    {
+      "m_id": 1,
+      "m_category": 0,
+      "m_iconPath": "UI_ss_p_damageup",
+      "m_iconLSizePath": "none",
+      "m_effectType": 194,
+      "m_resistType_1": 18,
+      "m_resistType_2": 18,
+      "m_groupID": 0,
+      "m_force": 0
+    },
+    {
+      "m_id": 2,
+      "m_category": 1,
+      "m_iconPath": "UI_ss_n_damagedown",
+      "m_iconLSizePath": "none",
+      "m_effectType": 193,
+      "m_resistType_1": 18,
+      "m_resistType_2": 18,
+      "m_groupID": 0,
+      "m_force": 0
+    },
+    {
+      "m_id": 3,
+      "m_category": 0,
+      "m_iconPath": "UI_ss_p_defenseup",
+      "m_iconLSizePath": "none",
+      "m_effectType": 194,
+      "m_resistType_1": 18,
+      "m_resistType_2": 18,
+      "m_groupID": 0,
+      "m_force": 0
+    },
+    {
+      "m_id": 4,
+      "m_category": 1,
+      "m_iconPath": "UI_ss_n_defensdown",
+      "m_iconLSizePath": "none",
+      "m_effectType": 193,
+      "m_resistType_1": 18,
+      "m_resistType_2": 18,
+      "m_groupID": 0,
+      "m_force": 0
+    },
+    {
+      "m_id": 5,
+      "m_category": 0,
+      "m_iconPath": "UI_ss_p_speedup",
+      "m_iconLSizePath": "none",
+      "m_effectType": 194,
+      "m_resistType_1": 18,
+      "m_resistType_2": 18,
+      "m_groupID": 0,
+      "m_force": 0
+    },
+    {
+      "m_id": 6,
+      "m_category": 1,
+      "m_iconPath": "UI_ss_n_speeddown",
+      "m_iconLSizePath": "none",
+      "m_effectType": 193,
+      "m_resistType_1": 18,
+      "m_resistType_2": 18,
+      "m_groupID": 0,
+      "m_force": 0
+    },
+    {
+      "m_id": 7,
+      "m_category": 0,
+      "m_iconPath": "UI_ss_p_resistup",
+      "m_iconLSizePath": "none",
+      "m_effectType": 194,
+      "m_resistType_1": 18,
+      "m_resistType_2": 18,
+      "m_groupID": 0,
+      "m_force": 0
+    },
+    {
+      "m_id": 8,
+      "m_category": 1,
+      "m_iconPath": "UI_ss_n_resistdown",
+      "m_iconLSizePath": "none",
+      "m_effectType": 193,
+      "m_resistType_1": 18,
+      "m_resistType_2": 18,
+      "m_groupID": 0,
+      "m_force": 0
+    },
+    {
+      "m_id": 9,
+      "m_category": 2,
+      "m_iconPath": "UI_ss_n_doku",
+      "m_iconLSizePath": "none",
+      "m_effectType": 189,
+      "m_resistType_1": 18,
+      "m_resistType_2": 18,
+      "m_groupID": 9,
+      "m_force": 0
+    },
+    {
+      "m_id": 10,
+      "m_category": 2,
+      "m_iconPath": "UI_ss_n_mahi",
+      "m_iconLSizePath": "none",
+      "m_effectType": 188,
+      "m_resistType_1": 18,
+      "m_resistType_2": 18,
+      "m_groupID": 9,
+      "m_force": 0
+    },
+    {
+      "m_id": 11,
+      "m_category": 2,
+      "m_iconPath": "UI_ss_n_nemuri",
+      "m_iconLSizePath": "UI_ss_n_nemuriL",
+      "m_effectType": 204,
+      "m_resistType_1": 18,
+      "m_resistType_2": 18,
+      "m_groupID": 9,
+      "m_force": 0
+    },
+    {
+      "m_id": 12,
+      "m_category": 2,
+      "m_iconPath": "UI_ss_n_koori",
+      "m_iconLSizePath": "UI_ss_n_kooriL",
+      "m_effectType": 203,
+      "m_resistType_1": 18,
+      "m_resistType_2": 18,
+      "m_groupID": 9,
+      "m_force": 0
+    },
+    {
+      "m_id": 13,
+      "m_category": 2,
+      "m_iconPath": "UI_ss_n_yakedo",
+      "m_iconLSizePath": "none",
+      "m_effectType": 201,
+      "m_resistType_1": 18,
+      "m_resistType_2": 18,
+      "m_groupID": 9,
+      "m_force": 0
+    },
+    {
+      "m_id": 14,
+      "m_category": 2,
+      "m_iconPath": "UI_ss_n_konran",
+      "m_iconLSizePath": "none",
+      "m_effectType": 202,
+      "m_resistType_1": 18,
+      "m_resistType_2": 18,
+      "m_groupID": 9,
+      "m_force": 0
+    },
+    {
+      "m_id": 15,
+      "m_category": 2,
+      "m_iconPath": "UI_ss_n_kanasibari",
+      "m_iconLSizePath": "UI_ss_n_kanasibariL",
+      "m_effectType": 247,
+      "m_resistType_1": 18,
+      "m_resistType_2": 18,
+      "m_groupID": 9,
+      "m_force": 0
+    },
+    {
+      "m_id": 16,
+      "m_category": 2,
+      "m_iconPath": "UI_ss_n_nemuri",
+      "m_iconLSizePath": "UI_ss_n_nemuriL",
+      "m_effectType": 204,
+      "m_resistType_1": 18,
+      "m_resistType_2": 18,
+      "m_groupID": 9,
+      "m_force": 1
+    }
+  ]
+}

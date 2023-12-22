@@ -1,0 +1,150 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 43
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 1,
+    "m_PathID": 74
+  },
+  "m_Name": "",
+  "descriptionStatus": {
+    "statusAnim": {
+      "m_FileID": 0,
+      "m_PathID": 984
+    },
+    "titleText": {
+      "m_FileID": 0,
+      "m_PathID": 913
+    },
+    "descText": {
+      "m_FileID": 0,
+      "m_PathID": 875
+    }
+  },
+  "pokemoStatusParent": {
+    "m_FileID": 0,
+    "m_PathID": 646
+  },
+  "stoneStatus": {
+    "statusAnim": {
+      "m_FileID": 0,
+      "m_PathID": 972
+    },
+    "passiveStoneStatus": {
+      "statusObj": {
+        "m_FileID": 0,
+        "m_PathID": 621
+      },
+      "nameTextArea": {
+        "m_FileID": 0,
+        "m_PathID": 904
+      },
+      "rareImage": {
+        "m_FileID": 0,
+        "m_PathID": 1115
+      },
+      "typeImage": {
+        "m_FileID": 0,
+        "m_PathID": 1087
+      },
+      "mainPropertyNameText": {
+        "m_FileID": 0,
+        "m_PathID": 904
+      },
+      "mainPropertyTitleText": {
+        "m_FileID": 0,
+        "m_PathID": 888
+      },
+      "mainPropertyValueText": {
+        "m_FileID": 0,
+        "m_PathID": 867
+      },
+      "subPropertyParams": [
+        {
+          "subPropertyTitleText": {
+            "m_FileID": 0,
+            "m_PathID": 849
+          },
+          "subPropertyText": {
+            "m_FileID": 0,
+            "m_PathID": 916
+          }
+        },
+        {
+          "subPropertyTitleText": {
+            "m_FileID": 0,
+            "m_PathID": 863
+          },
+          "subPropertyText": {
+            "m_FileID": 0,
+            "m_PathID": 914
+          }
+        },
+        {
+          "subPropertyTitleText": {
+            "m_FileID": 0,
+            "m_PathID": 917
+          },
+          "subPropertyText": {
+            "m_FileID": 0,
+            "m_PathID": 857
+          }
+        }
+      ],
+      "iconImage": {
+        "m_FileID": 0,
+        "m_PathID": 945
+      },
+      "mainPropValue": {
+        "m_FileID": 0,
+        "m_PathID": 850
+      }
+    },
+    "skillStoneStatus": {
+      "statusObj": {
+        "m_FileID": 0,
+        "m_PathID": 596
+      },
+      "nameTextArea": {
+        "m_FileID": 0,
+        "m_PathID": 895
+      },
+      "rareImage": {
+        "m_FileID": 0,
+        "m_PathID": 963
+      },
+      "typeImage": {
+        "m_FileID": 0,
+        "m_PathID": 1033
+      },
+      "propertyParams": [
+        {
+          "subPropertyTitleText": {
+            "m_FileID": 0,
+            "m_PathID": 898
+          },
+          "subPropertyText": {
+            "m_FileID": 0,
+            "m_PathID": 877
+          }
+        },
+        {
+          "subPropertyTitleText": {
+            "m_FileID": 0,
+            "m_PathID": 903
+          },
+          "subPropertyText": {
+            "m_FileID": 0,
+            "m_PathID": 854
+          }
+        }
+      ],
+      "iconImage": {
+        "m_FileID": 0,
+        "m_PathID": 1036
+      }
+    }
+  }
+}

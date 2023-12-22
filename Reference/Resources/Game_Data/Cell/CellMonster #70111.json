@@ -1,0 +1,60 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 165
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 1,
+    "m_PathID": 128
+  },
+  "m_Name": "",
+  "iconImage": {
+    "m_FileID": 0,
+    "m_PathID": 994
+  },
+  "buttonImage": {
+    "m_FileID": 0,
+    "m_PathID": 1050
+  },
+  "buttonRImage": {
+    "m_FileID": 0,
+    "m_PathID": 1028
+  },
+  "buttonGImage": {
+    "m_FileID": 0,
+    "m_PathID": 1026
+  },
+  "buttonBImage": {
+    "m_FileID": 0,
+    "m_PathID": 949
+  },
+  "countText": {
+    "m_FileID": 0,
+    "m_PathID": 773
+  },
+  "nameText": {
+    "m_FileID": 0,
+    "m_PathID": 774
+  },
+  "offIcon": {
+    "m_FileID": 0,
+    "m_PathID": 230
+  },
+  "newIcon": {
+    "m_FileID": 0,
+    "m_PathID": 194
+  },
+  "iconController": {
+    "m_FileID": 0,
+    "m_PathID": 967
+  },
+  "buttonAnimator": {
+    "m_FileID": 0,
+    "m_PathID": 992
+  },
+  "selectMarker": {
+    "m_FileID": 0,
+    "m_PathID": 228
+  }
+}

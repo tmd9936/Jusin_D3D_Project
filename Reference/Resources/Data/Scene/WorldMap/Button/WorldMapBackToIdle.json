@@ -1,0 +1,28 @@
+{
+    "ButtonDesc": {
+        "m_fX": 890.0,
+        "m_fY": 400.0,
+        "m_fSizeX": 25.5,
+        "m_fSizeY": 25.5,
+        "m_ModelPrototypLevel": 0,
+        "m_ShaderLevelIndex": 0,
+        "m_ShaderPass": 0,
+        "m_DiffuseTexturePath": "./button_allround_exit.dds",
+        "m_MaskPrototypeTag": "Prototype_Component_Button_Color_Mask",
+        "m_BrushPrototypeTag": "",
+        "m_ButtonName": "WorldMap_Back_To_Idle",
+        "m_UIType": 0,
+        "m_vColor": {
+            "x" : 0.9,
+            "y" : 0.9,
+            "z" : 0.9,
+            "w" : 0.9
+        },
+        "m_TextureParts": [
+
+        ],
+        "m_TextParts": [
+
+        ]
+    }
+}

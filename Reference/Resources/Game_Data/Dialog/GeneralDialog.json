@@ -1,0 +1,463 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 5347130861919494367
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 7809510475470070774
+  },
+  "m_Name": "",
+  "generalDialogAnim": {
+    "m_FileID": 0,
+    "m_PathID": 5328115093559857595
+  },
+  "descriptionText": {
+    "m_FileID": 0,
+    "m_PathID": 3787442713658401969
+  },
+  "windowType": 14,
+  "oneButtonText": {
+    "buttonAnim": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "buttonText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    }
+  },
+  "oneButtonImageText": {
+    "descImage": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "listParent": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "buttonAnim": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "buttonText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    }
+  },
+  "oneButtonImageCountText": {
+    "imageCountCell": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "listParent": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "buttonAnim": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "buttonText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    }
+  },
+  "twoButtonText": {
+    "rightButtonAnim": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "leftButtonAnim": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "rightButtonText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "leftButtonText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "tutorialGuideMarker_Left": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "tutorialGuideMarker_Right": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    }
+  },
+  "twoButtonImageText": {
+    "descImage": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "listParent": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "rightButtonAnim": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "leftButtonAnim": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "rightButtonText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "leftButtonText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    }
+  },
+  "tutorialImageText": {
+    "descImage": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "listParent": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "rightButtonAnim": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "leftButtonAnim": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "closeButtonAnim": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "closeButtonText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "contentText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    }
+  },
+  "layerClearImageText": {
+    "descImage": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "buttonAnim": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "buttonText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "titleText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    }
+  },
+  "oneButtonTextGiftCard": {
+    "buttonAnim": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "buttonText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "giftTicketText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "descriptionText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    }
+  },
+  "twoButtonImageTextTicket": {
+    "descImage": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "rightButtonAnim": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "leftButtonAnim": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "rightButtonText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "leftButtonText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "descriptionText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "priceTicketText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "haveTicketText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    }
+  },
+  "giftTicketCheck": {
+    "rightButtonAnim": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "leftButtonAnim": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "rightButtonText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "leftButtonText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "giftTicketTitle": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "giftTicketHasCount": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "giftTicketUseCount": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "tutorialGuideMarker_Left": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "tutorialGuideMarker_Right": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    }
+  },
+  "giftTicketCheckTimer": {
+    "rightButtonAnim": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "leftButtonAnim": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "rightButtonText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "leftButtonText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "hasText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "hasCountText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "useCountText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "chanceCountDescText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "chanceCountText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "timerDescText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "timerCountText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    }
+  },
+  "firstClearReward": {
+    "buttonAnim": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "buttonText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "m_contentSets": []
+  },
+  "noButtonText": {},
+  "cautionText": {},
+  "nowConnecting": {},
+  "verifyBackup": {
+    "buttonAnim": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "buttonText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "backupID": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "backupKey": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "backupIDText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "backupKeyText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "explainText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    }
+  },
+  "shop": {
+    "closeButtonAnim": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "confirmWindow": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "confirmButtonOK": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "confirmButtonCancel": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "confirmButtonEShop": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "houreiButtonAnim": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "confirmNameText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "confirmPriceText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "confirmExplainText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "confirmButtonOKText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "confirmButtonCancelText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "confirmButtonEShopText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "titleText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "masterballText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "houreiButtonText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "scrollRect": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "infinityScroll": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "baseItem": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    }
+  },
+  "previousSupport": {
+    "leftButton": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "rightButton": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "copyButton": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "explainText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "versionText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "supportIdTitleText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "supportIdText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "leftButtonText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "rightButtonText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "copyButtonText": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    }
+  }
+}

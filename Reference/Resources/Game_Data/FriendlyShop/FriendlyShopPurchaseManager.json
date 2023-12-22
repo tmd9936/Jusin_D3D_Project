@@ -1,0 +1,23 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 6020626810630814356
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": -5710483464309303736
+  },
+  "m_Name": "",
+  "PurchaseStateManager": {
+    "m_FileID": 0,
+    "m_PathID": -352017653247632205
+  },
+  "m_AgeVerifyState": {
+    "keyName": "AGE_VERIFY",
+    "stateValue": {
+      "m_FileID": 0,
+      "m_PathID": -6329573977858648973
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 42
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 1,
+    "m_PathID": 82
+  },
+  "m_Name": "",
+  "m_dairyTicketRemainTimeText": {
+    "m_FileID": 0,
+    "m_PathID": 509
+  },
+  "m_dairyTicketRemainTimeRoot": {
+    "m_FileID": 0,
+    "m_PathID": 68
+  },
+  "m_dairyTicketButton": {
+    "m_FileID": 0,
+    "m_PathID": 627
+  },
+  "m_shopButton": {
+    "m_FileID": 0,
+    "m_PathID": 599
+  },
+  "m_shopButtonTextTitle": {
+    "m_FileID": 0,
+    "m_PathID": 510
+  },
+  "m_shopButtonTextDesc": {
+    "m_FileID": 0,
+    "m_PathID": 515
+  },
+  "m_shopButtonTextDesc2": {
+    "m_FileID": 0,
+    "m_PathID": 511
+  },
+  "m_dairyTicketNumText": {
+    "m_FileID": 0,
+    "m_PathID": 512
+  }
+}

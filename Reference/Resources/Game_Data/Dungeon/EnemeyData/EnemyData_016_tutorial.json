@@ -1,0 +1,70 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 2917105370175652179
+  },
+  "m_Name": "EnemyData_016_tutorial",
+  "m_monsterNo": 16,
+  "m_formNo": 0,
+  "m_tokusei": 0,
+  "m_hpBasis": 50,
+  "m_attackBasis": 25,
+  "m_seikaku": 15,
+  "m_scale": 1.0,
+  "m_normalSkillRangeType": 0,
+  "m_uniqSkills": [
+    {
+      "m_skillID": 65535,
+      "m_enemyStoneID": [
+        -1,
+        -1,
+        -1
+      ]
+    },
+    {
+      "m_skillID": 65535,
+      "m_enemyStoneID": [
+        -1,
+        -1,
+        -1
+      ]
+    },
+    {
+      "m_skillID": 65535,
+      "m_enemyStoneID": [
+        -1,
+        -1,
+        -1
+      ]
+    }
+  ],
+  "m_passiveStoneIDs": [
+    50,
+    -1,
+    -1,
+    -1
+  ],
+  "m_characterSettingParameterPercent": {
+    "m_regeneration": {
+      "m_intervalSecond": 0.0,
+      "m_hpPercent": 0.0
+    },
+    "m_eye": {
+      "m_radius": 1.0
+    },
+    "m_navMeshAgent": {
+      "m_speed": 1.0,
+      "m_acceleration": 1.0,
+      "m_angularSpeed": 1.0
+    }
+  },
+  "m_AIType": 1,
+  "m_dropType": 4,
+  "m_fixDropGroup": 0,
+  "m_fixDropItem": 3
+}

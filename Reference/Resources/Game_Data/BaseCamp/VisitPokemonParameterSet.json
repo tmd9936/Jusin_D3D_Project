@@ -1,0 +1,86 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": -7187063790306618785
+  },
+  "m_Name": "VisitPokemonParameterSet",
+  "m_datas": [
+    {
+      "m_monsterNo": 19,
+      "m_level": 1,
+      "m_hp": 75,
+      "m_attack": 125,
+      "m_skillRangeType": 0,
+      "m_normalSkill": 0,
+      "m_activeSlotIndices": 256,
+      "m_activeSlotPropertyTypes": [
+        1,
+        1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ],
+      "m_nextActiveSlotIndex": 2,
+      "m_uniqueSkills": [
+        172,
+        65535,
+        65535
+      ],
+      "m_uniqueSkillSlots": [
+        0,
+        -1,
+        -1
+      ],
+      "m_bingoPropertyIndices": [
+        2,
+        2,
+        0
+      ]
+    },
+    {
+      "m_monsterNo": 16,
+      "m_level": 1,
+      "m_hp": 100,
+      "m_attack": 100,
+      "m_skillRangeType": 1,
+      "m_normalSkill": 5,
+      "m_activeSlotIndices": 64,
+      "m_activeSlotPropertyTypes": [
+        1,
+        0,
+        1,
+        0,
+        0,
+        1,
+        0,
+        1,
+        0
+      ],
+      "m_nextActiveSlotIndex": 0,
+      "m_uniqueSkills": [
+        107,
+        65535,
+        65535
+      ],
+      "m_uniqueSkillSlots": [
+        0,
+        -1,
+        -1
+      ],
+      "m_bingoPropertyIndices": [
+        0,
+        0,
+        0
+      ]
+    }
+  ]
+}

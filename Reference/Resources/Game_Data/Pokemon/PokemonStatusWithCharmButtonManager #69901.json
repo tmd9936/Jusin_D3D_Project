@@ -1,0 +1,47 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 55
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 1,
+    "m_PathID": 123
+  },
+  "m_Name": "",
+  "descriptionStatus": {
+    "statusAnim": {
+      "m_FileID": 0,
+      "m_PathID": 883
+    },
+    "titleText": {
+      "m_FileID": 0,
+      "m_PathID": 755
+    },
+    "descText": {
+      "m_FileID": 0,
+      "m_PathID": 742
+    }
+  },
+  "pokemoStatusParent": {
+    "m_FileID": 0,
+    "m_PathID": 881
+  },
+  "customMonsterButton": {
+    "m_FileID": 0,
+    "m_PathID": 892
+  },
+  "customMonsterButtonText": {
+    "m_FileID": 0,
+    "m_PathID": 754
+  },
+  "setCountText": {
+    "m_FileID": 0,
+    "m_PathID": 757
+  },
+  "openCountText": {
+    "m_FileID": 0,
+    "m_PathID": 750
+  },
+  "sceneType": 1
+}

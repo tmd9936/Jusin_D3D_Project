@@ -1,0 +1,21 @@
+출처 : https://msparkms.tistory.com/entry/DDS-%EB%B3%80%ED%99%98-Util-nvdxt
+
+for /D %%d in (*) do (
+  cd %%d
+  nvdxt.exe -file *.png -quality_highest -dxt5 -nomipmap -overwrite
+  cd ..
+)
+
+간단 설명
+
+-file *.png : 모든 PNG 파일을 변환해라.
+
+-quality_highest : 최상급의 퀄리티로 뽑아라.
+
+-dxt5 : dxt5 포맷으로 뽑아라.
+
+-pre_modulate : PremultipliedAlpha를 적용하려면 이 옵션을 설정하자.
+
+-nomipmap : 밉맵을 생성하지 않는다. (생성하려면 -mipmaps 2 였던가?? 물론 width / height가 2의 승수여야 한다.)
+
+-overwrite : 기존에 파일이 있으면 덮어쓴다.

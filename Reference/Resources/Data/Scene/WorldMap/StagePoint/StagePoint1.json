@@ -1,0 +1,18 @@
+{
+    "StagePointDesc": {
+        "vPos": {
+            "x": 23.6,
+            "y": 0.8,
+            "z": 23.6
+        },
+        "vColor": {
+            "x": 0.482352972,
+            "y": 0.9215687,
+            "z": 0.3803922,
+            "w": 1.0
+        },
+        "eState": 1,
+        "stageNumber" : 1,
+        "levelTitleText": "시작의평원"
+    }
+}

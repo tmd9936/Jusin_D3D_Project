@@ -1,0 +1,120 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 7691023875295182926
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 7609238283052095151
+  },
+  "m_Name": "",
+  "m_pageScroll": {
+    "m_FileID": 0,
+    "m_PathID": -1013391717024643274
+  },
+  "m_baseItem": {
+    "m_FileID": 0,
+    "m_PathID": -1298425702168888165
+  },
+  "m_staticText": {
+    "no": {
+      "m_FileID": 0,
+      "m_PathID": -7871047913880563831
+    },
+    "scoutCountDesc": {
+      "m_FileID": 0,
+      "m_PathID": 7085207542247991963
+    }
+  },
+  "m_contentParam": {
+    "icon": {
+      "m_FileID": 0,
+      "m_PathID": 967633908504675790
+    },
+    "pokemonNoText": {
+      "m_FileID": 0,
+      "m_PathID": 8700976551172419134
+    },
+    "pokemonName": {
+      "m_FileID": 0,
+      "m_PathID": 6389530068645080764
+    },
+    "pokemonZukanType": {
+      "m_FileID": 0,
+      "m_PathID": 8024888270868672974
+    },
+    "typeAImage": {
+      "m_FileID": 0,
+      "m_PathID": -3588000140956832804
+    },
+    "typeAText": {
+      "m_FileID": 0,
+      "m_PathID": 6654109785578624875
+    },
+    "typeBImage": {
+      "m_FileID": 0,
+      "m_PathID": 57337768037829001
+    },
+    "typeBText": {
+      "m_FileID": 0,
+      "m_PathID": -3882484934389339347
+    },
+    "attackTypeImage": {
+      "m_FileID": 0,
+      "m_PathID": -5505855066085946874
+    },
+    "scoutPokemonNum": {
+      "m_FileID": 0,
+      "m_PathID": -5909771637291985255
+    },
+    "totalPokemonNum": {
+      "m_FileID": 0,
+      "m_PathID": -6834020162481651316
+    },
+    "scoutPokemonSlider": {
+      "m_FileID": 0,
+      "m_PathID": -2855396933473166030
+    },
+    "scoutCount": {
+      "m_FileID": 0,
+      "m_PathID": -6230727124590817957
+    },
+    "rareColorImage": {
+      "m_FileID": 0,
+      "m_PathID": 8002913701050986048
+    }
+  },
+  "m_rootCanvs": {
+    "m_FileID": 0,
+    "m_PathID": -2651015530766187410
+  },
+  "m_exitButton": {
+    "m_FileID": 0,
+    "m_PathID": -2256050773934782769
+  },
+  "m_modelAnimtor": {
+    "m_FileID": 0,
+    "m_PathID": -7493690455375709189
+  },
+  "m_bgModelRenderer": {
+    "m_FileID": 0,
+    "m_PathID": 1456802895704524689
+  },
+  "m_canvasAnimator": {
+    "m_FileID": 0,
+    "m_PathID": -6808922957709571139
+  },
+  "m_renderTextureButton": {
+    "m_FileID": 0,
+    "m_PathID": 8211539990668046582
+  },
+  "m_renterTextureTarget_0": {
+    "m_FileID": 0,
+    "m_PathID": -7675048005429605930
+  },
+  "m_modelCamera": {
+    "m_FileID": 0,
+    "m_PathID": 6551788205452551001
+  }
+}

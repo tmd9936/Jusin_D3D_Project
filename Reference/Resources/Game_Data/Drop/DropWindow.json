@@ -1,0 +1,88 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 7257462646067902585
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 0,
+    "m_PathID": 7647192756205752531
+  },
+  "m_Name": "",
+  "m_itemWindow": {
+    "rootUIAnimator": {
+      "m_FileID": 0,
+      "m_PathID": -2800585299553202944
+    },
+    "titleText": {
+      "m_FileID": 0,
+      "m_PathID": -6880412027365844984
+    },
+    "items": [
+      {
+        "m_FileID": 0,
+        "m_PathID": 3928014024348770372
+      },
+      {
+        "m_FileID": 0,
+        "m_PathID": -1108956088925734997
+      },
+      {
+        "m_FileID": 0,
+        "m_PathID": -6512308473551027544
+      },
+      {
+        "m_FileID": 0,
+        "m_PathID": 5303659664393408244
+      },
+      {
+        "m_FileID": 0,
+        "m_PathID": 3343958660650616705
+      },
+      {
+        "m_FileID": 0,
+        "m_PathID": 389907729670692254
+      },
+      {
+        "m_FileID": 0,
+        "m_PathID": 8326596828299465730
+      },
+      {
+        "m_FileID": 0,
+        "m_PathID": -5469589049838620338
+      },
+      {
+        "m_FileID": 0,
+        "m_PathID": 7219908147875937307
+      },
+      {
+        "m_FileID": 0,
+        "m_PathID": 3357385055278407733
+      }
+    ]
+  },
+  "m_stoneWindow": {
+    "rootUIAnimator": {
+      "m_FileID": 0,
+      "m_PathID": 2586438951601412540
+    },
+    "titleText": {
+      "m_FileID": 0,
+      "m_PathID": -5877794407363407141
+    },
+    "stones": [
+      {
+        "m_FileID": 0,
+        "m_PathID": -1210973825329872613
+      },
+      {
+        "m_FileID": 0,
+        "m_PathID": 5152608392907596646
+      },
+      {
+        "m_FileID": 0,
+        "m_PathID": -7354616242933915264
+      }
+    ]
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 51
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 1,
+    "m_PathID": 92
+  },
+  "m_Name": "",
+  "animator": {
+    "m_FileID": 0,
+    "m_PathID": 268
+  },
+  "isButtonUI": 1,
+  "observablePointerDown": {
+    "m_FileID": 0,
+    "m_PathID": 588
+  },
+  "observablePointerUp": {
+    "m_FileID": 0,
+    "m_PathID": 587
+  },
+  "observablePointerExit": {
+    "m_FileID": 0,
+    "m_PathID": 586
+  },
+  "scrollRect": {
+    "m_FileID": 0,
+    "m_PathID": 560
+  }
+}
